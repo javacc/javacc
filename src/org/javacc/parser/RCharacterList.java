@@ -188,7 +188,7 @@ static final char[] diffUpperCaseRanges = {
         {
            char l = ((CharacterRange)descriptors.elementAt(i)).left;
            char r = ((CharacterRange)descriptors.elementAt(i)).right;
-           int j = 0, k = 0;
+           int j = 0;
 
            /* Add ranges for which lower case is different. */
            for (;;)
@@ -244,7 +244,7 @@ static final char[] diffUpperCaseRanges = {
            }
 
            /* Add ranges for which upper case is different. */
-           j = 0; k = 0;
+           j = 0;
            while (l > diffUpperCaseRanges[j])
               j += 2;
 
