@@ -32,6 +32,7 @@ chmod a+x dist/${install_name}/bin/jjdoc
 chmod a+x dist/${install_name}/bin/jjtree
 cp -rf www/doc dist/${install_name}/doc
 cp -rf examples dist/${install_name}/examples
+cp -rf LICENSE dist/${install_name}
 
 find dist -name CVS -exec /bin/rm -rf {} \; 1> /dev/null 2>&1 
 cd dist
