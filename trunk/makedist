@@ -30,7 +30,7 @@ cp -rf bin dist/${install_name}/bin
 chmod a+x dist/${install_name}/bin/javacc
 chmod a+x dist/${install_name}/bin/jjdoc
 chmod a+x dist/${install_name}/bin/jjtree
-cp -rf doc dist/${install_name}/doc
+cp -rf www/doc dist/${install_name}/doc
 cp -rf examples dist/${install_name}/examples
 
 find dist -name CVS -exec /bin/rm -rf {} \; 1> /dev/null 2>&1 
