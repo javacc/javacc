@@ -1777,6 +1777,7 @@ void MethodDeclaration(int modifiers):
 {}
 {
   // Modifiers already matched in the caller!
+  [ TypeParameters() ]
   ResultType(new Vector())
   MethodDeclarator() [ "throws" NameList() ]
   ( Block(new Vector()) | ";" )
