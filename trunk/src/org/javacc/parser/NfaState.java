@@ -1344,9 +1344,7 @@ public class NfaState
 
       while (e.hasMoreElements())
       {
-         String s;
-         int[] tmpSet = (int[])allNextStates.get(s = (String)e.nextElement());
-
+         int[] tmpSet = (int[])allNextStates.get((String)e.nextElement());
          if (tmpSet == nameSet)
             continue;
 
@@ -2102,8 +2100,6 @@ public class NfaState
       ostr.println("               default : break;");
       ostr.println("            }");
       ostr.println("         } while(i != startsAt);");
-
-      return;
    }
 
    private static void DumpCompositeStatesNonAsciiMoves(java.io.PrintWriter ostr,
@@ -2447,8 +2443,6 @@ public class NfaState
       ostr.println("               default : break;");
       ostr.println("            }");
       ostr.println("         } while(i != startsAt);");
-
-      return;
    }
 
    public static void DumpNonAsciiMoveMethods(java.io.PrintWriter ostr)
