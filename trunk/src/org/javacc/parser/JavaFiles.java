@@ -118,7 +118,7 @@ public class JavaFiles
   }
 
   public static void gen_JavaCharStream() {
-    File tmp = null;
+    File tmp;
     if ((tmp = new File(outputDir, "JavaCharStream.java")).exists()) {
       CheckVersion("JavaCharStream.java", charStreamVersion);
       return;
@@ -877,7 +877,7 @@ public class JavaFiles
   }
 
   public static void gen_SimpleCharStream() {
-    File tmp = null;
+    File tmp;
     if ((tmp = new File(outputDir, "SimpleCharStream.java")).exists()) {
       CheckVersion("SimpleCharStream.java", charStreamVersion);
       return;
@@ -1446,7 +1446,7 @@ public class JavaFiles
   }
 
   public static void gen_CharStream() {
-    File tmp = null;
+    File tmp;
     if ((tmp = new File(outputDir, "CharStream.java")).exists()) {
       CheckVersion("CharStream.java", charStreamVersion);
       return;
@@ -1593,7 +1593,7 @@ public class JavaFiles
   }
 
   public static void gen_ParseException() {
-    File tmp = null;
+    File tmp;
     if ((tmp = new File(outputDir, "ParseException.java")).exists()) {
       CheckVersion("ParseException.java", parseExceptionVersion);
       return;
@@ -1825,7 +1825,7 @@ public class JavaFiles
   }
 
   public static void gen_TokenMgrError() {
-    File tmp = null;
+    File tmp;
     if ((tmp = new File(outputDir, "TokenMgrError.java")).exists()) {
       CheckVersion("TokenMgrError.java", tokenMgrErrorVersion);
       return;
@@ -2117,7 +2117,7 @@ public class JavaFiles
   }
 
   public static void gen_TokenManager() {
-    File tmp = null;
+    File tmp;
     if ((tmp = new File(outputDir, "TokenManager.java")).exists()) {
       CheckVersion("TokenManager.java", tokenManagerVersion);
       return;
