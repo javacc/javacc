@@ -1189,7 +1189,8 @@ void EnumBody():
 {}
 {
    "{"
-   EnumConstant() ( "," EnumConstant() )*
+   [ EnumConstant() ( LOOKAHEAD(2) "," EnumConstant() )* ]
+	[ "," ]
    [ ";" ( ClassOrInterfaceBodyDeclaration(false) )* ]
    "}"
 }
@@ -1644,6 +1645,9 @@ void PrimarySuffix():
 {
   LOOKAHEAD(2)
   "." "this"
+|
+  LOOKAHEAD(2)
+  "." "super"
 |
   LOOKAHEAD(2)
   "." AllocationExpression()
