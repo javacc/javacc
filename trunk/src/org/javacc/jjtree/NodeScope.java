@@ -105,7 +105,6 @@ public class NodeScope
   void insertOpenNodeCode(IO io, String indent)
   {
     String type = node_descriptor.getNodeType();
-    String name = node_descriptor.getNodeName();
 
     /* Ensure that there is a template definition file for the node
        type. */
@@ -173,8 +172,6 @@ public class NodeScope
 				 String indent)
   {
     String thrown;
-    int evarCnt = 0;
-
     if (thrown_names.hasMoreElements()) {
       io.println(indent + "} catch (Throwable " +  exceptionVar + ") {");
 
