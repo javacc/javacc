@@ -67,6 +67,7 @@ designated nationals lists is strictly prohibited.
     </antcall>
   </target>
 
+  <!-- Be careful not to include the test files in the distribution. -->
   <target name="jar-nocompile" depends="jar-check" unless="jar.uptodate">
     <mkdir dir="bin/lib"/>
     <jar jarfile="bin/lib/javacc.jar" 
@@ -150,4 +151,26 @@ designated nationals lists is strictly prohibited.
   </exec>
   </target>
 
+  <!-- This target must be run with JUnit's JAR archive in the classpath. This
+       can best be done by running the command as:
+
+           ant -lib lib/junit3.8.1/junit.jar test
+
+       For more information why this is necessary, see
+       http://ant.apache.org/faq.html#delegating-classloader
+       
+       The test reports may be found in TEST*.txt -->
+  <target name="test" depends="compile"
+          description="run JUnit test cases">
+  	<junit printsummary="yes" haltonfailure="yes">
+      <classpath>
+        <pathelement path="classes"/>
+      </classpath>
+  	  <batchtest fork="no" todir=".">
+  	    <fileset dir="classes">
+  	      <include name="**/*Test.*"/>
+  	    </fileset>
+  	  </batchtest>
+  	</junit>
+  </target>
 </project>
