@@ -1396,7 +1396,6 @@ public class LexGen
   {
      Action act;
      int i;
-     boolean initPrinted[] = new boolean[maxLexStates];
 
      ostr.println(staticString + "void TokenLexicalActions(Token matchedToken)");
      ostr.println("{");
@@ -1417,7 +1416,6 @@ public class LexGen
               continue Outer;
 
            ostr.println("      case " + i + " :");
-           initPrinted[lexStates[i]] = true;
 
            if (initMatch[lexStates[i]] == i && canLoop[lexStates[i]])
            {
