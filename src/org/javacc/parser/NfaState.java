@@ -630,15 +630,12 @@ public class NfaState
 
       // End Warning
 
-      NfaState tempState;
-
       // Generate an array of states for epsilon moves (not vector)
       if (epsilonMoves.size() > 0)
       {
          for (i = 0; i < epsilonMoves.size(); i++)
             // Since we are doing a closure, just epsilon moves are unncessary
-            if ((tempState = (NfaState)epsilonMoves.elementAt(i)).
-                                                          HasTransitions())
+            if (((NfaState)epsilonMoves.elementAt(i)).HasTransitions())
                usefulEpsilonMoves++;
             else
                epsilonMoves.removeElementAt(i--);
