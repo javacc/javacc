@@ -53,7 +53,6 @@ designated nationals lists is strictly prohibited.
          <include name="JavaCCParserTokenManager.java"/>
          <include name="JavaCCParserConstants.java"/>
          <include name="*CharStream*.java"/>
-         <include name="Token.java"/>
          <include name="TokenMgrError.java"/>
          <include name="ParseException.java"/>
       </fileset>
