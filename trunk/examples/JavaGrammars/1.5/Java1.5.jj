@@ -1881,8 +1881,8 @@ void ForStatement():
   "for" "("
 
   (
-      LOOKAHEAD(Type() <IDENTIFIER> ":")
-      Type() <IDENTIFIER> ":" Expression() 
+      LOOKAHEAD(Modifiers() Type() <IDENTIFIER> ":")
+      Modifiers() Type() <IDENTIFIER> ":" Expression() 
     |
      [ ForInit() ] ";" [ Expression() ] ";" [ ForUpdate() ]
   )
