@@ -1097,7 +1097,7 @@ void expansion_unit(Container c) :
 	}
   ]
   (
-	LOOKAHEAD([ TypeArguments(new Vector()) ] identifier() "(")
+	LOOKAHEAD( identifier() "(")
 	{
 	  nt = new NonTerminal();
 	  t = getToken(1);
@@ -1105,7 +1105,7 @@ void expansion_unit(Container c) :
 	  nt.column = t.beginColumn;
 	  nt.lhsTokens = lhsTokens;
 	}
-   [ TypeArguments() ] name=identifier() Arguments(nt.argument_tokens)
+   name=identifier() Arguments(nt.argument_tokens)
 	{
 	  nt.name = name;
 	  c.member = nt;
@@ -1777,7 +1777,6 @@ void MethodDeclaration(int modifiers):
 {}
 {
   // Modifiers already matched in the caller!
-  [ TypeParameters() ]
   ResultType(new Vector())
   MethodDeclarator() [ "throws" NameList() ]
   ( Block(new Vector()) | ";" )
