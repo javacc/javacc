@@ -627,6 +627,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
         ostr.println("  " + staticOpt() + "final private void jj_rescan_token() {");
         ostr.println("    jj_rescan = true;");
         ostr.println("    for (int i = 0; i < " + jj2index + "; i++) {");
+        ostr.println("    try {");
         ostr.println("      JJCalls p = jj_2_rtns[i];");
         ostr.println("      do {");
         ostr.println("        if (p.gen > jj_gen) {");
@@ -639,6 +640,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
         ostr.println("        }");
         ostr.println("        p = p.next;");
         ostr.println("      } while (p != null);");
+        ostr.println("      } catch(LookaheadSuccess ls) { }");
         ostr.println("    }");
         ostr.println("    jj_rescan = false;");
         ostr.println("  }");
