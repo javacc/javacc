@@ -47,6 +47,7 @@ designated nationals lists is strictly prohibited.
     <javac srcdir="${javacc.root}/src"
            destdir="${javacc.root}/classes"
            debug="${build.compiler.debug}"
+           source="1.4"
            classpath="${javacc.root}/classes">
     </javac>
   </target>
