@@ -91,7 +91,7 @@ public class JavaFiles
      char[] buf = new char[firstLine.length()];
 
      try {
-       File fp = new File(outputDir, fileName);
+       File fp = new File(Options.getOutputDirectory(), fileName);
        Reader stream = new FileReader(fp);
        int read, total = 0;
 
@@ -119,7 +119,7 @@ public class JavaFiles
 
   public static void gen_JavaCharStream() {
     File tmp;
-    if ((tmp = new File(outputDir, "JavaCharStream.java")).exists()) {
+    if ((tmp = new File(Options.getOutputDirectory(), "JavaCharStream.java")).exists()) {
       CheckVersion("JavaCharStream.java", charStreamVersion);
       return;
     }
@@ -154,7 +154,7 @@ public class JavaFiles
         }
       }
     }
-    String prefix = (Options.B("STATIC") ? "  static " : "  ");
+    String prefix = (Options.getStatic() ? "  static " : "  ");
     ostr.println("/**");
     ostr.println(" * An implementation of interface CharStream, where the stream is assumed to");
     ostr.println(" * contain only ASCII characters (with java-like unicode escape processing).");
@@ -163,7 +163,7 @@ public class JavaFiles
     ostr.println("public class JavaCharStream");
     ostr.println("{");
     ostr.println("  public static final boolean staticFlag = " +
-                                         Options.B("STATIC") + ";");
+                                         Options.getStatic() + ";");
     ostr.println("  static final int hexval(char c) throws java.io.IOException {");
     ostr.println("    switch(c)");
     ostr.println("    {");
@@ -665,7 +665,7 @@ public class JavaFiles
     ostr.println("                 int startline, int startcolumn, int buffersize)");
     ostr.println("  {");
 
-    if (Options.B("STATIC"))
+    if (Options.getStatic())
     {
        ostr.println("    if (inputStream != null)");
        ostr.println("       throw new Error(\"\\n   ERROR: Second call to the constructor of a static JavaCharStream.  You must\\n\" +");
@@ -878,7 +878,7 @@ public class JavaFiles
 
   public static void gen_SimpleCharStream() {
     File tmp;
-    if ((tmp = new File(outputDir, "SimpleCharStream.java")).exists()) {
+    if ((tmp = new File(Options.getOutputDirectory(), "SimpleCharStream.java")).exists()) {
       CheckVersion("SimpleCharStream.java", charStreamVersion);
       return;
     }
@@ -914,7 +914,7 @@ public class JavaFiles
         }
       }
     }
-    String prefix = (Options.B("STATIC") ? "  static " : "  ");
+    String prefix = (Options.getStatic() ? "  static " : "  ");
     ostr.println("/**");
     ostr.println(" * An implementation of interface CharStream, where the stream is assumed to");
     ostr.println(" * contain only ASCII characters (without unicode processing).");
@@ -923,7 +923,7 @@ public class JavaFiles
     ostr.println("public class SimpleCharStream");
     ostr.println("{");
     ostr.println("  public static final boolean staticFlag = " +
-                                         Options.B("STATIC") + ";");
+                                         Options.getStatic() + ";");
     ostr.println(prefix + "int bufsize;");
     ostr.println(prefix + "int available;");
     ostr.println(prefix + "int tokenBegin;");
@@ -1237,7 +1237,7 @@ public class JavaFiles
     ostr.println("  int startcolumn, int buffersize)");
     ostr.println("  {");
 
-    if (Options.B("STATIC"))
+    if (Options.getStatic())
     {
        ostr.println("    if (inputStream != null)");
        ostr.println("       throw new Error(\"\\n   ERROR: Second call to the constructor of a static SimpleCharStream.  You must\\n\" +");
@@ -1447,7 +1447,7 @@ public class JavaFiles
 
   public static void gen_CharStream() {
     File tmp;
-    if ((tmp = new File(outputDir, "CharStream.java")).exists()) {
+    if ((tmp = new File(Options.getOutputDirectory(), "CharStream.java")).exists()) {
       CheckVersion("CharStream.java", charStreamVersion);
       return;
     }
@@ -1594,7 +1594,7 @@ public class JavaFiles
 
   public static void gen_ParseException() {
     File tmp;
-    if ((tmp = new File(outputDir, "ParseException.java")).exists()) {
+    if ((tmp = new File(Options.getOutputDirectory(), "ParseException.java")).exists()) {
       CheckVersion("ParseException.java", parseExceptionVersion);
       return;
     }
@@ -1826,7 +1826,7 @@ public class JavaFiles
 
   public static void gen_TokenMgrError() {
     File tmp;
-    if ((tmp = new File(outputDir, "TokenMgrError.java")).exists()) {
+    if ((tmp = new File(Options.getOutputDirectory(), "TokenMgrError.java")).exists()) {
       CheckVersion("TokenMgrError.java", tokenMgrErrorVersion);
       return;
     }
@@ -1996,7 +1996,7 @@ public class JavaFiles
 
   public static void gen_Token() {
     File tmp = null;
-    if ((tmp = new File(outputDir, "Token.java")).exists()) {
+    if ((tmp = new File(Options.getOutputDirectory(), "Token.java")).exists()) {
       CheckVersion("Token.java", tokenVersion);
       return;
     }
@@ -2118,7 +2118,7 @@ public class JavaFiles
 
   public static void gen_TokenManager() {
     File tmp;
-    if ((tmp = new File(outputDir, "TokenManager.java")).exists()) {
+    if ((tmp = new File(Options.getOutputDirectory(), "TokenManager.java")).exists()) {
       CheckVersion("TokenManager.java", tokenManagerVersion);
       return;
     }

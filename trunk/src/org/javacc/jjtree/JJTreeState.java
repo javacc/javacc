@@ -28,16 +28,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import org.javacc.parser.Options;
-
-
 class JJTreeState
 {
 
   static void insertParserMembers(IO io) {
     String s;
 
-    if (Options.B("STATIC")) {
+    if (JJTreeOptions.getStatic()) {
       s = "static ";
     } else {
       s = "";
@@ -57,18 +54,17 @@ class JJTreeState
 
   static void generateTreeState_java()
   {
-    String fileName = NodeFiles.path() + nameState() + ".java";
+    File file = new File(JJTreeOptions.getJJTreeOutputDirectory(), nameState() + ".java");
 
-    File file = new File(fileName);
     if (file.exists()) {
       return;
     }
 
     try {
       PrintWriter ostr = new PrintWriter(new BufferedWriter(
-					      new FileWriter(fileName),
+					      new FileWriter(file),
 					      8096));
-      NodeFiles.generatePrologue(ostr, fileName);
+      NodeFiles.generatePrologue(ostr, file.toString());
       insertState(ostr);
       ostr.close();
     } catch (IOException e) {

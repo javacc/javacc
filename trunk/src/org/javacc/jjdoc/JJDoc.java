@@ -25,9 +25,8 @@
 package org.javacc.jjdoc;
 
 import java.io.PrintWriter;
-import java.util.Vector;
 import java.util.Enumeration;
-import java.util.Stack;
+import java.util.Vector;
 
 import org.javacc.parser.*;
 
@@ -42,7 +41,7 @@ public class JJDoc extends JavaCCGlobals {
 
     Generator gen;
 
-    if (Options.B("TEXT")) {
+    if (JJDocOptions.getText()) {
       gen = new Generator(pw);
     } else {
       gen = new HTMLGenerator(pw);
@@ -449,12 +448,12 @@ public class JJDoc extends JavaCCGlobals {
   private static PrintWriter create_output_stream() {
     PrintWriter ostr;
 
-    if (Options.S("OUTPUT_FILE").equals("")) {
+    if (JJDocOptions.getOutputFile().equals("")) {
       if (JJDocGlobals.input_file.equals("standard input")) {
 	return new java.io.PrintWriter(new java.io.OutputStreamWriter(System.out));
       } else {
 	String ext = ".html";
-	if (Options.B("TEXT")) {
+	if (JJDocOptions.getText()) {
 	  ext = ".txt";
 	}
 	int i = JJDocGlobals.input_file.lastIndexOf('.');
@@ -470,7 +469,7 @@ public class JJDoc extends JavaCCGlobals {
 	}
       }
     } else {
-      JJDocGlobals.output_file = Options.S("OUTPUT_FILE");
+      JJDocGlobals.output_file = JJDocOptions.getOutputFile();
     }
 
     try {

@@ -98,9 +98,9 @@ public class LookaheadCalc extends JavaCCGlobals {
     MatchInfo m;
     Vector v;
     boolean overlapDetected;
-    for (int la = 1; la <= Options.I("CHOICE_AMBIGUITY_CHECK"); la++) {
+    for (int la = 1; la <= Options.getChoiceAmbiguityCheck(); la++) {
       MatchInfo.laLimit = la;
-      LookaheadWalk.considerSemanticLA = !Options.B("FORCE_LA_CHECK");
+      LookaheadWalk.considerSemanticLA = !Options.getForceLaCheck();
       for (int i = first; i < ch.choices.size()-1; i++) {
         LookaheadWalk.sizeLimitedMatches = new java.util.Vector();
         m = new MatchInfo();
@@ -149,10 +149,10 @@ public class LookaheadCalc extends JavaCCGlobals {
       }
     }
     for (int i = first; i < ch.choices.size()-1; i++) {
-      if (explicitLA((Expansion)ch.choices.elementAt(i)) && !Options.B("FORCE_LA_CHECK")) {
+      if (explicitLA((Expansion)ch.choices.elementAt(i)) && !Options.getForceLaCheck()) {
         continue;
       }
-      if (minLA[i] > Options.I("CHOICE_AMBIGUITY_CHECK")) {
+      if (minLA[i] > Options.getChoiceAmbiguityCheck()) {
         JavaCCErrors.warning("Choice conflict involving two expansions at");
         System.err.print("         line " + ((Expansion)ch.choices.elementAt(i)).line);
         System.err.print(", column " + ((Expansion)ch.choices.elementAt(i)).column);
@@ -188,7 +188,7 @@ public class LookaheadCalc extends JavaCCGlobals {
   }
 
   static int firstChoice(Choice ch) {
-    if (Options.B("FORCE_LA_CHECK")) {
+    if (Options.getForceLaCheck()) {
       return 0;
     }
     for (int i = 0; i < ch.choices.size(); i++) {
@@ -214,14 +214,14 @@ public class LookaheadCalc extends JavaCCGlobals {
     MatchInfo m, m1 = null;
     Vector v, first, follow;
     int la;
-    for (la = 1; la <= Options.I("OTHER_AMBIGUITY_CHECK"); la++) {
+    for (la = 1; la <= Options.getOtherAmbiguityCheck(); la++) {
       MatchInfo.laLimit = la;
       LookaheadWalk.sizeLimitedMatches = new java.util.Vector();
       m = new MatchInfo();
       m.firstFreeLoc = 0;
       v = new java.util.Vector();
       v.addElement(m);
-      LookaheadWalk.considerSemanticLA = !Options.B("FORCE_LA_CHECK");
+      LookaheadWalk.considerSemanticLA = !Options.getForceLaCheck();
       LookaheadWalk.genFirstSet(v, nested);
       first = LookaheadWalk.sizeLimitedMatches;
       LookaheadWalk.sizeLimitedMatches = new java.util.Vector();
@@ -238,7 +238,7 @@ public class LookaheadCalc extends JavaCCGlobals {
       }
       m1 = m;
     }
-    if (la > Options.I("OTHER_AMBIGUITY_CHECK")) {
+    if (la > Options.getOtherAmbiguityCheck()) {
       JavaCCErrors.warning("Choice conflict in " + image(exp) + " construct at line " + exp.line + ", column " + exp.column + ".");
       System.err.println("         Expansion nested within construct and expansion following construct");
       System.err.println("         have common prefixes, one of which is: " + image(m1));

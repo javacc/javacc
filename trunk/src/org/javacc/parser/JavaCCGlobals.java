@@ -50,15 +50,6 @@ public class JavaCCGlobals {
   static public String origFileName;
 
   /**
-   * The File object for the output directory where all the generated files will
-   * be placed. It defaults to the current directory, but may be set by the
-   * user using the OUTPUT_DIRECTORY option.
-   */
-  static public File outputDir = new File(System.getProperty("user.dir"));
-  static private String outputDirName = null;
-  static private Object outputDirNameLoc = null;
-
-  /**
    * Set to true if this file has been processed by JJTree.
    */
   static public boolean jjtreeGenerated;
@@ -328,56 +319,29 @@ public class JavaCCGlobals {
     return new Vector();
   }
 
-  public static void storeOutputDirSpec(Object loc, String val) {
-    outputDirName = val;
-    outputDirNameLoc = loc;
-  }
+  public static void createOutputDir(File outputDir) {
+    if (!outputDir.exists()) {
+      JavaCCErrors.warning("Output directory \"" + outputDir + "\" does not exist. Creating the directory.");
 
-  public static void setOutputDir() {
-     if (outputDirName == null)
+      if (!outputDir.mkdir()) {
+        JavaCCErrors.semantic_error("Cannot create the output directory : " + outputDir);
         return;
+      }
+    }
 
-     File tmp = new File(outputDirName);
+    if (!outputDir.isDirectory()) {
+      JavaCCErrors.semantic_error("\"" + outputDir + " is not a valid output directory.");
+      return;
+    }
 
-     if (!tmp.exists()) {
-        if (outputDirNameLoc == null)
-           JavaCCErrors.warning("Output directory \"" + outputDirName + "\" does not exist. Creating the directory.");
-        else
-           JavaCCErrors.warning(outputDirNameLoc, "Output directory \"" + outputDirName + "\" does not exist. Creating the directory.");
-
-        if (!tmp.mkdir()) {
-           if (outputDirNameLoc == null)
-              JavaCCErrors.semantic_error("Cannot create the output directory : " + outputDirName);
-           else
-              JavaCCErrors.semantic_error(outputDirNameLoc, "Cannot create the output directory : " + outputDirName);
-
-           return;
-        }
-     }
-
-     if (!tmp.isDirectory()) {
-        if (outputDirNameLoc == null)
-           JavaCCErrors.semantic_error("\"" + outputDirName + " is not a valid output directory.");
-        else
-           JavaCCErrors.semantic_error(outputDirNameLoc, "\"" + outputDirName + " is not a valid output directory.");
-
-        return;
-     }
-
-     if (!tmp.canWrite()) {
-        if (outputDirNameLoc == null)
-           JavaCCErrors.semantic_error("Cannot write to the output output directory : \"" + outputDirName + "\"");
-        else
-           JavaCCErrors.semantic_error(outputDirNameLoc, "Cannot write to the output output directory : \"" + outputDirName + "\"");
-
-        return;
-     }
-
-     outputDir = tmp;
+    if (!outputDir.canWrite()) {
+      JavaCCErrors.semantic_error("Cannot write to the output output directory : \"" + outputDir + "\"");
+      return;
+    }
   }
 
   static public String staticOpt() {
-    if (Options.B("STATIC")) {
+    if (Options.getStatic()) {
       return "static ";
     } else {
       return "";
@@ -551,9 +515,6 @@ public class JavaCCGlobals {
    {
       fileName = null;
       origFileName = null;
-      outputDir = new File(System.getProperty("user.dir"));
-      outputDirName = null;
-      outputDirNameLoc = null;
       jjtreeGenerated = false;
       jjcovGenerated = false;
       toolNames = null;

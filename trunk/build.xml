@@ -71,7 +71,8 @@ designated nationals lists is strictly prohibited.
     <mkdir dir="bin/lib"/>
     <jar jarfile="bin/lib/javacc.jar" 
        basedir="classes" 
-       compress="true">
+       compress="true"
+       excludes="**/*Test.class">
     </jar>
   </target>
 

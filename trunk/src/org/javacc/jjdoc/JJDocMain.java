@@ -71,10 +71,6 @@ public class JJDocMain {
     ostr.println("    For more information, ???");
   }
 
-  static boolean isOption(String opt) {
-    return opt.length() > 1 && opt.charAt(0) == '-';
-  }
-
   /**
    * A main program that exercises the parser.
    */
@@ -91,18 +87,18 @@ public class JJDocMain {
       System.out.println("(type \"jjdoc\" with no arguments for help)");
     }
 
-    JJDocInit();
+    JJDocOptions.init();
 
-    if (isOption(args[args.length-1])) {
+    if (JJDocOptions.isOption(args[args.length-1])) {
       System.out.println("Last argument \"" + args[args.length-1] + "\" is not a filename or \"-\".  ");
       System.exit(1);
     }
     for (int arg = 0; arg < args.length-1; arg++) {
-      if (!isOption(args[arg])) {
+      if (!JJDocOptions.isOption(args[arg])) {
         System.out.println("Argument \"" + args[arg] + "\" must be an option setting.  ");
         System.exit(1);
       }
-      Options.setCmdLineOption(args[arg]);
+      JJDocOptions.setCmdLineOption(args[arg]);
     }
 
     if (args[args.length-1].equals("-")) {
@@ -163,12 +159,4 @@ public class JJDocMain {
       System.exit(1);
     }
   }
-
-  private static void JJDocInit() {
-    Options.JavaCCInit();
-    Options.optionValues.put("OUTPUT_FILE", "");
-    Options.optionValues.put("ONE_TABLE", Boolean.TRUE);
-    Options.optionValues.put("TEXT", Boolean.FALSE);
-  }
-
 }

@@ -25,9 +25,6 @@ package org.javacc.jjtree;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import org.javacc.parser.Options;
-
-
 public class NodeScope
 {
   private ASTProduction production;
@@ -44,7 +41,7 @@ public class NodeScope
 
     if (n == null) {
       String nm = production.name;
-      if (Options.B("NODE_DEFAULT_VOID")) {
+      if (JJTreeOptions.getNodeDefaultVoid()) {
 	nm = "void";
       }
       node_descriptor = ASTNodeDescriptor.indefinite(nm);
@@ -111,9 +108,9 @@ public class NodeScope
     NodeFiles.ensure(io, type);
 
     io.print(indent + type + " " + nodeVar + " = ");
-    if (Options.B("NODE_FACTORY")) {
-      if (Options.B("NODE_USES_PARSER")) {
-	String p = Options.B("STATIC") ? "null" : "this";
+    if (JJTreeOptions.getNodeFactory()) {
+      if (JJTreeOptions.getNodeUsesParser()) {
+	String p = JJTreeOptions.getStatic() ? "null" : "this";
 	io.println("(" + type + ")" + type + ".jjtCreate(" + p + ", " +
 		   node_descriptor.getNodeId() +");");
       } else {
@@ -121,8 +118,8 @@ public class NodeScope
 		   node_descriptor.getNodeId() +");");
       }
     } else {
-      if (Options.B("NODE_USES_PARSER")) {
-	String p = Options.B("STATIC") ? "null" : "this";
+      if (JJTreeOptions.getNodeUsesParser()) {
+	String p = JJTreeOptions.getStatic() ? "null" : "this";
 	io.println("new " + type + "(" + p + ", " +
 		   node_descriptor.getNodeId() + ");");
       } else {
@@ -134,7 +131,7 @@ public class NodeScope
       io.println(indent + "boolean " + closedVar + " = true;");
     }
     io.println(indent + node_descriptor.openNode(nodeVar));
-    if (Options.B("NODE_SCOPE_HOOK")) {
+    if (JJTreeOptions.getNodeScopeHook()) {
       io.println(indent + "jjtreeOpenNodeScope(" + nodeVar + ");");
     }
   }
@@ -146,7 +143,7 @@ public class NodeScope
     if (usesCloseNodeVar() && !isFinal) {
       io.println(indent + closedVar + " = false;");
     }
-    if (Options.B("NODE_SCOPE_HOOK")) {
+    if (JJTreeOptions.getNodeScopeHook()) {
       io.println(indent + "jjtreeCloseNodeScope(" + nodeVar + ");");
     }
   }

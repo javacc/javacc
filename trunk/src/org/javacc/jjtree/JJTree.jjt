@@ -32,8 +32,6 @@ PARSER_BEGIN(JJTreeParser)
 
 package org.javacc.jjtree;
 
-import org.javacc.parser.Options;
-
 public class JJTreeParser {
 
   void jjtreeOpenNodeScope(Node n)
@@ -369,8 +367,8 @@ void javacc_input() #Grammar :
     CompilationUnit()
     "PARSER_END" "(" identifier() ")"
 	{
-	  if (!Options.S("NODE_PACKAGE").equals("")) {
-	    JJTreeGlobals.packageName = Options.S("NODE_PACKAGE");
+	  if (!JJTreeOptions.getNodePackage().equals("")) {
+	    JJTreeGlobals.packageName = JJTreeOptions.getNodePackage();
 	  }
 	}
   ) #CompilationUnit(true)
@@ -397,19 +395,19 @@ void option_binding() #OptionBinding :
   (
      v=IntegerLiteral()
         {
-	  Options.setInputFileOption(o, v, o.image, Integer.parseInt(v.image));
+	  JJTreeOptions.setInputFileOption(o, v, o.image, Integer.parseInt(v.image));
 	  jjtThis.initialize(o.image, v.image);
 	}
    | v=BooleanLiteral()
         {
-	  Options.setInputFileOption(o, v, o.image,
+	  JJTreeOptions.setInputFileOption(o, v, o.image,
 				     Boolean.valueOf(v.image).booleanValue());
 	  jjtThis.initialize(o.image, v.image);
 	}
    | v=StringLiteral()
         {	
 	  String vs = TokenUtils.remove_escapes_and_quotes(v, v.image);
-	  Options.setInputFileOption(o, v, o.image, vs);
+	  JJTreeOptions.setInputFileOption(o, v, o.image, vs);
 	  jjtThis.initialize(o.image, vs);
 	}
   ) ";"

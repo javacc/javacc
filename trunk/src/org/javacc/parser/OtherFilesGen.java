@@ -28,19 +28,19 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
   static public void start() throws MetaParseException {
 
     Token t = null;
-    keepLineCol = Options.B("KEEP_LINE_COLUMN");
+    keepLineCol = Options.getKeepLineColumn();
 
     if (JavaCCErrors.get_error_count() != 0) throw new MetaParseException();
 
     JavaFiles.gen_TokenMgrError();
     JavaFiles.gen_ParseException();
     JavaFiles.gen_Token();
-    if (Options.B("USER_TOKEN_MANAGER")) {
+    if (Options.getUserTokenManager()) {
       JavaFiles.gen_TokenManager();
-    } else if (Options.B("USER_CHAR_STREAM")) {
+    } else if (Options.getUserCharStream()) {
       JavaFiles.gen_CharStream();
     } else {
-      if (Options.B("JAVA_UNICODE_ESCAPE")) {
+      if (Options.getJavaUnicodeEscape()) {
         JavaFiles.gen_JavaCharStream();
       } else {
         JavaFiles.gen_SimpleCharStream();
@@ -51,7 +51,7 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
       ostr = new java.io.PrintWriter(
                 new java.io.BufferedWriter(
                    new java.io.FileWriter(
-                     new java.io.File(outputDir, cu_name + "Constants.java")
+                     new java.io.File(Options.getOutputDirectory(), cu_name + "Constants.java")
                    ),
                    8192
                 )
@@ -91,7 +91,7 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
       ostr.println("  int " + re.label + " = " + re.ordinal + ";");
     }
     ostr.println("");
-    if (!Options.B("USER_TOKEN_MANAGER") && Options.B("BUILD_TOKEN_MANAGER")) {
+    if (!Options.getUserTokenManager() && Options.getBuildTokenManager()) {
       for (int i = 0; i < LexGen.lexStateName.length; i++) {
         ostr.println("  int " + LexGen.lexStateName[i] + " = " + i + ";");
       }
