@@ -247,7 +247,7 @@ public class JavaCCGlobals {
      Vector v = getToolNames(fileName);
 
      for (int i = 0; i < v.size(); i++)
-        if (toolName.equals((String)v.elementAt(i)))
+        if (toolName.equals(v.elementAt(i)))
            return true;
 
      return false;
@@ -567,7 +567,7 @@ public class JavaCCGlobals {
       lexstate_I2S = new java.util.Hashtable();
       token_mgr_decls = null;
       rexprlist = new java.util.Vector();
-      tokenCount = (int)0;
+      tokenCount = 0;
       named_tokens_table = new java.util.Hashtable();
       ordered_named_tokens = new java.util.Vector();
       names_of_tokens = new java.util.Hashtable();
@@ -576,8 +576,8 @@ public class JavaCCGlobals {
       maskindex = 0;
       jj2index = 0;
       maskVals = new Vector();
-      cline = (int)0;
-      ccol = (int)0;
+      cline = 0;
+      ccol = 0;
       actForEof = null;
       nextStateForEof = null;
    }

@@ -1151,7 +1151,7 @@ public class ParseEngine extends JavaCCGlobals {
    {
       ostr = null;
       gensymindex = 0;
-      indentamt = (int)0;
+      indentamt = 0;
       jj2LA = false;
       phase2list = new java.util.Vector();
       phase3list = new java.util.Vector();
