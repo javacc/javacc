@@ -527,12 +527,10 @@ public class RStringLiteral extends RegularExpression {
         DumpStartWithStates(ostr);
 
      boolean startNfaNeeded;
-     boolean returnLoopNeeded;
      for (i = 0; i < maxLen; i++)
      {
         boolean atLeastOne = false;
         startNfaNeeded = false;
-        returnLoopNeeded = false;
         tab = (Hashtable)charPosKind.elementAt(i);
         String[] keys = ReArrange(tab);
 
