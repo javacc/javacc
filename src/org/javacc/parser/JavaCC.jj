@@ -31,6 +31,7 @@
 options {
   JAVA_UNICODE_ESCAPE = true;
   STATIC=false;
+  debug_parser=true;
 }
 
 PARSER_BEGIN(JavaCCParser)
@@ -1097,7 +1098,7 @@ void expansion_unit(Container c) :
 	}
   ]
   (
-	LOOKAHEAD([ TypeArguments(new Vector()) ] identifier())
+	LOOKAHEAD([ TypeArguments(new Vector()) ] identifier() "(")
 	{
 	  nt = new NonTerminal();
 	  t = getToken(1);
