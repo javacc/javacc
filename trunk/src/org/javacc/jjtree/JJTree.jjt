@@ -777,6 +777,8 @@ void complex_regular_expression_unit() :
   |
     "?"
       #REZeroOrOne(1)
+  |  "{" IntegerLiteral() [ ","  [ IntegerLiteral() ] ] "}"
+    #RRepetitionRange(1)
   |
     {}
       #REParenthesized(1)
