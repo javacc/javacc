@@ -335,7 +335,6 @@ public class LexGen
 
      e = allTpsForState.keys();
 
-     int charCnt = 0;
      boolean ignoring = false;
  
      while (e.hasMoreElements())
