@@ -398,6 +398,8 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
       ostr.println("  }");
       ostr.println("");
       if (jj2index != 0) {
+        ostr.println("  static private final class LookaheadSuccess extends java.lang.Error { }");
+        ostr.println("  " + staticOpt() + "final private LookaheadSuccess jj_ls = new LookaheadSuccess();");
         ostr.println("  " + staticOpt() + "final private boolean jj_scan_token(int kind) {");
         ostr.println("    if (jj_scanpos == jj_lastpos) {");
         ostr.println("      jj_la--;");
@@ -422,7 +424,9 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
         } else if (Options.B("DEBUG_LOOKAHEAD")) {
           ostr.println("    trace_scan(jj_scanpos, kind);");
         }
-        ostr.println("    return (jj_scanpos.kind != kind);");
+        ostr.println("    if (jj_scanpos.kind != kind) return true;");
+        ostr.println("    if (jj_la == 0 && jj_scanpos == jj_lastpos) throw jj_ls;");
+        ostr.println("    return false;");
         ostr.println("  }");
         ostr.println("");
       }

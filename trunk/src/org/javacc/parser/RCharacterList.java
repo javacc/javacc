@@ -168,7 +168,6 @@ static final char[] diffUpperCaseRanges = {
 
   void ToCaseNeutral()
   {
-     char c;
      int cnt = descriptors.size();
 
      OuterLoop:
@@ -304,8 +303,8 @@ static final char[] diffUpperCaseRanges = {
      {
         if (Options.B("IGNORE_CASE") || ignoreCase)
         {
-           int i;
 /*
+           int i;
            System.out.println("Before:");
            for (i = 0; i < descriptors.size(); i++)
            {
@@ -430,7 +429,6 @@ static final char[] diffUpperCaseRanges = {
               else
               {
                  char l = ((CharacterRange)newDesc.elementAt(j)).left;
-                 char r = ((CharacterRange)newDesc.elementAt(j)).right;
 
                  if (InRange(s.ch, (CharacterRange)newDesc.elementAt(j)))
                     continue Outer;

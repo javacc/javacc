@@ -818,7 +818,10 @@ public class LexGen
      {
         ostr.println("   if (jjmatchedPos < 0)");
         ostr.println("   {");
-        ostr.println("      t.image = \"\";");
+        ostr.println("      if (image == null)");
+        ostr.println("         t.image = \"\";");
+        ostr.println("      else");
+        ostr.println("         t.image = image.toString();");
 
         if (keepLineCol)
         {
