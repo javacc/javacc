@@ -30,12 +30,10 @@ public class ASTOptionBinding extends SimpleNode {
 
   private boolean suppressed = false;
   private String name;
-  private String value;
 
   void initialize(String n, String v)
   {
     name = n;
-    value = v;
     if (JJTreeGlobals.jjtreeOptions.get(name.toUpperCase()) != null) {
       suppressed = true;
     }
