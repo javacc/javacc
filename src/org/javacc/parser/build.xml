@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+
+Copyright © 2002 Sun Microsystems, Inc., 4150 Network Circle, Santa Clara,
+California 95054, U.S.A. All rights reserved.  Sun Microsystems, Inc. has
+intellectual property rights relating to technology embodied in the product
+that is described in this document. In particular, and without limitation,
+these intellectual property rights may include one or more of the U.S.
+patents listed at http://www.sun.com/patents and one or more additional
+patents or pending patent applications in the U.S. and in other countries.
+U.S. Government Rights - Commercial software. Government users are subject
+to the Sun Microsystems, Inc. standard license agreement and applicable
+provisions of the FAR and its supplements.  Use is subject to license terms.
+Sun,  Sun Microsystems,  the Sun logo and  Java are trademarks or registered
+trademarks of Sun Microsystems, Inc. in the U.S. and other countries.  This
+product is covered and controlled by U.S. Export Control laws and may be
+subject to the export or import laws in other countries.  Nuclear, missile,
+chemical biological weapons or nuclear maritime end uses or end users, whether
+direct or indirect, are strictly prohibited.  Export or reexport to countries
+subject to U.S. embargo or to entities identified on U.S. export exclusion
+lists, including, but not limited to, the denied persons and specially
+designated nationals lists is strictly prohibited.
+
+-->
+
+
+<project name="javacc-compile" default="compile" basedir=".">
+  <property name="javacc.root"
+            value="../../../..">
+  </property>
+  <property name="bootstrap.javacc.mainclass"
+            value="COM.sun.labs.javacc.Main">
+  </property>
+
+  <target name="compile" depends="compile-nojar">
+    <ant antfile="build.xml" target="jar-nocompile"
+         dir="${javacc.root}">
+    </ant>
+  </target>
+
+  <target name="compile-nojar" depends="generated-files">
+    <javac srcdir="${javacc.root}/src"
+           destdir="${javacc.root}/classes"
+           debug="${build.compiler.debug}"
+           classpath="${javacc.root}/classes">
+    </javac>
+  </target>
+
+  <target name="realclean">
+    <delete>
+      <fileset dir=".">
+         <include name="JavaCCParser.java"/>
+         <include name="JavaCCParserTokenManager.java"/>
+         <include name="JavaCCParserConstants.java"/>
+         <include name="*CharStream*.java"/>
+         <include name="Token.java"/>
+         <include name="TokenMgrError.java"/>
+         <include name="ParseException.java"/>
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="generated-files">
+    <ant antfile="build.xml" target="generated-files"
+         dir="${javacc.root}">
+    </ant>
+  </target>
+
+  <target name="parser-files-init">
+        <uptodate property="parser.gen"
+                  targetfile="JavaCC.jj">
+            <srcfiles dir="." includes="JavaCCParser.java"/>
+        </uptodate>
+  </target>
+
+  <target name="parser-files" depends="parser-files-init" if="parser.gen">
+     <java classname="${bootstrap.javacc.mainclass}"
+           classpath="${javacc.root}/bootstrap/javacc.jar"
+           fork="true">
+           <arg file="JavaCC.jj"/>
+     </java>
+  </target>
+
+</project>

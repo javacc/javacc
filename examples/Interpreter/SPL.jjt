@@ -1,0 +1,335 @@
+
+/*
+ * Copyright © 2002 Sun Microsystems, Inc., 4150 Network Circle, Santa Clara,
+ * California 95054, U.S.A. All rights reserved.  Sun Microsystems, Inc. has
+ * intellectual property rights relating to technology embodied in the product
+ * that is described in this document. In particular, and without limitation,
+ * these intellectual property rights may include one or more of the U.S.
+ * patents listed at http://www.sun.com/patents and one or more additional
+ * patents or pending patent applications in the U.S. and in other countries.
+ * U.S. Government Rights - Commercial software. Government users are subject
+ * to the Sun Microsystems, Inc. standard license agreement and applicable
+ * provisions of the FAR and its supplements.  Use is subject to license terms.
+ * Sun,  Sun Microsystems,  the Sun logo and  Java are trademarks or registered
+ * trademarks of Sun Microsystems, Inc. in the U.S. and other countries.  This
+ * product is covered and controlled by U.S. Export Control laws and may be
+ * subject to the export or import laws in other countries.  Nuclear, missile,
+ * chemical biological weapons or nuclear maritime end uses or end users,
+ * whether direct or indirect, are strictly prohibited.  Export or reexport
+ * to countries subject to U.S. embargo or to entities identified on U.S.
+ * export exclusion lists, including, but not limited to, the denied persons
+ * and specially designated nationals lists is strictly prohibited.
+ */
+
+
+options {
+   MULTI=true;
+}
+
+PARSER_BEGIN(SPLParser)
+
+public class SPLParser {
+}
+
+PARSER_END(SPLParser)
+
+
+SKIP : /* WHITE SPACE */
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+| "\f"
+}
+
+TOKEN : /* Types */
+{
+   < INT: "int" >
+ |
+   < BOOL: "boolean" >
+}
+
+TOKEN : /* LITERALS */
+{
+  < INTEGER_LITERAL: (<DIGIT>)+ >
+}
+
+/*
+ * Program structuring syntax follows.
+ */
+
+void CompilationUnit() :
+{
+   String name;
+}
+{
+   (
+       VarDeclaration() ";"
+     |
+       Statement()
+   )*
+   <EOF>
+}
+
+void VarDeclaration() :
+{ Token t; }
+{
+  (
+    "boolean" { jjtThis.type = BOOL; }
+   |
+    "int" { jjtThis.type = INT; }
+  )
+  t = <IDENTIFIER> 
+  { jjtThis.name = t.image; }
+}
+
+/*
+ * Expression syntax follows.
+ */
+
+void Expression() #void:
+{}
+{
+  LOOKAHEAD( PrimaryExpression() "=" )
+  Assignment()
+|
+  ConditionalOrExpression()
+}
+
+void Assignment() #Assignment(2) :
+{}
+{
+  PrimaryExpression() "=" Expression()
+}
+
+void ConditionalOrExpression() #void :
+{}
+{
+  ConditionalAndExpression()
+  ( "||" ConditionalAndExpression() #OrNode(2) )*
+}
+
+void ConditionalAndExpression() #void :
+{}
+{
+  InclusiveOrExpression()
+  ( "&&" InclusiveOrExpression() #AndNode(2) )*
+}
+
+void InclusiveOrExpression() #void :
+{}
+{
+  ExclusiveOrExpression()
+  ( "|" ExclusiveOrExpression() #BitwiseOrNode(2) )*
+}
+
+void ExclusiveOrExpression() #void :
+{}
+{
+  AndExpression()
+  ( "^" AndExpression() #BitwiseXorNode(2) )*
+}
+
+void AndExpression() #void :
+{}
+{
+  EqualityExpression()
+  ( "&" EqualityExpression() #BitwiseAndNode(2) )*
+}
+
+void EqualityExpression() #void :
+{}
+{
+  RelationalExpression()
+  (
+     "==" RelationalExpression() #EQNode(2)
+   |
+     "!=" RelationalExpression() #NENode(2)
+  )*
+}
+
+void RelationalExpression() #void :
+{}
+{
+  AdditiveExpression()
+  (
+    "<" AdditiveExpression() #LTNode(2)
+   |
+    ">" AdditiveExpression() #GTNode(2)
+   |
+    "<=" AdditiveExpression() #LENode(2)
+   |
+    ">=" AdditiveExpression() #GENode(2)
+  )*
+}
+
+void AdditiveExpression() #void :
+{}
+{
+  MultiplicativeExpression()
+  (
+    "+" MultiplicativeExpression() #AddNode(2)
+   |
+    "-" MultiplicativeExpression() #SubtractNode(2)
+  )*
+}
+
+void MultiplicativeExpression() #void :
+{}
+{
+  UnaryExpression()
+  (
+    "*" UnaryExpression() #MulNode(2)
+   |
+    "/" UnaryExpression() #DivNode(2)
+   |
+    "%" UnaryExpression() #ModNode(2)
+  )*
+}
+
+void UnaryExpression() #void :
+{}
+{
+  "~" UnaryExpression() #BitwiseComplNode(1)
+|
+  "!" UnaryExpression() #NotNode(1)
+|
+  PrimaryExpression()
+}
+
+void PrimaryExpression() #void :
+{
+   String name;
+}
+{
+  Literal()
+|
+  Id() 
+|
+  "(" Expression() ")"
+}
+
+void Id() :
+{
+   Token t;
+}
+{
+   t = <IDENTIFIER>  { jjtThis.name = t.image; }
+}
+
+void Literal() #void :
+{
+   Token t;
+}
+{
+ (
+  t=<INTEGER_LITERAL>
+    {
+       jjtThis.val = Integer.parseInt(t.image);
+    }
+ )#IntConstNode
+|
+  BooleanLiteral()
+}
+
+void BooleanLiteral() #void :
+{}
+{
+  "true" #TrueNode
+|
+  "false" #FalseNode
+}
+
+/*
+ * Statement syntax follows.
+ */
+
+void Statement() #void :
+{}
+{
+  ";"
+|
+  LOOKAHEAD(2)
+  LabeledStatement()
+|
+  Block()
+|
+  StatementExpression()
+|
+  IfStatement()
+|
+  WhileStatement()
+|
+  IOStatement()
+}
+
+void LabeledStatement() #void :
+{}
+{
+  <IDENTIFIER> ":" Statement()
+}
+
+void Block() :
+{}
+{
+  "{" ( Statement() )* "}"
+}
+
+void StatementExpression() :
+/*
+ * The last expansion of this production accepts more than the legal
+ * SPL expansions for StatementExpression.
+ */
+{}
+{
+  Assignment() ";"
+}
+
+void IfStatement() :
+/*
+ * The disambiguating algorithm of JavaCC automatically binds dangling
+ * else's to the innermost if statement.  The LOOKAHEAD specification
+ * is to tell JavaCC that we know what we are doing.
+ */
+{}
+{
+  "if" "(" Expression() ")" Statement() [ LOOKAHEAD(1) "else" Statement() ]
+}
+
+void WhileStatement() :
+{}
+{
+  "while" "(" Expression() ")" Statement()
+}
+
+void IOStatement() #void :
+{ String name; }
+{
+   ReadStatement()
+ |
+   WriteStatement()
+}
+
+void ReadStatement() :
+{ Token t; }
+{
+   "read" t = <IDENTIFIER>
+   { jjtThis.name = t.image; }
+}
+
+void WriteStatement() :
+{ Token t; }
+{
+   "write" t = <IDENTIFIER>
+   { jjtThis.name = t.image; }
+}
+
+TOKEN : /* IDENTIFIERS */
+{
+  < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+|
+  < #LETTER: [ "a"-"z", "A"-"Z" ] >
+|
+  < #DIGIT: [ "0"-"9"] >
+}

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+java -classpath `dirname $0`/lib/javacc.jar javacc "$@"
