@@ -323,7 +323,7 @@ public class JavaCCGlobals {
     if (!outputDir.exists()) {
       JavaCCErrors.warning("Output directory \"" + outputDir + "\" does not exist. Creating the directory.");
 
-      if (!outputDir.mkdir()) {
+      if (!outputDir.mkdirs()) {
         JavaCCErrors.semantic_error("Cannot create the output directory : " + outputDir);
         return;
       }
