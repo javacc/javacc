@@ -276,7 +276,6 @@ public class RStringLiteral extends RegularExpression {
      if (image.length() == 0)
         return new Nfa(theStartState, theStartState);
 
-     RegularExpression RE; // Single char or a sequence of chars
      int i;
 
      for (i = 0; i < image.length(); i++)
@@ -501,16 +500,12 @@ public class RStringLiteral extends RegularExpression {
 
   static void DumpDfaCode(java.io.PrintWriter ostr)
   {
-     Enumeration infos;
      Hashtable tab;
      String key;
      KindInfo info;
-     int tmpCtr = 0;
      int maxLongsReqd = maxStrKind / 64 + 1;
      int i, j, k;
      boolean ifGenerated;
-     String[] activeNames = { "jjnewActive" + LexGen.lexStateSuffix, "jjoldActive" + LexGen.lexStateSuffix };
-
      LexGen.maxLongsReqd[LexGen.lexStateIndex] = maxLongsReqd;
 
      if (maxLen == 0)
@@ -755,7 +750,6 @@ public class RStringLiteral extends RegularExpression {
            ostr.println("      case " + (int)c + ":");
 
            long matchedKind;
-           int matchedKindForZero = Integer.MAX_VALUE;
            String prefix = (i == 0) ? "         " : "            ";
 
            if (info.finalKindCnt != 0)
@@ -1014,8 +1008,8 @@ public class RStringLiteral extends RegularExpression {
   {
      boolean[] seen = new boolean[NfaState.generatedStates];
      Hashtable stateSets = new Hashtable();
-     String key, stateSetString  = "";
-     int i, j, k, kind, jjmatchedPos = 0;
+     String stateSetString  = "";
+     int i, j, kind, jjmatchedPos = 0;
      int maxKindsReqd = maxStrKind / 64 + 1;
      long[] actives;
      Vector newStates = new Vector();
@@ -1141,8 +1135,7 @@ public class RStringLiteral extends RegularExpression {
   static void DumpNfaStartStatesCode(Hashtable[] statesForPos,
                                               java.io.PrintWriter ostr)
   {
-     int i, k, maxKindsReqd = maxStrKind / 64 + 1;
-     boolean ifGenerated;
+     int i, maxKindsReqd = maxStrKind / 64 + 1;
      boolean condGenerated = false;
      int ind = 0;
 
@@ -1169,13 +1162,9 @@ public class RStringLiteral extends RegularExpression {
         ostr.println("      case " + i + ":");
 
         Enumeration e = statesForPos[i].keys();
-        Object o;
-
         while (e.hasMoreElements())
         {
            String stateSetString = (String)e.nextElement();
-           String s;
-
            long[] actives = (long[])statesForPos[i].get(stateSetString);
 
            for (int j = 0; j < maxKindsReqd; j++)
