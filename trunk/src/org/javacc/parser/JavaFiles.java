@@ -824,7 +824,7 @@ public class JavaFiles
     {
     ostr.println("");
     ostr.println("  /**");
-    ostr.println("   * Method to adjust line and column numbers for the start of a token.<BR>");
+    ostr.println("   * Method to adjust line and column numbers for the start of a token.");
     ostr.println("   */");
     ostr.println(prefix + "public void adjustBeginLineColumn(int newLine, int newCol)");
     ostr.println("  {");
@@ -1393,7 +1393,7 @@ public class JavaFiles
     {
     ostr.println("");
     ostr.println("  /**");
-    ostr.println("   * Method to adjust line and column numbers for the start of a token.<BR>");
+    ostr.println("   * Method to adjust line and column numbers for the start of a token.");
     ostr.println("   */");
     ostr.println(prefix + "public void adjustBeginLineColumn(int newLine, int newCol)");
     ostr.println("  {");
