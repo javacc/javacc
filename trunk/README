@@ -26,9 +26,9 @@ to build JavaCC.
 BUILDING JAVAC
 ==============
 
-You need ant-1.4.1 or above to build JavaCC. You can get ant from:
+You need ant-1.5.3 or above to build JavaCC. You can get ant from:
 
-    http://jakarta.apache.org/ant/
+    http://ant.apache.org
 
 Once you install ant, make sure ant is in your path. Then you can simply
 come to this directory (JavaCC source install directory) and type:
@@ -36,3 +36,7 @@ come to this directory (JavaCC source install directory) and type:
 ant
 
 it will build the javacc.jar file in the bin/lib directory.
+
+Note: On Unix systems, you need to make the shell scripts javacc,
+      jjtree and jjdoc executable (chmod) in the bin directory if
+      you want to run those.
