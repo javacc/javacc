@@ -488,8 +488,8 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
           ostr.println("        jj_expentry[i] = jj_lasttokens[i];");
           ostr.println("      }");
           ostr.println("      boolean exists = false;");
-          ostr.println("      for (java.util.Enumeration enum = jj_expentries.elements(); enum.hasMoreElements();) {");
-          ostr.println("        int[] oldentry = (int[])(enum.nextElement());");
+          ostr.println("      for (java.util.Enumeration e = jj_expentries.elements(); e.hasMoreElements();) {");
+          ostr.println("        int[] oldentry = (int[])(e.nextElement());");
           ostr.println("        if (oldentry.length == jj_expentry.length) {");
           ostr.println("          exists = true;");
           ostr.println("          for (int i = 0; i < jj_expentry.length; i++) {");
@@ -553,9 +553,13 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
       } else {
         ostr.println("  " + staticOpt() + "public ParseException generateParseException() {");
         ostr.println("    Token errortok = token.next;");
-        ostr.println("    int line = errortok.beginLine, column = errortok.beginColumn;");
+        if (Options.B("KEEP_LINE_COLUMN"))
+           ostr.println("    int line = errortok.beginLine, column = errortok.beginColumn;");
         ostr.println("    String mess = (errortok.kind == 0) ? tokenImage[0] : errortok.image;");
-        ostr.println("    return new ParseException(\"Parse error at line \" + line + \", column \" + column + \".  Encountered: \" + mess);");
+        if (Options.B("KEEP_LINE_COLUMN"))
+           ostr.println("    return new ParseException(\"Parse error at line \" + line + \", column \" + column + \".  Encountered: \" + mess);");
+        else
+           ostr.println("    return new ParseException(\"Parse error at <unknown location>.  Encountered: \" + mess);");
         ostr.println("  }");
       }
       ostr.println("");
