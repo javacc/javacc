@@ -1341,7 +1341,7 @@ public class NfaState
 
       while (e.hasMoreElements())
       {
-         int[] tmpSet = (int[])allNextStates.get((String)e.nextElement());
+         int[] tmpSet = (int[])allNextStates.get(e.nextElement());
          if (tmpSet == nameSet)
             continue;
 
@@ -2964,7 +2964,7 @@ public class NfaState
       unicodeWarningGiven = false;
       generatedStates = 0;
       idCnt = 0;
-      lohiByteCnt = (int)0;
+      lohiByteCnt = 0;
       dummyStateIndex = -1;
       done = false;
       mark = null;

@@ -29,6 +29,6 @@ public class MatchInfo {
 
    public static void reInit()
    {
-      laLimit = (int)0;
+      laLimit = 0;
    }
 }

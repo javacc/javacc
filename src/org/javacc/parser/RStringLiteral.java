@@ -692,7 +692,7 @@ public class RStringLiteral extends RegularExpression {
            key = keys[q];
            info = (KindInfo)tab.get(key);
            ifGenerated = false;
-           char c = (char)(key.charAt(0));
+           char c = key.charAt(0);
 
            if (i == 0 && c < 128 && info.finalKindCnt != 0 &&
                (NfaState.generatedStates == 0 || !NfaState.CanStartNfaUsingAscii(c)))

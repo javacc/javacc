@@ -160,13 +160,13 @@ public class Options {
       return;
     }
     if (cmdLineSetting.get(s) != null) {
-      if (!((String)Val).equals(value)) {
+      if (!Val.equals(value)) {
         JavaCCErrors.warning(nameloc, "Command line setting of \"" + name + "\" modifies option value in file.");
       }
       return;
     }
     if (name.equals("OUTPUT_DIRECTORY")) {
-       JavaCCGlobals.storeOutputDirSpec(valueloc, (String)value);
+       JavaCCGlobals.storeOutputDirSpec(valueloc, value);
     }
     optionValues.put(s, value);
     inputFileSetting.put(s, "");

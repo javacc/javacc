@@ -1502,15 +1502,15 @@ public class LexGen
       ignoreCase = null;
       actions = null;
       initStates = new Hashtable();
-      stateSetSize = (int)0;
-      maxLexStates = (int)0;
+      stateSetSize = 0;
+      maxLexStates = 0;
       lexStateName = null;
       singlesToSkip = null;
       toSkip = null;
       toSpecial = null;
       toMore = null;
       toToken = null;
-      defaultLexState = (int)0;
+      defaultLexState = 0;
       rexprs = null;
       maxLongsReqd = null;
       initMatch = null;
@@ -1523,7 +1523,7 @@ public class LexGen
       hasNfa = null;
       mixed = null;
       initialState = null;
-      curKind = (int)0;
+      curKind = 0;
       hasSkipActions = false;
       hasMoreActions = false;
       hasTokenActions = false;
