@@ -1,0 +1,157 @@
+
+/*
+ * Copyright © 2002 Sun Microsystems, Inc., 4150 Network Circle, Santa Clara,
+ * California 95054, U.S.A. All rights reserved.  Sun Microsystems, Inc. has
+ * intellectual property rights relating to technology embodied in the product
+ * that is described in this document. In particular, and without limitation,
+ * these intellectual property rights may include one or more of the U.S.
+ * patents listed at http://www.sun.com/patents and one or more additional
+ * patents or pending patent applications in the U.S. and in other countries.
+ * U.S. Government Rights - Commercial software. Government users are subject
+ * to the Sun Microsystems, Inc. standard license agreement and applicable
+ * provisions of the FAR and its supplements.  Use is subject to license terms.
+ * Sun,  Sun Microsystems,  the Sun logo and  Java are trademarks or registered
+ * trademarks of Sun Microsystems, Inc. in the U.S. and other countries.  This
+ * product is covered and controlled by U.S. Export Control laws and may be
+ * subject to the export or import laws in other countries.  Nuclear, missile,
+ * chemical biological weapons or nuclear maritime end uses or end users,
+ * whether direct or indirect, are strictly prohibited.  Export or reexport
+ * to countries subject to U.S. embargo or to entities identified on U.S.
+ * export exclusion lists, including, but not limited to, the denied persons
+ * and specially designated nationals lists is strictly prohibited.
+ */
+
+
+PARSER_BEGIN(NL_Xlator)
+
+public class NL_Xlator {
+
+  public static void main(String args[]) throws ParseException {
+    NL_Xlator parser = new NL_Xlator(System.in);
+    parser.ExpressionList();
+  }
+
+}
+
+PARSER_END(NL_Xlator)
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+}
+
+TOKEN :
+{
+  < ID: ["a"-"z","A"-"Z","_"] ( ["a"-"z","A"-"Z","_","0"-"9"] )* >
+|
+  < NUM: ( ["0"-"9"] )+ >
+}
+
+void ExpressionList() :
+{
+	String s;
+}
+{
+	{
+	  System.out.println("Please type in an expression followed by a \";\" or ^D to quit:");
+	  System.out.println("");
+	}
+  ( s=Expression() ";"
+	{
+	  System.out.println(s);
+	  System.out.println("");
+	  System.out.println("Please type in another expression followed by a \";\" or ^D to quit:");
+	  System.out.println("");
+	}
+  )*
+  <EOF>
+}
+
+String Expression() :
+{
+	java.util.Vector termimage = new java.util.Vector();
+	String s;
+}
+{
+  s=Term()
+	{
+	  termimage.addElement(s);
+	}
+  ( "+" s=Term()
+	{
+	  termimage.addElement(s);
+	}
+  )*
+	{
+	  if (termimage.size() == 1) {
+	    return (String)termimage.elementAt(0);
+          } else {
+            s = "the sum of " + (String)termimage.elementAt(0);
+	    for (int i = 1; i < termimage.size()-1; i++) {
+	      s += ", " + (String)termimage.elementAt(i);
+	    }
+	    if (termimage.size() > 2) {
+	      s += ",";
+	    }
+	    s += " and " + (String)termimage.elementAt(termimage.size()-1);
+            return s;
+          }
+	}
+}
+
+String Term() :
+{
+	java.util.Vector factorimage = new java.util.Vector();
+	String s;
+}
+{
+  s=Factor()
+	{
+	  factorimage.addElement(s);
+	}
+  ( "*" s=Factor()
+	{
+	  factorimage.addElement(s);
+	}
+  )*
+	{
+	  if (factorimage.size() == 1) {
+	    return (String)factorimage.elementAt(0);
+          } else {
+            s = "the product of " + (String)factorimage.elementAt(0);
+	    for (int i = 1; i < factorimage.size()-1; i++) {
+	      s += ", " + (String)factorimage.elementAt(i);
+	    }
+	    if (factorimage.size() > 2) {
+	      s += ",";
+	    }
+	    s += " and " + (String)factorimage.elementAt(factorimage.size()-1);
+            return s;
+          }
+	}
+}
+
+String Factor() :
+{
+	Token t;
+	String s;
+}
+{
+  t=<ID>
+	{
+	  return t.image;
+	}
+|
+  t=<NUM>
+	{
+	  return t.image;
+	}
+|
+  "(" s=Expression() ")"
+	{
+	  return s;
+	}
+}

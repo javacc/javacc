@@ -1,0 +1,58 @@
+
+/*
+ * Copyright © 2002 Sun Microsystems, Inc., 4150 Network Circle, Santa Clara,
+ * California 95054, U.S.A. All rights reserved.  Sun Microsystems, Inc. has
+ * intellectual property rights relating to technology embodied in the product
+ * that is described in this document. In particular, and without limitation,
+ * these intellectual property rights may include one or more of the U.S.
+ * patents listed at http://www.sun.com/patents and one or more additional
+ * patents or pending patent applications in the U.S. and in other countries.
+ * U.S. Government Rights - Commercial software. Government users are subject
+ * to the Sun Microsystems, Inc. standard license agreement and applicable
+ * provisions of the FAR and its supplements.  Use is subject to license terms.
+ * Sun,  Sun Microsystems,  the Sun logo and  Java are trademarks or registered
+ * trademarks of Sun Microsystems, Inc. in the U.S. and other countries.  This
+ * product is covered and controlled by U.S. Export Control laws and may be
+ * subject to the export or import laws in other countries.  Nuclear, missile,
+ * chemical biological weapons or nuclear maritime end uses or end users,
+ * whether direct or indirect, are strictly prohibited.  Export or reexport
+ * to countries subject to U.S. embargo or to entities identified on U.S.
+ * export exclusion lists, including, but not limited to, the denied persons
+ * and specially designated nationals lists is strictly prohibited.
+ */
+
+This version of the GUI parsing example defines the GUI interaction as
+a JavaCC lexical specification where the characters are read from the
+GUI and there is an finite automaton (FA) built out of lexical states
+that have moves on these characters. In the grammar, the
+USER_CHAR_STREAM option is set to true and the BUILD_PARSER option has
+bee set to false.  The event handler method stuffs the characters into
+a buffer from which characters are returned to the lexical analyzer
+(by readChar). The whole system is invoked through Main.java.
+
+The point of this example is to illustrate:
+
+. A very detailed example of an FA simulation using lexical states
+  where every character moves the FA.
+
+. How a lexical analyzer can be used without a standard (JavaCC
+  generated) CharStream object.
+
+. How a lexical analyzer can be used without a parser.
+
+. The fact that input can come from entities that are not even streams
+  (a GUI in this example).
+
+. That GUI interaction can be modeled as a regular expression
+  specification.
+
+To run the calculator (which is what this example implements), do:
+
+	javacc CalcInput.jj
+	javac *.java
+	java Main
+
+Homework:
+
+   Simplify the grammar so that (["0"-"9"])* is treated as a single
+   entity for moving the FA.

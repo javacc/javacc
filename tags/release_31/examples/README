@@ -1,0 +1,87 @@
+
+/*
+ * Copyright © 2002 Sun Microsystems, Inc., 4150 Network Circle, Santa Clara,
+ * California 95054, U.S.A. All rights reserved.  Sun Microsystems, Inc. has
+ * intellectual property rights relating to technology embodied in the product
+ * that is described in this document. In particular, and without limitation,
+ * these intellectual property rights may include one or more of the U.S.
+ * patents listed at http://www.sun.com/patents and one or more additional
+ * patents or pending patent applications in the U.S. and in other countries.
+ * U.S. Government Rights - Commercial software. Government users are subject
+ * to the Sun Microsystems, Inc. standard license agreement and applicable
+ * provisions of the FAR and its supplements.  Use is subject to license terms.
+ * Sun,  Sun Microsystems,  the Sun logo and  Java are trademarks or registered
+ * trademarks of Sun Microsystems, Inc. in the U.S. and other countries.  This
+ * product is covered and controlled by U.S. Export Control laws and may be
+ * subject to the export or import laws in other countries.  Nuclear, missile,
+ * chemical biological weapons or nuclear maritime end uses or end users,
+ * whether direct or indirect, are strictly prohibited.  Export or reexport
+ * to countries subject to U.S. embargo or to entities identified on U.S.
+ * export exclusion lists, including, but not limited to, the denied persons
+ * and specially designated nationals lists is strictly prohibited.
+ */
+
+This directory contains many examples of JavaCC and JJTree input grammars.
+We recommend you see the examples in the following order.  Each directory
+contains a README file with more detailed instructions:
+
+SimpleExamples:
+	This is a set of very simple JavaCC examples.  After trying these
+	examples out, you should be able to build reasonably complex
+	examples yourself.
+
+MailProcessing:
+	These examples illustrate the use of JavaCC in parsing emacs
+	mail files.  They highlight the use of lexical states.
+
+JJTreeExamples:
+	There are simple input grammars for JJTree, the tree building
+	preprocessor.
+
+CORBA-IDL:
+	This is a grammar for the IDL interface definition language of
+	OMG CORBA 2.0.
+
+JavaGrammars:
+	This directory contains extremely well debugged and maintained
+	Java grammars for both the 1.0.2 and 1.1 versions of the
+	language.
+
+JavaCCGrammar:
+	This directory contains the official JavaCC/JJTree grammar.  This
+	is the grammar based on which JavaCC and JJTree are built.
+
+Transformer:
+	This example illustrates how a Java language extension is defined
+	and transformed back into Java.  This makes use of JJTree.
+
+GUIParsing:
+	These examples illustrate how one may obtain input for parsing
+	or lexical analysis from a GUI, and thereby provide "parsing"
+	of GUI interactions.  In addition, one of these examples
+	illustrates how state machines may be described as lexical
+	specifications.
+
+Obfuscator:
+	This is a complete implementation of a Java obfuscator.  This
+	allows one to take a set of Java source files and modify them
+	into semantically equivalent source files that are much more
+	difficult to read.  This example shows the usage of multiple
+	parsers used from one system.
+
+Interpreter:
+	This is an interpreter for a simple language with declarations,
+	assignments, expressions, conditionals, loops, etc.  It
+	demonstrates really nicely a complex example where JJTree is
+	used to drastically simplify the process of generating parse
+	trees.  All actions are really methods built into the generated
+	tree nodes.
+
+Lookahead:
+	This directory contains the tutorial on LOOKAHEAD along with all
+	examples used in the tutorial.
+
+VTransformer:
+	This directory contains an example of using the Visitor design
+	pattern with JJTree.  Like the Transformer example, it shows how
+	a Java program can be processed into a slightly different form.

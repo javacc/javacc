@@ -1,0 +1,215 @@
+
+/*
+ * Copyright © 2002 Sun Microsystems, Inc., 4150 Network Circle, Santa Clara,
+ * California 95054, U.S.A. All rights reserved.  Sun Microsystems, Inc. has
+ * intellectual property rights relating to technology embodied in the product
+ * that is described in this document. In particular, and without limitation,
+ * these intellectual property rights may include one or more of the U.S.
+ * patents listed at http://www.sun.com/patents and one or more additional
+ * patents or pending patent applications in the U.S. and in other countries.
+ * U.S. Government Rights - Commercial software. Government users are subject
+ * to the Sun Microsystems, Inc. standard license agreement and applicable
+ * provisions of the FAR and its supplements.  Use is subject to license terms.
+ * Sun,  Sun Microsystems,  the Sun logo and  Java are trademarks or registered
+ * trademarks of Sun Microsystems, Inc. in the U.S. and other countries.  This
+ * product is covered and controlled by U.S. Export Control laws and may be
+ * subject to the export or import laws in other countries.  Nuclear, missile,
+ * chemical biological weapons or nuclear maritime end uses or end users,
+ * whether direct or indirect, are strictly prohibited.  Export or reexport
+ * to countries subject to U.S. embargo or to entities identified on U.S.
+ * export exclusion lists, including, but not limited to, the denied persons
+ * and specially designated nationals lists is strictly prohibited.
+ */
+
+
+options {
+  USER_CHAR_STREAM = true;
+  BUILD_PARSER = false;
+}
+
+PARSER_BEGIN(CalcInputParser)
+
+public class CalcInputParser {
+}
+
+PARSER_END(CalcInputParser)
+
+/**
+ * This example shows an elaborate example to construct a Finite Automaton
+ * where for every character, there is a move.
+ */
+TOKEN_MGR_DECLS:
+{
+   /**
+    * A pointer to the GUI object.
+    */
+   static CalcGUI gui;
+
+   /**
+    * Holds the result of the expression evaluation so far.
+    */
+   static double result = 0.0;
+
+   /**
+    * Flag to indiate the very first operand so that the correct result
+    * is displayed in this case.
+    */
+   static boolean firstOperand = true;
+
+   /**
+    * Shows the result after a particular operation.
+    */
+   private static void ShowResult()
+   {
+      if (firstOperand)
+      {
+         image.setLength(image.length() - 1);
+         if (image.length() > 0)
+            result = Double.valueOf(image.toString()).doubleValue();
+         else
+            result = 0.0;
+
+         firstOperand = false;
+      }
+
+      gui.print(result);
+   }
+}
+
+/**
+ * The first operand
+ */
+<OPERAND> MORE :
+{
+   < ["0"-"9"] >
+ |
+   "."  : REQUIRED_DIGIT
+}
+
+/**
+ * This state is entered when we need to get at least one digit (after a .)
+ */
+<REQUIRED_DIGIT> MORE:
+{
+   < ["0"-"9"] > : OPTIONAL_DIGIT
+}
+
+/**
+ * FA for (["0"-"9"])*.
+ */
+<OPTIONAL_DIGIT> MORE:
+{
+   < ["0"-"9"] >
+}
+
+/**
+ * You can get an operator at any time (in any lexical state), except when
+ * a digit is required (afdter a .). Then just go to a state where the next
+ * operand is scanned (for that particular operator).
+ */
+<OP_OR_OPERAND, OPERAND, OPTIONAL_DIGIT, OP_LOOP> SKIP:
+{
+   <PLUS: "+"> { ShowResult(); } : SEEN_PLUS
+ |
+   <MINUS: "-"> { ShowResult(); } : SEEN_MINUS
+ |
+   <STAR: "*"> { ShowResult(); } : SEEN_STAR
+ |
+   <SLASH: "/"> { ShowResult(); } : SEEN_SLASH
+}
+
+/**
+ * If you get a = in any state, just display the current result.
+ */
+<OPERAND, OPTIONAL_DIGIT, OP_LOOP> SKIP:
+{
+   <EQ: "="> { ShowResult(); } : OP_OR_OPERAND
+}
+
+/**
+ * Here you can either give an operand (to start a new expression) or give
+ * an operator that works on the current result.
+ */
+<OP_OR_OPERAND> SKIP:
+{
+   <"=">
+}
+
+<OP_OR_OPERAND> MORE:
+{
+   < ["0"-"9"] > { firstOperand = true; } : OPERAND
+ |
+   "." { firstOperand = true; } : REQUIRED_DIGIT
+}
+
+<SEEN_PLUS, ADD_RIGHT_OPERAND> MORE:
+{
+   < ["0"-"9"] > : ADD_RIGHT_OPERAND
+ |
+   "."  : ADD_REQUIRED_DIGIT
+}
+
+<DO_ADD, ADD_REQUIRED_DIGIT> MORE:
+{
+   < ["0"-"9"] > : DO_ADD
+}
+
+<DO_ADD, ADD_RIGHT_OPERAND> SKIP:
+{
+   < "" >
+      { result += Double.valueOf(image.toString()).doubleValue(); } : OP_LOOP
+}
+
+<SEEN_MINUS, SUB_RIGHT_OPERAND> MORE:
+{
+   < ["0"-"9"] > : SUB_RIGHT_OPERAND
+ |
+   "."  : SUB_REQUIRED_DIGIT
+}
+
+<DO_SUB, SUB_REQUIRED_DIGIT> MORE:
+{
+   < ["0"-"9"] > : DO_SUB
+}
+
+<DO_SUB, SUB_RIGHT_OPERAND> SKIP:
+{
+   < "" >
+      { result -= Double.valueOf(image.toString()).doubleValue(); } : OP_LOOP
+}
+
+<SEEN_STAR, MUL_RIGHT_OPERAND> MORE:
+{
+   < ["0"-"9"] > : MUL_RIGHT_OPERAND
+ |
+   "."  : MUL_REQUIRED_DIGIT
+}
+
+<DO_MUL, MUL_REQUIRED_DIGIT> MORE:
+{
+   < ["0"-"9"] > : DO_MUL
+}
+
+<DO_MUL, MUL_RIGHT_OPERAND> SKIP:
+{
+   < "" >
+      { result *= Double.valueOf(image.toString()).doubleValue(); } : OP_LOOP
+}
+
+<SEEN_SLASH, DIV_RIGHT_OPERAND> MORE:
+{
+   < ["0"-"9"] > : DIV_RIGHT_OPERAND
+ |
+   "."  : DIV_REQUIRED_DIGIT
+}
+
+<DO_DIV, DIV_REQUIRED_DIGIT> MORE:
+{
+   < ["0"-"9"] > : DO_DIV
+}
+
+<DO_DIV, DIV_RIGHT_OPERAND> SKIP:
+{
+   < "" >
+      { result /= Double.valueOf(image.toString()).doubleValue(); } : OP_LOOP
+}
