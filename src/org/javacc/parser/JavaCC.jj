@@ -2543,16 +2543,54 @@ void ContinueStatement():
   "continue" [ <IDENTIFIER> ] ";"
 }
 
-void ReturnStatement():
-{}
+void ReturnStatement() :
+	{
+	  Token t;
+	}
 {
-  "return" [ Expression(new Vector()) ] ";"
+  t="return"
+	{
+	  // Add if statement to prevent subsequent code generated
+	  // from being dead code.
+	  if (inAction) {
+	    t.image = "{if (true) return";
+	    jumpPatched = true;
+	  }
+	}
+  [
+    Expression(new java.util.Vector())
+  ]
+  t=";"
+	{
+	  // Add closing brace for above if statement.
+	  if (inAction) {
+	    t.image = ";}";
+	  }
+	}
 }
 
-void ThrowStatement():
-{}
+void ThrowStatement() :
+	{
+	  Token t;
+	}
 {
-  "throw" Expression(new Vector()) ";"
+  t="throw"
+	{
+	  // Add if statement to prevent subsequent code generated
+	  // from being dead code.
+	  if (inAction) {
+	    t.image = "{if (true) throw";
+	    jumpPatched = true;
+	  }
+	}
+  Expression(new java.util.Vector())
+  t=";"
+	{
+	  // Add closing brace for above if statement.
+	  if (inAction) {
+	    t.image = ";}";
+	  }
+	}
 }
 
 void SynchronizedStatement():
