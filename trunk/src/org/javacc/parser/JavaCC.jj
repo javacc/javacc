@@ -726,7 +726,7 @@ void regular_expr_production() :
   ]
   regexpr_kind(p)
 	{
-	  if (p.kind != TokenProduction.TOKEN && Options.B("USER_TOKEN_MANAGER")) {
+	  if (p.kind != TokenProduction.TOKEN && Options.getUserTokenManager()) {
 	    JavaCCErrors.warning(getToken(0), "Regular expression is being treated as if it were a TOKEN since option USER_TOKEN_MANAGER has been set to true.");
 	  }
 	}
@@ -734,7 +734,7 @@ void regular_expr_production() :
     "[" t="IGNORE_CASE" "]"
 	{
 	  p.ignoreCase = true;
-	  if (Options.B("USER_TOKEN_MANAGER")) {
+	  if (Options.getUserTokenManager()) {
 	    JavaCCErrors.warning(t, "Ignoring \"IGNORE_CASE\" specification since option USER_TOKEN_MANAGER has been set to true.");
 	  }
 	}
@@ -803,7 +803,7 @@ void regexpr_spec(TokenProduction p) :
 	}
     Block(act.action_tokens)
 	{
-	  if (Options.B("USER_TOKEN_MANAGER")) {
+	  if (Options.getUserTokenManager()) {
 	    JavaCCErrors.warning(t, "Ignoring action in regular expression specification since option USER_TOKEN_MANAGER has been set to true.");
 	  }
 	  if (res.rexp.private_rexp) {
