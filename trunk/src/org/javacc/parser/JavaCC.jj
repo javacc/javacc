@@ -570,9 +570,6 @@ void option_binding() :
 void production() :
 {}
 {
-  LOOKAHEAD( [ TypeParameters() ] ResultType() <IDENTIFIER> )
-  bnf_production()
-|
   LOOKAHEAD(1)
   /*
    * Since JAVACODE is both a JavaCC reserved word and a Java identifier,
@@ -596,6 +593,8 @@ void production() :
    * "bnf_production".
    */
   token_manager_decls()
+|
+  bnf_production()
 }
 
 void javacode_production() :
@@ -610,7 +609,6 @@ void javacode_production() :
 	}
 {
   "JAVACODE"
-  [ TypeParameters() ]
   ResultType(p.return_type_tokens)
   p.lhs=identifier()
   FormalParameters(p.parameter_list_tokens)
@@ -652,7 +650,6 @@ void bnf_production() :
 	  jumpPatched = false;
 	}
 {
-  [ TypeParameters() ]
   ResultType(p.return_type_tokens)
   p.lhs=identifier()
   FormalParameters(p.parameter_list_tokens)
@@ -1100,7 +1097,7 @@ void expansion_unit(Container c) :
 	}
   ]
   (
-	LOOKAHEAD([ TypeArguments() ] identifier())
+	LOOKAHEAD([ TypeArguments(new Vector()) ] identifier())
 	{
 	  nt = new NonTerminal();
 	  t = getToken(1);
