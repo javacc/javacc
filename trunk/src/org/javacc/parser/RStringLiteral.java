@@ -1133,13 +1133,13 @@ public class RStringLiteral extends RegularExpression {
   static void DumpNfaStartStatesCode(Hashtable[] statesForPos,
                                               java.io.PrintWriter ostr)
   {
+      if (maxStrKind == 0) { // No need to generate this function
+         return;
+      }
+
      int i, maxKindsReqd = maxStrKind / 64 + 1;
      boolean condGenerated = false;
      int ind = 0;
-
-     if (maxStrKind == 0) // No need to generate this function
-        return;
-
 
      ostr.print("private" + (Options.B("STATIC") ? " static" : "") + " final int jjStopStringLiteralDfa" +
                   LexGen.lexStateSuffix + "(int pos, ");
