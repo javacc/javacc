@@ -69,7 +69,7 @@ public class RChoice extends RegularExpression {
 
      for (int i = 0; i < choices.size(); i++)
      {
-        curRE = (RegularExpression)choices.elementAt(i);;
+        curRE = (RegularExpression)choices.elementAt(i);
 
         while (curRE instanceof RJustName)
            curRE = ((RJustName)curRE).regexpr;
