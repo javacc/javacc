@@ -1,0 +1,113 @@
+<HTML>
+<!--
+
+Copyright © 2002 Sun Microsystems, Inc., 4150 Network Circle, Santa Clara,
+California 95054, U.S.A. All rights reserved.  Sun Microsystems, Inc. has
+intellectual property rights relating to technology embodied in the product
+that is described in this document. In particular, and without limitation,
+these intellectual property rights may include one or more of the U.S.
+patents listed at http://www.sun.com/patents and one or more additional
+patents or pending patent applications in the U.S. and in other countries.
+U.S. Government Rights - Commercial software. Government users are subject
+to the Sun Microsystems, Inc. standard license agreement and applicable
+provisions of the FAR and its supplements.  Use is subject to license terms.
+Sun,  Sun Microsystems,  the Sun logo and  Java are trademarks or registered
+trademarks of Sun Microsystems, Inc. in the U.S. and other countries.  This
+product is covered and controlled by U.S. Export Control laws and may be
+subject to the export or import laws in other countries.  Nuclear, missile,
+chemical biological weapons or nuclear maritime end uses or end users, whether
+direct or indirect, are strictly prohibited.  Export or reexport to countries
+subject to U.S. embargo or to entities identified on U.S. export exclusion
+lists, including, but not limited to, the denied persons and specially
+designated nationals lists is strictly prohibited.
+
+-->
+<HEAD>
+ <title>JavaCC Command Line Syntax</title>
+<!-- Changed by: Michael Van De Vanter, 14-Jan-2003 -->
+</HEAD>
+<BODY bgcolor="#FFFFFF" >
+
+<H1>JavaCC [tm]: Command Line Syntax</H1>
+
+First, you can obtain a synopsis of the command line syntax by simply
+typing "javacc".  This is what you get:
+<P>
+<PRE>
+% javacc
+<<< Version and copyright info>>>
+
+Usage:
+    javacc option-settings inputfile
+
+"option-settings" is a sequence of settings separated by spaces.
+Each option setting must be of one of the following forms:
+
+    -optionname=value (e.g., -STATIC=false)
+    -optionname:value (e.g., -STATIC:false)
+    -optionname       (equivalent to -optionname=true.  e.g., -STATIC)
+    -NOoptionname     (equivalent to -optionname=false. e.g., -NOSTATIC)
+
+Option settings are not case-sensitive, so one can say "-nOsTaTiC" instead
+of "-NOSTATIC".  Option values must be appropriate for the corresponding
+option, and must be either an integer, a boolean, or a string value.
+
+The integer valued options are:
+
+    LOOKAHEAD              (default 1)
+    CHOICE_AMBIGUITY_CHECK (default 2)
+    OTHER_AMBIGUITY_CHECK  (default 1)
+
+The boolean valued options are:
+
+    STATIC                 (default true)
+    DEBUG_PARSER           (default false)
+    DEBUG_LOOKAHEAD        (default false)
+    DEBUG_TOKEN_MANAGER    (default false)
+    OPTIMIZE_TOKEN_MANAGER (default true)
+    ERROR_REPORTING        (default true)
+    JAVA_UNICODE_ESCAPE    (default false)
+    UNICODE_INPUT          (default false)
+    IGNORE_CASE            (default false)
+    COMMON_TOKEN_ACTION    (default false)
+    USER_TOKEN_MANAGER     (default false)
+    USER_CHAR_STREAM       (default false)
+    BUILD_PARSER           (default true)
+    BUILD_TOKEN_MANAGER    (default true)
+    SANITY_CHECK           (default true)
+    FORCE_LA_CHECK         (default false)
+    CACHE_TOKENS           (default false)
+    KEEP_LINE_COLUMN       (default true)
+
+The string valued options are:
+
+    OUTPUT_DIRECTORY       (default Current Directory)
+
+EXAMPLE:
+    javacc -STATIC=false -LOOKAHEAD:2 -debug_parser mygrammar.jj
+
+ABOUT JavaCC:
+
+    JavaCC is a parser generator for the Java [tm] programming
+    language originally built by
+    Sriram Sankar (http://www.cs.stanford.edu/~sankar) and
+    Sreeni Viswanadha (http://www.cs.albany.edu/~sreeni).
+
+%
+</PRE>
+<P>
+The above help message pretty much explains everything.  The options are
+explained in detail in
+<A HREF="javaccgrm.html#prod2">the description of the JavaCC
+input syntax (click here)</A>.
+<P>
+Any option may be set either on the command line as shown in the help message
+above, or in the grammar file as describe in
+<A HREF="javaccgrm.html">the JavaCC input file syntax document</A>.
+The effect is exactly the same.  If the same option is set in both the
+command line and the grammar file, then the option setting in the command
+line takes precedence.
+<P>
+
+</BODY>
+</HTML>

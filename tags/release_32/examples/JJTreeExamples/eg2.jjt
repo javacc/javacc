@@ -1,0 +1,129 @@
+
+/*
+ * Copyright © 2002 Sun Microsystems, Inc., 4150 Network Circle, Santa Clara,
+ * California 95054, U.S.A. All rights reserved.  Sun Microsystems, Inc. has
+ * intellectual property rights relating to technology embodied in the product
+ * that is described in this document. In particular, and without limitation,
+ * these intellectual property rights may include one or more of the U.S.
+ * patents listed at http://www.sun.com/patents and one or more additional
+ * patents or pending patent applications in the U.S. and in other countries.
+ * U.S. Government Rights - Commercial software. Government users are subject
+ * to the Sun Microsystems, Inc. standard license agreement and applicable
+ * provisions of the FAR and its supplements.  Use is subject to license terms.
+ * Sun,  Sun Microsystems,  the Sun logo and  Java are trademarks or registered
+ * trademarks of Sun Microsystems, Inc. in the U.S. and other countries.  This
+ * product is covered and controlled by U.S. Export Control laws and may be
+ * subject to the export or import laws in other countries.  Nuclear, missile,
+ * chemical biological weapons or nuclear maritime end uses or end users,
+ * whether direct or indirect, are strictly prohibited.  Export or reexport
+ * to countries subject to U.S. embargo or to entities identified on U.S.
+ * export exclusion lists, including, but not limited to, the denied persons
+ * and specially designated nationals lists is strictly prohibited.
+ */
+
+
+options {
+  MULTI=true;
+}
+
+PARSER_BEGIN(eg2)
+
+class eg2 {
+  public static void main(String args[]) {
+    System.out.println("Reading from standard input...");
+    eg2 t = new eg2(System.in);
+    try {
+      ASTStart n = t.Start();
+      n.dump("");
+      System.out.println("Thank you.");
+    } catch (Exception e) {
+      System.out.println("Oops.");
+      System.out.println(e.getMessage());
+      e.printStackTrace();
+    }
+  }
+}
+
+PARSER_END(eg2)
+
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+| <"//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+| <"/*" (~["*"])* "*" (~["/"] (~["*"])* "*")* "/">
+}
+
+TOKEN : /* LITERALS */
+{
+  < INTEGER_LITERAL:
+        <DECIMAL_LITERAL> (["l","L"])?
+      | <HEX_LITERAL> (["l","L"])?
+      | <OCTAL_LITERAL> (["l","L"])?
+  >
+|
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+|
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ >
+|
+  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+}
+
+TOKEN : /* IDENTIFIERS */
+{
+  < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+|
+  < #LETTER: ["_","a"-"z","A"-"Z"] >
+|
+  < #DIGIT: ["0"-"9"] >
+}
+
+ASTStart Start() : {}
+{
+  Expression() ";"
+  { return jjtThis; }
+}
+
+
+void Expression() #void : {}
+{
+  AdditiveExpression()
+}
+
+void AdditiveExpression() #void : {}
+{
+  (
+    MultiplicativeExpression() ( ( "+" | "-" ) MultiplicativeExpression() )*
+  ) #Add(>1)
+}
+
+void MultiplicativeExpression() #void : {}
+{
+  (
+    UnaryExpression() ( ( "*" | "/" | "%" ) UnaryExpression() )*
+  ) #Mult(>1)
+}
+
+void UnaryExpression() #void : {}
+{
+  "(" Expression() ")" | MyID() | Integer()
+}
+
+void MyID() :
+{
+  Token t;
+}
+{
+  t=<IDENTIFIER>
+  {
+    jjtThis.setName(t.image);
+  }
+}
+
+void Integer() : {}
+{
+  <INTEGER_LITERAL>
+}

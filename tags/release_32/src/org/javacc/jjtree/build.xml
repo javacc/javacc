@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+
+Copyright © 2002 Sun Microsystems, Inc., 4150 Network Circle, Santa Clara,
+California 95054, U.S.A. All rights reserved.  Sun Microsystems, Inc. has
+intellectual property rights relating to technology embodied in the product
+that is described in this document. In particular, and without limitation,
+these intellectual property rights may include one or more of the U.S.
+patents listed at http://www.sun.com/patents and one or more additional
+patents or pending patent applications in the U.S. and in other countries.
+U.S. Government Rights - Commercial software. Government users are subject
+to the Sun Microsystems, Inc. standard license agreement and applicable
+provisions of the FAR and its supplements.  Use is subject to license terms.
+Sun,  Sun Microsystems,  the Sun logo and  Java are trademarks or registered
+trademarks of Sun Microsystems, Inc. in the U.S. and other countries.  This
+product is covered and controlled by U.S. Export Control laws and may be
+subject to the export or import laws in other countries.  Nuclear, missile,
+chemical biological weapons or nuclear maritime end uses or end users, whether
+direct or indirect, are strictly prohibited.  Export or reexport to countries
+subject to U.S. embargo or to entities identified on U.S. export exclusion
+lists, including, but not limited to, the denied persons and specially
+designated nationals lists is strictly prohibited.
+
+-->
+
+
+<project name="javacc-compile" default="compile" basedir=".">
+  <property name="javacc.root"
+            value="../../../..">
+  </property>
+
+  <property name="bootstrap.jjtree.mainclass"
+            value="COM.sun.labs.jjtree.Main">
+  </property>
+
+  <property name="bootstrap.javacc.mainclass"
+            value="COM.sun.labs.javacc.Main">
+  </property>
+
+  <target name="compile" depends="compile-nojar">
+    <ant antfile="build.xml" target="jar-nocompile"
+         dir="${javacc.root}">
+    </ant>
+  </target>
+
+  <target name="compile-nojar" depends="generated-files">
+    <javac srcdir="${javacc.root}/src"
+           destdir="${javacc.root}/classes"
+           debug="${build.compiler.debug}"
+           classpath="${javacc.root}/classes">
+    </javac>
+  </target>
+
+  <target name="realclean">
+    <delete>
+      <fileset dir=".">
+         <include name="JJTreeParser.java"/>
+         <include name="JJTreeParserConstants.java"/>
+         <include name="JJTreeParserTokenManager.java"/>
+         <include name="*CharStream*.java"/>
+         <include name="Token.java"/>
+         <include name="TokenMgrError.java"/>
+         <include name="ParseException.java"/>
+         <include name="Node.java"/>
+         <include name="ASTProductions.java"/>
+         <include name="ASTRE.java"/>
+         <include name="ASTTokenDecls.java"/>
+         <include name="ASTRESpec.java"/>
+         <include name="ASTBNFChoice.java"/>
+         <include name="ASTBNFSequence.java"/>
+         <include name="ASTBNFLookahead.java"/>
+         <include name="ASTBNFZeroOrOne.java"/>
+         <include name="ASTBNFTryBlock.java"/>
+         <include name="ASTBNFAssignment.java"/>
+         <include name="ASTBNFNonTerminal.java"/>
+         <include name="ASTBNFOneOrMore.java"/>
+         <include name="ASTBNFZeroOrMore.java"/>
+         <include name="ASTBNFParenthesized.java"/>
+         <include name="ASTREStringLiteral.java"/>
+         <include name="ASTRENamed.java"/>
+         <include name="ASTREReference.java"/>
+         <include name="ASTREEOF.java"/>
+         <include name="ASTREChoice.java"/>
+         <include name="ASTRESequence.java"/>
+         <include name="ASTREOneOrMore.java"/>
+         <include name="ASTREZeroOrMore.java"/>
+         <include name="ASTREZeroOrOne.java"/>
+         <include name="ASTREParenthesized.java"/>
+         <include name="ASTRECharList.java"/>
+         <include name="ASTCharDescriptor.java"/>
+         <include name="ASTPrimaryExpression.java"/>
+         <include name="JJTreeParserTreeConstants.java"/>
+         <include name="JJTJJTreeParserState.java"/>
+         <include name="JJTree.jj"/>
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="generated-files">
+    <ant antfile="build.xml" target="generated-files"
+         dir="${javacc.root}">
+    </ant>
+  </target>
+
+  <target name="tree-files-init">
+        <uptodate property="tree.gen"
+                  targetfile="JJTree.jjt">
+            <srcfiles dir="." includes="JJTreeParser.java"/>
+        </uptodate>
+  </target>
+
+  <target name="tree-files" depends="tree-files-init" if="tree.gen">
+     <java classname="${bootstrap.jjtree.mainclass}"
+           classpath="${javacc.root}/bootstrap/javacc.jar"
+           fork="true">
+           <arg file="JJTree.jjt"/>
+     </java>
+     <java classname="${bootstrap.javacc.mainclass}"
+           classpath="${javacc.root}/bootstrap/javacc.jar"
+           fork="true">
+           <arg file="JJTree.jj"/>
+     </java>
+  </target>
+</project>
