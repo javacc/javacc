@@ -458,8 +458,6 @@ public class NfaState
    // generates code (without outputting it) and returns the name used.
    void GenerateCode()
    {
-      int i;
-
       if (stateName != -1)
          return;
 
@@ -545,7 +543,7 @@ public class NfaState
 
       NfaState newState = null;
       NfaState tmp1, tmp2;
-      int j, k;
+      int j;
       Vector equivStates = null;
 
       while (sometingOptimized)
@@ -735,7 +733,6 @@ public class NfaState
       {
          for (i = 0; i < charMoves.length; i++)
          {
-            char tmp;
             if (c == charMoves[i])
                return true;
             else if (c < charMoves[i] || charMoves[i] == 0)
@@ -803,7 +800,6 @@ public class NfaState
 
    public static int moveFromSetForRegEx(char c, NfaState[] states, NfaState[] newStates, int round)
    {
-      int tmp;
       int start = 0;
       int sz = states.length;
 
@@ -813,7 +809,7 @@ public class NfaState
 
          if ((tmp1 = states[i]) == null)
             break;
-            
+
          if (tmp1.CanMoveUsingChar(c))
          {
             if (tmp1.kindToPrint != Integer.MAX_VALUE)
@@ -1191,9 +1187,6 @@ public class NfaState
 
    public void GenerateInitMoves(java.io.PrintWriter ostr)
    {
-      String arrayString, name;
-      int i, cnt = 0;
-
       GetEpsilonMovesString();
 
       if (epsilonMovesString == null)
@@ -1327,13 +1320,11 @@ public class NfaState
       String set = next.epsilonMovesString;
 
       int[] nameSet = (int[])allNextStates.get(set);
-      int[] newNameSet;
 
       if (nameSet.length <= 2 || compositeStateTable.get(set) != null)
          return false;
 
       int i;
-      NfaState tmp;
       int freq[] = new int[nameSet.length];
       boolean live[] = new boolean[nameSet.length];
       int[] count = new int[allNextStates.size()];
@@ -1349,7 +1340,6 @@ public class NfaState
 
       int j, blockLen = 0, commonFreq = 0;
       Enumeration e = allNextStates.keys();
-      boolean current[];
       boolean needUpdate;
 
       while (e.hasMoreElements())
@@ -1407,7 +1397,6 @@ public class NfaState
       if (blockLen <= 1)
          return false;
 
-      boolean First = true;
       int[] commonBlock = new int[blockLen];
       int cnt = 0;
       //System.out.println("Common Block for " + set + " : ");
@@ -1469,7 +1458,6 @@ public class NfaState
       String set = next.epsilonMovesString;
 
       int[] nameSet = (int[])allNextStates.get(set);
-      int[] newNameSet;
 
       if (nameSet.length == 1 || compositeStateTable.get(set) != null ||
           stateSetsToFix.get(set) != null)
@@ -2121,9 +2109,7 @@ public class NfaState
    private static void DumpCompositeStatesNonAsciiMoves(java.io.PrintWriter ostr,
                                       String key, boolean[] dumped)
    {
-      Enumeration e = compositeStateTable.keys();
       int i;
-
       int[] nameSet = (int[])allNextStates.get(key);
 
       if (nameSet.length == 1 || dumped[StateNameForComposite(key)])
@@ -2622,7 +2608,7 @@ public class NfaState
          if (nexts.length == 1)
             continue;
 
-         int state, oldCnt = cnt;
+         int state = cnt;
          //System.out.println("State " + tmpState.stateName + " : " + s);
          for (i = 0; i < nexts.length; i++)
          {
@@ -2895,9 +2881,6 @@ public class NfaState
 
    public static void DumpStatesForState(java.io.PrintWriter ostr)
    {
-      boolean moreThanOne = false;
-      int cnt = 0;
-
       ostr.print("protected static final int[][][] statesForState = ");
 
       if (statesForState == null)

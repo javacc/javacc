@@ -404,7 +404,6 @@ static final char[] diffUpperCaseRanges = {
      int j;
 
      Vector newDesc = new Vector(descriptors.size());
-     Enumeration e = descriptors.elements();
      int cnt = 0;
 
      Outer:
@@ -458,9 +457,6 @@ static final char[] diffUpperCaseRanges = {
               }
               else
               {
-                 char l = ((CharacterRange)newDesc.elementAt(j)).left;
-                 char r = ((CharacterRange)newDesc.elementAt(j)).right;
-
                  if (SubRange(range, (CharacterRange)newDesc.elementAt(j)))
                  {
                     continue Outer;

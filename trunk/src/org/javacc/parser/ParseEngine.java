@@ -572,9 +572,7 @@ public class ParseEngine extends JavaCCGlobals {
       // In previous line, the "throw" never throws an exception since the
       // evaluation of jj_consume_token(-1) causes ParseException to be
       // thrown first.
-      String action;
       Sequence nestedSeq;
-      Lookahead la;
       for (int i = 0; i < e_nrw.choices.size(); i++) {
         nestedSeq = (Sequence)(e_nrw.choices.elementAt(i));
         actions[i] = phase1ExpansionGen(nestedSeq);
@@ -709,7 +707,7 @@ public class ParseEngine extends JavaCCGlobals {
     ostr.println("    jj_la = xla; jj_lastpos = jj_scanpos = token;");
     ostr.println("    try { return !jj_3" + e.internal_name + "(); }");
     ostr.println("    catch(LookaheadSuccess ls) { return true; }");
-    if (Options.B("ERROR_REPORTING")) 
+    if (Options.B("ERROR_REPORTING"))
       ostr.println("    finally { jj_save(" + (Integer.parseInt(e.internal_name.substring(1))-1) + ", xla); }");
     ostr.println("  }");
     ostr.println("");
@@ -787,7 +785,6 @@ public class ParseEngine extends JavaCCGlobals {
   }
 
   static void setupPhase3Builds(Phase3Data inf) {
-    Phase3Data p3d;
     Expansion e = inf.exp;
     if (e instanceof RegularExpression) {
       ; // nothing to here
@@ -804,7 +801,6 @@ public class ParseEngine extends JavaCCGlobals {
         generate3R(ntprod.expansion, inf);
       }
     } else if (e instanceof Choice) {
-      Sequence nested_seq;
       Choice e_nrw = (Choice)e;
       for (int i = 0; i < e_nrw.choices.size(); i++) {
         generate3R((Expansion)(e_nrw.choices.elementAt(i)), inf);
