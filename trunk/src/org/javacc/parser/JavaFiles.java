@@ -115,7 +115,6 @@ public class JavaFiles
 
     JavaCCErrors.warning(fileName + ": File is obsolete.  Please rename or delete this file so" +
                        " that a new one can be generated for you.");
-    return;
   }
 
   public static void gen_JavaCharStream() {
