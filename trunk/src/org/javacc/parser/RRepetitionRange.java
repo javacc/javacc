@@ -36,6 +36,7 @@ public class RRepetitionRange extends RegularExpression {
   public RegularExpression regexpr;
   public int min = 0;
   public int max = -1;
+  public boolean hasMax;
 
   public Nfa GenerateNfa(boolean ignoreCase)
   {
@@ -46,6 +47,13 @@ public class RRepetitionRange extends RegularExpression {
      for (i = 0; i < min; i++)
      {
         units.addElement(regexpr);
+     }
+
+     if (hasMax && max == -1) // Unlimited
+     {
+        RZeroOrMore zoo = new RZeroOrMore();
+        zoo.regexpr = regexpr;
+        units.addElement(zoo);
      }
 
      while (i++ < max)

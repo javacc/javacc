@@ -1220,6 +1220,7 @@ void complex_regular_expression_unit(Container c) :
 	  RJustName jn;
 	  Token t = getToken(1);
           int r1 = 0, r2 = -1;
+          boolean hasMax = false;
 	}
 {
   image=StringLiteral()
@@ -1267,13 +1268,16 @@ void complex_regular_expression_unit(Container c) :
 	  zorexp.regexpr = (RegularExpression)c.member;
 	  c.member = zorexp;
 	}
-   | "{" r1 = IntegerLiteral() [ "," r2 = IntegerLiteral() ] "}"
+   | "{" r1 = IntegerLiteral()
+         [ "," { hasMax = true; } [ r2 = IntegerLiteral() ] ]
+     "}"
 	{
 	  RRepetitionRange rrrexp = new RRepetitionRange();
 	  rrrexp.line = t.beginLine;
 	  rrrexp.column = t.beginColumn;
 	  rrrexp.min = r1;
 	  rrrexp.max = r2;
+        rrrexp.hasMax = hasMax;
 	  rrrexp.regexpr = (RegularExpression)c.member;
 	  c.member = rrrexp;
 	}

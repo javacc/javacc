@@ -995,10 +995,14 @@ public class ParseEngine extends JavaCCGlobals {
     }
   }
 
+  static int minimumSize(Expansion e) {
+     return minimumSize(e, Integer.MAX_VALUE);
+  }
+
   /*
    * Returns the minimum number of tokens that can parse to this expansion.
    */
-  static int minimumSize(Expansion e) {
+  static int minimumSize(Expansion e, int oldMin) {
     int retval = 0;  // should never be used.  Will be bad if it is.
     if (e.inMinimumSize) {
       // recursive search for minimum size unnecessary.
@@ -1019,12 +1023,12 @@ public class ParseEngine extends JavaCCGlobals {
         retval = minimumSize(ntexp);
       }
     } else if (e instanceof Choice) {
-      int min = Integer.MAX_VALUE;
+      int min = oldMin;
       Expansion nested_e;
       Choice e_nrw = (Choice)e;
-      for (int i = 0; min > 1 && i < e_nrw.choices.size(); i++) {
+      for (int i = 0; i < e_nrw.choices.size(); i++) {
         nested_e = (Expansion)(e_nrw.choices.elementAt(i));
-        int min1 = minimumSize(nested_e);
+        int min1 = minimumSize(nested_e, min);
         if (min > min1) min = min1;
       }
       retval = min;
@@ -1040,6 +1044,8 @@ public class ParseEngine extends JavaCCGlobals {
           min = Integer.MAX_VALUE; // Adding infinity to something results in infinity.
         } else {
           min += mineseq;
+          if (min > oldMin)
+             break;
         }
       }
       retval = min;

@@ -68,6 +68,12 @@ THE FOLLOWING INTERMEDIATE VERSIONS:
 
 MODIFICATIONS IN VERSION 3.2
 -------------------------------------------------------------------
+New regular expression kind with range operator where the upperbound is
+optional, meaning just minimum, no max - (<RE>){n,}
+Fix for issue 41 where it takes exponential time to minimumSize
+
+MODIFICATIONS IN VERSION 3.2
+-------------------------------------------------------------------
 Added the LICENSE file to the installation root directory.
 Fixed issues #: 10, 11, 13, 2, 4, 5, 7
 In particular, the generated code should now compile with JDK 1.5 (Tiger)
