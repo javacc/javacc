@@ -279,7 +279,7 @@ public class JavaCCGlobals {
 
      tmp = tmp.substring(0, tmp.indexOf(':'));
 
-     int i = 0, j = 0, cnt = 0;
+     int i = 0, j = 0;
 
      while (j < tmp.length() && (i = tmp.indexOf('&', j)) != -1)
      {
