@@ -115,7 +115,7 @@ TOKEN:
 <DEFAULT>
 SKIP:
 {
-  <<EOL> "*** EOOH ***" <EOL>> : MAILHEADER
+  < <EOL> "*** EOOH ***" <EOL> > : MAILHEADER
 |
   <~[]>
 }
