@@ -116,7 +116,7 @@ public class RStringLiteral extends RegularExpression {
             (LexGen.toSkip[i / 64] & (1L << (i % 64))) != 0L ||
             (LexGen.toMore[i / 64] & (1L << (i % 64))) != 0L ||
             LexGen.canReachOnMore[LexGen.lexStates[i]] ||
-            ((Options.B("IGNORE_CASE") || LexGen.ignoreCase[i]) &&
+            ((Options.getIgnoreCase() || LexGen.ignoreCase[i]) &&
              (!image.equals(image.toLowerCase()) ||
               !image.equals(image.toUpperCase()))))
         {
@@ -190,14 +190,14 @@ public class RStringLiteral extends RegularExpression {
      char c;
      for (int i = 0; i < len; i++)
      {
-        if (Options.B("IGNORE_CASE"))
+        if (Options.getIgnoreCase())
            s = ("" + (c = image.charAt(i))).toLowerCase();
         else
            s = "" + (c = image.charAt(i));
 
         if (!NfaState.unicodeWarningGiven && c > 0xff &&
-            !Options.B("JAVA_UNICODE_ESCAPE") &&
-            !Options.B("USER_CHAR_STREAM"))
+            !Options.getJavaUnicodeEscape() &&
+            !Options.getUserCharStream())
         {
            NfaState.unicodeWarningGiven = true;
            JavaCCErrors.warning(LexGen.curRE, "Non-ASCII characters used in regular expression." +
@@ -217,7 +217,7 @@ public class RStringLiteral extends RegularExpression {
         else
            info.InsertValidKind(ordinal);
 
-        if (!Options.B("IGNORE_CASE") && LexGen.ignoreCase[ordinal] &&
+        if (!Options.getIgnoreCase() && LexGen.ignoreCase[ordinal] &&
             c != Character.toLowerCase(c))
         {
            s = ("" + image.charAt(i)).toLowerCase();
@@ -236,7 +236,7 @@ public class RStringLiteral extends RegularExpression {
               info.InsertValidKind(ordinal);
         }
 
-        if (!Options.B("IGNORE_CASE") && LexGen.ignoreCase[ordinal] &&
+        if (!Options.getIgnoreCase() && LexGen.ignoreCase[ordinal] &&
             c != Character.toUpperCase(c))
         {
            s = ("" + image.charAt(i)).toUpperCase();
@@ -284,7 +284,7 @@ public class RStringLiteral extends RegularExpression {
         startState.charMoves = new char[1];
         startState.AddChar(image.charAt(i));
 
-        if (Options.B("IGNORE_CASE") || ignoreCase)
+        if (Options.getIgnoreCase() || ignoreCase)
         {
            startState.AddChar(Character.toLowerCase(image.charAt(i)));
            startState.AddChar(Character.toUpperCase(image.charAt(i)));
@@ -417,7 +417,7 @@ public class RStringLiteral extends RegularExpression {
                  subStringAtPos[image.length() - 1] = true;
                  break;
               }
-              else if (Options.B("IGNORE_CASE") &&
+              else if (Options.getIgnoreCase() &&
                        StartsWithIgnoreCase((String)allImages[j], image))
               {
                  subString[i] = true;
@@ -431,13 +431,13 @@ public class RStringLiteral extends RegularExpression {
 
   static void DumpStartWithStates(java.io.PrintWriter ostr)
   {
-     ostr.println((Options.B("STATIC") ? "static " : "") + "private final int " +
+     ostr.println((Options.getStatic() ? "static " : "") + "private final int " +
                   "jjStartNfaWithStates" + LexGen.lexStateSuffix + "(int pos, int kind, int state)");
      ostr.println("{");
      ostr.println("   jjmatchedKind = kind;");
      ostr.println("   jjmatchedPos = pos;");
 
-     if (Options.B("DEBUG_TOKEN_MANAGER"))
+     if (Options.getDebugTokenManager())
      {
         ostr.println("   debugStream.println(\"   No more string literal token matches are possible.\");");
         ostr.println("   debugStream.println(\"   Currently matched the first \" + (jjmatchedPos + 1) + \" characters as a \" + tokenImage[jjmatchedKind] + \" token.\");");
@@ -446,7 +446,7 @@ public class RStringLiteral extends RegularExpression {
      ostr.println("   try { curChar = input_stream.readChar(); }");
      ostr.println("   catch(java.io.IOException e) { return pos + 1; }");
 
-     if (Options.B("DEBUG_TOKEN_MANAGER"))
+     if (Options.getDebugTokenManager())
         ostr.println("   debugStream.println(" + (LexGen.maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + "\"Current character : \" + " +
                  "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \")\");");
 
@@ -457,13 +457,13 @@ public class RStringLiteral extends RegularExpression {
   private static boolean boilerPlateDumped = false;
   static void DumpBoilerPlate(java.io.PrintWriter ostr)
   {
-     ostr.println((Options.B("STATIC") ? "static " : "") + "private final int " +
+     ostr.println((Options.getStatic() ? "static " : "") + "private final int " +
                   "jjStopAtPos(int pos, int kind)");
      ostr.println("{");
      ostr.println("   jjmatchedKind = kind;");
      ostr.println("   jjmatchedPos = pos;");
 
-     if (Options.B("DEBUG_TOKEN_MANAGER"))
+     if (Options.getDebugTokenManager())
      {
         ostr.println("   debugStream.println(\"   No more string literal token matches are possible.\");");
         ostr.println("   debugStream.println(\"   Currently matched the first \" + (jjmatchedPos + 1) + \" characters as a \" + tokenImage[jjmatchedKind] + \" token.\");");
@@ -510,7 +510,7 @@ public class RStringLiteral extends RegularExpression {
 
      if (maxLen == 0)
      {
-        ostr.println((Options.B("STATIC") ? "static " : "") + "private final int " +
+        ostr.println((Options.getStatic() ? "static " : "") + "private final int " +
                        "jjMoveStringLiteralDfa0" + LexGen.lexStateSuffix + "()");
 
         DumpNullStrLiterals(ostr);
@@ -534,7 +534,7 @@ public class RStringLiteral extends RegularExpression {
         tab = (Hashtable)charPosKind.elementAt(i);
         String[] keys = ReArrange(tab);
 
-        ostr.print((Options.B("STATIC") ? "static " : "") + "private final int " +
+        ostr.print((Options.getStatic() ? "static " : "") + "private final int " +
                        "jjMoveStringLiteralDfa" + i + LexGen.lexStateSuffix + "(");
 
         if (i != 0)
@@ -626,7 +626,7 @@ public class RStringLiteral extends RegularExpression {
                  ostr.println("      return " + i + ";");
            }
 
-           if (i != 0 && Options.B("DEBUG_TOKEN_MANAGER"))
+           if (i != 0 && Options.getDebugTokenManager())
            {
               ostr.println("   if (jjmatchedKind != 0 && jjmatchedKind != 0x" + Integer.toHexString(Integer.MAX_VALUE) + ")");
               ostr.println("      debugStream.println(\"   Currently matched the first \" + (jjmatchedPos + 1) + \" characters as a \" + tokenImage[jjmatchedKind] + \" token.\");");
@@ -664,7 +664,7 @@ public class RStringLiteral extends RegularExpression {
                  ostr.println("0L);");
 
 
-              if (i != 0 && Options.B("DEBUG_TOKEN_MANAGER"))
+              if (i != 0 && Options.getDebugTokenManager())
               {
                  ostr.println("      if (jjmatchedKind != 0 && jjmatchedKind != 0x" + Integer.toHexString(Integer.MAX_VALUE) + ")");
                  ostr.println("         debugStream.println(\"   Currently matched the first \" + (jjmatchedPos + 1) + \" characters as a \" + tokenImage[jjmatchedKind] + \" token.\");");
@@ -679,7 +679,7 @@ public class RStringLiteral extends RegularExpression {
            ostr.println("   }");
         }
 
-        if (i != 0 && Options.B("DEBUG_TOKEN_MANAGER"))
+        if (i != 0 && Options.getDebugTokenManager())
            ostr.println("   debugStream.println(" + (LexGen.maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + "\"Current character : \" + " +
                     "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \")\");");
 
@@ -722,7 +722,7 @@ public class RStringLiteral extends RegularExpression {
                     {
                        LexGen.AddCharToSkip(c, kind);
 
-                       if (Options.B("IGNORE_CASE"))
+                       if (Options.getIgnoreCase())
                        {
                           if (c != Character.toUpperCase(c))
                              LexGen.AddCharToSkip(Character.toUpperCase(c), kind);
@@ -736,7 +736,7 @@ public class RStringLiteral extends RegularExpression {
            }
 
            // Since we know key is a single character ...
-           if (Options.B("IGNORE_CASE"))
+           if (Options.getIgnoreCase())
            {
               if (c != Character.toUpperCase(c))
                  ostr.println("      case " + (int)Character.toUpperCase(c) + ":");
@@ -929,7 +929,7 @@ public class RStringLiteral extends RegularExpression {
            strings at this position. */
         ostr.println("      default :");
 
-        if (Options.B("DEBUG_TOKEN_MANAGER"))
+        if (Options.getDebugTokenManager())
            ostr.println("      debugStream.println(\"   No string literal matches possible.\");");
 
         if (NfaState.generatedStates != 0)
@@ -1141,13 +1141,13 @@ public class RStringLiteral extends RegularExpression {
      boolean condGenerated = false;
      int ind = 0;
 
-     ostr.print("private" + (Options.B("STATIC") ? " static" : "") + " final int jjStopStringLiteralDfa" +
+     ostr.print("private" + (Options.getStatic() ? " static" : "") + " final int jjStopStringLiteralDfa" +
                   LexGen.lexStateSuffix + "(int pos, ");
      for (i = 0; i < maxKindsReqd - 1; i++)
         ostr.print("long active" + i + ", ");
      ostr.println("long active" + i + ")\n{");
 
-     if (Options.B("DEBUG_TOKEN_MANAGER"))
+     if (Options.getDebugTokenManager())
         ostr.println("      debugStream.println(\"   No more string literal token matches are possible.\");");
 
      ostr.println("   switch (pos)\n   {");
@@ -1259,7 +1259,7 @@ public class RStringLiteral extends RegularExpression {
      ostr.println("   }");
      ostr.println("}");
 
-     ostr.print("private" + (Options.B("STATIC") ? " static" : "") + " final int jjStartNfa" +
+     ostr.print("private" + (Options.getStatic() ? " static" : "") + " final int jjStartNfa" +
                   LexGen.lexStateSuffix + "(int pos, ");
      for (i = 0; i < maxKindsReqd - 1; i++)
         ostr.print("long active" + i + ", ");

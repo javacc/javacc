@@ -871,7 +871,7 @@ void expansion(Container c1) :
 	}
 {
 	{
-	  la.amount = Options.I("LOOKAHEAD");
+	  la.amount = Options.getLookahead();
 	  la.la_expansion = null;
 	  la.isExplicit = false;
 	}

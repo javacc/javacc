@@ -22,8 +22,6 @@
 
 package org.javacc.parser;
 
-import java.util.*;
-
 public class Nfa
 {
    NfaState start;

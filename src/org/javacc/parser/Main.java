@@ -76,10 +76,6 @@ public class Main {
     System.out.println("");
   }
 
-  static boolean isOption(String opt) {
-    return opt.length() > 1 && opt.charAt(0) == '-';
-  }
-
   /**
    * A main program that exercises the parser.
    */
@@ -100,7 +96,6 @@ public class Main {
 
     JavaCCGlobals.bannerLine("Parser Generator", "");
 
-    Options.JavaCCInit();
     JavaCCParser parser = null;
     if (args.length == 0) {
       System.out.println("");
@@ -110,12 +105,12 @@ public class Main {
       System.out.println("(type \"javacc\" with no arguments for help)");
     }
 
-    if (isOption(args[args.length-1])) {
+    if (Options.isOption(args[args.length-1])) {
       System.out.println("Last argument \"" + args[args.length-1] + "\" is not a filename.");
       return 1;
     }
     for (int arg = 0; arg < args.length-1; arg++) {
-      if (!isOption(args[arg])) {
+      if (!Options.isOption(args[arg])) {
         System.out.println("Argument \"" + args[arg] + "\" must be an option setting.");
         return 1;
       }
@@ -149,13 +144,13 @@ public class Main {
       JavaCCGlobals.jjcovGenerated = JavaCCGlobals.isGeneratedBy("JJCov", args[args.length-1]);
       JavaCCGlobals.toolNames = JavaCCGlobals.getToolNames(args[args.length-1]);
       parser.javacc_input();
-      JavaCCGlobals.setOutputDir(); // Set the output directory
+      JavaCCGlobals.createOutputDir(Options.getOutputDirectory());
 
-      if (((Boolean)Options.optionValues.get("UNICODE_INPUT")).booleanValue())
+      if (Options.getUnicodeInput())
       {
          NfaState.unicodeWarningGiven = true;
          System.out.println("Note: UNICODE_INPUT option is specified. " +
-              "Please make sure you create the parser/lexer usig a Reader with the correct character encoding.");
+              "Please make sure you create the parser/lexer using a Reader with the correct character encoding.");
       }
 
       Semanticize.start();
@@ -163,7 +158,7 @@ public class Main {
       LexGen.start();
       OtherFilesGen.start();
 
-      if ((JavaCCErrors.get_error_count() == 0) && (Options.B("BUILD_PARSER") || Options.B("BUILD_TOKEN_MANAGER"))) {
+      if ((JavaCCErrors.get_error_count() == 0) && (Options.getBuildParser() || Options.getBuildTokenManager())) {
         if (JavaCCErrors.get_warning_count() == 0) {
           System.out.println("Parser generated successfully.");
         } else {
@@ -193,7 +188,7 @@ public class Main {
       org.javacc.parser.Expansion.reInit();
       org.javacc.parser.JavaCCErrors.reInit();
       org.javacc.parser.JavaCCGlobals.reInit();
-      org.javacc.parser.Options.reInit();
+      Options.init();
       org.javacc.parser.JavaCCParserInternals.reInit();
       org.javacc.parser.RStringLiteral.reInit();
       org.javacc.parser.JavaFiles.reInit();

@@ -71,7 +71,7 @@ public class HTMLGenerator extends Generator {
   }
 
   public void specialTokens(String s) {
-    if (!Options.B("ONE_TABLE")) {
+    if (!JJDocOptions.getOneTable()) {
       println("<PRE>");
       print(s);
       println("</PRE>");
@@ -98,12 +98,12 @@ public class HTMLGenerator extends Generator {
 
   public void nonterminalsStart() {
     println("<H2 ALIGN=CENTER>NON-TERMINALS</H2>");
-    if (Options.B("ONE_TABLE")) {
+    if (JJDocOptions.getOneTable()) {
       println("<TABLE>");
     }
   }
   public void nonterminalsEnd() {
-    if (Options.B("ONE_TABLE")) {
+    if (JJDocOptions.getOneTable()) {
       println("</TABLE>");
     }
   }
@@ -123,7 +123,7 @@ public class HTMLGenerator extends Generator {
   }
 
   public void productionStart(NormalProduction np) {
-    if (!Options.B("ONE_TABLE")) {
+    if (!JJDocOptions.getOneTable()) {
       println("");
       println("<TABLE ALIGN=CENTER>");
       println("<CAPTION><STRONG>" + np.lhs + "</STRONG></CAPTION>");
@@ -134,7 +134,7 @@ public class HTMLGenerator extends Generator {
     print("<TD ALIGN=LEFT VALIGN=BASELINE>");
   }
   public void productionEnd(NormalProduction np) {
-    if (!Options.B("ONE_TABLE")) {
+    if (!JJDocOptions.getOneTable()) {
       println("</TABLE>");
       println("<HR>");
     }

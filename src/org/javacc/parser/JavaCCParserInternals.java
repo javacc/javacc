@@ -93,7 +93,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
   static protected void addregexpr(TokenProduction p) {
     Integer ii;
     rexprlist.addElement(p);
-    if (Options.B("USER_TOKEN_MANAGER")) {
+    if (Options.getUserTokenManager()) {
       if (p.lexStates == null || p.lexStates.length != 1 || !p.lexStates[0].equals("DEFAULT")) {
         JavaCCErrors.warning(p, "Ignoring lexical state specifications since option USER_TOKEN_MANAGER has been set to true.");
       }
@@ -121,7 +121,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
       JavaCCErrors.parse_error(t, "Multiple occurrence of \"TOKEN_MGR_DECLS\".");
     } else {
       token_mgr_decls = decls;
-      if (Options.B("USER_TOKEN_MANAGER")) {
+      if (Options.getUserTokenManager()) {
         JavaCCErrors.warning(t, "Ignoring declarations in \"TOKEN_MGR_DECLS\" since option USER_TOKEN_MANAGER has been set to true.");
       }
     }

@@ -178,8 +178,8 @@ public class NfaState
             break;
 
       if (!unicodeWarningGiven && c > 0xff &&
-          !Options.B("JAVA_UNICODE_ESCAPE") &&
-          !Options.B("USER_CHAR_STREAM"))
+          !Options.getJavaUnicodeEscape() &&
+          !Options.getUserCharStream())
       {
          unicodeWarningGiven = true;
          JavaCCErrors.warning(LexGen.curRE, "Non-ASCII characters used in regular expression.\n" +
@@ -221,8 +221,8 @@ public class NfaState
       }
 
       if (!unicodeWarningGiven && (left > 0xff || right > 0xff) &&
-          !Options.B("JAVA_UNICODE_ESCAPE") &&
-          !Options.B("USER_CHAR_STREAM"))
+          !Options.getJavaUnicodeEscape() &&
+          !Options.getUserCharStream())
       {
          unicodeWarningGiven = true;
          JavaCCErrors.warning(LexGen.curRE, "Non-ASCII characters used in regular expression.\n" +
@@ -1603,7 +1603,7 @@ public class NfaState
 
       else
       {
-         if (Options.B("JAVA_UNICODE_ESCAPE") || unicodeWarningGiven)
+         if (Options.getJavaUnicodeEscape() || unicodeWarningGiven)
          {
             ostr.println("         int hiByte = (int)(curChar >> 8);");
             ostr.println("         int i1 = hiByte >> 6;");
@@ -2209,7 +2209,7 @@ public class NfaState
          }
       }
 
-      if (!Options.B("JAVA_UNICODE_ESCAPE") && !unicodeWarningGiven)
+      if (!Options.getJavaUnicodeEscape() && !unicodeWarningGiven)
       {
          if (loByteVec != null && loByteVec.size() > 1)
             ostr.println("                  if ((jjbitVec" +
@@ -2297,7 +2297,7 @@ public class NfaState
       {
          String kindCheck = " && kind > " + kindToPrint;
 
-         if (!Options.B("JAVA_UNICODE_ESCAPE") && !unicodeWarningGiven)
+         if (!Options.getJavaUnicodeEscape() && !unicodeWarningGiven)
          {
             if (loByteVec != null && loByteVec.size() > 1)
                ostr.println("                  if ((jjbitVec" +
@@ -2317,7 +2317,7 @@ public class NfaState
       String prefix = "   ";
       if (kindToPrint != Integer.MAX_VALUE)
       {
-         if (!Options.B("JAVA_UNICODE_ESCAPE") && !unicodeWarningGiven)
+         if (!Options.getJavaUnicodeEscape() && !unicodeWarningGiven)
          {
             if (loByteVec != null && loByteVec.size() > 1)
             {
@@ -2338,7 +2338,7 @@ public class NfaState
          ostr.println("                     kind = " + kindToPrint + ";");
          prefix = "";
       }
-      else if (!Options.B("JAVA_UNICODE_ESCAPE") && !unicodeWarningGiven)
+      else if (!Options.getJavaUnicodeEscape() && !unicodeWarningGiven)
       {
          if (loByteVec != null && loByteVec.size() > 1)
             ostr.println("                  if ((jjbitVec" +
@@ -2444,7 +2444,7 @@ public class NfaState
 
    public static void DumpNonAsciiMoveMethods(java.io.PrintWriter ostr)
    {
-      if (!Options.B("JAVA_UNICODE_ESCAPE") && !unicodeWarningGiven)
+      if (!Options.getJavaUnicodeEscape() && !unicodeWarningGiven)
          return;
 
       if (nonAsciiTableForMethod.size() <= 0)
@@ -2530,7 +2530,7 @@ public class NfaState
    private static boolean boilerPlateDumped = false;
    static void PrintBoilerPlate(java.io.PrintWriter ostr)
    {
-      ostr.println((Options.B("STATIC") ? "static " : "") + "private final void " +
+      ostr.println((Options.getStatic() ? "static " : "") + "private final void " +
                     "jjCheckNAdd(int state)");
       ostr.println("{");
       ostr.println("   if (jjrounds[state] != jjround)");
@@ -2540,7 +2540,7 @@ public class NfaState
       ostr.println("   }");
       ostr.println("}");
 
-      ostr.println((Options.B("STATIC") ? "static " : "") + "private final void " +
+      ostr.println((Options.getStatic() ? "static " : "") + "private final void " +
                     "jjAddStates(int start, int end)");
       ostr.println("{");
       ostr.println("   do {");
@@ -2548,14 +2548,14 @@ public class NfaState
       ostr.println("   } while (start++ != end);");
       ostr.println("}");
 
-      ostr.println((Options.B("STATIC") ? "static " : "") + "private final void " +
+      ostr.println((Options.getStatic() ? "static " : "") + "private final void " +
                     "jjCheckNAddTwoStates(int state1, int state2)");
       ostr.println("{");
       ostr.println("   jjCheckNAdd(state1);");
       ostr.println("   jjCheckNAdd(state2);");
       ostr.println("}");
 
-      ostr.println((Options.B("STATIC") ? "static " : "") + "private final void " +
+      ostr.println((Options.getStatic() ? "static " : "") + "private final void " +
                     "jjCheckNAddStates(int start, int end)");
       ostr.println("{");
       ostr.println("   do {");
@@ -2563,7 +2563,7 @@ public class NfaState
       ostr.println("   } while (start++ != end);");
       ostr.println("}");
 
-      ostr.println((Options.B("STATIC") ? "static " : "") + "private final void " +
+      ostr.println((Options.getStatic() ? "static " : "") + "private final void " +
                     "jjCheckNAddStates(int start)");
       ostr.println("{");
       ostr.println("   jjCheckNAdd(jjnextStates[start]);");
@@ -2695,12 +2695,6 @@ public class NfaState
              temp.stateName == -1)
             continue;
 
-/*
-         if (Options.B("OPTIMIZE_TOKEN_MANAGER") &&
-             temp.next != null && temp.next.usefulEpsilonMoves > 1)
-             temp.CheckNextOccursTogether();
-*/
-
          if (kindsForStates == null)
          {
             kindsForStates = new int[generatedStates];
@@ -2724,25 +2718,12 @@ public class NfaState
             statesForState[LexGen.lexStateIndex][state] = (int[])allNextStates.get(s);
       }
 
-/*
-      if (Options.B("OPTIMIZE_TOKEN_MANAGER"))
-      {
-         for (i = 0; i < allStates.size(); i++)
-         {
-            NfaState temp = (NfaState)allStates.elementAt(i);
-            while (temp.FindCommonBlocks()) ;
-         }
-
-         FindStatesWithNoBreak();
-      }
-*/
-
       if (stateSetsToFix.size() != 0)
          FixStateSets();
 
       kinds[LexGen.lexStateIndex] = kindsForStates;
 
-      ostr.println((Options.B("STATIC") ? "static " : "") + "private final int " +
+      ostr.println((Options.getStatic() ? "static " : "") + "private final int " +
                     "jjMoveNfa" + LexGen.lexStateSuffix + "(int startState, int curPos)");
       ostr.println("{");
 
@@ -2770,11 +2751,11 @@ public class NfaState
       ostr.println("   int i = 1;");
       ostr.println("   jjstateSet[0] = startState;");
 
-      if (Options.B("DEBUG_TOKEN_MANAGER"))
+      if (Options.getDebugTokenManager())
          ostr.println("      debugStream.println(\"   Starting NFA to match one of : \" + " +
                  "jjKindsForStateVector(curLexState, jjstateSet, 0, 1));");
 
-      if (Options.B("DEBUG_TOKEN_MANAGER"))
+      if (Options.getDebugTokenManager())
          ostr.println("      debugStream.println(" + (LexGen.maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + "\"Current character : \" + " +
                   "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \")\");");
 
@@ -2813,7 +2794,7 @@ public class NfaState
       ostr.println("      }");
       ostr.println("      ++curPos;");
 
-      if (Options.B("DEBUG_TOKEN_MANAGER"))
+      if (Options.getDebugTokenManager())
       {
          ostr.println("      if (jjmatchedKind != 0 && jjmatchedKind != 0x" + Integer.toHexString(Integer.MAX_VALUE) + ")");
          ostr.println("         debugStream.println(\"   Currently matched the first \" + (jjmatchedPos + 1) + \" characters as a \" + tokenImage[jjmatchedKind] + \" token.\");");
@@ -2826,7 +2807,7 @@ public class NfaState
       else
          ostr.println("         return curPos;");
 
-      if (Options.B("DEBUG_TOKEN_MANAGER"))
+      if (Options.getDebugTokenManager())
          ostr.println("      debugStream.println(\"   Possible kinds of longer matches : \" + " +
                  "jjKindsForStateVector(curLexState, jjstateSet, startsAt, i));");
 
@@ -2837,7 +2818,7 @@ public class NfaState
       else
          ostr.println("      catch(java.io.IOException e) { return curPos; }");
 
-      if (Options.B("DEBUG_TOKEN_MANAGER"))
+      if (Options.getDebugTokenManager())
          ostr.println("      debugStream.println(" + (LexGen.maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + "\"Current character : \" + " +
                   "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \")\");");
 

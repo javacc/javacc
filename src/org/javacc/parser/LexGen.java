@@ -81,7 +81,7 @@ public class LexGen
      int i, j;
 
      try {
-       File tmp = new File(outputDir, tokMgrClassName + ".java");
+       File tmp = new File(Options.getOutputDirectory(), tokMgrClassName + ".java");
        ostr = new java.io.PrintWriter(
                  new java.io.BufferedWriter(
                     new java.io.FileWriter(tmp),
@@ -142,7 +142,7 @@ public class LexGen
     {
        Token t = (Token)token_mgr_decls.elementAt(0);
        boolean commonTokenActionSeen = false;
-       boolean commonTokenActionNeeded = Options.B("COMMON_TOKEN_ACTION");
+       boolean commonTokenActionNeeded = Options.getCommonTokenAction();
 
        printTokenSetup((Token)token_mgr_decls.elementAt(0));
        ccol = 1;
@@ -165,7 +165,7 @@ public class LexGen
                           "in your TOKEN_MGR_DECLS. The generated token manager will not compile.");
  
     }
-    else if (Options.B("COMMON_TOKEN_ACTION"))
+    else if (Options.getCommonTokenAction())
     {
        JavaCCErrors.warning("You have the COMMON_TOKEN_ACTION option set. But you have not defined the method :\n"+
                           "      " + staticString + "void CommonTokenAction(Token t)\n" +
@@ -316,18 +316,18 @@ public class LexGen
 
   public static void start()
   {
-     if (!Options.B("BUILD_TOKEN_MANAGER") ||
-         Options.B("USER_TOKEN_MANAGER") ||
+     if (!Options.getBuildTokenManager() ||
+         Options.getUserTokenManager() ||
          JavaCCErrors.get_error_count() > 0)
         return;
 
-     keepLineCol = Options.B("KEEP_LINE_COLUMN");
+     keepLineCol = Options.getKeepLineColumn();
      Vector choices = new Vector();
      Enumeration e;
      TokenProduction tp;
      int i, j;
 
-     staticString = (Options.B("STATIC") ? "static " : "");
+     staticString = (Options.getStatic() ? "static " : "");
      tokMgrClassName = cu_name + "TokenManager";
 
      PrintClassHead();
@@ -517,7 +517,7 @@ public class LexGen
      DumpFillToken();
      DumpGetNextToken();
 
-     if (Options.B("DEBUG_TOKEN_MANAGER"))
+     if (Options.getDebugTokenManager())
      {
         NfaState.DumpStatesForKind(ostr);
         DumpDebugMethods();
@@ -705,11 +705,11 @@ public class LexGen
          ostr.println("\n};");
       }
 
-      if (Options.B("USER_CHAR_STREAM"))
+      if (Options.getUserCharStream())
          charStreamName = "CharStream";
       else
       {
-         if (Options.B("JAVA_UNICODE_ESCAPE"))
+         if (Options.getJavaUnicodeEscape())
             charStreamName = "JavaCharStream";
          else
             charStreamName = "SimpleCharStream";
@@ -734,14 +734,14 @@ public class LexGen
       ostr.println("public " + tokMgrClassName + "(" + charStreamName + " stream)");
       ostr.println("{");
 
-      if (Options.B("STATIC") && !Options.B("USER_CHAR_STREAM"))
+      if (Options.getStatic() && !Options.getUserCharStream())
       {
          ostr.println("   if (input_stream != null)");
          ostr.println("      throw new TokenMgrError(\"ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.\", TokenMgrError.STATIC_LEXER_ERROR);");
       }
-      else if (!Options.B("USER_CHAR_STREAM"))
+      else if (!Options.getUserCharStream())
       {
-         if (Options.B("JAVA_UNICODE_ESCAPE"))
+         if (Options.getJavaUnicodeEscape())
             ostr.println("   if (JavaCharStream.staticFlag)");
          else
             ostr.println("   if (SimpleCharStream.staticFlag)");
@@ -892,7 +892,7 @@ public class LexGen
      ostr.println("   catch(java.io.IOException e)");
      ostr.println("   {        ");
 
-     if (Options.B("DEBUG_TOKEN_MANAGER"))
+     if (Options.getDebugTokenManager())
          ostr.println("      debugStream.println(\"Returning the <EOF> token.\");");
 
      ostr.println("      jjmatchedKind = 0;");
@@ -904,7 +904,7 @@ public class LexGen
      if (nextStateForEof != null || actForEof != null)
         ostr.println("      TokenLexicalActions(matchedToken);");
 
-     if (Options.B("COMMON_TOKEN_ACTION"))
+     if (Options.getCommonTokenAction())
         ostr.println("      CommonTokenAction(matchedToken);");
 
      ostr.println("      return matchedToken;");
@@ -975,7 +975,7 @@ public class LexGen
                            "L & (1L << (curChar & 077))) != 0L)");
            }
 
-           if (Options.B("DEBUG_TOKEN_MANAGER"))
+           if (Options.getDebugTokenManager())
            {
               ostr.println(prefix + "{");
               ostr.println("      debugStream.println(" + (maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + "\"Skipping character : \" + " +
@@ -983,7 +983,7 @@ public class LexGen
            }
            ostr.println(prefix + "      curChar = input_stream.BeginToken();");
 
-           if (Options.B("DEBUG_TOKEN_MANAGER"))
+           if (Options.getDebugTokenManager())
               ostr.println(prefix + "}");
 
            ostr.println(prefix + "}");
@@ -992,7 +992,7 @@ public class LexGen
 
         if (initMatch[i] != Integer.MAX_VALUE && initMatch[i] != 0)
         {
-           if (Options.B("DEBUG_TOKEN_MANAGER"))
+           if (Options.getDebugTokenManager())
               ostr.println("      debugStream.println(\"   Matched the empty string as \" + tokenImage[" +
                 initMatch[i] + "] + \" token.\");");
 
@@ -1006,7 +1006,7 @@ public class LexGen
            ostr.println(prefix + "jjmatchedPos = 0;");
         }
 
-     if (Options.B("DEBUG_TOKEN_MANAGER"))
+     if (Options.getDebugTokenManager())
         ostr.println("      debugStream.println(" + (maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + "\"Current character : \" + " +
                  "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \")\");");
 
@@ -1022,7 +1022,7 @@ public class LexGen
                      canMatchAnyChar[i] + ")");
            ostr.println(prefix + "{");
            
-           if (Options.B("DEBUG_TOKEN_MANAGER"))
+           if (Options.getDebugTokenManager())
               ostr.println("           debugStream.println(\"   Current character matched as a \" + tokenImage[" +
                 canMatchAnyChar[i] + "] + \" token.\");");
            ostr.println(prefix + "   jjmatchedKind = " + canMatchAnyChar[i] + ";");
@@ -1053,7 +1053,7 @@ public class LexGen
         ostr.println(prefix + "   {");
         ostr.println(prefix + "      if (jjmatchedPos + 1 < curPos)");
 
-        if (Options.B("DEBUG_TOKEN_MANAGER"))
+        if (Options.getDebugTokenManager())
         {
            ostr.println(prefix + "      {");
            ostr.println(prefix + "         debugStream.println(\"   Putting back \" + (curPos - jjmatchedPos - 1) + \" characters into the input stream.\");");
@@ -1061,13 +1061,13 @@ public class LexGen
 
         ostr.println(prefix + "         input_stream.backup(curPos - jjmatchedPos - 1);");
 
-        if (Options.B("DEBUG_TOKEN_MANAGER"))
+        if (Options.getDebugTokenManager())
            ostr.println(prefix + "      }");
 
-        if (Options.B("DEBUG_TOKEN_MANAGER"))
+        if (Options.getDebugTokenManager())
         {
-           if (Options.B("JAVA_UNICODE_ESCAPE") ||
-               Options.B("USER_CHAR_STREAM"))
+           if (Options.getJavaUnicodeEscape() ||
+               Options.getUserCharStream())
               ostr.println("    debugStream.println(\"****** FOUND A \" + tokenImage[jjmatchedKind] + \" MATCH (\" + TokenMgrError.addEscapes(new String(input_stream.GetSuffix(jjmatchedPos + 1))) + \") ******\\n\");");
            else
               ostr.println("    debugStream.println(\"****** FOUND A \" + tokenImage[jjmatchedKind] + \" MATCH (\" + TokenMgrError.addEscapes(new String(input_stream.GetSuffix(jjmatchedPos + 1))) + \") ******\\n\");");
@@ -1094,7 +1094,7 @@ public class LexGen
            ostr.println(prefix + "       curLexState = jjnewLexState[jjmatchedKind];");
         }
 
-        if (Options.B("COMMON_TOKEN_ACTION"))
+        if (Options.getCommonTokenAction())
            ostr.println(prefix + "         CommonTokenAction(matchedToken);");
 
         ostr.println(prefix + "         return matchedToken;");
@@ -1173,7 +1173,7 @@ public class LexGen
               ostr.println(prefix + "      try {");
               ostr.println(prefix + "         curChar = input_stream.readChar();");
 
-              if (Options.B("DEBUG_TOKEN_MANAGER"))
+              if (Options.getDebugTokenManager())
                  ostr.println("   debugStream.println(" + (maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + "\"Current character : \" + " +
                     "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \")\");");
               ostr.println(prefix + "         continue;");
@@ -1262,8 +1262,8 @@ public class LexGen
               ostr.println("new StringBuffer(jjstrLiteralImages[" + i + "]);");
            else
            {
-              if (Options.B("JAVA_UNICODE_ESCAPE") ||
-                  Options.B("USER_CHAR_STREAM"))
+              if (Options.getJavaUnicodeEscape() ||
+                  Options.getUserCharStream())
                  ostr.println("new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));");
               else
                  ostr.println("new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));");
@@ -1275,8 +1275,8 @@ public class LexGen
            if (RStringLiteral.allImages[i] != null)
               ostr.println("(jjstrLiteralImages[" + i + "]);");
            else
-              if (Options.B("JAVA_UNICODE_ESCAPE") ||
-                  Options.B("USER_CHAR_STREAM"))
+              if (Options.getJavaUnicodeEscape() ||
+                  Options.getUserCharStream())
                  ostr.println("(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
               else
                  ostr.println("(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));");
@@ -1352,8 +1352,8 @@ public class LexGen
               ostr.println("new StringBuffer(jjstrLiteralImages[" + i + "]);");
            else
            {
-              if (Options.B("JAVA_UNICODE_ESCAPE") ||
-                  Options.B("USER_CHAR_STREAM"))
+              if (Options.getJavaUnicodeEscape() ||
+                  Options.getUserCharStream())
                  ostr.println("new StringBuffer(new String(input_stream.GetSuffix(jjimageLen)));");
               else
                  ostr.println("new StringBuffer(new String(input_stream.GetSuffix(jjimageLen)));");
@@ -1365,8 +1365,8 @@ public class LexGen
            if (RStringLiteral.allImages[i] != null)
               ostr.println("(jjstrLiteralImages[" + i + "]);");
            else
-              if (Options.B("JAVA_UNICODE_ESCAPE") ||
-                  Options.B("USER_CHAR_STREAM"))
+              if (Options.getJavaUnicodeEscape() ||
+                  Options.getUserCharStream())
                  ostr.println("(input_stream.GetSuffix(jjimageLen));");
               else
                  ostr.println("(new String(input_stream.GetSuffix(jjimageLen)));");
@@ -1448,8 +1448,8 @@ public class LexGen
               ostr.println("new StringBuffer(jjstrLiteralImages[" + i + "]);");
            else
            {
-              if (Options.B("JAVA_UNICODE_ESCAPE") ||
-                  Options.B("USER_CHAR_STREAM"))
+              if (Options.getJavaUnicodeEscape() ||
+                  Options.getUserCharStream())
                  ostr.println("new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));");
               else
                  ostr.println("new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));");
@@ -1461,8 +1461,8 @@ public class LexGen
            if (RStringLiteral.allImages[i] != null)
               ostr.println("(jjstrLiteralImages[" + i + "]);");
            else
-              if (Options.B("JAVA_UNICODE_ESCAPE") ||
-                  Options.B("USER_CHAR_STREAM"))
+              if (Options.getJavaUnicodeEscape() ||
+                  Options.getUserCharStream())
                  ostr.println("(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
               else
                  ostr.println("(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));");

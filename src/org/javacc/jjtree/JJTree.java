@@ -24,10 +24,8 @@ package org.javacc.jjtree;
 
 import java.util.Hashtable;
 import java.util.Vector;
-import java.util.Properties;
 
 import org.javacc.parser.JavaCCGlobals;
-import org.javacc.parser.Options;
 
 public class JJTree {
 
@@ -89,10 +87,6 @@ public class JJTree {
     p("");
   }
 
-  private boolean isOption(String opt) {
-    return opt.length() > 1 && opt.charAt(0) == '-';
-  }
-
   /**
    * A main program that exercises the parser.
    */
@@ -128,16 +122,16 @@ public class JJTree {
 
       String fn = args[args.length - 1];
 
-      if (isOption(fn)) {
+      if (JJTreeOptions.isOption(fn)) {
 	p("Last argument \"" + fn + "\" is not a filename");
 	return 1;
       }
       for (int arg = 0; arg < args.length - 1; arg++) {
-	if (!isOption(args[arg])) {
+	if (!JJTreeOptions.isOption(args[arg])) {
 	  p("Argument \"" + args[arg] + "\" must be an option setting.");
 	  return 1;
 	}
-	Options.setCmdLineOption(args[arg]);
+	JJTreeOptions.setCmdLineOption(args[arg]);
       }
 
       try {
@@ -191,27 +185,7 @@ public class JJTree {
    */
   private void initializeOptions() {
 
-    Options.JavaCCInit();
-
-    {
-      Options.optionValues.put("MULTI", Boolean.FALSE);
-      Options.optionValues.put("NODE_DEFAULT_VOID", Boolean.FALSE);
-      Options.optionValues.put("NODE_SCOPE_HOOK", Boolean.FALSE);
-      Options.optionValues.put("NODE_FACTORY", Boolean.FALSE);
-      Options.optionValues.put("NODE_USES_PARSER", Boolean.FALSE);
-      Options.optionValues.put("BUILD_NODE_FILES", Boolean.TRUE);
-      Options.optionValues.put("VISITOR", Boolean.FALSE);
-      Options.optionValues.put("NODE_PREFIX", "AST");
-      Options.optionValues.put("NODE_PACKAGE", "");
-      Options.optionValues.put("OUTPUT_FILE", "");
-      Options.optionValues.put("OUTPUT_DIRECTORY", "");
-      Options.optionValues.put("VISITOR_EXCEPTION", "");
-    }
-
-    // For some reason, the following two options are not in the
-    // JJTree help message, so we do not provide it in the GUI.
-    Options.optionValues.put("NODE_STACK_SIZE", new Integer(500));
-    Options.optionValues.put("CHECK_DEFINITE_NODE", Boolean.TRUE);
+    JJTreeOptions.init();
 
     JJTreeGlobals.jjtreeOptions.put("MULTI", Boolean.FALSE);
     JJTreeGlobals.jjtreeOptions.put("NODE_PREFIX", "AST");

@@ -26,26 +26,12 @@ import java.io.*;
 import java.util.Vector;
 
 import org.javacc.parser.JavaCCGlobals;
-import org.javacc.parser.Options;
-
 
 class NodeFiles
 {
-
-  static String path()
-  {
-    String d = Options.S("OUTPUT_DIRECTORY");
-    if (d.equals("")) {
-      return "";
-    } else {
-      return d + System.getProperty("file.separator");
-    }
-  }
-
-
   static void ensure(IO io, String nodeType)
   {
-    String fileName = path() + nodeType + ".java";
+    File file = new File(JJTreeOptions.getJJTreeOutputDirectory(), nodeType + ".java");
 
     if (nodeType.equals("Node")) {
     } else if (nodeType.equals("SimpleNode")) {
@@ -56,22 +42,22 @@ class NodeFiles
 
     /* Only build the node file if we're dealing with Node.java, or
        the NODE_BUILD_FILES option is set. */
-    if (!(nodeType.equals("Node") || Options.B("BUILD_NODE_FILES"))) {
+    if (!(nodeType.equals("Node") || JJTreeOptions.getBuildNodeFiles())) {
       return;
     }
 
-    if ((new File(fileName)).exists()) {
+    if (file.exists()) {
       return;
     }
 
-    io.getMsg().println("File \"" + fileName +
+    io.getMsg().println("File \"" + file +
 			"\" does not exist.  Will create one.");
 
     PrintWriter ostr;
 
     try {
       ostr = new PrintWriter(new BufferedWriter(
-				  new FileWriter(fileName), 8096));
+				  new FileWriter(file), 8096));
 
       if (nodeType.equals("Node")) {
 	generateNode_java(ostr);
@@ -111,17 +97,17 @@ class NodeFiles
   static void generateTreeConstants_java()
   {
     String name = nodeConstants();
-    String fileName = path() + name + ".java";
+    File file = new File(JJTreeOptions.getJJTreeOutputDirectory(), name + ".java");
 
     try {
       PrintWriter ostr = new PrintWriter(new BufferedWriter(
-					      new FileWriter(fileName),
+					      new FileWriter(file),
 					      8096));
 
       Vector nodeIds = ASTNodeDescriptor.getNodeIds();
       Vector nodeNames = ASTNodeDescriptor.getNodeNames();
 
-      generatePrologue(ostr, fileName);
+      generatePrologue(ostr, file.toString());
       ostr.println("public interface " + name);
       ostr.println("{");
 
@@ -156,38 +142,38 @@ class NodeFiles
 
   static void generateVisitor_java()
   {
-    if (!Options.B("VISITOR")) {
+    if (!JJTreeOptions.getVisitor()) {
       return;
     }
 
     String name = visitorClass();
-    String fileName = path() + name + ".java";
+    File file = new File(JJTreeOptions.getJJTreeOutputDirectory(), name + ".java");
 
     try {
       PrintWriter ostr = new PrintWriter(new BufferedWriter(
-					      new FileWriter(fileName),
+					      new FileWriter(file),
 					      8096));
 
       Vector nodeNames = ASTNodeDescriptor.getNodeNames();
 
-      generatePrologue(ostr, fileName);
+      generatePrologue(ostr, file.toString());
       ostr.println("public interface " + name);
       ostr.println("{");
 
-      String ve = Options.S("VISITOR_EXCEPTION");
+      String ve = JJTreeOptions.getVisitorException();
       if (!ve.equals("")) {
 	ve = " throws " + ve;
       }
       
       ostr.println("  public Object visit(SimpleNode node, Object data)" +
 		   ve + ";");
-      if (Options.B("MULTI")) {
+      if (JJTreeOptions.getMulti()) {
 	for (int i = 0; i < nodeNames.size(); ++i) {
 	  String n = (String)nodeNames.elementAt(i);
 	  if (n.equals("void")) {
 	    continue;
 	  }
-	  String nodeType = Options.S("NODE_PREFIX") + n;
+	  String nodeType = JJTreeOptions.getNodePrefix() + n;
 	  ostr.println("  public Object visit(" + nodeType +
 		       " node, Object data)" + ve + ";");
 	}
@@ -235,8 +221,8 @@ class NodeFiles
     ostr.println("  /** Return the number of children the node has. */");
     ostr.println("  public int jjtGetNumChildren();");
 
-    if (Options.B("VISITOR")) {
-      String ve = Options.S("VISITOR_EXCEPTION");
+    if (JJTreeOptions.getVisitor()) {
+      String ve = JJTreeOptions.getVisitorException();
       if (!ve.equals("")) {
 	ve = " throws " + ve;
       }
@@ -273,7 +259,7 @@ class NodeFiles
     ostr.println("  }");
     ostr.println("");
 
-    if (Options.B("NODE_FACTORY")) {
+    if (JJTreeOptions.getNodeFactory()) {
       ostr.println("  public static Node jjtCreate(int id) {");
       ostr.println("    return new SimpleNode(id);");
       ostr.println("  }");
@@ -313,8 +299,8 @@ class NodeFiles
     ostr.println("  }");
     ostr.println("");
 
-    if (Options.B("VISITOR")) {
-      String ve = Options.S("VISITOR_EXCEPTION");
+    if (JJTreeOptions.getVisitor()) {
+      String ve = JJTreeOptions.getVisitorException();
       if (!ve.equals("")) {
 	ve = " throws " + ve;
       }
@@ -381,7 +367,7 @@ class NodeFiles
     ostr.println("  }");
     ostr.println();
 
-    if (Options.B("NODE_FACTORY")) {
+    if (JJTreeOptions.getNodeFactory()) {
       ostr.println("  public static Node jjtCreate(int id) {");
       ostr.println("      return new " + nodeType + "(id);");
       ostr.println("  }");
@@ -392,8 +378,8 @@ class NodeFiles
       ostr.println("  }");
     }
 
-    if (Options.B("VISITOR")) {
-      String ve = Options.S("VISITOR_EXCEPTION");
+    if (JJTreeOptions.getVisitor()) {
+      String ve = JJTreeOptions.getVisitorException();
       if (!ve.equals("")) {
 	ve = " throws " + ve;
       }

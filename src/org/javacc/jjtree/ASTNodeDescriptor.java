@@ -25,9 +25,6 @@ package org.javacc.jjtree;
 import java.util.Hashtable;
 import java.util.Vector;
 
-import org.javacc.parser.Options;
-
-
 public class ASTNodeDescriptor extends SimpleNode {
   ASTNodeDescriptor(int id) {
     super(id);
@@ -107,8 +104,8 @@ public class ASTNodeDescriptor extends SimpleNode {
 
   String getNodeType()
   {
-    if (Options.B("MULTI")) {
-      return Options.S("NODE_PREFIX") + name;
+    if (JJTreeOptions.getMulti()) {
+      return JJTreeOptions.getNodePrefix() + name;
     } else {
       return "SimpleNode";
     }

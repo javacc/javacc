@@ -45,7 +45,7 @@ public class Semanticize extends JavaCCGlobals {
 
     if (JavaCCErrors.get_error_count() != 0) throw new MetaParseException();
 
-    if (Options.I("LOOKAHEAD") > 1 && !Options.B("FORCE_LA_CHECK") && Options.B("SANITY_CHECK")) {
+    if (Options.getLookahead() > 1 && !Options.getForceLaCheck() && Options.getSanityCheck()) {
       JavaCCErrors.warning("Lookahead adequacy checking not being performed since option LOOKAHEAD is more than 1.  Set option FORCE_LA_CHECK to true to force checking.");
     }
 
@@ -108,9 +108,9 @@ public class Semanticize extends JavaCCGlobals {
           actForEof = res.act;
           nextStateForEof = res.nextState;
           prepareToRemove(respecs, res);
-        } else if (tp.isExplicit && Options.B("USER_TOKEN_MANAGER")) {
+        } else if (tp.isExplicit && Options.getUserTokenManager()) {
           JavaCCErrors.warning(res.rexp, "Ignoring regular expression specification since option USER_TOKEN_MANAGER has been set to true.");
-        } else if (tp.isExplicit && !Options.B("USER_TOKEN_MANAGER") && res.rexp instanceof RJustName) {
+        } else if (tp.isExplicit && !Options.getUserTokenManager() && res.rexp instanceof RJustName) {
             JavaCCErrors.warning(res.rexp, "Ignoring free-standing regular expression reference.  If you really want this, you must give it a different label as <NEWLABEL:<" + res.rexp.label + ">>.");
             prepareToRemove(respecs, res);
         } else if (!tp.isExplicit && res.rexp.private_rexp) {
@@ -272,11 +272,11 @@ public class Semanticize extends JavaCCGlobals {
      * regular expressions or to regular expressions of any kind other
      * than TOKEN.  In addition, this loop also removes top level
      * "RJustName"s from "rexprlist".
-     * This code is not executed if Options.B("USER_TOKEN_MANAGER") is set to
+     * This code is not executed if Options.getUserTokenManager() is set to
      * true.  Instead the following block of code is executed.
      */
 
-    if (!Options.B("USER_TOKEN_MANAGER")) {
+    if (!Options.getUserTokenManager()) {
       FixRJustNames frjn = new FixRJustNames();
       for (java.util.Enumeration enum = rexprlist.elements(); enum.hasMoreElements();) {
         TokenProduction tp = (TokenProduction)(enum.nextElement());
@@ -295,7 +295,7 @@ public class Semanticize extends JavaCCGlobals {
     removePreparedItems();
 
     /*
-     * The following code is executed only if Options.B("USER_TOKEN_MANAGER") is
+     * The following code is executed only if Options.getUserTokenManager() is
      * set to true.  This code visits all top-level "RJustName"s (ignores
      * "RJustName"s nested within regular expressions).  Since regular expressions
      * are optional in this case, "RJustName"s without corresponding regular
@@ -305,7 +305,7 @@ public class Semanticize extends JavaCCGlobals {
      * execution of this code.
      */
 
-    if (Options.B("USER_TOKEN_MANAGER")) {
+    if (Options.getUserTokenManager()) {
       for (java.util.Enumeration enum = rexprlist.elements(); enum.hasMoreElements();) {
         TokenProduction tp = (TokenProduction)(enum.nextElement());
         java.util.Vector respecs = tp.respecs;
@@ -332,13 +332,13 @@ public class Semanticize extends JavaCCGlobals {
     removePreparedItems();
 
     /*
-     * The following code is executed only if Options.B("USER_TOKEN_MANAGER") is
+     * The following code is executed only if Options.getUserTokenManager() is
      * set to true.  This loop labels any unlabeled regular expression and
      * prints a warning that it is doing so.  These labels are added to
      * "ordered_named_tokens" so that they may be generated into the ...Constants
      * file.
      */
-    if (Options.B("USER_TOKEN_MANAGER")) {
+    if (Options.getUserTokenManager()) {
       for (java.util.Enumeration enum = rexprlist.elements(); enum.hasMoreElements();) {
         TokenProduction tp = (TokenProduction)(enum.nextElement());
         java.util.Vector respecs = tp.respecs;
@@ -371,7 +371,7 @@ public class Semanticize extends JavaCCGlobals {
       }
     }
 
-    if (Options.B("SANITY_CHECK") && JavaCCErrors.get_error_count() == 0) {
+    if (Options.getSanityCheck() && JavaCCErrors.get_error_count() == 0) {
 
       // The following code checks that all ZeroOrMore, ZeroOrOne, and OneOrMore nodes
       // do not contain expansions that can expand to the empty token list.
@@ -402,7 +402,7 @@ public class Semanticize extends JavaCCGlobals {
       // the grammar.  Here we are looking for any kind of loop, not just left recursions,
       // so we only need to do the equivalent of the above walk.
       // This is not done if option USER_TOKEN_MANAGER is set to true.
-      if (!Options.B("USER_TOKEN_MANAGER")) {
+      if (!Options.getUserTokenManager()) {
         for (java.util.Enumeration enum = rexprlist.elements(); enum.hasMoreElements();) {
           TokenProduction tp = (TokenProduction)(enum.nextElement());
           java.util.Vector respecs = tp.respecs;
@@ -430,7 +430,7 @@ public class Semanticize extends JavaCCGlobals {
         }
       }
 
-    } // matches "if (Options.B("SANITY_CHECK")) {"
+    } // matches "if (Options.getSanityCheck()) {"
 
     if (JavaCCErrors.get_error_count() != 0) throw new MetaParseException();
 
@@ -774,22 +774,22 @@ public class Semanticize extends JavaCCGlobals {
 
     public void action(Expansion e) {
       if (e instanceof Choice) {
-	if (Options.I("LOOKAHEAD") == 1 || Options.B("FORCE_LA_CHECK")) {
+	if (Options.getLookahead() == 1 || Options.getForceLaCheck()) {
 	  LookaheadCalc.choiceCalc((Choice)e);
 	}
       } else if (e instanceof OneOrMore) {
 	OneOrMore exp = (OneOrMore)e;
-	if (Options.B("FORCE_LA_CHECK") || (implicitLA(exp.expansion) && Options.I("LOOKAHEAD") == 1)) {
+	if (Options.getForceLaCheck() || (implicitLA(exp.expansion) && Options.getLookahead() == 1)) {
 	  LookaheadCalc.ebnfCalc(exp, exp.expansion);
 	}
       } else if (e instanceof ZeroOrMore) {
 	ZeroOrMore exp = (ZeroOrMore)e;
-	if (Options.B("FORCE_LA_CHECK") || (implicitLA(exp.expansion) && Options.I("LOOKAHEAD") == 1)) {
+	if (Options.getForceLaCheck() || (implicitLA(exp.expansion) && Options.getLookahead() == 1)) {
 	  LookaheadCalc.ebnfCalc(exp, exp.expansion);
 	}
       } else if (e instanceof ZeroOrOne) {
 	ZeroOrOne exp = (ZeroOrOne)e;
-	if (Options.B("FORCE_LA_CHECK") || (implicitLA(exp.expansion) && Options.I("LOOKAHEAD") == 1)) {
+	if (Options.getForceLaCheck() || (implicitLA(exp.expansion) && Options.getLookahead() == 1)) {
 	  LookaheadCalc.ebnfCalc(exp, exp.expansion);
 	}
       }

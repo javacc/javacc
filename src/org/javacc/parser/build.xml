@@ -31,6 +31,9 @@ designated nationals lists is strictly prohibited.
   <property name="bootstrap.javacc.mainclass"
             value="COM.sun.labs.javacc.Main">
   </property>
+  <property name="junit.jar"
+            value="${javacc.root}/lib/junit3.8.1/junit.jar">
+  </property>
 
   <target name="compile" depends="compile-nojar">
     <ant antfile="build.xml" target="jar-nocompile"
@@ -43,7 +46,7 @@ designated nationals lists is strictly prohibited.
            destdir="${javacc.root}/classes"
            debug="${build.compiler.debug}"
            source="1.4"
-           classpath="${javacc.root}/classes">
+           classpath="${javacc.root}/classes:${junit.jar}">
     </javac>
   </target>
 
