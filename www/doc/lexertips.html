@@ -6,15 +6,12 @@
 <p>
 There are many ways to write the lexical specification for a grammar. But 
 the performance of the generated token manager varies significantly depending
-on how you do this.
-</p><p>
-
-Here are a few tips for writing a good lexical specification for performance.
+on how you do this.  Here are a few tips:
 
 </p><ul>
 
 <li> Try to specify as many String literals as possible. These are recognized
-   by a DFA, which is much faster than the NFA needed to recognize other kinds
+   by a Deterministic Finite Automata (DFA), which is much faster than the Nondeterministic Finite Automata (NFA) needed to recognize other kinds
    of complex regular expressions. For example, to skip blanks/tabs/newlines,
 <pre>   
     SKIP : { " " | "\t" | "\n" }
@@ -56,7 +53,7 @@ Here are a few tips for writing a good lexical specification for performance.
 </p></li><li> Try to use IGNORE_CASE judiciously. Best thing to do is to set this option
    at the grammar level. If that is not possible, then try to have it set for 
    *all* regular expressions in a lexical state. There is heavy performance
-   penalty for setting IGNORE_CASE for some RE's and not for others in the
+   penalty for setting IGNORE_CASE for some regular expressions and not for others in the
    same lexical state.
 <p>
 
