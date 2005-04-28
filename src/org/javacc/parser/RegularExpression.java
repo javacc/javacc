@@ -49,6 +49,11 @@ abstract public class RegularExpression extends Expansion {
   public java.util.Vector lhsTokens = new java.util.Vector();
 
   /**
+	* We now allow qualified access to token members. Store it here.
+   */
+  public Token rhsToken;
+
+  /**
    * This flag is set if the regular expression has a label prefixed
    * with the # symbol - this indicates that the purpose of the regular
    * expression is solely for defining other regular expressions.
