@@ -519,15 +519,16 @@ public class ParseEngine extends JavaCCGlobals {
         retval += printTrailingComments(t);
         retval += " = ";
       }
+      String tail = e_nrw.rhsToken == null ? ");" : ")." + e_nrw.rhsToken.image + ";";
       if (e_nrw.label.equals("")) {
         Object label = names_of_tokens.get(new Integer(e_nrw.ordinal));
         if (label != null) {
-          retval += "jj_consume_token(" + (String)label + ");";
+          retval += "jj_consume_token(" + (String)label + tail;
         } else {
-          retval += "jj_consume_token(" + e_nrw.ordinal + ");";
+          retval += "jj_consume_token(" + e_nrw.ordinal + tail;
         }
       } else {
-        retval += "jj_consume_token(" + e_nrw.label + ");";
+        retval += "jj_consume_token(" + e_nrw.label + tail;
       }
     } else if (e instanceof NonTerminal) {
       NonTerminal e_nrw = (NonTerminal)e;

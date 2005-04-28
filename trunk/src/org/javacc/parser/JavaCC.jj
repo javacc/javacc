@@ -481,12 +481,14 @@ TOKEN :
      matchedToken.kind = GT;
      ((Token.GTToken)matchedToken).realKind = RUNSIGNEDSHIFT;
      input_stream.backup(2);
+     matchedToken.image = ">";
   }
 | < RSIGNEDSHIFT: ">>" >
   {
      matchedToken.kind = GT;
      ((Token.GTToken)matchedToken).realKind = RSIGNEDSHIFT;
      input_stream.backup(1);
+     matchedToken.image = ">";
   }
 | < GT: ">" >
 }
@@ -1116,6 +1118,7 @@ void expansion_unit(Container c) :
 	  ((RegularExpression)(c.member)).lhsTokens = lhsTokens;
 	  add_inline_regexpr((RegularExpression)(c.member));
 	}
+	//[ "." t=<IDENTIFIER> { ((RegularExpression)(c.member)).rhsToken = t; } ]
   )
 |
   t="(" expansion_choices(c) ")"

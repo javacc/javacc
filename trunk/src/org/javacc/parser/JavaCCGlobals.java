@@ -227,7 +227,7 @@ public class JavaCCGlobals {
         throw new Error();
      }
 
-     return toolNamePrefix + " Do not edit this line. " + fileName;
+     return toolNamePrefix + " Do not edit this line. " + addUnicodeEscapes(fileName);
   }
 
   /**

@@ -134,6 +134,7 @@ public class LookaheadWalk {
     if (exp.myGeneration == generation) {
       return new Vector();
     }
+//System.out.println("*** Parent: " + exp.parent);
     exp.myGeneration = generation;
     if (exp.parent == null) {
       Vector retval = new Vector();
@@ -142,6 +143,7 @@ public class LookaheadWalk {
     } else if (exp.parent instanceof NormalProduction) {
       Vector parents = ((NormalProduction)exp.parent).parents;
       Vector retval = new Vector();
+//System.out.println("1; gen: " + generation + "; exp: " + exp);
       for (int i = 0; i < parents.size(); i++) {
         Vector v = genFollowSet(partialMatches, (Expansion)parents.elementAt(i), generation);
         vectorAppend(retval, v);
@@ -158,9 +160,11 @@ public class LookaheadWalk {
       Vector v2 = new Vector();
       vectorSplit(v, partialMatches, v1, v2);
       if (v1.size() != 0) {
+//System.out.println("2; gen: " + generation + "; exp: " + exp);
         v1 = genFollowSet(v1, seq, generation);
       }
       if (v2.size() != 0) {
+//System.out.println("3; gen: " + generation + "; exp: " + exp);
         v2 = genFollowSet(v2, seq, Expansion.nextGenerationIndex++);
       }
       vectorAppend(v2, v1);
@@ -178,14 +182,17 @@ public class LookaheadWalk {
       Vector v2 = new Vector();
       vectorSplit(moreMatches, partialMatches, v1, v2);
       if (v1.size() != 0) {
+//System.out.println("4; gen: " + generation + "; exp: " + exp);
         v1 = genFollowSet(v1, (Expansion)exp.parent, generation);
       }
       if (v2.size() != 0) {
+//System.out.println("5; gen: " + generation + "; exp: " + exp);
         v2 = genFollowSet(v2, (Expansion)exp.parent, Expansion.nextGenerationIndex++);
       }
       vectorAppend(v2, v1);
       return v2;
     } else {
+//System.out.println("6; gen: " + generation + "; exp: " + exp);
       return genFollowSet(partialMatches, (Expansion)exp.parent, generation);
     }
   }
