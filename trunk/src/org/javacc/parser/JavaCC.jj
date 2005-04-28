@@ -1118,7 +1118,7 @@ void expansion_unit(Container c) :
 	  ((RegularExpression)(c.member)).lhsTokens = lhsTokens;
 	  add_inline_regexpr((RegularExpression)(c.member));
 	}
-	//[ "." t=<IDENTIFIER> { ((RegularExpression)(c.member)).rhsToken = t; } ]
+	[ "." t=<IDENTIFIER> { ((RegularExpression)(c.member)).rhsToken = t; } ]
   )
 |
   t="(" expansion_choices(c) ")"
