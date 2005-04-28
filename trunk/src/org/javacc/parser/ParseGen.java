@@ -188,6 +188,9 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
           ostr.println("  }");
         } else {
           ostr.println("  public " + cu_name + "(java.io.InputStream stream) {");
+          ostr.println("     this(stream, null);");
+          ostr.println("  }");
+          ostr.println("  public " + cu_name + "(java.io.InputStream stream, String encoding) {");
           if (Options.getStatic()) {
             ostr.println("    if (jj_initialized_once) {");
             ostr.println("      System.out.println(\"ERROR: Second call to constructor of static parser.  You must\");");
@@ -198,9 +201,9 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
             ostr.println("    jj_initialized_once = true;");
           }
           if (Options.getJavaUnicodeEscape()) {
-            ostr.println("    jj_input_stream = new JavaCharStream(stream, 1, 1);");
+            ostr.println("    try { jj_input_stream = new JavaCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }");
           } else {
-            ostr.println("    jj_input_stream = new SimpleCharStream(stream, 1, 1);");
+            ostr.println("    try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }");
           }
           ostr.println("    token_source = new " + cu_name + "TokenManager(jj_input_stream);");
           ostr.println("    token = new Token();");
@@ -219,11 +222,10 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
           ostr.println("  }");
           ostr.println("");
           ostr.println("  " + staticOpt() + "public void ReInit(java.io.InputStream stream) {");
-          if (Options.getJavaUnicodeEscape()) {
-            ostr.println("    jj_input_stream.ReInit(stream, 1, 1);");
-          } else {
-            ostr.println("    jj_input_stream.ReInit(stream, 1, 1);");
-          }
+          ostr.println("     ReInit(stream);");
+          ostr.println("  }");
+          ostr.println("  " + staticOpt() + "public void ReInit(java.io.InputStream stream, String encoding) {");
+          ostr.println("    try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }");
           ostr.println("    token_source.ReInit(jj_input_stream);");
           ostr.println("    token = new Token();");
 	  if (Options.getCacheTokens()) {
