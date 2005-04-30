@@ -24,6 +24,7 @@
 
 options {
    MULTI=true;
+	NODE_EXTENDS="MyNode";
 }
 
 PARSER_BEGIN(SPLParser)

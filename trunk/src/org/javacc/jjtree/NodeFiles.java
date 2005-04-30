@@ -243,7 +243,10 @@ class NodeFiles
   {
     generatePrologue(ostr, "SimpleNode.java");
 
-    ostr.println("public class SimpleNode implements Node {");
+    ostr.print("public class SimpleNode");
+    if (!JJTreeOptions.getNodeExtends().equals(""))
+       ostr.print(" extends " + JJTreeOptions.getNodeExtends());
+    ostr.println(" implements Node {");
     ostr.println("  protected Node parent;");
     ostr.println("  protected Node[] children;");
     ostr.println("  protected int id;");

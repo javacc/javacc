@@ -69,6 +69,7 @@ public class JJTree {
     p("");
     p("    NODE_PREFIX            (default \"AST\")");
     p("    NODE_PACKAGE           (default \"\")");
+    p("    NODE_EXTENDS           (default \"\")");
     p("    OUTPUT_FILE            (default remove input file suffix, add .jj)");
     p("    OUTPUT_DIRECTORY       (default \"\")");
     p("    VISITOR_EXCEPTION      (default \"\")");
@@ -190,6 +191,7 @@ public class JJTree {
     JJTreeGlobals.jjtreeOptions.put("MULTI", Boolean.FALSE);
     JJTreeGlobals.jjtreeOptions.put("NODE_PREFIX", "AST");
     JJTreeGlobals.jjtreeOptions.put("NODE_PACKAGE", "");
+    JJTreeGlobals.jjtreeOptions.put("NODE_EXTENDS", "");
     JJTreeGlobals.jjtreeOptions.put("NODE_STACK_SIZE", new Integer(500));
     JJTreeGlobals.jjtreeOptions.put("NODE_DEFAULT_VOID", Boolean.FALSE);
     JJTreeGlobals.jjtreeOptions.put("OUTPUT_FILE", "");

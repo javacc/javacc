@@ -34,6 +34,7 @@ class JJTreeOptions extends Options {
 
         Options.optionValues.put("NODE_PREFIX", "AST");
         Options.optionValues.put("NODE_PACKAGE", "");
+        Options.optionValues.put("NODE_EXTENDS", "");
         Options.optionValues.put("OUTPUT_FILE", "");
         Options.optionValues.put("VISITOR_EXCEPTION", "");
 
@@ -110,6 +111,15 @@ class JJTreeOptions extends Options {
      */
     public static String getNodePrefix() {
         return stringValue("NODE_PREFIX");
+    }
+
+    /**
+     * Find the node super class name.
+     * 
+     * @return The requested node super class
+     */
+    public static String getNodeExtends() {
+        return stringValue("NODE_EXTENDS");
     }
 
     /**

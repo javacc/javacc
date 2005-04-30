@@ -1256,22 +1256,9 @@ public class LexGen
               break;
 
            ostr.println("         if (image == null)");
-           ostr.print("            image = ");
+           ostr.println("            image = new StringBuffer();");
 
-           if (RStringLiteral.allImages[i] != null)
-              ostr.println("new StringBuffer(jjstrLiteralImages[" + i + "]);");
-           else
-           {
-              if (Options.getJavaUnicodeEscape() ||
-                  Options.getUserCharStream())
-                 ostr.println("new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));");
-              else
-                 ostr.println("new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));");
-           }
-
-           ostr.println("         else");
-           ostr.print("            image.append");
-
+           ostr.print("         image.append");
            if (RStringLiteral.allImages[i] != null)
               ostr.println("(jjstrLiteralImages[" + i + "]);");
            else
@@ -1279,7 +1266,7 @@ public class LexGen
                   Options.getUserCharStream())
                  ostr.println("(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
               else
-                 ostr.println("(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));");
+                 ostr.println("(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
 
            printTokenSetup((Token)act.action_tokens.elementAt(0));
            ccol = 1;
@@ -1346,21 +1333,8 @@ public class LexGen
            }
 
            ostr.println("         if (image == null)");
-           ostr.print("              image = ");
-
-           if (RStringLiteral.allImages[i] != null)
-              ostr.println("new StringBuffer(jjstrLiteralImages[" + i + "]);");
-           else
-           {
-              if (Options.getJavaUnicodeEscape() ||
-                  Options.getUserCharStream())
-                 ostr.println("new StringBuffer(new String(input_stream.GetSuffix(jjimageLen)));");
-              else
-                 ostr.println("new StringBuffer(new String(input_stream.GetSuffix(jjimageLen)));");
-           }
-
-           ostr.println("         else");
-           ostr.print("            image.append");
+           ostr.println("            image = new StringBuffer();");
+           ostr.print("         image.append");
 
            if (RStringLiteral.allImages[i] != null)
               ostr.println("(jjstrLiteralImages[" + i + "]);");
@@ -1369,7 +1343,7 @@ public class LexGen
                   Options.getUserCharStream())
                  ostr.println("(input_stream.GetSuffix(jjimageLen));");
               else
-                 ostr.println("(new String(input_stream.GetSuffix(jjimageLen)));");
+                 ostr.println("(input_stream.GetSuffix(jjimageLen));");
 
            ostr.println("         jjimageLen = 0;");
            printTokenSetup((Token)act.action_tokens.elementAt(0));
@@ -1442,20 +1416,7 @@ public class LexGen
            else
            {
            ostr.println("        if (image == null)");
-           ostr.print("            image = ");
-
-           if (RStringLiteral.allImages[i] != null)
-              ostr.println("new StringBuffer(jjstrLiteralImages[" + i + "]);");
-           else
-           {
-              if (Options.getJavaUnicodeEscape() ||
-                  Options.getUserCharStream())
-                 ostr.println("new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));");
-              else
-                 ostr.println("new StringBuffer(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));");
-           }
-
-           ostr.println("         else");
+           ostr.println("            image = new StringBuffer();");
            ostr.print("            image.append");
 
            if (RStringLiteral.allImages[i] != null)
@@ -1465,7 +1426,7 @@ public class LexGen
                   Options.getUserCharStream())
                  ostr.println("(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
               else
-                 ostr.println("(new String(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1))));");
+                 ostr.println("(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
 
            }
            printTokenSetup((Token)act.action_tokens.elementAt(0));
