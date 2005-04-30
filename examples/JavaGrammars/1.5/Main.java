@@ -4,11 +4,11 @@ class Main
 {
    private static int parseFilesFromFileList(String fileName)
    {
-      DataInputStream str = null;
+      LineNumberReader str = null;
       int cnt = 0;
       try
       {
-         str = new DataInputStream(new FileInputStream(new File(fileName))
+         str = new LineNumberReader(new FileReader(new File(fileName))
 );
          String s;
 

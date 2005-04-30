@@ -75,16 +75,34 @@ class JJTreeState
   
   private static void insertState(PrintWriter ostr) {
     ostr.println("class " + nameState() + " {");
-    ostr.println("  private java.util.Stack nodes;");
-    ostr.println("  private java.util.Stack marks;");
+
+    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+       ostr.println("  private java.util.Stack nodes;");
+    else
+       ostr.println("  private java.util.Stack<Node> nodes;");
+
+    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+       ostr.println("  private java.util.Stack marks;");
+    else
+       ostr.println("  private java.util.Stack<Integer> marks;");
+
     ostr.println("");
     ostr.println("  private int sp;		// number of nodes on stack");
     ostr.println("  private int mk;		// current mark");
     ostr.println("  private boolean node_created;");
     ostr.println("");
     ostr.println("  " + nameState() + "() {");
-    ostr.println("    nodes = new java.util.Stack();");
-    ostr.println("    marks = new java.util.Stack();");
+
+    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+       ostr.println("    nodes = new java.util.Stack();");
+    else
+       ostr.println("    nodes = new java.util.Stack<Node>();");
+
+    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+       ostr.println("    marks = new java.util.Stack();");
+    else
+       ostr.println("    marks = new java.util.Stack<Integer>();");
+
     ostr.println("    sp = 0;");
     ostr.println("    mk = 0;");
     ostr.println("  }");
