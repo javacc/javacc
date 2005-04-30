@@ -35,7 +35,7 @@ public class ASTOptionBinding extends SimpleNode {
   {
     name = n;
     if (JJTreeGlobals.jjtreeOptions.get(name.toUpperCase()) != null) {
-      suppressed = true;
+      suppressed = !name.toUpperCase().equals("JDK_VERSION");
     }
   }
 

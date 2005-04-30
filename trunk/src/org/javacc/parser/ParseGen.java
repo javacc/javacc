@@ -473,7 +473,10 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
 	ostr.println("");
       }
       if (Options.getErrorReporting()) {
-        ostr.println("  " + staticOpt() + "private java.util.Vector jj_expentries = new java.util.Vector();");
+        if (!Options.getJdkVersion().equals("1.5"))
+           ostr.println("  " + staticOpt() + "private java.util.Vector jj_expentries = new java.util.Vector();");
+        else
+           ostr.println("  " + staticOpt() + "private java.util.Vector<int[]> jj_expentries = new java.util.Vector<int[]>();");
         ostr.println("  " + staticOpt() + "private int[] jj_expentry;");
         ostr.println("  " + staticOpt() + "private int jj_kind = -1;");
         if (jj2index != 0) {

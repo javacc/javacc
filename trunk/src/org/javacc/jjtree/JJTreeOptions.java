@@ -24,6 +24,7 @@ class JJTreeOptions extends Options {
     public static void init() {
         Options.init();
 
+        Options.optionValues.put("JDK_VERSION", "1.4");
         Options.optionValues.put("MULTI", Boolean.FALSE);
         Options.optionValues.put("NODE_DEFAULT_VOID", Boolean.FALSE);
         Options.optionValues.put("NODE_SCOPE_HOOK", Boolean.FALSE);
@@ -39,6 +40,15 @@ class JJTreeOptions extends Options {
         Options.optionValues.put("VISITOR_EXCEPTION", "");
 
         Options.optionValues.put("JJTREE_OUTPUT_DIRECTORY", null);
+    }
+
+    /**
+     * Find the multi value.
+     * 
+     * @return The requested multi value.
+     */
+    public static String getJdkVersion() {
+        return stringValue("JDK_VERSION");
     }
 
     /**

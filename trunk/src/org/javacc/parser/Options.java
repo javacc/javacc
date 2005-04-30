@@ -113,6 +113,7 @@ public class Options {
         optionValues.put("KEEP_LINE_COLUMN", Boolean.TRUE);
 
         optionValues.put("OUTPUT_DIRECTORY", ".");
+        optionValues.put("JDK_VERSION", "1.4");
     }
 
     /**
@@ -495,6 +496,15 @@ public class Options {
      */
     public static boolean getKeepLineColumn() {
         return booleanValue("KEEP_LINE_COLUMN");
+    }
+
+    /**
+     * Find the JDK version
+     * 
+     * @return The requested jdk version.
+     */
+    public static String getJdkVersion() {
+        return stringValue("JDK_VERSION");
     }
 
     /**
