@@ -25,7 +25,7 @@ designated nationals lists is strictly prohibited.
 
 <project name="javacc" default="jar" basedir=".">
   <property name="version"
-            value="3.2">
+            value="4.0beta1">
   </property>
 
   <target name="compile" depends="generated-files,classes,javacc-compile,jjtree-compile,jjdoc-compile">
