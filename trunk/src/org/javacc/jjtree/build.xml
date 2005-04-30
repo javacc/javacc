@@ -59,7 +59,6 @@ designated nationals lists is strictly prohibited.
          <include name="JJTreeParserConstants.java"/>
          <include name="JJTreeParserTokenManager.java"/>
          <include name="*CharStream*.java"/>
-         <include name="Token.java"/>
          <include name="TokenMgrError.java"/>
          <include name="ParseException.java"/>
          <include name="Node.java"/>
