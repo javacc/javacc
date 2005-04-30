@@ -671,6 +671,7 @@ SimpleNode expansion_unit(ASTProduction p) :
   (
     regular_expression() | ( identifier() Arguments() ) #BNFNonTerminal
   )
+	[ "." t=<IDENTIFIER>  ]
 ) #BNFAssignment(>1)
 |
   t="(" expansion_choices(p) ")"
