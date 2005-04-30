@@ -236,6 +236,10 @@ public class JavaFiles
     ostr.println(prefix + "protected int maxNextCharInd = 0;");
     ostr.println(prefix + "protected int nextCharInd = -1;");
     ostr.println(prefix + "protected int inBuf = 0;");
+    ostr.println(prefix + "protected int tabSize = 0;");
+    ostr.println("");
+    ostr.println(prefix + "protected void setTabSize(int i) { tabSize = i; }");
+    ostr.println(prefix + "protected int getTabSize(int i) { return tabSize; }");
     ostr.println("");
     ostr.println(prefix + "protected void ExpandBuff(boolean wrapAround)");
     ostr.println("  {");
@@ -419,7 +423,7 @@ public class JavaFiles
        ostr.println("           break;");
        ostr.println("        case '\\t' :");
        ostr.println("           column--;");
-       ostr.println("           column += (8 - (column & 07));");
+       ostr.println("           column += (tabSize - (column % tabSize));");
        ostr.println("           break;");
        ostr.println("        default :");
        ostr.println("           break;");
@@ -980,6 +984,11 @@ public class JavaFiles
     ostr.println(prefix + "protected char[] buffer;");
     ostr.println(prefix + "protected int maxNextCharInd = 0;");
     ostr.println(prefix + "protected int inBuf = 0;");
+    ostr.println(prefix + "protected int tabSize = 0;");
+    ostr.println("");
+    ostr.println(prefix + "protected void setTabSize(int i) { tabSize = i; }");
+    ostr.println(prefix + "protected int getTabSize(int i) { return tabSize; }");
+    ostr.println("");
     ostr.println("");
     ostr.println(prefix + "protected void ExpandBuff(boolean wrapAround)");
     ostr.println("  {");
@@ -1133,7 +1142,7 @@ public class JavaFiles
     ostr.println("           break;");
     ostr.println("        case '\\t' :");
     ostr.println("           column--;");
-    ostr.println("           column += (8 - (column & 07));");
+    ostr.println("           column += (tabSize - (column % tabSize));");
     ostr.println("           break;");
     ostr.println("        default :");
     ostr.println("           break;");
