@@ -236,7 +236,7 @@ public class JavaFiles
     ostr.println(prefix + "protected int maxNextCharInd = 0;");
     ostr.println(prefix + "protected int nextCharInd = -1;");
     ostr.println(prefix + "protected int inBuf = 0;");
-    ostr.println(prefix + "protected int tabSize = 0;");
+    ostr.println(prefix + "protected int tabSize = 8;");
     ostr.println("");
     ostr.println(prefix + "protected void setTabSize(int i) { tabSize = i; }");
     ostr.println(prefix + "protected int getTabSize(int i) { return tabSize; }");
@@ -984,7 +984,7 @@ public class JavaFiles
     ostr.println(prefix + "protected char[] buffer;");
     ostr.println(prefix + "protected int maxNextCharInd = 0;");
     ostr.println(prefix + "protected int inBuf = 0;");
-    ostr.println(prefix + "protected int tabSize = 0;");
+    ostr.println(prefix + "protected int tabSize = 8;");
     ostr.println("");
     ostr.println(prefix + "protected void setTabSize(int i) { tabSize = i; }");
     ostr.println(prefix + "protected int getTabSize(int i) { return tabSize; }");
