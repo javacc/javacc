@@ -1,5 +1,4 @@
-<project name="pmd" default="eg1" basedir=".">
-
+<project name="examples" default="eg1" basedir=".">
   <target name="eg1" description="Builds example 'eg1'">
     <delete dir="eg1"/>
     <mkdir dir="eg1"/> 
