@@ -1,0 +1,14 @@
+<project name="pmd" default="eg1" basedir=".">
+
+  <target name="eg1" description="Builds example 'eg1'">
+    <delete dir="eg1"/>
+    <mkdir dir="eg1"/> 
+    <copy file="eg1.jjt" todir="eg1"/>
+    <jjtree target="eg1.jjt" outputdirectory="eg1" javacchome="/usr/local/javacc/"/>
+    <javacc target="eg1/eg1.jj" outputdirectory="eg1" javacchome="/usr/local/javacc/"/>
+    <javac deprecation="false" srcdir="eg1" destdir="eg1"/>
+    <echo message="*******"/>
+    <echo message="******* Now cd into the eg1 directory and run 'java eg1' ******"/>
+    <echo message="*******"/>
+  </target>
+</project>
