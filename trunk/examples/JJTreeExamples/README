@@ -57,8 +57,7 @@ instructs JJTree to insert a jjtAccept() method into all nodes it
 generates, and to produce a visitor class.  The visitor is used to
 dump the tree.
 
-
-Here are some instructions on how to run the examples and the output
+Here are some instructions on how to run the examples using the Ant build scripts, and the output
 you can expect to see.
 
 eg1.jjt
@@ -70,37 +69,35 @@ complete.  It uses JJTree simple mode.
 
 The input file is eg1.jjt.
 
-trane% jjtree eg1.jjtJava Compiler Compiler Version 2.0 (Tree Builder)
-Copyright (c) 1996-1999 Sun Microsystems, Inc.
-Copyright (c) 1997-1999 Metamata, Inc.
-(type "jjtree" with no arguments for help)
-Reading from file eg1.jjt . . .File "Node.java" does not exist.  Will create one.
-File "SimpleNode.java" does not exist.  Will create one.
-Annotated grammar generated successfully in eg1.jj
-trane% 
+$ ant eg1
+Buildfile: build.xml
 
-JJTree has now generated the JavaCC parser source, as well as Java
-source for the parse tree node building classes.  Running JavaCC in
-the normal way generates the remaining Java code.
+eg1:
+    [mkdir] Created dir: /home/tom/javacc/javacc/examples/JJTreeExamples/eg1
+     [copy] Copying 1 file to /home/tom/javacc/javacc/examples/JJTreeExamples/eg1
+   [jjtree] Java Compiler Compiler Version 3.2 (Tree Builder)
+   [jjtree] (type "jjtree" with no arguments for help)
+   [jjtree] Reading from file /home/tom/javacc/javacc/examples/JJTreeExamples/eg1.jjt . . .
+   [jjtree] File "/home/tom/javacc/javacc/examples/JJTreeExamples/eg1/Node.java" does not exist.  Will create one.
+   [jjtree] File "/home/tom/javacc/javacc/examples/JJTreeExamples/eg1/SimpleNode.java" does not exist.  Will create one.
+   [jjtree] Annotated grammar generated successfully in /home/tom/javacc/javacc/examples/JJTreeExamples/eg1/eg1.jj
+   [javacc] Java Compiler Compiler Version 3.2 (Parser Generator)
+   [javacc] (type "javacc" with no arguments for help)
+   [javacc] Reading from file /home/tom/javacc/javacc/examples/JJTreeExamples/eg1/eg1.jj . . .
+   [javacc] File "TokenMgrError.java" does not exist.  Will create one.
+   [javacc] File "ParseException.java" does not exist.  Will create one.
+   [javacc] File "Token.java" does not exist.  Will create one.
+   [javacc] File "SimpleCharStream.java" does not exist.  Will create one.
+   [javacc] Parser generated successfully.
+    [javac] Compiling 11 source files to /home/tom/javacc/javacc/examples/JJTreeExamples/eg1
+     [echo] *******
+     [echo] ******* Now cd into the eg1 directory and run 'java eg1' ******
+     [echo] *******
 
-trane% javacc eg1.jj
-Java Compiler Compiler Version 2.0 (Parser Generator)
-Copyright (c) 1996-1999 Sun Microsystems, Inc.
-Copyright (c) 1997-1999 Metamata, Inc.
-(type "javacc" with no arguments for help)
-Reading from file eg1.jj . . .
-File "TokenMgrError.java" does not exist.  Will create one.
-File "ParseException.java" does not exist.  Will create one.
-File "Token.java" does not exist.  Will create one.
-File "ASCII_CharStream.java" does not exist.  Will create one.
-Parser generated successfully.
-trane% 
-
-Compile and run the Java as usual.  The expression is read from the
-standard input (you type in "(a + b) * (c + 1);"):
-
-trane% javac eg1.java
-trane% java eg1
+BUILD SUCCESSFUL
+Total time: 3 seconds
+[tom@hal JJTreeExamples]$ cd eg1
+[tom@hal eg1]$ java eg1
 Reading from standard input...
 (a + b) * (c + 1);
 Start
@@ -126,7 +123,6 @@ Start
         UnaryExpression
          Integer
 Thank you.
-trane% 
 
 eg2.jjt
 -------
@@ -134,34 +130,40 @@ eg2.jjt
 This is a modification of the first example to illustrate how the
 parse tree can be customized:
 
-trane% jjtree eg2.jjt 
-Java Compiler Compiler Version 2.0 (Tree Builder)
-Copyright (c) 1996-1999 Sun Microsystems, Inc.
-Copyright (c) 1997-1999 Metamata, Inc.
-(type "jjtree" with no arguments for help)
-Reading from file eg2.jjt . . .
-File "Node.java" does not exist.  Will create one.
-File "SimpleNode.java" does not exist.  Will create one.
-File "ASTStart.java" does not exist.  Will create one.
-File "ASTAdd.java" does not exist.  Will create one.
-File "ASTMult.java" does not exist.  Will create one.
-File "ASTInteger.java" does not exist.  Will create one.
-Annotated grammar generated successfully in eg2.jj
-trane% 
-trane% javacc eg2.jj
-Java Compiler Compiler Version 2.0 (Parser Generator)
-Copyright (c) 1996-1999 Sun Microsystems, Inc.
-Copyright (c) 1997-1999 Metamata, Inc.
-(type "javacc" with no arguments for help)
-Reading from file eg2.jj . . .
-File "TokenMgrError.java" does not exist.  Will create one.
-File "ParseException.java" does not exist.  Will create one.
-File "Token.java" does not exist.  Will create one.
-File "ASCII_CharStream.java" does not exist.  Will create one.
-Parser generated successfully.
-trane% 
-trane% javac eg2.java
-trane% java eg2
+$ ant eg2
+Buildfile: build.xml
+
+eg2:
+    [mkdir] Created dir: /home/tom/javacc/javacc/examples/JJTreeExamples/eg2
+     [copy] Copying 1 file to /home/tom/javacc/javacc/examples/JJTreeExamples/eg2
+     [copy] Copying 1 file to /home/tom/javacc/javacc/examples/JJTreeExamples/eg2
+   [jjtree] Java Compiler Compiler Version 3.2 (Tree Builder)
+   [jjtree] (type "jjtree" with no arguments for help)
+   [jjtree] Reading from file /home/tom/javacc/javacc/examples/JJTreeExamples/eg2.jjt . . .
+   [jjtree] File "/home/tom/javacc/javacc/examples/JJTreeExamples/eg2/Node.java" does not exist.  Will create one.
+   [jjtree] File "/home/tom/javacc/javacc/examples/JJTreeExamples/eg2/SimpleNode.java" does not exist.  Will create one.
+   [jjtree] File "/home/tom/javacc/javacc/examples/JJTreeExamples/eg2/ASTStart.java" does not exist.  Will create one.
+   [jjtree] File "/home/tom/javacc/javacc/examples/JJTreeExamples/eg2/ASTAdd.java" does not exist.  Will create one.
+   [jjtree] File "/home/tom/javacc/javacc/examples/JJTreeExamples/eg2/ASTMult.java" does not exist.  Will create one.
+   [jjtree] File "/home/tom/javacc/javacc/examples/JJTreeExamples/eg2/ASTInteger.java" does not exist.  Will create one.
+   [jjtree] Annotated grammar generated successfully in /home/tom/javacc/javacc/examples/JJTreeExamples/eg2/eg2.jj
+   [javacc] Java Compiler Compiler Version 3.2 (Parser Generator)
+   [javacc] (type "javacc" with no arguments for help)
+   [javacc] Reading from file /home/tom/javacc/javacc/examples/JJTreeExamples/eg2/eg2.jj . . .
+   [javacc] File "TokenMgrError.java" does not exist.  Will create one.
+   [javacc] File "ParseException.java" does not exist.  Will create one.
+   [javacc] File "Token.java" does not exist.  Will create one.
+   [javacc] File "SimpleCharStream.java" does not exist.  Will create one.
+   [javacc] Parser generated successfully.
+    [javac] Compiling 16 source files to /home/tom/javacc/javacc/examples/JJTreeExamples/eg2
+     [echo] *******
+     [echo] ******* Now cd into the eg2 directory and run 'java eg2' ******
+     [echo] *******
+
+BUILD SUCCESSFUL
+Total time: 3 seconds
+[tom@hal JJTreeExamples]$ cd eg2
+[tom@hal eg2]$ java eg2
 Reading from standard input...
 (a + b) * (c + 1);
 Start
@@ -173,7 +175,6 @@ Start
    Identifier: c
    Integer
 Thank you.
-trane% 
 
 Look at eg2.jjt to see how node annotations can be used to restructure
 the parse tree, and at ASTMyID.java to see how you can write your own
@@ -188,7 +189,3 @@ eg4.jjt
 -------
 
 This example again can be run in the same manner as you ran eg2.jjt.
-One thing to take care in this case is that you must run jjtree on
-a clean directory (that does not contain previously generated files).
-For example, the file SimpleNode.java is different when the option
-VISITOR is set to true.
