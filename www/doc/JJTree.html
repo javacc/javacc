@@ -295,11 +295,13 @@ designated nationals lists is strictly prohibited.
       <li>the node's constructor is called with a unique integer
 	parameter.  This parameter identifies the kind of node and is
 	especially useful in simple mode.  JJTree automatically
-	generates a file called <i>parser</i>TreeConstants.java and
-	declares Java constants for the node identifiers.  It also
-	declares an array of <code>String</code>s called
-	<code>jjtNodeName[]</code> which maps the identifier integers
-	to the names of the nodes.</li>
+	generates a file called <i>parser</i>TreeConstants.java that 
+	declares valid constants.  The names of constants are derived
+	by prepending JJT to the uppercase names of nodes, with dot 
+	symbols (&quot;.&quot;) replaced by underscore symbols 
+	(&quot;_&quot;).  For convenience, an array of <code>String</code>s 
+	called <code>jjtNodeName[]</code> that maps the constants to the 
+	unmodified names of nodes is maintained in the same file.</li>
 
       <li>the node's <code>jjtOpen()</code> method is called.</li>
 

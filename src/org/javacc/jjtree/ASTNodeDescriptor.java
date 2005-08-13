@@ -68,7 +68,7 @@ public class ASTNodeDescriptor extends SimpleNode {
 
   String getNodeId()
   {
-    return "JJT" + name.toUpperCase();
+    return "JJT" + name.toUpperCase().replace('.', '_');
   }
 
 

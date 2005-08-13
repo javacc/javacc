@@ -811,12 +811,20 @@ Token identifier() :
 ASTNodeDescriptor node_descriptor() #NodeDescriptor :
 {
   Token t, n = null;
+  String s = null;
 }
 {
-  "#" ( t=identifier() | t=<VOID> )
+  "#"
+  (
+    s=Name()
                    {
-		     jjtThis.name = t.image;
+                     jjtThis.name = s;
 		   }
+  | t=<VOID>
+                   {
+                     jjtThis.name = t.image;
+		   }
+  )
   [
    LOOKAHEAD(1)
    "("
