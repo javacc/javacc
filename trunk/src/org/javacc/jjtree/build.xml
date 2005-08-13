@@ -87,6 +87,7 @@ designated nationals lists is strictly prohibited.
          <include name="ASTREZeroOrOne.java"/>
          <include name="ASTREParenthesized.java"/>
          <include name="ASTRECharList.java"/>
+         <include name="ASTRRepetitionRange.java"/>
          <include name="ASTCharDescriptor.java"/>
          <include name="ASTPrimaryExpression.java"/>
          <include name="JJTreeParserTreeConstants.java"/>
