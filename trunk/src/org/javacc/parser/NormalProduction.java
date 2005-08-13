@@ -40,6 +40,11 @@ public class NormalProduction {
   java.util.Vector parents = new java.util.Vector();
 
   /**
+   * The access modifier of this production.
+   */
+  public String accessMod;
+
+  /**
    * The name of the non-terminal of this production.
    */
   public String lhs;

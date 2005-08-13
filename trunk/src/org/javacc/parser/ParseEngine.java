@@ -438,7 +438,7 @@ public class ParseEngine extends JavaCCGlobals {
     }
     printTokenSetup(t); ccol = 1;
     printLeadingComments(t, ostr);
-    ostr.print("  " + staticOpt() + "final public ");
+    ostr.print("  " + staticOpt() + "final " +(p.accessMod != null ? p.accessMod : "public")+ " ");
     cline = t.beginLine; ccol = t.beginColumn;
     printTokenOnly(t, ostr);
     for (int i = 1; i < p.return_type_tokens.size(); i++) {
@@ -1082,7 +1082,7 @@ public class ParseEngine extends JavaCCGlobals {
         t = (Token)(jp.return_type_tokens.elementAt(0));
         printTokenSetup(t); ccol = 1;
         printLeadingComments(t, ostr);
-        ostr.print("  " + staticOpt());
+        ostr.print("  " + staticOpt() + (p.accessMod != null ? p.accessMod + " " : ""));
         cline = t.beginLine; ccol = t.beginColumn;
         printTokenOnly(t, ostr);
         for (int i = 1; i < jp.return_type_tokens.size(); i++) {

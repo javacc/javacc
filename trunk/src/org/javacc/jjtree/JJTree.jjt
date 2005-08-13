@@ -431,7 +431,7 @@ void javacode_production() #Javacode :
 	  prod = jjtThis;
 	}
   "JAVACODE"
-  ResultType() t1=identifier() FormalParameters()
+  AccessModifier() ResultType() t1=identifier() FormalParameters()
     [
       "throws" n=Name()
 	{
@@ -476,7 +476,7 @@ void bnf_production() #BNF :
         {
 	  prod = jjtThis;
 	}
-  ResultType() t1=identifier() FormalParameters()
+  AccessModifier() ResultType() t1=identifier() FormalParameters()
   [
     "throws" n=Name()
         {
@@ -518,6 +518,12 @@ void bnf_production() #BNF :
         {
 	  JJTreeGlobals.productions.put(prod.name, prod);
 	}
+}
+
+void AccessModifier() :
+{}
+{
+	( "public" | "protected" | "private" )?
 }
 
 void regular_expr_production() #RE :

@@ -551,7 +551,7 @@ that get inserted into the generated token manager.
 </TR>
 <TR>
 <TD></TD><TD></TD>
-<TD ALIGN=LEFT VALIGN=BASELINE><EM>java_return_type</EM> <EM>java_identifier</EM> "(" <EM>java_parameter_list</EM> ")"</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><EM>java_access_modifier</EM> <EM>java_return_type</EM> <EM>java_identifier</EM> "(" <EM>java_parameter_list</EM> ")"</TD>
 </TR>
 <TR>
 <TD></TD><TD></TD>
@@ -622,6 +622,8 @@ print a warning message stating this fact.  You will then have to
 insert some explicit LOOKAHEAD specifications to help JavaCC.  See
 <A HREF="lookahead.html">the minitutorial on LOOKAHEAD</A> for a
 detailed guide on such issues.
+<P>
+The default access modifier for JAVACODE productions is package private.
 
 <P>
 <HR>
@@ -631,7 +633,7 @@ detailed guide on such issues.
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod11">bnf_production</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE><EM>java_return_type</EM> <EM>java_identifier</EM> "(" <EM>java_parameter_list</EM> ")" ":"</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE><EM>java_access_modifier</EM> <EM>java_return_type</EM> <EM>java_identifier</EM> "(" <EM>java_parameter_list</EM> ")" ":"</TD>
 </TR>
 <TR>
 <TD></TD><TD></TD>
@@ -657,6 +659,7 @@ to pass values up and down the parse tree.  As will be seen later,
 non-terminals on the right hand sides of productions are written as
 method calls, so the passing of values up and down the tree are done
 using exactly the same paradigm as method call and return.
+The default access modifier for BNF productions is public.
 <P>
 There are two parts on the right hand side of an BNF production.  The
 first part is a set of arbitrary Java declarations and code (the Java

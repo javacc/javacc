@@ -611,6 +611,7 @@ void javacode_production() :
 	}
 {
   "JAVACODE"
+  AccessModifier(p)
   ResultType(p.return_type_tokens)
   p.lhs=identifier()
   FormalParameters(p.parameter_list_tokens)
@@ -652,6 +653,7 @@ void bnf_production() :
 	  jumpPatched = false;
 	}
 {
+  AccessModifier(p)
   ResultType(p.return_type_tokens)
   p.lhs=identifier()
   FormalParameters(p.parameter_list_tokens)
@@ -681,6 +683,19 @@ void bnf_production() :
 	  p.jumpPatched = jumpPatched;
 	  production_addexpansion(p, (Expansion)(c.member));
 	  addproduction(p);
+	}
+}
+
+void AccessModifier(NormalProduction p) :
+	{
+	  Token t = null;
+	}
+{
+	( t = "public" | t = "protected" | t = "private" )?
+	{
+	  if(t != null){
+	    p.accessMod = t.image;
+	  }
 	}
 }
 
