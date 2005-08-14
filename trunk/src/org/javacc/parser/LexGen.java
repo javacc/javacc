@@ -174,6 +174,10 @@ public class LexGen
  
     ostr.println("  public " + staticString + " java.io.PrintStream debugStream = System.out;");
     ostr.println("  public " + staticString + " void setDebugStream(java.io.PrintStream ds) { debugStream = ds; }");
+
+    if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
+       ostr.println("  public " + cu_name + " parser = null;");
+    }
   }
 
   static void DumpDebugMethods()
@@ -731,8 +735,12 @@ public class LexGen
 
       ostr.println(staticString + "protected char curChar;");
 
-      ostr.println("public " + tokMgrClassName + "(" + charStreamName + " stream)");
-      ostr.println("{");
+      if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
+         ostr.println("public " + tokMgrClassName + "(" + cu_name + " parserArg, " + charStreamName + " stream){");
+         ostr.println("   parser = parserArg;");
+      } else {
+         ostr.println("public " + tokMgrClassName + "(" + charStreamName + " stream){");
+      }
 
       if (Options.getStatic() && !Options.getUserCharStream())
       {
@@ -753,9 +761,13 @@ public class LexGen
 
       ostr.println("}");
 
-      ostr.println("public " + tokMgrClassName + "(" + charStreamName + " stream, int lexState)");
-      ostr.println("{");
-      ostr.println("   this(stream);");
+      if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
+         ostr.println("public " + tokMgrClassName + "(" + cu_name + " parserArg, " + charStreamName + " stream, int lexState){");
+         ostr.println("   this(parserArg, stream);");
+      } else {
+         ostr.println("public " + tokMgrClassName + "(" + charStreamName + " stream, int lexState){");
+         ostr.println("   this(stream);");
+      }
       ostr.println("   SwitchTo(lexState);");
       ostr.println("}");
 

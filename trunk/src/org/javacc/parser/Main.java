@@ -62,6 +62,7 @@ public class Main {
     System.out.println("    USER_CHAR_STREAM       (default false)");
     System.out.println("    BUILD_PARSER           (default true)");
     System.out.println("    BUILD_TOKEN_MANAGER    (default true)");
+    System.out.println("    TOKEN_MANAGER_USES_PARSER (default false)");
     System.out.println("    SANITY_CHECK           (default true)");
     System.out.println("    FORCE_LA_CHECK         (default false)");
     System.out.println("    CACHE_TOKENS           (default false)");

@@ -14,7 +14,7 @@ public final class OptionsTest extends TestCase {
         Options.init();
         JavaCCErrors.reInit();
 
-        assertEquals(21, Options.optionValues.size());
+        assertEquals(23, Options.optionValues.size());
 
         assertEquals(true, Options.getBuildParser());
         assertEquals(true, Options.getBuildTokenManager());
@@ -33,10 +33,13 @@ public final class OptionsTest extends TestCase {
         assertEquals(false, Options.getUnicodeInput());
         assertEquals(false, Options.getUserCharStream());
         assertEquals(false, Options.getUserTokenManager());
+        assertEquals(false, Options.getTokenManagerUsesParser());
 
         assertEquals(2, Options.getChoiceAmbiguityCheck());
         assertEquals(1, Options.getLookahead());
         assertEquals(1, Options.getOtherAmbiguityCheck());
+
+        assertEquals("1.4", Options.getJdkVersion());
 
         assertEquals(new File("."), Options.getOutputDirectory());
 
