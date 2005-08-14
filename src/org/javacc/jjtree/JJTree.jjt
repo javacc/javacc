@@ -933,7 +933,7 @@ void OtherAssignmentOps() :
 void CompilationUnit() :
 {}
 {
-  [ PackageDeclaration() ]
+  [ LOOKAHEAD( ( Annotation() )* "package" ) PackageDeclaration() ]
   ( ImportDeclaration() )*
   ( TypeDeclaration() )*
 }
@@ -943,7 +943,7 @@ void PackageDeclaration() :
   String s;
 }
 {
-  "package" s=Name() ";"
+  Modifiers() "package" s=Name() ";"
                 {
 		  JJTreeGlobals.packageName = s;
 		}
@@ -1065,7 +1065,8 @@ void EnumBody():
 {}
 {
    "{"
-   EnumConstant() ( "," EnumConstant() )*
+   [ EnumConstant() ( LOOKAHEAD(2) "," EnumConstant() )* ]
+   [ "," ]
    [ ";" ( ClassOrInterfaceBodyDeclaration() )* ]
    "}"
 }
@@ -1073,7 +1074,7 @@ void EnumBody():
 void EnumConstant():
 {}
 {
-  JavaIdentifier() [ Arguments() ] [ ClassOrInterfaceBody() ]
+  Modifiers() JavaIdentifier() [ Arguments() ] [ ClassOrInterfaceBody() ]
 }
 
 void TypeParameters():
@@ -1195,7 +1196,7 @@ void FormalParameters() :
 void FormalParameter():
 {}
 {
-  [ "final" ] Type() [ "..." ] VariableDeclaratorId()
+  Modifiers() Type() [ "..." ] VariableDeclaratorId()
 }
 
 void ConstructorDeclaration():
@@ -1721,7 +1722,7 @@ void Block() :
 void BlockStatement():
 {}
 {
-  LOOKAHEAD([ "final" ] Type() JavaIdentifier())
+  LOOKAHEAD( Modifiers() Type() JavaIdentifier() )
   LocalVariableDeclaration() ";"
 |
   Statement()
@@ -1732,7 +1733,7 @@ void BlockStatement():
 void LocalVariableDeclaration():
 {}
 {
-  [ "final" ] Type() VariableDeclarator() ( "," VariableDeclarator() )*
+  Modifiers() Type() VariableDeclarator() ( "," VariableDeclarator() )*
 }
 
 void EmptyStatement():
@@ -1808,8 +1809,8 @@ void ForStatement():
   "for" "("
 
   (
-      LOOKAHEAD(Type() JavaIdentifier() ":")
-      Type() JavaIdentifier() ":" Expression() 
+      LOOKAHEAD(Modifiers() Type() JavaIdentifier() ":")
+      Modifiers() Type() JavaIdentifier() ":" Expression() 
     |
      [ ForInit() ] ";" [ Expression() ] ";" [ ForUpdate() ]
   )
@@ -1820,7 +1821,7 @@ void ForStatement():
 void ForInit():
 {}
 {
-  LOOKAHEAD( [ "final" ] Type() JavaIdentifier() )
+  LOOKAHEAD( Modifiers() Type() JavaIdentifier() )
   LocalVariableDeclaration()
 |
   StatementExpressionList()

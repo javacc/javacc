@@ -1529,7 +1529,7 @@ void CompilationUnit() :
 	  set_initial_cu_token(getToken(1));
 	}
 {
-  [ PackageDeclaration() ]
+  [ LOOKAHEAD( ( Annotation() )* "package" ) PackageDeclaration() ]
   ( ImportDeclaration() )*
   ( TypeDeclaration() )*
 	{
@@ -1540,7 +1540,7 @@ void CompilationUnit() :
 void PackageDeclaration() :
 {}
 {
-  "package" Name(new Vector()) ";"
+  Modifiers() "package" Name(new Vector()) ";"
 }
 
 void ImportDeclaration() :
@@ -1679,7 +1679,8 @@ void EnumBody():
 {}
 {
    "{"
-   EnumConstant() ( "," EnumConstant() )*
+   [ EnumConstant() ( LOOKAHEAD(2) "," EnumConstant() )* ]
+   [ "," ]
    [ ";" ( ClassOrInterfaceBodyDeclaration(false) )* ]
    "}"
 }
@@ -1687,7 +1688,7 @@ void EnumBody():
 void EnumConstant():
 {}
 {
-  <IDENTIFIER> [ Arguments(new Vector()) ] [ ClassOrInterfaceBody(false, new Vector()) ]
+  Modifiers() <IDENTIFIER> [ Arguments(new Vector()) ] [ ClassOrInterfaceBody(false, new Vector()) ]
 }
 
 void TypeParameters():
@@ -1852,7 +1853,7 @@ void FormalParameters(Vector tokens) :
 void FormalParameter():
 {}
 {
-  [ "final" ] Type() [ "..." ] VariableDeclaratorId()
+  Modifiers() Type() [ "..." ] VariableDeclaratorId()
 }
 
 void ConstructorDeclaration():
@@ -2444,7 +2445,7 @@ void Block(java.util.Vector tokens) :
 void BlockStatement():
 {}
 {
-  LOOKAHEAD([ "final" ] Type() <IDENTIFIER>)
+  LOOKAHEAD( Modifiers() Type() <IDENTIFIER> )
   LocalVariableDeclaration() ";"
 |
   Statement()
@@ -2455,7 +2456,7 @@ void BlockStatement():
 void LocalVariableDeclaration():
 {}
 {
-  [ "final" ] Type() VariableDeclarator() ( "," VariableDeclarator() )*
+  Modifiers() Type() VariableDeclarator() ( "," VariableDeclarator() )*
 }
 
 void EmptyStatement():
@@ -2531,8 +2532,8 @@ void ForStatement():
   "for" "("
 
   (
-      LOOKAHEAD(Type() <IDENTIFIER> ":")
-      Type() <IDENTIFIER> ":" Expression(new Vector()) 
+      LOOKAHEAD(Modifiers() Type() <IDENTIFIER> ":")
+      Modifiers() Type() <IDENTIFIER> ":" Expression(new Vector()) 
     |
      [ ForInit() ] ";" [ Expression(new Vector()) ] ";" [ ForUpdate() ]
   )
@@ -2543,7 +2544,7 @@ void ForStatement():
 void ForInit():
 {}
 {
-  LOOKAHEAD( [ "final" ] Type() <IDENTIFIER> )
+  LOOKAHEAD( Modifiers() Type() <IDENTIFIER> )
   LocalVariableDeclaration()
 |
   StatementExpressionList()
