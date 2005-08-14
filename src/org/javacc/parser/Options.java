@@ -106,6 +106,7 @@ public class Options {
         optionValues.put("USER_CHAR_STREAM", Boolean.FALSE);
         optionValues.put("BUILD_PARSER", Boolean.TRUE);
         optionValues.put("BUILD_TOKEN_MANAGER", Boolean.TRUE);
+        optionValues.put("TOKEN_MANAGER_USES_PARSER", Boolean.FALSE);
         optionValues.put("SANITY_CHECK", Boolean.TRUE);
         optionValues.put("FORCE_LA_CHECK", Boolean.FALSE);
         optionValues.put("COMMON_TOKEN_ACTION", Boolean.FALSE);
@@ -451,6 +452,15 @@ public class Options {
     public static boolean getBuildTokenManager() {
         return booleanValue("BUILD_TOKEN_MANAGER");
     }
+
+    /**
+     * Find the token manager uses parser value.
+     *
+     * @return The requested token manager uses parser value;
+     */
+     public static boolean getTokenManagerUsesParser(){
+         return booleanValue("TOKEN_MANAGER_USES_PARSER");
+     }
 
     /**
      * Find the sanity check value.

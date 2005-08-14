@@ -290,6 +290,10 @@ Option names are not case-sensitive.
 </TR>
 <TR>
 <TD></TD><TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>"TOKEN_MANAGER_USES_PARSER" "=" <EM>java_boolean_literal</EM> ";"</TD>
+</TR>
+<TR>
+<TD></TD><TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
 <TD ALIGN=LEFT VALIGN=BASELINE>"SANITY_CHECK" "=" <EM>java_boolean_literal</EM> ";"</TD>
 </TR>
 <TR>
@@ -448,6 +452,15 @@ false the token manager file is not generated.  The only reason
 to set this option to false is to save some time during parser
 generation when you fix problems in the parser part of the grammar
 file and leave the lexical specifications untouched.
+<LI>
+<STRONG>TOKEN_MANAGER_USES_PARSER:</STRONG>
+This is a boolean option whose default value is false.
+When set to true, the generated token manager will include a field 
+called <CODE>parser</CODE> that references the instantiating parser 
+instance (of type <CODE>MyParser</CODE> in the above example).
+The main reason for having a parser in a token manager is using
+some of its logic in lexical actions.
+This option has no effect if the STATIC option is set to true.
 <LI>
 <STRONG>SANITY_CHECK:</STRONG>
 This is a boolean option whose default value is true.

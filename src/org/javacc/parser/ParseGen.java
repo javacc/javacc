@@ -151,8 +151,12 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
             ostr.println("    }");
             ostr.println("    jj_initialized_once = true;");
           }
-          ostr.println("    token_source = new " + cu_name + "TokenManager(stream);");
-          ostr.println("    token = new Token();");
+          if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
+            ostr.println("    token_source = new " + cu_name + "TokenManager(this, stream);");
+          } else {
+            ostr.println("    token_source = new " + cu_name + "TokenManager(stream);");
+          }
+        ostr.println("    token = new Token();");
 	  if (Options.getCacheTokens()) {
 	    ostr.println("    token.next = jj_nt = token_source.getNextToken();");
 	  } else {
@@ -205,7 +209,11 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
           } else {
             ostr.println("    try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }");
           }
-          ostr.println("    token_source = new " + cu_name + "TokenManager(jj_input_stream);");
+          if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
+            ostr.println("    token_source = new " + cu_name + "TokenManager(this, jj_input_stream);");
+          } else {
+            ostr.println("    token_source = new " + cu_name + "TokenManager(jj_input_stream);");
+          }
           ostr.println("    token = new Token();");
 	  if (Options.getCacheTokens()) {
 	    ostr.println("    token.next = jj_nt = token_source.getNextToken();");
@@ -260,7 +268,11 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
           } else {
             ostr.println("    jj_input_stream = new SimpleCharStream(stream, 1, 1);");
           }
-          ostr.println("    token_source = new " + cu_name + "TokenManager(jj_input_stream);");
+          if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
+            ostr.println("    token_source = new " + cu_name + "TokenManager(this, jj_input_stream);");
+          } else {
+            ostr.println("    token_source = new " + cu_name + "TokenManager(jj_input_stream);");
+          }
           ostr.println("    token = new Token();");
 	  if (Options.getCacheTokens()) {
 	    ostr.println("    token.next = jj_nt = token_source.getNextToken();");
