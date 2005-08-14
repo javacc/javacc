@@ -1070,7 +1070,7 @@ TOKEN :
 void CompilationUnit():
 {}
 {
-  [ PackageDeclaration() ]
+  [ LOOKAHEAD( ( Annotation() )* "package" ) PackageDeclaration() ]
   ( ImportDeclaration() )*
   ( TypeDeclaration() )*
   <EOF>
@@ -1079,7 +1079,7 @@ void CompilationUnit():
 void PackageDeclaration():
 {}
 {
-  "package" Name() ";"
+  Modifiers() "package" Name() ";"
 }
 
 void ImportDeclaration():
@@ -1212,7 +1212,7 @@ void EnumBody():
 void EnumConstant():
 {}
 {
-  <IDENTIFIER> [ Arguments() ] [ ClassOrInterfaceBody(false) ]
+  Modifiers() <IDENTIFIER> [ Arguments() ] [ ClassOrInterfaceBody(false) ]
 }
 
 void TypeParameters():
@@ -1329,7 +1329,7 @@ void FormalParameters():
 void FormalParameter():
 {}
 {
-  [ "final" ] Type() [ "..." ] VariableDeclaratorId()
+  Modifiers() Type() [ "..." ] VariableDeclaratorId()
 }
 
 void ConstructorDeclaration():
@@ -1808,7 +1808,7 @@ void Block():
 void BlockStatement():
 {}
 {
-  LOOKAHEAD([ "final" ] Type() <IDENTIFIER>)
+  LOOKAHEAD( Modifiers() Type() <IDENTIFIER> )
   LocalVariableDeclaration() ";"
 |
   Statement()
@@ -1819,7 +1819,7 @@ void BlockStatement():
 void LocalVariableDeclaration():
 {}
 {
-  [ "final" ] Type() VariableDeclarator() ( "," VariableDeclarator() )*
+  Modifiers() Type() VariableDeclarator() ( "," VariableDeclarator() )*
 }
 
 void EmptyStatement():
@@ -1907,7 +1907,7 @@ void ForStatement():
 void ForInit():
 {}
 {
-  LOOKAHEAD( [ "final" ] Type() <IDENTIFIER> )
+  LOOKAHEAD( Modifiers() Type() <IDENTIFIER> )
   LocalVariableDeclaration()
 |
   StatementExpressionList()
