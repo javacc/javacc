@@ -25,6 +25,8 @@ options {
   JAVA_UNICODE_ESCAPE = true;
   ERROR_REPORTING = false;
   STATIC = false;
+  DEBUG_PARSER = true;
+  JDK_VERSION = "1.5";
 }
 
 PARSER_BEGIN(JavaParser)
@@ -1350,7 +1352,7 @@ void ExplicitConstructorInvocation():
   LOOKAHEAD("this" Arguments() ";")
   "this" Arguments() ";"
 |
-  [ LOOKAHEAD(2) PrimaryExpression() "." ] "super" Arguments() ";"
+  [ LOOKAHEAD(2) PrimaryExpression() "." "super" "(" ] ( "super" | "this" ) Arguments() ";"
 }
 
 void Initializer():
@@ -1657,10 +1659,10 @@ void PrimaryPrefix():
 void PrimarySuffix():
 {}
 {
-  LOOKAHEAD(2)
+  LOOKAHEAD("." "this" ".")
   "." "this"
 |
-  LOOKAHEAD(2)
+  LOOKAHEAD("." "super" ".")
   "." "super"
 |
   LOOKAHEAD(2)
