@@ -1026,7 +1026,7 @@ public class ParseEngine extends JavaCCGlobals {
       int min = oldMin;
       Expansion nested_e;
       Choice e_nrw = (Choice)e;
-      for (int i = 0; i < e_nrw.choices.size(); i++) {
+      for (int i = 0; min > 1 && i < e_nrw.choices.size(); i++) {
         nested_e = (Expansion)(e_nrw.choices.elementAt(i));
         int min1 = minimumSize(nested_e, min);
         if (min > min1) min = min1;
