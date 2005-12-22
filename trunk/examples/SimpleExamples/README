@@ -30,6 +30,7 @@ below:
 	Simple3.jj
 	Simple4.jj
 	NL_Xlator.jj
+	IdList.jj
 
 Once you have tried out and understood each of these examples, you
 should take a look at more complex examples in other sub-directories
