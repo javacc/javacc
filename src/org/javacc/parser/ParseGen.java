@@ -230,7 +230,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
           ostr.println("  }");
           ostr.println("");
           ostr.println("  " + staticOpt() + "public void ReInit(java.io.InputStream stream) {");
-          ostr.println("     ReInit(stream);");
+          ostr.println("     ReInit(stream, null);");
           ostr.println("  }");
           ostr.println("  " + staticOpt() + "public void ReInit(java.io.InputStream stream, String encoding) {");
           ostr.println("    try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }");
