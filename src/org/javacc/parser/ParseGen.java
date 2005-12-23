@@ -616,7 +616,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
         ostr.println("      if (t.kind != 0 && !tokenImage[t.kind].equals(\"\\\"\" + t.image + \"\\\"\")) {");
         ostr.println("        System.out.print(\": \\\"\" + t.image + \"\\\"\");");
         ostr.println("      }");
-        ostr.println("      System.out.println(\">\" + where);");
+        ostr.println("      System.out.println(\" at line \" + t.beginLine + \" column \" + t.beginColumn + \">\" + where);");
         ostr.println("    }");
         ostr.println("  }");
         ostr.println("");
@@ -627,7 +627,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
         ostr.println("      if (t1.kind != 0 && !tokenImage[t1.kind].equals(\"\\\"\" + t1.image + \"\\\"\")) {");
         ostr.println("        System.out.print(\": \\\"\" + t1.image + \"\\\"\");");
         ostr.println("      }");
-        ostr.println("      System.out.println(\">; Expected token: <\" + tokenImage[t2] + \">\");");
+        ostr.println("      System.out.println(\" at line \" + t1.beginLine + \" column \" + t1.beginColumn + \">; Expected token: <\" + tokenImage[t2] + \">\");");
         ostr.println("    }");
         ostr.println("  }");
         ostr.println("");
