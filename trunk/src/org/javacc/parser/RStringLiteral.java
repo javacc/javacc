@@ -448,7 +448,7 @@ public class RStringLiteral extends RegularExpression {
 
      if (Options.getDebugTokenManager())
         ostr.println("   debugStream.println(" + (LexGen.maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + "\"Current character : \" + " +
-                 "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \")\");");
+                 "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") at line \" + input_stream.getLine() + \" column \" + input_stream.getColumn());");
 
      ostr.println("   return jjMoveNfa" + LexGen.lexStateSuffix + "(state, pos + 1);");
      ostr.println("}");
@@ -681,7 +681,7 @@ public class RStringLiteral extends RegularExpression {
 
         if (i != 0 && Options.getDebugTokenManager())
            ostr.println("   debugStream.println(" + (LexGen.maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + "\"Current character : \" + " +
-                    "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \")\");");
+                 "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") at line \" + input_stream.getLine() + \" column \" + input_stream.getColumn());");
 
         ostr.println("   switch(curChar)");
         ostr.println("   {");
