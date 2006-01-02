@@ -1,0 +1,77 @@
+<HTML>
+<!--
+
+Copyright © 2002 Sun Microsystems, Inc., 4150 Network Circle, Santa Clara,
+California 95054, U.S.A. All rights reserved.  Sun Microsystems, Inc. has
+intellectual property rights relating to technology embodied in the product
+that is described in this document. In particular, and without limitation,
+these intellectual property rights may include one or more of the U.S.
+patents listed at http://www.sun.com/patents and one or more additional
+patents or pending patent applications in the U.S. and in other countries.
+U.S. Government Rights - Commercial software. Government users are subject
+to the Sun Microsystems, Inc. standard license agreement and applicable
+provisions of the FAR and its supplements.  Use is subject to license terms.
+Sun,  Sun Microsystems,  the Sun logo and  Java are trademarks or registered
+trademarks of Sun Microsystems, Inc. in the U.S. and other countries.  This
+product is covered and controlled by U.S. Export Control laws and may be
+subject to the export or import laws in other countries.  Nuclear, missile,
+chemical biological weapons or nuclear maritime end uses or end users, whether
+direct or indirect, are strictly prohibited.  Export or reexport to countries
+subject to U.S. embargo or to entities identified on U.S. export exclusion
+lists, including, but not limited to, the denied persons and specially
+designated nationals lists is strictly prohibited.
+
+-->
+<HEAD>
+ <title>JavaCC: JJDoc Documentation</title>
+<!-- Changed by: Michael Van De Vanter, 14-Jan-2003 -->
+</HEAD>
+<BODY bgcolor="#FFFFFF" >
+
+<H1>JavaCC [tm]: JJDoc Documentation</H1>
+
+JJDoc takes a JavaCC [tm] parser specification and produces documentation
+for the BNF grammar.  It can operate in three modes, determined by
+command line options.</p>
+
+    <dl>
+      <dt><code>TEXT</code></dt>
+
+      <dd>(default false)
+
+	<p>Setting <code>TEXT</code> to true causes JJDoc to generate
+	a plain text format description of the BNF.  Some formatting
+	is done via tab characters, but the intention is to leave it
+	as plain as possible.</p>
+
+	<p>The default value of <code>TEXT</code> causes JJDoc to
+	  generate a hyperlinked HTML document.</p>
+      </dd>
+
+      <dt><code>ONE_TABLE</code></dt>
+
+      <dd>(default true)
+
+	<p>The default value of <code>ONE_TABLE</code> is used to
+	  generate a single HTML table for the BNF.  Setting it to
+	  false will produce one table for every production in the
+	  grammar.</p>
+      </dd>
+
+      <dt><code>OUTPUT_FILE</code></dt>
+
+      <dd>The default behavior is to put the JJDoc output into a file
+	with either .html or .txt added as a suffix to the input
+	file's base name.  You can supply a different file name with
+	this option.
+      </dd>
+    </dl>
+
+    <p>When in <code>TEXT</code> mode, or when <code>ONE_TABLE</code>
+    is false, comments in the JavaCC source that immediately precede a
+    production are passed through to the generated documentation.</p>
+
+<HR>
+
+</BODY>
+</HTML>

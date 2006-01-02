@@ -1,0 +1,126 @@
+<HTML>
+<!--
+
+Copyright © 2002 Sun Microsystems, Inc., 4150 Network Circle, Santa Clara,
+California 95054, U.S.A. All rights reserved.  Sun Microsystems, Inc. has
+intellectual property rights relating to technology embodied in the product
+that is described in this document. In particular, and without limitation,
+these intellectual property rights may include one or more of the U.S.
+patents listed at http://www.sun.com/patents and one or more additional
+patents or pending patent applications in the U.S. and in other countries.
+U.S. Government Rights - Commercial software. Government users are subject
+to the Sun Microsystems, Inc. standard license agreement and applicable
+provisions of the FAR and its supplements.  Use is subject to license terms.
+Sun,  Sun Microsystems,  the Sun logo and  Java are trademarks or registered
+trademarks of Sun Microsystems, Inc. in the U.S. and other countries.  This
+product is covered and controlled by U.S. Export Control laws and may be
+subject to the export or import laws in other countries.  Nuclear, missile,
+chemical biological weapons or nuclear maritime end uses or end users, whether
+direct or indirect, are strictly prohibited.  Export or reexport to countries
+subject to U.S. embargo or to entities identified on U.S. export exclusion
+lists, including, but not limited to, the denied persons and specially
+designated nationals lists is strictly prohibited.
+
+-->
+<HEAD>
+ <title>JavaCC: JJDoc Release Notes</title>
+<!-- Changed by: Michael Van De Vanter, 14-Jan-2003 -->
+</HEAD>
+<BODY bgcolor="#FFFFFF" >
+
+<H1>JavaCC [tm]: JJDoc Release Notes</H1>
+
+<pre>
+=================================
+Changes from JJDoc 0.1.4 to 0.1.5
+=================================
+
+----------------------------------------------------------------
+
+Fixed bug where Writers were not being closed correctly.
+
+----------------------------------------------------------------
+
+=================================
+Changes from JJDoc 0.1.3 to 0.1.4
+=================================
+
+----------------------------------------------------------------
+
+Now accepts JavaCC try/catch/finally blocks.
+
+----------------------------------------------------------------
+
+=================================
+Changes from JJDoc 0.1.2 to 0.1.3
+=================================
+
+----------------------------------------------------------------
+
+Made appropriate internal modifications for the JavaCC 0.7 parse error
+exceptions.
+
+----------------------------------------------------------------
+
+=================================
+Changes from JJDoc 0.1.1 to 0.1.2
+=================================
+
+----------------------------------------------------------------
+
+Fixed bug where ()+ expansions were being reported as ()*.
+
+----------------------------------------------------------------
+
+===============================
+Changes from JJDoc 0.1 to 0.1.1
+===============================
+
+----------------------------------------------------------------
+
+Fixed several stupid bugs in the Macintosh main class.
+
+----------------------------------------------------------------
+
+Fixed bug where production comments were being generated multiple
+times in text modes and one table HTML mode.
+
+----------------------------------------------------------------
+
+Moved production comments to the correct place: they were coming out
+with the preceding production in one table HTML mode.
+
+----------------------------------------------------------------
+
+=========
+JJDoc 0.1
+=========
+
+JJDoc takes a JavaCC parser specification and produces documentation
+for the BNF grammar.  It can operate in three modes, determined by
+command line options.
+
+    TEXT                   (default false)
+
+Setting TEXT to true causes JJDoc to generate a plain text format
+description of the BNF.  Some formatting is done via tab characters,
+but the intention is to leave it as plain as possible.
+
+The default value of TEXT causes JJDoc to generate a hyperlinked HTML
+document.
+
+    ONE_TABLE              (default true)
+
+The default value of ONE_TABLE is used to generate a single HTML table
+for the BNF.  Setting it to false will produce one table for every
+production in the grammar.
+
+    OUTPUT_FILE
+
+The default behavior is to put the JJDoc output into a file with
+either .html or .txt added as a suffix to the input file's base name.
+You can supply a different file name with this option.
+</pre>
+
+</BODY>
+</HTML>
