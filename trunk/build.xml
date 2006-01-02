@@ -25,7 +25,7 @@ designated nationals lists is strictly prohibited.
 
 <project name="javacc" default="jar" basedir=".">
   <property name="version"
-            value="4.0beta1">
+            value="4.0">
   </property>
 
   <target name="compile" depends="generated-files,classes,javacc-compile,jjtree-compile,jjdoc-compile">
@@ -99,7 +99,7 @@ designated nationals lists is strictly prohibited.
     </ant>
   </target>
 
-  <target name="binary-distribution" depends="realclean,jar">
+  <target name="binary-distribution" depends="realclean,jar,test">
      <property name="install-name"
                value="javacc-${version}">
      </property>
