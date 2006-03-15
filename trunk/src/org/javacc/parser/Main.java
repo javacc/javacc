@@ -132,7 +132,7 @@ public class Main {
       parser = new JavaCCParser(new java.io.FileReader(args[args.length-1]));
     } catch (NullPointerException ne) { // Should never happen
     } catch (SecurityException se) {
-      System.out.println("Security voilation while trying to open " + args[args.length-1]);
+      System.out.println("Security violation while trying to open " + args[args.length-1]);
       return 1;
     } catch (java.io.FileNotFoundException e) {
       System.out.println("File " + args[args.length-1] + " not found.");
