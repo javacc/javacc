@@ -687,9 +687,10 @@ SimpleNode expansion_unit(ASTProduction p) :
     PrimaryExpression() "="
   ]
   (
-    regular_expression() | ( identifier() Arguments() ) #BNFNonTerminal
+    regular_expression() [ "." t=<IDENTIFIER>  ]
+  | ( identifier() Arguments() ) #BNFNonTerminal
   )
-	[ "." t=<IDENTIFIER>  ]
+	
 ) #BNFAssignment(>1)
 |
   t="(" expansion_choices(p) ")"
@@ -1498,7 +1499,7 @@ void CastExpression():
   "(" Type() ")" UnaryExpressionNotPlusMinus()
 }
 
-void PrimaryExpression():
+void PrimaryExpression() #PrimaryExpression:
 {}
 {
   PrimaryPrefix() ( LOOKAHEAD(2) PrimarySuffix() )*
