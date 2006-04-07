@@ -37,12 +37,12 @@ public class ExpansionTreeWalker {
     opObj.action(node);
     if (opObj.goDeeper(node)) {
       if (node instanceof Choice) {
-        for (java.util.Enumeration enum = ((Choice)node).choices.elements(); enum.hasMoreElements();) {
-          preOrderWalk((Expansion)enum.nextElement(), opObj);
+        for (java.util.Enumeration enumeration = ((Choice)node).choices.elements(); enumeration.hasMoreElements();) {
+          preOrderWalk((Expansion)enumeration.nextElement(), opObj);
         }
       } else if (node instanceof Sequence) {
-        for (java.util.Enumeration enum = ((Sequence)node).units.elements(); enum.hasMoreElements();) {
-          preOrderWalk((Expansion)enum.nextElement(), opObj);
+        for (java.util.Enumeration enumeration = ((Sequence)node).units.elements(); enumeration.hasMoreElements();) {
+          preOrderWalk((Expansion)enumeration.nextElement(), opObj);
         }
       } else if (node instanceof OneOrMore) {
         preOrderWalk(((OneOrMore)node).expansion, opObj);
@@ -58,12 +58,12 @@ public class ExpansionTreeWalker {
       } else if (node instanceof TryBlock) {
         preOrderWalk(((TryBlock)node).exp, opObj);
       } else if (node instanceof RChoice) {
-        for (java.util.Enumeration enum = ((RChoice)node).choices.elements(); enum.hasMoreElements();) {
-          preOrderWalk((Expansion)enum.nextElement(), opObj);
+        for (java.util.Enumeration enumeration = ((RChoice)node).choices.elements(); enumeration.hasMoreElements();) {
+          preOrderWalk((Expansion)enumeration.nextElement(), opObj);
         }
       } else if (node instanceof RSequence) {
-        for (java.util.Enumeration enum = ((RSequence)node).units.elements(); enum.hasMoreElements();) {
-          preOrderWalk((Expansion)enum.nextElement(), opObj);
+        for (java.util.Enumeration enumeration = ((RSequence)node).units.elements(); enumeration.hasMoreElements();) {
+          preOrderWalk((Expansion)enumeration.nextElement(), opObj);
         }
       } else if (node instanceof ROneOrMore) {
         preOrderWalk(((ROneOrMore)node).regexpr, opObj);
@@ -85,12 +85,12 @@ public class ExpansionTreeWalker {
   static void postOrderWalk(Expansion node, TreeWalkerOp opObj) {
     if (opObj.goDeeper(node)) {
       if (node instanceof Choice) {
-        for (java.util.Enumeration enum = ((Choice)node).choices.elements(); enum.hasMoreElements();) {
-          postOrderWalk((Expansion)enum.nextElement(), opObj);
+        for (java.util.Enumeration enumeration = ((Choice)node).choices.elements(); enumeration.hasMoreElements();) {
+          postOrderWalk((Expansion)enumeration.nextElement(), opObj);
         }
       } else if (node instanceof Sequence) {
-        for (java.util.Enumeration enum = ((Sequence)node).units.elements(); enum.hasMoreElements();) {
-          postOrderWalk((Expansion)enum.nextElement(), opObj);
+        for (java.util.Enumeration enumeration = ((Sequence)node).units.elements(); enumeration.hasMoreElements();) {
+          postOrderWalk((Expansion)enumeration.nextElement(), opObj);
         }
       } else if (node instanceof OneOrMore) {
         postOrderWalk(((OneOrMore)node).expansion, opObj);
@@ -106,12 +106,12 @@ public class ExpansionTreeWalker {
       } else if (node instanceof TryBlock) {
         postOrderWalk(((TryBlock)node).exp, opObj);
       } else if (node instanceof RChoice) {
-        for (java.util.Enumeration enum = ((RChoice)node).choices.elements(); enum.hasMoreElements();) {
-          postOrderWalk((Expansion)enum.nextElement(), opObj);
+        for (java.util.Enumeration enumeration = ((RChoice)node).choices.elements(); enumeration.hasMoreElements();) {
+          postOrderWalk((Expansion)enumeration.nextElement(), opObj);
         }
       } else if (node instanceof RSequence) {
-        for (java.util.Enumeration enum = ((RSequence)node).units.elements(); enum.hasMoreElements();) {
-          postOrderWalk((Expansion)enum.nextElement(), opObj);
+        for (java.util.Enumeration enumeration = ((RSequence)node).units.elements(); enumeration.hasMoreElements();) {
+          postOrderWalk((Expansion)enumeration.nextElement(), opObj);
         }
       } else if (node instanceof ROneOrMore) {
         postOrderWalk(((ROneOrMore)node).regexpr, opObj);
