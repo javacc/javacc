@@ -57,8 +57,8 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
 
       if (cu_to_insertion_point_1.size() != 0) {
         printTokenSetup((Token)(cu_to_insertion_point_1.elementAt(0))); ccol = 1;
-        for (Enumeration enum = cu_to_insertion_point_1.elements(); enum.hasMoreElements();) {
-          t = (Token)enum.nextElement();
+        for (Enumeration enumeration = cu_to_insertion_point_1.elements(); enumeration.hasMoreElements();) {
+          t = (Token)enumeration.nextElement();
           if (t.kind == IMPLEMENTS) {
             implementsExists = true;
           } else if (t.kind == CLASS) {
@@ -75,8 +75,8 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
       ostr.print(cu_name + "Constants ");
       if (cu_to_insertion_point_2.size() != 0) {
         printTokenSetup((Token)(cu_to_insertion_point_2.elementAt(0)));
-        for (Enumeration enum = cu_to_insertion_point_2.elements(); enum.hasMoreElements();) {
-          t = (Token)enum.nextElement();
+        for (Enumeration enumeration = cu_to_insertion_point_2.elements(); enumeration.hasMoreElements();) {
+          t = (Token)enumeration.nextElement();
           printToken(t, ostr);
         }
       }
@@ -124,8 +124,8 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
 	for (int i = 0; i < tokenMaskSize; i++) {
 	  ostr.println("   private static void jj_la1_" + i + "() {");
 	  ostr.print("      jj_la1_" + i + " = new int[] {");
-	  for (Enumeration enum = maskVals.elements(); enum.hasMoreElements();) {
-	    int[] tokenMask = (int[])(enum.nextElement());
+	  for (Enumeration enumeration = maskVals.elements(); enumeration.hasMoreElements();) {
+	    int[] tokenMask = (int[])(enumeration.nextElement());
 	    ostr.print("0x" + Integer.toHexString(tokenMask[i]) + ",");
 	  }
 	  ostr.println("};");
@@ -685,8 +685,8 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
 
       if (cu_from_insertion_point_2.size() != 0) {
         printTokenSetup((Token)(cu_from_insertion_point_2.elementAt(0))); ccol = 1;
-        for (Enumeration enum = cu_from_insertion_point_2.elements(); enum.hasMoreElements();) {
-          t = (Token)enum.nextElement();
+        for (Enumeration enumeration = cu_from_insertion_point_2.elements(); enumeration.hasMoreElements();) {
+          t = (Token)enumeration.nextElement();
           printToken(t, ostr);
         }
         printTrailingComments(t, ostr);
