@@ -243,8 +243,8 @@ public class ParseEngine extends JavaCCGlobals {
 	    indentAmt++;
 	  }
 	  printTokenSetup((Token)(la.action_tokens.elementAt(0)));
-	  for (java.util.Enumeration enum = la.action_tokens.elements(); enum.hasMoreElements();) {
-	    t = (Token)enum.nextElement();
+	  for (java.util.Enumeration enumeration = la.action_tokens.elements(); enumeration.hasMoreElements();) {
+	    t = (Token)enumeration.nextElement();
 	    retval += printToken(t);
 	  }
 	  retval += printTrailingComments(t);
@@ -357,8 +357,8 @@ public class ParseEngine extends JavaCCGlobals {
 	  // the semantic check with the syntactic one.
 	  retval += " && (";
 	  printTokenSetup((Token)(la.action_tokens.elementAt(0)));
-	  for (java.util.Enumeration enum = la.action_tokens.elements(); enum.hasMoreElements();) {
-	    t = (Token)enum.nextElement();
+	  for (java.util.Enumeration enumeration = la.action_tokens.elements(); enumeration.hasMoreElements();) {
+	    t = (Token)enumeration.nextElement();
 	    retval += printToken(t);
 	  }
 	  retval += printTrailingComments(t);
@@ -449,16 +449,16 @@ public class ParseEngine extends JavaCCGlobals {
     ostr.print(" " + p.lhs + "(");
     if (p.parameter_list_tokens.size() != 0) {
       printTokenSetup((Token)(p.parameter_list_tokens.elementAt(0)));
-      for (java.util.Enumeration enum = p.parameter_list_tokens.elements(); enum.hasMoreElements();) {
-        t = (Token)enum.nextElement();
+      for (java.util.Enumeration enumeration = p.parameter_list_tokens.elements(); enumeration.hasMoreElements();) {
+        t = (Token)enumeration.nextElement();
         printToken(t, ostr);
       }
       printTrailingComments(t, ostr);
     }
     ostr.print(") throws ParseException");
-    for (java.util.Enumeration enum = p.throws_list.elements(); enum.hasMoreElements();) {
+    for (java.util.Enumeration enumeration = p.throws_list.elements(); enumeration.hasMoreElements();) {
       ostr.print(", ");
-      java.util.Vector name = (java.util.Vector)enum.nextElement();
+      java.util.Vector name = (java.util.Vector)enumeration.nextElement();
       for (java.util.Enumeration enum1 = name.elements(); enum1.hasMoreElements();) {
         t = (Token)enum1.nextElement();
         ostr.print(t.image);
@@ -474,8 +474,8 @@ public class ParseEngine extends JavaCCGlobals {
     }
     if (p.declaration_tokens.size() != 0) {
       printTokenSetup((Token)(p.declaration_tokens.elementAt(0))); cline--;
-      for (java.util.Enumeration enum = p.declaration_tokens.elements(); enum.hasMoreElements();) {
-        t = (Token)enum.nextElement();
+      for (java.util.Enumeration enumeration = p.declaration_tokens.elements(); enumeration.hasMoreElements();) {
+        t = (Token)enumeration.nextElement();
         printToken(t, ostr);
       }
       printTrailingComments(t, ostr);
@@ -512,8 +512,8 @@ public class ParseEngine extends JavaCCGlobals {
       retval += "\n";
       if (e_nrw.lhsTokens.size() != 0) {
         printTokenSetup((Token)(e_nrw.lhsTokens.elementAt(0)));
-        for (java.util.Enumeration enum = e_nrw.lhsTokens.elements(); enum.hasMoreElements();) {
-          t = (Token)enum.nextElement();
+        for (java.util.Enumeration enumeration = e_nrw.lhsTokens.elements(); enumeration.hasMoreElements();) {
+          t = (Token)enumeration.nextElement();
           retval += printToken(t);
         }
         retval += printTrailingComments(t);
@@ -535,8 +535,8 @@ public class ParseEngine extends JavaCCGlobals {
       retval += "\n";
       if (e_nrw.lhsTokens.size() != 0) {
         printTokenSetup((Token)(e_nrw.lhsTokens.elementAt(0)));
-        for (java.util.Enumeration enum = e_nrw.lhsTokens.elements(); enum.hasMoreElements();) {
-          t = (Token)enum.nextElement();
+        for (java.util.Enumeration enumeration = e_nrw.lhsTokens.elements(); enumeration.hasMoreElements();) {
+          t = (Token)enumeration.nextElement();
           retval += printToken(t);
         }
         retval += printTrailingComments(t);
@@ -545,8 +545,8 @@ public class ParseEngine extends JavaCCGlobals {
       retval += e_nrw.name + "(";
       if (e_nrw.argument_tokens.size() != 0) {
         printTokenSetup((Token)(e_nrw.argument_tokens.elementAt(0)));
-        for (java.util.Enumeration enum = e_nrw.argument_tokens.elements(); enum.hasMoreElements();) {
-          t = (Token)enum.nextElement();
+        for (java.util.Enumeration enumeration = e_nrw.argument_tokens.elements(); enumeration.hasMoreElements();) {
+          t = (Token)enumeration.nextElement();
           retval += printToken(t);
         }
         retval += printTrailingComments(t);
@@ -557,8 +557,8 @@ public class ParseEngine extends JavaCCGlobals {
       retval += "\u0003\n";
       if (e_nrw.action_tokens.size() != 0) {
         printTokenSetup((Token)(e_nrw.action_tokens.elementAt(0))); ccol = 1;
-        for (java.util.Enumeration enum = e_nrw.action_tokens.elements(); enum.hasMoreElements();) {
-          t = (Token)enum.nextElement();
+        for (java.util.Enumeration enumeration = e_nrw.action_tokens.elements(); enumeration.hasMoreElements();) {
+          t = (Token)enumeration.nextElement();
           retval += printToken(t);
         }
         retval += printTrailingComments(t);
@@ -662,8 +662,8 @@ public class ParseEngine extends JavaCCGlobals {
         v = (java.util.Vector)(e_nrw.types.elementAt(i));
         if (v.size() != 0) {
           printTokenSetup((Token)(v.elementAt(0)));
-          for (java.util.Enumeration enum = v.elements(); enum.hasMoreElements();) {
-            t = (Token)enum.nextElement();
+          for (java.util.Enumeration enumeration = v.elements(); enumeration.hasMoreElements();) {
+            t = (Token)enumeration.nextElement();
             retval += printToken(t);
           }
           retval += printTrailingComments(t);
@@ -677,8 +677,8 @@ public class ParseEngine extends JavaCCGlobals {
         v = (java.util.Vector)(e_nrw.catchblks.elementAt(i));
         if (v.size() != 0) {
           printTokenSetup((Token)(v.elementAt(0))); ccol = 1;
-          for (java.util.Enumeration enum = v.elements(); enum.hasMoreElements();) {
-            t = (Token)enum.nextElement();
+          for (java.util.Enumeration enumeration = v.elements(); enumeration.hasMoreElements();) {
+            t = (Token)enumeration.nextElement();
             retval += printToken(t);
           }
           retval += printTrailingComments(t);
@@ -689,8 +689,8 @@ public class ParseEngine extends JavaCCGlobals {
         retval += " finally {\u0003\n";
         if (e_nrw.finallyblk.size() != 0) {
           printTokenSetup((Token)(e_nrw.finallyblk.elementAt(0))); ccol = 1;
-          for (java.util.Enumeration enum = e_nrw.finallyblk.elements(); enum.hasMoreElements();) {
-            t = (Token)enum.nextElement();
+          for (java.util.Enumeration enumeration = e_nrw.finallyblk.elements(); enumeration.hasMoreElements();) {
+            t = (Token)enumeration.nextElement();
             retval += printToken(t);
           }
           retval += printTrailingComments(t);
@@ -904,8 +904,8 @@ public class ParseEngine extends JavaCCGlobals {
           ostr.println("    lookingAhead = true;");
           ostr.print("    jj_semLA = ");
           printTokenSetup((Token)(la.action_tokens.elementAt(0)));
-          for (java.util.Enumeration enum = la.action_tokens.elements(); enum.hasMoreElements();) {
-            t = (Token)enum.nextElement();
+          for (java.util.Enumeration enumeration = la.action_tokens.elements(); enumeration.hasMoreElements();) {
+            t = (Token)enumeration.nextElement();
             printToken(t, ostr);
           }
           printTrailingComments(t, ostr);
@@ -1075,8 +1075,8 @@ public class ParseEngine extends JavaCCGlobals {
 
     ostr = ps;
 
-    for (java.util.Enumeration enum = bnfproductions.elements(); enum.hasMoreElements();) {
-      p = (NormalProduction)enum.nextElement();
+    for (java.util.Enumeration enumeration = bnfproductions.elements(); enumeration.hasMoreElements();) {
+      p = (NormalProduction)enumeration.nextElement();
       if (p instanceof JavaCodeProduction) {
         jp = (JavaCodeProduction)p;
         t = (Token)(jp.return_type_tokens.elementAt(0));
@@ -1147,8 +1147,8 @@ public class ParseEngine extends JavaCCGlobals {
       }
     }
 
-    for (java.util.Enumeration enum = phase3table.elements(); enum.hasMoreElements();) {
-      buildPhase3Routine((Phase3Data)(enum.nextElement()), false);
+    for (java.util.Enumeration enumeration = phase3table.elements(); enumeration.hasMoreElements();) {
+      buildPhase3Routine((Phase3Data)(enumeration.nextElement()), false);
     }
 
   }
