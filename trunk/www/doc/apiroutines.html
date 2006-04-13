@@ -51,7 +51,7 @@ is generated into the parser class:
 <P>
 <UL>
 <LI>
-<STRONG><EM>returntype</EM> NT(<EM>parameters</EM>) throws ParseError;</STRONG>
+<STRONG><EM>returntype</EM> NT(<EM>parameters</EM>) throws ParseException;</STRONG>
 </UL>
 
 Here, <EM>returntype</EM> and <EM>parameters</EM> are what were specified
@@ -60,8 +60,8 @@ left-hand side).
 <P>
 When this method is called, the input stream is parsed to match this non-terminal.
 On a successful parse, this method returns normally.  On detection of a parse
-error, an error message is displayed and the method returns by throwing the
-exception ParseError.
+error, an error message is displayed and the method returns by throwing an exception
+of the type ParseException.
 <P>
 <EM>Note that all non-terminals in a JavaCC input grammar have equal status;
 it is possible to parse to any non-terminal by calling the  non-terminal's method.
