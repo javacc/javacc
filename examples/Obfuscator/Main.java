@@ -97,7 +97,7 @@ public class Main extends Globals {
       System.out.println("Could not create file map.log");
       throw new Error();
     }
-    for (Enumeration enumeration = mappings.keys(); enum.hasMoreElements();) {
+    for (Enumeration enumeration = mappings.keys(); enumeration.hasMoreElements();) {
       String from = (String)enumeration.nextElement();
       String to = (String)mappings.get(from);
       mstr.println(from + " -> " + to + ";");
