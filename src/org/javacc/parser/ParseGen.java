@@ -205,9 +205,17 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
             ostr.println("    jj_initialized_once = true;");
           }
           if (Options.getJavaUnicodeEscape()) {
+              if (Options.getJdkVersion().equals("1.3")) {
+                  ostr.println("    try { jj_input_stream = new JavaCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e.getMessage()); }");
+              }  else {
             ostr.println("    try { jj_input_stream = new JavaCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }");
+              }
+          } else {
+              if (Options.getJdkVersion().equals("1.3")) {
+                  ostr.println("    try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e.getMessage()); }");
           } else {
             ostr.println("    try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }");
+          }
           }
           if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
             ostr.println("    token_source = new " + cu_name + "TokenManager(this, jj_input_stream);");
@@ -233,7 +241,11 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
           ostr.println("     ReInit(stream, null);");
           ostr.println("  }");
           ostr.println("  " + staticOpt() + "public void ReInit(java.io.InputStream stream, String encoding) {");
+          if (Options.getJdkVersion().equals("1.3")) {
+            ostr.println("    try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e.getMessage()); }");
+          }   else {
           ostr.println("    try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }");
+          }
           ostr.println("    token_source.ReInit(jj_input_stream);");
           ostr.println("    token = new Token();");
 	  if (Options.getCacheTokens()) {
