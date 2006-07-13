@@ -47,7 +47,7 @@ public class IDLParser {
     }
     try {
       parser.specification();
-      System.out.println("IDL Parser Version 0.1:  Java program parsed successfully.");
+      System.out.println("IDL Parser Version 0.1:  IDL file parsed successfully.");
     } catch (ParseException e) {
       System.out.println("IDL Parser Version 0.1:  Encountered errors during parse.");
     }
