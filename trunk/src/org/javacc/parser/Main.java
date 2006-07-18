@@ -52,7 +52,6 @@ public class Main {
     System.out.println("    DEBUG_PARSER           (default false)");
     System.out.println("    DEBUG_LOOKAHEAD        (default false)");
     System.out.println("    DEBUG_TOKEN_MANAGER    (default false)");
-    System.out.println("    OPTIMIZE_TOKEN_MANAGER (default true)");
     System.out.println("    ERROR_REPORTING        (default true)");
     System.out.println("    JAVA_UNICODE_ESCAPE    (default false)");
     System.out.println("    UNICODE_INPUT          (default false)");
