@@ -49,7 +49,7 @@ public class ProducerConsumer {
    * blocks until a token becomes available.
    */
   synchronized public Token getToken() {
-    if (queue.size() == 0) {
+    if (queue.isEmpty()) {
       try {
         wait();
       } catch (InterruptedException willNotHappen) {
