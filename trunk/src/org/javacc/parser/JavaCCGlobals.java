@@ -44,7 +44,7 @@ public class JavaCCGlobals {
   static public String fileName;
 
   /**
-   * The name of the original file (before processing by JJTree and JJCov).
+   * The name of the original file (before processing by JJTree).
    * Currently this is the same as fileName.
    */
   static public String origFileName;
@@ -53,11 +53,6 @@ public class JavaCCGlobals {
    * Set to true if this file has been processed by JJTree.
    */
   static public boolean jjtreeGenerated;
-
-  /**
-   * Set to true if this file has been processed by JJCov.
-   */
-  static public boolean jjcovGenerated;
 
   /**
    * The list of tools that have participated in generating the
@@ -516,7 +511,6 @@ public class JavaCCGlobals {
       fileName = null;
       origFileName = null;
       jjtreeGenerated = false;
-      jjcovGenerated = false;
       toolNames = null;
       cu_name = null;
       cu_to_insertion_point_1 = new java.util.Vector();
