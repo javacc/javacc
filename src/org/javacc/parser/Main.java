@@ -142,7 +142,6 @@ public class Main {
       System.out.println("Reading from file " + args[args.length-1] + " . . .");
       JavaCCGlobals.fileName = JavaCCGlobals.origFileName = args[args.length-1];
       JavaCCGlobals.jjtreeGenerated = JavaCCGlobals.isGeneratedBy("JJTree", args[args.length-1]);
-      JavaCCGlobals.jjcovGenerated = JavaCCGlobals.isGeneratedBy("JJCov", args[args.length-1]);
       JavaCCGlobals.toolNames = JavaCCGlobals.getToolNames(args[args.length-1]);
       parser.javacc_input();
       JavaCCGlobals.createOutputDir(Options.getOutputDirectory());
