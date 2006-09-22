@@ -43,9 +43,9 @@ class JJTreeOptions extends Options {
     }
 
     /**
-     * Find the multi value.
+     * Find the JDK version.
      * 
-     * @return The requested multi value.
+     * @return The specified JDK version.
      */
     public static String getJdkVersion() {
         return stringValue("JDK_VERSION");
