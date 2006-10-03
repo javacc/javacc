@@ -72,7 +72,6 @@ public class LexGen
   static boolean hasSpecial = false;
   static boolean hasSkip = false;
   static boolean hasMore = false;
-  static boolean hasToken = false;
   public static RegularExpression curRE;
   public static boolean keepLineCol;
 
@@ -457,7 +456,6 @@ public class LexGen
                     break;
                  case TokenProduction.TOKEN :
                     hasTokenActions |= (actions[curRE.ordinal] != null);
-                    hasToken = true;
                     toToken[curRE.ordinal / 64] |= 1L << (curRE.ordinal % 64);
                     break;
               }
@@ -1503,7 +1501,6 @@ public class LexGen
       hasSpecial = false;
       hasSkip = false;
       hasMore = false;
-      hasToken = false;
       curRE = null;
    }
 
