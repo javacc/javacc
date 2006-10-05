@@ -276,7 +276,6 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
   {
     if (catchblks.size() == 0 && finallyblk == null) {
       JavaCCErrors.parse_error(tryLoc, "Try block must contain at least one catch or finally block.");
-      result = nestedExp;
       return;
     }
     TryBlock tblk = new TryBlock();
