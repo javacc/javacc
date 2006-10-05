@@ -34,7 +34,6 @@ public class NfaState
    static boolean done;
    static boolean mark[];
    static boolean stateDone[];
-   static boolean nonAsciiIntersections[][] = new boolean[20][20];
 
    static Vector allStates = new Vector();
    static Vector indexedAllStates = new Vector();
@@ -2950,7 +2949,6 @@ public class NfaState
       done = false;
       mark = null;
       stateDone = null;
-      nonAsciiIntersections = new boolean[20][20];
       allStates = new Vector();
       indexedAllStates = new Vector();
       nonAsciiTableForMethod = new Vector();
