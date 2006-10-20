@@ -1266,6 +1266,8 @@ void ClassOrInterfaceBodyDeclaration(boolean isInterface):
       FieldDeclaration(modifiers)
     |
       MethodDeclaration(modifiers)
+    |
+      AnnotationTypeDeclaration(modifiers)
   )
 |
   ";"
