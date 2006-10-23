@@ -39,7 +39,7 @@ class JJTreeOptions extends Options {
         Options.optionValues.put("OUTPUT_FILE", "");
         Options.optionValues.put("VISITOR_EXCEPTION", "");
 
-        Options.optionValues.put("JJTREE_OUTPUT_DIRECTORY", null);
+        Options.optionValues.put("JJTREE_OUTPUT_DIRECTORY", "");
     }
 
     /**
