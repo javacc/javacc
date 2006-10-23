@@ -170,7 +170,7 @@ class JJTreeOptions extends Options {
         final String dirName = stringValue("JJTREE_OUTPUT_DIRECTORY");
         File dir = null;
         
-        if (dirName == null) {
+        if (dirName == "") {
             dir = getOutputDirectory();
         } else {
             dir = new File(dirName);
