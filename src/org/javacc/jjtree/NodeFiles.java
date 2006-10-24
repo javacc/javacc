@@ -160,12 +160,9 @@ class NodeFiles
       ostr.println("public interface " + name);
       ostr.println("{");
 
-      String ve = JJTreeOptions.getVisitorException();
-      if (!ve.equals("")) {
-	ve = " throws " + ve;
-      }
-      
-      ostr.println("  public Object visit(SimpleNode node, Object data)" +
+        String ve = mergeVisitorException();
+
+        ostr.println("  public Object visit(SimpleNode node, Object data)" +
 		   ve + ";");
       if (JJTreeOptions.getMulti()) {
 	for (int i = 0; i < nodeNames.size(); ++i) {
@@ -186,8 +183,16 @@ class NodeFiles
     }
   }
 
+    private static String mergeVisitorException() {
+        String ve = JJTreeOptions.getVisitorException();
+        if (!"".equals(ve)) {
+            ve = " throws " + ve;
+        }
+        return ve;
+    }
 
-  private static void generateNode_java(PrintWriter ostr)
+
+    private static void generateNode_java(PrintWriter ostr)
   {
     generatePrologue(ostr, "Node.java");
 
@@ -222,15 +227,11 @@ class NodeFiles
     ostr.println("  public int jjtGetNumChildren();");
 
     if (JJTreeOptions.getVisitor()) {
-      String ve = JJTreeOptions.getVisitorException();
-      if (!ve.equals("")) {
-	ve = " throws " + ve;
-      }
 
-      ostr.println("");
+        ostr.println("");
       ostr.println("  /** Accept the visitor. **/");
       ostr.println("  public Object jjtAccept(" + visitorClass() +
-		   " visitor, Object data)" + ve + ";");
+		   " visitor, Object data)" + mergeVisitorException() + ";");
     }
 
     ostr.println("}");
@@ -303,11 +304,8 @@ class NodeFiles
     ostr.println("");
 
     if (JJTreeOptions.getVisitor()) {
-      String ve = JJTreeOptions.getVisitorException();
-      if (!ve.equals("")) {
-	ve = " throws " + ve;
-      }
-      ostr.println("  /** Accept the visitor. **/");
+        String ve = mergeVisitorException();
+        ostr.println("  /** Accept the visitor. **/");
       ostr.println("  public Object jjtAccept(" + visitorClass() +
 		   " visitor, Object data)" + ve + " {");
       ostr.println("    return visitor.visit(this, data);");
@@ -382,14 +380,10 @@ class NodeFiles
     }
 
     if (JJTreeOptions.getVisitor()) {
-      String ve = JJTreeOptions.getVisitorException();
-      if (!ve.equals("")) {
-	ve = " throws " + ve;
-      }
-      ostr.println("");
+        ostr.println("");
       ostr.println("  /** Accept the visitor. **/");
       ostr.println("  public Object jjtAccept(" + visitorClass() +
-		   " visitor, Object data)" + ve + " {");
+		   " visitor, Object data)" + mergeVisitorException() + " {");
       ostr.println("    return visitor.visit(this, data);");
       ostr.println("  }");
     }
