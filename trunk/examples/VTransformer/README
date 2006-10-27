@@ -130,7 +130,7 @@ trane% javac Main.java
 straightforward to make it take file names as arguments.  The
 example below shows how to apply the filter on Main.java itself.
 
-trane% java VTransformer.Main < Main.java > Main.new
+trane% java Main < Main.java > Main.new
 Reading from standard input...
 Thank you.
 trane%
