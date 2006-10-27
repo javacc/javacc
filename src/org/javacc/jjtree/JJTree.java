@@ -156,6 +156,12 @@ public class JJTree {
 	if (Boolean.getBoolean("jjtree-dump")) {
 	  root.dump(" ");
 	}
+          try {
+        io.setOutput();
+          } catch (JJTreeIOException ioe) {
+        p("Error setting output: " + ioe.getMessage());
+        return 1;
+          }
 	root.generate(io);
 	io.getOut().close();
 
@@ -191,6 +197,7 @@ public class JJTree {
     JJTreeOptions.init();
 
     JJTreeGlobals.jjtreeOptions.put("JDK_VERSION", "1.4");
+    JJTreeGlobals.jjtreeOptions.put("JJTREE_OUTPUT_DIRECTORY", "");
     JJTreeGlobals.jjtreeOptions.put("MULTI", Boolean.FALSE);
     JJTreeGlobals.jjtreeOptions.put("NODE_PREFIX", "AST");
     JJTreeGlobals.jjtreeOptions.put("NODE_PACKAGE", "");
