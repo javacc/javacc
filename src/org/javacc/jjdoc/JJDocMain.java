@@ -69,6 +69,7 @@ public class JJDocMain {
     ostr.println("    JJDoc generates JavaDoc documentation from JavaCC grammar files.");
     ostr.println("");
     ostr.println("    For more information, ???");
+    ostr.flush();
   }
 
   /**
