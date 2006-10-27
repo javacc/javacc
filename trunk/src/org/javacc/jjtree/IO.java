@@ -151,16 +151,18 @@ final class IO
     } catch (IOException ioe) {
       throw new JJTreeIOException(ioe.toString());
     }
-
-    try {
-      JavaCCGlobals.createOutputDir(JJTreeOptions.getJJTreeOutputDirectory());
-      File ofile = new File(JJTreeOptions.getJJTreeOutputDirectory(), create_output_file_name(ifn));
-      ofn = ofile.toString();
-      out = new PrintWriter(new FileWriter(ofile));
-    } catch (IOException fnf) {
-      throw new JJTreeIOException("Can't create output file " + ofn);
-    }
   }
+
+    void setOutput() throws JJTreeIOException {
+        try {
+          JavaCCGlobals.createOutputDir(JJTreeOptions.getJJTreeOutputDirectory());
+          File ofile = new File(JJTreeOptions.getJJTreeOutputDirectory(), create_output_file_name(ifn));
+          ofn = ofile.toString();
+          out = new PrintWriter(new FileWriter(ofile));
+        } catch (IOException ioe) {
+          throw new JJTreeIOException("Can't create output file " + ofn);
+        }
+    }
 
 }
 
