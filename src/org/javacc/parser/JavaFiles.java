@@ -566,7 +566,7 @@ public class JavaFiles
        ostr.println("        UpdateLineColumn(c);");
     }
 
-    ostr.println("        return (c);");
+    ostr.println("        return c;");
     ostr.println("     }");
     ostr.println("  }");
     ostr.println("");
@@ -1177,7 +1177,7 @@ public class JavaFiles
     ostr.println("     UpdateLineColumn(c);");
     }
 
-    ostr.println("     return (c);");
+    ostr.println("     return c;");
     ostr.println("  }");
     ostr.println("");
     ostr.println("  /**");
@@ -1808,7 +1808,7 @@ public class JavaFiles
     ostr.println("        maxSize = expectedTokenSequences[i].length;");
     ostr.println("      }");
     ostr.println("      for (int j = 0; j < expectedTokenSequences[i].length; j++) {");
-    ostr.println("        expected.append(tokenImage[expectedTokenSequences[i][j]]).append(\" \");");
+    ostr.println("        expected.append(tokenImage[expectedTokenSequences[i][j]]).append(' ');");
     ostr.println("      }");
     ostr.println("      if (expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0) {");
     ostr.println("        expected.append(\"...\");");

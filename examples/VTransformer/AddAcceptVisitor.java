@@ -44,7 +44,7 @@ public class AddAcceptVisitor extends UnparseVisitor
           node. */
       StringBuffer pre = new StringBuffer("");
       for (int i = 1; i < node.getFirstToken().beginColumn; ++i) {
-	pre.append(" ");
+	pre.append(' ');
       }
 
       out.println(pre + "");
