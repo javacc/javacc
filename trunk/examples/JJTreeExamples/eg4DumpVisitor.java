@@ -44,7 +44,7 @@ public class eg4DumpVisitor implements eg4Visitor
   private String indentString() {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; i < indent; ++i) {
-      sb.append(" ");
+      sb.append(' ');
     }
     return sb.toString();
   }
