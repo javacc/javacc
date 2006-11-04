@@ -86,7 +86,8 @@ public class JJTree {
     p("    JJTree is a preprocessor for JavaCC that inserts actions into a");
     p("    JavaCC grammar to build parse trees for the input.");
     p("");
-    p("    For more information, ???");
+    p("    For more information, see the online JJTree documentation at ");
+    p("    https://javacc.dev.java.net/doc/JJTree.html ");
     p("");
   }
 
