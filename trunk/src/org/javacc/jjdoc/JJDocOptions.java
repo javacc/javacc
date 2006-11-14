@@ -26,6 +26,7 @@ class JJDocOptions extends Options {
         Options.optionValues.put("TEXT", Boolean.FALSE);
 
         Options.optionValues.put("OUTPUT_FILE", "");
+        Options.optionValues.put("CSS", "");
     }
 
     /**
@@ -35,6 +36,15 @@ class JJDocOptions extends Options {
      */
     public static boolean getOneTable() {
         return booleanValue("ONE_TABLE");
+    }
+
+    /**
+     * Find the CSS value.
+     *
+     * @return The requested CSS value.
+     */
+    public static String getCSS() {
+        return stringValue("CSS");
     }
 
     /**

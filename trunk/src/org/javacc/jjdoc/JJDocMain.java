@@ -53,6 +53,7 @@ public class JJDocMain {
     ostr.println("The string valued options are:");
     ostr.println("");
     ostr.println("    OUTPUT_FILE");
+    ostr.println("    CSS");
     ostr.println("");
     ostr.println("The boolean valued options are:");
     ostr.println("");
