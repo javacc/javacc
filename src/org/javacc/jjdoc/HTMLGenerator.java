@@ -82,6 +82,9 @@ public class HTMLGenerator extends Generator {
     println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">");
     println("<HTML>");
     println("<HEAD>");
+    if (!"".equals(JJDocOptions.getCSS())) {
+      println("<LINK REL=\"stylesheet\" type=\"text/css\" href=\"" + JJDocOptions.getCSS() + "\"/>");
+    }
     if (JJDocGlobals.input_file != null) {
       println("<TITLE>BNF for " + JJDocGlobals.input_file + "</TITLE>");
     } else {
