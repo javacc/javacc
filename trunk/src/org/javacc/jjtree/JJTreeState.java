@@ -190,7 +190,7 @@ class JJTreeState
     ostr.println("");
     ostr.println("  /* A conditional node is constructed if its condition is true.  All");
     ostr.println("     the nodes that have been pushed since the node was opened are");
-    ostr.println("     made children of the the conditional node, which is then pushed");
+    ostr.println("     made children of the conditional node, which is then pushed");
     ostr.println("     on to the stack.  If the condition is false the node is not");
     ostr.println("     constructed and they are left on the stack. */");
     ostr.println("  void closeNodeScope(Node n, boolean condition) {");
