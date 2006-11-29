@@ -1,353 +1,300 @@
 <?xml version='1.0' encoding='ISO-8859-1' ?>
-<!--
 
-Copyright © 2002 Sun Microsystems, Inc., 4150 Network Circle, Santa Clara,
-California 95054, U.S.A. All rights reserved.  Sun Microsystems, Inc. has
-intellectual property rights relating to technology embodied in the product
-that is described in this document. In particular, and without limitation,
-these intellectual property rights may include one or more of the U.S.
-patents listed at http://www.sun.com/patents and one or more additional
-patents or pending patent applications in the U.S. and in other countries.
-U.S. Government Rights - Commercial software. Government users are subject
-to the Sun Microsystems, Inc. standard license agreement and applicable
-provisions of the FAR and its supplements.  Use is subject to license terms.
-Sun,  Sun Microsystems,  the Sun logo and  Java are trademarks or registered
-trademarks of Sun Microsystems, Inc. in the U.S. and other countries.  This
-product is covered and controlled by U.S. Export Control laws and may be
-subject to the export or import laws in other countries.  Nuclear, missile,
-chemical biological weapons or nuclear maritime end uses or end users, whether
-direct or indirect, are strictly prohibited.  Export or reexport to countries
-subject to U.S. embargo or to entities identified on U.S. export exclusion
-lists, including, but not limited to, the denied persons and specially
-designated nationals lists is strictly prohibited.
-
--->
+<!-- Copyright (C) 2002 Sun Microsystems Inc - This software is made   -->
+<!-- available under the licensing terms set forth in the LICENSE file -->
+<!-- in the base directory of this archive                             --> 
 
 <project name="javacc" default="jar" basedir=".">
-  <property name="version"
-            value="4.0">
-  </property>
 
-  <target name="compile" depends="generated-files,classes,javacc-compile,jjtree-compile,jjdoc-compile">
-  </target>
+	<property name="version" value="4.1d1" />
 
-  <target name="generated-files">
-    <ant antfile="build.xml" target="parser-files"
-         dir="src/org/javacc/parser">
-    </ant>
-    <ant antfile="build.xml" target="tree-files"
-         dir="src/org/javacc/jjtree">
-    </ant>
-  </target>
+	<target name="compile" depends="generated-files,classes,javacc-compile,jjtree-compile,jjdoc-compile" />
 
-  <target name="classes">
-    <mkdir dir="classes"/>
-  </target>
+	<target name="generated-files">
+		<ant antfile="build.xml" target="parser-files" dir="src/org/javacc/parser" />
+		<ant antfile="build.xml" target="tree-files" dir="src/org/javacc/jjtree" />
+	</target>
 
-  <target name="javacc-compile">
-    <ant antfile="build.xml" target="compile-nojar"
-         dir="src/org/javacc/parser">
-    </ant>
-  </target>
+	<target name="classes">
+		<mkdir dir="classes"/>
+	</target>
 
-  <target name="jjdoc-compile">
-    <ant antfile="build.xml" target="compile-nojar"
-         dir="src/org/javacc/jjdoc">
-    </ant>
-  </target>
+	<target name="javacc-compile">
+		<ant antfile="build.xml" target="compile-nojar" dir="src/org/javacc/parser" />
+	</target>
 
-  <target name="jjtree-compile">
-    <ant antfile="build.xml" target="compile-nojar"
-         dir="src/org/javacc/jjtree">
-    </ant>
-  </target>
+	<target name="jjdoc-compile">
+		<ant antfile="build.xml" target="compile-nojar" dir="src/org/javacc/jjdoc" />
+	</target>
 
-  <target name="jar" depends="compile">
-    <antcall target="jar-nocompile">
-    </antcall>
-  </target>
+	<target name="jjtree-compile">
+		<ant antfile="build.xml" target="compile-nojar" dir="src/org/javacc/jjtree" />
+	</target>
+
+	<target name="jar" depends="compile">
+		<antcall target="jar-nocompile" />
+	</target>
 
   <!-- Be careful not to include the test files in the distribution. -->
-  <target name="jar-nocompile" depends="jar-check" unless="jar.uptodate">
-    <mkdir dir="bin/lib"/>
-    <jar jarfile="bin/lib/javacc.jar" 
-       basedir="classes" 
-       compress="true"
-       excludes="**/*Test.class">
-    </jar>
-  </target>
+	<target name="jar-nocompile" depends="jar-check" unless="jar.uptodate">
+		<mkdir dir="bin/lib" />
+		<jar jarfile="bin/lib/javacc.jar" basedir="classes" compress="true" excludes="**/*Test.class" />
+	</target>
 
-  <target name="jar-check">
-        <uptodate property="jar.uptodate"
-                  targetfile="bin/lib/javacc.jar">
-            <srcfiles dir="classes"/>
+	<target name="jar-check">
+        <uptodate property="jar.uptodate" targetfile="bin/lib/javacc.jar">
+            <srcfiles dir="classes" />
         </uptodate>
-  </target>
+	</target>
 
-  <target name="clean">
-    <delete dir="classes"/>
-    <delete dir="bin/lib"/>
-    <delete file="javacc-${version}.*"/>
-  </target>
+	<target name="clean">
+		<delete dir="classes" />
+		<delete dir="bin/lib" />
+		<delete file="javacc-${version}.*" />
+	</target>
 
-  <target name="realclean" depends="clean">
-    <ant antfile="build.xml" target="realclean"
-         dir="src/org/javacc/parser">
-    </ant>
-    <ant antfile="build.xml" target="realclean"
-         dir="src/org/javacc/jjtree">
-    </ant>
-  </target>
+    <target name="realclean" depends="clean">
+        <ant antfile="build.xml" target="realclean" dir="src/org/javacc/parser" />
+		<ant antfile="build.xml" target="realclean" dir="src/org/javacc/jjtree" />
+	</target>
 
-  <target name="binary-distribution" depends="realclean,jar,test">
-     <property name="install-name"
-               value="javacc-${version}">
-     </property>
-<!-- Some problems with preserving permissions to be fixed. So we exec a shell script
-     <delete dir="dist"/>
-     <delete file="${install-name}.tar.gz"/>
-     <delete file="${install-name}.zip"/>
-     <mkdir dir="dist"/>
-     <mkdir dir="dist/${install-name}"/>
-     <copy todir="dist/${install-name}/bin">
-        <fileset dir="bin"/>
-     </copy>
-     <chmod perm="a+x" type="file">
-        <fileset dir="dist/${install-name}/bin">
-           <include name="**/javacc"/>
-           <include name="**/jjdoc"/>
-           <include name="**/jjtree"/>
-        </fileset>
-     </chmod>
-     <copy todir="dist/${install-name}/doc">
-        <fileset dir="doc"/>
-     </copy>
-     <copy todir="dist/${install-name}/examples">
-        <fileset dir="examples"/>
-     </copy>
-     <tar destfile="${install-name}.tar.gz"
-          compression="gzip"
-          basedir="dist">
-      <tarfileset dir="dist/${install-name}" mode="755">
-        <include name="dist/${install-name}/bin/javacc"/>
-        <include name="dist/${install-name}/bin/jjdoc"/>
-        <include name="dist/${install-name}/bin/jjtree"/>
-      </tarfileset>
-      <tarfileset dir="dist/${install-name}">
-        <include name="dist/${install-name}/**"/>
-        <exclude name="dist/${install-name}/bin/javacc"/>
-        <exclude name="dist/${install-name}/bin/jjdoc"/>
-        <exclude name="dist/${install-name}/bin/jjtree"/>
-      </tarfileset>
-     </tar>
-     <zip destfile="${install-name}.zip"
-          basedir="dist">
-     </zip>
-     <delete dir="dist"/>
--->
+	<target name="binary-distribution" depends="realclean,jar,test">
+		<property name="install-name" value="javacc-${version}" />
+		<exec executable="./makedist" dir=".">
+			<arg line="${version}" />
+		</exec>
+	</target>
 
-  <exec executable="./makedist" dir=".">
-  	<arg line="${version}" />
-  </exec>
-  </target>
+	<target name="test" depends="realclean,jar" description="run JUnit test cases">
 
-  <!-- This target must be run with JUnit's JAR archive in the classpath. This
-       can best be done by running the command as:
+		<junit printsummary="yes" haltonfailure="yes">
+			<classpath>
+				<pathelement path="classes" />
+			</classpath>
+			<batchtest fork="no" todir=".">
+				<fileset dir="classes">
+					<include name="**/*Test.*" />
+				</fileset>
+			</batchtest>
+		</junit>
 
-           ant -lib lib/junit3.8.1/junit.jar test
+		<mkdir dir="test.tmp" />
 
-       For more information why this is necessary, see
-       http://ant.apache.org/faq.html#delegating-classloader
-       
-       The test reports may be found in TEST*.txt -->
-  <target name="test" depends="realclean,jar"
-          description="run JUnit test cases">
-  	<junit printsummary="yes" haltonfailure="yes">
-      <classpath>
-        <pathelement path="classes" />
-      </classpath>
-      <batchtest fork="no" todir=".">
-        <fileset dir="classes">
-          <include name="**/*Test.*" />
-        </fileset>
-      </batchtest>
-    </junit>
+		<echo />
+    
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/CORBA-IDL examples/CORBA-IDL/IDL.jj" />
+		</java>
 
-    <!-- Generate code for all examples in the distribution. We explicitly use
-         java and javac and not Ant's built-in JavaCC tasks to make sure that
-         we use the newly generated JavaCC processor and not something that may
-         be found in Ant's classpath. -->
-    <mkdir dir="test.tmp" />
+		<javac srcdir="test.tmp/CORBA-IDL" />
 
-    <echo />
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/CORBA-IDL examples/CORBA-IDL/IDL.jj" />
-    </java>
-    <javac srcdir="test.tmp/CORBA-IDL" />
+		<echo />
+    
+		<copy todir="test.tmp/GUIParsing/ParserVersion">
+			<fileset dir="examples/GUIParsing/ParserVersion">
+				<include name="*.java" />
+			</fileset>
+		</copy>
 
-    <echo />
-    <copy todir="test.tmp/GUIParsing/ParserVersion">
-      <fileset dir="examples/GUIParsing/ParserVersion">
-        <include name="*.java" />
-      </fileset>
-    </copy>
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/ParserVersion examples/GUIParsing/ParserVersion/CalcInput.jj" />
-    </java>
-    <javac srcdir="test.tmp/GUIParsing/ParserVersion" />
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/ParserVersion examples/GUIParsing/ParserVersion/CalcInput.jj" />
+		</java>
 
-    <echo />
-    <copy todir="test.tmp/GUIParsing/TokenMgrVersion">
-      <fileset dir="examples/GUIParsing/TokenMgrVersion">
-        <include name="*.java" />
-      </fileset>
-    </copy>
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion examples/GUIParsing/TokenMgrVersion/CalcInput.jj" />
-    </java>
-    <javac srcdir="test.tmp/GUIParsing/TokenMgrVersion" />
+		<javac srcdir="test.tmp/GUIParsing/ParserVersion" />
 
-    <echo />
-    <copy todir="test.tmp/Interpreter">
-      <fileset dir="examples/Interpreter">
-        <include name="*.java" />
-      </fileset>
-    </copy>
-    <java fork="true" classname="jjtree" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter examples/Interpreter/SPL.jjt" />
-    </java>
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter test.tmp/Interpreter/SPL.jj" />
-    </java>
-    <javac srcdir="test.tmp/Interpreter" />
+		<echo />
+    
+		<copy todir="test.tmp/GUIParsing/TokenMgrVersion">
+			<fileset dir="examples/GUIParsing/TokenMgrVersion">
+				<include name="*.java" />
+			</fileset>
+		</copy>
+
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion examples/GUIParsing/TokenMgrVersion/CalcInput.jj" />
+		</java>
+    
+		<javac srcdir="test.tmp/GUIParsing/TokenMgrVersion" />
+
+		<echo />
+    
+		<copy todir="test.tmp/Interpreter">
+			<fileset dir="examples/Interpreter">
+				<include name="*.java" />
+			</fileset>
+		</copy>
+
+		<java fork="true" classname="jjtree" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter examples/Interpreter/SPL.jjt" />
+		</java>
+
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter test.tmp/Interpreter/SPL.jj" />
+		</java>
+
+		<javac srcdir="test.tmp/Interpreter" />
   	
-    <echo />
-    <copy todir="test.tmp/JJTreeExamples.eg1">
-      <fileset dir="examples/JJTreeExamples">
-        <include name="*.java" />
-      	<exclude name="eg4DumpVisitor.java" />
-      	<exclude name="ASTMyOtherID.java" />
-      </fileset>
-    </copy>
-    <java fork="true" classname="jjtree" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1 examples/JJTreeExamples/eg1.jjt" />
-    </java>
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1 test.tmp/JJTreeExamples.eg1/eg1.jj" />
-    </java>
-    <javac srcdir="test.tmp/JJTreeExamples.eg1" />
+		<echo />
+    
+		<copy todir="test.tmp/JJTreeExamples.eg1">
+			<fileset dir="examples/JJTreeExamples">
+				<include name="*.java" />
+				<exclude name="eg4DumpVisitor.java" />
+				<exclude name="ASTMyOtherID.java" />
+			</fileset>
+		</copy>
+    
+		<java fork="true" classname="jjtree" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1 examples/JJTreeExamples/eg1.jjt" />
+		</java>
+
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1 test.tmp/JJTreeExamples.eg1/eg1.jj" />
+		</java>
+
+		<javac srcdir="test.tmp/JJTreeExamples.eg1" />
   	
-    <echo />
-    <copy todir="test.tmp/JJTreeExamples.eg2">
-      <fileset dir="examples/JJTreeExamples">
-        <include name="*.java" />
-      	<exclude name="eg4DumpVisitor.java" />
-      	<exclude name="ASTMyOtherID.java" />
-      </fileset>
-    </copy>
-    <java fork="true" classname="jjtree" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2 examples/JJTreeExamples/eg2.jjt" />
-    </java>
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2 test.tmp/JJTreeExamples.eg2/eg2.jj" />
-    </java>
-    <javac srcdir="test.tmp/JJTreeExamples.eg2" />
+		<echo />
+    
+		<copy todir="test.tmp/JJTreeExamples.eg2">
+			<fileset dir="examples/JJTreeExamples">
+				<include name="*.java" />
+				<exclude name="eg4DumpVisitor.java" />
+				<exclude name="ASTMyOtherID.java" />
+			</fileset>
+		</copy>
+
+		<java fork="true" classname="jjtree" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2 examples/JJTreeExamples/eg2.jjt" />
+		</java>
+
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2 test.tmp/JJTreeExamples.eg2/eg2.jj" />
+		</java>
+
+		<javac srcdir="test.tmp/JJTreeExamples.eg2" />
   	
-    <echo />
-    <copy todir="test.tmp/JJTreeExamples.eg3">
-      <fileset dir="examples/JJTreeExamples">
-        <include name="*.java" />
-      	<exclude name="eg4DumpVisitor.java" />
-      	<exclude name="ASTMyOtherID.java" />
-      </fileset>
-    </copy>
-    <java fork="true" classname="jjtree" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3 examples/JJTreeExamples/eg3.jjt" />
-    </java>
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3 test.tmp/JJTreeExamples.eg3/eg3.jj" />
-    </java>
-    <javac srcdir="test.tmp/JJTreeExamples.eg3" />
+		<echo />
+
+		<copy todir="test.tmp/JJTreeExamples.eg3">
+			<fileset dir="examples/JJTreeExamples">
+				<include name="*.java" />
+				<exclude name="eg4DumpVisitor.java" />
+				<exclude name="ASTMyOtherID.java" />
+			</fileset>
+		</copy>
+
+		<java fork="true" classname="jjtree" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3 examples/JJTreeExamples/eg3.jjt" />
+		</java>
+
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3 test.tmp/JJTreeExamples.eg3/eg3.jj" />
+		</java>
+    
+		<javac srcdir="test.tmp/JJTreeExamples.eg3" />
   	
-    <echo />
-    <copy todir="test.tmp/JJTreeExamples.eg4">
-      <fileset dir="examples/JJTreeExamples">
-        <include name="*.java" />
-      </fileset>
-    </copy>
-    <java fork="true" classname="jjtree" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4 examples/JJTreeExamples/eg4.jjt" />
-    </java>
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4 test.tmp/JJTreeExamples.eg4/eg4.jj" />
-    </java>
-    <javac srcdir="test.tmp/JJTreeExamples.eg4" />
+		<echo />
 
-    <echo />
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/JavaCCGrammar examples/JavaCCGrammar/JavaCC.jj" />
-    </java>
-    <javac srcdir="test.tmp/JavaCCGrammar" />
+		<copy todir="test.tmp/JJTreeExamples.eg4">
+			<fileset dir="examples/JJTreeExamples">
+				<include name="*.java" />
+			</fileset>
+		</copy>
 
-	<!-- TODO, test cases for JavaGrammars -->
+		<java fork="true" classname="jjtree" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4 examples/JJTreeExamples/eg4.jjt" />
+		</java>
+    
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4 test.tmp/JJTreeExamples.eg4/eg4.jj" />
+		</java>
 
-  	<!-- TODO, test cases for LookAhead -->
+		<javac srcdir="test.tmp/JJTreeExamples.eg4" />
 
-    <echo />
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing examples/MailProcessing/Digest.jj" />
-    </java>
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing examples/MailProcessing/Faq.jj" />
-    </java>
-    <javac srcdir="test.tmp/MailProcessing" />
+		<echo />
 
-    <echo />
-    <copy todir="test.tmp/Obfuscator">
-      <fileset dir="examples/Obfuscator">
-        <include name="*.java" />
-      </fileset>
-    </copy>
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator examples/Obfuscator/Java1.1.jj" />
-    </java>
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator examples/Obfuscator/IdsFile.jj" />
-    </java>
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator examples/Obfuscator/MapFile.jj" />
-    </java>
-    <javac srcdir="test.tmp/Obfuscator" />
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/JavaCCGrammar examples/JavaCCGrammar/JavaCC.jj" />
+		</java>
 
-	<!-- TODO, test cases for SimpleExamples -->
+		<javac srcdir="test.tmp/JavaCCGrammar" />
+
+		<!-- TODO, test cases for JavaGrammars -->
+
+		<!-- TODO, test cases for LookAhead -->
+
+		<echo />
+
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing examples/MailProcessing/Digest.jj" />
+		</java>
+
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing examples/MailProcessing/Faq.jj" />
+		</java>
+
+		<javac srcdir="test.tmp/MailProcessing" />
+
+		<echo />
+
+		<copy todir="test.tmp/Obfuscator">
+			<fileset dir="examples/Obfuscator">
+				<include name="*.java" />
+			</fileset>
+		</copy>
+
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator examples/Obfuscator/Java1.1.jj" />
+		</java>
+
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator examples/Obfuscator/IdsFile.jj" />
+		</java>
+
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator examples/Obfuscator/MapFile.jj" />
+		</java>
+
+		<javac srcdir="test.tmp/Obfuscator" />
+
+		<!-- TODO, test cases for SimpleExamples -->
   	
-    <echo />
-    <copy todir="test.tmp/Transformer">
-      <fileset dir="examples/Transformer">
-        <include name="*.java" />
-      </fileset>
-    </copy>
-    <java fork="true" classname="jjtree" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer examples/Transformer/ToyJava.jjt" />
-    </java>
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer test.tmp/Transformer/ToyJava.jj" />
-    </java>
-    <javac srcdir="test.tmp/Transformer" />
+		<echo />
 
-    <echo />
-    <copy todir="test.tmp/VTransformer">
-      <fileset dir="examples/VTransformer">
-        <include name="*.java" />
-      </fileset>
-    </copy>
-    <java fork="true" classname="jjtree" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer examples/VTransformer/Java1.1.jjt" />
-    </java>
-    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
-      <arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer test.tmp/VTransformer/Java1.1.jj" />
-    </java>
-    <javac srcdir="test.tmp/VTransformer" />
+		<copy todir="test.tmp/Transformer">
+			<fileset dir="examples/Transformer">
+				<include name="*.java" />
+			</fileset>
+		</copy>
 
-  </target>
+		<java fork="true" classname="jjtree" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer examples/Transformer/ToyJava.jjt" />
+		</java>
+
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer test.tmp/Transformer/ToyJava.jj" />
+		</java>
+
+		<javac srcdir="test.tmp/Transformer" />
+
+		<echo />
+
+		<copy todir="test.tmp/VTransformer">
+			<fileset dir="examples/VTransformer">
+				<include name="*.java" />
+			</fileset>
+		</copy>
+
+		<java fork="true" classname="jjtree" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer examples/VTransformer/Java1.1.jjt" />
+		</java>
+
+		<java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+			<arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer test.tmp/VTransformer/Java1.1.jj" />
+		</java>
+		<javac srcdir="test.tmp/VTransformer" />
+
+	</target>
+
 </project>
