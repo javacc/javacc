@@ -1,9 +1,9 @@
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of the Sun Microsystems, Inc. nor the names of its
  *       contributors may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -25,7 +25,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.javacc.jjtree;
 
 import java.io.BufferedWriter;
@@ -132,7 +131,10 @@ class JJTreeState
     ostr.println("  /* Returns the root node of the AST.  It only makes sense to call");
     ostr.println("     this after a successful parse. */");
     ostr.println("  Node rootNode() {");
-    ostr.println("    return (Node)nodes.elementAt(0);");
+      if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+         ostr.println("    return (Node)nodes.elementAt(0);");
+      else
+         ostr.println("    return nodes.elementAt(0);");
     ostr.println("  }");
     ostr.println("");
     ostr.println("  /* Pushes a node on to the stack. */");
@@ -145,14 +147,23 @@ class JJTreeState
     ostr.println("     stack.  */");
     ostr.println("  Node popNode() {");
     ostr.println("    if (--sp < mk) {");
-    ostr.println("      mk = ((Integer)marks.pop()).intValue();");
+      if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+         ostr.println("      mk = ((Integer)marks.pop()).intValue();");
+      else
+         ostr.println("      mk = marks.pop();");
     ostr.println("    }");
-    ostr.println("    return (Node)nodes.pop();");
+      if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+         ostr.println("    return (Node)nodes.pop();");
+      else
+         ostr.println("    return nodes.pop();");
     ostr.println("  }");
     ostr.println("");
     ostr.println("  /* Returns the node currently on the top of the stack. */");
     ostr.println("  Node peekNode() {");
-    ostr.println("    return (Node)nodes.peek();");
+      if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+         ostr.println("    return (Node)nodes.peek();");
+      else
+         ostr.println("    return nodes.peek();");
     ostr.println("  }");
     ostr.println("");
     ostr.println("  /* Returns the number of children on the stack in the current node");
@@ -166,12 +177,18 @@ class JJTreeState
     ostr.println("    while (sp > mk) {");
     ostr.println("      popNode();");
     ostr.println("    }");
-    ostr.println("    mk = ((Integer)marks.pop()).intValue();");
+      if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+         ostr.println("    mk = ((Integer)marks.pop()).intValue();");
+      else
+         ostr.println("    mk = marks.pop();");
     ostr.println("  }");
     ostr.println("");
     ostr.println("");
     ostr.println("  void openNodeScope(Node n) {");
-    ostr.println("    marks.push(new Integer(mk));");
+      if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+         ostr.println("    marks.push(new Integer(mk));");
+      else
+         ostr.println("    marks.push(mk);");
     ostr.println("    mk = sp;");
     ostr.println("    n.jjtOpen();");
     ostr.println("  }");
@@ -182,7 +199,10 @@ class JJTreeState
     ostr.println("     made the children of the definite node.  Then the definite node");
     ostr.println("     is pushed on to the stack. */");
     ostr.println("  void closeNodeScope(Node n, int num) {");
-    ostr.println("    mk = ((Integer)marks.pop()).intValue();");
+      if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+         ostr.println("    mk = ((Integer)marks.pop()).intValue();");
+      else
+         ostr.println("    mk = marks.pop();");
     ostr.println("    while (num-- > 0) {");
     ostr.println("      Node c = popNode();");
     ostr.println("      c.jjtSetParent(n);");
@@ -202,17 +222,23 @@ class JJTreeState
     ostr.println("  void closeNodeScope(Node n, boolean condition) {");
     ostr.println("    if (condition) {");
     ostr.println("      int a = nodeArity();");
-    ostr.println("      mk = ((Integer)marks.pop()).intValue();");
+      if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+         ostr.println("      mk = ((Integer)marks.pop()).intValue();");
+      else
+         ostr.println("      mk = marks.pop();");
     ostr.println("      while (a-- > 0) {");
-    ostr.println("	Node c = popNode();");
-    ostr.println("	c.jjtSetParent(n);");
-    ostr.println("	n.jjtAddChild(c, a);");
+    ostr.println("        Node c = popNode();");
+    ostr.println("        c.jjtSetParent(n);");
+    ostr.println("        n.jjtAddChild(c, a);");
     ostr.println("      }");
     ostr.println("      n.jjtClose();");
     ostr.println("      pushNode(n);");
     ostr.println("      node_created = true;");
     ostr.println("    } else {");
-    ostr.println("      mk = ((Integer)marks.pop()).intValue();");
+      if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+         ostr.println("      mk = ((Integer)marks.pop()).intValue();");
+      else
+         ostr.println("      mk = marks.pop();");
     ostr.println("      node_created = false;");
     ostr.println("    }");
     ostr.println("  }");
