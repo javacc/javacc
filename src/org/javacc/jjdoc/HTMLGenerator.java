@@ -26,23 +26,25 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 package org.javacc.jjdoc;
 
-import java.io.PrintWriter;
 import java.util.Hashtable;
 
-import org.javacc.parser.*;
+import org.javacc.parser.Expansion;
+import org.javacc.parser.JavaCodeProduction;
+import org.javacc.parser.NonTerminal;
+import org.javacc.parser.NormalProduction;
+import org.javacc.parser.RegularExpression;
 
-public class HTMLGenerator extends Generator {
+public class HTMLGenerator extends TextGenerator implements Generator {
   private Hashtable id_map = new Hashtable();
   private int id = 1;
 
-  public HTMLGenerator(PrintWriter o) {
-    super(o);
+  public HTMLGenerator() {
+    super();
   }
 
-  private String get_id(String nt) {
+  protected String get_id(String nt) {
     String i = (String)id_map.get(nt);
     if (i == null) {
       i = "prod" + id++;
@@ -59,13 +61,13 @@ public class HTMLGenerator extends Generator {
     String ss = "";
     for (int i = 0; i < s.length(); ++i) {
       if (s.charAt(i) == '<') {
-	ss += "&lt;";
+  ss += "&lt;";
       } else if (s.charAt(i) == '>') {
-	ss += "&gt;";
+  ss += "&gt;";
       } else if (s.charAt(i) == '&') {
-	ss += "&amp;";
+  ss += "&amp;";
       } else {
-	ss += s.charAt(i);
+  ss += s.charAt(i);
       }
     }
     print(ss);
@@ -99,9 +101,11 @@ public class HTMLGenerator extends Generator {
     println("<BODY>");
     println("<H1 ALIGN=CENTER>BNF for " + JJDocGlobals.input_file + "</H1>");
   }
+
   public void documentEnd() {
     println("</BODY>");
     println("</HTML>");
+    ostr.close();
   }
 
   public void nonterminalsStart() {
