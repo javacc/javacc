@@ -27,6 +27,7 @@
  */
 
 
+
 package org.javacc.jjdoc;
 
 import org.javacc.parser.*;
@@ -83,6 +84,16 @@ public class JJDocMain {
    * A main program that exercises the parser.
    */
   public static void main(String args[]) throws Exception {
+    int errorcode = mainProgram(args);
+    System.exit(errorcode);
+  }
+
+  /**
+   * The method to call to exercise the parser from other Java programs.
+   * It returns an error code.  See how the main program above uses
+   * this method.
+   */
+  public static int mainProgram(String args[]) throws Exception {
 
     JavaCCGlobals.bannerLine("Documentation Generator", "0.1.4");
 
@@ -90,21 +101,23 @@ public class JJDocMain {
     if (args.length == 0) {
       System.out.println("");
       help_message();
-      System.exit(1);
+      return 1;
     } else {
       System.out.println("(type \"jjdoc\" with no arguments for help)");
     }
-
+    // FIXME If we are running in a jvm which has just used javacc
+    // Then there is a problem with static variables. 
+    Main.reInitAll();
     JJDocOptions.init();
 
     if (JJDocOptions.isOption(args[args.length-1])) {
       System.out.println("Last argument \"" + args[args.length-1] + "\" is not a filename or \"-\".  ");
-      System.exit(1);
+      return 1;
     }
     for (int arg = 0; arg < args.length-1; arg++) {
       if (!JJDocOptions.isOption(args[arg])) {
         System.out.println("Argument \"" + args[arg] + "\" must be an option setting.  ");
-        System.exit(1);
+        return 1;
       }
       JJDocOptions.setCmdLineOption(args[arg]);
     }
@@ -120,21 +133,20 @@ public class JJDocMain {
         java.io.File fp = new java.io.File(args[args.length-1]);
         if (!fp.exists()) {
            System.out.println("File " + args[args.length-1] + " not found.");
-           System.exit(1);
+           return 1;
         }
         if (fp.isDirectory()) {
            System.out.println(args[args.length-1] + " is a directory. Please use a valid file name.");
-           System.exit(1);
+           return 1;
         }
-	JJDocGlobals.input_file = fp.getName();
+  JJDocGlobals.input_file = fp.getName();
         parser = new JavaCCParser(new java.io.FileReader(args[args.length-1]));
-      } catch (NullPointerException ne) { // Should never happen
       } catch (SecurityException se) {
         System.out.println("Security voilation while trying to open " + args[args.length-1]);
-        System.exit(1);
+        return 1;
       } catch (java.io.FileNotFoundException e) {
         System.out.println("File " + args[args.length-1] + " not found.");
-        System.exit(1);
+        return 1;
       }
     }
     try {
@@ -149,22 +161,22 @@ public class JJDocMain {
           System.out.println("Grammar documentation generated with 0 errors and "
                              + JavaCCErrors.get_warning_count() + " warnings.");
         }
-        System.exit(0);
+        return 0;
       } else {
         System.out.println("Detected " + JavaCCErrors.get_error_count() + " errors and "
                            + JavaCCErrors.get_warning_count() + " warnings.");
-        System.exit((JavaCCErrors.get_error_count()==0)?0:1);
+        return (JavaCCErrors.get_error_count()==0)?0:1;
       }
     } catch (org.javacc.parser.MetaParseException e) {
       System.out.println(e.toString());
       System.out.println("Detected " + JavaCCErrors.get_error_count() + " errors and "
                          + JavaCCErrors.get_warning_count() + " warnings.");
-      System.exit(1);
+      return 1;
     } catch (org.javacc.parser.ParseException e) {
       System.out.println(e.toString());
       System.out.println("Detected " + (JavaCCErrors.get_error_count()+1) + " errors and "
                          + JavaCCErrors.get_warning_count() + " warnings.");
-      System.exit(1);
+      return 1;
     }
   }
 }

@@ -1,9 +1,9 @@
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of the Sun Microsystems, Inc. nor the names of its
  *       contributors may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -29,76 +29,122 @@
 
 package org.javacc.jjdoc;
 
-import java.io.PrintWriter;
+import org.javacc.parser.Expansion;
+import org.javacc.parser.JavaCodeProduction;
+import org.javacc.parser.NonTerminal;
+import org.javacc.parser.NormalProduction;
+import org.javacc.parser.RegularExpression;
 
-import org.javacc.parser.*;
+/**
+ * A report generator for a grammar.
+ * @author timp
+ * @since 11-Dec-2006
+ *
+ */
+public interface Generator {
 
-public class Generator {
-  protected PrintWriter ostr;
+  /**
+   * Output string with entity substitution for brackets and ampersands.
+   * @param s the String to output
+   */
+  public abstract void text(String s);
 
-  public Generator(PrintWriter o) {
-    ostr = o;
-  }
+  /**
+   * Output String.
+   * @param s String to output
+   */
+  public abstract void print(String s);
 
-  public void text(String s) {
-    print(s);
-  }
+  /**
+   * Output Special Tokens. 
+   * @param s tokens to output 
+   */
+  public abstract void specialTokens(String s);
 
-  public void print(String s) {
-    ostr.print(s);
-  }
+  /**
+   * Output document header.
+   */
+  public abstract void documentStart();
 
-  public void specialTokens(String s) {
-    ostr.print(s);
-  }
+  /**
+   * Output document footer.
+   */
+  public abstract void documentEnd();
 
-  public void documentStart() {
-    ostr.print("\nDOCUMENT START\n");
-  }
-  public void documentEnd() {
-    ostr.print("\nDOCUMENT END\n");
-  }
+  /**
+   * Output start of non-terminal. 
+   */
+  public abstract void nonterminalsStart();
 
-  public void nonterminalsStart() {
-    text("NON-TERMINALS\n");
-  }
-  public void nonterminalsEnd() {
-  }
+  /**
+   * Output end of non-terminal. 
+   */
+  public abstract void nonterminalsEnd();
 
-  public void tokensStart() {
-    text("TOKENS\n");
-  }
-  public void tokensEnd() {
-  }
+  /**
+   * Output start of tokens.
+   */
+  public abstract void tokensStart();
 
-  public void javacode(JavaCodeProduction jp) {
-    productionStart(jp);
-    text("java code");
-    productionEnd(jp);
-  }
+  /**
+   * Output end of tokens.
+   */
+  public abstract void tokensEnd();
 
-  public void productionStart(NormalProduction np) {
-    ostr.print("\t" + np.lhs + "\t:=\t");
-  }
-  public void productionEnd(NormalProduction np) {
-    ostr.print("\n");
-  }
+  /**
+   * Output comment from a production. 
+   * @param jp the JavaCodeProduction to output
+   */
+  public abstract void javacode(JavaCodeProduction jp);
 
-  public void expansionStart(Expansion e, boolean first) {
-    if (!first) {
-      ostr.print("\n\t\t|\t");
-    }
-  }
-  public void expansionEnd(Expansion e, boolean first) {
-  }
+  /**
+   * Output start of a normal production.
+   * @param np the NormalProduction being output
+   */
+  public abstract void productionStart(NormalProduction np);
 
-  public void nonTerminalStart(NonTerminal nt) {
-  }
-  public void nonTerminalEnd(NonTerminal nt) {
-  }
+  /**
+   * Output end of a normal production.
+   * @param np the NormalProduction being output
+   */
+  public abstract void productionEnd(NormalProduction np);
 
-  public void reStart(RegularExpression r) {
-  }
-  public void reEnd(RegularExpression r) {
-  }
+  /**
+   * Output start of an Expansion.
+   * @param e Expansion being output
+   * @param first whether this is the first expansion
+   */
+  public abstract void expansionStart(Expansion e, boolean first);
+
+  /**
+   * Output end of Expansion.
+   * @param e Expansion being output
+   * @param first whether this is the first expansion
+   */
+  public abstract void expansionEnd(Expansion e, boolean first);
+
+  /**
+   * Output start of non-terminal.
+   * @param nt the NonTerminal being output
+   */
+  public abstract void nonTerminalStart(NonTerminal nt);
+
+  /**
+   * Output end of non-terminal.
+   * @param nt the NonTerminal being output
+   */
+  public abstract void nonTerminalEnd(NonTerminal nt);
+
+  /**
+   * Output start of regular expression.
+   * @param re the RegularExpression being output
+   */
+  public abstract void reStart(RegularExpression re);
+
+  /**
+   * Output end of regular expression.
+   * @param re the RegularExpression being output
+   */
+  public abstract void reEnd(RegularExpression re);
+
 }
