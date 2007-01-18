@@ -912,28 +912,6 @@ String JavaIdentifier() :
 }
 
 /*
- * The productions for the missing code follows.  Obviously
- * these productions accept more than what is legal in Java,
- * but that is OK for our purposes.
- */
-
-void ShiftOps() :
-{}
-{
-  "<" "<"
-|
-  ">" ">" [ ">" ]
-}
-
-void OtherAssignmentOps() :
-{}
-{
-  "<" "<="
-|
-  ">" [ ">" ] ">="
-}
-
-/*
  * Program structuring syntax follows.
  */
 
