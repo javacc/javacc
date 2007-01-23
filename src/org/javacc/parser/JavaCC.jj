@@ -619,7 +619,6 @@ void production() :
 
 void javacode_production() :
 	{
-	  String lhs;
 	  JavaCodeProduction p = new JavaCodeProduction();
 	  Token t = p.firstToken = getToken(1);
 	  java.util.Vector excName;
