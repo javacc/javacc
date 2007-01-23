@@ -1187,7 +1187,6 @@ void expansion_unit(Container c) :
 
 void regular_expression(Container c) :
 	{
-	  RStringLiteral strlit;
 	  REndOfFile ef;
 	  RJustName jn;
 	  String image;
@@ -1197,11 +1196,7 @@ void regular_expression(Container c) :
 {
   image=StringLiteral()
 	{
-	  strlit = new RStringLiteral();
-	  strlit.line = t.beginLine;
-	  strlit.column = t.beginColumn;
-	  strlit.image = image;
-	  c.member = strlit;
+	  c.member = new RStringLiteral(t.beginLine, t.beginColumn, image);
 	}
 |
   LOOKAHEAD(3)
@@ -1316,7 +1311,6 @@ void complex_regular_expression(Container c1) :
 void complex_regular_expression_unit(Container c) :
 	{
 	  String image;
-	  RStringLiteral strlit;
 	  RJustName jn;
 	  Token t = getToken(1);
           int r1 = 0, r2 = -1;
@@ -1325,11 +1319,7 @@ void complex_regular_expression_unit(Container c) :
 {
   image=StringLiteral()
 	{
-	  strlit = new RStringLiteral();
-	  strlit.line = t.beginLine;
-	  strlit.column = t.beginColumn;
-	  strlit.image = image;
-	  c.member = strlit;
+	  c.member = new RStringLiteral(t.beginLine, t.beginColumn, image);
 	}
 |
   "<" image=identifier() ">"

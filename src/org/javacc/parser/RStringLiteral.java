@@ -67,6 +67,15 @@ public class RStringLiteral extends RegularExpression {
    */
   public String image;
 
+    public RStringLiteral() {
+    }
+
+    public RStringLiteral(int line, int column, String image) {
+        this.line = line;
+        this.column = column;
+        this.image = image;
+    }
+
   static int maxStrKind = 0;
   static int maxLen = 0;
   static int charCnt = 0;
