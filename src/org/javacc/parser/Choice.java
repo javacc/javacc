@@ -41,4 +41,17 @@ public class Choice extends Expansion {
    */
   public java.util.Vector choices = new java.util.Vector();
 
+    public Choice() {}
+
+    public Choice(Token token) {
+        this.line = token.beginLine;
+        this.column = token.beginColumn;
+    }
+
+    public Choice(Expansion expansion) {
+        this.line = expansion.line;
+        this.column = expansion.column;
+        this.choices.addElement(expansion);
+    }
+
 }
