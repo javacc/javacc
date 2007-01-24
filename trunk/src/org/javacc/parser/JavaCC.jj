@@ -875,10 +875,7 @@ void expansion_choices(Container c1) :
 	    ((Expansion)c2.member).parent = ch;
 	  } else {
 	    morethanone = true;
-	    ch = new Choice();
-	    ch.line = ((Expansion)c1.member).line;
-	    ch.column = ((Expansion)c1.member).column;
-	    ch.choices.addElement(c1.member);
+	    ch = new Choice((Expansion)c1.member);
 	    ((Expansion)c1.member).parent = ch;
 	    ch.choices.addElement(c2.member);
 	    ((Expansion)c2.member).parent = ch;
@@ -1016,8 +1013,7 @@ void expansion_unit(Container c) :
 	  // expansion (we use EOF).
 	  la.la_expansion = new REndOfFile();
 	  // Create a singleton choice with an empty action.
-	  Choice ch = new Choice();
-	  ch.line = t.beginLine; ch.column = t.beginColumn;
+	  Choice ch = new Choice(t);
 	  Sequence seq = new Sequence();
 	  seq.line = t.beginLine; seq.column = t.beginColumn;
 	  seq.units.addElement(la);
