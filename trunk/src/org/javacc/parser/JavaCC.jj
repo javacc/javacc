@@ -1014,9 +1014,7 @@ void expansion_unit(Container c) :
 	  la.la_expansion = new REndOfFile();
 	  // Create a singleton choice with an empty action.
 	  Choice ch = new Choice(t);
-	  Sequence seq = new Sequence();
-	  seq.line = t.beginLine; seq.column = t.beginColumn;
-	  seq.units.addElement(la);
+	  Sequence seq = new Sequence(t, la);
 	  la.parent = seq; la.ordinal = 0;
 	  act = new Action();
 	  act.line = t.beginLine; act.column = t.beginColumn;

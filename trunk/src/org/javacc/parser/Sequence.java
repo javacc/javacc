@@ -41,4 +41,12 @@ public class Sequence extends Expansion {
    */
   public java.util.Vector units = new java.util.Vector();
 
+    public Sequence() {}
+
+    public Sequence(Token token, Lookahead lookahead) {
+        this.line = token.beginLine;
+        this.column = token.beginColumn;
+        this.units.add(lookahead);
+    }
+
 }
