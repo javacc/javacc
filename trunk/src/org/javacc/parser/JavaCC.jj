@@ -1159,10 +1159,7 @@ void expansion_unit(Container c) :
 	}
    | "*"
 	{
-	  ZeroOrMore zmexp = new ZeroOrMore();
-	  zmexp.line = t.beginLine;
-	  zmexp.column = t.beginColumn;
-	  zmexp.expansion = (Expansion)c.member;
+	  ZeroOrMore zmexp = new ZeroOrMore(t, (Expansion)c.member);
 	  ((Expansion)c.member).parent = zmexp;
 	  c.member = zmexp;
 	}
