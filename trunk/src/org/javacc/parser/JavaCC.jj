@@ -1178,7 +1178,6 @@ void expansion_unit(Container c) :
 void regular_expression(Container c) :
 	{
 	  REndOfFile ef;
-	  RJustName jn;
 	  String image;
 	  boolean private_rexp = false;
 	  Token t = getToken(1);
@@ -1222,11 +1221,7 @@ void regular_expression(Container c) :
   LOOKAHEAD(2)
   "<" image=identifier() ">"
 	{
-	  jn = new RJustName();
-	  jn.line = t.beginLine;
-	  jn.column = t.beginColumn;
-	  jn.label = image;
-	  c.member = jn;
+	  c.member = new RJustName(t, image);
 	}
 |
   "<" "EOF" ">"
@@ -1301,7 +1296,6 @@ void complex_regular_expression(Container c1) :
 void complex_regular_expression_unit(Container c) :
 	{
 	  String image;
-	  RJustName jn;
 	  Token t = getToken(1);
           int r1 = 0, r2 = -1;
           boolean hasMax = false;
@@ -1314,11 +1308,7 @@ void complex_regular_expression_unit(Container c) :
 |
   "<" image=identifier() ">"
 	{
-	  jn = new RJustName();
-	  jn.line = t.beginLine;
-	  jn.column = t.beginColumn;
-	  jn.label = image;
-	  c.member = jn;
+	  c.member = new RJustName(t, image);
 	}
 |
   character_list(c)
