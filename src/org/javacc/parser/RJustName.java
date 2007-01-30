@@ -46,4 +46,12 @@ public class RJustName extends RegularExpression {
      return regexpr.GenerateNfa(ignoreCase);
   }
 
+    public RJustName() {}
+
+    public RJustName(Token token, String image) {
+        this.line = token.beginLine;
+        this.column = token.beginColumn;
+        this.label = image;
+    }
+
 }
