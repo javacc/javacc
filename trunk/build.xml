@@ -105,7 +105,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
         </junit>
     </target>
 
-	<target name="test" depends="realclean,jar" description="run JUnit functional test cases">
+	<target name="test" depends="realclean,jar,unittest" description="run JUnit functional test cases">
 
 		<mkdir dir="test.tmp" />
 
