@@ -1175,7 +1175,7 @@ void regular_expression(Container c) :
 {
   image=StringLiteral()
 	{
-	  c.member = new RStringLiteral(t.beginLine, t.beginColumn, image);
+	  c.member = new RStringLiteral(t, image);
 	}
 |
   LOOKAHEAD(3)
@@ -1293,7 +1293,7 @@ void complex_regular_expression_unit(Container c) :
 {
   image=StringLiteral()
 	{
-	  c.member = new RStringLiteral(t.beginLine, t.beginColumn, image);
+	  c.member = new RStringLiteral(t, image);
 	}
 |
   "<" image=identifier() ">"

@@ -92,18 +92,20 @@ THE POSSIBILITY OF SUCH DAMAGE.
 		</exec>
 	</target>
 
-	<target name="test" depends="realclean,jar" description="run JUnit test cases">
+    <target name="unittest" depends="compile" description="run JUnit unit test cases">
+        <junit printsummary="yes" haltonfailure="yes">
+            <classpath>
+                <pathelement path="classes" />
+            </classpath>
+            <batchtest fork="no" todir=".">
+                <fileset dir="classes">
+                    <include name="**/*Test.*" />
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
 
-		<junit printsummary="yes" haltonfailure="yes">
-			<classpath>
-				<pathelement path="classes" />
-			</classpath>
-			<batchtest fork="no" todir=".">
-				<fileset dir="classes">
-					<include name="**/*Test.*" />
-				</fileset>
-			</batchtest>
-		</junit>
+	<target name="test" depends="realclean,jar" description="run JUnit functional test cases">
 
 		<mkdir dir="test.tmp" />
 

@@ -70,9 +70,9 @@ public class RStringLiteral extends RegularExpression {
     public RStringLiteral() {
     }
 
-    public RStringLiteral(int line, int column, String image) {
-        this.line = line;
-        this.column = column;
+    public RStringLiteral(Token t, String image) {
+        this.line = t.beginLine;
+        this.column = t.beginColumn;
         this.image = image;
     }
 
