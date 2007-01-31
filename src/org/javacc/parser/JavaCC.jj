@@ -1050,12 +1050,7 @@ void expansion_unit(Container c) :
 |
   t="[" expansion_choices(c) "]"
 	{
-	  ZeroOrOne exp = new ZeroOrOne();
-	  exp.line = t.beginLine;
-	  exp.column = t.beginColumn;
-	  exp.expansion = (Expansion)c.member;
-	  ((Expansion)c.member).parent = exp;
-	  c.member = exp;
+	  c.member = new ZeroOrOne(t, (Expansion)c.member);
 	}
 |
 	{
@@ -1165,12 +1160,7 @@ void expansion_unit(Container c) :
 	}
    | "?"
 	{
-	  ZeroOrOne zoexp = new ZeroOrOne();
-	  zoexp.line = t.beginLine;
-	  zoexp.column = t.beginColumn;
-	  zoexp.expansion = (Expansion)c.member;
-	  ((Expansion)c.member).parent = zoexp;
-	  c.member = zoexp;
+	  c.member = new ZeroOrOne(t, (Expansion)c.member);
 	}
   )?
 }
