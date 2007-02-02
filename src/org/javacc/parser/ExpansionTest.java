@@ -30,6 +30,14 @@ public final class ExpansionTest extends TestCase {
         assertEquals(e, zom.expansion);
     }
 
+    public void testRZeroOrMoreConstructor() {
+        RegularExpression r = new RChoice();
+        RZeroOrMore rzom = new RZeroOrMore(t, r);
+        assertEquals(t.beginColumn, rzom.column);
+        assertEquals(t.beginLine, rzom.line);
+        assertEquals(r, rzom.regexpr);
+    }
+
     public void testRStringLiteralConstructor() {
         RStringLiteral r = new RStringLiteral(t, "hey");
         assertEquals(t.beginColumn, r.column);

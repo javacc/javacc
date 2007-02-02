@@ -55,4 +55,12 @@ public class RZeroOrMore extends RegularExpression {
      return retVal;
   }
 
+    public RZeroOrMore() {}
+    
+    public RZeroOrMore(Token t, RegularExpression r) {
+        this.line = t.beginLine;
+        this.column = t.beginColumn;
+        this.regexpr = r;
+    }
+
 }
