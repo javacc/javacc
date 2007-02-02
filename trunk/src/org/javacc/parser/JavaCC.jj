@@ -1314,11 +1314,7 @@ void complex_regular_expression_unit(Container c) :
 	}
    | "*"
 	{
-	  RZeroOrMore zmrexp = new RZeroOrMore();
-	  zmrexp.line = t.beginLine;
-	  zmrexp.column = t.beginColumn;
-	  zmrexp.regexpr = (RegularExpression)c.member;
-	  c.member = zmrexp;
+	  c.member = new RZeroOrMore(t, (RegularExpression)c.member);
 	}
    | "?"
 	{
