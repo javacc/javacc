@@ -1306,11 +1306,7 @@ void complex_regular_expression_unit(Container c) :
   "(" complex_regular_expression_choices(c) ")"
   (  "+"
 	{
-	  ROneOrMore omrexp = new ROneOrMore();
-	  omrexp.line = t.beginLine;
-	  omrexp.column = t.beginColumn;
-	  omrexp.regexpr = (RegularExpression)c.member;
-	  c.member = omrexp;
+	  c.member = new ROneOrMore(t, (RegularExpression)c.member);
 	}
    | "*"
 	{
