@@ -137,8 +137,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
     if (!(r instanceof REndOfFile)) {
       TokenProduction p = new TokenProduction();
       p.isExplicit = false;
-      p.lexStates = new String[1];
-      p.lexStates[0] = "DEFAULT";
+      p.lexStates = new String[] {"DEFAULT"};
       p.kind = TokenProduction.TOKEN;
       RegExprSpec res = new RegExprSpec();
       res.rexp = r;
