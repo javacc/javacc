@@ -728,8 +728,7 @@ void regular_expr_production() :
 	{
 	  // set p.lexStates assuming there is no state spec.
 	  // and then override if necessary.
-	  p.lexStates = new String[1];
-	  p.lexStates[0] = "DEFAULT";
+	  p.lexStates = new String[] {"DEFAULT"};
 	}
   [
     LOOKAHEAD(2) "<" "*" ">"
@@ -1143,25 +1142,9 @@ void expansion_unit(Container c) :
   )
 |
   t="(" expansion_choices(c) ")"
-  (  "+"
-	{
-	  OneOrMore omexp = new OneOrMore();
-	  omexp.line = t.beginLine;
-	  omexp.column = t.beginColumn;
-	  omexp.expansion = (Expansion)c.member;
-	  ((Expansion)c.member).parent = omexp;
-	  c.member = omexp;
-	}
-   | "*"
-	{
-	  ZeroOrMore zmexp = new ZeroOrMore(t, (Expansion)c.member);
-	  ((Expansion)c.member).parent = zmexp;
-	  c.member = zmexp;
-	}
-   | "?"
-	{
-	  c.member = new ZeroOrOne(t, (Expansion)c.member);
-	}
+  (  "+" { c.member = new OneOrMore(t, (Expansion)c.member); }
+   | "*" { c.member = new ZeroOrMore(t, (Expansion)c.member); }
+   | "?" { c.member = new ZeroOrOne(t, (Expansion)c.member); }
   )?
 }
 

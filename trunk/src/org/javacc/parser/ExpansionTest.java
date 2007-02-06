@@ -28,6 +28,7 @@ public final class ExpansionTest extends TestCase {
         assertEquals(t.beginColumn, zom.column);
         assertEquals(t.beginLine, zom.line);
         assertEquals(e, zom.expansion);
+        assertEquals(e.parent, zom);
     }
 
     public void testRZeroOrMoreConstructor() {
@@ -45,6 +46,16 @@ public final class ExpansionTest extends TestCase {
         assertEquals(t.beginLine, room.line);
         assertEquals(r, room.regexpr);
     }
+
+    public void testOneOrMoreConstructor() {
+        Expansion e = new RChoice();
+        OneOrMore oom = new OneOrMore(t, e);
+        assertEquals(t.beginColumn, oom.column);
+        assertEquals(t.beginLine, oom.line);
+        assertEquals(e, oom.expansion);
+        assertEquals(e.parent, oom);
+    }
+
 
     public void testRStringLiteralConstructor() {
         RStringLiteral r = new RStringLiteral(t, "hey");
