@@ -45,6 +45,7 @@ public class ZeroOrMore extends Expansion {
         this.line = token.beginLine;
         this.column = token.beginColumn;
         this.expansion = expansion;
+        this.expansion.parent = this;
     }
 
 }
