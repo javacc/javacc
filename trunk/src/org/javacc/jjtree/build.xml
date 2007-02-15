@@ -37,11 +37,11 @@ THE POSSIBILITY OF SUCH DAMAGE.
   </property>
 
   <property name="bootstrap.jjtree.mainclass"
-            value="COM.sun.labs.jjtree.Main">
+            value="org.javacc.jjtree.Main">
   </property>
 
   <property name="bootstrap.javacc.mainclass"
-            value="COM.sun.labs.javacc.Main">
+            value="org.javacc.parser.Main">
   </property>
 
   <target name="compile" depends="compile-nojar">

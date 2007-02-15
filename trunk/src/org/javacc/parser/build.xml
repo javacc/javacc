@@ -36,7 +36,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
             value="../../../..">
   </property>
   <property name="bootstrap.javacc.mainclass"
-            value="COM.sun.labs.javacc.Main">
+            value="org.javacc.parser.Main">
   </property>
   <property name="junit.jar"
             value="${javacc.root}/lib/junit3.8.1/junit.jar">
