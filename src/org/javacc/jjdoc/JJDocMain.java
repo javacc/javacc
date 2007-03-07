@@ -30,7 +30,10 @@
 
 package org.javacc.jjdoc;
 
-import org.javacc.parser.*;
+import org.javacc.parser.JavaCCErrors;
+import org.javacc.parser.JavaCCGlobals;
+import org.javacc.parser.JavaCCParser;
+import org.javacc.parser.Main;
 
 public class JJDocMain {
 
@@ -139,7 +142,7 @@ public class JJDocMain {
            System.out.println(args[args.length-1] + " is a directory. Please use a valid file name.");
            return 1;
         }
-  JJDocGlobals.input_file = fp.getName();
+        JJDocGlobals.input_file = fp.getName();
         parser = new JavaCCParser(new java.io.FileReader(args[args.length-1]));
       } catch (SecurityException se) {
         System.out.println("Security violation while trying to open " + args[args.length-1]);
