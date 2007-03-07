@@ -35,6 +35,7 @@ import org.javacc.parser.JavaCodeProduction;
 import org.javacc.parser.NonTerminal;
 import org.javacc.parser.NormalProduction;
 import org.javacc.parser.RegularExpression;
+import org.javacc.parser.TokenProduction;
 
 public class HTMLGenerator extends TextGenerator implements Generator {
   private Hashtable id_map = new Hashtable();
@@ -77,15 +78,8 @@ public class HTMLGenerator extends TextGenerator implements Generator {
     ostr.print(s);
   }
 
-  public void specialTokens(String s) {
-    if (!JJDocOptions.getOneTable()) {
-      println("<PRE>");
-      print(s);
-      println("</PRE>");
-    }
-  }
-
   public void documentStart() {
+    ostr = create_output_stream();
     println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">");
     println("<HTML>");
     println("<HEAD>");
@@ -106,6 +100,35 @@ public class HTMLGenerator extends TextGenerator implements Generator {
     println("</BODY>");
     println("</HTML>");
     ostr.close();
+  }
+
+  /** 
+   * Prints out comments, used for tokens and non-terminals. 
+   * {@inheritDoc}
+   * @see org.javacc.jjdoc.TextGenerator#specialTokens(java.lang.String)
+   */
+  public void specialTokens(String s) {
+    println(" <!-- Special token -->");
+    println(" <TR>");
+    println("  <TD>");
+    println("<PRE>");
+    print(s);
+    println("</PRE>");
+    println("  </TD>");
+    println(" </TR>");
+  }
+
+  public void tokenStart(TokenProduction tp) {
+    println(" <!-- Token -->");
+    println(" <TR>");
+    println("  <TD>");
+    println("   <PRE>");
+  }
+
+  public void tokenEnd(TokenProduction tp) {
+    println("   </PRE>");
+    println("  </TD>");
+    println(" </TR>");
   }
 
   public void nonterminalsStart() {
