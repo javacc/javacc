@@ -36,12 +36,12 @@ import org.javacc.parser.JavaCodeProduction;
 import org.javacc.parser.NonTerminal;
 import org.javacc.parser.NormalProduction;
 import org.javacc.parser.RegularExpression;
+import org.javacc.parser.TokenProduction;
 
 public class TextGenerator implements Generator {
   protected PrintWriter ostr;
 
   public TextGenerator() {
-    ostr = create_output_stream();
   }
 
   /**
@@ -62,17 +62,10 @@ public class TextGenerator implements Generator {
 
   /**
    * {@inheritDoc}
-   * @see org.javacc.jjdoc.Generator#specialTokens(java.lang.String)
-   */
-  public void specialTokens(String s) {
-    ostr.print(s);
-  }
-
-  /**
-   * {@inheritDoc}
    * @see org.javacc.jjdoc.Generator#documentStart()
    */
   public void documentStart() {
+    ostr = create_output_stream();
     ostr.print("\nDOCUMENT START\n");
   }
   /**
@@ -82,6 +75,28 @@ public class TextGenerator implements Generator {
   public void documentEnd() {
     ostr.print("\nDOCUMENT END\n");
     ostr.close();
+  }
+
+  /**
+   * {@inheritDoc}
+   * @see org.javacc.jjdoc.Generator#specialTokens(java.lang.String)
+   */
+  public void specialTokens(String s) {
+    ostr.print(s);
+  }
+
+  /** 
+   * {@inheritDoc}
+   * @see org.javacc.jjdoc.Generator#tokenStart(org.javacc.parser.TokenProduction)
+   */
+  public void tokenStart(TokenProduction tp) {
+  }
+
+  /** 
+   * {@inheritDoc}
+   * @see org.javacc.jjdoc.Generator#tokenEnd(org.javacc.parser.TokenProduction)
+   */
+  public void tokenEnd(TokenProduction tp) {
   }
 
   /**
