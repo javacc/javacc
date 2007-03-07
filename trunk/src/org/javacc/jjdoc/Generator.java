@@ -34,6 +34,7 @@ import org.javacc.parser.JavaCodeProduction;
 import org.javacc.parser.NonTerminal;
 import org.javacc.parser.NormalProduction;
 import org.javacc.parser.RegularExpression;
+import org.javacc.parser.TokenProduction;
 
 /**
  * A report generator for a grammar.
@@ -56,12 +57,6 @@ public interface Generator {
   public abstract void print(String s);
 
   /**
-   * Output Special Tokens. 
-   * @param s tokens to output 
-   */
-  public abstract void specialTokens(String s);
-
-  /**
    * Output document header.
    */
   public abstract void documentStart();
@@ -70,6 +65,24 @@ public interface Generator {
    * Output document footer.
    */
   public abstract void documentEnd();
+
+  /**
+   * Output Special Tokens. 
+   * @param s tokens to output 
+   */
+  public abstract void specialTokens(String s);
+
+  /**
+   * Output start of a TokenProduction.
+   * @param tp the TokenProduction being output
+   */
+  public abstract void tokenStart(TokenProduction tp);
+
+  /**
+   * Output end of a TokenProduction.
+   * @param tp the TokenProduction being output
+   */
+  public abstract void tokenEnd(TokenProduction tp);
 
   /**
    * Output start of non-terminal. 
