@@ -49,6 +49,7 @@ import org.javacc.parser.RSequence;
 import org.javacc.parser.RStringLiteral;
 import org.javacc.parser.RZeroOrMore;
 import org.javacc.parser.RZeroOrOne;
+import org.javacc.parser.RegExprSpec;
 import org.javacc.parser.RegularExpression;
 import org.javacc.parser.Sequence;
 import org.javacc.parser.SingleCharacter;
@@ -57,6 +58,7 @@ import org.javacc.parser.TokenProduction;
 import org.javacc.parser.TryBlock;
 import org.javacc.parser.ZeroOrMore;
 import org.javacc.parser.ZeroOrOne;
+
 public class JJDoc extends JavaCCGlobals {
   static Generator generator;
   /**
@@ -91,9 +93,11 @@ public class JJDoc extends JavaCCGlobals {
         tok = tok.next;
       }
     }
-    gen.specialTokens(s);
+    if (!s.equals(""))
+      gen.specialTokens(s);
   }
 
+  /* 
   private static boolean toplevelExpansion(Expansion exp) {
     return exp.parent != null
       && ( (exp.parent instanceof NormalProduction)
@@ -101,49 +105,57 @@ public class JJDoc extends JavaCCGlobals {
 	   (exp.parent instanceof TokenProduction)
 	   );
   }
-
+  */
+  
   private static void emitTokenProductions(Generator gen, Vector prods) {
-//     gen.tokensStart();
+    gen.tokensStart();
+    // FIXME there are many empty productions here
     for (Enumeration enumeration = prods.elements(); enumeration.hasMoreElements();) {
       TokenProduction tp = (TokenProduction)enumeration.nextElement();
-//       emitTopLevelSpecialTokens(ostr, tp.firstToken);
+      emitTopLevelSpecialTokens(tp.firstToken, gen);
 
-//       if (tp.isExplicit) {
-// 	if (tp.lexStates == null) {
-// 	  ostr.print("<*> ");
-// 	} else {
-// 	  ostr.print("<");
-// 	  for (int i = 0; i < tp.lexStates.length; ++i) {
-// 	    ostr.print(tp.lexStates[i]);
-// 	    if (i < tp.lexStates.length - 1) {
-// 	      ostr.print(",");
-// 	    }
-// 	  }
-// 	  ostr.print("> ");
-// 	}
-// 	ostr.print(tp.kindImage[tp.kind]);
-// 	if (tp.ignoreCase) {
-// 	  ostr.print(" [IGNORE_CASE]");
-// 	}
-// 	ostr.print(" : {\n");
-// 	for (Enumeration e2 = tp.respecs.elements(); e2.hasMoreElements();) {
-// 	  RegExprSpec res = (RegExprSpec)e2.nextElement();
+      String token = "";
+      if (tp.isExplicit) {
+ 	      if (tp.lexStates == null) {
+         token += "<*> ";
+ 	      } else {
+         token += "<";
+ 	        for (int i = 0; i < tp.lexStates.length; ++i) {
+           token += tp.lexStates[i];
+ 	          if (i < tp.lexStates.length - 1) {
+             token += ",";
+ 	          }
+ 	        }
+         token += "> ";
+ 	      }
+       token += TokenProduction.kindImage[tp.kind];
+ 	      if (tp.ignoreCase) {
+         token += " [IGNORE_CASE]";
+ 	      }
+       token += " : {\n";
+ 	      for (Enumeration e2 = tp.respecs.elements(); e2.hasMoreElements();) {
+ 	        RegExprSpec res = (RegExprSpec)e2.nextElement();
 
-// 	  emitRE(res.rexp, ostr);
+         token += emitRE(res.rexp);
 
-// 	  if (res.nsTok != null) {
-// 	    ostr.print(" : " + res.nsTok.image);
-// 	  }
+ 	        if (res.nsTok != null) {
+           token += " : " + res.nsTok.image;
+ 	        }
 
-// 	  ostr.print("\n");
-// 	  if (e2.hasMoreElements()) {
-// 	    ostr.print("| ");
-// 	  }
-// 	}
-// 	ostr.print("}\n\n");
-//       }
+         token += "\n";
+ 	        if (e2.hasMoreElements()) {
+           token += "| ";
+ 	        }
+ 	      }
+       token += "}\n\n";
+      }
+      if (!token.equals("")) { 
+        gen.tokenStart(tp);
+        gen.text(token);
+        gen.tokenEnd(tp);
+      }
     }
-//     gen.tokensEnd();
+    gen.tokensEnd();
   }
   
   private static void emitNormalProductions(Generator gen, Vector prods) {
@@ -156,8 +168,8 @@ public class JJDoc extends JavaCCGlobals {
         if (np.expansion instanceof Choice) {
           boolean first = true;
           Choice c = (Choice)np.expansion;
-	  for (java.util.Enumeration enume = c.choices.elements();
-	       enume.hasMoreElements();) {
+          for (java.util.Enumeration enume = c.choices.elements();
+	             enume.hasMoreElements();) {
             Expansion e = (Expansion)(enume.nextElement());
             gen.expansionStart(e, first);
             emitExpansionTree(e, gen);
@@ -207,7 +219,7 @@ public class JJDoc extends JavaCCGlobals {
   }
   private static void emitExpansionChoice(Choice c, Generator gen) {
     for (java.util.Enumeration enumeration = c.choices.elements();
-	 enumeration.hasMoreElements();) {
+	          enumeration.hasMoreElements();) {
       Expansion e = (Expansion)(enumeration.nextElement());
       emitExpansionTree(e, gen);
       if (enumeration.hasMoreElements()) {
@@ -229,14 +241,17 @@ public class JJDoc extends JavaCCGlobals {
   }
   private static void emitExpansionRegularExpression(RegularExpression r,
       Generator gen) {
-    gen.reStart(r);
-    emitRE(r, gen);
-    gen.reEnd(r);
+    String reRendered = emitRE(r);
+    if (!reRendered.equals("")) {
+      gen.reStart(r);
+      gen.text(reRendered);
+      gen.reEnd(r);
+    }
   }
   private static void emitExpansionSequence(Sequence s, Generator gen) {
     boolean firstUnit = true;
     for (java.util.Enumeration enumeration = s.units.elements();
-	 enumeration.hasMoreElements();) {
+            enumeration.hasMoreElements();) {
       Expansion e = (Expansion)enumeration.nextElement();
       if (e instanceof Lookahead || e instanceof Action) {
         continue;
@@ -275,7 +290,8 @@ public class JJDoc extends JavaCCGlobals {
     emitExpansionTree(z.expansion, gen);
     gen.text(" )?");
   }
-  private static void emitRE(RegularExpression re, Generator gen) {
+  private static String emitRE(RegularExpression re) {
+    String returnString = "";
     boolean hasLabel = !re.label.equals("");
     boolean justName = re instanceof RJustName;
     boolean eof = re instanceof REndOfFile;
@@ -284,108 +300,110 @@ public class JJDoc extends JavaCCGlobals {
     boolean needBrackets
       = justName || eof || hasLabel || (!isString && toplevelRE);
     if (needBrackets) {
-      gen.text("<");
+      returnString += "<";
       if (!justName) {
         if (re.private_rexp) {
-          gen.text("#");
+          returnString += "#";
         }
         if (hasLabel) {
-          gen.text(re.label);
-          gen.text(": ");
+          returnString += re.label;
+          returnString += ": ";
         }
       }
     }
     if (re instanceof RCharacterList) {
       RCharacterList cl = (RCharacterList)re;
       if (cl.negated_list) {
-        gen.text("~");
+        returnString += "~";
       }
-      gen.text("[");
+      returnString += "[";
       for (java.util.Enumeration enumeration = cl.descriptors.elements();
-	   enumeration.hasMoreElements();) {
+               enumeration.hasMoreElements();) {
         Object o = enumeration.nextElement();
         if (o instanceof SingleCharacter) {
-          gen.text("\"");
+          returnString += "\"";
           char s[] = { ((SingleCharacter)o).ch };
-          gen.text(add_escapes(new String(s)));
-          gen.text("\"");
+          returnString += add_escapes(new String(s));
+          returnString += "\"";
         } else if (o instanceof CharacterRange) {
-          gen.text("\"");
+          returnString += "\"";
           char s[] = { ((CharacterRange)o).left };
-          gen.text(add_escapes(new String(s)));
-          gen.text("\"-\"");
+          returnString += add_escapes(new String(s));
+          returnString += "\"-\"";
           s[0] = ((CharacterRange)o).right;
-          gen.text(add_escapes(new String(s)));
-          gen.text("\"");
+          returnString += add_escapes(new String(s));
+          returnString += "\"";
         } else {
           System.out.println("Oops: unknown character list element type.");
         }
         if (enumeration.hasMoreElements()) {
-          gen.text(",");
+          returnString += ",";
         }
       }
-      gen.text("]");
+      returnString += "]";
     } else if (re instanceof RChoice) {
       RChoice c = (RChoice)re;
       for (java.util.Enumeration enumeration = c.choices.elements();
-	   enumeration.hasMoreElements();) {
+              enumeration.hasMoreElements();) {
         RegularExpression sub = (RegularExpression)(enumeration.nextElement());
-        emitRE(sub, gen);
+        returnString += emitRE(sub);
         if (enumeration.hasMoreElements()) {
-          gen.text(" | ");
+          returnString += " | ";
         }
       }
     } else if (re instanceof REndOfFile) {
-      gen.text("EOF");
+      returnString += "EOF";
     } else if (re instanceof RJustName) {
       RJustName jn = (RJustName)re;
-      gen.text(jn.label);
+      returnString += jn.label;
     } else if (re instanceof ROneOrMore) {
       ROneOrMore om = (ROneOrMore)re;
-      gen.text("(");
-      emitRE(om.regexpr, gen);
-      gen.text(")+");
+      returnString += "(";
+      returnString += emitRE(om.regexpr);
+      returnString += ")+";
     } else if (re instanceof RSequence) {
       RSequence s = (RSequence)re;
       for (java.util.Enumeration enumeration = s.units.elements();
-	   enumeration.hasMoreElements();) {
+              enumeration.hasMoreElements();) {
         RegularExpression sub = (RegularExpression)(enumeration.nextElement());
         boolean needParens = false;
         if (sub instanceof RChoice) {
           needParens = true;
         }
         if (needParens) {
-          gen.text("(");
+          returnString += "(";
         }
-        emitRE(sub, gen);
+        returnString += emitRE(sub);
         if (needParens) {
-          gen.text(")");
+          returnString += ")";
         }
         if (enumeration.hasMoreElements()) {
-          gen.text(" ");
+          returnString += " ";
         }
       }
     } else if (re instanceof RStringLiteral) {
       RStringLiteral sl = (RStringLiteral)re;
-      gen.text("\"" + JavaCCParserInternals.add_escapes(sl.image) + "\"");
+      returnString += ("\"" + JavaCCParserInternals.add_escapes(sl.image) + "\"");
     } else if (re instanceof RZeroOrMore) {
       RZeroOrMore zm = (RZeroOrMore)re;
-      gen.text("(");
-      emitRE(zm.regexpr, gen);
-      gen.text(")*");
+      returnString += "(";
+      returnString += emitRE(zm.regexpr);
+      returnString += ")*";
     } else if (re instanceof RZeroOrOne) {
       RZeroOrOne zo = (RZeroOrOne)re;
-      gen.text("(");
-      emitRE(zo.regexpr, gen);
-      gen.text(")?");
+      returnString += "(";
+      returnString += emitRE(zo.regexpr);
+      returnString += ")?";
     } else {
       System.out.println("Oops: Unknown regular expression type.");
     }
     if (needBrackets) {
-      gen.text(">");
+      returnString += ">";
     }
+    return returnString;
   }
 
+  /*
   private static String v2s(Vector v, boolean newLine) {
     String s = "";
     boolean firstToken = true;
@@ -411,9 +429,11 @@ public class JJDoc extends JavaCCGlobals {
     }
     return s;
   }
+  */
   /**
    * A utility to produce a string of blanks.
    */
+  /*
   private static String ws(int len) {
     String s = "";
     for (int i = 0; i < len; ++i) {
@@ -421,17 +441,15 @@ public class JJDoc extends JavaCCGlobals {
     }
     return s;
   }
-  
+  */
   /**
    * @return Returns the generator.
    */
   public static Generator getGenerator() {
-    if (generator == null) {
-      if (JJDocOptions.getText()) {
-        generator = new TextGenerator();
-      } else {
-        generator = new HTMLGenerator();
-      }
+    if (JJDocOptions.getText()) {
+      generator = new TextGenerator();
+    } else {
+      generator = new HTMLGenerator();
     }
     return generator;
   }
