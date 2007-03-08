@@ -133,7 +133,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       </execution>
       <execution>
         <id>jcc</id>
-       <phase>process-sources</phase>
+       <phase>generate-sources</phase>
        <goals>
         <goal>javacc</goal>
        </goals>
@@ -144,7 +144,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       </execution>
       <execution>
         <id>jjt-jcc</id>
-       <phase>process-sources</phase>
+       <phase>generate-sources</phase>
        <goals>
         <goal>javacc</goal>
        </goals>
@@ -186,7 +186,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
      <executions>
       <execution>
        <id>prepare</id>
-       <phase>validate</phase>
+       <phase>generate-sources</phase>
         <configuration>
          <tasks>
     <copy todir="${project.build.directory}/generated-sources/javacc/org/javacc/parser">
@@ -205,6 +205,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
         <goal>run</goal>
        </goals>
       </execution>
+      
       <execution>
        <id>overwrite</id>
        <phase>process-sources</phase>
@@ -590,6 +591,14 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       <plugin>
        <groupId>org.apache.maven.plugins</groupId>
        <artifactId>maven-surefire-report-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>src/site/checkstyle.xml</configLocation>
+          <xrefLocation>xref</xrefLocation>
+        </configuration>
       </plugin>
     </plugins>
   </reporting>
