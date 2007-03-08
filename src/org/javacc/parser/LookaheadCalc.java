@@ -1,9 +1,9 @@
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of the Sun Microsystems, Inc. nor the names of its
  *       contributors may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -25,7 +25,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 package org.javacc.parser;
 
 import java.util.Vector;
@@ -130,10 +129,12 @@ public class LookaheadCalc extends JavaCCGlobals {
         for (int i = first; i < ch.choices.size()-1; i++) {
           Expansion exp = (Expansion)ch.choices.elementAt(i);
           if (Semanticize.emptyExpansionExists(exp)) {
-            JavaCCErrors.warning(exp, "This choice can expand to the empty token sequence and will therefore always be taken in favor of the choices appearing later.");
+            JavaCCErrors.warning(exp, "This choice can expand to the empty token sequence " + 
+                    "and will therefore always be taken in favor of the choices appearing later.");
             break;
           } else if (javaCodeCheck(dbl[i])) {
-            JavaCCErrors.warning(exp, "JAVACODE non-terminal will force this choice to be taken in favor of the choices appearing later.");
+            JavaCCErrors.warning(exp, "JAVACODE non-terminal will force this choice to be taken " + 
+                    "in favor of the choices appearing later.");
             break;
           }
         }
@@ -236,7 +237,9 @@ public class LookaheadCalc extends JavaCCGlobals {
       follow = LookaheadWalk.sizeLimitedMatches;
       if (la == 1) {
         if (javaCodeCheck(first)) {
-          JavaCCErrors.warning(nested, "JAVACODE non-terminal within " + image(exp) + " construct will force this construct to be entered in favor of expansions occurring after construct.");
+          JavaCCErrors.warning(nested, "JAVACODE non-terminal within " + image(exp) + 
+                  " construct will force this construct to be entered in favor of " + 
+                  "expansions occurring after construct.");
         }
       }
       if ((m = overlap(first, follow)) == null) {
@@ -245,12 +248,14 @@ public class LookaheadCalc extends JavaCCGlobals {
       m1 = m;
     }
     if (la > Options.getOtherAmbiguityCheck()) {
-      JavaCCErrors.warning("Choice conflict in " + image(exp) + " construct at line " + exp.line + ", column " + exp.column + ".");
+      JavaCCErrors.warning("Choice conflict in " + image(exp) + " construct " + 
+              "at line " + exp.line + ", column " + exp.column + ".");
       System.err.println("         Expansion nested within construct and expansion following construct");
       System.err.println("         have common prefixes, one of which is: " + image(m1));
       System.err.println("         Consider using a lookahead of " + la + " or more for nested expansion.");
     } else if (la > 1) {
-      JavaCCErrors.warning("Choice conflict in " + image(exp) + " construct at line " + exp.line + ", column " + exp.column + ".");
+      JavaCCErrors.warning("Choice conflict in " + image(exp) + " construct " + 
+              "at line " + exp.line + ", column " + exp.column + ".");
       System.err.println("         Expansion nested within construct and expansion following construct");
       System.err.println("         have common prefixes, one of which is: " + image(m1));
       System.err.println("         Consider using a lookahead of " + la + " for nested expansion.");
