@@ -1,6 +1,6 @@
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  * 
@@ -59,11 +59,12 @@ import org.javacc.parser.TryBlock;
 import org.javacc.parser.ZeroOrMore;
 import org.javacc.parser.ZeroOrOne;
 
+/**
+ * The main entry point for JJDoc.
+ */
 public class JJDoc extends JavaCCGlobals {
   static Generator generator;
-  /**
-   * The main entry point for JJDoc.
-   */
+
   static void start() {
     generator = getGenerator();
     generator.documentStart();
