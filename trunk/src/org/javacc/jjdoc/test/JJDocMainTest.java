@@ -1,4 +1,4 @@
-/* Copyright (c) 2006, Sun Microsystems, Inc.
+/* Copyright (c) 2006, Tim Pizey
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -85,7 +85,8 @@ public class JJDocMainTest extends TestCase {
    * Test method for {@link org.javacc.jjdoc.JJDocMain#mainProgram(java.lang.String[])}.
    */
   public void testMainProgramText() throws Exception {
-    JJDocMain.mainProgram(new String[] {"-OUTPUT_FILE:www/doc/JavaCC.txt","-TEXT:true","src/org/javacc/parser/JavaCC.jj"});
+    JJDocMain.mainProgram(new String[] {"-OUTPUT_FILE:www/doc/JavaCC.txt",
+            "-TEXT:true","src/org/javacc/parser/JavaCC.jj"});
   }
 
 }
