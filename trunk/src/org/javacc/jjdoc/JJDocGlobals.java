@@ -28,7 +28,17 @@
 
 package org.javacc.jjdoc;
 
+/**
+ * Global variables for JJDoc.
+ *
+ */
 public class JJDocGlobals {
+  /**
+   * The name of the input file.
+   */
   public static String input_file;
+  /**
+   * The name of the output file.
+   */
   public static String output_file;
 }
