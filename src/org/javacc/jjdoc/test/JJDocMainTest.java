@@ -78,14 +78,14 @@ public class JJDocMainTest extends TestCase {
    * Test method for {@link org.javacc.jjdoc.JJDocMain#mainProgram(java.lang.String[])}.
    */
   public void testMainProgramHTML() throws Exception {
-    JJDocMain.mainProgram(new String[] {"src/org/javacc/parser/JavaCC.jj"});
+    JJDocMain.mainProgram(new String[] {"-OUTPUT_FILE:www/doc/JavaCC.html","src/org/javacc/parser/JavaCC.jj"});
   }
 
   /**
    * Test method for {@link org.javacc.jjdoc.JJDocMain#mainProgram(java.lang.String[])}.
    */
   public void testMainProgramText() throws Exception {
-    JJDocMain.mainProgram(new String[] {"-TEXT:true","src/org/javacc/parser/JavaCC.jj"});
+    JJDocMain.mainProgram(new String[] {"-OUTPUT_FILE:www/doc/JavaCC.txt","-TEXT:true","src/org/javacc/parser/JavaCC.jj"});
   }
 
 }
