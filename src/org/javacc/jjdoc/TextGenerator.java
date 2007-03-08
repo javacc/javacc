@@ -38,6 +38,9 @@ import org.javacc.parser.NormalProduction;
 import org.javacc.parser.RegularExpression;
 import org.javacc.parser.TokenProduction;
 
+/**
+ * Output BNF in text format.
+ */
 public class TextGenerator implements Generator {
   protected PrintWriter ostr;
 

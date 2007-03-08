@@ -1,6 +1,6 @@
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  * 
@@ -37,6 +37,9 @@ import org.javacc.parser.NormalProduction;
 import org.javacc.parser.RegularExpression;
 import org.javacc.parser.TokenProduction;
 
+/**
+ * Output BNF in HTML 3.2 format.
+ */
 public class HTMLGenerator extends TextGenerator implements Generator {
   private Hashtable id_map = new Hashtable();
   private int id = 1;
