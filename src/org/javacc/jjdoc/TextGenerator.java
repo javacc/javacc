@@ -203,7 +203,6 @@ public class TextGenerator implements Generator {
    * stream.
    */
   protected PrintWriter create_output_stream() {
-    PrintWriter ostr;
 
     if (JJDocOptions.getOutputFile().equals("")) {
       if (JJDocGlobals.input_file.equals("standard input")) {
