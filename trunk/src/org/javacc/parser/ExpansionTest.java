@@ -48,12 +48,12 @@ public final class ExpansionTest extends TestCase {
     }
 
     public void testOneOrMoreConstructor() {
-        Expansion e = new RChoice();
-        OneOrMore oom = new OneOrMore(t, e);
+        Expansion rce = new RChoice();
+        OneOrMore oom = new OneOrMore(t, rce);
         assertEquals(t.beginColumn, oom.column);
         assertEquals(t.beginLine, oom.line);
-        assertEquals(e, oom.expansion);
-        assertEquals(e.parent, oom);
+        assertEquals(rce, oom.expansion);
+        assertEquals(rce.parent, oom);
     }
 
 

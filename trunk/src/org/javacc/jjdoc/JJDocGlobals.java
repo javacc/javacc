@@ -26,8 +26,6 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-
 package org.javacc.jjdoc;
 
 public class JJDocGlobals {

@@ -1,9 +1,9 @@
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of the Sun Microsystems, Inc. nor the names of its
  *       contributors may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -101,7 +101,8 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
     rexprlist.addElement(p);
     if (Options.getUserTokenManager()) {
       if (p.lexStates == null || p.lexStates.length != 1 || !p.lexStates[0].equals("DEFAULT")) {
-        JavaCCErrors.warning(p, "Ignoring lexical state specifications since option USER_TOKEN_MANAGER has been set to true.");
+        JavaCCErrors.warning(p, "Ignoring lexical state specifications since option " + 
+                                "USER_TOKEN_MANAGER has been set to true.");
       }
     }
     if (p.lexStates == null) {
@@ -128,7 +129,8 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
     } else {
       token_mgr_decls = decls;
       if (Options.getUserTokenManager()) {
-        JavaCCErrors.warning(t, "Ignoring declarations in \"TOKEN_MGR_DECLS\" since option USER_TOKEN_MANAGER has been set to true.");
+        JavaCCErrors.warning(t, "Ignoring declarations in \"TOKEN_MGR_DECLS\" since option " + 
+                                "USER_TOKEN_MANAGER has been set to true.");
       }
     }
   }
@@ -239,10 +241,13 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
             }
           }
         }
-        JavaCCErrors.parse_error(t, "Encountered non-hex character '" + ch + "' at position " + index + " of string - Unicode escape must have 4 hex digits after it.");
+        JavaCCErrors.parse_error(t, "Encountered non-hex character '" + ch + 
+                "' at position " + index + " of string " + 
+                "- Unicode escape must have 4 hex digits after it.");
         return retval;
       }
-      JavaCCErrors.parse_error(t, "Illegal escape sequence '\\" + ch + "' at position " + index + " of string.");
+      JavaCCErrors.parse_error(t, "Illegal escape sequence '\\" + ch + 
+              "' at position " + index + " of string.");
       return retval;
     }
     return retval;
@@ -262,7 +267,8 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
       JavaCCErrors.parse_error(t, "String in character list may contain only one character.");
       return ' ';
     } else if ((int)(left.charAt(0)) > (int)(s.charAt(0))) {
-      JavaCCErrors.parse_error(t, "Right end of character range \'" + s + "\' has a lower ordinal value than the left end of character range \'" + left + "\'.");
+      JavaCCErrors.parse_error(t, "Right end of character range \'" + s + 
+              "\' has a lower ordinal value than the left end of character range \'" + left + "\'.");
       return left.charAt(0);
     } else {
       return s.charAt(0);
