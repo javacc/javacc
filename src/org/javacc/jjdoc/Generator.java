@@ -48,116 +48,116 @@ public interface Generator {
    * Output string with entity substitution for brackets and ampersands.
    * @param s the String to output
    */
-  public abstract void text(String s);
+  void text(String s);
 
   /**
    * Output String.
    * @param s String to output
    */
-  public abstract void print(String s);
+  void print(String s);
 
   /**
    * Output document header.
    */
-  public abstract void documentStart();
+  void documentStart();
 
   /**
    * Output document footer.
    */
-  public abstract void documentEnd();
+  void documentEnd();
 
   /**
    * Output Special Tokens. 
    * @param s tokens to output 
    */
-  public abstract void specialTokens(String s);
+  void specialTokens(String s);
 
   /**
    * Output start of a TokenProduction.
    * @param tp the TokenProduction being output
    */
-  public abstract void tokenStart(TokenProduction tp);
+  void tokenStart(TokenProduction tp);
 
   /**
    * Output end of a TokenProduction.
    * @param tp the TokenProduction being output
    */
-  public abstract void tokenEnd(TokenProduction tp);
+  void tokenEnd(TokenProduction tp);
 
   /**
    * Output start of non-terminal. 
    */
-  public abstract void nonterminalsStart();
+  void nonterminalsStart();
 
   /**
    * Output end of non-terminal. 
    */
-  public abstract void nonterminalsEnd();
+  void nonterminalsEnd();
 
   /**
    * Output start of tokens.
    */
-  public abstract void tokensStart();
+  void tokensStart();
 
   /**
    * Output end of tokens.
    */
-  public abstract void tokensEnd();
+  void tokensEnd();
 
   /**
    * Output comment from a production. 
    * @param jp the JavaCodeProduction to output
    */
-  public abstract void javacode(JavaCodeProduction jp);
+  void javacode(JavaCodeProduction jp);
 
   /**
    * Output start of a normal production.
    * @param np the NormalProduction being output
    */
-  public abstract void productionStart(NormalProduction np);
+  void productionStart(NormalProduction np);
 
   /**
    * Output end of a normal production.
    * @param np the NormalProduction being output
    */
-  public abstract void productionEnd(NormalProduction np);
+  void productionEnd(NormalProduction np);
 
   /**
    * Output start of an Expansion.
    * @param e Expansion being output
    * @param first whether this is the first expansion
    */
-  public abstract void expansionStart(Expansion e, boolean first);
+  void expansionStart(Expansion e, boolean first);
 
   /**
    * Output end of Expansion.
    * @param e Expansion being output
    * @param first whether this is the first expansion
    */
-  public abstract void expansionEnd(Expansion e, boolean first);
+  void expansionEnd(Expansion e, boolean first);
 
   /**
    * Output start of non-terminal.
    * @param nt the NonTerminal being output
    */
-  public abstract void nonTerminalStart(NonTerminal nt);
+  void nonTerminalStart(NonTerminal nt);
 
   /**
    * Output end of non-terminal.
    * @param nt the NonTerminal being output
    */
-  public abstract void nonTerminalEnd(NonTerminal nt);
+  void nonTerminalEnd(NonTerminal nt);
 
   /**
    * Output start of regular expression.
    * @param re the RegularExpression being output
    */
-  public abstract void reStart(RegularExpression re);
+  void reStart(RegularExpression re);
 
   /**
    * Output end of regular expression.
    * @param re the RegularExpression being output
    */
-  public abstract void reEnd(RegularExpression re);
+  void reEnd(RegularExpression re);
 
 }
