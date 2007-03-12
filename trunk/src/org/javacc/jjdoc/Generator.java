@@ -1,4 +1,4 @@
-/* Copyright (c) 2006, Tim Pizey
+/* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
