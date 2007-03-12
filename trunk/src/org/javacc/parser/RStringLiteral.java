@@ -164,7 +164,7 @@ public class RStringLiteral extends RegularExpression {
            }
         }
 
-        toPrint += ( "\", ");
+        toPrint += ("\", ");
 
         if ((charCnt += toPrint.length()) >= 80)
         {
