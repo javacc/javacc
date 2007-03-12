@@ -505,9 +505,9 @@ public class Semanticize extends JavaCCGlobals {
         }
       }
       if (prod.leIndex == prod.leftExpansions.length) {
-	NormalProduction[] newle = new NormalProduction[prod.leIndex*2];
-	System.arraycopy(prod.leftExpansions, 0, newle, 0, prod.leIndex);
-	prod.leftExpansions = newle;
+        NormalProduction[] newle = new NormalProduction[prod.leIndex*2];
+        System.arraycopy(prod.leftExpansions, 0, newle, 0, prod.leIndex);
+        prod.leftExpansions = newle;
       }
       prod.leftExpansions[prod.leIndex++] = ((NonTerminal)exp).prod;
     } else if (exp instanceof OneOrMore) {
@@ -639,18 +639,18 @@ public class Semanticize extends JavaCCGlobals {
 
     public void action(Expansion e) {
       if (e instanceof RJustName) {
-	RJustName jn = (RJustName)e;
-	RegularExpression rexp = (RegularExpression)named_tokens_table.get(jn.label);
-	if (rexp == null) {
-	  JavaCCErrors.semantic_error(e, "Undefined lexical token name \"" + jn.label + "\".");
-	} else if (jn == root && !jn.tpContext.isExplicit && rexp.private_rexp) {
-	  JavaCCErrors.semantic_error(e, "Token name \"" + jn.label + "\" refers to a private (with a #) regular expression.");
-	} else if (jn == root && !jn.tpContext.isExplicit && rexp.tpContext.kind != TokenProduction.TOKEN) {
-	  JavaCCErrors.semantic_error(e, "Token name \"" + jn.label + "\" refers to a non-token (SKIP, MORE, IGNORE_IN_BNF) regular expression.");
-	} else {
-	  jn.ordinal = rexp.ordinal;
-	  jn.regexpr = rexp;
-	}
+        RJustName jn = (RJustName)e;
+        RegularExpression rexp = (RegularExpression)named_tokens_table.get(jn.label);
+        if (rexp == null) {
+         JavaCCErrors.semantic_error(e, "Undefined lexical token name \"" + jn.label + "\".");
+        } else if (jn == root && !jn.tpContext.isExplicit && rexp.private_rexp) {
+          JavaCCErrors.semantic_error(e, "Token name \"" + jn.label + "\" refers to a private (with a #) regular expression.");
+        } else if (jn == root && !jn.tpContext.isExplicit && rexp.tpContext.kind != TokenProduction.TOKEN) {
+          JavaCCErrors.semantic_error(e, "Token name \"" + jn.label + "\" refers to a non-token (SKIP, MORE, IGNORE_IN_BNF) regular expression.");
+        } else {
+          jn.ordinal = rexp.ordinal;
+          jn.regexpr = rexp;
+        }
       }
     }
 
@@ -660,55 +660,55 @@ public class Semanticize extends JavaCCGlobals {
 
     public boolean goDeeper(Expansion e) {
       if (e instanceof RegularExpression) {
-	return false;
+        return false;
       } else {
-	return true;
+        return true;
       }
     }
 
     public void action(Expansion e) {
       if (e instanceof Sequence) {
-	if (e.parent instanceof Choice || e.parent instanceof ZeroOrMore ||
-	    e.parent instanceof OneOrMore || e.parent instanceof ZeroOrOne) {
-	  return;
-	}
-	Sequence seq = (Sequence)e;
-	Lookahead la = (Lookahead)(seq.units.elementAt(0));
-	if (!la.isExplicit) {
-	  return;
-	}
-	// Create a singleton choice with an empty action.
-	Choice ch = new Choice();
-	ch.line = la.line; ch.column = la.column;
-	ch.parent = seq;
-	Sequence seq1 = new Sequence();
-	seq1.line = la.line; seq1.column = la.column;
-	seq1.parent = ch;
-	seq1.units.addElement(la);
-	la.parent = seq1;
-	Action act = new Action();
-	act.line = la.line; act.column = la.column;
-	act.parent = seq1;
-	seq1.units.addElement(act);
-	ch.choices.addElement(seq1);
-	if (la.amount != 0) {
-	  if (la.action_tokens.size() != 0) {
-	    JavaCCErrors.warning(la, "Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.");
-	  } else {
-	    JavaCCErrors.warning(la, "Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.");
-	  }
-	}
-	// Now we have moved the lookahead into the singleton choice.  Now create
-	// a new dummy lookahead node to replace this one at its original location.
-	Lookahead la1 = new Lookahead();
-	la1.isExplicit = false;
-	la1.line = la.line; la1.column = la.column;
-	la1.parent = seq;
-	// Now set the la_expansion field of la and la1 with a dummy expansion (we use EOF).
-	la.la_expansion = new REndOfFile();
-	la1.la_expansion = new REndOfFile();
-	seq.units.setElementAt(la1, 0);
-	seq.units.insertElementAt(ch, 1);
+        if (e.parent instanceof Choice || e.parent instanceof ZeroOrMore ||
+            e.parent instanceof OneOrMore || e.parent instanceof ZeroOrOne) {
+          return;
+        }
+        Sequence seq = (Sequence)e;
+        Lookahead la = (Lookahead)(seq.units.elementAt(0));
+        if (!la.isExplicit) {
+          return;
+        }
+        // Create a singleton choice with an empty action.
+        Choice ch = new Choice();
+        ch.line = la.line; ch.column = la.column;
+        ch.parent = seq;
+        Sequence seq1 = new Sequence();
+        seq1.line = la.line; seq1.column = la.column;
+        seq1.parent = ch;
+        seq1.units.addElement(la);
+        la.parent = seq1;
+        Action act = new Action();
+        act.line = la.line; act.column = la.column;
+        act.parent = seq1;
+        seq1.units.addElement(act);
+        ch.choices.addElement(seq1);
+        if (la.amount != 0) {
+          if (la.action_tokens.size() != 0) {
+            JavaCCErrors.warning(la, "Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.");
+          } else {
+            JavaCCErrors.warning(la, "Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.");
+          }
+        }
+        // Now we have moved the lookahead into the singleton choice.  Now create
+        // a new dummy lookahead node to replace this one at its original location.
+        Lookahead la1 = new Lookahead();
+        la1.isExplicit = false;
+        la1.line = la.line; la1.column = la.column;
+        la1.parent = seq;
+        // Now set the la_expansion field of la and la1 with a dummy expansion (we use EOF).
+        la.la_expansion = new REndOfFile();
+        la1.la_expansion = new REndOfFile();
+        seq.units.setElementAt(la1, 0);
+        seq.units.insertElementAt(ch, 1);
       }
     }
 
@@ -718,20 +718,20 @@ public class Semanticize extends JavaCCGlobals {
 
     public boolean goDeeper(Expansion e) {
       if (e instanceof RegularExpression) {
-	return false;
+        return false;
       } else {
-	return true;
+        return true;
       }
     }
 
     public void action(Expansion e) {
       if (e instanceof NonTerminal) {
-	NonTerminal nt = (NonTerminal)e;
-	if ((nt.prod = (NormalProduction)production_table.get(nt.name)) == null) {
-	  JavaCCErrors.semantic_error(e, "Non-terminal " + nt.name + " has not been defined.");
-	} else {
-	  nt.prod.parents.addElement(nt);
-	}
+        NonTerminal nt = (NonTerminal)e;
+        if ((nt.prod = (NormalProduction)production_table.get(nt.name)) == null) {
+          JavaCCErrors.semantic_error(e, "Non-terminal " + nt.name + " has not been defined.");
+        } else {
+          nt.prod.parents.addElement(nt);
+        }
       }
     }
 
@@ -741,25 +741,25 @@ public class Semanticize extends JavaCCGlobals {
 
     public boolean goDeeper(Expansion e) {
       if (e instanceof RegularExpression) {
-	return false;
+        return false;
       } else {
-	return true;
+        return true;
       }
     }
 
     public void action(Expansion e) {
       if (e instanceof OneOrMore) {
-	if (Semanticize.emptyExpansionExists(((OneOrMore)e).expansion)) {
-	  JavaCCErrors.semantic_error(e, "Expansion within \"(...)+\" can be matched by empty string.");
-	}
+        if (Semanticize.emptyExpansionExists(((OneOrMore)e).expansion)) {
+          JavaCCErrors.semantic_error(e, "Expansion within \"(...)+\" can be matched by empty string.");
+        }
       } else if (e instanceof ZeroOrMore) {
-	if (Semanticize.emptyExpansionExists(((ZeroOrMore)e).expansion)) {
-	  JavaCCErrors.semantic_error(e, "Expansion within \"(...)*\" can be matched by empty string.");
-	}
+        if (Semanticize.emptyExpansionExists(((ZeroOrMore)e).expansion)) {
+          JavaCCErrors.semantic_error(e, "Expansion within \"(...)*\" can be matched by empty string.");
+        }
       } else if (e instanceof ZeroOrOne) {
-	if (Semanticize.emptyExpansionExists(((ZeroOrOne)e).expansion)) {
-	  JavaCCErrors.semantic_error(e, "Expansion within \"(...)?\" can be matched by empty string.");
-	}
+       if (Semanticize.emptyExpansionExists(((ZeroOrOne)e).expansion)) {
+         JavaCCErrors.semantic_error(e, "Expansion within \"(...)?\" can be matched by empty string.");
+       }
       }
     }
 
@@ -769,45 +769,45 @@ public class Semanticize extends JavaCCGlobals {
 
     public boolean goDeeper(Expansion e) {
       if (e instanceof RegularExpression) {
-	return false;
+        return false;
       } else if (e instanceof Lookahead) {
-	return false;
+        return false;
       } else {
-	return true;
+        return true;
       }
     }
 
     public void action(Expansion e) {
       if (e instanceof Choice) {
-	if (Options.getLookahead() == 1 || Options.getForceLaCheck()) {
-	  LookaheadCalc.choiceCalc((Choice)e);
-	}
+        if (Options.getLookahead() == 1 || Options.getForceLaCheck()) {
+          LookaheadCalc.choiceCalc((Choice)e);
+        }
       } else if (e instanceof OneOrMore) {
-	OneOrMore exp = (OneOrMore)e;
-	if (Options.getForceLaCheck() || (implicitLA(exp.expansion) && Options.getLookahead() == 1)) {
-	  LookaheadCalc.ebnfCalc(exp, exp.expansion);
-	}
+        OneOrMore exp = (OneOrMore)e;
+        if (Options.getForceLaCheck() || (implicitLA(exp.expansion) && Options.getLookahead() == 1)) {
+          LookaheadCalc.ebnfCalc(exp, exp.expansion);
+        }
       } else if (e instanceof ZeroOrMore) {
-	ZeroOrMore exp = (ZeroOrMore)e;
-	if (Options.getForceLaCheck() || (implicitLA(exp.expansion) && Options.getLookahead() == 1)) {
-	  LookaheadCalc.ebnfCalc(exp, exp.expansion);
-	}
+        ZeroOrMore exp = (ZeroOrMore)e;
+        if (Options.getForceLaCheck() || (implicitLA(exp.expansion) && Options.getLookahead() == 1)) {
+          LookaheadCalc.ebnfCalc(exp, exp.expansion);
+        }
       } else if (e instanceof ZeroOrOne) {
-	ZeroOrOne exp = (ZeroOrOne)e;
-	if (Options.getForceLaCheck() || (implicitLA(exp.expansion) && Options.getLookahead() == 1)) {
-	  LookaheadCalc.ebnfCalc(exp, exp.expansion);
-	}
+        ZeroOrOne exp = (ZeroOrOne)e;
+        if (Options.getForceLaCheck() || (implicitLA(exp.expansion) && Options.getLookahead() == 1)) {
+          LookaheadCalc.ebnfCalc(exp, exp.expansion);
+        }
       }
     }
 
     static boolean implicitLA(Expansion exp) {
       if (!(exp instanceof Sequence)) {
-	return true;
+        return true;
       }
       Sequence seq = (Sequence)exp;
       Object obj = seq.units.elementAt(0);
       if (!(obj instanceof Lookahead)) {
-	return true;
+        return true;
       }
       Lookahead la = (Lookahead)obj;
       return !la.isExplicit;
