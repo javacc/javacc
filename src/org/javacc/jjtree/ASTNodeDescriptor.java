@@ -92,7 +92,7 @@ public class ASTNodeDescriptor extends SimpleNode {
     if (faked) {
       return "(faked) " + name;
     } else {
-	return super.toString() + ": " + name;
+      return super.toString() + ": " + name;
     }
   }
 
@@ -132,7 +132,7 @@ public class ASTNodeDescriptor extends SimpleNode {
   private String expression_text()
   {
     if (expression.getFirstToken().image.equals(")") &&
-	expression.getLastToken().image.equals("(")) {
+      expression.getLastToken().image.equals("(")) {
       return "true";
     }
 
@@ -141,7 +141,7 @@ public class ASTNodeDescriptor extends SimpleNode {
     while (true) {
        s += " " + t.image;
        if (t == expression.getLastToken()) {
-	 break;
+         break;
        }
        t = t.next;
     }
@@ -155,10 +155,10 @@ public class ASTNodeDescriptor extends SimpleNode {
       return "jjtree.closeNodeScope(" + nodeVar + ", true);";
     } else if (isGT) {
       return "jjtree.closeNodeScope(" + nodeVar + ", jjtree.nodeArity() >" +
-	expression_text() + ");";
+          expression_text() + ");";
     } else {
       return "jjtree.closeNodeScope(" + nodeVar + ", " +
-	expression_text() + ");";
+          expression_text() + ");";
     }
   }
 

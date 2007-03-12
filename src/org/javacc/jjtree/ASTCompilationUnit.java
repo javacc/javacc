@@ -40,29 +40,29 @@ public class ASTCompilationUnit extends SimpleNode {
 
     while (true) {
       if (t == JJTreeGlobals.parserImplements) {
-	if (t.image.equals("implements")) {
-	  print(t, io);
-	  openJJTreeComment(io, null);
-	  io.getOut().print(" " + NodeFiles.nodeConstants() + ", ");
-	  closeJJTreeComment(io);
-	} else {
-	  // t is pointing at the opening brace of the class body.
-	  openJJTreeComment(io, null);
-	  io.getOut().print("implements " + NodeFiles.nodeConstants());
-	  closeJJTreeComment(io);
-	  print(t, io);
-	}
+        if (t.image.equals("implements")) {
+          print(t, io);
+          openJJTreeComment(io, null);
+          io.getOut().print(" " + NodeFiles.nodeConstants() + ", ");
+          closeJJTreeComment(io);
+        } else {
+          // t is pointing at the opening brace of the class body.
+          openJJTreeComment(io, null);
+          io.getOut().print("implements " + NodeFiles.nodeConstants());
+          closeJJTreeComment(io);
+          print(t, io);
+        }
       } else {
-	print(t, io);
+        print(t, io);
       }
       if (t == JJTreeGlobals.parserClassBodyStart) {
-	openJJTreeComment(io, null);
-	JJTreeState.insertParserMembers(io);
-	closeJJTreeComment(io);
+        openJJTreeComment(io, null);
+        JJTreeState.insertParserMembers(io);
+        closeJJTreeComment(io);
       }
 
       if (t == getLastToken()) {
-	return;
+        return;
       }
       t = t.next;
     }

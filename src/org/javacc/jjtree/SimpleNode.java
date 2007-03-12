@@ -32,7 +32,7 @@ public class SimpleNode implements Node {
   private Node[] children;
   private int id;
   private int myOrdinal;
-  
+
   public SimpleNode(int i) {
     id = i;
   }
@@ -43,7 +43,7 @@ public class SimpleNode implements Node {
 
   public void jjtOpen() {}
   public void jjtClose() {}
-  
+
   public void jjtSetParent(Node n) { parent = n; }
   public Node jjtGetParent() { return parent; }
 
@@ -83,10 +83,10 @@ public class SimpleNode implements Node {
     System.out.println(toString(prefix));
     if (children != null) {
       for (int i = 0; i < children.length; ++i) {
-	SimpleNode n = (SimpleNode)children[i];
-	if (n != null) {
-	  n.dump(prefix + " ");
-	}
+        SimpleNode n = (SimpleNode)children[i];
+        if (n != null) {
+          n.dump(prefix + " ");
+        }
       }
     }
   }
@@ -110,14 +110,14 @@ public class SimpleNode implements Node {
    * output stream.
    *
    *****************************************************************/
-  
+
   private Token first, last;
-  
+
   public Token getFirstToken() { return first; }
   public void setFirstToken(Token t) { first = t; }
   public Token getLastToken() { return last;  }
   public void setLastToken(Token t) { last = t; }
-  
+
   /* This method prints the tokens corresponding to this node
      recursively calling the print methods of its children.
      Overriding this print method in appropriate nodes gives the
@@ -137,9 +137,9 @@ public class SimpleNode implements Node {
     for (int ord = 0; ord < jjtGetNumChildren(); ord++) {
       n = (SimpleNode)jjtGetChild(ord);
       while (true) {
-	t = t.next;
-	if (t == n.getFirstToken()) break;
-	print(t, io);
+        t = t.next;
+        if (t == n.getFirstToken()) break;
+        print(t, io);
       }
       n.print(io);
       t = n.getLastToken();
@@ -149,13 +149,13 @@ public class SimpleNode implements Node {
       print(t, io);
     }
   }
-  
-  
+
+
   String translateImage(Token t)
   {
     return t.image;
   }
-  
+
   String whiteOut(Token t)
   {
     String s = "";
@@ -177,8 +177,8 @@ public class SimpleNode implements Node {
     if (tt != null) {
       while (tt.specialToken != null) tt = tt.specialToken;
       while (tt != null) {
-	io.print(addUnicodeEscapes(translateImage(tt)));
-	tt = tt.next;
+        io.print(addUnicodeEscapes(translateImage(tt)));
+        tt = tt.next;
       }
     }
 
@@ -204,33 +204,33 @@ public class SimpleNode implements Node {
       return;
     } else if (t.image.equals("jjtree")) {
       if (t.next.image.equals(".")) {
-	if (t.next.next.image.equals("currentNode")) {
-	  if (t.next.next.next.image.equals("(")) {
-	    if (t.next.next.next.next.image.equals(")")) {
-	      /* Found `jjtree.currentNode()' so go into white out
+        if (t.next.next.image.equals("currentNode")) {
+          if (t.next.next.next.image.equals("(")) {
+            if (t.next.next.next.next.image.equals(")")) {
+              /* Found `jjtree.currentNode()' so go into white out
                  mode.  We'll stay in this mode until we find the
                  closing parenthesis. */
-	      whitingOut = true;
-	    }
-	  }
-	}
+              whitingOut = true;
+            }
+          }
+        }
       }
     }
     if (whitingOut) {
       if (t.image.equals("jjtree")) {
-	io.print(s.getNodeVariable());
-	io.print(" ");
+        io.print(s.getNodeVariable());
+        io.print(" ");
       } else if (t.image.equals(")")) {
-	io.print(" ");
-	whitingOut = false;
+        io.print(" ");
+        whitingOut = false;
       } else {
-	for (int i = 0; i < t.image.length(); ++i) {
-	  io.print(" ");
-	}
+        for (int i = 0; i < t.image.length(); ++i) {
+          io.print(" ");
+        }
       }
       return;
     }
-      
+
     io.print(addUnicodeEscapes(translateImage(t)));
   }
 
@@ -241,10 +241,10 @@ public class SimpleNode implements Node {
     for (int i = 0; i < str.length(); i++) {
       ch = str.charAt(i);
       if ((ch < 0x20 || ch > 0x7e) && ch != '\t' && ch != '\n' && ch != '\r' && ch != '\f') {
-	String s = "0000" + Integer.toString(ch, 16);
-	retval += "\\u" + s.substring(s.length() - 4, s.length());
+        String s = "0000" + Integer.toString(ch, 16);
+        retval += "\\u" + s.substring(s.length() - 4, s.length());
       } else {
-	retval += ch;
+        retval += ch;
       }
     }
     return retval;
