@@ -54,7 +54,7 @@ public abstract class RegularExpression extends Expansion {
   public java.util.Vector lhsTokens = new java.util.Vector();
 
   /**
-	* We now allow qualified access to token members. Store it here.
+   * We now allow qualified access to token members. Store it here.
    */
   public Token rhsToken;
 

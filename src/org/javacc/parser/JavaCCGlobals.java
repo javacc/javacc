@@ -368,8 +368,8 @@ public class JavaCCGlobals {
       } else if (ch == '\\') {
         retval += "\\\\";
       } else if (ch < 0x20 || ch > 0x7e) {
-	String s = "0000" + Integer.toString(ch, 16);
-	retval += "\\u" + s.substring(s.length() - 4, s.length());
+        String s = "0000" + Integer.toString(ch, 16);
+        retval += "\\u" + s.substring(s.length() - 4, s.length());
       } else {
         retval += ch;
       }
@@ -383,8 +383,8 @@ public class JavaCCGlobals {
     for (int i = 0; i < str.length(); i++) {
       ch = str.charAt(i);
       if (ch < 0x20 || ch > 0x7e) {
-	String s = "0000" + Integer.toString(ch, 16);
-	retval += "\\u" + s.substring(s.length() - 4, s.length());
+        String s = "0000" + Integer.toString(ch, 16);
+        retval += "\\u" + s.substring(s.length() - 4, s.length());
       } else {
         retval += ch;
       }
