@@ -47,7 +47,7 @@ public class NodeScope
     if (n == null) {
       String nm = production.name;
       if (JJTreeOptions.getNodeDefaultVoid()) {
-	nm = "void";
+        nm = "void";
       }
       node_descriptor = ASTNodeDescriptor.indefinite(nm);
     } else {
@@ -115,20 +115,20 @@ public class NodeScope
     io.print(indent + type + " " + nodeVar + " = ");
     if (JJTreeOptions.getNodeFactory()) {
       if (JJTreeOptions.getNodeUsesParser()) {
-	String p = JJTreeOptions.getStatic() ? "null" : "this";
-	io.println("(" + type + ")" + type + ".jjtCreate(" + p + ", " +
-		   node_descriptor.getNodeId() +");");
+        String p = JJTreeOptions.getStatic() ? "null" : "this";
+        io.println("(" + type + ")" + type + ".jjtCreate(" + p + ", " +
+       node_descriptor.getNodeId() +");");
       } else {
-	io.println("(" + type + ")" + type + ".jjtCreate(" + 
-		   node_descriptor.getNodeId() +");");
+       io.println("(" + type + ")" + type + ".jjtCreate(" +
+       node_descriptor.getNodeId() +");");
       }
     } else {
       if (JJTreeOptions.getNodeUsesParser()) {
-	String p = JJTreeOptions.getStatic() ? "null" : "this";
-	io.println("new " + type + "(" + p + ", " +
-		   node_descriptor.getNodeId() + ");");
+        String p = JJTreeOptions.getStatic() ? "null" : "this";
+        io.println("new " + type + "(" + p + ", " +
+        node_descriptor.getNodeId() + ");");
       } else {
-	io.println("new " + type + "(" + node_descriptor.getNodeId() + ");");
+        io.println("new " + type + "(" + node_descriptor.getNodeId() + ");");
       }
     }
 
@@ -171,27 +171,27 @@ public class NodeScope
 
 
   private void insertCatchBlocks(IO io, Enumeration thrown_names,
-				 String indent)
+         String indent)
   {
     String thrown;
     if (thrown_names.hasMoreElements()) {
       io.println(indent + "} catch (Throwable " +  exceptionVar + ") {");
 
       if (usesCloseNodeVar()) {
-	io.println(indent + "  if (" + closedVar + ") {");
-	io.println(indent + "    jjtree.clearNodeScope(" + nodeVar + ");");
-	io.println(indent + "    " + closedVar + " = false;");
-	io.println(indent + "  } else {");
-	io.println(indent + "    jjtree.popNode();");
-	io.println(indent + "  }");
+        io.println(indent + "  if (" + closedVar + ") {");
+        io.println(indent + "    jjtree.clearNodeScope(" + nodeVar + ");");
+        io.println(indent + "    " + closedVar + " = false;");
+        io.println(indent + "  } else {");
+        io.println(indent + "    jjtree.popNode();");
+        io.println(indent + "  }");
       }
 
       while (thrown_names.hasMoreElements()) {
-	thrown = (String)thrown_names.nextElement();
-	io.println(indent + "  if (" + exceptionVar + " instanceof " +
-		   thrown + ") {");
-	io.println(indent + "    throw (" + thrown + ")" + exceptionVar + ";");
-	io.println(indent + "  }");
+        thrown = (String)thrown_names.nextElement();
+        io.println(indent + "  if (" + exceptionVar + " instanceof " +
+            thrown + ") {");
+        io.println(indent + "    throw (" + thrown + ")" + exceptionVar + ";");
+        io.println(indent + "  }");
       }
       /* This is either an Error or an undeclared Exception.  If it's
          an Error then the cast is good, otherwise we want to force
@@ -231,7 +231,7 @@ public class NodeScope
 
 
   private static void findThrown(Hashtable thrown_set,
-				 SimpleNode expansion_unit)
+         SimpleNode expansion_unit)
   {
     if (expansion_unit instanceof ASTBNFNonTerminal) {
       /* Should really make the nonterminal explicitly maintain its
@@ -239,11 +239,11 @@ public class NodeScope
       String nt = expansion_unit.getFirstToken().image;
       ASTProduction prod = (ASTProduction)JJTreeGlobals.productions.get(nt);
       if (prod != null) {
-	Enumeration e = prod.throws_list.elements();
-	while (e.hasMoreElements()) {
-	  String t = (String)e.nextElement();
-	  thrown_set.put(t, t);
-	}
+        Enumeration e = prod.throws_list.elements();
+        while (e.hasMoreElements()) {
+          String t = (String)e.nextElement();
+          thrown_set.put(t, t);
+        }
       }
     }
     for (int i = 0; i < expansion_unit.jjtGetNumChildren(); ++i) {
@@ -286,11 +286,11 @@ public class NodeScope
     }
     for (Node n = node.jjtGetParent(); n != null; n = n.jjtGetParent()) {
       if (n instanceof ASTBNFDeclaration) {
-	return ((ASTBNFDeclaration)n).node_scope;
+        return ((ASTBNFDeclaration)n).node_scope;
       } else if (n instanceof ASTBNFNodeScope) {
-	return ((ASTBNFNodeScope)n).node_scope;
+        return ((ASTBNFNodeScope)n).node_scope;
       } else if (n instanceof ASTExpansionNodeScope) {
-	return ((ASTExpansionNodeScope)n).node_scope;
+        return ((ASTExpansionNodeScope)n).node_scope;
       }
     }
     return null;

@@ -40,13 +40,13 @@ public class ASTOptions extends SimpleNode {
     for (int i = 0; i < jjtGetNumChildren(); ++i) {
       ASTOptionBinding o = (ASTOptionBinding)jjtGetChild(i);
       if (!o.isSuppressed()) {
-	all_suppressed = false;
-	break;
+        all_suppressed = false;
+        break;
       }
     }
     super.jjtClose();
   }
-  
+
   String translateImage(Token t)
   {
     if (all_suppressed) {

@@ -40,13 +40,13 @@ public class ASTBNFDeclaration extends SimpleNode {
     if (!node_scope.isVoid()) {
       String indent = "";
       if (TokenUtils.hasTokens(this)) {
-	for (int i = 1; i < getFirstToken().beginColumn; ++i) {
-	  indent += " ";
-	}
+        for (int i = 1; i < getFirstToken().beginColumn; ++i) {
+          indent += " ";
+        }
       } else {
-	indent = "  ";
+        indent = "  ";
       }
-      
+
       openJJTreeComment(io,  node_scope.getNodeDescriptorText());
       io.println();
       node_scope.insertOpenNodeCode(io, indent);

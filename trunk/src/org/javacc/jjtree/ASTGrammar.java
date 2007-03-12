@@ -39,9 +39,9 @@ public class ASTGrammar extends SimpleNode {
   void generate(IO io)
   {
     io.println("/*@bgen(jjtree) " +
-	       JavaCCGlobals.getIdString(JJTreeGlobals.toolList,
-					 io.getOutputFileName()) +
-	       " */");
+            JavaCCGlobals.getIdString(JJTreeGlobals.toolList,
+        io.getOutputFileName()) +
+         " */");
     io.print("/*@egen*/");
     print(io);
   }

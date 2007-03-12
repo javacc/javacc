@@ -29,6 +29,7 @@ package org.javacc.jjtree;
 
 
 public class ASTBNFAction extends SimpleNode {
+
   ASTBNFAction(int id) {
     super(id);
   }
@@ -37,13 +38,13 @@ public class ASTBNFAction extends SimpleNode {
   {
     for (Node n = this.jjtGetParent(); n != null; n = n.jjtGetParent()) {
       if (n instanceof ASTBNFNodeScope) {
-	if (((ASTBNFNodeScope)n).node_scope == ns) {
-	  return n;
-	}
+        if (((ASTBNFNodeScope)n).node_scope == ns) {
+          return n;
+        }
       } else if (n instanceof ASTExpansionNodeScope) {
-	if (((ASTExpansionNodeScope)n).node_scope == ns) {
-	  return n;
-	}
+        if (((ASTExpansionNodeScope)n).node_scope == ns) {
+          return n;
+        }
       }
     }
     return null;
@@ -66,30 +67,30 @@ public class ASTBNFAction extends SimpleNode {
 
       SimpleNode n = this;
       while (true) {
-	Node p = n.jjtGetParent();
-	if (p instanceof ASTBNFSequence || p instanceof ASTBNFTryBlock) {
-	  if (n.getOrdinal() != p.jjtGetNumChildren() - 1) {
-	    /* We're not the final unit in the sequence. */
-	    needClose = false;
-	    break;
-	  }
-	} else if (p instanceof ASTBNFZeroOrOne ||
-		     p instanceof ASTBNFZeroOrMore ||
-		     p instanceof ASTBNFOneOrMore) {
-	  needClose = false;
-	  break;
-	}
-	if (p == sp) {
-	  /* No more parents to look at. */
-	  break;
-	}
-	n = (SimpleNode)p;
+        Node p = n.jjtGetParent();
+        if (p instanceof ASTBNFSequence || p instanceof ASTBNFTryBlock) {
+          if (n.getOrdinal() != p.jjtGetNumChildren() - 1) {
+            /* We're not the final unit in the sequence. */
+            needClose = false;
+            break;
+          }
+        } else if (p instanceof ASTBNFZeroOrOne ||
+                 p instanceof ASTBNFZeroOrMore ||
+                 p instanceof ASTBNFOneOrMore) {
+          needClose = false;
+          break;
+        }
+        if (p == sp) {
+          /* No more parents to look at. */
+          break;
+        }
+        n = (SimpleNode)p;
       }
       if (needClose) {
-	openJJTreeComment(io, null);
-	io.println();
-	ns.insertCloseNodeAction(io, getIndentation(this));
-	closeJJTreeComment(io);
+        openJJTreeComment(io, null);
+        io.println();
+        ns.insertCloseNodeAction(io, getIndentation(this));
+        closeJJTreeComment(io);
       }
     }
     super.print(io);

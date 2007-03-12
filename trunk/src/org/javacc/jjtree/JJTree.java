@@ -123,32 +123,32 @@ public class JJTree {
 
       initializeOptions();
       if (args.length == 0) {
-	p("");
-	help_message();
-	return 1;
+        p("");
+        help_message();
+        return 1;
       } else {
-	p("(type \"jjtree\" with no arguments for help)");
+        p("(type \"jjtree\" with no arguments for help)");
       }
 
       String fn = args[args.length - 1];
 
       if (JJTreeOptions.isOption(fn)) {
-	p("Last argument \"" + fn + "\" is not a filename");
-	return 1;
+        p("Last argument \"" + fn + "\" is not a filename");
+        return 1;
       }
       for (int arg = 0; arg < args.length - 1; arg++) {
-	if (!JJTreeOptions.isOption(args[arg])) {
-	  p("Argument \"" + args[arg] + "\" must be an option setting.");
-	  return 1;
-	}
-	JJTreeOptions.setCmdLineOption(args[arg]);
+        if (!JJTreeOptions.isOption(args[arg])) {
+          p("Argument \"" + args[arg] + "\" must be an option setting.");
+          return 1;
+        }
+        JJTreeOptions.setCmdLineOption(args[arg]);
       }
 
       try {
-	io.setInput(fn);
+        io.setInput(fn);
       } catch (JJTreeIOException ioe) {
-	p("Error setting input: " + ioe.getMessage());
-	return 1;
+        p("Error setting input: " + ioe.getMessage());
+        return 1;
       }
       p("Reading from file " + io.getInputFileName() + " . . .");
 
@@ -156,36 +156,36 @@ public class JJTree {
       JJTreeGlobals.toolList.addElement("JJTree");
 
       try {
-	JJTreeParser parser = new JJTreeParser(io.getIn());
-	parser.javacc_input();
+        JJTreeParser parser = new JJTreeParser(io.getIn());
+        parser.javacc_input();
 
-	ASTGrammar root = (ASTGrammar)parser.jjtree.rootNode();
-	if (Boolean.getBoolean("jjtree-dump")) {
-	  root.dump(" ");
-	}
-          try {
-        io.setOutput();
-          } catch (JJTreeIOException ioe) {
-        p("Error setting output: " + ioe.getMessage());
-        return 1;
-          }
-	root.generate(io);
-	io.getOut().close();
+        ASTGrammar root = (ASTGrammar)parser.jjtree.rootNode();
+        if (Boolean.getBoolean("jjtree-dump")) {
+          root.dump(" ");
+        }
+        try {
+          io.setOutput();
+        } catch (JJTreeIOException ioe) {
+          p("Error setting output: " + ioe.getMessage());
+          return 1;
+        }
+        root.generate(io);
+        io.getOut().close();
 
-	NodeFiles.generateTreeConstants_java();
-	NodeFiles.generateVisitor_java();
-	JJTreeState.generateTreeState_java();
+        NodeFiles.generateTreeConstants_java();
+        NodeFiles.generateVisitor_java();
+        JJTreeState.generateTreeState_java();
 
-	p("Annotated grammar generated successfully in " +
-	  io.getOutputFileName());
+        p("Annotated grammar generated successfully in " +
+              io.getOutputFileName());
 
       } catch (ParseException pe) {
-	p("Error parsing input: " + pe.toString());
-	return 1;
+        p("Error parsing input: " + pe.toString());
+        return 1;
       } catch (Exception e) {
-	p("Error parsing input: " + e.toString());
-	e.printStackTrace(io.getMsg());
-	return 1;
+        p("Error parsing input: " + e.toString());
+        e.printStackTrace(io.getMsg());
+        return 1;
       }
 
       return 0;

@@ -99,16 +99,16 @@ public class JJDoc extends JavaCCGlobals {
       gen.specialTokens(s);
   }
 
-  /* 
+  /*
   private static boolean toplevelExpansion(Expansion exp) {
     return exp.parent != null
       && ( (exp.parent instanceof NormalProduction)
-	   ||
-	   (exp.parent instanceof TokenProduction)
-	   );
+         ||
+         (exp.parent instanceof TokenProduction)
+         );
   }
   */
-  
+
   private static void emitTokenProductions(Generator gen, Vector prods) {
     gen.tokensStart();
     // FIXME there are many empty productions here
@@ -118,40 +118,40 @@ public class JJDoc extends JavaCCGlobals {
 
       String token = "";
       if (tp.isExplicit) {
- 	      if (tp.lexStates == null) {
+        if (tp.lexStates == null) {
          token += "<*> ";
- 	      } else {
-         token += "<";
- 	        for (int i = 0; i < tp.lexStates.length; ++i) {
-           token += tp.lexStates[i];
- 	          if (i < tp.lexStates.length - 1) {
-             token += ",";
- 	          }
- 	        }
-         token += "> ";
- 	      }
-       token += TokenProduction.kindImage[tp.kind];
- 	      if (tp.ignoreCase) {
-         token += " [IGNORE_CASE]";
- 	      }
-       token += " : {\n";
- 	      for (Enumeration e2 = tp.respecs.elements(); e2.hasMoreElements();) {
- 	        RegExprSpec res = (RegExprSpec)e2.nextElement();
+        } else {
+          token += "<";
+          for (int i = 0; i < tp.lexStates.length; ++i) {
+            token += tp.lexStates[i];
+            if (i < tp.lexStates.length - 1) {
+              token += ",";
+            }
+          }
+          token += "> ";
+        }
+        token += TokenProduction.kindImage[tp.kind];
+        if (tp.ignoreCase) {
+          token += " [IGNORE_CASE]";
+        }
+        token += " : {\n";
+        for (Enumeration e2 = tp.respecs.elements(); e2.hasMoreElements();) {
+          RegExprSpec res = (RegExprSpec)e2.nextElement();
 
-         token += emitRE(res.rexp);
+          token += emitRE(res.rexp);
 
- 	        if (res.nsTok != null) {
-           token += " : " + res.nsTok.image;
- 	        }
+          if (res.nsTok != null) {
+            token += " : " + res.nsTok.image;
+          }
 
-         token += "\n";
- 	        if (e2.hasMoreElements()) {
-           token += "| ";
- 	        }
- 	      }
-       token += "}\n\n";
+          token += "\n";
+          if (e2.hasMoreElements()) {
+            token += "| ";
+          }
+        }
+        token += "}\n\n";
       }
-      if (!token.equals("")) { 
+      if (!token.equals("")) {
         gen.tokenStart(tp);
         gen.text(token);
         gen.tokenEnd(tp);
@@ -159,7 +159,7 @@ public class JJDoc extends JavaCCGlobals {
     }
     gen.tokensEnd();
   }
-  
+
   private static void emitNormalProductions(Generator gen, Vector prods) {
     gen.nonterminalsStart();
     for (Enumeration enumeration = prods.elements(); enumeration.hasMoreElements();) {
@@ -171,7 +171,7 @@ public class JJDoc extends JavaCCGlobals {
           boolean first = true;
           Choice c = (Choice)np.expansion;
           for (java.util.Enumeration enume = c.choices.elements();
-	             enume.hasMoreElements();) {
+               enume.hasMoreElements();) {
             Expansion e = (Expansion)(enume.nextElement());
             gen.expansionStart(e, first);
             emitExpansionTree(e, gen);
@@ -221,7 +221,7 @@ public class JJDoc extends JavaCCGlobals {
   }
   private static void emitExpansionChoice(Choice c, Generator gen) {
     for (java.util.Enumeration enumeration = c.choices.elements();
-	          enumeration.hasMoreElements();) {
+                enumeration.hasMoreElements();) {
       Expansion e = (Expansion)(enumeration.nextElement());
       emitExpansionTree(e, gen);
       if (enumeration.hasMoreElements()) {
