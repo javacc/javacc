@@ -172,131 +172,131 @@ static final char[] diffUpperCaseRanges = {
 
   void ToCaseNeutral()
   {
-     int cnt = descriptors.size();
+    int cnt = descriptors.size();
 
-     for (int i = 0; i < cnt; i++)
-     {
-        if (descriptors.elementAt(i) instanceof SingleCharacter)
-        {
-           char ch = ((SingleCharacter)descriptors.elementAt(i)).ch;
+    for (int i = 0; i < cnt; i++)
+    {
+      if (descriptors.elementAt(i) instanceof SingleCharacter)
+      {
+        char ch = ((SingleCharacter)descriptors.elementAt(i)).ch;
 
-           if (ch != Character.toLowerCase(ch))
-              descriptors.addElement(new 
+        if (ch != Character.toLowerCase(ch))
+          descriptors.addElement(new 
                          SingleCharacter(Character.toLowerCase(ch)));
-           if (ch != Character.toUpperCase(ch))
-              descriptors.addElement(new 
+        if (ch != Character.toUpperCase(ch))
+           descriptors.addElement(new 
                          SingleCharacter(Character.toUpperCase(ch)));
+      }
+      else
+      {
+        char l = ((CharacterRange)descriptors.elementAt(i)).left;
+        char r = ((CharacterRange)descriptors.elementAt(i)).right;
+        int j = 0;
+
+        /* Add ranges for which lower case is different. */
+        for (;;)
+        {
+          while (l > diffLowerCaseRanges[j])
+            j += 2;
+
+          if (l < diffLowerCaseRanges[j])
+          {
+            if (r < diffLowerCaseRanges[j])
+              break;
+
+            if (r <= diffLowerCaseRanges[j + 1])
+            {
+              descriptors.addElement(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
+                   (char)(Character.toLowerCase(diffLowerCaseRanges[j]) + r - diffLowerCaseRanges[j])));
+              break;
+            }
+
+            descriptors.addElement(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
+                                                       Character.toLowerCase(diffLowerCaseRanges[j + 1])));
+          }
+          else
+          {
+            if (r <= diffLowerCaseRanges[j + 1])
+            {
+              descriptors.addElement(new CharacterRange(
+                              (char)(Character.toLowerCase(diffLowerCaseRanges[j]) + l - diffLowerCaseRanges[j]),
+                              (char)(Character.toLowerCase(diffLowerCaseRanges[j]) + r - diffLowerCaseRanges[j])));
+              break;
+            }
+
+            descriptors.addElement(new CharacterRange(
+                           (char)(Character.toLowerCase(diffLowerCaseRanges[j]) + l - diffLowerCaseRanges[j]),
+                           Character.toLowerCase(diffLowerCaseRanges[j + 1])));
+          }
+
+          j += 2;
+          while (r > diffLowerCaseRanges[j])
+          {
+            if (r <= diffLowerCaseRanges[j + 1])
+            {
+              descriptors.addElement(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
+                              (char)(Character.toLowerCase(diffLowerCaseRanges[j]) + r - diffLowerCaseRanges[j])));
+              break;
+            }
+
+            descriptors.addElement(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
+                                                       Character.toLowerCase(diffLowerCaseRanges[j + 1])));
+            j += 2;
+          }
+          break;
+        }
+
+        /* Add ranges for which upper case is different. */
+        j = 0;
+        while (l > diffUpperCaseRanges[j])
+        j += 2;
+
+        if (l < diffUpperCaseRanges[j])
+        {
+          if (r < diffUpperCaseRanges[j])
+            continue;
+
+          if (r <= diffUpperCaseRanges[j + 1])
+          {
+            descriptors.addElement(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
+                 (char)(Character.toUpperCase(diffUpperCaseRanges[j]) + r - diffUpperCaseRanges[j])));
+            continue;
+          }
+
+          descriptors.addElement(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
+                                                     Character.toUpperCase(diffUpperCaseRanges[j + 1])));
         }
         else
         {
-           char l = ((CharacterRange)descriptors.elementAt(i)).left;
-           char r = ((CharacterRange)descriptors.elementAt(i)).right;
-           int j = 0;
+          if (r <= diffUpperCaseRanges[j + 1])
+          {
+            descriptors.addElement(new CharacterRange(
+                            (char)(Character.toUpperCase(diffUpperCaseRanges[j]) + l - diffUpperCaseRanges[j]),
+                            (char)(Character.toUpperCase(diffUpperCaseRanges[j]) + r - diffUpperCaseRanges[j])));
+            continue;
+          }
 
-           /* Add ranges for which lower case is different. */
-           for (;;)
-           {
-              while (l > diffLowerCaseRanges[j])
-                 j += 2;
-
-              if (l < diffLowerCaseRanges[j])
-              {
-                 if (r < diffLowerCaseRanges[j])
-                    break;
-
-                 if (r <= diffLowerCaseRanges[j + 1])
-                 {
-                    descriptors.addElement(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
-                                    (char)(Character.toLowerCase(diffLowerCaseRanges[j]) + r - diffLowerCaseRanges[j])));
-                    break;
-                 }
-
-                 descriptors.addElement(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
-                                                         Character.toLowerCase(diffLowerCaseRanges[j + 1])));
-              }
-              else
-              {
-                 if (r <= diffLowerCaseRanges[j + 1])
-                 {
-                    descriptors.addElement(new CharacterRange(
-                                    (char)(Character.toLowerCase(diffLowerCaseRanges[j]) + l - diffLowerCaseRanges[j]),
-                                    (char)(Character.toLowerCase(diffLowerCaseRanges[j]) + r - diffLowerCaseRanges[j])));
-                    break;
-                 }
-
-                 descriptors.addElement(new CharacterRange(
-                                      (char)(Character.toLowerCase(diffLowerCaseRanges[j]) + l - diffLowerCaseRanges[j]),
-                                                        Character.toLowerCase(diffLowerCaseRanges[j + 1])));
-              }
-
-              j += 2;
-              while (r > diffLowerCaseRanges[j])
-              {
-                 if (r <= diffLowerCaseRanges[j + 1])
-                 {
-                    descriptors.addElement(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
-                                     (char)(Character.toLowerCase(diffLowerCaseRanges[j]) + r - diffLowerCaseRanges[j])));
-                    break;
-                 }
-
-                 descriptors.addElement(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
-                                                         Character.toLowerCase(diffLowerCaseRanges[j + 1])));
-                 j += 2;
-              }
-              break;
-           }
-
-           /* Add ranges for which upper case is different. */
-           j = 0;
-           while (l > diffUpperCaseRanges[j])
-              j += 2;
-
-           if (l < diffUpperCaseRanges[j])
-           {
-              if (r < diffUpperCaseRanges[j])
-                 continue;
-
-              if (r <= diffUpperCaseRanges[j + 1])
-              {
-                 descriptors.addElement(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
-                                 (char)(Character.toUpperCase(diffUpperCaseRanges[j]) + r - diffUpperCaseRanges[j])));
-                 continue;
-              }
-
-              descriptors.addElement(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
-                                                      Character.toUpperCase(diffUpperCaseRanges[j + 1])));
-           }
-           else
-           {
-              if (r <= diffUpperCaseRanges[j + 1])
-              {
-                 descriptors.addElement(new CharacterRange(
-                                 (char)(Character.toUpperCase(diffUpperCaseRanges[j]) + l - diffUpperCaseRanges[j]),
-                                 (char)(Character.toUpperCase(diffUpperCaseRanges[j]) + r - diffUpperCaseRanges[j])));
-                 continue;
-              }
-
-              descriptors.addElement(new CharacterRange(
-                                   (char)(Character.toUpperCase(diffUpperCaseRanges[j]) + l - diffUpperCaseRanges[j]),
-                                                     Character.toUpperCase(diffUpperCaseRanges[j + 1])));
-           }
-
-           j += 2;
-           while (r > diffUpperCaseRanges[j])
-           {
-              if (r <= diffUpperCaseRanges[j + 1])
-              {
-                 descriptors.addElement(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
-                                  (char)(Character.toUpperCase(diffUpperCaseRanges[j]) + r - diffUpperCaseRanges[j])));
-                 break;
-              }
-
-              descriptors.addElement(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
-                                                      Character.toUpperCase(diffUpperCaseRanges[j + 1])));
-              j += 2;
-           }
+          descriptors.addElement(new CharacterRange(
+                          (char)(Character.toUpperCase(diffUpperCaseRanges[j]) + l - diffUpperCaseRanges[j]),
+                          Character.toUpperCase(diffUpperCaseRanges[j + 1])));
         }
-     }
+
+        j += 2;
+        while (r > diffUpperCaseRanges[j])
+        {
+          if (r <= diffUpperCaseRanges[j + 1])
+          {
+            descriptors.addElement(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
+                            (char)(Character.toUpperCase(diffUpperCaseRanges[j]) + r - diffUpperCaseRanges[j])));
+            break;
+          }
+
+          descriptors.addElement(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
+                                                     Character.toUpperCase(diffUpperCaseRanges[j + 1])));
+          j += 2;
+        }
+      }
+    }
   }
 
   boolean transformed = false;
@@ -601,15 +601,15 @@ static final char[] diffUpperCaseRanges = {
 
   RCharacterList(char c)
   {
-     descriptors = new Vector();
-     descriptors.addElement(new SingleCharacter(c));
-     negated_list = false;
-     ordinal = Integer.MAX_VALUE;
+    descriptors = new Vector();
+    descriptors.addElement(new SingleCharacter(c));
+    negated_list = false;
+    ordinal = Integer.MAX_VALUE;
   }
 
   public boolean CanMatchAnyChar()
   {
-     // Return true only if it is ~[]
-     return negated_list && (descriptors == null || descriptors.size() == 0);
+    // Return true only if it is ~[]
+    return negated_list && (descriptors == null || descriptors.size() == 0);
   }
 }

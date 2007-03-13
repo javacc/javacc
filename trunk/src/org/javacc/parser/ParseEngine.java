@@ -209,172 +209,172 @@ public class ParseEngine extends JavaCCGlobals {
       jj2LA = false;
 
       if ((la.amount == 0) ||
-	  Semanticize.emptyExpansionExists(la.la_expansion) ||
-	  javaCodeCheck(la.la_expansion)
-	 ) {
+           Semanticize.emptyExpansionExists(la.la_expansion) ||
+           javaCodeCheck(la.la_expansion)
+          ) {
 
-	// This handles the following cases:
-	// . If syntactic lookahead is not wanted (and hence explicitly specified
-	//   as 0).
-	// . If it is possible for the lookahead expansion to recognize the empty
-	//   string - in which case the lookahead trivially passes.
-	// . If the lookahead expansion has a JAVACODE production that it directly
-	//   expands to - in which case the lookahead trivially passes.
-	if (la.action_tokens.size() == 0) {
-	  // In addition, if there is no semantic lookahead, then the
-	  // lookahead trivially succeeds.  So break the main loop and
-	  // treat this case as the default last action.
-	  break;
-	} else {
-	  // This case is when there is only semantic lookahead
-	  // (without any preceding syntactic lookahead).  In this
-	  // case, an "if" statement is generated.
-	  switch (state) {
-	  case NOOPENSTM:
-	    retval += "\n" + "if (";
-	    indentAmt++;
-	    break;
-	  case OPENIF:
-	    retval += "\u0002\n" + "} else if (";
-	    break;
-	  case OPENSWITCH:
-	    retval += "\u0002\n" + "default:" + "\u0001";
-	    if (Options.getErrorReporting()) {
-	      retval += "\njj_la1[" + maskindex + "] = jj_gen;";
-	      maskindex++;
-	    }
-	    maskVals.addElement(tokenMask);
-	    retval += "\n" + "if (";
-	    indentAmt++;
-	  }
-	  printTokenSetup((Token)(la.action_tokens.elementAt(0)));
-	  for (java.util.Enumeration enumeration = la.action_tokens.elements(); enumeration.hasMoreElements();) {
-	    t = (Token)enumeration.nextElement();
-	    retval += printToken(t);
-	  }
-	  retval += printTrailingComments(t);
-	  retval += ") {\u0001" + actions[index];
-	  state = OPENIF;
-	}
+        // This handles the following cases:
+        // . If syntactic lookahead is not wanted (and hence explicitly specified
+        //   as 0).
+        // . If it is possible for the lookahead expansion to recognize the empty
+        //   string - in which case the lookahead trivially passes.
+        // . If the lookahead expansion has a JAVACODE production that it directly
+        //   expands to - in which case the lookahead trivially passes.
+        if (la.action_tokens.size() == 0) {
+          // In addition, if there is no semantic lookahead, then the
+          // lookahead trivially succeeds.  So break the main loop and
+          // treat this case as the default last action.
+          break;
+        } else {
+          // This case is when there is only semantic lookahead
+          // (without any preceding syntactic lookahead).  In this
+          // case, an "if" statement is generated.
+          switch (state) {
+            case NOOPENSTM:
+              retval += "\n" + "if (";
+              indentAmt++;
+              break;
+            case OPENIF:
+              retval += "\u0002\n" + "} else if (";
+              break;
+            case OPENSWITCH:
+              retval += "\u0002\n" + "default:" + "\u0001";
+              if (Options.getErrorReporting()) {
+                retval += "\njj_la1[" + maskindex + "] = jj_gen;";
+                maskindex++;
+              }
+              maskVals.addElement(tokenMask);
+              retval += "\n" + "if (";
+              indentAmt++;
+          }
+          printTokenSetup((Token)(la.action_tokens.elementAt(0)));
+          for (java.util.Enumeration enumeration = la.action_tokens.elements(); enumeration.hasMoreElements();) {
+            t = (Token)enumeration.nextElement();
+            retval += printToken(t);
+          }
+          retval += printTrailingComments(t);
+          retval += ") {\u0001" + actions[index];
+          state = OPENIF;
+        }
 
       } else if (la.amount == 1 && la.action_tokens.size() == 0) {
-	// Special optimal processing when the lookahead is exactly 1, and there
-	// is no semantic lookahead.
+        // Special optimal processing when the lookahead is exactly 1, and there
+        // is no semantic lookahead.
 
-	if (firstSet == null) {
-	  firstSet = new boolean[tokenCount];
-	}
-	for (int i = 0; i < tokenCount; i++) {
-	  firstSet[i] = false;
-	}
-	// jj2LA is set to false at the beginning of the containing "if" statement.
-	// It is checked immediately after the end of the same statement to determine
-	// if lookaheads are to be performed using calls to the jj2 methods.
-	genFirstSet(la.la_expansion);
-	// genFirstSet may find that semantic attributes are appropriate for the next
-	// token.  In which case, it sets jj2LA to true.
-	if (!jj2LA) {
+        if (firstSet == null) {
+          firstSet = new boolean[tokenCount];
+        }
+        for (int i = 0; i < tokenCount; i++) {
+          firstSet[i] = false;
+        }
+        // jj2LA is set to false at the beginning of the containing "if" statement.
+        // It is checked immediately after the end of the same statement to determine
+        // if lookaheads are to be performed using calls to the jj2 methods.
+        genFirstSet(la.la_expansion);
+        // genFirstSet may find that semantic attributes are appropriate for the next
+        // token.  In which case, it sets jj2LA to true.
+        if (!jj2LA) {
 
-	  // This case is if there is no applicable semantic lookahead and the lookahead
-	  // is one (excluding the earlier cases such as JAVACODE, etc.).
-	  switch (state) {
-	  case OPENIF:
-	    retval += "\u0002\n" + "} else {\u0001";
-	    // Control flows through to next case.
-	  case NOOPENSTM:
-	    retval += "\n" + "switch (";
-	    if (Options.getCacheTokens()) {
-	      retval += "jj_nt.kind) {\u0001";
-	    } else {
-	      retval += "(jj_ntk==-1)?jj_ntk():jj_ntk) {\u0001";
-	    }
-	    for (int i = 0; i < tokenCount; i++) {
-	      casedValues[i] = false;
-	    }
-	    indentAmt++;
-	    tokenMask = new int[tokenMaskSize];
-	    for (int i = 0; i < tokenMaskSize; i++) {
-	      tokenMask[i] = 0;
-	    }
-          // Don't need to do anything if state is OPENSWITCH.
-	  }
-	  for (int i = 0; i < tokenCount; i++) {
-	    if (firstSet[i]) {
-	      if (!casedValues[i]) {
-		casedValues[i] = true;
-		retval += "\u0002\ncase ";
-		int j1 = i/32;
-		int j2 = i%32;
-		tokenMask[j1] |= 1 << j2;
-		String s = (String)(names_of_tokens.get(new Integer(i)));
-		if (s == null) {
-		  retval += i;
-		} else {
-		  retval += s;
-		}
-		retval += ":\u0001";
-	      }
-	    }
-	  }
-	  retval += actions[index];
-	  retval += "\nbreak;";
-	  state = OPENSWITCH;
+          // This case is if there is no applicable semantic lookahead and the lookahead
+          // is one (excluding the earlier cases such as JAVACODE, etc.).
+          switch (state) {
+            case OPENIF:
+              retval += "\u0002\n" + "} else {\u0001";
+              // Control flows through to next case.
+            case NOOPENSTM:
+              retval += "\n" + "switch (";
+              if (Options.getCacheTokens()) {
+                retval += "jj_nt.kind) {\u0001";
+              } else {
+                retval += "(jj_ntk==-1)?jj_ntk():jj_ntk) {\u0001";
+              }
+              for (int i = 0; i < tokenCount; i++) {
+                casedValues[i] = false;
+              }
+              indentAmt++;
+              tokenMask = new int[tokenMaskSize];
+              for (int i = 0; i < tokenMaskSize; i++) {
+                tokenMask[i] = 0;
+              }
+            // Don't need to do anything if state is OPENSWITCH.
+          }
+          for (int i = 0; i < tokenCount; i++) {
+            if (firstSet[i]) {
+              if (!casedValues[i]) {
+                casedValues[i] = true;
+                retval += "\u0002\ncase ";
+                int j1 = i/32;
+                int j2 = i%32;
+                tokenMask[j1] |= 1 << j2;
+                String s = (String)(names_of_tokens.get(new Integer(i)));
+                if (s == null) {
+                  retval += i;
+                } else {
+                  retval += s;
+                }
+                retval += ":\u0001";
+              }
+            }
+          }
+          retval += actions[index];
+          retval += "\nbreak;";
+          state = OPENSWITCH;
 
-	}
+        }
 
       } else {
-	// This is the case when lookahead is determined through calls to
-	// jj2 methods.  The other case is when lookahead is 1, but semantic
-	// attributes need to be evaluated.  Hence this crazy control structure.
+        // This is the case when lookahead is determined through calls to
+        // jj2 methods.  The other case is when lookahead is 1, but semantic
+        // attributes need to be evaluated.  Hence this crazy control structure.
 
-	jj2LA = true;
+        jj2LA = true;
 
       }
 
       if (jj2LA) {
-	// In this case lookahead is determined by the jj2 methods.
+        // In this case lookahead is determined by the jj2 methods.
 
-	switch (state) {
-	case NOOPENSTM:
-	  retval += "\n" + "if (";
-	  indentAmt++;
-	  break;
-	case OPENIF:
-	  retval += "\u0002\n" + "} else if (";
-	  break;
-	case OPENSWITCH:
-	  retval += "\u0002\n" + "default:" + "\u0001";
-	  if (Options.getErrorReporting()) {
-	    retval += "\njj_la1[" + maskindex + "] = jj_gen;";
-	    maskindex++;
-	  }
-	  maskVals.addElement(tokenMask);
-	  retval += "\n" + "if (";
-	  indentAmt++;
-	}
-	jj2index++;
-	// At this point, la.la_expansion.internal_name must be "".
-	la.la_expansion.internal_name = "_" + jj2index;
-	phase2list.addElement(la);
-	retval += "jj_2" + la.la_expansion.internal_name + "(" + la.amount + ")";
-	if (la.action_tokens.size() != 0) {
-	  // In addition, there is also a semantic lookahead.  So concatenate
-	  // the semantic check with the syntactic one.
-	  retval += " && (";
-	  printTokenSetup((Token)(la.action_tokens.elementAt(0)));
-	  for (java.util.Enumeration enumeration = la.action_tokens.elements(); enumeration.hasMoreElements();) {
-	    t = (Token)enumeration.nextElement();
-	    retval += printToken(t);
-	  }
-	  retval += printTrailingComments(t);
-	  retval += ")";
-	}
-	retval += ") {\u0001" + actions[index];
-	state = OPENIF;
+        switch (state) {
+          case NOOPENSTM:
+            retval += "\n" + "if (";
+            indentAmt++;
+            break;
+          case OPENIF:
+            retval += "\u0002\n" + "} else if (";
+            break;
+          case OPENSWITCH:
+            retval += "\u0002\n" + "default:" + "\u0001";
+            if (Options.getErrorReporting()) {
+              retval += "\njj_la1[" + maskindex + "] = jj_gen;";
+              maskindex++;
+            }
+            maskVals.addElement(tokenMask);
+            retval += "\n" + "if (";
+            indentAmt++;
+          }
+          jj2index++;
+          // At this point, la.la_expansion.internal_name must be "".
+          la.la_expansion.internal_name = "_" + jj2index;
+          phase2list.addElement(la);
+          retval += "jj_2" + la.la_expansion.internal_name + "(" + la.amount + ")";
+          if (la.action_tokens.size() != 0) {
+            // In addition, there is also a semantic lookahead.  So concatenate
+            // the semantic check with the syntactic one.
+            retval += " && (";
+            printTokenSetup((Token)(la.action_tokens.elementAt(0)));
+            for (java.util.Enumeration enumeration = la.action_tokens.elements(); enumeration.hasMoreElements();) {
+              t = (Token)enumeration.nextElement();
+              retval += printToken(t);
+            }
+            retval += printTrailingComments(t);
+            retval += ")";
+          }
+          retval += ") {\u0001" + actions[index];
+          state = OPENIF;
+        }
+
+        index++;
       }
-
-      index++;
-    }
 
     // Generate code for the default case.  Note this may not
     // be the last entry of "actions" if any condition can be
@@ -390,9 +390,9 @@ public class ParseEngine extends JavaCCGlobals {
     case OPENSWITCH:
       retval += "\u0002\n" + "default:" + "\u0001";
       if (Options.getErrorReporting()) {
-	retval += "\njj_la1[" + maskindex + "] = jj_gen;";
-	maskVals.addElement(tokenMask);
-	maskindex++;
+        retval += "\njj_la1[" + maskindex + "] = jj_gen;";
+        maskVals.addElement(tokenMask);
+        maskindex++;
       }
       retval += actions[index];
     }
@@ -944,7 +944,8 @@ public class ParseEngine extends JavaCCGlobals {
         Expansion eseq = (Expansion)(e_nrw.units.elementAt(i));
         buildPhase3Routine(new Phase3Data(eseq, cnt), true);
 
-//System.out.println("minimumSize: line: " + eseq.line + ", column: " + eseq.column + ": " + minimumSize(eseq));//Test Code
+//System.out.println("minimumSize: line: " + eseq.line + ", column: " + eseq.column + ": " + 
+//        minimumSize(eseq));//Test Code
 
         cnt -= minimumSize(eseq);
         if (cnt <= 0) break;

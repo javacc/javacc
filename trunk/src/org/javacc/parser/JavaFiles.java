@@ -683,8 +683,9 @@ public class JavaFiles
     if (Options.getStatic())
     {
        ostr.println("    if (inputStream != null)");
-       ostr.println("       throw new Error(\"\\n   ERROR: Second call to the constructor of a static JavaCharStream.  You must\\n\" +");
-       ostr.println("       \"       either use ReInit() or set the JavaCC option STATIC to false\\n\" +");
+       ostr.println("       throw new Error(\"\\n   ERROR: Second call to the constructor " + 
+               "of a static JavaCharStream.\\n\" +");
+       ostr.println("       \"       You must either use ReInit() or set the JavaCC option STATIC to false\\n\" +");
        ostr.println("       \"       during the generation of this class.\");");
     }
 
@@ -767,7 +768,8 @@ public class JavaFiles
     ostr.println("  public JavaCharStream(java.io.InputStream dstream, String encoding, int startline,");
     ostr.println("  int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
-    ostr.println("     this(encoding == null ? new java.io.InputStreamReader(dstream) : new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
+    ostr.println("     this(encoding == null ? new java.io.InputStreamReader(dstream) : " + 
+            "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
     ostr.println("  }");
     ostr.println("");
     ostr.println("  public JavaCharStream(java.io.InputStream dstream, int startline,");
@@ -788,7 +790,8 @@ public class JavaFiles
     ostr.println("     this(dstream, startline, startcolumn, 4096);");
     ostr.println("  }");
     ostr.println("");
-    ostr.println("  public JavaCharStream(java.io.InputStream dstream, String encoding) throws java.io.UnsupportedEncodingException");
+    ostr.println("  public JavaCharStream(java.io.InputStream dstream, String encoding) " + 
+            "throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
     ostr.println("     this(dstream, encoding, 1, 1, 4096);");
     ostr.println("  }");
@@ -801,7 +804,8 @@ public class JavaFiles
     ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding, int startline,");
     ostr.println("  int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
-    ostr.println("     ReInit(encoding == null ? new java.io.InputStreamReader(dstream) : new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
+    ostr.println("     ReInit(encoding == null ? new java.io.InputStreamReader(dstream) : " + 
+            "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
     ostr.println("  }");
     ostr.println("");
     ostr.println("  public void ReInit(java.io.InputStream dstream, int startline,");
@@ -819,7 +823,8 @@ public class JavaFiles
     ostr.println("  {");
     ostr.println("     ReInit(dstream, startline, startcolumn, 4096);");
     ostr.println("  }");
-    ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding) throws java.io.UnsupportedEncodingException");
+    ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding) " + 
+            "throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
     ostr.println("     ReInit(dstream, encoding, 1, 1, 4096);");
     ostr.println("  }");
@@ -1293,8 +1298,9 @@ public class JavaFiles
     if (Options.getStatic())
     {
        ostr.println("    if (inputStream != null)");
-       ostr.println("       throw new Error(\"\\n   ERROR: Second call to the constructor of a static SimpleCharStream.  You must\\n\" +");
-       ostr.println("       \"       either use ReInit() or set the JavaCC option STATIC to false\\n\" +");
+       ostr.println("       throw new Error(\"\\n   " + 
+               "ERROR: Second call to the constructor of a static SimpleCharStream.\\n\" +");
+       ostr.println("       \"       You must either use ReInit() or set the JavaCC option STATIC to false\\n\" +");
        ostr.println("       \"       during the generation of this class.\");");
     }
 
@@ -1375,7 +1381,8 @@ public class JavaFiles
     ostr.println("  public SimpleCharStream(java.io.InputStream dstream, String encoding, int startline,");
     ostr.println("  int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
-    ostr.println("     this(encoding == null ? new java.io.InputStreamReader(dstream) : new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
+    ostr.println("     this(encoding == null ? new java.io.InputStreamReader(dstream) : " + 
+            "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
     ostr.println("  }");
     ostr.println("");
     ostr.println("  public SimpleCharStream(java.io.InputStream dstream, int startline,");
@@ -1396,7 +1403,8 @@ public class JavaFiles
     ostr.println("     this(dstream, startline, startcolumn, 4096);");
     ostr.println("  }");
     ostr.println("");
-    ostr.println("  public SimpleCharStream(java.io.InputStream dstream, String encoding) throws java.io.UnsupportedEncodingException");
+    ostr.println("  public SimpleCharStream(java.io.InputStream dstream, String encoding) " + 
+            "throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
     ostr.println("     this(dstream, encoding, 1, 1, 4096);");
     ostr.println("  }");
@@ -1407,9 +1415,11 @@ public class JavaFiles
     ostr.println("  }");
     ostr.println("");
     ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding, int startline,");
-    ostr.println("                          int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException");
+    ostr.println("                          int startcolumn, int buffersize) " + 
+            "throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
-    ostr.println("     ReInit(encoding == null ? new java.io.InputStreamReader(dstream) : new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
+    ostr.println("     ReInit(encoding == null ? new java.io.InputStreamReader(dstream) : " + 
+            "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
     ostr.println("  }");
     ostr.println("");
     ostr.println("  public void ReInit(java.io.InputStream dstream, int startline,");
@@ -1418,7 +1428,8 @@ public class JavaFiles
     ostr.println("     ReInit(new java.io.InputStreamReader(dstream), startline, startcolumn, buffersize);");
     ostr.println("  }");
     ostr.println("");
-    ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding) throws java.io.UnsupportedEncodingException");
+    ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding) " + 
+            "throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
     ostr.println("     ReInit(dstream, encoding, 1, 1, 4096);");
     ostr.println("  }");
@@ -1839,7 +1850,8 @@ public class JavaFiles
     ostr.println("    }");
     if (OtherFilesGen.keepLineCol)
     {
-    ostr.println("    retval += \"\\\" at line \" + currentToken.next.beginLine + \", column \" + currentToken.next.beginColumn;");
+      ostr.println("    retval += \"\\\" at line \" + currentToken.next.beginLine + \", " + 
+              "column \" + currentToken.next.beginColumn;");
     }
     ostr.println("    retval += \".\" + eol;");
     ostr.println("    if (expectedTokenSequences.length == 1) {");
@@ -2040,11 +2052,13 @@ public class JavaFiles
     ostr.println("    *    curchar     : the offending character");
     ostr.println("    * Note: You can customize the lexical error message by modifying this method.");
     ostr.println("    */");
-    ostr.println("   protected static String LexicalError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {");
+    ostr.println("   protected static String LexicalError(" + 
+            "boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {");
     ostr.println("      return(\"Lexical error at line \" +");
     ostr.println("           errorLine + \", column \" +");
     ostr.println("           errorColumn + \".  Encountered: \" +");
-    ostr.println("           (EOFSeen ? \"<EOF> \" : (\"\\\"\" + addEscapes(String.valueOf(curChar)) + \"\\\"\") + \" (\" + (int)curChar + \"), \") +");
+    ostr.println("           (EOFSeen ? \"<EOF> \" : " + 
+            "(\"\\\"\" + addEscapes(String.valueOf(curChar)) + \"\\\"\") + \" (\" + (int)curChar + \"), \") +");
     ostr.println("           \"after : \\\"\" + addEscapes(errorAfter) + \"\\\"\");");
     ostr.println("   }");
     ostr.println("");
@@ -2073,7 +2087,8 @@ public class JavaFiles
     ostr.println("      errorCode = reason;");
     ostr.println("   }");
     ostr.println("");
-    ostr.println("   public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {");
+    ostr.println("   public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, " + 
+            "String errorAfter, char curChar, int reason) {");
     ostr.println("      this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);");
     ostr.println("   }");
     ostr.println("}");

@@ -94,7 +94,7 @@ public class LexGen
                  )
               );
        Vector tn = (Vector)(toolNames.clone());
-       tn.addElement(toolName); 
+       tn.addElement(toolName);
 
        ostr.println("/* " + getIdString(tn, tokMgrClassName + ".java") + " */");
 
@@ -165,18 +165,20 @@ public class LexGen
 
        ostr.println("");
        if (commonTokenActionNeeded && !commonTokenActionSeen)
-          JavaCCErrors.warning("You have the COMMON_TOKEN_ACTION option set. But it appears you have not defined the method :\n"+
+          JavaCCErrors.warning("You have the COMMON_TOKEN_ACTION option set. " + 
+                          "But it appears you have not defined the method :\n"+
                           "      " + staticString + "void CommonTokenAction(Token t)\n" +
                           "in your TOKEN_MGR_DECLS. The generated token manager will not compile.");
- 
+
     }
     else if (Options.getCommonTokenAction())
     {
-       JavaCCErrors.warning("You have the COMMON_TOKEN_ACTION option set. But you have not defined the method :\n"+
+       JavaCCErrors.warning("You have the COMMON_TOKEN_ACTION option set. " + 
+                          "But you have not defined the method :\n"+
                           "      " + staticString + "void CommonTokenAction(Token t)\n" +
                           "in your TOKEN_MGR_DECLS. The generated token manager will not compile.");
     }
- 
+
     ostr.println("  public " + staticString + " java.io.PrintStream debugStream = System.out;");
     ostr.println("  public " + staticString + " void setDebugStream(java.io.PrintStream ds) { debugStream = ds; }");
 
@@ -209,7 +211,8 @@ public class LexGen
     ostr.println("  }");
     ostr.println("");
 
-    ostr.println("  protected " + staticString + " final String jjKindsForStateVector(int lexState, int[] vec, int start, int end)");
+    ostr.println("  protected " + staticString + " final String jjKindsForStateVector(" + 
+                      "int lexState, int[] vec, int start, int end)");
     ostr.println("  {");
     ostr.println("    boolean[] kindDone = new boolean[" + maxOrdinal + "];");
     ostr.println("    String retVal = \"\";");
@@ -345,7 +348,7 @@ public class LexGen
      e = allTpsForState.keys();
 
      boolean ignoring = false;
- 
+
      while (e.hasMoreElements())
      {
         NfaState.ReInit();
@@ -589,7 +592,7 @@ public class LexGen
               continue Outer;
            if (len != 0)
               reList += "; ";
-           reList += "line " + rexprs[initMatch[j]].line + ", column " + 
+           reList += "line " + rexprs[initMatch[j]].line + ", column " +
                      rexprs[initMatch[j]].column;
            len++;
         }
@@ -602,22 +605,22 @@ public class LexGen
 
         hasLoop = true;
         if (len == 0)
-           JavaCCErrors.warning(rexprs[initMatch[i]],
-                "Regular expression" + ((rexprs[initMatch[i]].label.equals(""))
-                      ? "" : (" for " + rexprs[initMatch[i]].label)) +
-								" can be matched by the empty string (\"\") in lexical state " + 
-								lexStateName[i] + ". This can result in an endless loop of " +
-								"empty string matches.");
-					 else
-					 {
-						 JavaCCErrors.warning(rexprs[initMatch[i]],
-								"Regular expression" + ((rexprs[initMatch[i]].label.equals(""))
-										? "" : (" for " + rexprs[initMatch[i]].label)) +
-								" can be matched by the empty string (\"\") in lexical state " + 
-                lexStateName[i] + ". This regular expression along with the " +
-                "regular expressions at " + reList + " forms the cycle \n   " +
-                cycle + "\ncontaining regular expressions with empty matches." +
-                " This can result in an endless loop of empty string matches.");
+          JavaCCErrors.warning(rexprs[initMatch[i]],
+              "Regular expression" + ((rexprs[initMatch[i]].label.equals(""))
+                  ? "" : (" for " + rexprs[initMatch[i]].label)) +
+                         " can be matched by the empty string (\"\") in lexical state " +
+                         lexStateName[i] + ". This can result in an endless loop of " +
+                         "empty string matches.");
+        else
+        {
+          JavaCCErrors.warning(rexprs[initMatch[i]],
+              "Regular expression" + ((rexprs[initMatch[i]].label.equals(""))
+                  ? "" : (" for " + rexprs[initMatch[i]].label)) +
+                          " can be matched by the empty string (\"\") in lexical state " +
+                          lexStateName[i] + ". This regular expression along with the " +
+                          "regular expressions at " + reList + " forms the cycle \n   " +
+                           cycle + "\ncontaining regular expressions with empty matches." +
+                          " This can result in an endless loop of empty string matches.");
         }
      }
   }
@@ -749,7 +752,8 @@ public class LexGen
       if (Options.getStatic() && !Options.getUserCharStream())
       {
          ostr.println("   if (input_stream != null)");
-         ostr.println("      throw new TokenMgrError(\"ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.\", TokenMgrError.STATIC_LEXER_ERROR);");
+         ostr.println("      throw new TokenMgrError(\"ERROR: Second call to constructor of static lexer. " + 
+                 "You must use ReInit() to initialize the static variables.\", TokenMgrError.STATIC_LEXER_ERROR);");
       }
       else if (!Options.getUserCharStream())
       {
@@ -758,7 +762,8 @@ public class LexGen
          else
             ostr.println("   if (SimpleCharStream.staticFlag)");
 
-         ostr.println("      throw new Error(\"ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.\");");
+         ostr.println("      throw new Error(\"ERROR: Cannot use a static CharStream class with a " + 
+                 "non-static lexical analyzer.\");");
       }
 
       ostr.println("   input_stream = stream;");
@@ -766,7 +771,8 @@ public class LexGen
       ostr.println("}");
 
       if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
-         ostr.println("public " + tokMgrClassName + "(" + cu_name + " parserArg, " + charStreamName + " stream, int lexState){");
+         ostr.println("public " + tokMgrClassName + "(" + cu_name + " parserArg, " + 
+                 charStreamName + " stream, int lexState){");
          ostr.println("   this(parserArg, stream);");
       } else {
          ostr.println("public " + tokMgrClassName + "(" + charStreamName + " stream, int lexState){");
@@ -994,7 +1000,10 @@ public class LexGen
            if (Options.getDebugTokenManager())
            {
               ostr.println(prefix + "{");
-              ostr.println("      debugStream.println(" + (maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + "\"Skipping character : \" + " +
+              ostr.println("      debugStream.println(" + 
+                      (maxLexStates > 1 ? 
+                              "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + 
+                              "\"Skipping character : \" + " +
                  "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \")\");");
            }
            ostr.println(prefix + "      curChar = input_stream.BeginToken();");
@@ -1023,8 +1032,11 @@ public class LexGen
         }
 
      if (Options.getDebugTokenManager())
-        ostr.println("      debugStream.println(" + (maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + "\"Current character : \" + " +
-                 "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") at line \" + input_stream.getLine() + \" column \" + input_stream.getColumn());");
+        ostr.println("      debugStream.println(" + 
+                (maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + 
+                "\"Current character : \" + " +
+                 "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " + 
+                 "at line \" + input_stream.getLine() + \" column \" + input_stream.getColumn());");
 
         ostr.println(prefix + "curPos = jjMoveStringLiteralDfa0_" + i + "();");
 
@@ -1037,7 +1049,7 @@ public class LexGen
               ostr.println(prefix + "if (jjmatchedPos == 0 && jjmatchedKind > " +
                      canMatchAnyChar[i] + ")");
            ostr.println(prefix + "{");
-           
+
            if (Options.getDebugTokenManager())
               ostr.println("           debugStream.println(\"   Current character matched as a \" + tokenImage[" +
                 canMatchAnyChar[i] + "] + \" token.\");");
@@ -1072,7 +1084,8 @@ public class LexGen
         if (Options.getDebugTokenManager())
         {
            ostr.println(prefix + "      {");
-           ostr.println(prefix + "         debugStream.println(\"   Putting back \" + (curPos - jjmatchedPos - 1) + \" characters into the input stream.\");");
+           ostr.println(prefix + "         debugStream.println(" + 
+                   "\"   Putting back \" + (curPos - jjmatchedPos - 1) + \" characters into the input stream.\");");
         }
 
         ostr.println(prefix + "         input_stream.backup(curPos - jjmatchedPos - 1);");
@@ -1084,14 +1097,20 @@ public class LexGen
         {
            if (Options.getJavaUnicodeEscape() ||
                Options.getUserCharStream())
-              ostr.println("    debugStream.println(\"****** FOUND A \" + tokenImage[jjmatchedKind] + \" MATCH (\" + TokenMgrError.addEscapes(new String(input_stream.GetSuffix(jjmatchedPos + 1))) + \") ******\\n\");");
+              ostr.println("    debugStream.println(" + 
+                      "\"****** FOUND A \" + tokenImage[jjmatchedKind] + \" MATCH " + 
+                      "(\" + TokenMgrError.addEscapes(new String(input_stream.GetSuffix(jjmatchedPos + 1))) + " + 
+                      "\") ******\\n\");");
            else
-              ostr.println("    debugStream.println(\"****** FOUND A \" + tokenImage[jjmatchedKind] + \" MATCH (\" + TokenMgrError.addEscapes(new String(input_stream.GetSuffix(jjmatchedPos + 1))) + \") ******\\n\");");
+              ostr.println("    debugStream.println(" + 
+                      "\"****** FOUND A \" + tokenImage[jjmatchedKind] + \" MATCH " + 
+                      "(\" + TokenMgrError.addEscapes(new String(input_stream.GetSuffix(jjmatchedPos + 1))) + " + 
+                      "\") ******\\n\");");
         }
 
         if (hasSkip || hasMore || hasSpecial)
         {
-           ostr.println(prefix + "      if ((jjtoToken[jjmatchedKind >> 6] & " + 
+           ostr.println(prefix + "      if ((jjtoToken[jjmatchedKind >> 6] & " +
                                      "(1L << (jjmatchedKind & 077))) != 0L)");
            ostr.println(prefix + "      {");
         }
@@ -1190,8 +1209,11 @@ public class LexGen
               ostr.println(prefix + "         curChar = input_stream.readChar();");
 
               if (Options.getDebugTokenManager())
-                 ostr.println("   debugStream.println(" + (maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + "\"Current character : \" + " +
-                 "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") at line \" + input_stream.getLine() + \" column \" + input_stream.getColumn());");
+                 ostr.println("   debugStream.println(" + 
+                         (maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + 
+                         "\"Current character : \" + " +
+                 "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " + 
+                 "at line \" + input_stream.getLine() + \" column \" + input_stream.getColumn());");
               ostr.println(prefix + "         continue;");
               ostr.println(prefix + "      }");
               ostr.println(prefix + "      catch (java.io.IOException e1) { }");
@@ -1218,7 +1240,8 @@ public class LexGen
         ostr.println(prefix + "      input_stream.backup(1);");
         ostr.println(prefix + "      error_after = curPos <= 1 ? \"\" : input_stream.GetImage();");
         ostr.println(prefix + "   }");
-        ostr.println(prefix + "   throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);");
+        ostr.println(prefix + "   throw new TokenMgrError(" + 
+            "EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);");
      }
 
      if (hasMore)
@@ -1260,7 +1283,10 @@ public class LexGen
               ostr.println("            if (jjbeenHere[" + lexStates[i] + "] &&");
               ostr.println("                jjemptyLineNo[" + lexStates[i] + "] == input_stream.getBeginLine() && ");
               ostr.println("                jjemptyColNo[" + lexStates[i] + "] == input_stream.getBeginColumn())");
-              ostr.println("               throw new TokenMgrError((\"Error: Bailing out of infinite loop caused by repeated empty string matches at line \" + input_stream.getBeginLine() + \", column \" + input_stream.getBeginColumn() + \".\"), TokenMgrError.LOOP_DETECTED);");
+              ostr.println("               throw new TokenMgrError(" + 
+                      "(\"Error: Bailing out of infinite loop caused by repeated empty string matches " + 
+                      "at line \" + input_stream.getBeginLine() + \", " + 
+                      "column \" + input_stream.getBeginColumn() + \".\"), TokenMgrError.LOOP_DETECTED);");
               ostr.println("            jjemptyLineNo[" + lexStates[i] + "] = input_stream.getBeginLine();");
               ostr.println("            jjemptyColNo[" + lexStates[i] + "] = input_stream.getBeginColumn();");
               ostr.println("            jjbeenHere[" + lexStates[i] + "] = true;");
@@ -1335,7 +1361,10 @@ public class LexGen
               ostr.println("            if (jjbeenHere[" + lexStates[i] + "] &&");
               ostr.println("                jjemptyLineNo[" + lexStates[i] + "] == input_stream.getBeginLine() && ");
               ostr.println("                jjemptyColNo[" + lexStates[i] + "] == input_stream.getBeginColumn())");
-              ostr.println("               throw new TokenMgrError((\"Error: Bailing out of infinite loop caused by repeated empty string matches at line \" + input_stream.getBeginLine() + \", column \" + input_stream.getBeginColumn() + \".\"), TokenMgrError.LOOP_DETECTED);");
+              ostr.println("               throw new TokenMgrError(" + 
+                      "(\"Error: Bailing out of infinite loop caused by repeated empty string matches " + 
+                      "at line \" + input_stream.getBeginLine() + \", " + 
+                      "column \" + input_stream.getBeginColumn() + \".\"), TokenMgrError.LOOP_DETECTED);");
               ostr.println("            jjemptyLineNo[" + lexStates[i] + "] = input_stream.getBeginLine();");
               ostr.println("            jjemptyColNo[" + lexStates[i] + "] = input_stream.getBeginColumn();");
               ostr.println("            jjbeenHere[" + lexStates[i] + "] = true;");
@@ -1414,7 +1443,10 @@ public class LexGen
               ostr.println("            if (jjbeenHere[" + lexStates[i] + "] &&");
               ostr.println("                jjemptyLineNo[" + lexStates[i] + "] == input_stream.getBeginLine() && ");
               ostr.println("                jjemptyColNo[" + lexStates[i] + "] == input_stream.getBeginColumn())");
-              ostr.println("               throw new TokenMgrError((\"Error: Bailing out of infinite loop caused by repeated empty string matches at line \" + input_stream.getBeginLine() + \", column \" + input_stream.getBeginColumn() + \".\"), TokenMgrError.LOOP_DETECTED);");
+              ostr.println("               throw new TokenMgrError(" + 
+                      "(\"Error: Bailing out of infinite loop caused by repeated empty string matches " + 
+                      "at line \" + input_stream.getBeginLine() + \", " + 
+                      "column \" + input_stream.getBeginColumn() + \".\"), TokenMgrError.LOOP_DETECTED);");
               ostr.println("            jjemptyLineNo[" + lexStates[i] + "] = input_stream.getBeginLine();");
               ostr.println("            jjemptyColNo[" + lexStates[i] + "] = input_stream.getBeginColumn();");
               ostr.println("            jjbeenHere[" + lexStates[i] + "] = true;");
