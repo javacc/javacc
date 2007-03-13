@@ -115,7 +115,6 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
     <plugin>
      <groupId>org.codehaus.mojo</groupId>
      <artifactId>javacc-maven-plugin</artifactId>
-     <version>2.1</version>
      <executions>
       <execution>
         <id>jjt</id>
@@ -529,7 +528,6 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
         <configuration>
           <rulesets>
             <ruleset>/rulesets/basic.xml</ruleset>
-            <!-- ruleset>/rulesets/controversial.xml</ruleset-->
           </rulesets>
           <minmemory>128m</minmemory>
           <maxmemory>256</maxmemory>
@@ -574,12 +572,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
              <name>todo</name>
              <!-- Should be a combination of the letters Xaoptcmf -->
              <placement>a</placement>
-             <head>To do something:</head>
-           </tag>
-           <tag>
-             <name>generator</name>
-             <placement>mct</placement>
-             <head>Generator</head>
+             <head>To do:</head>
            </tag>
          </tags>
         </configuration>
@@ -596,10 +589,18 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
-          <configLocation>src/site/checkstyle.xml</configLocation>
+          <configLocation>www/checkstyle.xml</configLocation>
           <xrefLocation>xref</xrefLocation>
         </configuration>
       </plugin>
+      <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-site-plugin</artifactId>
+      <configuration>
+       <siteDirectory>www</siteDirectory>
+       <locales>en</locales>
+      </configuration>
+     </plugin>
     </plugins>
   </reporting>
   <dependencies>
@@ -610,5 +611,13 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       <scope>compile</scope>
     </dependency>
   </dependencies>
+  <repositories>
+   <repository>
+    <id>maven2-repository.dev.java.net</id>
+    <name>Java.net Repository for Maven</name>
+    <url>https://maven2-repository.dev.java.net/nonav/repository</url>
+    <layout>default</layout>	  
+   </repository>
+  </repositories>
 </project>
 
