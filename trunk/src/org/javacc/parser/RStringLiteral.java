@@ -715,7 +715,6 @@ public class RStringLiteral extends RegularExpression {
                (NfaState.generatedStates == 0 || !NfaState.CanStartNfaUsingAscii(c)))
            {
               int kind;
-              Outer:
               for (j = 0; j < maxLongsReqd; j++)
                  if (info.finalKinds[j] != 0L)
                     break;
