@@ -31,7 +31,7 @@ a JavaCC lexical specification where the characters are read from the
 GUI and there is an finite automaton (FA) built out of lexical states
 that have moves on these characters. In the grammar, the
 USER_CHAR_STREAM option is set to true and the BUILD_PARSER option has
-bee set to false.  The event handler method stuffs the characters into
+been set to false.  The event handler method stuffs the characters into
 a buffer from which characters are returned to the lexical analyzer
 (by readChar). The whole system is invoked through Main.java.
 
