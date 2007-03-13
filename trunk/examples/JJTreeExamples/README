@@ -29,7 +29,7 @@
 JJTreeExamples
 
 This directory contains some simple JJTree input files intended to
-illustrate some of the basic ideas.  All of them are based on an
+illustrate some of the basic ideas.  All of them are based on a 
 grammar to recognize arithmetic expressions built out of identifiers
 and constants.
 
@@ -44,7 +44,7 @@ eg2.jjt
 
 This example is the same grammar as eg1.jjt with modifications to
 customize the generated tree.  It illustrates how unnecessary
-intermediate nodes can be suppressed, and how actions in the grammar
+intermediate nodes can be suppressed and how actions in the grammar
 can attach extra information to the nodes.
 
 eg3.jjt
@@ -62,8 +62,8 @@ instructs JJTree to insert a jjtAccept() method into all nodes it
 generates, and to produce a visitor class.  The visitor is used to
 dump the tree.
 
-Here are some instructions on how to run the examples using the Ant build scripts, and the output
-you can expect to see.
+Here are some instructions on how to run the examples using the Ant build scripts, 
+and the output you can expect to see.
 
 eg1.jjt
 -------
