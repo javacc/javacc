@@ -894,13 +894,15 @@ public class ParseEngine extends JavaCCGlobals {
         //ostr.println("    if (jj_la == 0 && jj_scanpos == jj_lastpos) " + genReturn(false));
       }
     } else if (e instanceof Choice) {
-      if (!xsp_declared) {
-        xsp_declared = true;
-        ostr.println("    Token xsp;");
-      }
-      ostr.println("    xsp = jj_scanpos;");
       Sequence nested_seq;
       Choice e_nrw = (Choice)e;
+      if (e_nrw.choices.size() != 1) {
+        if (!xsp_declared) {
+          xsp_declared = true;
+          ostr.println("    Token xsp;");
+        }
+        ostr.println("    xsp = jj_scanpos;");
+      }
       for (int i = 0; i < e_nrw.choices.size(); i++) {
         nested_seq = (Sequence)(e_nrw.choices.elementAt(i));
         Lookahead la = (Lookahead)(nested_seq.units.elementAt(0));
