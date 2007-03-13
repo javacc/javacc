@@ -188,7 +188,8 @@ public class NfaState
       {
          unicodeWarningGiven = true;
          JavaCCErrors.warning(LexGen.curRE, "Non-ASCII characters used in regular expression.\n" +
-              "Please make sure you use the correct Reader when you create the parser that can handle your character set.");
+              "Please make sure you use the correct Reader when you create the parser, " +
+              "one that can handle your character set.");
       }
 
       temp = charMoves[i];
@@ -231,7 +232,8 @@ public class NfaState
       {
          unicodeWarningGiven = true;
          JavaCCErrors.warning(LexGen.curRE, "Non-ASCII characters used in regular expression.\n" +
-              "Please make sure you use the correct Reader when you create the parser that can handle your character set.");
+              "Please make sure you use the correct Reader when you create the parser, " +
+              "one that can handle your character set.");
       }
 
       if (rangeMoves == null)
@@ -1077,7 +1079,7 @@ public class NfaState
       if (moves1.length != moves2.length)
          return false;
 
-      for (int i = 0; i < moves1.length;i++)
+      for (int i = 0; i < moves1.length; i++)
       {
          if (moves1[i] != moves2[i])
             return false;
@@ -1115,7 +1117,8 @@ public class NfaState
          stateBlockTable.put(stateSetString, stateSetString);
 
       if (nameSet == null)
-         throw new Error("JavaCC Bug: Please send mail to sankar@cs.stanford.edu; nameSet null for : " + stateSetString);
+         throw new Error("JavaCC Bug: Please send mail to sankar@cs.stanford.edu; nameSet null for : " +
+                          stateSetString);
 
       if (nameSet.length == 1)
       {
@@ -1500,7 +1503,7 @@ public class NfaState
             if (tmpSet.length > nameSet.length)
                occursIn.put(s, tmpSet);
 
-            /* May not need. But safe. */
+            //May not need. But safe.
             if (compositeStateTable.get(s) != null ||
                 stateSetsToFix.get(s) != null)
                return false;
@@ -1851,8 +1854,8 @@ public class NfaState
             ostr.println("                  " + (elseNeeded ? "else " : "") + "if (curChar == " +
                     (64 * byteNum + oneBit) + ")");
          else
-            ostr.println("                  " + (elseNeeded ? "else " : "") + "if ((0x" + Long.toHexString(asciiMoves[byteNum]) +
-                    "L & l) != 0L)");
+            ostr.println("                  " + (elseNeeded ? "else " : "") +
+                    "if ((0x" + Long.toHexString(asciiMoves[byteNum]) + "L & l) != 0L)");
          prefix = "   ";
       }
 
@@ -2761,8 +2764,11 @@ public class NfaState
                  "jjKindsForStateVector(curLexState, jjstateSet, 0, 1));");
 
       if (Options.getDebugTokenManager())
-         ostr.println("      debugStream.println(" + (LexGen.maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + "\"Current character : \" + " +
-                 "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") at line \" + input_stream.getLine() + \" column \" + input_stream.getColumn());");
+         ostr.println("      debugStream.println(" + (LexGen.maxLexStates > 1 ?
+                 "\"<\" + lexStateNames[curLexState] + \">\" + " :
+                 "") + "\"Current character : \" + " +
+                 "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
+                 "at line \" + input_stream.getLine() + \" column \" + input_stream.getColumn());");
 
       ostr.println("   int j, kind = 0x" + Integer.toHexString(Integer.MAX_VALUE) + ";");
       ostr.println("   for (;;)");
@@ -2801,8 +2807,11 @@ public class NfaState
 
       if (Options.getDebugTokenManager())
       {
-         ostr.println("      if (jjmatchedKind != 0 && jjmatchedKind != 0x" + Integer.toHexString(Integer.MAX_VALUE) + ")");
-         ostr.println("         debugStream.println(\"   Currently matched the first \" + (jjmatchedPos + 1) + \" characters as a \" + tokenImage[jjmatchedKind] + \" token.\");");
+        ostr.println("      if (jjmatchedKind != 0 && jjmatchedKind != 0x" +
+                Integer.toHexString(Integer.MAX_VALUE) + ")");
+        ostr.println("         debugStream.println(" +
+                 "\"   Currently matched the first \" + (jjmatchedPos + 1) + \" characters as" +
+                 " a \" + tokenImage[jjmatchedKind] + \" token.\");");
       }
 
       ostr.println("      if ((i = jjnewStateCnt) == (startsAt = " +
@@ -2824,8 +2833,11 @@ public class NfaState
          ostr.println("      catch(java.io.IOException e) { return curPos; }");
 
       if (Options.getDebugTokenManager())
-         ostr.println("      debugStream.println(" + (LexGen.maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + "\"Current character : \" + " +
-                 "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") at line \" + input_stream.getLine() + \" column \" + input_stream.getColumn());");
+         ostr.println("      debugStream.println(" + (LexGen.maxLexStates > 1 ?
+                 "\"<\" + lexStateNames[curLexState] + \">\" + " :
+                 "") + "\"Current character : \" + " +
+                 "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
+                 "at line \" + input_stream.getLine() + \" column \" + input_stream.getColumn());");
 
       ostr.println("   }");
 
@@ -2839,7 +2851,8 @@ public class NfaState
          ostr.println("   if (curPos < toRet)");
          ostr.println("      for (i = toRet - Math.min(curPos, seenUpto); i-- > 0; )");
          ostr.println("         try { curChar = input_stream.readChar(); }");
-         ostr.println("         catch(java.io.IOException e) { throw new Error(\"Internal Error : Please send a bug report.\"); }");
+         ostr.println("         catch(java.io.IOException e) { " +
+                 "throw new Error(\"Internal Error : Please send a bug report.\"); }");
          ostr.println("");
          ostr.println("   if (jjmatchedPos < strPos)");
          ostr.println("   {");

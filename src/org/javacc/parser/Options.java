@@ -317,7 +317,8 @@ public class Options {
             if (cmdLineSetting.contains("DEBUG_PARSER")
                     || inputFileSetting.contains("DEBUG_PARSER")) {
                 JavaCCErrors
-                        .warning("True setting of option DEBUG_LOOKAHEAD overrides false setting of option DEBUG_PARSER.");
+                        .warning("True setting of option DEBUG_LOOKAHEAD overrides " + 
+                                 "false setting of option DEBUG_PARSER.");
             }
             optionValues.put("DEBUG_PARSER", Boolean.TRUE);
         }
