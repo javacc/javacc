@@ -64,6 +64,7 @@ import org.javacc.parser.ZeroOrOne;
  * The main entry point for JJDoc.
  */
 public class JJDoc extends JavaCCGlobals {
+  
   static Generator generator;
 
   static void start() {
@@ -435,6 +436,7 @@ public class JJDoc extends JavaCCGlobals {
   /**
    * A utility to produce a string of blanks.
    */
+  
   /*
   private static String ws(int len) {
     String s = "";
@@ -444,15 +446,26 @@ public class JJDoc extends JavaCCGlobals {
     return s;
   }
   */
+  
   /**
-   * @return Returns the generator.
+   * The commandline option is either TEXT or not, but the generator might 
+   * have been set to some other Generator using the setGenerator method. 
+   * 
+   * @return the generator configured in options or set by setter.
    */
   public static Generator getGenerator() {
-    if (JJDocOptions.getText()) {
-      generator = new TextGenerator();
-    } else {
-      generator = new HTMLGenerator();
-    }
+    if (generator == null)
+      if (JJDocOptions.getText()) 
+        generator = new TextGenerator();
+      else
+        generator = new HTMLGenerator();
+    else
+      if (JJDocOptions.getText() && generator instanceof HTMLGenerator)
+        generator = new TextGenerator();
+      else
+        if(generator instanceof TextGenerator) 
+          generator = new HTMLGenerator();
+
     return generator;
   }
   /**
