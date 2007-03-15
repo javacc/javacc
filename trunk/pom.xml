@@ -98,10 +98,13 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
      <distribution>repo</distribution>
    </license>
   </licenses>
+  
+  
   <build>
    <sourceDirectory>src</sourceDirectory>
    <testSourceDirectory>src</testSourceDirectory>
-   <!-- Uncomment to include grammar sources in jar -->
+  
+  <!-- Uncomment to include grammar sources in jar -->
    <!--resources>
     <resource>
      <directory>src</directory>
@@ -111,11 +114,23 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       </includes>
     </resource>
    </resources-->
-   <plugins>
+  
+  <plugins>
     <plugin>
      <groupId>org.codehaus.mojo</groupId>
      <artifactId>javacc-maven-plugin</artifactId>
      <executions>
+      <execution>
+        <id>jcc</id>
+       <phase>generate-sources</phase>
+       <goals>
+        <goal>javacc</goal>
+       </goals>
+       <configuration>
+        <packageName>org.javacc.parser</packageName>
+        <sourceDirectory>${project.build.sourceDirectory}/org/javacc/parser</sourceDirectory>
+       </configuration>
+      </execution>
       <execution>
         <id>jjt</id>
        <phase>generate-sources</phase>
@@ -127,18 +142,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
          <exclude>**/parser/**</exclude>
         </excludes>
         <packageName>org.javacc.jjtree</packageName>
-        <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-       </configuration>
-      </execution>
-      <execution>
-        <id>jcc</id>
-       <phase>generate-sources</phase>
-       <goals>
-        <goal>javacc</goal>
-       </goals>
-       <configuration>
-        <packageName>org.javacc.parser</packageName>
-        <sourceDirectory>${project.build.sourceDirectory}/org/javacc/parser</sourceDirectory>
+        <sourceDirectory>${project.build.sourceDirectory}/org/javacc/jjtree</sourceDirectory>
        </configuration>
       </execution>
       <execution>
@@ -518,10 +522,30 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       </execution>
      </executions>
     </plugin>
+    <plugin>
+     <groupId>org.codehaus.mojo</groupId>
+     <artifactId>cobertura-maven-plugin</artifactId>
+     <version>2.0</version>
+     <executions>
+      <execution>
+       <goals>
+        <goal>clean</goal>
+       </goals>
+      </execution>
+     </executions>
+    </plugin>
    </plugins>
   </build>
   <reporting>
      <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javacc-maven-plugin</artifactId>
+        <configuration>
+          <sourceDirectory>src/org/javacc/parser</sourceDirectory>
+          <packageName>org.javacc.parser</packageName>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
@@ -540,7 +564,6 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jdepend-maven-plugin</artifactId>
-        <version>2.0-beta-1-SNAPSHOT</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -552,7 +575,6 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
           <tag>@deprecated</tag>
           <tag>HACK</tag>
           <tag>NOTE</tag>
-          <tag>HACK</tag>
          </tags>
         </configuration>
       </plugin>
@@ -564,22 +586,14 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
        <groupId>org.apache.maven.plugins</groupId>
        <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-         <excludePackageNames>org.melati.*</excludePackageNames>
           <minmemory>128m</minmemory>
           <maxmemory>512</maxmemory>
-         <tags>
-           <tag>
-             <name>todo</name>
-             <!-- Should be a combination of the letters Xaoptcmf -->
-             <placement>a</placement>
-             <head>To do:</head>
-           </tag>
-         </tags>
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.0</version >
       </plugin>
       <plugin>
        <groupId>org.apache.maven.plugins</groupId>
@@ -589,18 +603,18 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
-          <configLocation>www/checkstyle.xml</configLocation>
-          <xrefLocation>xref</xrefLocation>
+         <configLocation>www/checkstyle.xml</configLocation>
+         <xrefLocation>xref</xrefLocation>
         </configuration>
       </plugin>
       <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-site-plugin</artifactId>
-      <configuration>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-site-plugin</artifactId>
+       <configuration>
        <siteDirectory>www</siteDirectory>
-       <locales>en</locales>
-      </configuration>
-     </plugin>
+        <locales>en</locales>
+       </configuration>
+      </plugin>
     </plugins>
   </reporting>
   <dependencies>
