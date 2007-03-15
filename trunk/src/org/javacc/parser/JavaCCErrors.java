@@ -27,10 +27,14 @@
  */
 package org.javacc.parser;
 
-public class JavaCCErrors {
+/**
+ * Output error messages and keep track of totals.
+ */
+public final class JavaCCErrors {
 
   private static int parse_error_count = 0, semantic_error_count = 0, warning_count = 0;
-
+  private JavaCCErrors() {}
+  
   private static void printLocationInfo(Object node) {
     if (node instanceof NormalProduction) {
       NormalProduction n = (NormalProduction)node;

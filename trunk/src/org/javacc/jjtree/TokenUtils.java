@@ -29,8 +29,13 @@ package org.javacc.jjtree;
 
 import org.javacc.parser.JavaCCErrors;
 
-public class TokenUtils
+/**
+ * Utilities for manipulating Tokens.
+ */
+public final class TokenUtils
 {
+  private TokenUtils() {}
+  
   static void print(Token t, IO io, String in, String out) {
     Token tt = t.specialToken;
     if (tt != null) {

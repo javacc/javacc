@@ -31,8 +31,9 @@ package org.javacc.parser;
  * A set of routines that walk down the Expansion tree in
  * various ways.
  */
-public class ExpansionTreeWalker {
-
+public final class ExpansionTreeWalker {
+  private ExpansionTreeWalker() {}
+  
   /**
    * Visits the nodes of the tree rooted at "node" in pre-order.
    * i.e., it executes opObj.action first and then visits the

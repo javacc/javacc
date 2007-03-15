@@ -27,8 +27,12 @@
  */
 package org.javacc.parser;
 
-public class Main {
-
+/**
+ * Entry point.
+ */
+public final class Main {
+  private Main() {}
+  
   static void help_message() {
     System.out.println("Usage:");
     System.out.println("    javacc option-settings inputfile");
@@ -134,7 +138,6 @@ public class Main {
          return 1;
       }
       parser = new JavaCCParser(new java.io.FileReader(args[args.length-1]));
-    } catch (NullPointerException ne) { // Should never happen
     } catch (SecurityException se) {
       System.out.println("Security violation while trying to open " + args[args.length-1]);
       return 1;

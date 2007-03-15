@@ -29,12 +29,14 @@ package org.javacc.parser;
 
 import java.util.Vector;
 
-public class LookaheadWalk {
+public final class LookaheadWalk {
 
   public static boolean considerSemanticLA;
 
   public static Vector sizeLimitedMatches;
 
+  private LookaheadWalk() {} 
+  
   public static void vectorAppend(Vector vToAppendTo, Vector vToAppend) {
     for (int i = 0; i < vToAppend.size(); i++) {
       vToAppendTo.addElement(vToAppend.elementAt(i));
