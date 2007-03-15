@@ -1177,8 +1177,8 @@ public class ParseEngine extends JavaCCGlobals {
 
 }
 
-/*
- * This class stored information to pass from phase 2 to phase 3.
+/**
+ * This class stores information to pass from phase 2 to phase 3.
  */
 class Phase3Data {
 

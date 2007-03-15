@@ -82,6 +82,9 @@ public class Token {
      }
   }
 
+  /**
+   * Greater than Token.
+   */
   public static class GTToken extends Token
   {
      int realKind = JavaCCParserConstants.GT;

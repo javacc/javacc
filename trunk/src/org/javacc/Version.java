@@ -28,6 +28,9 @@
 
 package org.javacc;
 
+/**
+ * Supply the version number.
+ */
 public interface Version {
    String version = "4.1d1";
 }

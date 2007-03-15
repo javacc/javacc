@@ -28,6 +28,9 @@
 
 package org.javacc.parser;
 
+/**
+ * Utilities.
+ */
 public abstract class JavaCCParserInternals extends JavaCCGlobals {
 
   static protected void initialize() {

@@ -27,6 +27,9 @@
  */
 package org.javacc.parser;
 
+/**
+ * A Non-deterministic Finite Automaton.
+ */
 public class Nfa
 {
    NfaState start;
