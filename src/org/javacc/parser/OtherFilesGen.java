@@ -27,6 +27,9 @@
  */
 package org.javacc.parser;
 
+/**
+ * Generates the Constants file.
+ */
 public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstants {
 
   public static boolean keepLineCol;

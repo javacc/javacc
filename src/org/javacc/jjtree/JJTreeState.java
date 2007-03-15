@@ -34,9 +34,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-class JJTreeState
+/**
+ * Generate the State of a tree.
+ */
+final class JJTreeState
 {
 
+  private JJTreeState() {}
+  
   static void insertParserMembers(IO io) {
     String s;
 
