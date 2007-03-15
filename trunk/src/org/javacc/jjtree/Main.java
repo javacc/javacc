@@ -27,8 +27,13 @@
  */
 package org.javacc.jjtree;
 
-public class Main
-{
+/**
+ * Entry point.
+ */
+public final class Main {
+
+  private Main() {}
+
   public static void main(String args[])
   {
     JJTree jjtree = new JJTree();
