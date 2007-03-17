@@ -599,7 +599,10 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
         }
         ostr.println("    int[][] exptokseq = new int[jj_expentries.size()][];");
         ostr.println("    for (int i = 0; i < jj_expentries.size(); i++) {");
-        ostr.println("      exptokseq[i] = (int[])jj_expentries.elementAt(i);");
+        if (!Options.getJdkVersion().equals("1.5"))
+           ostr.println("      exptokseq[i] = (int[])jj_expentries.elementAt(i);");
+        else
+           ostr.println("      exptokseq[i] = jj_expentries.elementAt(i);");
         ostr.println("    }");
         ostr.println("    return new ParseException(token, exptokseq, tokenImage);");
         ostr.println("  }");
