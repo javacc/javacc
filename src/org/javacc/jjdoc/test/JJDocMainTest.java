@@ -63,12 +63,6 @@ public class JJDocMainTest extends TestCase {
   }
 
   /**
-   * Test method for {@link org.javacc.jjdoc.JJDocMain#help_message()}.
-   */
-  public void testHelp_message() {
-  }
-
-  /**
    * Test method for {@link org.javacc.jjdoc.JJDocMain#main(java.lang.String[])}.
    */
   public void testMain() {
