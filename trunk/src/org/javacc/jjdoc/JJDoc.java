@@ -34,7 +34,6 @@ import org.javacc.parser.BNFProduction;
 import org.javacc.parser.CharacterRange;
 import org.javacc.parser.Choice;
 import org.javacc.parser.Expansion;
-import org.javacc.parser.JavaCCGlobals;
 import org.javacc.parser.JavaCCParserInternals;
 import org.javacc.parser.JavaCodeProduction;
 import org.javacc.parser.Lookahead;
@@ -63,10 +62,8 @@ import org.javacc.parser.ZeroOrOne;
 /**
  * The main entry point for JJDoc.
  */
-public class JJDoc extends JavaCCGlobals {
+public class JJDoc extends JJDocGlobals {
   
-  static Generator generator;
-
   static void start() {
     generator = getGenerator();
     generator.documentStart();
@@ -214,7 +211,7 @@ public class JJDoc extends JavaCCGlobals {
     } else if (exp instanceof ZeroOrOne) {
       emitExpansionZeroOrOne((ZeroOrOne)exp, gen);
     } else {
-      System.out.println("Oops: Unknown expansion type.");
+      error("Oops: Unknown expansion type.");
     }
 //     gen.text("[<-" + exp.getClass().getName() + "]");
   }
@@ -337,7 +334,7 @@ public class JJDoc extends JavaCCGlobals {
           returnString += add_escapes(new String(s));
           returnString += "\"";
         } else {
-          System.out.println("Oops: unknown character list element type.");
+          error("Oops: unknown character list element type.");
         }
         if (enumeration.hasMoreElements()) {
           returnString += ",";
@@ -398,7 +395,7 @@ public class JJDoc extends JavaCCGlobals {
       returnString += emitRE(zo.regexpr);
       returnString += ")?";
     } else {
-      System.out.println("Oops: Unknown regular expression type.");
+      error("Oops: Unknown regular expression type.");
     }
     if (needBrackets) {
       returnString += ">";
@@ -447,32 +444,4 @@ public class JJDoc extends JavaCCGlobals {
   }
   */
   
-  /**
-   * The commandline option is either TEXT or not, but the generator might 
-   * have been set to some other Generator using the setGenerator method. 
-   * 
-   * @return the generator configured in options or set by setter.
-   */
-  public static Generator getGenerator() {
-    if (generator == null)
-      if (JJDocOptions.getText()) 
-        generator = new TextGenerator();
-      else
-        generator = new HTMLGenerator();
-    else
-      if (JJDocOptions.getText() && generator instanceof HTMLGenerator)
-        generator = new TextGenerator();
-      else
-        if(generator instanceof TextGenerator) 
-          generator = new HTMLGenerator();
-
-    return generator;
-  }
-  /**
-   * @param generator
-   *        The generator to set.
-   */
-  public static void setGenerator(Generator generator) {
-    JJDoc.generator = generator;
-  }
 }

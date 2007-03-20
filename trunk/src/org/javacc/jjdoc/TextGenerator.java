@@ -236,12 +236,45 @@ public class TextGenerator implements Generator {
                                      new java.io.FileWriter(
                                                             JJDocGlobals.output_file));
     } catch (java.io.IOException e) {
-      System.err.println("JJDoc: can't open output stream on file "
+      error("JJDoc: can't open output stream on file "
           + JJDocGlobals.output_file + ".  Using standard output.");
       ostr = new java.io.PrintWriter(new java.io.OutputStreamWriter(System.out));
     }
 
     return ostr;
   }
+
+  /** 
+   * {@inheritDoc}
+   * @see org.javacc.jjdoc.Generator#debug(java.lang.String)
+   */
+  public void debug(String message) {
+    System.err.println(message);
+  }
+
+  /** 
+   * {@inheritDoc}
+   * @see org.javacc.jjdoc.Generator#info(java.lang.String)
+   */
+  public void info(String message) {
+    System.err.println(message);
+  }
+
+  /** 
+   * {@inheritDoc}
+   * @see org.javacc.jjdoc.Generator#warn(java.lang.String)
+   */
+  public void warn(String message) {
+    System.err.println(message);
+  }
+
+  /** 
+   * {@inheritDoc}
+   * @see org.javacc.jjdoc.Generator#error(java.lang.String)
+   */
+  public void error(String message) {
+    System.err.println(message);
+  }
+
 
 }
