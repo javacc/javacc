@@ -2408,8 +2408,8 @@ public class NfaState
       {
          NfaState temp = (NfaState)allStates.elementAt(i);
 
-         if (dumped[temp.stateName] || temp.lexState != LexGen.lexStateIndex ||
-             !temp.HasTransitions() || temp.dummy || temp.stateName == -1)
+         if (temp.stateName == -1 || dumped[temp.stateName] || temp.lexState != LexGen.lexStateIndex ||
+             !temp.HasTransitions() || temp.dummy )
             continue;
 
          String toPrint = "";
