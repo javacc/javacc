@@ -160,4 +160,27 @@ public interface Generator {
    */
   void reEnd(RegularExpression re);
 
+  /**
+   * Log debug messages.
+   * @param message the string to log
+   */
+  void debug(String message);
+
+  /**
+   * Log informational messages.
+   * @param message the string to log
+   */
+  void info(String message);
+
+  /**
+   * Log warning messages.
+   * @param message the string to log
+   */
+  void warn(String message);
+
+  /**
+   * Log error messages.
+   * @param message the string to log
+   */
+  void error(String message);
 }
