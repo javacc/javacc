@@ -64,18 +64,23 @@ public class JJDocGlobals extends JavaCCGlobals {
    * @return the generator configured in options or set by setter.
    */
   public static Generator getGenerator() {
-    if (generator == null)
-      if (JJDocOptions.getText()) 
+    if (generator == null) { 
+      if (JJDocOptions.getText()) {  
         generator = new TextGenerator();
-      else
+      } else { 
         generator = new HTMLGenerator();
-    else
-      if (JJDocOptions.getText() && generator instanceof HTMLGenerator)
-        generator = new TextGenerator();
-      else
-        if(generator instanceof TextGenerator) 
+      }
+    } else { 
+      if (JJDocOptions.getText()) { 
+        if(generator instanceof HTMLGenerator) { 
+          generator = new TextGenerator();
+        }
+      } else { 
+        if(generator instanceof TextGenerator) { 
           generator = new HTMLGenerator();
-
+        }
+      }
+    }
     return generator;
   }
 
