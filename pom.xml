@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>net.java.dev</groupId>
+  <groupId>net.java.dev.javacc</groupId>
   <artifactId>javacc</artifactId>
   <packaging>jar</packaging>
   <name>JavaCC</name>
@@ -117,7 +117,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
   
   <plugins>
     <plugin>
-     <groupId>org.codehaus.mojo</groupId>
+     <groupId>net.java.dev.javacc</groupId>
      <artifactId>javacc-maven-plugin</artifactId>
      <executions>
       <execution>
@@ -539,7 +539,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
   <reporting>
      <plugins>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
+        <groupId>net.java.dev.javacc</groupId>
         <artifactId>javacc-maven-plugin</artifactId>
         <configuration>
           <sourceDirectory>src/org/javacc/parser</sourceDirectory>
