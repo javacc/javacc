@@ -251,7 +251,47 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <!-- TODO, test cases for JavaGrammars -->
 
-    <!-- TODO, test cases for LookAhead -->
+    <echo />
+
+    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg1 examples/Lookahead/Example1.jj" />
+    </java>
+
+    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg2 examples/Lookahead/Example2.jj" />
+    </java>
+
+    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg3 examples/Lookahead/Example3.jj" />
+    </java>
+
+    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg4 examples/Lookahead/Example4.jj" />
+    </java>
+
+    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg5 examples/Lookahead/Example5.jj" />
+    </java>
+
+    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg6 examples/Lookahead/Example6.jj" />
+    </java>
+
+    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg7 examples/Lookahead/Example7.jj" />
+    </java>
+
+    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg8 examples/Lookahead/Example8.jj" />
+    </java>
+
+    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg9 examples/Lookahead/Example9.jj" />
+    </java>
+
+    <java fork="true" classname="javacc" classpath="bin/lib/javacc.jar">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg10 examples/Lookahead/Example10.jj" />
+    </java>
 
     <echo />
 
