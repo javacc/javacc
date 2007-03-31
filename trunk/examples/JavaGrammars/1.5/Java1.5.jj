@@ -1,9 +1,9 @@
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of the Sun Microsystems, Inc. nor the names of its
  *       contributors may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -1209,7 +1209,7 @@ void EnumBody():
 {
    "{"
    [ EnumConstant() ( LOOKAHEAD(2) "," EnumConstant() )* ]
-	[ "," ]
+    [ "," ]
    [ ";" ( ClassOrInterfaceBodyDeclaration(false) )* ]
    "}"
 }
@@ -1336,7 +1336,10 @@ void FormalParameters():
 void FormalParameter():
 {}
 {
-  Modifiers() Type() [ "..." ] VariableDeclaratorId()
+  // danson, added
+  //          [ "final" | Annotation() ]
+  // See Java Language Specification, 3rd Edition, section 8.4.1
+  Modifiers() [ "final" | Annotation() ] Type() [ "..." ] VariableDeclaratorId()
 }
 
 void ConstructorDeclaration():
@@ -1653,6 +1656,12 @@ void PrimaryPrefix():
 |
   "super" "." <IDENTIFIER>
 |
+   // danson, added this part to support a construct like:
+   //   Buffer.super.setDirty(true);
+   // See Java Language Specification, 3rd edition, section 15.11.2.
+   LOOKAHEAD( ClassOrInterfaceType() "." "super" "." <IDENTIFIER> )
+   ClassOrInterfaceType() "." "super" "." <IDENTIFIER>
+|
   "(" Expression() ")"
 |
   AllocationExpression()
@@ -1905,7 +1914,7 @@ void ForStatement():
 
   (
       LOOKAHEAD(Modifiers() Type() <IDENTIFIER> ":")
-      Modifiers() Type() <IDENTIFIER> ":" Expression() 
+      Modifiers() Type() <IDENTIFIER> ":" Expression()
     |
      [ ForInit() ] ";" [ Expression() ] ";" [ ForUpdate() ]
   )
