@@ -1,4 +1,5 @@
-<HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <!--
 
 Copyright (c) 2006, Sun Microsystems, Inc.
@@ -29,25 +30,24 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
 THE POSSIBILITY OF SUCH DAMAGE.
 
 -->
-<HEAD>
+<head>
  <title>JavaCC: LOOKAHEAD MiniTutorial</title>
 <!-- Changed by: Michael Van De Vanter, 14-Jan-2003 -->
-</HEAD>
-<BODY bgcolor="#FFFFFF" >
+</head>
+<body bgcolor="#FFFFFF" >
 
-<H1>JavaCC [tm]: LOOKAHEAD MiniTutorial</H1>
+<h1>JavaCC [tm]: LOOKAHEAD MiniTutorial</h1>
 
-<HR>
 
-<P>
-<STRONG>This minitutorial is under preparation.  This tutorial refers
+<p>
+<strong>This minitutorial is under preparation.  This tutorial refers
 to examples that are available in the Lookahead directory under the
 examples directory of the release.  Currently, this page is a copy of
 the contents of the README file within that directory.
-</STRONG>
-<P>
+</strong>
+</p>
 
-<PRE>
+<pre>
 This directory contains the tutorial on LOOKAHEAD along with all
 examples used in the tutorial.
 
@@ -762,7 +762,7 @@ above example can be instrumented with semantic LOOKAHEAD as follows:
 	{}
 	{
 	  "b"
-	  [ LOOKAHEAD( { getToken(1).kind == C && getToken(2).kind != C } )
+	  [ LOOKAHEAD( { getToken(1).kind == C &amp;&amp; getToken(2).kind != C } )
 	    &lt;C:"c"&gt;
 	  ]
 	}
@@ -844,8 +844,7 @@ TBD
 
 ----------------------------------------------------------------
 
-</PRE>
-<P>
+</pre>
 
-</BODY>
-</HTML>
+</body>
+</html>
