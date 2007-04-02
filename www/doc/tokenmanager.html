@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <!--
 
 Copyright (c) 2006, Sun Microsystems, Inc.
@@ -78,17 +79,19 @@ manager remains in the current state.
 <p>
 The regular expression kind specifies what to do when a regular
 expression has been successfully matched:
+</p>
 <dl>
-<dt>SKIP</dt> 
+<dt>SKIP</dt>
 <dd>Simply throw away the matched string (after executing any lexical action).</dd>
 <dt>MORE</dt>
 <dd>Continue (to whatever the next state is) taking the matched string along.  T
 his string will be a prefix of the new matched string.</dd>
-<dt>TOKEN</dt> 
+<dt>TOKEN</dt>
 <dd>Create a token using the matched string and send it to the parser (or any caller).</dd>
 <dt>SPECIAL_TOKEN</dt>
 <dd>Creates a special token that does not participate in parsing.  Already described earlier.</dd>
 </dl>
+<p>
 (The mechanism of accessing special tokens is at the end of this
 page)
 </p>
@@ -119,6 +122,7 @@ to be returned along with the next TOKEN that is matched.
 <hr />
 <p>
 The following variables are available for use within lexical actions:
+</p>
 <ol>
 <li>
 StringBuffer image (READ/WRITE):
@@ -246,18 +250,17 @@ this method of switching states also causes you to lose some of the
 semantic checking that JavaCC does when you use the standard syntax.
 </li>
 </ol>
-</p>
 <hr />
 <p>
 Lexical actions have access to a set of class level declarations.
 These declarations are introduced within the JavaCC file using the
 following syntax:
+</p>
 <pre>
 token_manager_decls ::=
   "TOKEN_MGR_DECLS" ":"
   "{" java_declarations_and_code "}"
 </pre>
-</p>
 <p>
 These declarations are accessible from all lexical actions.
 </p>
@@ -309,12 +312,14 @@ Special tokens are like tokens, except that they are permitted to
 appear anywhere in the input file (between any two tokens).  Special
 tokens can be specified in the grammar input file using the reserved
 word "SPECIAL_TOKEN" instead of "TOKEN" as in:
+</p>
 <pre>
 SPECIAL_TOKEN :
 {
   &lt;SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")&gt;
 }
 </pre>
+<p>
 Any regular expression defined to be a SPECIAL_TOKEN may be accessed
 in a special manner from user actions in the lexical and grammar
 specifications.  This allows these tokens to be recovered during
@@ -331,9 +336,11 @@ Details:
 </p>
 <p>
 The class Token now has an additional field:
+</p>
 <pre>
    Token specialToken;
 </pre>
+<p>
 This field points to the special token immediately prior to the
 current token (special or otherwise).  If the token immediately prior
 to the current token is a regular token (and not a special token),
@@ -349,6 +356,7 @@ field is set to null.
 This is clarified by the following example.  Suppose you wish to print
 all special tokens prior to the regular token "t" (but only those that
 are after the regular token before "t"):
+</p>
 <pre>
   if (t.specialToken == null) return;
     // The above statement determines that there are no special tokens
@@ -363,7 +371,7 @@ are after the regular token before "t"):
     tmp_t = tmp_t.next;
   }
     // The above loop now walks the special token chain in the forward
-    // direction printing them in the process.  
+    // direction printing them in the process.
 </pre>
 </body>
 </html>

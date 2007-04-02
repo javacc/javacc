@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <!--
 
 Copyright (c) 2006, Sun Microsystems, Inc.
@@ -49,11 +50,13 @@ it is assumed that the name of the generated parser is "TheParser".
 <p>
 For each non-terminal NT in the input grammar file, the following method
 is generated into the parser class:
+</p>
 <ul>
 <li>
 <strong><em>returntype</em> NT(<em>parameters</em>) throws ParseException;</strong>
 </li>
 </ul>
+<p>
 Here, <em>returntype</em> and <em>parameters</em> are what were specified
 in the JavaCC input file in the definition of NT (where NT occurred on the
 left-hand side).
@@ -71,7 +74,6 @@ it is possible to parse to any non-terminal by calling the  non-terminal's metho
 </p>
 
 <h3>API for Parser Actions</h3>
-<p>
 <ul>
   <li><strong> Token token;</strong>
 <br />
@@ -80,6 +82,7 @@ in parser actions. This is <em>exactly</em> the same as the token returned by
 <em>getToken(0)</em>.
   </li>
 </ul>
+<p>
 In addition, the two methods - <em><a href="#getToken">getToken(int i)</a></em> and
 <em><a href="#getNextToken">getNextToken()</a></em> can also be used in
 actions to traverse the token list.
@@ -91,11 +94,13 @@ must be made through the parser interface.  However, in certain situations -
 such as if you are not building a parser and building only the token manager -
 the token manager interface is useful.
 The token manager provides the following routine:
+</p>
 <ul>
 <li>
 <strong>Token getNextToken() throws ParseError;</strong>
 </li>
 </ul>
+<p>
 Each call to this method returns the next token in the input stream. This
 method throws a ParseError exception when there is a lexical error, i.e.,
 it could not find a match for any of the specified tokens from the input
@@ -103,7 +108,6 @@ stream.  The type Token is described later.
 </p>
 
 <h3>Constructors and Other Initialization Routines</h3>
-<p>
 <ul>
 <li>
 <strong>TheParser.TheParser(java.io.InputStream stream)</strong>
@@ -224,7 +228,6 @@ replaced by UCode_UCodeESC_CharStream.
  </ul>
 </li>
 </ul>
-</p>
 
 <h3>The Token Class</h3>
 <p>
@@ -236,6 +239,7 @@ described below also give access to objects of this type.
 </p>
 <p>
 Each Token object has the following fields:
+</p>
 <ul>
 <li>
 <strong>int kind;</strong>
@@ -301,11 +305,11 @@ appropriately.  The only constraint is that this method returns a <em>new</em>
 object of type Token (or a subclass of Token).
 </li>
 </ul>
-</p>
 
 <h3>Reading Tokens from the Input Stream</h3>
 <p>
 There are two methods available for this purpose:
+</p>
 <ul>
 <li>
 <strong><a name="getNextToken">Token TheParser.getNextToken() throws ParseError</a></strong>
@@ -335,13 +339,13 @@ For more details,
 <a href="lookahead.html">please see the minitutorial on using lookahead</a>.
 </li>
 </ul>
-</p>
 
 <h3>Working with Debugger Tracing</h3>
 <p>
 When you generate parsers with the options DEBUG_PARSER or DEBUG_LOOKAHEAD, these
 parsers produce a trace of their activity which is printed to the user console.
 You can insert calls to the following methods to control this tracing activity:
+</p>
 <ul>
 <li>
 <strong>void TheParser.enable_tracing()</strong>
@@ -350,6 +354,7 @@ You can insert calls to the following methods to control this tracing activity:
 <strong>void TheParser.disable_tracing()</strong>
 </li>
 </ul>
+<p>
 For convenience, these methods are available even when you build parsers without
 the debug options.  In this case, these methods are no-ops.  Hence you can
 permanently leave these methods in your code and they automatically kick in when
@@ -365,6 +370,7 @@ true, while in the case of the lexer, these facilities are always available.
 </p>
 <p>
 The parser contains the following method definition:
+</p>
 <ul>
 <li>
 <strong>protected void token_error() { ... }</strong>
@@ -393,15 +399,19 @@ token sequence may be more than just one token when a lookahead of more than
 1 is used.
 </li>
 </ul>
+<p>
 The lexer contains the following method definition:
+</p>
 <ul>
 <li>
 <strong>protected void LexicalError() { ... }</strong>
 </li>
 </ul>
+<p>
 To customize error reporting by the lexer, the lexer class must be subclassed
 and this method redefined in the subclass.  To help with creating your
 error reporting scheme, the following variables are available:
+</p>
 <ul>
 <li>
 <strong>protected int error_line, error_column;</strong>
@@ -420,7 +430,6 @@ match was performed.
 The offending character.
 </li>
 </ul>
-</p>
 
 <hr />
 
@@ -440,7 +449,8 @@ the <code>jjtree</code> field.</p>
 until they can be added to their parent node.  The <code>jjtree</code>
 state object provides methods for you to manipulate the contents of
 the stack in your actions if the basic JJTree mechanisms are not
-sufficient.</p>
+sufficient.
+</p>
 
 <dl>
       <dt><strong><code>void reset()</code></strong></dt>
@@ -484,9 +494,11 @@ sufficient.</p>
 
 <h2>The <strong><code><a name="jjtree-node">Node</a></code></strong> interface</h2>
 
-<p>All AST nodes must implement this interface.  It provides basic
+<p>
+All AST nodes must implement this interface.  It provides basic
 machinery for constructing the parent and child relationships between
-nodes.</p>
+nodes.
+</p>
 
 <dl>
       <dt><strong><code>public void jjtOpen();</code></strong></dt>

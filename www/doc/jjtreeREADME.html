@@ -1,4 +1,5 @@
-<HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <!--
 
 Copyright (c) 2006, Sun Microsystems, Inc.
@@ -29,15 +30,15 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
 THE POSSIBILITY OF SUCH DAMAGE.
 
 -->
-<HEAD>
+<head>
  <title>JavaCC: JJTree README</title>
 <!-- Changed by: Michael Van De Vanter, 14-Jan-2003 -->
-</HEAD>
-<BODY bgcolor="#FFFFFF" >
+</head>
+<body bgcolor="#FFFFFF" >
 
-<H1>JavaCC [tm]: README for JJTreeExamples</H1>
+<h1>JavaCC [tm]: README for JJTreeExamples</h1>
 
-<PRE>
+<pre>
 JJTreeExamples
 
 This directory contains some simple JJTree input files intended to
@@ -92,7 +93,7 @@ trane% jjtree eg1.jjt
 (type "jjtree" with no arguments for help)
 Reading from file eg1.jjt . . .
 Annotated grammar generated successfully in eg1.jj
-trane% 
+trane%
 
 JJTree has now generated the JavaCC parser source, as well as Java
 source for the parse tree node building classes.  Running JavaCC in
@@ -107,7 +108,7 @@ File "ParseException.java" does not exist.  Will create one.
 File "Token.java" does not exist.  Will create one.
 File "ASCII_CharStream.java" does not exist.  Will create one.
 Parser generated successfully.
-trane% 
+trane%
 
 Compile and run the Java program as usual.  The expression is read from the
 standard input (you type in "(a + b) * (c + 1);"):
@@ -139,7 +140,7 @@ Start
         UnaryExpression
          Integer
 Thank you.
-trane% 
+trane%
 
 eg2.jjt
 -------
@@ -147,7 +148,7 @@ eg2.jjt
 This is a modification of the first example to illustrate how the
 parse tree can be customized:
 
-trane% jjtree eg2.jjt 
+trane% jjtree eg2.jjt
 <<< Version and copyright info>>>
 (type "jjtree" with no arguments for help)
 Reading from file eg2.jjt . . .
@@ -158,7 +159,7 @@ File "ASTAdd.java" does not exist.  Will create one.
 File "ASTMult.java" does not exist.  Will create one.
 File "ASTInteger.java" does not exist.  Will create one.
 Annotated grammar generated successfully in eg2.jj
-trane% 
+trane%
 trane% javacc eg2.jj
 <<< Version and copyright info>>>
 (type "javacc" with no arguments for help)
@@ -168,7 +169,7 @@ File "ParseException.java" does not exist.  Will create one.
 File "Token.java" does not exist.  Will create one.
 File "ASCII_CharStream.java" does not exist.  Will create one.
 Parser generated successfully.
-trane% 
+trane%
 trane% javac eg2.java
 trane% java eg2
 Reading from standard input...
@@ -182,7 +183,7 @@ Start
    Identifier: c
    Integer
 Thank you.
-trane% 
+trane%
 
 Look at eg2.jjt to see how node annotations can be used to restructure
 the parse tree, and at ASTMyID.java to see how you can write your own
@@ -201,8 +202,6 @@ One thing to take care in this case is that you must run jjtree on
 a clean directory (that does not contain previously generated files).
 For example, the file SimpleNode.java is different when the option
 VISITOR is set to true.
-</PRE>
-<P>
-
-</BODY>
-</HTML>
+</pre>
+</body>
+</html>
