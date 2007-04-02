@@ -1,4 +1,4 @@
-<HTML>
+<html>
 <!--
 
 Copyright (c) 2006, Sun Microsystems, Inc.
@@ -29,130 +29,100 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
 THE POSSIBILITY OF SUCH DAMAGE.
 
 -->
-<HEAD>
+<head>
  <title>JavaCC API Documentation</title>
 <!-- Changed by: Michael Van De Vanter, 14-Jan-2003 -->
-</HEAD>
-<BODY bgcolor="#FFFFFF" >
+</head>
+<body bgcolor="#FFFFFF" >
 
-<H1>JavaCC [tm]: API Routines</H1>
+<h1>JavaCC [tm]: API Routines</h1>
 
+<p>
 This web page is a comprehensive list of all classes, methods,
 and variables available for use by a JavaCC [tm] user.  These classes,
 methods, and variables are typically used from the actions that
 are embedded in a JavaCC grammar.  In the sample code used below,
 it is assumed that the name of the generated parser is "TheParser".
+</p>
 
-<P>
-<HR>
-<P>
-<CENTER>
-<H3>Non-Terminals in the Input Grammar</H3>
-</CENTER>
-<P>
-<HR>
-<P>
-
+<h3>Non-Terminals in the Input Grammar</h3>
+<p>
 For each non-terminal NT in the input grammar file, the following method
 is generated into the parser class:
-<P>
-<UL>
-<LI>
-<STRONG><EM>returntype</EM> NT(<EM>parameters</EM>) throws ParseException;</STRONG>
-</UL>
-
-Here, <EM>returntype</EM> and <EM>parameters</EM> are what were specified
+<ul>
+<li>
+<strong><em>returntype</em> NT(<em>parameters</em>) throws ParseException;</strong>
+</li>
+</ul>
+Here, <em>returntype</em> and <em>parameters</em> are what were specified
 in the JavaCC input file in the definition of NT (where NT occurred on the
 left-hand side).
-<P>
+</p>
+<p>
 When this method is called, the input stream is parsed to match this non-terminal.
 On a successful parse, this method returns normally.  On detection of a parse
 error, an error message is displayed and the method returns by throwing an exception
 of the type ParseException.
-<P>
-<EM>Note that all non-terminals in a JavaCC input grammar have equal status;
+</p>
+<p>
+<em>Note that all non-terminals in a JavaCC input grammar have equal status;
 it is possible to parse to any non-terminal by calling the  non-terminal's method.
-</EM>
+</em>
+</p>
 
-<P>
-<HR>
-<P>
-<CENTER>
-<H3>API for Parser Actions</H3>
-</CENTER>
-<P>
-<HR>
-<P>
-
-<UL>
-  <LI><STRONG> Token token;</STRONG>
-<BR>
+<h3>API for Parser Actions</h3>
+<p>
+<ul>
+  <li><strong> Token token;</strong>
+<br />
 This variable holds the last token consumed by the parser and can be used
-in parser actions. This is <EM>exactly</EM> the same as the token returned by
-<EM>getToken(0)</EM>.
-
-</UL>
-
-In addition, the two methods - <EM><A href="#getToken">getToken(int i)</A></EM> and
-<EM><A href="#getNextToken">getNextToken()</A></EM> can also be used in
+in parser actions. This is <em>exactly</em> the same as the token returned by
+<em>getToken(0)</em>.
+  </li>
+</ul>
+In addition, the two methods - <em><a href="#getToken">getToken(int i)</a></em> and
+<em><a href="#getNextToken">getNextToken()</a></em> can also be used in
 actions to traverse the token list.
-
-<P>
-<HR>
-<P>
-<CENTER>
-<H3>The Token Manager Interface</H3>
-</CENTER>
-<P>
-<HR>
-<P>
-
+</p>
+<h3>The Token Manager Interface</h3>
+<p>
 Typically, the token manager interface is not to be used.  Instead all access
 must be made through the parser interface.  However, in certain situations -
 such as if you are not building a parser and building only the token manager -
 the token manager interface is useful.
 The token manager provides the following routine:
-<UL>
-<LI>
-<STRONG>Token getNextToken() throws ParseError;</STRONG>
-</UL>
-
+<ul>
+<li>
+<strong>Token getNextToken() throws ParseError;</strong>
+</li>
+</ul>
 Each call to this method returns the next token in the input stream. This
 method throws a ParseError exception when there is a lexical error, i.e.,
 it could not find a match for any of the specified tokens from the input
 stream.  The type Token is described later.
+</p>
 
-<P>
-<HR>
-<P>
-<CENTER>
-<H3>Constructors and Other Initialization Routines</H3>
-</CENTER>
-<P>
-<HR>
-<P>
-
-<UL>
-<LI>
-<STRONG>TheParser.TheParser(java.io.InputStream stream)</STRONG>
-<BR>
+<h3>Constructors and Other Initialization Routines</h3>
+<p>
+<ul>
+<li>
+<strong>TheParser.TheParser(java.io.InputStream stream)</strong>
+<br />
 This creates a new parser object, which in turn creates a new token manager object
 that reads its tokens from "stream".  This constructor is available only
 when both the options USER_TOKEN_MANAGER and USER_CHAR_STREAM are false.
 If the option STATIC is true, this constructor (along with other constructors)
 can be called exactly once to create a single parser object.
-
-<P>
-<LI>
-<STRONG>TheParser.TheParser(CharStream stream)</STRONG>
-<BR>
+</li>
+<li>
+<strong>TheParser.TheParser(CharStream stream)</strong>
+<br />
 Similar to the previous constructor, except that this one is available only
 when the option USER_TOKEN_MANAGER is false and USER_CHAR_STREAM is true.
-
-<P>
-<LI>
-<STRONG>void TheParser.ReInit(java.io.InputStream stream)</STRONG>
-<BR>
+</li>
+<li>
+<strong>void TheParser.ReInit(java.io.InputStream stream)</strong>
+<br />
 This reinitializes an existing parser object.  In addition, it also reinitializes
 the existing token manager object that corresponds to this parser object.  The result
 is a parser object with the exact same functionality as one that was created
@@ -162,156 +132,154 @@ when both the options USER_TOKEN_MANAGER and USER_CHAR_STREAM are false.
 If the option STATIC is true, this (along with the other ReInit methods)
 is the only way to restart a parse operation
 for there is only one parser and all one can do is reinitialize it.
-
-<P>
-<LI>
-<STRONG>void TheParser.ReInit(CharStream stream)</STRONG>
-<BR>
+</li>
+<li>
+<strong>void TheParser.ReInit(CharStream stream)</strong>
+<br />
 Similar to the previous method, except that this one is available only
 when the option USER_TOKEN_MANAGER is false and USER_CHAR_STREAM is true.
-
-<P>
-<LI>
-<STRONG>TheParser(TheParserTokenManager tm)</STRONG>
+</li>
+<li>
+<strong>TheParser(TheParserTokenManager tm)</strong>
 This creates a new parser object which uses an already created token manager object "tm" as
 its token manager.  This constructor is only available if option USER_TOKEN_MANAGER is
 false.  If the option STATIC is true, this constructor (along with other constructors)
 can be called exactly once to create a single parser object.
-
-<P>
-<LI>
-<STRONG>TheParser(TokenManager tm)</STRONG>
-<BR>
+</li>
+<li>
+<strong>TheParser(TokenManager tm)</strong>
+<br />
 Similar to the previous constructor, except that this one is available only
 when the option USER_TOKEN_MANAGER is true.
-
-<P>
-<LI>
-<STRONG>void TheParser.ReInit(TheParserTokenManager tm)</STRONG>
-<BR>
+</li>
+<li>
+<strong>void TheParser.ReInit(TheParserTokenManager tm)</strong>
+<br />
 This reinitializes an existing parser object with the token manager object "tm" as its
 new token manager.  This method is only available if option USER_TOKEN_MANAGER is
 false.  If the option STATIC is true, this (along with the other ReInit methods)
 is the only way to restart a parse operation
 for there is only one parser and all one can do is reinitialize it.
-
-<P>
-<LI>
-<STRONG>void TheParser.ReInit(TokenManager tm)</STRONG>
-<BR>
+</li>
+<li>
+<strong>void TheParser.ReInit(TokenManager tm)</strong>
+<br />
 Similar to the previous method, except that this one is available only
 when the option USER_TOKEN_MANAGER is true.
-
-<P>
-<LI>
-<STRONG>TheParserTokenManager.TheParserTokenManager(CharStream stream)</STRONG>
-<BR>
+</li>
+<li>
+<strong>TheParserTokenManager.TheParserTokenManager(CharStream stream)</strong>
+<br />
 Creates a new token manager object initialized to read input from "stream".  When
 the option STATIC is true, this constructor may be called only once.
 This is available only when USER_TOKEN_MANAGER is false and USER_CHAR_STREAM
 is true.  When USER_TOKEN_MANAGER is false and USER_CHAR_STREAM is false (the default situation),
 a constructor similar to the one above is available with the type CharStream
 replaced as follows:
-<UL>
-<LI>
+ <ul>
+  <li>
 When JAVA_UNICODE_ESCAPE is false and UNICODE_INPUT is false, CharStream is
 replaced by ASCII_CharStream.
-<LI>
+  </li>
+  <li>
 When JAVA_UNICODE_ESCAPE is false and UNICODE_INPUT is true, CharStream is
 replaced by UCode_CharStream.
-<LI>
+  </li>
+  <li>
 When JAVA_UNICODE_ESCAPE is true and UNICODE_INPUT is false, CharStream is
 replaced by ASCII_UCodeESC_CharStream.
-<LI>
+  </li>
+  <li>
 When JAVA_UNICODE_ESCAPE is true and UNICODE_INPUT is true, CharStream is
 replaced by UCode_UCodeESC_CharStream.
-</UL>
-
-<P>
-<LI>
-<STRONG>void TheParserTokenManager.ReInit(CharStream stream)</STRONG>
-<BR>
+  </li>
+ </ul>
+</li>
+<li>
+<strong>void TheParserTokenManager.ReInit(CharStream stream)</strong>
+<br />
 Reinitializes the current token manager object to read input from "stream".  When
 the option STATIC is true, this is the only way to restart a token manager operation.
 This is available only when USER_TOKEN_MANAGER is false and USER_CHAR_STREAM
 is true.  When USER_TOKEN_MANAGER is false and USER_CHAR_STREAM is false (the default situation),
 a constructor similar to the one above is available with the type CharStream
 replaced as follows:
-<UL>
-<LI>
+ <ul>
+  <li>
 When JAVA_UNICODE_ESCAPE is false and UNICODE_INPUT is false, CharStream is
 replaced by ASCII_CharStream.
-<LI>
+  </li>
+  <li>
 When JAVA_UNICODE_ESCAPE is false and UNICODE_INPUT is true, CharStream is
 replaced by UCode_CharStream.
-<LI>
+  </li>
+  <li>
 When JAVA_UNICODE_ESCAPE is true and UNICODE_INPUT is false, CharStream is
 replaced by ASCII_UCodeESC_CharStream.
-<LI>
+  </li>
+  <li>
 When JAVA_UNICODE_ESCAPE is true and UNICODE_INPUT is true, CharStream is
 replaced by UCode_UCodeESC_CharStream.
-</UL>
-</UL>
+  </li>
+ </ul>
+</li>
+</ul>
+</p>
 
-<P>
-<HR>
-<P>
-<CENTER>
-<H3>The Token Class</H3>
-</CENTER>
-<P>
-<HR>
-<P>
-
+<h3>The Token Class</h3>
+<p>
 The Token class is the type of token objects that are created by the token manager
 after a successful scanning of the token stream.  These token objects are then
 passed to the parser and are accessible to the actions in a JavaCC grammar usually
 by grabbing the return value of a token.  The methods getToken and getNextToken
 described below also give access to objects of this type.
-<P>
+</p>
+<p>
 Each Token object has the following fields:
-<UL>
-<LI>
-<STRONG>int kind;</STRONG>
-<BR>
+<ul>
+<li>
+<strong>int kind;</strong>
+<br />
 This is the index for this kind of token in the internal representation scheme
 of JavaCC.  When tokens in the JavaCC input file are given labels, these labels
 are used to generate "int" constants that can be used in actions.
 The value 0 is always used to represent the predefined token &lt;EOF&gt;.  A
 constant "EOF" is generated for convenience in the ...Constants file.
-<P>
-<LI>
-<STRONG>int beginLine, beginColumn, endLine, endColumn;</STRONG>
-<BR>
+</li>
+<li>
+<strong>int beginLine, beginColumn, endLine, endColumn;</strong>
+<br />
 These indicate the beginning and ending positions of the token as it appeared
 in the input stream.
-<P>
-<LI>
-<STRONG>String image;</STRONG>
-<BR>
+</li>
+<li>
+<strong>String image;</strong>
+<br />
 This represents the image of the token as it appeared in the input stream.
-<P>
-<LI>
-<STRONG>Token next;</STRONG>
-<BR>
+</li>
+<li>
+<strong>Token next;</strong>
+<br />
 A reference to the next regular (non-special) token from the input
 stream.  If this is the last token from the input stream, or if the
 token manager has not read tokens beyond this one, this field is
 set to null.
-<P>
+<br />
+<br />
 The description in the above paragraph holds only if this token is also a regular
 token.  Otherwise, see below for a description of the contents of
 this field.
-<P>
+<br />
+<br />
 Note: There are two kinds of tokens - regular and special.  Regular tokens are
 the normal tokens that are fed to the parser.  Special tokens are other useful
 tokens (like comments) that are not discarded (like white space).  For more
 information on the different kinds of tokens
 <a href="tokenmanager.html">please see the minitutorial on the token manager</a>.
-<P>
-<LI>
-<STRONG>Token specialToken;</STRONG>
-<BR>
+</li>
+<li>
+<strong>Token specialToken;</strong>
+<br />
 This field is used to access special tokens that occur prior to this
 token, but after the immediately preceding regular (non-special) token.
 If there are no such special tokens, this field is set to null.
@@ -322,42 +290,36 @@ until the first special token (whose specialToken field is null).
 The next fields of special tokens refer to other special tokens that
 immediately follow it (without an intervening regular token).  If there
 is no such token, this field is null.
-<P>
-<LI>
-<STRONG>static final Token newToken(int ofKind);</STRONG>
-<BR>
+</li>
+<li>
+<strong>static final Token newToken(int ofKind);</strong>
+<br />
 Returns a new token object as its default behavior.  If you wish to
 perform special actions when a token is constructed or create subclasses
 of class Token and instantiate them instead, you can redefine this method
-appropriately.  The only constraint is that this method returns a <EM>new</EM>
+appropriately.  The only constraint is that this method returns a <em>new</em>
 object of type Token (or a subclass of Token).
-</UL>
+</li>
+</ul>
+</p>
 
-<P>
-<HR>
-<P>
-<CENTER>
-<H3>Reading Tokens from the Input Stream</H3>
-</CENTER>
-<P>
-<HR>
-<P>
-
+<h3>Reading Tokens from the Input Stream</h3>
+<p>
 There are two methods available for this purpose:
-<UL>
-<LI>
-<STRONG><A name="getNextToken">Token TheParser.getNextToken() throws ParseError</a></STRONG>
-<BR>
+<ul>
+<li>
+<strong><a name="getNextToken">Token TheParser.getNextToken() throws ParseError</a></strong>
+<br />
 This method returns the next available token in the input stream and moves
 the token pointer one step in the input stream (i.e., this changes the state
 of the input stream).  If there are no more tokens available in the input
 stream, the exception ParseError is thrown.  Care must be taken when calling
 this method since it can interfere with the parser's knowledge of the state
 of the input stream, current token, etc.
-<P>
-<LI>
-<STRONG><A name="getToken">Token TheParser.getToken(int index) throws ParseError</a></STRONG>
-<BR>
+</li>
+<li>
+<strong><a name="getToken">Token TheParser.getToken(int index) throws ParseError</a></strong>
+<br />
 This method returns the index-th token from the current token ahead in the
 token stream.  If index is 0, it returns the current token (the last token
 returned by getNextToken or consumed by the parser); if index is 1, it returns
@@ -371,110 +333,98 @@ is called during a lookahead determination process, the current token is tempora
 adjusted to be the token currently being inspected by the lookahead process.
 For more details,
 <a href="lookahead.html">please see the minitutorial on using lookahead</a>.
-</UL>
+</li>
+</ul>
+</p>
 
-<P>
-<HR>
-<P>
-<CENTER>
-<H3>Working with Debugger Tracing</H3>
-</CENTER>
-<P>
-<HR>
-<P>
-
+<h3>Working with Debugger Tracing</h3>
+<p>
 When you generate parsers with the options DEBUG_PARSER or DEBUG_LOOKAHEAD, these
 parsers produce a trace of their activity which is printed to the user console.
 You can insert calls to the following methods to control this tracing activity:
-<P>
-<UL>
-<LI>
-<STRONG>void TheParser.enable_tracing()</STRONG>
-<P>
-<LI>
-<STRONG>void TheParser.disable_tracing()</STRONG>
-<P>
-</UL>
-<P>
+<ul>
+<li>
+<strong>void TheParser.enable_tracing()</strong>
+</li>
+<li>
+<strong>void TheParser.disable_tracing()</strong>
+</li>
+</ul>
 For convenience, these methods are available even when you build parsers without
 the debug options.  In this case, these methods are no-ops.  Hence you can
 permanently leave these methods in your code and they automatically kick in when
 you use the debug options.
-<P>
-<HR>
-<P>
-<CENTER>
-<H3>Customizing Error Messages</H3>
-</CENTER>
-<P>
-<HR>
-<P>
+</p>
+
+<h3>Customizing Error Messages</h3>
+<p>
 To help the user in customizing error messages generated by the parser and lexer, the
 user is offered the facilities described in this section.  In the case of the
 parser, these facilities are only available if the option ERROR_REPORTING is
 true, while in the case of the lexer, these facilities are always available.
-<P>
+</p>
+<p>
 The parser contains the following method definition:
-<UL>
-<LI>
-<STRONG>protected void token_error() { ... }</STRONG>
-</UL>
-<P>
+<ul>
+<li>
+<strong>protected void token_error() { ... }</strong>
+</li>
+</ul>
 To customize error reporting by the parser, the parser class must be subclassed
 and this method redefined in the subclass.  To help with creating your
 error reporting scheme, the following variables are available:
-<P>
-<UL>
-<LI>
-<STRONG>protected int error_line, error_column;</STRONG>
-<BR>
+<ul>
+<li>
+<strong>protected int error_line, error_column;</strong>
+<br />
 The line and column where the error was detected.
-<P>
-<LI>
-<STRONG>protected String error_string;</STRONG>
-<BR>
+</li>
+<li>
+<strong>protected String error_string;</strong>
+<br />
 The image of the offending token or set of tokens.  When a lookahead of more
 than 1 is used, more than one token may be present here.
-<P>
-<LI>
-<STRONG>protected String[] expected_tokens;</STRONG>
-<BR>
+</li>
+<li>
+<strong>protected String[] expected_tokens;</strong>
+<br />
 An array of images of legitimate token sequences.  Here again, each legitimate
 token sequence may be more than just one token when a lookahead of more than
 1 is used.
-</UL>
-<P>
+</li>
+</ul>
 The lexer contains the following method definition:
-<UL>
-<LI>
-<STRONG>protected void LexicalError() { ... }</STRONG>
-</UL>
-<P>
+<ul>
+<li>
+<strong>protected void LexicalError() { ... }</strong>
+</li>
+</ul>
 To customize error reporting by the lexer, the lexer class must be subclassed
 and this method redefined in the subclass.  To help with creating your
 error reporting scheme, the following variables are available:
-<P>
-<UL>
-<LI>
-<STRONG>protected int error_line, error_column;</STRONG>
-<BR>
+<ul>
+<li>
+<strong>protected int error_line, error_column;</strong>
+<br />
 The line and column where the error was detected.
-<P>
-<LI>
-<STRONG>protected String error_after;</STRONG>
-<BR>
+</li>
+<li>
+<strong>protected String error_after;</strong>
+<br />
 The partial string that has been read since the last successful token
 match was performed.
-<P>
-<LI>
-<STRONG>protected char curChar;</STRONG>
-<BR>
+</li>
+<li>
+<strong>protected char curChar;</strong>
+<br />
 The offending character.
-</UL>
+</li>
+</ul>
+</p>
 
-<hr>
+<hr />
+
 <h1>JavaCC [tm]: JJTree</h1>
-<hr>
 
 <p>JJTree has two APIs: it adds some <a href="#jjtree-state">parser
 methods</a>; and it requires all node objects to implement the <a
@@ -494,7 +444,7 @@ sufficient.</p>
 
 <dl>
       <dt><strong><code>void reset()</code></strong></dt>
-      
+
       <dd>Call this to reinitialize the node stack.  All nodes
       currently on the stack are thrown away.  Don't call this from
       within a node scope, or terrible things will surely happen.</dd>
@@ -530,7 +480,7 @@ sufficient.</p>
       <dd>Returns the node currently on the top of the stack.</dd>
     </dl>
 
-<hr>
+<hr />
 
 <h2>The <strong><code><a name="jjtree-node">Node</a></code></strong> interface</h2>
 
@@ -550,7 +500,7 @@ nodes.</p>
       <dd>This method is called after all the child nodes have been
 	added.</dd>
 
-      <dt><strong><code>public void jjtSetParent(Node n);</code><br><code>public Node jjtGetParent();</code></strong></dt>
+      <dt><strong><code>public void jjtSetParent(Node n);</code><br /><code>public Node jjtGetParent();</code></strong></dt>
 
       <dd>This pair of methods is used to inform the node of its
       parent.</dd>
@@ -571,5 +521,5 @@ nodes.</p>
 
 </dl>
 
-</BODY>
-</HTML>
+</body>
+</html>
