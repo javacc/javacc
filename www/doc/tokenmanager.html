@@ -1,4 +1,4 @@
-<HTML>
+<html>
 <!--
 
 Copyright (c) 2006, Sun Microsystems, Inc.
@@ -29,15 +29,15 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
 THE POSSIBILITY OF SUCH DAMAGE.
 
 -->
-<HEAD>
+<head>
  <title>JavaCC: TokenManager MiniTutorial</title>
 <!-- Changed by: Michael Van De Vanter, 14-Jan-2003 -->
-</HEAD>
-<BODY bgcolor="#FFFFFF" >
+</head>
+<body bgcolor="#FFFFFF" >
 
-<H1>JavaCC [tm]: TokenManager MiniTutorial</H1>
+<h1>JavaCC [tm]: TokenManager MiniTutorial</h1>
 
-<PRE>
+<p>
 The JavaCC [tm] lexical specification is organized into a set of "lexical
 states".  Each lexical state is named with an identifier.  There is a
 standard lexical state called DEFAULT.  The generated token manager is
@@ -45,16 +45,19 @@ at any moment in one of these lexical states.  When the token manager
 is initialized, it starts off in the DEFAULT state, by default.  The
 starting lexical state can also be specified as a parameter while
 constructing a token manager object.
-
+</p>
+<p>
 Each lexical state contains an ordered list of regular expressions;
 the order is derived from the order of occurrence in the input file.
 There are four kinds of regular expressions: SKIP, MORE, TOKEN, and
 SPECIAL_TOKEN.
-
+</p>
+<p>
 All regular expressions that occur as expansion units in the grammar
 are considered to be in the DEFAULT lexical state and their order of
 occurrence is determined by their position in the grammar file.
-
+</p>
+<p>
 A token is matched as follows:  All regular expressions in the current
 lexical state are considered as potential match candidates.  The
 token manager consumes the maximum number of characters from the input
@@ -63,56 +66,64 @@ the token manager prefers the longest possible match.  If there are
 multiple longest matches (of the same length), the regular expression
 that is matched is the one with the earliest order of occurrence in
 the grammar file.
-
+</p>
+<p>
 As mentioned above, the token manager is in exactly one state at any
 moment.  At this moment, the token manager only considers the regular
 expressions defined in this state for matching purposes. After a match,
 one can specify an action to be executed as well as a new lexical
 state to move to.  If a new lexical state is not specified, the token
 manager remains in the current state.
-
+</p>
+<p>
 The regular expression kind specifies what to do when a regular
 expression has been successfully matched:
-
-SKIP: Simply throw away the matched string (after executing any
-      lexical action).
-MORE: Continue (to whatever the next state is) taking the matched
-      string along.  This string will be a prefix of the new matched
-      string.
-TOKEN: Create a token using the matched string and send it to the
-       parser (or any caller).
-SPECIAL_TOKEN: Creates a special token that does not participate in
-               parsing.  Already described earlier.
-
+<dl>
+<dt>SKIP</dt> 
+<dd>Simply throw away the matched string (after executing any lexical action).</dd>
+<dt>MORE</dt>
+<dd>Continue (to whatever the next state is) taking the matched string along.  T
+his string will be a prefix of the new matched string.</dd>
+<dt>TOKEN</dt> 
+<dd>Create a token using the matched string and send it to the parser (or any caller).</dd>
+<dt>SPECIAL_TOKEN</dt>
+<dd>Creates a special token that does not participate in parsing.  Already described earlier.</dd>
+</dl>
 (The mechanism of accessing special tokens is at the end of this
 page)
-
+</p>
+<p>
 Whenever the end of file &lt;EOF&gt; is detected, it causes the creation of
 an &lt;EOF&gt; token (regardless of the current state of the lexical
 analyzer).  However, if an &lt;EOF&gt; is detected in the middle of a match
 for a regular expression, or immediately after a MORE regular
 expression has been matched, an error is reported.
-
+</p>
+<p>
 After the regular expression is matched, the lexical action is
 executed.  All the variables (and methods) declared in the
 TOKEN_MGR_DECLS region (see below) are available here for use. In
 addition, the variables and methods listed below are also available
 for use.
-
+</p>
+<p>
 Immediately after this, the token manager changes state to that
 specified (if any).
-
+</p>
+<p>
 After that the action specified by the kind of the regular expression
 is taken (SKIP, MORE, ... ). If the kind is TOKEN, the matched token
 is returned.  If the kind is SPECIAL_TOKEN, the matched token is saved
 to be returned along with the next TOKEN that is matched.
-
--------------------------------------------------------------------
-
+</p>
+<hr />
+<p>
 The following variables are available for use within lexical actions:
-
-1. StringBuffer image (READ/WRITE):
-
+<ol>
+<li>
+StringBuffer image (READ/WRITE):
+<br />
+<br />
 "image" (different from the "image" field of the matched token) is a
 StringBuffer variable that contains all the characters that have been
 matched since the last SKIP, TOKEN, or SPECIAL_TOKEN.  You are free
@@ -124,9 +135,10 @@ subsequent matches (if the current match is a MORE).  The content of
 of the matched token.  If you wish this to happen, you must explicitly
 assign it in a lexical action of a TOKEN or SPECIAL_TOKEN regular
 expression.
-
+<br />
+<br />
 Example:
-
+<pre>
 &lt;DEFAULT&gt; MORE : { "a" : S1 }
 
 &lt;S1&gt; MORE :
@@ -142,36 +154,43 @@ Example:
   "cd" { x = image; } : DEFAULT
        ^3
 }
-
+</pre>
 In the above example, the value of "image" at the 3 points marked by
 ^1, ^2, and ^3 are:
-
+<pre>
 At ^1: "ab"
 At ^2: "aB"
 At ^3: "aBcd"
-
-2. int lengthOfMatch (READ ONLY):
-
+</pre>
+</li>
+<li> int lengthOfMatch (READ ONLY):
+<br />
+<br />
 This is the length of the current match (is not cumulative over MORE's).
 See example below.  You should not modify this variable.
-
+<br />
+<br />
 Example:
-
+<br />
+<br />
 Using the same example as above, the values of "lengthOfMatch" are:
-
+<pre>
 At ^1: 1 (the size of "b")
 At ^2: 1 (does not change due to lexical actions)
 At ^3: 2 (the size of "cd")
-
-3. int curLexState (READ ONLY):
-
+</pre>
+</li>
+<li> int curLexState (READ ONLY):
+<br />
+<br />
 This is the index of the current lexical state.  You should not modify
 this variable.  Integer constants whose names are those of the lexical
 state are generated into the ...Constants file, so you can refer to
 lexical states without worrying about their actual index value.
-
-4. inputStream (READ ONLY):
-
+</li>
+<li> inputStream (READ ONLY):
+<br />
+<br />
 This is an input stream of the appropriate type (one of
 ASCII_CharStream, ASCII_UCodeESC_CharStream, UCode_CharStream, or
 UCode_UCodeESC_CharStream depending on the values of options
@@ -180,9 +199,10 @@ the last character consumed for this match.  Methods of inputStream
 can be called.  For example, getEndLine and getEndColumn can be called
 to get the line and column number information for the current match.
 inputStream may not be modified.
-
-5. Token matchedToken (READ/WRITE):
-
+</li>
+<li> Token matchedToken (READ/WRITE):
+<br />
+<br />
 This variable may be used only in actions associated with TOKEN and
 SPECIAL_TOKEN regular expressions.  This is set to be the token that
 will get returned to the parser.  You may change this variable and
@@ -190,23 +210,26 @@ thereby cause the changed token to be returned to the parser instead
 of the original one.  It is here that you can assign the value of
 variable "image" to "matchedToken.image".  Typically that's how your
 changes to "image" has effect outside the lexical actions.
-
+<br />
+<br />
 Example:
-
+<br />
+<br />
 If we modify the last regular expression specification of the
 above example to:
-
+<pre>
 &lt;S2&gt; TOKEN :
 {
   "cd" { matchedToken.image = image.toString(); } : DEFAULT
 }
-
+</pre>
 Then the token returned to the parser will have its ".image" field
 set to "aBcd".  If this assignment was not performed, then the
 ".image" field will remain as "abcd".
-
-6. void SwitchTo(int):
-
+</li>
+<li> void SwitchTo(int):
+<br />
+<br />
 Calling this method switches you to the specified lexical state.  This
 method may be called from parser actions also (in addition to being
 called from lexical actions).  However, care must be taken when using
@@ -221,25 +244,26 @@ explicit state change specified.  In general, calling this method
 should be resorted to only when you cannot do it any other way.  Using
 this method of switching states also causes you to lose some of the
 semantic checking that JavaCC does when you use the standard syntax.
-
--------------------------------------------------------------------
-
+</li>
+</ol>
+</p>
+<hr />
+<p>
 Lexical actions have access to a set of class level declarations.
 These declarations are introduced within the JavaCC file using the
 following syntax:
-
+<pre>
 token_manager_decls ::=
   "TOKEN_MGR_DECLS" ":"
   "{" java_declarations_and_code "}"
-
+</pre>
+</p>
+<p>
 These declarations are accessible from all lexical actions.
-
-
-EXAMPLES
---------
-
-Example 1: Comments
-
+</p>
+<h2>Examples</h2>
+<h3>Example 1: Comments</h3>
+<pre>
 SKIP :
 {
   "/*" : WithinComment
@@ -254,11 +278,10 @@ SKIP :
 {
   &lt;~[]&gt;
 }
+</pre>
 
-
-Example 2: String Literals with actions to print the length of the
-string:
-
+<h3>Example 2: String Literals with actions to print the length of the string</h3>
+<pre>
 TOKEN_MGR_DECLS :
 {
   int stringSize;
@@ -278,37 +301,39 @@ MORE :
 {
   &lt;~["\n","\r"]&gt; {stringSize++;}
 }
+</pre>
 
-
-
-HOW SPECIAL TOKENS ARE SENT TO THE PARSER:
-
+<h2>How special tokens are sent to the parser</h2>
+<p>
 Special tokens are like tokens, except that they are permitted to
 appear anywhere in the input file (between any two tokens).  Special
 tokens can be specified in the grammar input file using the reserved
 word "SPECIAL_TOKEN" instead of "TOKEN" as in:
-
+<pre>
 SPECIAL_TOKEN :
 {
   &lt;SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")&gt;
 }
-
+</pre>
 Any regular expression defined to be a SPECIAL_TOKEN may be accessed
 in a special manner from user actions in the lexical and grammar
 specifications.  This allows these tokens to be recovered during
 parsing while at the same time these tokens do not participate in the
 parsing.
-
+</p>
+<p>
 JavaCC has been bootstrapped to use this feature to automatically
 copy relevant comments from the input grammar file into the generated
 files.
-
+</p>
+<p>
 Details:
-
+</p>
+<p>
 The class Token now has an additional field:
-
+<pre>
    Token specialToken;
-
+</pre>
 This field points to the special token immediately prior to the
 current token (special or otherwise).  If the token immediately prior
 to the current token is a regular token (and not a special token),
@@ -319,11 +344,12 @@ field is null.  The "next" field of special tokens point to the
 special token immediately following the current token.  If the token
 immediately following the current token is a regular token, the "next"
 field is set to null.
-
+</p>
+<p>
 This is clarified by the following example.  Suppose you wish to print
 all special tokens prior to the regular token "t" (but only those that
 are after the regular token before "t"):
-
+<pre>
   if (t.specialToken == null) return;
     // The above statement determines that there are no special tokens
     // and returns control to the caller.
@@ -338,7 +364,6 @@ are after the regular token before "t"):
   }
     // The above loop now walks the special token chain in the forward
     // direction printing them in the process.  
-</PRE>
-
-</BODY>
-</HTML>
+</pre>
+</body>
+</html>
