@@ -45,7 +45,7 @@ CharStream interface (to be used with USER_CHAR_STREAM).
 <p>
 There are 4 different kinds of char stream classes that are generated
 based on combinations of various options.
-
+</p>
 <ul>
 
   <li> <h3>ASCII_CharStream</h3>
@@ -95,7 +95,7 @@ based on combinations of various options.
 
        This class treats the input as a stream of 2-byte characters. So
        it reads 2 bytes <tt>b1</tt> and <tt>b2</tt> and returns them as
-       a single character using the expression <tt> b1 << 8 | b2 </tt>
+       a single character using the expression <tt> b1 &lt;&lt; 8 | b2 </tt>
        assuming bigendian order. So in particular all the characters in
        the range <tt>0x00-0xff</tt> are assumed to be stored as 2 bytes
        with the first (higher-order) byte being 0.
