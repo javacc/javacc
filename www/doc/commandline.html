@@ -43,7 +43,7 @@ typing "javacc".  This is what you get:
 </p>
 <pre>
 % javacc
-<<< Version and copyright info>>>
+&lt;&lt;&lt;&lt; Version and copyright info&gt;&gt;&gt;
 
 Usage:
     javacc option-settings inputfile
@@ -104,16 +104,13 @@ ABOUT JavaCC:
 %
 </pre>
 <p>
-The above help message pretty much explains everything.  The options are
-explained in detail in
-<a href="javaccgrm.html#prod2">the description of the JavaCC
-input syntax (click here)</a>.
+Any option may be set either on the command line as shown in the help message
+above, or in the grammar file as described in
+<a href="javaccgrm.html">JavaCC grammar syntax</a>.
+The effect is exactly the same.
 </p>
 <p>
-Any option may be set either on the command line as shown in the help message
-above, or in the grammar file as describe in
-<a href="javaccgrm.html">the JavaCC input file syntax document</a>.
-The effect is exactly the same.  If the same option is set in both the
+If the same option is set in both the
 command line and the grammar file, then the option setting in the command
 line takes precedence.
 </p>

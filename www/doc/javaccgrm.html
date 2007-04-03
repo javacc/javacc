@@ -134,6 +134,7 @@ The <em>name</em> that follows "PARSER_BEGIN" and "PARSER_END" must
 be the same and this identifies the name of the generated parser.
 For example, if <em>name</em> is "MyParser", then the following files
 are generated:
+</p>
 <p>
 <strong>MyParser.java:</strong>
 The generate parser.
@@ -596,7 +597,7 @@ that get inserted into the generated token manager.
 </tr>
 <tr>
 <td></td><td></td>
-<td align="left" valign="baseline"><em>java_block</em>
+<td align="left" valign="baseline"><em>java_block</em></td>
 </tr>
 </table>
 
@@ -678,7 +679,7 @@ The default access modifier for JAVACODE productions is package private.
 </tr>
 <tr>
 <td></td><td></td>
-<td align="left" valign="baseline"><em>java_block</em>
+<td align="left" valign="baseline"><em>java_block</em></td>
 </tr>
 <tr>
 <td></td><td></td>
@@ -812,7 +813,7 @@ There can only be one token manager declaration in a JavaCC grammar file.
 <p>
 The lexical state list describes the set of lexical states for which
 the corresponding <a href="#prod10">regular expression production</a>
-applies.  If this is written as "<*>", the regular expression production
+applies.  If this is written as "&lt;*&lt;", the regular expression production
 applies to all lexical states.  Otherwise, it applies to all the lexical
 states in the identifier list within the angular brackets.
 </p>
@@ -1258,14 +1259,14 @@ Consider the following example defining Java floating point literals:
 <pre>
 TOKEN :
 {
-  < FLOATING_POINT_LITERAL:
+  &lt; FLOATING_POINT_LITERAL:
         (["0"-"9"])+ "." (["0"-"9"])* (&lt;EXPONENT>)? (["f","F","d","D"])?
       | "." (["0"-"9"])+ (&lt;EXPONENT>)? (["f","F","d","D"])?
       | (["0"-"9"])+ &lt;EXPONENT> (["f","F","d","D"])?
       | (["0"-"9"])+ (&lt;EXPONENT>)? ["f","F","d","D"]
   >
 |
-  < #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
+  &lt; #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ &gt;
 }
 </pre>
 <p>
