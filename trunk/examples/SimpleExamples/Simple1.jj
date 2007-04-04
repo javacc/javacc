@@ -49,8 +49,10 @@ options {
 
 PARSER_BEGIN(Simple1)
 
+/** Simple brace matcher. */
 public class Simple1 {
 
+  /** Main entry point. */
   public static void main(String args[]) throws ParseException {
     Simple1 parser = new Simple1(System.in);
     parser.Input();
@@ -60,12 +62,14 @@ public class Simple1 {
 
 PARSER_END(Simple1)
 
+/** Root production. */
 void Input() :
 {}
 {
   MatchedBraces() ("\n"|"\r")* <EOF>
 }
 
+/** Brace matching production. */
 void MatchedBraces() :
 {}
 {

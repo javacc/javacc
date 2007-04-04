@@ -29,8 +29,10 @@
 
 PARSER_BEGIN(Simple2)
 
+/** Simple brace matcher. */
 public class Simple2 {
 
+  /** Main entry point. */
   public static void main(String args[]) throws ParseException {
     Simple2 parser = new Simple2(System.in);
     parser.Input();
@@ -48,12 +50,14 @@ SKIP :
 | "\r"
 }
 
+/** Root production. */
 void Input() :
 {}
 {
   MatchedBraces() <EOF>
 }
 
+/** Brace matching production. */
 void MatchedBraces() :
 {}
 {

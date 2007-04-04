@@ -26,11 +26,13 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 PARSER_BEGIN(IdList)
 
+
+/** ID lister. */
 public class IdList {
 
+  /** Main entry point. */
   public static void main(String args[]) throws ParseException {
     IdList parser = new IdList(System.in);
     parser.Input();
@@ -53,6 +55,7 @@ TOKEN :
   < Id: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"] )* >
 }
 
+/** Top level production. */
 void Input() :
 {}
 {

@@ -26,11 +26,12 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 PARSER_BEGIN(NL_Xlator)
 
+/** New line translator. */
 public class NL_Xlator {
 
+  /** Main entry point. */
   public static void main(String args[]) throws ParseException {
     NL_Xlator parser = new NL_Xlator(System.in);
     parser.ExpressionList();
@@ -55,6 +56,7 @@ TOKEN :
   < NUM: ( ["0"-"9"] )+ >
 }
 
+/** Top level production. */
 void ExpressionList() :
 {
 	String s;
@@ -75,6 +77,7 @@ void ExpressionList() :
   <EOF>
 }
 
+/** An Expression. */
 String Expression() :
 {
 	java.util.Vector termimage = new java.util.Vector();
@@ -107,6 +110,7 @@ String Expression() :
 	}
 }
 
+/** A Term. */
 String Term() :
 {
 	java.util.Vector factorimage = new java.util.Vector();
@@ -139,6 +143,7 @@ String Term() :
 	}
 }
 
+/** A Factor. */
 String Factor() :
 {
 	Token t;
