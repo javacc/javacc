@@ -1,9 +1,9 @@
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of the Sun Microsystems, Inc. nor the names of its
  *       contributors may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -27,22 +27,38 @@
  */
 
 
+/**
+ * Another ID.
+ */
 public class ASTMyOtherID extends SimpleNode {
   private String name;
 
-  ASTMyOtherID(int id) {
+  /**
+   * Constructor.
+   * @param id the id
+   */
+  public ASTMyOtherID(int id) {
     super(id);
   }
 
   /** Accept the visitor. **/
-  public Object jjtAccept(eg4Visitor visitor, Object data) {
+  public Object jjtAccept(Eg4Visitor visitor, Object data) {
     return visitor.visit(this, data);
   }
 
+  /**
+   * Set the name.
+   *
+   * @param n the name to set
+   */
   public void setName(String n) {
     name = n;
   }
 
+  /**
+   * {@inheritDoc}
+   * @see org.javacc.examples.jjtree.eg4.SimpleNode#toString()
+   */
   public String toString() {
     return "Identifier: " + name;
   }
