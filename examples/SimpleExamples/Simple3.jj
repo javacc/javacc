@@ -29,8 +29,10 @@
 
 PARSER_BEGIN(Simple3)
 
+/** Simple brace matcher. */
 public class Simple3 {
 
+  /** Main entry point. */
   public static void main(String args[]) throws ParseException {
     Simple3 parser = new Simple3(System.in);
     parser.Input();
@@ -54,6 +56,7 @@ TOKEN :
 | <RBRACE: "}">
 }
 
+/** Root production. */
 void Input() :
 { int count; }
 {
@@ -61,6 +64,7 @@ void Input() :
   { System.out.println("The levels of nesting is " + count); }
 }
 
+/** Brace counting production. */
 int MatchedBraces() :
 { int nested_count=0; }
 {
