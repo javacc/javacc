@@ -107,6 +107,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
   <target name="test" depends="realclean,jar,unittest" description="run JUnit functional test cases">
 
+    <delete dir="test.tmp" />
     <mkdir dir="test.tmp" />
 
     <echo />
@@ -116,6 +117,17 @@ THE POSSIBILITY OF SUCH DAMAGE.
     </java>
 
     <javac srcdir="test.tmp/CORBA-IDL" />
+
+    <copy todir="test.tmp/CORBA-IDL/">
+      <fileset dir="examples/CORBA-IDL">
+        <include name="*.idl" />
+      </fileset>
+    </copy>
+
+    <java fork="true" classname="IDLParser" classpath="test.tmp/CORBA-IDL/">
+      <arg line="test.tmp/CORBA-IDL/Hello.idl" />
+    </java>
+
 
     <echo />
     
@@ -163,6 +175,61 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <javac srcdir="test.tmp/Interpreter" />
     
+    <copy todir="test.tmp/Interpreter/">
+      <fileset dir="examples/Interpreter/">
+        <include name="*.spl" />
+      </fileset>
+    </copy>
+
+    <java fork="true" 
+          classname="SPL" 
+          classpath="test.tmp/Interpreter/"
+          inputstring="3"
+          outputproperty="spl.out1"
+    >
+      <arg line="test.tmp/Interpreter/fact.spl" />
+    </java>
+    <echo>${spl.out1}</echo>
+    <fail message="SPL fact parse failed">
+     <condition>
+      <not>
+       <contains string="${spl.out1}" substring="Value of fact : 6" />
+      </not>
+     </condition>
+    </fail>
+    <java fork="true" 
+          classname="SPL" 
+          classpath="test.tmp/Interpreter/"
+          inputstring="3"
+          outputproperty="spl.out2"
+    >
+      <arg line="test.tmp/Interpreter/odd.spl" />
+    </java>
+    <echo>${spl.out2}</echo>
+    <fail message="SPL odd parse failed">
+     <condition>
+      <not>
+       <contains string="${spl.out2}" substring="Value of odd : true" />
+      </not>
+     </condition>
+    </fail>
+    <java fork="true" 
+          classname="SPL" 
+          classpath="test.tmp/Interpreter/"
+          inputstring="9"
+          outputproperty="spl.out3"
+    >
+      <arg line="test.tmp/Interpreter/sqrt.spl" />
+    </java>
+    <echo>${spl.out3}</echo>
+    <fail message="SPL sqrt parse failed">
+     <condition>
+      <not>
+       <contains string="${spl.out3}" substring="Value of sqrt : 3" />
+      </not>
+     </condition>
+    </fail>
+
     <echo />
     
     <copy todir="test.tmp/JJTreeExamples.eg1">
