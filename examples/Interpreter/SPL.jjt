@@ -33,7 +33,18 @@ options {
 
 PARSER_BEGIN(SPLParser)
 
+/** Stupid Programming Language parser. */
 public class SPLParser {
+
+  /**
+   * Returns the root node of the AST.  
+   * It only makes sense to call this after a successful parse. 
+   * @return the root node
+   */
+  public Node rootNode() {
+    return jjtree.rootNode();
+  }  
+
 }
 
 PARSER_END(SPLParser)
@@ -64,6 +75,7 @@ TOKEN : /* LITERALS */
  * Program structuring syntax follows.
  */
 
+/** Compilation unit. */
 void CompilationUnit() :
 {
    String name;
@@ -77,6 +89,7 @@ void CompilationUnit() :
    <EOF>
 }
 
+/** Variable declaration. */
 void VarDeclaration() :
 { Token t; }
 {
@@ -93,6 +106,7 @@ void VarDeclaration() :
  * Expression syntax follows.
  */
 
+/** Expression. */
 void Expression() #void:
 {}
 {
@@ -102,12 +116,14 @@ void Expression() #void:
   ConditionalOrExpression()
 }
 
+/** Assignment. */
 void Assignment() #Assignment(2) :
 {}
 {
   PrimaryExpression() "=" Expression()
 }
 
+/** Conditional or expression. */
 void ConditionalOrExpression() #void :
 {}
 {
@@ -115,6 +131,7 @@ void ConditionalOrExpression() #void :
   ( "||" ConditionalAndExpression() #OrNode(2) )*
 }
 
+/** Conditional and expression. */
 void ConditionalAndExpression() #void :
 {}
 {
@@ -122,6 +139,7 @@ void ConditionalAndExpression() #void :
   ( "&&" InclusiveOrExpression() #AndNode(2) )*
 }
 
+/** Inclusive or expression. */
 void InclusiveOrExpression() #void :
 {}
 {
@@ -129,6 +147,7 @@ void InclusiveOrExpression() #void :
   ( "|" ExclusiveOrExpression() #BitwiseOrNode(2) )*
 }
 
+/** Exclusive or expression. */
 void ExclusiveOrExpression() #void :
 {}
 {
@@ -136,6 +155,7 @@ void ExclusiveOrExpression() #void :
   ( "^" AndExpression() #BitwiseXorNode(2) )*
 }
 
+/** And expression. */
 void AndExpression() #void :
 {}
 {
@@ -143,6 +163,7 @@ void AndExpression() #void :
   ( "&" EqualityExpression() #BitwiseAndNode(2) )*
 }
 
+/** Equality expression. */
 void EqualityExpression() #void :
 {}
 {
@@ -154,6 +175,7 @@ void EqualityExpression() #void :
   )*
 }
 
+/** Relational expression. */
 void RelationalExpression() #void :
 {}
 {
@@ -169,6 +191,7 @@ void RelationalExpression() #void :
   )*
 }
 
+/** Additive expression. */
 void AdditiveExpression() #void :
 {}
 {
@@ -180,6 +203,7 @@ void AdditiveExpression() #void :
   )*
 }
 
+/** Multiplicative expression. */
 void MultiplicativeExpression() #void :
 {}
 {
@@ -193,6 +217,7 @@ void MultiplicativeExpression() #void :
   )*
 }
 
+/** Unary expression. */
 void UnaryExpression() #void :
 {}
 {
@@ -203,6 +228,7 @@ void UnaryExpression() #void :
   PrimaryExpression()
 }
 
+/** Primary expression. */
 void PrimaryExpression() #void :
 {
    String name;
@@ -215,6 +241,7 @@ void PrimaryExpression() #void :
   "(" Expression() ")"
 }
 
+/** An Id. */
 void Id() :
 {
    Token t;
@@ -223,6 +250,7 @@ void Id() :
    t = <IDENTIFIER>  { jjtThis.name = t.image; }
 }
 
+/** A literal. */
 void Literal() #void :
 {
    Token t;
@@ -238,6 +266,7 @@ void Literal() #void :
   BooleanLiteral()
 }
 
+/** A boolean literal. */
 void BooleanLiteral() #void :
 {}
 {
@@ -250,6 +279,7 @@ void BooleanLiteral() #void :
  * Statement syntax follows.
  */
 
+/** A statement. */
 void Statement() #void :
 {}
 {
@@ -269,18 +299,21 @@ void Statement() #void :
   IOStatement()
 }
 
+/** A labeled statement. */
 void LabeledStatement() #void :
 {}
 {
   <IDENTIFIER> ":" Statement()
 }
 
+/** A block. */
 void Block() :
 {}
 {
   "{" ( Statement() )* "}"
 }
 
+/** A statement expression. */
 void StatementExpression() :
 /*
  * The last expansion of this production accepts more than the legal
@@ -291,6 +324,7 @@ void StatementExpression() :
   Assignment() ";"
 }
 
+/** An if statement. */
 void IfStatement() :
 /*
  * The disambiguating algorithm of JavaCC automatically binds dangling
@@ -302,12 +336,14 @@ void IfStatement() :
   "if" "(" Expression() ")" Statement() [ LOOKAHEAD(1) "else" Statement() ]
 }
 
+/** A while statement. */
 void WhileStatement() :
 {}
 {
   "while" "(" Expression() ")" Statement()
 }
 
+/** An IO statement. */
 void IOStatement() #void :
 { String name; }
 {
@@ -316,6 +352,7 @@ void IOStatement() #void :
    WriteStatement()
 }
 
+/** A read statement. */
 void ReadStatement() :
 { Token t; }
 {
@@ -323,6 +360,7 @@ void ReadStatement() :
    { jjtThis.name = t.image; }
 }
 
+/** A write statement. */
 void WriteStatement() :
 { Token t; }
 {
