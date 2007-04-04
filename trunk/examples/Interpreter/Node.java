@@ -1,9 +1,9 @@
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of the Sun Microsystems, Inc. nor the names of its
  *       contributors may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -27,10 +27,11 @@
  */
 
 
-/* All AST nodes must implement this interface.  It provides basic
-   machinery for constructing the parent and child relationships
-   between nodes. */
-
+/**
+ *  All AST nodes must implement this interface.  
+ *  It provides basic machinery for constructing the parent and 
+ *  child relationships between nodes. 
+ */
 public interface Node {
 
   /** This method is called after the node has been made the current
@@ -44,6 +45,7 @@ public interface Node {
   /** This pair of methods are used to inform the node of its
     parent. */
   public void jjtSetParent(Node n);
+  /** Get this node's parent. */
   public Node jjtGetParent();
 
   /** This method tells the node to add its argument to the node's
