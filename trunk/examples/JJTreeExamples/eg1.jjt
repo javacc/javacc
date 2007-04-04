@@ -1,9 +1,9 @@
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of the Sun Microsystems, Inc. nor the names of its
  *       contributors may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -27,12 +27,15 @@
  */
 
 
-PARSER_BEGIN(eg1)
+PARSER_BEGIN(Eg1)
 
-class eg1 {
+/** An Arithmetic Grammar. */
+public class Eg1 {
+
+  /** Main entry point. */
   public static void main(String args[]) {
     System.out.println("Reading from standard input...");
-    eg1 t = new eg1(System.in);
+    Eg1 t = new Eg1(System.in);
     try {
       SimpleNode n = t.Start();
       n.dump("");
@@ -45,7 +48,7 @@ class eg1 {
   }
 }
 
-PARSER_END(eg1)
+PARSER_END(Eg1)
 
 
 SKIP :
@@ -82,38 +85,44 @@ TOKEN : /* IDENTIFIERS */
   < #DIGIT: ["0"-"9"] >
 }
 
+/** Main production. */
 SimpleNode Start() : {}
 {
   Expression() ";"
   { return jjtThis; }
 }
 
-
+/** An Expression. */
 void Expression() : {}
 {
   AdditiveExpression()
 }
 
+/** An Additive Expression. */
 void AdditiveExpression() : {}
 {
   MultiplicativeExpression() ( ( "+" | "-" ) MultiplicativeExpression() )*
 }
 
+/** A Multiplicative Expression. */
 void MultiplicativeExpression() : {}
 {
   UnaryExpression() ( ( "*" | "/" | "%" ) UnaryExpression() )*
 }
 
+/** A Unary Expression. */
 void UnaryExpression() : {}
 {
   "(" Expression() ")" | Identifier() | Integer()
 }
 
+/** An Identifier. */
 void Identifier() : {}
 {
   <IDENTIFIER>
 }
 
+/** An Integer. */
 void Integer() : {}
 {
   <INTEGER_LITERAL>
