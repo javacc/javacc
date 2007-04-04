@@ -232,14 +232,6 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <echo />
     
-    <copy todir="test.tmp/JJTreeExamples.eg1">
-      <fileset dir="examples/JJTreeExamples">
-        <include name="*.java" />
-        <exclude name="eg4DumpVisitor.java" />
-        <exclude name="ASTMyOtherID.java" />
-      </fileset>
-    </copy>
-    
     <java fork="true" classname="jjtree" classpath="bin/lib/javacc.jar">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1 examples/JJTreeExamples/eg1.jjt" />
     </java>
@@ -250,12 +242,28 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <javac srcdir="test.tmp/JJTreeExamples.eg1" />
     
+    <java fork="true" 
+          classname="Eg1" 
+          classpath="test.tmp/JJTreeExamples.eg1/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg1.out"
+    >
+    </java>
+    <echo>${jjtree.eg1.out}</echo>
+    <fail message="JJTree eg1 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg1.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
+
     <echo />
     
     <copy todir="test.tmp/JJTreeExamples.eg2">
       <fileset dir="examples/JJTreeExamples">
         <include name="*.java" />
-        <exclude name="eg4DumpVisitor.java" />
+        <exclude name="Eg4DumpVisitor.java" />
         <exclude name="ASTMyOtherID.java" />
       </fileset>
     </copy>
@@ -270,12 +278,27 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <javac srcdir="test.tmp/JJTreeExamples.eg2" />
     
+    <java fork="true" 
+          classname="Eg2" 
+          classpath="test.tmp/JJTreeExamples.eg2/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg2.out"
+    >
+    </java>
+    <echo>${jjtree.eg2.out}</echo>
+    <fail message="JJTree eg2 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg2.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
     <echo />
 
     <copy todir="test.tmp/JJTreeExamples.eg3">
       <fileset dir="examples/JJTreeExamples">
         <include name="*.java" />
-        <exclude name="eg4DumpVisitor.java" />
+        <exclude name="Eg4DumpVisitor.java" />
         <exclude name="ASTMyOtherID.java" />
       </fileset>
     </copy>
@@ -289,6 +312,23 @@ THE POSSIBILITY OF SUCH DAMAGE.
     </java>
     
     <javac srcdir="test.tmp/JJTreeExamples.eg3" />
+
+    <java fork="true" 
+          classname="Eg3" 
+          classpath="test.tmp/JJTreeExamples.eg3/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg3.out"
+    >
+    </java>
+    <echo>${jjtree.eg3.out}</echo>
+    <fail message="JJTree eg3 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg3.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
+
     
     <echo />
 
@@ -307,6 +347,22 @@ THE POSSIBILITY OF SUCH DAMAGE.
     </java>
 
     <javac srcdir="test.tmp/JJTreeExamples.eg4" />
+
+    <java fork="true" 
+          classname="Eg4" 
+          classpath="test.tmp/JJTreeExamples.eg4/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg4.out"
+    >
+    </java>
+    <echo>${jjtree.eg4.out}</echo>
+    <fail message="JJTree eg4 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg4.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
 
     <echo />
 
