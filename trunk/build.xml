@@ -85,7 +85,13 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <ant antfile="build.xml" target="realclean" dir="src/org/javacc/jjtree" />
   </target>
 
-  <target name="binary-distribution" depends="realclean,jar,test">
+  <condition property="isUnix">
+    <os family="unix"/>
+  </condition>
+  <target name="osCheck" unless="isUnix">
+    <echo message="Binary Distribution is only buildable on Unix systems." />
+  </target>  
+  <target name="binary-distribution" depends="realclean,jar,test,osCheck" if="isUnix">
     <property name="install-name" value="javacc-${version}" />
     <exec executable="./makedist" dir=".">
       <arg line="${version}" />
