@@ -2198,7 +2198,7 @@ public class JavaFiles
     ostr.println("   * can create and return subclass objects based on the value of ofKind.");
     ostr.println("   * Simply add the cases to the switch for all those special cases.");
     ostr.println("   * For example, if you have a subclass of Token called IDToken that");
-    ostr.println("   * you want to create if ofKind is ID, simlpy add something like :");
+    ostr.println("   * you want to create if ofKind is ID, simply add something like :");
     ostr.println("   *");
     ostr.println("   *    case MyParserConstants.ID : return new IDToken();");
     ostr.println("   *");
