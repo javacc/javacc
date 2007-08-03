@@ -708,7 +708,7 @@ public class ParseEngine extends JavaCCGlobals {
 
   static void buildPhase2Routine(Lookahead la) {
     Expansion e = la.la_expansion;
-    ostr.println("  " + staticOpt() + "final private boolean jj_2" + e.internal_name + "(int xla) {");
+    ostr.println("  " + staticOpt() + "private boolean jj_2" + e.internal_name + "(int xla) {");
     ostr.println("    jj_la = xla; jj_lastpos = jj_scanpos = token;");
     ostr.println("    try { return !jj_3" + e.internal_name + "(); }");
     ostr.println("    catch(LookaheadSuccess ls) { return true; }");
@@ -852,7 +852,7 @@ public class ParseEngine extends JavaCCGlobals {
        return;
 
     if (!recursive_call) {
-      ostr.println("  " + staticOpt() + "final private boolean jj_3" + e.internal_name + "() {");
+      ostr.println("  " + staticOpt() + "private boolean jj_3" + e.internal_name + "() {");
       xsp_declared = false;
       if (Options.getDebugLookahead() && e.parent instanceof NormalProduction) {
         ostr.print("    ");
