@@ -470,7 +470,7 @@ public class RStringLiteral extends RegularExpression {
                 (LexGen.maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") +
                 "\"Current character : \" + " +
                 "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
-                "at line \" + input_stream.getLine() + \" column \" + input_stream.getColumn());");
+                "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
 
      ostr.println("   return jjMoveNfa" + LexGen.lexStateSuffix + "(state, pos + 1);");
      ostr.println("}");
@@ -713,7 +713,7 @@ public class RStringLiteral extends RegularExpression {
                    (LexGen.maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") +
                    "\"Current character : \" + " +
                    "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
-                   "at line \" + input_stream.getLine() + \" column \" + input_stream.getColumn());");
+                   "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
 
         ostr.println("   switch(curChar)");
         ostr.println("   {");
