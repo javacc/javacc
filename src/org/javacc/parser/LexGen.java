@@ -1036,7 +1036,7 @@ public class LexGen
                 (maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + 
                 "\"Current character : \" + " +
                  "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " + 
-                 "at line \" + input_stream.getLine() + \" column \" + input_stream.getColumn());");
+                 "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
 
         ostr.println(prefix + "curPos = jjMoveStringLiteralDfa0_" + i + "();");
 
@@ -1213,7 +1213,7 @@ public class LexGen
                          (maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") + 
                          "\"Current character : \" + " +
                  "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " + 
-                 "at line \" + input_stream.getLine() + \" column \" + input_stream.getColumn());");
+                 "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
               ostr.println(prefix + "         continue;");
               ostr.println(prefix + "      }");
               ostr.println(prefix + "      catch (java.io.IOException e1) { }");
