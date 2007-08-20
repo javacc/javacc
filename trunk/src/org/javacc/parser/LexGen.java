@@ -735,7 +735,7 @@ public class LexGen
 
       if (hasMoreActions || hasSkipActions || hasTokenActions)
       {
-         ostr.println(staticString + "StringBuffer image;");
+         ostr.println(staticString + Options.stringBufOrBuild() + " image;");
          ostr.println(staticString + "int jjimageLen;");
          ostr.println(staticString + "int lengthOfMatch;");
       }
@@ -1298,7 +1298,7 @@ public class LexGen
               break;
 
            ostr.println("         if (image == null)");
-           ostr.println("            image = new StringBuffer();");
+           ostr.println("            image = new " + Options.stringBufOrBuild() + "();");
 
            ostr.print("         image.append");
            if (RStringLiteral.allImages[i] != null)
@@ -1378,7 +1378,7 @@ public class LexGen
            }
 
            ostr.println("         if (image == null)");
-           ostr.println("            image = new StringBuffer();");
+           ostr.println("            image = new " + Options.stringBufOrBuild() + "();");
            ostr.print("         image.append");
 
            if (RStringLiteral.allImages[i] != null)
@@ -1464,7 +1464,7 @@ public class LexGen
            else
            {
            ostr.println("        if (image == null)");
-           ostr.println("            image = new StringBuffer();");
+           ostr.println("            image = new " + Options.stringBufOrBuild() + "();");
            ostr.print("            image.append");
 
            if (RStringLiteral.allImages[i] != null)

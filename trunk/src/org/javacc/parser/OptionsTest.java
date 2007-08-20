@@ -39,7 +39,7 @@ public final class OptionsTest extends TestCase {
         assertEquals(1, Options.getLookahead());
         assertEquals(1, Options.getOtherAmbiguityCheck());
 
-        assertEquals("1.4", Options.getJdkVersion());
+        assertEquals("1.5", Options.getJdkVersion());
 
         assertEquals(new File("."), Options.getOutputDirectory());
 

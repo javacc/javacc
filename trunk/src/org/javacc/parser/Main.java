@@ -79,7 +79,7 @@ public final class Main {
     System.out.println("The string valued options are:");
     System.out.println("");
     System.out.println("    OUTPUT_DIRECTORY       (default Current Directory)");
-    System.out.println("    JDK_VERSION       (default 1.4)");
+    System.out.println("    JDK_VERSION       (default 1.5)");
     System.out.println("");
     System.out.println("EXAMPLE:");
     System.out.println("    javacc -STATIC=false -LOOKAHEAD:2 -debug_parser mygrammar.jj");

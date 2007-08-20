@@ -73,7 +73,7 @@ public class JJTree {
     p("");
     p("The string valued options are:");
     p("");
-    p("    JDK_VERSION              (default \"1.4\")");
+    p("    JDK_VERSION              (default \"1.5\")");
     p("    NODE_PREFIX              (default \"AST\")");
     p("    NODE_PACKAGE             (default \"\")");
     p("    NODE_EXTENDS             (default \"\")");
@@ -203,7 +203,7 @@ public class JJTree {
     final int nodeStackSize = 500;
     JJTreeOptions.init();
 
-    JJTreeGlobals.jjtreeOptions.put("JDK_VERSION", "1.4");
+    JJTreeGlobals.jjtreeOptions.put("JDK_VERSION", "1.5");
     JJTreeGlobals.jjtreeOptions.put("JJTREE_OUTPUT_DIRECTORY", "");
     JJTreeGlobals.jjtreeOptions.put("MULTI", Boolean.FALSE);
     JJTreeGlobals.jjtreeOptions.put("NODE_PREFIX", "AST");

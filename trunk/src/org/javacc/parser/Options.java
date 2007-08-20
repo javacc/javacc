@@ -119,7 +119,7 @@ public class Options {
         optionValues.put("KEEP_LINE_COLUMN", Boolean.TRUE);
 
         optionValues.put("OUTPUT_DIRECTORY", ".");
-        optionValues.put("JDK_VERSION", "1.4");
+        optionValues.put("JDK_VERSION", "1.5");
     }
 
     /**
@@ -531,4 +531,13 @@ public class Options {
     public static File getOutputDirectory() {
         return new File(stringValue("OUTPUT_DIRECTORY"));
     }
+
+    public static String stringBufOrBuild() {
+        if (Options.getJdkVersion().equals("1.5") || Options.getJdkVersion().equals("1.6")) {
+            return "StringBuilder";
+        } else {
+            return "StringBuffer";
+        }
+    }
+
 }
