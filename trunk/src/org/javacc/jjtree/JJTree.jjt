@@ -32,7 +32,6 @@ options {
   NODE_SCOPE_HOOK=true;
   JAVA_UNICODE_ESCAPE = true;
   STATIC = false;
-  JDK_VERSION="1.4";
 }
 
 PARSER_BEGIN(JJTreeParser)
