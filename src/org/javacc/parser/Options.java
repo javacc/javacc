@@ -142,9 +142,9 @@ public class Options {
                     + "\".  Option setting will be ignored.");
             return;
         }
-        Object Val = optionValues.get(s);
-        if (Val != null) {
-            if (!(Val instanceof Integer) || value <= 0) {
+        Object val = optionValues.get(s);
+        if (val != null) {
+            if (!(val instanceof Integer) || value <= 0) {
                 JavaCCErrors.warning(valueloc, "Bad option value \"" + value
                         + "\" for \"" + name
                         + "\".  Option setting will be ignored.");
@@ -156,7 +156,7 @@ public class Options {
                 return;
             }
             if (cmdLineSetting.contains(s)) {
-                if ((Integer) Val != value) {
+                if ((Integer) val != value) {
                     JavaCCErrors.warning(nameloc, "Command line setting of \""
                             + name + "\" modifies option value in file.");
                 }
@@ -176,9 +176,9 @@ public class Options {
                     + "\".  Option setting will be ignored.");
             return;
         }
-        Object Val = optionValues.get(s);
-        if (Val != null) {
-            if (!(Val instanceof Boolean)) {
+        Object val = optionValues.get(s);
+        if (val != null) {
+            if (!(val instanceof Boolean)) {
                 JavaCCErrors.warning(valueloc, "Bad option value \"" + value
                         + "\" for \"" + name
                         + "\".  Option setting will be ignored.");
@@ -190,7 +190,7 @@ public class Options {
                 return;
             }
             if (cmdLineSetting.contains(s)) {
-                if ((Boolean)Val != value) {
+                if ((Boolean)val != value) {
                     JavaCCErrors.warning(nameloc, "Command line setting of \""
                             + name + "\" modifies option value in file.");
                 }
