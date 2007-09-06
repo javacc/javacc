@@ -28,9 +28,8 @@
 package org.javacc.parser;
 
 import java.io.File;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.*;
+
 public class LexGen
     extends JavaCCGlobals
     implements JavaCCParserConstants
@@ -93,8 +92,8 @@ public class LexGen
                     8092
                  )
               );
-       Vector tn = (Vector)(toolNames.clone());
-       tn.addElement(toolName);
+       List<String> tn = new ArrayList<String>(toolNames);
+       tn.add(toolName);
 
        ostr.println("/* " + getIdString(tn, tokMgrClassName + ".java") + " */");
 
