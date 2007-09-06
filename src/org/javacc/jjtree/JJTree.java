@@ -30,6 +30,7 @@ package org.javacc.jjtree;
 
 import java.util.Hashtable;
 import java.util.Vector;
+import java.util.ArrayList;
 
 import org.javacc.parser.JavaCCGlobals;
 
@@ -107,7 +108,7 @@ public class JJTree {
     ASTNodeDescriptor.nodeNames = new Vector();
     ASTNodeDescriptor.nodeSeen = new Hashtable();
     JJTreeGlobals.jjtreeOptions = new Hashtable();
-    JJTreeGlobals.toolList = new Vector();
+    JJTreeGlobals.toolList = new ArrayList<String>();
     JJTreeGlobals.parserName = null;
     JJTreeGlobals.packageName = "";
     JJTreeGlobals.parserImplements = null;
@@ -153,7 +154,7 @@ public class JJTree {
       p("Reading from file " + io.getInputFileName() + " . . .");
 
       JJTreeGlobals.toolList = JavaCCGlobals.getToolNames(fn);
-      JJTreeGlobals.toolList.addElement("JJTree");
+      JJTreeGlobals.toolList.add("JJTree");
 
       try {
         JJTreeParser parser = new JJTreeParser(io.getIn());
