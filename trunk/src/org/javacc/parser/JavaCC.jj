@@ -548,7 +548,7 @@ void javacc_input() :
 void javacc_options() :
 {}
 {
-  [ "options" "{" ( option_binding() )+ "}" ]
+  [ "options" "{" ( option_binding() )* "}" ]
 	{
 	  Options.normalize();
 	}

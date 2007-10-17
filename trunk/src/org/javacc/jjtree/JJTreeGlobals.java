@@ -52,6 +52,12 @@ class JJTreeGlobals
    **/
   public static String packageName = "";
 
+  /**
+   * The package the node files live in. If the NODE_PACKAGE option
+   * is not set, then this defaults to packageName.
+   **/
+  public static String nodePackageName = "";
+
   /** The <code>implements</code> token of the parser class.  If the
    * parser doesn't have one then it is the first "{" of the parser
    * class body.
@@ -62,6 +68,12 @@ class JJTreeGlobals
    * The JJTree state is inserted after this token.
    **/
   public static Token parserClassBodyStart;
+
+  /** The first token of the <code>import</code> list, or the
+   * position where such a list should be inserted. The import
+   * for the Node Package is inserted after this token.
+   **/
+  public static Token parserImports;
 
   /**
    * This is mapping from production names to ASTProduction objects.
