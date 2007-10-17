@@ -113,6 +113,7 @@ public class JJTree {
     JJTreeGlobals.packageName = "";
     JJTreeGlobals.parserImplements = null;
     JJTreeGlobals.parserClassBodyStart = null;
+    JJTreeGlobals.parserImports = null;
     JJTreeGlobals.productions = new Hashtable();
     org.javacc.parser.Main.reInitAll();
 

@@ -360,8 +360,10 @@ void javacc_input() #Grammar :
     CompilationUnit()
     "PARSER_END" "(" identifier() ")"
 	{
-	  if (!JJTreeOptions.getNodePackage().equals("")) {
-	    JJTreeGlobals.packageName = JJTreeOptions.getNodePackage();
+	  if (JJTreeOptions.getNodePackage().equals("")) {
+	    JJTreeGlobals.nodePackageName = JJTreeGlobals.packageName;
+	  } else {
+	    JJTreeGlobals.nodePackageName = JJTreeOptions.getNodePackage();
 	  }
 	}
   ) #CompilationUnit(true)
@@ -375,7 +377,7 @@ void javacc_options() :
 	{
 	}
 {
-  [ ( "options" "{" ( option_binding() )+ "}" ) #Options ]
+  [ ( "options" "{" ( option_binding() )* "}" ) #Options ]
 }
 
 void option_binding() #OptionBinding :
@@ -919,6 +921,7 @@ void CompilationUnit() :
 {}
 {
   [ LOOKAHEAD( ( Annotation() )* "package" ) PackageDeclaration() ]
+  { JJTreeGlobals.parserImports = getToken(1); }
   ( ImportDeclaration() )*
   ( TypeDeclaration() )*
 }

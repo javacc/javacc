@@ -85,7 +85,7 @@ final class JJTreeState
 
 
   private static void insertState(PrintWriter ostr) {
-    ostr.println("class " + nameState() + " {");
+    ostr.println("public class " + nameState() + " {");
 
     if (!JJTreeOptions.getJdkVersion().equals("1.5"))
        ostr.println("  private java.util.List nodes;");
@@ -102,7 +102,7 @@ final class JJTreeState
     ostr.println("  private int mk;        // current mark");
     ostr.println("  private boolean node_created;");
     ostr.println("");
-    ostr.println("  " + nameState() + "() {");
+    ostr.println("  public " + nameState() + "() {");
 
     if (!JJTreeOptions.getJdkVersion().equals("1.5"))
        ostr.println("    nodes = new java.util.ArrayList();");
@@ -121,13 +121,13 @@ final class JJTreeState
     ostr.println("  /* Determines whether the current node was actually closed and");
     ostr.println("     pushed.  This should only be called in the final user action of a");
     ostr.println("     node scope.  */");
-    ostr.println("  boolean nodeCreated() {");
+    ostr.println("  public boolean nodeCreated() {");
     ostr.println("    return node_created;");
     ostr.println("  }");
     ostr.println("");
     ostr.println("  /* Call this to reinitialize the node stack.  It is called");
     ostr.println("     automatically by the parser's ReInit() method. */");
-    ostr.println("  void reset() {");
+    ostr.println("  public void reset() {");
     ostr.println("    nodes.clear();");
     ostr.println("    marks.clear();");
     ostr.println("    sp = 0;");
@@ -136,7 +136,7 @@ final class JJTreeState
     ostr.println("");
     ostr.println("  /* Returns the root node of the AST.  It only makes sense to call");
     ostr.println("     this after a successful parse. */");
-    ostr.println("  Node rootNode() {");
+    ostr.println("  public Node rootNode() {");
     if (!JJTreeOptions.getJdkVersion().equals("1.5"))
       ostr.println("    return (Node)nodes.get(0);");
     else
@@ -144,14 +144,14 @@ final class JJTreeState
     ostr.println("  }");
     ostr.println("");
     ostr.println("  /* Pushes a node on to the stack. */");
-    ostr.println("  void pushNode(Node n) {");
+    ostr.println("  public void pushNode(Node n) {");
     ostr.println("    nodes.add(n);");
     ostr.println("    ++sp;");
     ostr.println("  }");
     ostr.println("");
     ostr.println("  /* Returns the node on the top of the stack, and remove it from the");
     ostr.println("     stack.  */");
-    ostr.println("  Node popNode() {");
+    ostr.println("  public Node popNode() {");
     ostr.println("    if (--sp < mk) {");
     if (!JJTreeOptions.getJdkVersion().equals("1.5"))
       ostr.println("      mk = ((Integer)marks.remove(marks.size()-1)).intValue();");
@@ -165,7 +165,7 @@ final class JJTreeState
     ostr.println("  }");
     ostr.println("");
     ostr.println("  /* Returns the node currently on the top of the stack. */");
-    ostr.println("  Node peekNode() {");
+    ostr.println("  public Node peekNode() {");
     if (!JJTreeOptions.getJdkVersion().equals("1.5"))
       ostr.println("    return (Node)nodes.get(nodes.size()-1);");
     else
@@ -174,12 +174,12 @@ final class JJTreeState
     ostr.println("");
     ostr.println("  /* Returns the number of children on the stack in the current node");
     ostr.println("     scope. */");
-    ostr.println("  int nodeArity() {");
+    ostr.println("  public int nodeArity() {");
     ostr.println("    return sp - mk;");
     ostr.println("  }");
     ostr.println("");
     ostr.println("");
-    ostr.println("  void clearNodeScope(Node n) {");
+    ostr.println("  public void clearNodeScope(Node n) {");
     ostr.println("    while (sp > mk) {");
     ostr.println("      popNode();");
     ostr.println("    }");
@@ -190,7 +190,7 @@ final class JJTreeState
     ostr.println("  }");
     ostr.println("");
     ostr.println("");
-    ostr.println("  void openNodeScope(Node n) {");
+    ostr.println("  public void openNodeScope(Node n) {");
     if (!JJTreeOptions.getJdkVersion().equals("1.5"))
       ostr.println("    marks.add(new Integer(mk));");
     else
@@ -204,7 +204,7 @@ final class JJTreeState
     ostr.println("     children.  That number of nodes are popped from the stack and");
     ostr.println("     made the children of the definite node.  Then the definite node");
     ostr.println("     is pushed on to the stack. */");
-    ostr.println("  void closeNodeScope(Node n, int num) {");
+    ostr.println("  public void closeNodeScope(Node n, int num) {");
     if (!JJTreeOptions.getJdkVersion().equals("1.5"))
       ostr.println("    mk = ((Integer)marks.remove(marks.size()-1)).intValue();");
     else
@@ -225,7 +225,7 @@ final class JJTreeState
     ostr.println("     made children of the conditional node, which is then pushed");
     ostr.println("     on to the stack.  If the condition is false the node is not");
     ostr.println("     constructed and they are left on the stack. */");
-    ostr.println("  void closeNodeScope(Node n, boolean condition) {");
+    ostr.println("  public void closeNodeScope(Node n, boolean condition) {");
     ostr.println("    if (condition) {");
     ostr.println("      int a = nodeArity();");
     if (!JJTreeOptions.getJdkVersion().equals("1.5"))

@@ -39,6 +39,17 @@ public class ASTCompilationUnit extends SimpleNode {
     Token t = getFirstToken();
 
     while (true) {
+      if (t == JJTreeGlobals.parserImports) {
+        
+        // If the parser and nodes are in separate packages (NODE_PACKAGE specified in
+        // OPTIONS), then generate an import for the node package.
+        if (!JJTreeGlobals.nodePackageName.equals("") && !JJTreeGlobals.nodePackageName.equals(JJTreeGlobals.packageName))
+        {
+          io.getOut().println("");
+          io.getOut().println("import " + JJTreeGlobals.nodePackageName + ".*;");
+        }
+      }
+      
       if (t == JJTreeGlobals.parserImplements) {
         if (t.image.equals("implements")) {
           print(t, io);
@@ -55,6 +66,7 @@ public class ASTCompilationUnit extends SimpleNode {
       } else {
         print(t, io);
       }
+      
       if (t == JJTreeGlobals.parserClassBodyStart) {
         openJJTreeComment(io, null);
         JJTreeState.insertParserMembers(io);

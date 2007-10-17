@@ -90,9 +90,20 @@ final class NodeFiles {
      JavaCCGlobals.getIdString(JJTreeGlobals.toolList, fileName) +
      " */");
     ostr.println();
-    if (!JJTreeGlobals.packageName.equals("")) {
-      ostr.println("package " + JJTreeGlobals.packageName + ";");
+    
+    // Output the node's package name. JJTreeGlobals.nodePackageName
+    // will be the value of NODE_PACKAGE in OPTIONS; if that wasn't set it
+    // will default to the parser's package name.
+    // If the package names are different we will need to import classes
+    // from the parser's package.
+    if (!JJTreeGlobals.nodePackageName.equals("")) {
+      ostr.println("package " + JJTreeGlobals.nodePackageName + ";");
       ostr.println();
+      if (!JJTreeGlobals.nodePackageName.equals(JJTreeGlobals.packageName)) {
+		  ostr.println("import " + JJTreeGlobals.packageName + ".*;");
+		  ostr.println();
+      }
+
     }
   }
 
