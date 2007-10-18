@@ -217,6 +217,7 @@ public class JJTree {
     JJTreeGlobals.jjtreeOptions.put("OUTPUT_DIRECTORY", "");
     JJTreeGlobals.jjtreeOptions.put("CHECK_DEFINITE_NODE", Boolean.TRUE);
     JJTreeGlobals.jjtreeOptions.put("NODE_SCOPE_HOOK", Boolean.FALSE);
+    JJTreeGlobals.jjtreeOptions.put("TRACK_TOKENS", Boolean.FALSE);
     JJTreeGlobals.jjtreeOptions.put("NODE_FACTORY", Boolean.FALSE);
     JJTreeGlobals.jjtreeOptions.put("NODE_USES_PARSER", Boolean.FALSE);
     JJTreeGlobals.jjtreeOptions.put("BUILD_NODE_FILES", Boolean.TRUE);

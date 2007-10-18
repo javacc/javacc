@@ -423,6 +423,16 @@ THE POSSIBILITY OF SUCH DAMAGE.
 	  MyNode(MyParser p, int id); </pre>
       </dd>
 
+      <dt><code>TRACK_TOKENS</code> (default:
+        <code>false</code)</dt>
+
+      <dd>Insert <code>getStartToken(), setStartToken(), getEndToken(),
+      </code> and <code>setEndToken()</code> methods in SimpleNode. The
+      <code>startToken</code> is automatically set up on entry to a node
+      scope; the <code>endToken</code> is automatically set up on exit
+      from a node scope.
+      </dd>
+
       <dt><code>STATIC</code> (default: <code>true</code>)</dt>
 
       <dd>Generate code for a static parser.  The default for this is

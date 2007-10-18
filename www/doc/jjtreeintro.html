@@ -343,6 +343,12 @@ JavaCC options statement:
       public static Node MyNode.jjtCreate(MyParser p, int id);
       MyNode(MyParser p, int id);
 
+    TRACK_TOKENS (default: false)
+      Insert getStartToken(), setStartToken(), getEndToken() and
+      setEndToken() methods in SimpleNode. The startToken is automatically
+      set up on entry to a node scope; the endToken is automatically set
+      up on exit from a node scope.
+
     STATIC (default: true)
       Generate code for a static parser. The default for this is true. This
       must be used consistently with the equivalent JavaCC options. The value
