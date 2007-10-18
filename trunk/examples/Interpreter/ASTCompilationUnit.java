@@ -42,7 +42,21 @@ public class ASTCompilationUnit extends SimpleNode {
      int i, k = jjtGetNumChildren();
 
      for (i = 0; i < k; i++)
+     {
+	System.out.print("Executing:");
+	Token first  = ((SimpleNode)jjtGetChild(i)).getFirstToken();
+	Token last = ((SimpleNode)jjtGetChild(i)).getLastToken();
+	for (Token t = first; t != null; t = t.next)
+	{
+	    System.out.print(" " + t);
+
+	    if (t == last)
+	    	break;
+	}
+	System.out.println();
+	
         jjtGetChild(i).interpret();
+     }
 
   }
 

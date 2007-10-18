@@ -60,6 +60,7 @@ class JJTreeOptions extends Options {
         Options.optionValues.put("NODE_USES_PARSER", Boolean.FALSE);
         Options.optionValues.put("BUILD_NODE_FILES", Boolean.TRUE);
         Options.optionValues.put("VISITOR", Boolean.FALSE);
+        Options.optionValues.put("TRACK_TOKENS", Boolean.FALSE);
 
         Options.optionValues.put("NODE_PREFIX", "AST");
         Options.optionValues.put("NODE_PACKAGE", "");
@@ -140,6 +141,15 @@ class JJTreeOptions extends Options {
      */
     public static boolean getVisitor() {
         return booleanValue("VISITOR");
+    }
+
+    /**
+     * Find the trackTokens value.
+     * 
+     * @return The requested trackTokens value.
+     */
+    public static boolean getTrackTokens() {
+        return booleanValue("TRACK_TOKENS");
     }
 
     /**

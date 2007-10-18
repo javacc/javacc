@@ -193,7 +193,7 @@ NON-TERMINALS
 /************************************************
  * THE JAVACC GRAMMAR SPECIFICATION STARTS HERE *
  ************************************************/	javacc_input	:=	javacc_options "PARSER_BEGIN" "(" identifier ")" CompilationUnit "PARSER_END" "(" identifier ")" ( production )+ <EOF>
-	javacc_options	:=	( "options" "{" ( option_binding )+ "}" )?
+	javacc_options	:=	( "options" "{" ( option_binding )* "}" )?
 	option_binding	:=	( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "static" ) "=" ( IntegerLiteral | BooleanLiteral | StringLiteral ) ";"
 	production	:=	javacode_production
 		|	regular_expr_production

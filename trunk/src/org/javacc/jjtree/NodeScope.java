@@ -139,6 +139,10 @@ public class NodeScope
     if (JJTreeOptions.getNodeScopeHook()) {
       io.println(indent + "jjtreeOpenNodeScope(" + nodeVar + ");");
     }
+
+    if (JJTreeOptions.getTrackTokens()) {
+      io.println(indent + nodeVar + ".setFirstToken(getToken(1));");
+    }
   }
 
 
@@ -150,6 +154,10 @@ public class NodeScope
     }
     if (JJTreeOptions.getNodeScopeHook()) {
       io.println(indent + "jjtreeCloseNodeScope(" + nodeVar + ");");
+    }
+
+    if (JJTreeOptions.getTrackTokens()) {
+      io.println(indent + nodeVar + ".setLastToken(getToken(0));");
     }
   }
 

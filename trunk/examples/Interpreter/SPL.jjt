@@ -27,8 +27,9 @@
  */
 
 options {
-   MULTI=true;
-	NODE_EXTENDS="MyNode";
+    MULTI=true;
+    NODE_EXTENDS="MyNode";
+    TRACK_TOKENS=true;
 }
 
 PARSER_BEGIN(SPLParser)

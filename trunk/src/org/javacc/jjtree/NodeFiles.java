@@ -270,7 +270,14 @@ final class NodeFiles {
     ostr.println("  protected Node parent;");
     ostr.println("  protected Node[] children;");
     ostr.println("  protected int id;");
+    ostr.println("  protected Object value;");
     ostr.println("  protected " + JJTreeGlobals.parserName + " parser;");
+
+    if (JJTreeOptions.getTrackTokens()) {
+      ostr.println("  protected Token firstToken;");
+      ostr.println("  protected Token lastToken;");
+    }
+
     ostr.println("");
     ostr.println("  public SimpleNode(int i) {");
     ostr.println("    id = i;");
@@ -321,6 +328,17 @@ final class NodeFiles {
     ostr.println("    return (children == null) ? 0 : children.length;");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  public void jjtSetValue(Object value) { this.value = value; }");
+    ostr.println("  public Object jjtGetValue() { return value; }");
+    ostr.println("");
+
+    if (JJTreeOptions.getTrackTokens()) {
+      ostr.println("  public Token getFirstToken() { return firstToken; }");
+      ostr.println("  public void setFirstToken(Token token) { this.firstToken = token; }");
+      ostr.println("  public Token getLastToken() { return lastToken; }");
+      ostr.println("  public void setLastToken(Token token) { this.lastToken = token; }");
+      ostr.println("");
+    }
 
     if (JJTreeOptions.getVisitor()) {
       String ve = mergeVisitorException();
