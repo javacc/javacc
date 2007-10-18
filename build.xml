@@ -74,6 +74,14 @@ THE POSSIBILITY OF SUCH DAMAGE.
     </uptodate>
   </target>
 
+  <target name="update-bootstrap" depends="jar">
+    <copy todir="bootstrap">
+      <fileset dir="bin/lib">
+        <include name="javacc.jar" />
+      </fileset>
+    </copy>
+  </target>
+
   <target name="clean">
     <delete dir="classes" />
     <delete dir="bin/lib" />
