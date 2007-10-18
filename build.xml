@@ -85,6 +85,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
   <target name="clean">
     <delete dir="classes" />
     <delete dir="bin/lib" />
+    <delete dir="test.tmp" />
     <delete file="javacc-${version}.*" />
   </target>
 
