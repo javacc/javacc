@@ -328,6 +328,11 @@ JavaCC options statement:
       The package to generate the node classes into. The default for this is
       the parser package.
 
+    NODE_EXTENDS (default: "")
+      The superclass for the SimpleNode class.  By providing a custom
+      superclass you may be able to avoid the need to edit the generated
+      SimpleNode.java.  See the examples/Interpreter for an example usage.
+
     NODE_PREFIX (default: "AST")
       The prefix used to construct node class names from node identifiers in
       multi mode. The default for this is AST.

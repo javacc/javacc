@@ -400,12 +400,20 @@ THE POSSIBILITY OF SUCH DAMAGE.
       <dt><code>NODE_PACKAGE</code> (default: <code>""</code>)</dt>
 
       <dd> The package to generate the node classes into.  The default
-	for this is the parser package.</dd>
+          for this is the parser package.</dd>
+
+      <dt><code>NODE_EXTENDS</code> (default: <code>""</code>)</dt>
+
+      <dd>The superclass for the SimpleNode class.
+	  By providing a custom superclass you may be able to avoid
+	  the need to edit the generated SimpleNode.java.
+          See the examples/Interpreter for an example
+          usage.</dd>
 
       <dt><code>NODE_PREFIX</code> (default: <code>"AST"</code>)</dt>
 
       <dd>The prefix used to construct node class names from node
-	identifiers in multi mode.  The default for this is AST.</dd>
+        identifiers in multi mode.  The default for this is AST.</dd>
 
       <dt><code>NODE_SCOPE_HOOK</code> (default:
 	<code>false</code>)</dt>
