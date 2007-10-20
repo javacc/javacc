@@ -505,7 +505,8 @@ public class JavaFiles
     ostr.println("           catch(java.io.IOException e)");
     ostr.println("           {");
     ostr.println("              if (backSlashCnt > 1)");
-    ostr.println("                 backup(backSlashCnt);");
+                 // We are returning one backslash so we should only backup (count-1)
+    ostr.println("                 backup(backSlashCnt-1);");
     ostr.println("");
     ostr.println("              return '\\\\';");
     ostr.println("           }");
