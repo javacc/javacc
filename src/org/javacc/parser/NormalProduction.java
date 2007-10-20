@@ -27,8 +27,6 @@
  */
 package org.javacc.parser;
 
-import java.util.Vector;
-
 /**
  * Describes JavaCC productions.
  */
@@ -43,12 +41,8 @@ public class NormalProduction {
 
   /**
    * The NonTerminal nodes which refer to this production.
-   *
-   * Can contain {@link NormalProduction}s or {@link NonTerminal}s
-   * @see org.javacc.parser.LookaheadWalk#genFollowSet(java.util.Vector, Expansion, long)
-   * @see org.javacc.parser.Semanticize.ProductionDefinedChecker
    */
-  java.util.Vector<Object> parents = new java.util.Vector<Object>();
+  java.util.Vector parents = new java.util.Vector();
 
   /**
    * The access modifier of this production.
@@ -63,19 +57,19 @@ public class NormalProduction {
   /**
    * The tokens that make up the return type of this production.
    */
-  public java.util.Vector<Token> return_type_tokens = new java.util.Vector<Token>();
+  public java.util.Vector return_type_tokens = new java.util.Vector();
 
   /**
    * The tokens that make up the parameters of this production.
    */
-  public Vector<Token> parameter_list_tokens = new Vector<Token>();
+  public java.util.Vector parameter_list_tokens = new java.util.Vector();
 
   /**
    * Each entry in this vector is a vector of tokens that represents an
    * exception in the throws list of this production.  This list does not
    * include ParseException which is always thrown.
    */
-  public Vector<Vector<Token>> throws_list = new Vector<Vector<Token>>();
+  public java.util.Vector throws_list = new java.util.Vector();
 
   /**
    * The RHS of this production.  Not used for JavaCodeProduction.
@@ -85,7 +79,7 @@ public class NormalProduction {
   /**
    * This boolean flag is true if this production can expand to empty.
    */
-  boolean emptyPossible;
+  boolean emptyPossible = false;
 
   /**
    * A list of all non-terminals that this one can expand to without
@@ -93,7 +87,7 @@ public class NormalProduction {
    * pointers exist.
    */
   NormalProduction[] leftExpansions = new NormalProduction[10];
-  int leIndex;
+  int leIndex = 0;
 
   /**
    * The following variable is used to maintain state information for the
@@ -103,7 +97,7 @@ public class NormalProduction {
    * node has been traversed.  i.e., -1 indicates partially processed,
    * and 1 indicates fully processed.
    */
-  int walkStatus;
+  int walkStatus = 0;
 
   /**
    * The first and last tokens from the input stream that represent this

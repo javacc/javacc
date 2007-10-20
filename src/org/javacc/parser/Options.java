@@ -50,20 +50,20 @@ public class Options {
      * set of legal options. Its initial values define the default option
      * values, and the option types can be determined from these values too.
      */
-    protected static Map<String, Object> optionValues;
+    protected static Map optionValues = null;
 
     /**
      * Convenience method to retrieve integer options.
      */
     protected static int intValue(final String option) {
-        return (Integer) optionValues.get(option);
+        return ((Integer) optionValues.get(option)).intValue();
     }
 
     /**
      * Convenience method to retrieve boolean options.
      */
     protected static boolean booleanValue(final String option) {
-        return (Boolean) optionValues.get(option);
+        return ((Boolean) optionValues.get(option)).booleanValue();
     }
 
     /**
@@ -78,26 +78,26 @@ public class Options {
      * this to see if the options set from the command line and the ones set in
      * the input files clash in any way.
      */
-    private static Set<String> cmdLineSetting = null;
+    private static Set cmdLineSetting = null;
 
     /**
      * Keep track of what options were set from the grammar file. We use this to
      * see if the options set from the command line and the ones set in the
      * input files clash in any way.
      */
-    private static Set<String> inputFileSetting;
+    private static Set inputFileSetting = null;
 
     /**
      * Initialize for JavaCC
      */
     public static void init() {
-        optionValues = new HashMap<String, Object>();
-        cmdLineSetting = new HashSet<String>();
-        inputFileSetting = new HashSet<String>();
+        optionValues = new HashMap();
+        cmdLineSetting = new HashSet();
+        inputFileSetting = new HashSet();
 
-        optionValues.put("LOOKAHEAD", 1);
-        optionValues.put("CHOICE_AMBIGUITY_CHECK", 2);
-        optionValues.put("OTHER_AMBIGUITY_CHECK", 1);
+        optionValues.put("LOOKAHEAD", new Integer(1));
+        optionValues.put("CHOICE_AMBIGUITY_CHECK", new Integer(2));
+        optionValues.put("OTHER_AMBIGUITY_CHECK", new Integer(1));
 
         optionValues.put("STATIC", Boolean.TRUE);
         optionValues.put("DEBUG_PARSER", Boolean.FALSE);
@@ -119,7 +119,7 @@ public class Options {
         optionValues.put("KEEP_LINE_COLUMN", Boolean.TRUE);
 
         optionValues.put("OUTPUT_DIRECTORY", ".");
-        optionValues.put("JDK_VERSION", "1.5");
+        optionValues.put("JDK_VERSION", "1.4");
     }
 
     /**
@@ -142,9 +142,9 @@ public class Options {
                     + "\".  Option setting will be ignored.");
             return;
         }
-        Object val = optionValues.get(s);
-        if (val != null) {
-            if (!(val instanceof Integer) || value <= 0) {
+        Object Val = optionValues.get(s);
+        if (Val != null) {
+            if (!(Val instanceof Integer) || value <= 0) {
                 JavaCCErrors.warning(valueloc, "Bad option value \"" + value
                         + "\" for \"" + name
                         + "\".  Option setting will be ignored.");
@@ -156,7 +156,7 @@ public class Options {
                 return;
             }
             if (cmdLineSetting.contains(s)) {
-                if ((Integer) val != value) {
+                if (((Integer) Val).intValue() != value) {
                     JavaCCErrors.warning(nameloc, "Command line setting of \""
                             + name + "\" modifies option value in file.");
                 }
@@ -164,7 +164,7 @@ public class Options {
             }
         }
 
-        optionValues.put(s, value);
+        optionValues.put(s, new Integer(value));
         inputFileSetting.add(s);
     }
 
@@ -176,9 +176,9 @@ public class Options {
                     + "\".  Option setting will be ignored.");
             return;
         }
-        Object val = optionValues.get(s);
-        if (val != null) {
-            if (!(val instanceof Boolean)) {
+        Object Val = optionValues.get(s);
+        if (Val != null) {
+            if (!(Val instanceof Boolean)) {
                 JavaCCErrors.warning(valueloc, "Bad option value \"" + value
                         + "\" for \"" + name
                         + "\".  Option setting will be ignored.");
@@ -190,7 +190,7 @@ public class Options {
                 return;
             }
             if (cmdLineSetting.contains(s)) {
-                if ((Boolean)val != value) {
+                if (((Boolean) Val).booleanValue() != value) {
                     JavaCCErrors.warning(nameloc, "Command line setting of \""
                             + name + "\" modifies option value in file.");
                 }
@@ -198,7 +198,7 @@ public class Options {
             }
         }
 
-        optionValues.put(s, value);
+        optionValues.put(s, (value ? Boolean.TRUE : Boolean.FALSE));
         inputFileSetting.add(s);
     }
 
@@ -210,9 +210,9 @@ public class Options {
                     + "\".  Option setting will be ignored.");
             return;
         }
-        Object val = optionValues.get(s);
-        if (val != null) {
-            if (!(val instanceof String)) {
+        Object Val = optionValues.get(s);
+        if (Val != null) {
+            if (!(Val instanceof String)) {
                 JavaCCErrors.warning(valueloc, "Bad option value \"" + value
                         + "\" for \"" + name
                         + "\".  Option setting will be ignored.");
@@ -224,7 +224,7 @@ public class Options {
                 return;
             }
             if (cmdLineSetting.contains(s)) {
-                if (!val.equals(value)) {
+                if (!Val.equals(value)) {
                     JavaCCErrors.warning(nameloc, "Command line setting of \""
                             + name + "\" modifies option value in file.");
                 }
@@ -236,11 +236,15 @@ public class Options {
         inputFileSetting.add(s);
     }
 
+    /**
+     * 
+     * @param arg
+     */
     public static void setCmdLineOption(String arg) {
         String s = arg.toUpperCase();
         int index = 0;
         String name;
-        Object val;
+        Object Val;
         while (index < s.length() && s.charAt(index) != '='
                 && s.charAt(index) != ':') {
             index++;
@@ -249,10 +253,10 @@ public class Options {
             if (index == s.length()) {
                 if (s.length() > 3 && s.charAt(1) == 'N' && s.charAt(2) == 'O') {
                     name = s.substring(3);
-                    val = Boolean.FALSE;
+                    Val = Boolean.FALSE;
                 } else {
                     name = s.substring(1);
-                    val = Boolean.TRUE;
+                    Val = Boolean.TRUE;
                 }
             } else {
                 System.out.println("Warning: Bad option \"" + arg
@@ -261,9 +265,9 @@ public class Options {
             }
         } else {
             if (s.substring(index + 1).equals("TRUE")) {
-                val = Boolean.TRUE;
+                Val = Boolean.TRUE;
             } else if (s.substring(index + 1).equals("FALSE")) {
-                val = Boolean.FALSE;
+                Val = Boolean.FALSE;
             } else {
                 try {
                     int i = Integer.parseInt(s.substring(index + 1));
@@ -272,15 +276,15 @@ public class Options {
                                 + arg + "\" will be ignored.");
                         return;
                     }
-                    val = i;
+                    Val = new Integer(i);
                 } catch (NumberFormatException e) {
-                    val = arg.substring(index + 1);
+                    Val = arg.substring(index + 1);
                     if (arg.length() > index + 2) {
                         // i.e., there is space for two '"'s in value
                         if (arg.charAt(index + 1) == '"'
                                 && arg.charAt(arg.length() - 1) == '"') {
                             // remove the two '"'s.
-                            val = arg.substring(index + 2, arg.length() - 1);
+                            Val = arg.substring(index + 2, arg.length() - 1);
                         }
                     }
                 }
@@ -293,7 +297,7 @@ public class Options {
             return;
         }
         Object valOrig = optionValues.get(name);
-        if (val.getClass() != valOrig.getClass()) {
+        if (Val.getClass() != valOrig.getClass()) {
             System.out.println("Warning: Bad option value in \"" + arg
                     + "\" will be ignored.");
             return;
@@ -304,7 +308,7 @@ public class Options {
             return;
         }
 
-        optionValues.put(name, val);
+        optionValues.put(name, Val);
         cmdLineSetting.add(name);
     }
 

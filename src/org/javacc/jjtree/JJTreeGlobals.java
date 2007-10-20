@@ -27,7 +27,8 @@
  */
 package org.javacc.jjtree;
 
-import java.util.*;
+import java.util.Hashtable;
+import java.util.Vector;
 
 class JJTreeGlobals
 {
@@ -39,7 +40,7 @@ class JJTreeGlobals
    */
   static Hashtable jjtreeOptions = new Hashtable();
 
-  static List<String> toolList = new ArrayList<String>();
+  static Vector toolList = new Vector();
 
   /**
    * Use this like className.

@@ -27,9 +27,6 @@
  */
 package org.javacc.parser;
 
-import java.util.List;
-import java.util.ArrayList;
-
 /**
  * Generates the Constants file.
  */
@@ -72,8 +69,8 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
       throw new Error();
     }
 
-    List<String> tn = new ArrayList<String>(toolNames);
-    tn.add(toolName);
+    java.util.Vector tn = (java.util.Vector)(toolNames.clone());
+    tn.addElement(toolName);
     ostr.println("/* " + getIdString(tn, cu_name + "Constants.java") + " */");
 
     if (cu_to_insertion_point_1.size() != 0 &&

@@ -34,8 +34,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.Vector;
-import java.util.List;
-import java.util.ArrayList;
 
 public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
 
@@ -61,8 +59,8 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
         throw new Error();
       }
 
-      List<String> tn = new ArrayList<String>(toolNames);
-      tn.add(toolName);
+      Vector tn = (Vector)(toolNames.clone());
+      tn.addElement(toolName);
       ostr.println("/* " + getIdString(tn, cu_name + ".java") + " */");
 
       boolean implementsExists = false;
