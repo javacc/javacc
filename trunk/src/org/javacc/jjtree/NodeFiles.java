@@ -87,7 +87,8 @@ final class NodeFiles {
   static void generatePrologue(PrintWriter ostr, String fileName)
   {
     ostr.println("/* " +
-     JavaCCGlobals.getIdString(JJTreeGlobals.toolList, fileName) +
+     JavaCCGlobals.getIdString(JJTreeGlobals.toolList,
+             fileName) +
      " */");
     ostr.println();
     
