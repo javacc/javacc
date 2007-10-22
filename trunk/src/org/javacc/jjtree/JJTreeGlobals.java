@@ -27,20 +27,22 @@
  */
 package org.javacc.jjtree;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Vector;
+import java.util.List;
+import java.util.Set;
 
 class JJTreeGlobals
 {
 
   /**
-   * This hashtable stores the JJTree options to distinguish them
-   * from JavaCC options.  The values are not important, only the
-   * keys.
+   * This set stores the JJTree-specific options that should not be
+   * passed down to JavaCC 
    */
-  static Hashtable jjtreeOptions = new Hashtable();
+  static Set jjtreeOptions = new HashSet();
 
-  static Vector toolList = new Vector();
+  static List toolList = new ArrayList();
 
   /**
    * Use this like className.
