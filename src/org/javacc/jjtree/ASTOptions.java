@@ -33,28 +33,6 @@ public class ASTOptions extends SimpleNode {
     super(id);
   }
 
-  private boolean all_suppressed = true;
-
-  public void jjtClose()
-  {
-    for (int i = 0; i < jjtGetNumChildren(); ++i) {
-      ASTOptionBinding o = (ASTOptionBinding)jjtGetChild(i);
-      if (!o.isSuppressed()) {
-        all_suppressed = false;
-        break;
-      }
-    }
-    super.jjtClose();
-  }
-
-  String translateImage(Token t)
-  {
-    if (all_suppressed) {
-      return whiteOut(t);
-    } else {
-      return t.image;
-    }
-  }
 }
 
 /*end*/

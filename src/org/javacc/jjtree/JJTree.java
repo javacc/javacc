@@ -28,6 +28,7 @@
 
 package org.javacc.jjtree;
 
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -106,7 +107,7 @@ public class JJTree {
     ASTNodeDescriptor.nodeIds = new Vector();
     ASTNodeDescriptor.nodeNames = new Vector();
     ASTNodeDescriptor.nodeSeen = new Hashtable();
-    JJTreeGlobals.jjtreeOptions = new Hashtable();
+    JJTreeGlobals.jjtreeOptions = new HashSet();
     JJTreeGlobals.toolList = new Vector();
     JJTreeGlobals.parserName = null;
     JJTreeGlobals.packageName = "";
@@ -154,7 +155,7 @@ public class JJTree {
       p("Reading from file " + io.getInputFileName() + " . . .");
 
       JJTreeGlobals.toolList = JavaCCGlobals.getToolNames(fn);
-      JJTreeGlobals.toolList.addElement("JJTree");
+      JJTreeGlobals.toolList.add("JJTree");
 
       try {
         JJTreeParser parser = new JJTreeParser(io.getIn());
@@ -204,24 +205,22 @@ public class JJTree {
     final int nodeStackSize = 500;
     JJTreeOptions.init();
 
-    JJTreeGlobals.jjtreeOptions.put("JDK_VERSION", "1.4");
-    JJTreeGlobals.jjtreeOptions.put("JJTREE_OUTPUT_DIRECTORY", "");
-    JJTreeGlobals.jjtreeOptions.put("MULTI", Boolean.FALSE);
-    JJTreeGlobals.jjtreeOptions.put("NODE_PREFIX", "AST");
-    JJTreeGlobals.jjtreeOptions.put("NODE_PACKAGE", "");
-    JJTreeGlobals.jjtreeOptions.put("NODE_EXTENDS", "");
-    JJTreeGlobals.jjtreeOptions.put("NODE_STACK_SIZE", new Integer(nodeStackSize));
-    JJTreeGlobals.jjtreeOptions.put("NODE_DEFAULT_VOID", Boolean.FALSE);
-    JJTreeGlobals.jjtreeOptions.put("OUTPUT_FILE", "");
-    JJTreeGlobals.jjtreeOptions.put("OUTPUT_DIRECTORY", "");
-    JJTreeGlobals.jjtreeOptions.put("CHECK_DEFINITE_NODE", Boolean.TRUE);
-    JJTreeGlobals.jjtreeOptions.put("NODE_SCOPE_HOOK", Boolean.FALSE);
-    JJTreeGlobals.jjtreeOptions.put("TRACK_TOKENS", Boolean.FALSE);
-    JJTreeGlobals.jjtreeOptions.put("NODE_FACTORY", Boolean.FALSE);
-    JJTreeGlobals.jjtreeOptions.put("NODE_USES_PARSER", Boolean.FALSE);
-    JJTreeGlobals.jjtreeOptions.put("BUILD_NODE_FILES", Boolean.TRUE);
-    JJTreeGlobals.jjtreeOptions.put("VISITOR", Boolean.FALSE);
-    JJTreeGlobals.jjtreeOptions.put("VISITOR_EXCEPTION", "");
+    JJTreeGlobals.jjtreeOptions.add("JJTREE_OUTPUT_DIRECTORY");
+    JJTreeGlobals.jjtreeOptions.add("MULTI");
+    JJTreeGlobals.jjtreeOptions.add("NODE_PREFIX");
+    JJTreeGlobals.jjtreeOptions.add("NODE_PACKAGE");
+    JJTreeGlobals.jjtreeOptions.add("NODE_EXTENDS");
+    JJTreeGlobals.jjtreeOptions.add("NODE_STACK_SIZE");
+    JJTreeGlobals.jjtreeOptions.add("NODE_DEFAULT_VOID");
+    JJTreeGlobals.jjtreeOptions.add("OUTPUT_FILE");
+    JJTreeGlobals.jjtreeOptions.add("CHECK_DEFINITE_NODE");
+    JJTreeGlobals.jjtreeOptions.add("NODE_SCOPE_HOOK");
+    JJTreeGlobals.jjtreeOptions.add("TRACK_TOKENS");
+    JJTreeGlobals.jjtreeOptions.add("NODE_FACTORY");
+    JJTreeGlobals.jjtreeOptions.add("NODE_USES_PARSER");
+    JJTreeGlobals.jjtreeOptions.add("BUILD_NODE_FILES");
+    JJTreeGlobals.jjtreeOptions.add("VISITOR");
+    JJTreeGlobals.jjtreeOptions.add("VISITOR_EXCEPTION");
   }
 
 
