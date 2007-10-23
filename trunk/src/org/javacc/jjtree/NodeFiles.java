@@ -334,10 +334,10 @@ final class NodeFiles {
     ostr.println("");
 
     if (JJTreeOptions.getTrackTokens()) {
-      ostr.println("  public Token getFirstToken() { return firstToken; }");
-      ostr.println("  public void setFirstToken(Token token) { this.firstToken = token; }");
-      ostr.println("  public Token getLastToken() { return lastToken; }");
-      ostr.println("  public void setLastToken(Token token) { this.lastToken = token; }");
+      ostr.println("  public Token jjtGetFirstToken() { return firstToken; }");
+      ostr.println("  public void jjtSetFirstToken(Token token) { this.firstToken = token; }");
+      ostr.println("  public Token jjtGetLastToken() { return lastToken; }");
+      ostr.println("  public void jjtSetLastToken(Token token) { this.lastToken = token; }");
       ostr.println("");
     }
 
