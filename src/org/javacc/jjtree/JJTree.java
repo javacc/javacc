@@ -70,6 +70,7 @@ public class JJTree {
     p("    NODE_FACTORY             (default false)");
     p("    NODE_USES_PARSER         (default false)");
     p("    BUILD_NODE_FILES         (default true)");
+    p("    TRACK_TOKENS             (default false)");
     p("    VISITOR                  (default false)");
     p("");
     p("The string valued options are:");
@@ -81,6 +82,7 @@ public class JJTree {
     p("    OUTPUT_FILE              (default remove input file suffix, add .jj)");
     p("    OUTPUT_DIRECTORY         (default \"\")");
     p("    JJTREE_OUTPUT_DIRECTORY  (default value of OUTPUT_DIRECTORY option)");
+    p("    VISITOR_DATA_TYPE        (default \"\")");
     p("    VISITOR_EXCEPTION        (default \"\")");
     p("");
     p("JJTree also accepts JavaCC options, which it inserts into the generated file.");
@@ -220,6 +222,7 @@ public class JJTree {
     JJTreeGlobals.jjtreeOptions.add("NODE_USES_PARSER");
     JJTreeGlobals.jjtreeOptions.add("BUILD_NODE_FILES");
     JJTreeGlobals.jjtreeOptions.add("VISITOR");
+    JJTreeGlobals.jjtreeOptions.add("VISITOR_DATA_TYPE");
     JJTreeGlobals.jjtreeOptions.add("VISITOR_EXCEPTION");
   }
 
