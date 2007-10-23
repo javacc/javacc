@@ -127,7 +127,7 @@ final class NodeFiles {
       Vector nodeIds = ASTNodeDescriptor.getNodeIds();
       Vector nodeNames = ASTNodeDescriptor.getNodeNames();
 
-      generatePrologue(ostr, file.toString());
+      generatePrologue(ostr, file.getName());
       ostr.println("public interface " + name);
       ostr.println("{");
 
@@ -176,7 +176,7 @@ final class NodeFiles {
 
       Vector nodeNames = ASTNodeDescriptor.getNodeNames();
 
-      generatePrologue(ostr, file.toString());
+      generatePrologue(ostr, file.getName());
       ostr.println("public interface " + name);
       ostr.println("{");
 

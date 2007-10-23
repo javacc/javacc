@@ -75,7 +75,7 @@ final class JJTreeState
       PrintWriter ostr = new PrintWriter(new BufferedWriter(
                           new FileWriter(file),
                           8096));
-      NodeFiles.generatePrologue(ostr, file.toString());
+      NodeFiles.generatePrologue(ostr, file.getName());
       insertState(ostr);
       ostr.close();
     } catch (IOException e) {
