@@ -182,7 +182,12 @@ final class NodeFiles {
 
       String ve = mergeVisitorException();
 
-      ostr.println("  public Object visit(SimpleNode node, Object data)" +
+      String argumentType = "Object";
+      if (!JJTreeOptions.getVisitorDataType().equals("")) {
+        argumentType = JJTreeOptions.getVisitorDataType();
+      }
+
+      ostr.println("  public Object visit(SimpleNode node, " + argumentType + " data)" +
           ve + ";");
       if (JJTreeOptions.getMulti()) {
         for (int i = 0; i < nodeNames.size(); ++i) {
@@ -192,7 +197,7 @@ final class NodeFiles {
           }
           String nodeType = JJTreeOptions.getNodePrefix() + n;
            ostr.println("  public Object visit(" + nodeType +
-               " node, Object data)" + ve + ";");
+               " node, " + argumentType + " data)" + ve + ";");
         }
       }
       ostr.println("}");
@@ -247,11 +252,15 @@ final class NodeFiles {
     ostr.println("  public int jjtGetNumChildren();");
 
     if (JJTreeOptions.getVisitor()) {
+      String argumentType = "Object";
+      if (!JJTreeOptions.getVisitorDataType().equals("")) {
+        argumentType = JJTreeOptions.getVisitorDataType();
+      }
 
       ostr.println("");
       ostr.println("  /** Accept the visitor. **/");
       ostr.println("  public Object jjtAccept(" + visitorClass() +
-          " visitor, Object data)" + mergeVisitorException() + ";");
+          " visitor, " + argumentType + " data)" + mergeVisitorException() + ";");
     }
 
     ostr.println("}");
@@ -343,16 +352,21 @@ final class NodeFiles {
 
     if (JJTreeOptions.getVisitor()) {
       String ve = mergeVisitorException();
+      String argumentType = "Object";
+      if (!JJTreeOptions.getVisitorDataType().equals("")) {
+        argumentType = JJTreeOptions.getVisitorDataType();
+      }
+
       ostr.println("  /** Accept the visitor. **/");
       ostr.println("  public Object jjtAccept(" + visitorClass() +
-          " visitor, Object data)" + ve + " {");
+          " visitor, " + argumentType + " data)" + ve + " {");
       ostr.println("    return visitor.visit(this, data);");
       ostr.println("  }");
       ostr.println("");
 
       ostr.println("  /** Accept the visitor. **/");
       ostr.println("  public Object childrenAccept(" + visitorClass() +
-          " visitor, Object data)" + ve + " {");
+          " visitor, " + argumentType + " data)" + ve + " {");
       ostr.println("    if (children != null) {");
       ostr.println("      for (int i = 0; i < children.length; ++i) {");
       ostr.println("        children[i].jjtAccept(visitor, data);");
@@ -418,10 +432,15 @@ final class NodeFiles {
     }
 
     if (JJTreeOptions.getVisitor()) {
+      String argumentType = "Object";
+      if (!JJTreeOptions.getVisitorDataType().equals("")) {
+        argumentType = JJTreeOptions.getVisitorDataType();
+      }
+
       ostr.println("");
       ostr.println("  /** Accept the visitor. **/");
       ostr.println("  public Object jjtAccept(" + visitorClass() +
-          " visitor, Object data)" + mergeVisitorException() + " {");
+          " visitor, " + argumentType + " data)" + mergeVisitorException() + " {");
       ostr.println("    return visitor.visit(this, data);");
       ostr.println("  }");
     }

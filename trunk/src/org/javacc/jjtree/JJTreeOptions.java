@@ -66,6 +66,7 @@ class JJTreeOptions extends Options {
         Options.optionValues.put("NODE_PACKAGE", "");
         Options.optionValues.put("NODE_EXTENDS", "");
         Options.optionValues.put("OUTPUT_FILE", "");
+        Options.optionValues.put("VISITOR_DATA_TYPE", "");
         Options.optionValues.put("VISITOR_EXCEPTION", "");
 
         Options.optionValues.put("JJTREE_OUTPUT_DIRECTORY", "");
@@ -195,6 +196,15 @@ class JJTreeOptions extends Options {
      */
     public static String getVisitorException() {
         return stringValue("VISITOR_EXCEPTION");
+    }
+
+    /**
+     * Find the visitor data type value
+     * 
+     * @return The requested visitor data type value.
+     */
+    public static String getVisitorDataType() {
+        return stringValue("VISITOR_DATA_TYPE");
     }
 
     /**
