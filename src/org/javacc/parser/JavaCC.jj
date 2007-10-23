@@ -1681,7 +1681,7 @@ void ClassOrInterfaceBodyDeclaration(boolean isInterface):
       LOOKAHEAD( [ TypeParameters() ] <IDENTIFIER> "(" )
       ConstructorDeclaration()
     |
-      LOOKAHEAD( Type() JavaIdentifier() ( "[" "]" )* ( "," | "=" | ";" ) )
+      LOOKAHEAD( Type() <IDENTIFIER> ( "[" "]" )* ( "," | "=" | ";" ) )
       FieldDeclaration(modifiers)
     |
       MethodDeclaration(modifiers)
@@ -1706,7 +1706,7 @@ void VariableDeclarator():
 void VariableDeclaratorId():
 {}
 {
-  JavaIdentifier() ( "[" "]" )*
+  <IDENTIFIER> ( "[" "]" )*
 }
 
 void VariableInitializer():
@@ -1826,8 +1826,8 @@ void ReferenceType():
 void ClassOrInterfaceType():
 {}
 {
-  JavaIdentifier() [ LOOKAHEAD(2) TypeArguments() ]
-  ( LOOKAHEAD(2) "." JavaIdentifier() [ LOOKAHEAD(2) TypeArguments() ] )*
+  <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments() ]
+  ( LOOKAHEAD(2) "." <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments() ] )*
 }
 
 void TypeArguments():
