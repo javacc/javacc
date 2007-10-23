@@ -141,7 +141,7 @@ public class NodeScope
     }
 
     if (JJTreeOptions.getTrackTokens()) {
-      io.println(indent + nodeVar + ".setFirstToken(getToken(1));");
+      io.println(indent + nodeVar + ".jjtSetFirstToken(getToken(1));");
     }
   }
 
@@ -157,7 +157,7 @@ public class NodeScope
     }
 
     if (JJTreeOptions.getTrackTokens()) {
-      io.println(indent + nodeVar + ".setLastToken(getToken(0));");
+      io.println(indent + nodeVar + ".jjtSetLastToken(getToken(0));");
     }
   }
 

@@ -44,8 +44,8 @@ public class ASTCompilationUnit extends SimpleNode {
      for (i = 0; i < k; i++)
      {
 	System.out.print("Executing:");
-	Token first  = ((SimpleNode)jjtGetChild(i)).getFirstToken();
-	Token last = ((SimpleNode)jjtGetChild(i)).getLastToken();
+	Token first  = ((SimpleNode)jjtGetChild(i)).jjtGetFirstToken();
+	Token last = ((SimpleNode)jjtGetChild(i)).jjtGetLastToken();
 	for (Token t = first; t != null; t = t.next)
 	{
 	    System.out.print(" " + t);
