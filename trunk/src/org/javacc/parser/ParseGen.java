@@ -129,10 +129,10 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
           ostr.println("  static private int[] jj_la1_" + i + ";");
         ostr.println("  static {");
         for (int i = 0; i < tokenMaskSize; i++)
-          ostr.println("      jj_la1_" + i + "();");
+          ostr.println("      jj_la1_init_" + i + "();");
         ostr.println("   }");
         for (int i = 0; i < tokenMaskSize; i++) {
-          ostr.println("   private static void jj_la1_" + i + "() {");
+          ostr.println("   private static void jj_la1_init_" + i + "() {");
           ostr.print("      jj_la1_" + i + " = new int[] {");
           for (Enumeration enumeration = maskVals.elements(); enumeration.hasMoreElements();) {
             int[] tokenMask = (int[])(enumeration.nextElement());
