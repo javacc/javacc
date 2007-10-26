@@ -43,7 +43,7 @@ public class ASTOptionBinding extends SimpleNode {
     // If an option is specific to JJTree it should not be written out
     // to the output file for JavaCC.
  
-    if (JJTreeGlobals.jjtreeOptions.contains(name.toUpperCase())) {
+    if (JJTreeGlobals.isOptionJJTreeOnly(name)) {
       suppressed = true;
     }
   }

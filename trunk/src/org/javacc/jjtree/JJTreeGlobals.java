@@ -31,12 +31,48 @@ import java.util.*;
 
 class JJTreeGlobals
 {
+  static void initialize() {
+	    toolList = new Vector();
+	    parserName = null;
+	    packageName = "";
+	    parserImplements = null;
+	    parserClassBodyStart = null;
+	    parserImports = null;
+	    productions = new Hashtable();
+	    
+	    jjtreeOptions = new HashSet();
+	    jjtreeOptions.add("JJTREE_OUTPUT_DIRECTORY");
+	    jjtreeOptions.add("MULTI");
+	    jjtreeOptions.add("NODE_PREFIX");
+	    jjtreeOptions.add("NODE_PACKAGE");
+	    jjtreeOptions.add("NODE_EXTENDS");
+	    jjtreeOptions.add("NODE_STACK_SIZE");
+	    jjtreeOptions.add("NODE_DEFAULT_VOID");
+	    jjtreeOptions.add("OUTPUT_FILE");
+	    jjtreeOptions.add("CHECK_DEFINITE_NODE");
+	    jjtreeOptions.add("NODE_SCOPE_HOOK");
+	    jjtreeOptions.add("TRACK_TOKENS");
+	    jjtreeOptions.add("NODE_FACTORY");
+	    jjtreeOptions.add("NODE_USES_PARSER");
+	    jjtreeOptions.add("BUILD_NODE_FILES");
+	    jjtreeOptions.add("VISITOR");
+	    jjtreeOptions.add("VISITOR_DATA_TYPE");
+  }
+
+  static {
+	  initialize();
+  }
 
   /**
    * This set stores the JJTree-specific options that should not be
    * passed down to JavaCC 
    */
-  static Set jjtreeOptions = new HashSet();
+  private static Set jjtreeOptions;
+  
+  public static boolean isOptionJJTreeOnly(String optionName)
+  {
+	  return jjtreeOptions.contains(optionName.toUpperCase());
+  }
 
   static Vector toolList = new Vector();
 

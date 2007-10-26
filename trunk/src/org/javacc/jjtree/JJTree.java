@@ -28,7 +28,6 @@
 
 package org.javacc.jjtree;
 
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -109,14 +108,6 @@ public class JJTree {
     ASTNodeDescriptor.nodeIds = new Vector();
     ASTNodeDescriptor.nodeNames = new Vector();
     ASTNodeDescriptor.nodeSeen = new Hashtable();
-    JJTreeGlobals.jjtreeOptions = new HashSet();
-    JJTreeGlobals.toolList = new Vector();
-    JJTreeGlobals.parserName = null;
-    JJTreeGlobals.packageName = "";
-    JJTreeGlobals.parserImplements = null;
-    JJTreeGlobals.parserClassBodyStart = null;
-    JJTreeGlobals.parserImports = null;
-    JJTreeGlobals.productions = new Hashtable();
     org.javacc.parser.Main.reInitAll();
 
     JavaCCGlobals.bannerLine("Tree Builder", "");
@@ -206,24 +197,7 @@ public class JJTree {
   private void initializeOptions() {
     final int nodeStackSize = 500;
     JJTreeOptions.init();
-
-    JJTreeGlobals.jjtreeOptions.add("JJTREE_OUTPUT_DIRECTORY");
-    JJTreeGlobals.jjtreeOptions.add("MULTI");
-    JJTreeGlobals.jjtreeOptions.add("NODE_PREFIX");
-    JJTreeGlobals.jjtreeOptions.add("NODE_PACKAGE");
-    JJTreeGlobals.jjtreeOptions.add("NODE_EXTENDS");
-    JJTreeGlobals.jjtreeOptions.add("NODE_STACK_SIZE");
-    JJTreeGlobals.jjtreeOptions.add("NODE_DEFAULT_VOID");
-    JJTreeGlobals.jjtreeOptions.add("OUTPUT_FILE");
-    JJTreeGlobals.jjtreeOptions.add("CHECK_DEFINITE_NODE");
-    JJTreeGlobals.jjtreeOptions.add("NODE_SCOPE_HOOK");
-    JJTreeGlobals.jjtreeOptions.add("TRACK_TOKENS");
-    JJTreeGlobals.jjtreeOptions.add("NODE_FACTORY");
-    JJTreeGlobals.jjtreeOptions.add("NODE_USES_PARSER");
-    JJTreeGlobals.jjtreeOptions.add("BUILD_NODE_FILES");
-    JJTreeGlobals.jjtreeOptions.add("VISITOR");
-    JJTreeGlobals.jjtreeOptions.add("VISITOR_DATA_TYPE");
-    JJTreeGlobals.jjtreeOptions.add("VISITOR_EXCEPTION");
+    JJTreeGlobals.initialize();
   }
 
 
