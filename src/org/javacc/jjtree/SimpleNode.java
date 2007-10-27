@@ -177,7 +177,7 @@ public class SimpleNode implements Node {
     if (tt != null) {
       while (tt.specialToken != null) tt = tt.specialToken;
       while (tt != null) {
-        io.print(addUnicodeEscapes(translateImage(tt)));
+        io.print(TokenUtils.addUnicodeEscapes(translateImage(tt)));
         tt = tt.next;
       }
     }
@@ -195,7 +195,7 @@ public class SimpleNode implements Node {
     if (s == null) {
       /* Not within a node scope so we don't need to modify the
          source. */
-      io.print(addUnicodeEscapes(translateImage(t)));
+      io.print(TokenUtils.addUnicodeEscapes(translateImage(t)));
       return;
     }
 
@@ -231,23 +231,7 @@ public class SimpleNode implements Node {
       return;
     }
 
-    io.print(addUnicodeEscapes(translateImage(t)));
-  }
-
-
-  protected String addUnicodeEscapes(String str) {
-    String retval = "";
-    char ch;
-    for (int i = 0; i < str.length(); i++) {
-      ch = str.charAt(i);
-      if ((ch < 0x20 || ch > 0x7e) && ch != '\t' && ch != '\n' && ch != '\r' && ch != '\f') {
-        String s = "0000" + Integer.toString(ch, 16);
-        retval += "\\u" + s.substring(s.length() - 4, s.length());
-      } else {
-        retval += ch;
-      }
-    }
-    return retval;
+    io.print(TokenUtils.addUnicodeEscapes(translateImage(t)));
   }
 
 
