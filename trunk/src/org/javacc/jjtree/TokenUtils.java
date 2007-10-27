@@ -57,18 +57,18 @@ public final class TokenUtils
   }
 
   static String addUnicodeEscapes(String str) {
-    String retval = "";
+    StringBuffer buff = new StringBuffer(str.length());
     char ch;
     for (int i = 0; i < str.length(); i++) {
       ch = str.charAt(i);
       if ((ch < 0x20 || ch > 0x7e) && ch != '\t' && ch != '\n' && ch != '\r' && ch != '\f') {
         String s = "0000" + Integer.toString(ch, 16);
-        retval += "\\u" + s.substring(s.length() - 4, s.length());
+        buff.append("\\u" + s.substring(s.length() - 4, s.length()));
       } else {
-        retval += ch;
+        buff.append(ch);
       }
     }
-    return retval;
+    return buff.toString();
   }
 
 
