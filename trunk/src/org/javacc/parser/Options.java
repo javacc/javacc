@@ -515,7 +515,7 @@ public class Options {
     }
 
     /**
-     * Find the JDK version
+     * Find the JDK version.
      * 
      * @return The requested jdk version.
      */
