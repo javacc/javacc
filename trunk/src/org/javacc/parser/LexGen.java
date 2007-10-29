@@ -814,7 +814,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("}");
 
       // Method to reinitialize the jjrounds array.
-      ostr.println(staticString + "private final void ReInitRounds()");
+      ostr.println(staticString + "private void ReInitRounds()");
       ostr.println("{");
       ostr.println("   int i;");
       ostr.println("   jjround = 0x" + Integer.toHexString(Integer.MIN_VALUE + 1)+ ";");

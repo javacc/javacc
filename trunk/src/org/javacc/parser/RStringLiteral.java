@@ -457,7 +457,7 @@ public class RStringLiteral extends RegularExpression {
 
   static void DumpStartWithStates(java.io.PrintWriter ostr)
   {
-     ostr.println((Options.getStatic() ? "static " : "") + "private final int " +
+     ostr.println((Options.getStatic() ? "static " : "") + "private int " +
                   "jjStartNfaWithStates" + LexGen.lexStateSuffix + "(int pos, int kind, int state)");
      ostr.println("{");
      ostr.println("   jjmatchedKind = kind;");
@@ -487,7 +487,7 @@ public class RStringLiteral extends RegularExpression {
   private static boolean boilerPlateDumped = false;
   static void DumpBoilerPlate(java.io.PrintWriter ostr)
   {
-     ostr.println((Options.getStatic() ? "static " : "") + "private final int " +
+     ostr.println((Options.getStatic() ? "static " : "") + "private int " +
                   "jjStopAtPos(int pos, int kind)");
      ostr.println("{");
      ostr.println("   jjmatchedKind = kind;");
@@ -541,7 +541,7 @@ public class RStringLiteral extends RegularExpression {
 
      if (maxLen == 0)
      {
-        ostr.println((Options.getStatic() ? "static " : "") + "private final int " +
+        ostr.println((Options.getStatic() ? "static " : "") + "private int " +
                        "jjMoveStringLiteralDfa0" + LexGen.lexStateSuffix + "()");
 
         DumpNullStrLiterals(ostr);
@@ -565,7 +565,7 @@ public class RStringLiteral extends RegularExpression {
         tab = (Hashtable)charPosKind.elementAt(i);
         String[] keys = ReArrange(tab);
 
-        ostr.print((Options.getStatic() ? "static " : "") + "private final int " +
+        ostr.print((Options.getStatic() ? "static " : "") + "private int " +
                        "jjMoveStringLiteralDfa" + i + LexGen.lexStateSuffix + "(");
 
         if (i != 0)
