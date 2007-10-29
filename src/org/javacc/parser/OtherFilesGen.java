@@ -90,21 +90,27 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
         }
       }
     }
+    ostr.println("");
+    ostr.println("/** Token literal values and constants.*/");
     ostr.println("public interface " + cu_name + "Constants {");
     ostr.println("");
     RegularExpression re;
+    ostr.println("  /** End of File. */");
     ostr.println("  int EOF = 0;");
     for (java.util.Enumeration enumeration = ordered_named_tokens.elements(); enumeration.hasMoreElements();) {
       re = (RegularExpression)enumeration.nextElement();
+      ostr.println("  /** RegularExpression Id. */");
       ostr.println("  int " + re.label + " = " + re.ordinal + ";");
     }
     ostr.println("");
     if (!Options.getUserTokenManager() && Options.getBuildTokenManager()) {
       for (int i = 0; i < LexGen.lexStateName.length; i++) {
+        ostr.println("  /** Lexical state. */");
         ostr.println("  int " + LexGen.lexStateName[i] + " = " + i + ";");
       }
       ostr.println("");
     }
+    ostr.println("  /** Literal token values. */");
     ostr.println("  String[] tokenImage = {");
     ostr.println("    \"<EOF>\",");
 
