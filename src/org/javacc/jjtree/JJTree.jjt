@@ -51,7 +51,7 @@ public class JJTreeParser {
   }
 
 
-  /*
+  /**
    * Returns true if the next token is not in the FOLLOW list of "expansion".
    * It is used to decide when the end of an "expansion" has been reached.
    */
@@ -66,7 +66,7 @@ public class JJTreeParser {
 
 PARSER_END(JJTreeParser)
 
-
+
 /**********************************************
  * THE JAVACC TOKEN SPECIFICATION STARTS HERE *
  **********************************************/
@@ -341,7 +341,7 @@ TOKEN :
 | < GT: ">" >
 }
 
-
+
 /************************************************
  * THE JAVACC GRAMMAR SPECIFICATION STARTS HERE *
  ************************************************/
@@ -819,7 +819,7 @@ Token identifier() :
 
 ASTNodeDescriptor node_descriptor() #NodeDescriptor :
 {
-  Token t, n = null;
+  Token t = null; 
   String s = null;
 }
 {

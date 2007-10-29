@@ -25,15 +25,18 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package org.javacc.parser;
 
 import java.io.File;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
-public class LexGen
-    extends JavaCCGlobals
-    implements JavaCCParserConstants
+
+/**
+ * Generate lexer.
+ */
+public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
 {
   static private java.io.PrintWriter ostr;
   static private String staticString;
@@ -106,7 +109,7 @@ public class LexGen
          break;
 
         kind = ((Token)cu_to_insertion_point_1.elementAt(l)).kind;
-        if(kind == PACKAGE || kind == IMPORT) {
+        if(kind == PACKAGE) { // || kind == IMPORT) {
          for (; i < cu_to_insertion_point_1.size(); i++) {
            kind = ((Token)cu_to_insertion_point_1.elementAt(i)).kind;
            if (kind == SEMICOLON ||
@@ -134,6 +137,7 @@ public class LexGen
        }
 
        ostr.println("");
+       ostr.println("/** Token Manager. */");
        ostr.println("public class " + tokMgrClassName + " implements " +
                     cu_name + "Constants");
        ostr.println("{"); // }
@@ -179,11 +183,16 @@ public class LexGen
                           "in your TOKEN_MGR_DECLS. The generated token manager will not compile.");
     }
 
+    ostr.println("");
+    ostr.println("  /** Debug output. */");
     ostr.println("  public " + staticString + " java.io.PrintStream debugStream = System.out;");
+    ostr.println("  /** Set debug output. */");
     ostr.println("  public " + staticString + " void setDebugStream(java.io.PrintStream ds) { debugStream = ds; }");
 
     if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
-       ostr.println("  public " + cu_name + " parser = null;");
+      ostr.println("");
+      ostr.println("  /** The parser. */");
+      ostr.println("  public " + cu_name + " parser = null;");
     }
   }
 
@@ -548,6 +557,7 @@ public class LexGen
      if (hasTokenActions)
         DumpTokenActions();
 
+     NfaState.PrintBoilerPlate(ostr);
      ostr.println(/*{*/ "}");
      ostr.close();
   }
@@ -642,6 +652,8 @@ public class LexGen
       int i;
       String charStreamName;
 
+      ostr.println("");
+      ostr.println("/** Lexer state names. */");
       ostr.println("public static final String[] lexStateNames = {");
       for (i = 0; i < maxLexStates; i++)
          ostr.println("   \"" + lexStateName[i] + "\", ");
@@ -649,6 +661,8 @@ public class LexGen
 
       if (maxLexStates > 1)
       {
+         ostr.println("");
+         ostr.println("/** Lex State array. */");
          ostr.print("public static final int[] jjnewLexState = {");
 
          for (i = 0; i < maxOrdinal; i++)
@@ -743,10 +757,13 @@ public class LexGen
       ostr.println(staticString + "protected char curChar;");
 
       if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
-         ostr.println("public " + tokMgrClassName + "(" + cu_name + " parserArg, " + charStreamName + " stream){");
-         ostr.println("   parser = parserArg;");
+        ostr.println("");
+        ostr.println("/** Constructor with parser. */");
+        ostr.println("public " + tokMgrClassName + "(" + cu_name + " parserArg, " + charStreamName + " stream){");
+        ostr.println("   parser = parserArg;");
       } else {
-         ostr.println("public " + tokMgrClassName + "(" + charStreamName + " stream){");
+        ostr.println("/** Constructor. */");
+        ostr.println("public " + tokMgrClassName + "(" + charStreamName + " stream){");
       }
 
       if (Options.getStatic() && !Options.getUserCharStream())
@@ -771,17 +788,23 @@ public class LexGen
       ostr.println("}");
 
       if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
-         ostr.println("public " + tokMgrClassName + "(" + cu_name + " parserArg, " + 
+        ostr.println("");
+        ostr.println("/** Constructor with parser. */");
+        ostr.println("public " + tokMgrClassName + "(" + cu_name + " parserArg, " + 
                  charStreamName + " stream, int lexState){");
-         ostr.println("   this(parserArg, stream);");
+        ostr.println("   this(parserArg, stream);");
       } else {
-         ostr.println("public " + tokMgrClassName + "(" + charStreamName + " stream, int lexState){");
-         ostr.println("   this(stream);");
+        ostr.println("");
+        ostr.println("/** Constructor. */");
+        ostr.println("public " + tokMgrClassName + "(" + charStreamName + " stream, int lexState){");
+        ostr.println("   this(stream);");
       }
       ostr.println("   SwitchTo(lexState);");
       ostr.println("}");
 
       // Reinit method for reinitializing the parser (for static parsers).
+      ostr.println("");
+      ostr.println("/** Reinitialise parser. */");
       ostr.println(staticString + "public void ReInit(" + charStreamName + " stream)");
       ostr.println("{");
       ostr.println("   jjmatchedPos = jjnewStateCnt = 0;");
@@ -800,12 +823,16 @@ public class LexGen
       ostr.println("}");
 
       // Reinit method for reinitializing the parser (for static parsers).
+      ostr.println("");
+      ostr.println("/** Reinitialise parser. */");
       ostr.println(staticString + "public void ReInit(" + charStreamName + " stream, int lexState)");
       ostr.println("{");
       ostr.println("   ReInit(stream);");
       ostr.println("   SwitchTo(lexState);");
       ostr.println("}");
 
+      ostr.println("");
+      ostr.println("/** Switch to specified lex state. */");
       ostr.println(staticString + "public void SwitchTo(int lexState)");
       ostr.println("{");
       ostr.println("   if (lexState >= " + lexStateName.length + " || lexState < 0)");
@@ -897,10 +924,11 @@ public class LexGen
      ostr.println(staticString + "int jjmatchedPos;");
      ostr.println(staticString + "int jjmatchedKind;");
      ostr.println("");
+     ostr.println("/** Get the next Token. */");
      ostr.println("public " + staticString + "Token getNextToken()" +
                  " ");
      ostr.println("{");
-     ostr.println("  int kind;");
+     ostr.println("  //int kind;");
      ostr.println("  Token specialToken = null;");
      ostr.println("  Token matchedToken;");
      ostr.println("  int curPos = 0;");
