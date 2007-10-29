@@ -2558,7 +2558,7 @@ public class NfaState
    //private static boolean boilerPlateDumped = false;
    static void PrintBoilerPlate(java.io.PrintWriter ostr)
    {
-      ostr.println((Options.getStatic() ? "static " : "") + "private final void " +
+      ostr.println((Options.getStatic() ? "static " : "") + "private void " +
                     "jjCheckNAdd(int state)");
       ostr.println("{");
       ostr.println("   if (jjrounds[state] != jjround)");
@@ -2568,7 +2568,7 @@ public class NfaState
       ostr.println("   }");
       ostr.println("}");
 
-      ostr.println((Options.getStatic() ? "static " : "") + "private final void " +
+      ostr.println((Options.getStatic() ? "static " : "") + "private void " +
                     "jjAddStates(int start, int end)");
       ostr.println("{");
       ostr.println("   do {");
@@ -2576,14 +2576,14 @@ public class NfaState
       ostr.println("   } while (start++ != end);");
       ostr.println("}");
 
-      ostr.println((Options.getStatic() ? "static " : "") + "private final void " +
+      ostr.println((Options.getStatic() ? "static " : "") + "private void " +
                     "jjCheckNAddTwoStates(int state1, int state2)");
       ostr.println("{");
       ostr.println("   jjCheckNAdd(state1);");
       ostr.println("   jjCheckNAdd(state2);");
       ostr.println("}");
       ostr.println("");
-      ostr.println((Options.getStatic() ? "static " : "") + "private final void " +
+      ostr.println((Options.getStatic() ? "static " : "") + "private void " +
                     "jjCheckNAddStates(int start, int end)");
       ostr.println("{");
       ostr.println("   do {");
@@ -2593,7 +2593,7 @@ public class NfaState
       ostr.println("");
 
       if(jjCheckNAddStatesUnaryNeeded) {
-        ostr.println((Options.getStatic() ? "static " : "") + "private final void " +
+        ostr.println((Options.getStatic() ? "static " : "") + "private void " +
                     "jjCheckNAddStates(int start)");
         ostr.println("{");
         ostr.println("   jjCheckNAdd(jjnextStates[start]);");
@@ -2755,7 +2755,7 @@ public class NfaState
 
       kinds[LexGen.lexStateIndex] = kindsForStates;
 
-      ostr.println((Options.getStatic() ? "static " : "") + "private final int " +
+      ostr.println((Options.getStatic() ? "static " : "") + "private int " +
                     "jjMoveNfa" + LexGen.lexStateSuffix + "(int startState, int curPos)");
       ostr.println("{");
 
