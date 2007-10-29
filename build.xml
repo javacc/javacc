@@ -58,7 +58,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <ant antfile="build.xml" target="compile-nojar" dir="src/org/javacc/jjtree" />
   </target>
 
-  <target name="jar" depends="compile">
+  <target name="jar" depends="compile" description="Create bin/lib/javacc.jar">
     <antcall target="jar-nocompile" />
   </target>
 
@@ -74,7 +74,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     </uptodate>
   </target>
 
-  <target name="update-bootstrap" depends="jar">
+  <target name="update-bootstrap" depends="jar" description="Copy an updated bin/lib/javacc.jar into the bootstrap directory">
     <copy todir="bootstrap">
       <fileset dir="bin/lib">
         <include name="javacc.jar" />
