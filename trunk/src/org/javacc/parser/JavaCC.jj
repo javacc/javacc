@@ -659,7 +659,6 @@ void javacode_production() :
 
 void bnf_production() :
 	{
-	  String lhs;
 	  BNFProduction p = new BNFProduction();
 	  Container c = new Container();
 	  Token t = p.firstToken = getToken(1);
@@ -1660,7 +1659,6 @@ void ClassOrInterfaceBody(boolean isInterface, Vector tokens):
 
 void ClassOrInterfaceBodyDeclaration(boolean isInterface):
 {
-   boolean isNestedInterface = false;
    int modifiers;
 }
 {

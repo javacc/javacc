@@ -25,6 +25,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 package org.javacc.parser;
 
 import java.io.BufferedWriter;
@@ -35,11 +36,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
-public class JavaFiles
-    extends JavaCCGlobals
-    implements JavaCCParserConstants
-{
 
+/**
+ * Generate CharStream, TokenManager and Exceptions.
+ */
+public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
+{
   static PrintWriter ostr;
 
   /**
@@ -173,6 +175,7 @@ public class JavaFiles
     ostr.println("");
     ostr.println("public class JavaCharStream");
     ostr.println("{");
+    ostr.println("/** Whether parser is static. */");
     ostr.println("  public static final boolean staticFlag = " +
                                          Options.getStatic() + ";");
     ostr.println("  static final int hexval(char c) throws java.io.IOException {");
@@ -222,6 +225,7 @@ public class JavaFiles
     ostr.println("    throw new java.io.IOException(); // Should never come here");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Position in buffer. */");
     ostr.println(prefix + "public int bufpos = -1;");
     ostr.println(prefix + "int bufsize;");
     ostr.println(prefix + "int available;");
@@ -360,6 +364,7 @@ public class JavaFiles
     ostr.println("     return nextCharBuf[nextCharInd];");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** @return starting character for token. */");
     ostr.println(prefix + "public char BeginToken() throws java.io.IOException");
     ostr.println("  {     ");
     ostr.println("     if (inBuf > 0)");
@@ -446,6 +451,7 @@ public class JavaFiles
     }
 
     ostr.println("");
+    ostr.println("/** Read a character. */");
     ostr.println(prefix + "public char readChar() throws java.io.IOException");
     ostr.println("  {");
     ostr.println("     if (inBuf > 0)");
@@ -618,6 +624,7 @@ public class JavaFiles
 
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Get end column. */");
     ostr.println(prefix + "public int getEndColumn() {");
 
     if (OtherFilesGen.keepLineCol)
@@ -631,6 +638,7 @@ public class JavaFiles
 
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Get end line. */");
     ostr.println(prefix + "public int getEndLine() {");
 
     if (OtherFilesGen.keepLineCol)
@@ -644,6 +652,7 @@ public class JavaFiles
 
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** @return column of token start */");
     ostr.println(prefix + "public int getBeginColumn() {");
 
     if (OtherFilesGen.keepLineCol)
@@ -657,6 +666,7 @@ public class JavaFiles
 
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** @return line number of token start */");
     ostr.println(prefix + "public int getBeginLine() {");
 
     if (OtherFilesGen.keepLineCol)
@@ -670,6 +680,7 @@ public class JavaFiles
 
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Retreat. */");
     ostr.println(prefix + "public void backup(int amount) {");
     ostr.println("");
     ostr.println("    inBuf += amount;");
@@ -677,6 +688,7 @@ public class JavaFiles
     ostr.println("       bufpos += bufsize;");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Constructor. */");
     ostr.println("  public JavaCharStream(java.io.Reader dstream,");
     ostr.println("                 int startline, int startcolumn, int buffersize)");
     ostr.println("  {");
@@ -711,16 +723,19 @@ public class JavaFiles
     ostr.println("    nextCharBuf = new char[4096];");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Constructor. */");
     ostr.println("  public JavaCharStream(java.io.Reader dstream,");
     ostr.println("                                        int startline, int startcolumn)");
     ostr.println("  {");
     ostr.println("     this(dstream, startline, startcolumn, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Constructor. */");
     ostr.println("  public JavaCharStream(java.io.Reader dstream)");
     ostr.println("  {");
     ostr.println("     this(dstream, 1, 1, 4096);");
     ostr.println("  }");
+    ostr.println("/** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.Reader dstream,");
     ostr.println("                 int startline, int startcolumn, int buffersize)");
     ostr.println("  {");
@@ -756,16 +771,19 @@ public class JavaFiles
     ostr.println("    nextCharInd = bufpos = -1;");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.Reader dstream,");
     ostr.println("                                        int startline, int startcolumn)");
     ostr.println("  {");
     ostr.println("     ReInit(dstream, startline, startcolumn, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.Reader dstream)");
     ostr.println("  {");
     ostr.println("     ReInit(dstream, 1, 1, 4096);");
     ostr.println("  }");
+    ostr.println("/** Constructor. */");
     ostr.println("  public JavaCharStream(java.io.InputStream dstream, String encoding, int startline,");
     ostr.println("  int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
@@ -773,35 +791,41 @@ public class JavaFiles
             "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Constructor. */");
     ostr.println("  public JavaCharStream(java.io.InputStream dstream, int startline,");
     ostr.println("  int startcolumn, int buffersize)");
     ostr.println("  {");
     ostr.println("     this(new java.io.InputStreamReader(dstream), startline, startcolumn, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Constructor. */");
     ostr.println("  public JavaCharStream(java.io.InputStream dstream, String encoding, int startline,");
     ostr.println("                        int startcolumn) throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
     ostr.println("     this(dstream, encoding, startline, startcolumn, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Constructor. */");
     ostr.println("  public JavaCharStream(java.io.InputStream dstream, int startline,");
     ostr.println("                        int startcolumn)");
     ostr.println("  {");
     ostr.println("     this(dstream, startline, startcolumn, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Constructor. */");
     ostr.println("  public JavaCharStream(java.io.InputStream dstream, String encoding) " + 
             "throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
     ostr.println("     this(dstream, encoding, 1, 1, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Constructor. */");
     ostr.println("  public JavaCharStream(java.io.InputStream dstream)");
     ostr.println("  {");
     ostr.println("     this(dstream, 1, 1, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding, int startline,");
     ostr.println("  int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
@@ -809,32 +833,38 @@ public class JavaFiles
             "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.InputStream dstream, int startline,");
     ostr.println("  int startcolumn, int buffersize)");
     ostr.println("  {");
     ostr.println("     ReInit(new java.io.InputStreamReader(dstream), startline, startcolumn, buffersize);");
     ostr.println("  }");
+    ostr.println("/** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding, int startline,");
     ostr.println("                     int startcolumn) throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
     ostr.println("     ReInit(dstream, encoding, startline, startcolumn, 4096);");
     ostr.println("  }");
+    ostr.println("/** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.InputStream dstream, int startline,");
     ostr.println("                     int startcolumn)");
     ostr.println("  {");
     ostr.println("     ReInit(dstream, startline, startcolumn, 4096);");
     ostr.println("  }");
+    ostr.println("/** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding) " + 
             "throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
     ostr.println("     ReInit(dstream, encoding, 1, 1, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.InputStream dstream)");
     ostr.println("  {");
     ostr.println("     ReInit(dstream, 1, 1, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** @return token image as String */");
     ostr.println(prefix + "public String GetImage()");
     ostr.println("  {");
     ostr.println("     if (bufpos >= tokenBegin)");
@@ -844,6 +874,7 @@ public class JavaFiles
     ostr.println("                              new String(buffer, 0, bufpos + 1);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** @return suffix */");
     ostr.println(prefix + "public char[] GetSuffix(int len)");
     ostr.println("  {");
     ostr.println("     char[] ret = new char[len];");
@@ -860,6 +891,7 @@ public class JavaFiles
     ostr.println("     return ret;");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Set buffers back to null when finished. */");
     ostr.println(prefix + "public void Done()");
     ostr.println("  {");
     ostr.println("     nextCharBuf = null;");
@@ -976,11 +1008,13 @@ public class JavaFiles
     ostr.println("");
     ostr.println("public class SimpleCharStream");
     ostr.println("{");
+    ostr.println("/** Whether parser is static. */");
     ostr.println("  public static final boolean staticFlag = " +
                                          Options.getStatic() + ";");
     ostr.println(prefix + "int bufsize;");
     ostr.println(prefix + "int available;");
     ostr.println(prefix + "int tokenBegin;");
+    ostr.println("/** Position in buffer. */");
     ostr.println(prefix + "public int bufpos = -1;");
 
     if (OtherFilesGen.keepLineCol)
@@ -1117,6 +1151,7 @@ public class JavaFiles
     ostr.println("     }");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Start. */");
     ostr.println(prefix + "public char BeginToken() throws java.io.IOException");
     ostr.println("  {");
     ostr.println("     tokenBegin = -1;");
@@ -1171,6 +1206,7 @@ public class JavaFiles
     }
 
     ostr.println("");
+    ostr.println("/** Read a character. */");
     ostr.println(prefix + "public char readChar() throws java.io.IOException");
     ostr.println("  {");
     ostr.println("     if (inBuf > 0)");
@@ -1233,6 +1269,7 @@ public class JavaFiles
 
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Get token end column number. */");
     ostr.println(prefix + "public int getEndColumn() {");
 
     if (OtherFilesGen.keepLineCol)
@@ -1246,6 +1283,7 @@ public class JavaFiles
 
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Get token end line number. */");
     ostr.println(prefix + "public int getEndLine() {");
 
     if (OtherFilesGen.keepLineCol)
@@ -1259,6 +1297,7 @@ public class JavaFiles
 
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Get token beginning column number. */");
     ostr.println(prefix + "public int getBeginColumn() {");
 
     if (OtherFilesGen.keepLineCol)
@@ -1272,6 +1311,7 @@ public class JavaFiles
 
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Get token beginning line number. */");
     ostr.println(prefix + "public int getBeginLine() {");
 
     if (OtherFilesGen.keepLineCol)
@@ -1285,6 +1325,7 @@ public class JavaFiles
 
     ostr.println("  }");
     ostr.println("");
+    ostr.println("/** Backup a number of characters. */");
     ostr.println(prefix + "public void backup(int amount) {");
     ostr.println("");
     ostr.println("    inBuf += amount;");
@@ -1292,6 +1333,7 @@ public class JavaFiles
     ostr.println("       bufpos += bufsize;");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Constructor. */");
     ostr.println("  public SimpleCharStream(java.io.Reader dstream, int startline,");
     ostr.println("  int startcolumn, int buffersize)");
     ostr.println("  {");
@@ -1325,16 +1367,20 @@ public class JavaFiles
 
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Constructor. */");
     ostr.println("  public SimpleCharStream(java.io.Reader dstream, int startline,");
     ostr.println("                          int startcolumn)");
     ostr.println("  {");
     ostr.println("     this(dstream, startline, startcolumn, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Constructor. */");
     ostr.println("  public SimpleCharStream(java.io.Reader dstream)");
     ostr.println("  {");
     ostr.println("     this(dstream, 1, 1, 4096);");
     ostr.println("  }");
+    ostr.println("");
+    ostr.println("  /** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.Reader dstream, int startline,");
     ostr.println("  int startcolumn, int buffersize)");
     ostr.println("  {");
@@ -1369,16 +1415,19 @@ public class JavaFiles
     ostr.println("    bufpos = -1;");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.Reader dstream, int startline,");
     ostr.println("                     int startcolumn)");
     ostr.println("  {");
     ostr.println("     ReInit(dstream, startline, startcolumn, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.Reader dstream)");
     ostr.println("  {");
     ostr.println("     ReInit(dstream, 1, 1, 4096);");
     ostr.println("  }");
+    ostr.println("  /** Constructor. */");
     ostr.println("  public SimpleCharStream(java.io.InputStream dstream, String encoding, int startline,");
     ostr.println("  int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
@@ -1386,35 +1435,41 @@ public class JavaFiles
             "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Constructor. */");
     ostr.println("  public SimpleCharStream(java.io.InputStream dstream, int startline,");
     ostr.println("  int startcolumn, int buffersize)");
     ostr.println("  {");
     ostr.println("     this(new java.io.InputStreamReader(dstream), startline, startcolumn, buffersize);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Constructor. */");
     ostr.println("  public SimpleCharStream(java.io.InputStream dstream, String encoding, int startline,");
     ostr.println("                          int startcolumn) throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
     ostr.println("     this(dstream, encoding, startline, startcolumn, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Constructor. */");
     ostr.println("  public SimpleCharStream(java.io.InputStream dstream, int startline,");
     ostr.println("                          int startcolumn)");
     ostr.println("  {");
     ostr.println("     this(dstream, startline, startcolumn, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Constructor. */");
     ostr.println("  public SimpleCharStream(java.io.InputStream dstream, String encoding) " + 
             "throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
     ostr.println("     this(dstream, encoding, 1, 1, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Constructor. */");
     ostr.println("  public SimpleCharStream(java.io.InputStream dstream)");
     ostr.println("  {");
     ostr.println("     this(dstream, 1, 1, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding, int startline,");
     ostr.println("                          int startcolumn, int buffersize) " + 
             "throws java.io.UnsupportedEncodingException");
@@ -1423,32 +1478,38 @@ public class JavaFiles
             "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.InputStream dstream, int startline,");
     ostr.println("                          int startcolumn, int buffersize)");
     ostr.println("  {");
     ostr.println("     ReInit(new java.io.InputStreamReader(dstream), startline, startcolumn, buffersize);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding) " + 
             "throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
     ostr.println("     ReInit(dstream, encoding, 1, 1, 4096);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.InputStream dstream)");
     ostr.println("  {");
     ostr.println("     ReInit(dstream, 1, 1, 4096);");
     ostr.println("  }");
+    ostr.println("  /** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding, int startline,");
     ostr.println("                     int startcolumn) throws java.io.UnsupportedEncodingException");
     ostr.println("  {");
     ostr.println("     ReInit(dstream, encoding, startline, startcolumn, 4096);");
     ostr.println("  }");
+    ostr.println("  /** Reinitialise. */");
     ostr.println("  public void ReInit(java.io.InputStream dstream, int startline,");
     ostr.println("                     int startcolumn)");
     ostr.println("  {");
     ostr.println("     ReInit(dstream, startline, startcolumn, 4096);");
     ostr.println("  }");
+    ostr.println("  /** Get token literal value. */");
     ostr.println(prefix + "public String GetImage()");
     ostr.println("  {");
     ostr.println("     if (bufpos >= tokenBegin)");
@@ -1458,6 +1519,7 @@ public class JavaFiles
     ostr.println("                              new String(buffer, 0, bufpos + 1);");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Get the suffix. */");
     ostr.println(prefix + "public char[] GetSuffix(int len)");
     ostr.println("  {");
     ostr.println("     char[] ret = new char[len];");
@@ -1474,6 +1536,7 @@ public class JavaFiles
     ostr.println("     return ret;");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Reset buffer when finished. */");
     ostr.println(prefix + "public void Done()");
     ostr.println("  {");
     ostr.println("     buffer = null;");
@@ -1777,6 +1840,7 @@ public class JavaFiles
     ostr.println("    specialConstructor = false;");
     ostr.println("  }");
     ostr.println("");
+    ostr.println("  /** Constructor with message. */");
     ostr.println("  public ParseException(String message) {");
     ostr.println("    super(message);");
     ostr.println("    specialConstructor = false;");
@@ -1846,7 +1910,10 @@ public class JavaFiles
     ostr.println("        retval += tokenImage[0];");
     ostr.println("        break;");
     ostr.println("      }");
+    ostr.println("      retval += \" \" + tokenImage[tok.kind];");
+    ostr.println("      retval += \" \\\"\";");
     ostr.println("      retval += add_escapes(tok.image);");
+    ostr.println("      retval += \" \\\"\";");
     ostr.println("      tok = tok.next; ");
     ostr.println("    }");
     if (OtherFilesGen.keepLineCol)
@@ -1960,8 +2027,12 @@ public class JavaFiles
         }
       }
     }
+    ostr.println("/** Token Manager Error. */");
+    if(Options.getJdkVersion().compareTo("1.5") >= 0) 
+      ostr.println("@SuppressWarnings(\"serial\")");
     ostr.println("public class TokenMgrError extends Error");
     ostr.println("{");
+    ostr.println("");
     ostr.println("   /*");
     ostr.println("    * Ordinals for various reasons why an Error of this type can be thrown.");
     ostr.println("    */");
@@ -2080,15 +2151,18 @@ public class JavaFiles
     ostr.println("    * Constructors of various flavors follow.");
     ostr.println("    */");
     ostr.println("");
+    ostr.println("   /** No arg constructor. */");
     ostr.println("   public TokenMgrError() {");
     ostr.println("   }");
     ostr.println("");
+    ostr.println("   /** Constructor with message and reason. */");
     ostr.println("   public TokenMgrError(String message, int reason) {");
     ostr.println("      super(message);");
     ostr.println("      errorCode = reason;");
     ostr.println("   }");
     ostr.println("");
-    ostr.println("   public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, " + 
+    ostr.println("   /** Full Constructor. */");
+   ostr.println("   public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, " + 
             "String errorAfter, char curChar, int reason) {");
     ostr.println("      this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);");
     ostr.println("   }");
@@ -2147,13 +2221,15 @@ public class JavaFiles
     ostr.println("  public int kind;");
     if (OtherFilesGen.keepLineCol)
     {
-    ostr.println("");
-    ostr.println("  /**");
-    ostr.println("   * beginLine and beginColumn describe the position of the first character");
-    ostr.println("   * of this token; endLine and endColumn describe the position of the");
-    ostr.println("   * last character of this token.");
-    ostr.println("   */");
-    ostr.println("  public int beginLine, beginColumn, endLine, endColumn;");
+      ostr.println("");
+      ostr.println("  /** The line number of the first character of this Token. */");
+      ostr.println("  public int beginLine;");
+      ostr.println("  /** The column number of the first character of this Token. */");
+      ostr.println("  public int beginColumn;");
+      ostr.println("  /** The line number of the last character of this Token. */");
+      ostr.println("  public int endLine;");
+      ostr.println("  /** The column number of the last character of this Token. */");
+      ostr.println("  public int endColumn;");
     }
 
     ostr.println("");

@@ -30,6 +30,10 @@ package org.javacc.parser;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
+
+/**
+ * The state of a Non-deterministic Finite Automaton.
+ */
 public class NfaState
 {
    public static boolean unicodeWarningGiven = false;
@@ -52,6 +56,8 @@ public class NfaState
    static Hashtable stateBlockTable = new Hashtable();
    static Hashtable stateSetsToFix = new Hashtable();
 
+   static boolean jjCheckNAddStatesUnaryNeeded = false;
+   
    public static void ReInit()
    {
       generatedStates = 0;
@@ -841,7 +847,7 @@ public class NfaState
    static Vector allBitVectors = new Vector();
 
    /* This function generates the bit vectors of low and hi bytes for common
-      bit vectors and retunrs those that are not common with anything (in
+      bit vectors and returns those that are not common with anything (in
       loBytes) and returns an array of indices that can be used to generate
       the function names for char matching using the common bit vectors.
       It also generates code to match a char with the common bit vectors.
@@ -1489,7 +1495,6 @@ public class NfaState
             continue;
 
          isPresent = 0;
-         Outer:
          for (j = 0; j < nameSet.length; j++)
          {
             if (ElemOccurs(nameSet[j], tmpSet) >= 0)
@@ -1613,16 +1618,17 @@ public class NfaState
       {
          if (Options.getJavaUnicodeEscape() || unicodeWarningGiven)
          {
-            ostr.println("         int hiByte = (int)(curChar >> 8);");
-            ostr.println("         int i1 = hiByte >> 6;");
-            ostr.println("         long l1 = 1L << (hiByte & 077);");
+           ostr.println("         int hiByte = (int)(curChar >> 8);");
+           ostr.println("         int i1 = hiByte >> 6;");
+           ostr.println("         long l1 = 1L << (hiByte & 077);");
          }
 
          ostr.println("         int i2 = (curChar & 0xff) >> 6;");
          ostr.println("         long l2 = 1L << (curChar & 077);");
       }
 
-      ostr.println("         MatchLoop: do");
+      //ostr.println("         MatchLoop: do");
+      ostr.println("         do");
       ostr.println("         {");
 
       ostr.println("            switch(jjstateSet[--i])");
@@ -1893,10 +1899,14 @@ public class NfaState
             int[] indices = GetStateSetIndicesForUse(next.epsilonMovesString);
             boolean notTwo = (indices[0] + 1 != indices[1]);
 
-            if (nextIntersects)
-               ostr.println(prefix + "                  jjCheckNAddStates(" +
-                  indices[0] + (notTwo  ? (", " + indices[1]) : "") + ");");
-            else
+            if (nextIntersects) { 
+              ostr.print(prefix + "                  jjCheckNAddStates(" + indices[0]);
+              if (notTwo)  
+                ostr.print(", " + indices[1]);
+              else 
+                jjCheckNAddStatesUnaryNeeded = true;              
+              ostr.println(");");
+            } else
                ostr.println(prefix + "                  jjAddStates(" +
                                      indices[0] + ", " + indices[1] + ");");
          }
@@ -2036,10 +2046,14 @@ public class NfaState
             int[] indices = GetStateSetIndicesForUse(next.epsilonMovesString);
             boolean notTwo = (indices[0] + 1 != indices[1]);
 
-            if (nextIntersects)
-               ostr.println(prefix + "                  jjCheckNAddStates(" +
-                  indices[0] + (notTwo  ? (", " + indices[1]) : "") + ");");
-            else
+            if (nextIntersects) { 
+              ostr.print(prefix + "                  jjCheckNAddStates(" + indices[0]);
+              if (notTwo)  
+                ostr.print(", " + indices[1]);
+              else 
+                jjCheckNAddStatesUnaryNeeded = true;              
+              ostr.println(");");
+            } else
                ostr.println(prefix + "                  jjAddStates(" +
                                      indices[0] + ", " + indices[1] + ");");
          }
@@ -2259,12 +2273,15 @@ public class NfaState
             int[] indices = GetStateSetIndicesForUse(next.epsilonMovesString);
             boolean notTwo = (indices[0] + 1 != indices[1]);
 
-            if (nextIntersects)
-               ostr.println("                     jjCheckNAddStates(" +
-                  indices[0] + (notTwo  ? (", " + indices[1]) : "") + ");");
-            else
-               ostr.println("                     jjAddStates(" +
-                                     indices[0] + ", " + indices[1] + ");");
+            if (nextIntersects) { 
+              ostr.print("                     jjCheckNAddStates(" + indices[0]);
+              if (notTwo)  
+                ostr.print(", " + indices[1]);
+              else 
+                jjCheckNAddStatesUnaryNeeded = true;              
+              ostr.println(");");
+            } else
+              ostr.println("                     jjAddStates(" + indices[0] + ", " + indices[1] + ");");
          }
       }
 
@@ -2381,12 +2398,15 @@ public class NfaState
             int[] indices = GetStateSetIndicesForUse(next.epsilonMovesString);
             boolean notTwo = (indices[0] + 1 != indices[1]);
 
-            if (nextIntersects)
-               ostr.println(prefix + "                  jjCheckNAddStates(" +
-                  indices[0] + (notTwo  ? (", " + indices[1]) : "") + ");");
-            else
-               ostr.println(prefix + "                  jjAddStates(" +
-                                     indices[0] + ", " + indices[1] + ");");
+            if (nextIntersects) { 
+              ostr.print(prefix + "                  jjCheckNAddStates(" + indices[0]);
+              if (notTwo)  
+                ostr.print(", " + indices[1]);
+              else 
+                jjCheckNAddStatesUnaryNeeded = true;              
+              ostr.println(");");
+            } else
+              ostr.println(prefix + "                  jjAddStates(" + indices[0] + ", " + indices[1] + ");");
          }
       }
 
@@ -2535,7 +2555,7 @@ public class NfaState
       }
    }
 
-   private static boolean boilerPlateDumped = false;
+   //private static boolean boilerPlateDumped = false;
    static void PrintBoilerPlate(java.io.PrintWriter ostr)
    {
       ostr.println((Options.getStatic() ? "static " : "") + "private final void " +
@@ -2562,7 +2582,7 @@ public class NfaState
       ostr.println("   jjCheckNAdd(state1);");
       ostr.println("   jjCheckNAdd(state2);");
       ostr.println("}");
-
+      ostr.println("");
       ostr.println((Options.getStatic() ? "static " : "") + "private final void " +
                     "jjCheckNAddStates(int start, int end)");
       ostr.println("{");
@@ -2570,13 +2590,17 @@ public class NfaState
       ostr.println("      jjCheckNAdd(jjnextStates[start]);");
       ostr.println("   } while (start++ != end);");
       ostr.println("}");
+      ostr.println("");
 
-      ostr.println((Options.getStatic() ? "static " : "") + "private final void " +
+      if(jjCheckNAddStatesUnaryNeeded) {
+        ostr.println((Options.getStatic() ? "static " : "") + "private final void " +
                     "jjCheckNAddStates(int start)");
-      ostr.println("{");
-      ostr.println("   jjCheckNAdd(jjnextStates[start]);");
-      ostr.println("   jjCheckNAdd(jjnextStates[start + 1]);");
-      ostr.println("}");
+        ostr.println("{");
+        ostr.println("   jjCheckNAdd(jjnextStates[start]);");
+        ostr.println("   jjCheckNAdd(jjnextStates[start + 1]);");
+        ostr.println("}");
+        ostr.println("");
+      }
    }
 
    private static void FindStatesWithNoBreak()
@@ -2679,10 +2703,10 @@ public class NfaState
    static int[][][] statesForState;
    public static void DumpMoveNfa(java.io.PrintWriter ostr)
    {
-      if (!boilerPlateDumped)
-         PrintBoilerPlate(ostr);
+      //if (!boilerPlateDumped)
+      //   PrintBoilerPlate(ostr);
 
-      boilerPlateDumped = true;
+      //boilerPlateDumped = true;
       int i;
       int[] kindsForStates = null;
 
@@ -2753,7 +2777,7 @@ public class NfaState
          ostr.println("   curPos = 0;");
       }
 
-      ostr.println("   int[] nextStates;");
+      ostr.println("   //int[] nextStates; // not used");
       ostr.println("   int startsAt = 0;");
       ostr.println("   jjnewStateCnt = " + generatedStates + ";");
       ostr.println("   int i = 1;");
@@ -2770,7 +2794,8 @@ public class NfaState
                  "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
                  "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
 
-      ostr.println("   int j, kind = 0x" + Integer.toHexString(Integer.MAX_VALUE) + ";");
+      ostr.println("   //int j; // not used");
+      ostr.println("   int kind = 0x" + Integer.toHexString(Integer.MAX_VALUE) + ";");
       ostr.println("   for (;;)");
       ostr.println("   {");
       ostr.println("      if (++jjround == 0x" + Integer.toHexString(Integer.MAX_VALUE) + ")");
@@ -2987,7 +3012,8 @@ public class NfaState
       tableToDump = new Hashtable();
       orderedStateSet = new Vector();
       lastIndex = 0;
-      boilerPlateDumped = false;
+      //boilerPlateDumped = false;
+      jjCheckNAddStatesUnaryNeeded = false;
       kinds = null;
       statesForState = null;
    }

@@ -69,14 +69,14 @@ public class RStringLiteral extends RegularExpression {
    */
   public String image;
 
-    public RStringLiteral() {
-    }
+  public RStringLiteral() {
+  }
 
-    public RStringLiteral(Token t, String image) {
-        this.line = t.beginLine;
-        this.column = t.beginColumn;
-        this.image = image;
-    }
+  public RStringLiteral(Token t, String image) {
+    this.line = t.beginLine;
+    this.column = t.beginColumn;
+    this.image = image;
+  }
 
   static int maxStrKind = 0;
   static int maxLen = 0;
@@ -93,104 +93,112 @@ public class RStringLiteral extends RegularExpression {
   static boolean subStringAtPos[];
   static Hashtable[] statesForPos;
 
-  // Need to call this method after gnerating code for each lexical state. It
-  // initializes all the static variables, so that there is no interference
-  // between the various states of the lexer.
+  /**
+   * Initialize all the static variables, so that there is no interference
+   * between the various states of the lexer.
+   * 
+   * Need to call this method after generating code for each lexical state.
+   */
   public static void ReInit()
   {
-     maxStrKind = 0;
-     maxLen = 0;
-     charPosKind = new Vector();
-     maxLenForActive = new int[100]; // 6400 tokens
-     intermediateKinds = null;
-     intermediateMatchedPos = null;
-     startStateCnt = 0;
-     subString = null;
-     subStringAtPos = null;
-     statesForPos = null;
+    maxStrKind = 0;
+    maxLen = 0;
+    charPosKind = new Vector();
+    maxLenForActive = new int[100]; // 6400 tokens
+    intermediateKinds = null;
+    intermediateMatchedPos = null;
+    startStateCnt = 0;
+    subString = null;
+    subStringAtPos = null;
+    statesForPos = null;
   }
 
   public static void DumpStrLiteralImages(java.io.PrintWriter ostr)
   {
-     String image;
-     int charCnt = 0, i;
+    String image;
+    int i;
+    charCnt = 0; // Set to zero in reInit() but just to be sure
+    
+    ostr.println("");
+    ostr.println("/** Token literal values. */");
+    ostr.println("public static final String[] jjstrLiteralImages = {");
 
-     ostr.println("public static final String[] jjstrLiteralImages = {");
+    if (allImages == null || allImages.length == 0)
+    {
+      ostr.println("};");
+      return;
+    }
 
-     if (allImages == null || allImages.length == 0)
-     {
-        ostr.println("};");
-        return;
-     }
-
-     allImages[0] = "";
-     for (i = 0; i < allImages.length; i++)
-     {
-        if ((image = allImages[i]) == null ||
-            ((LexGen.toSkip[i / 64] & (1L << (i % 64))) == 0L &&
-             (LexGen.toMore[i / 64] & (1L << (i % 64))) == 0L &&
-             (LexGen.toToken[i / 64] & (1L << (i % 64))) == 0L) ||
-            (LexGen.toSkip[i / 64] & (1L << (i % 64))) != 0L ||
-            (LexGen.toMore[i / 64] & (1L << (i % 64))) != 0L ||
-            LexGen.canReachOnMore[LexGen.lexStates[i]] ||
-            ((Options.getIgnoreCase() || LexGen.ignoreCase[i]) &&
-             (!image.equals(image.toLowerCase()) ||
-              !image.equals(image.toUpperCase()))))
-        {
-           allImages[i] = null;
-           if ((charCnt += 6) > 80)
-           {
-              ostr.println("");
-              charCnt = 0;
-           }
-
-           ostr.print("null, ");
-           continue;
-        }
-
-        String toPrint = "\"";
-
-        for (int j = 0; j < image.length(); j++)
-        {
-           if (image.charAt(j) <= 0xff)
-              toPrint += ("\\" + Integer.toOctalString((int)image.charAt(j)));
-           else
-           {
-              String hexVal = Integer.toHexString((int)image.charAt(j));
-
-              if (hexVal.length() == 3)
-                 hexVal = "0" + hexVal;
-              toPrint += ("\\u" + hexVal);
-           }
-        }
-
-        toPrint += ("\", ");
-
-        if ((charCnt += toPrint.length()) >= 80)
-        {
-           ostr.println("");
-           charCnt = 0;
-        }
-
-        ostr.print(toPrint);
-     }
-
-     while (++i < LexGen.maxOrdinal)
-     {
+    allImages[0] = "";
+    for (i = 0; i < allImages.length; i++)
+    {
+      if ((image = allImages[i]) == null ||
+          ((LexGen.toSkip[i / 64] & (1L << (i % 64))) == 0L &&
+           (LexGen.toMore[i / 64] & (1L << (i % 64))) == 0L &&
+           (LexGen.toToken[i / 64] & (1L << (i % 64))) == 0L) ||
+          (LexGen.toSkip[i / 64] & (1L << (i % 64))) != 0L ||
+          (LexGen.toMore[i / 64] & (1L << (i % 64))) != 0L ||
+          LexGen.canReachOnMore[LexGen.lexStates[i]] ||
+          ((Options.getIgnoreCase() || LexGen.ignoreCase[i]) &&
+           (!image.equals(image.toLowerCase()) ||
+            !image.equals(image.toUpperCase()))))
+      {
+        allImages[i] = null;
         if ((charCnt += 6) > 80)
         {
-           ostr.println("");
-           charCnt = 0;
+          ostr.println("");
+          charCnt = 0;
         }
 
         ostr.print("null, ");
         continue;
-     }
+      }
 
-     ostr.println("};");
+      String toPrint = "\"";
+
+      for (int j = 0; j < image.length(); j++)
+      {
+        if (image.charAt(j) <= 0xff)
+          toPrint += ("\\" + Integer.toOctalString((int)image.charAt(j)));
+        else
+        {
+          String hexVal = Integer.toHexString((int)image.charAt(j));
+
+          if (hexVal.length() == 3)
+            hexVal = "0" + hexVal;
+          toPrint += ("\\u" + hexVal);
+        }
+      }
+
+      toPrint += ("\", ");
+
+      if ((charCnt += toPrint.length()) >= 80)
+      {
+        ostr.println("");
+        charCnt = 0;
+      }
+
+      ostr.print(toPrint);
+    }
+
+    while (++i < LexGen.maxOrdinal)
+    {
+      if ((charCnt += 6) > 80)
+      {
+        ostr.println("");
+        charCnt = 0;
+      }
+
+      ostr.print("null, ");
+      continue;
+    }
+
+    ostr.println("};");
   }
 
-  // Used for top level string literals
+  /**
+   * Used for top level string literals.
+   */
   public void GenerateDfa(java.io.PrintWriter ostr, int kind)
   {
      String s;
@@ -1319,22 +1327,16 @@ public class RStringLiteral extends RegularExpression {
      ostr.println(", pos + 1);");
      ostr.println("}");
   }
-
-   public static void reInit()
-   {
-      maxStrKind = 0;
-      maxLen = 0;
-      charCnt = 0;
-      charPosKind = new Vector();
-      maxLenForActive = new int[100];
-      allImages = null;
-      intermediateKinds = null;
-      intermediateMatchedPos = null;
-      startStateCnt = 0;
-      subString = null;
-      subStringAtPos = null;
-      statesForPos = null;
-      boilerPlateDumped = false;
-   }
+  /**
+   * Return to original state.
+   */
+  public static void reInit()
+  {
+    ReInit();
+     
+    charCnt = 0;
+    allImages = null;
+    boilerPlateDumped = false;
+  }
 
 }
