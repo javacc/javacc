@@ -195,7 +195,6 @@ public class JJTree {
    * Initialize for JJTree
    */
   private void initializeOptions() {
-    final int nodeStackSize = 500;
     JJTreeOptions.init();
     JJTreeGlobals.initialize();
   }
