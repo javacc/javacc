@@ -27,7 +27,10 @@
  */
 package org.javacc.jjtree;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Set;
+import java.util.Vector;
 
 class JJTreeGlobals
 {
