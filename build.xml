@@ -139,10 +139,19 @@ THE POSSIBILITY OF SUCH DAMAGE.
       </fileset>
     </copy>
 
-    <java failonerror="true" fork="true" classname="IDLParser" classpath="test.tmp/CORBA-IDL/">
+    <java failonerror="true" fork="true" classname="IDLParser" classpath="test.tmp/CORBA-IDL/" outputproperty="test.corba.out">
       <arg line="test.tmp/CORBA-IDL/Hello.idl" />
     </java>
 
+    <echo>${test.corba.out}</echo>
+
+    <fail message="CORBA failed">
+     <condition>
+      <not>
+       <contains string="${test.corba.out}" substring="IDL file parsed successfully" />
+      </not>
+     </condition>
+    </fail>
 
     <echo />
     
