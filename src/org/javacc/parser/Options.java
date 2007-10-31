@@ -33,6 +33,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+
 /**
  * A class with static state that stores all option information.
  */
@@ -237,36 +238,55 @@ public class Options {
     }
 
     /**
-     * 
+     * Process a single command-line option.
+     * The option is parsed and stored in the optionValues map.
      * @param arg
      */
     public static void setCmdLineOption(String arg) {
-        String s = arg.toUpperCase();
-        int index = 0;
+        final String s;
+        
+        if (arg.charAt(0) == '-') {
+            s = arg.substring(1);
+        } else {
+            s = arg;
+        }
+        
         String name;
         Object Val;
-        while (index < s.length() && s.charAt(index) != '='
-                && s.charAt(index) != ':') {
-            index++;
-        }
-        if (index < 2 || index >= s.length() - 1) {
-            if (index == s.length()) {
-                if (s.length() > 3 && s.charAt(1) == 'N' && s.charAt(2) == 'O') {
-                    name = s.substring(3);
-                    Val = Boolean.FALSE;
-                } else {
-                    name = s.substring(1);
-                    Val = Boolean.TRUE;
-                }
+
+	// Look for the first ":" or "=", which will separate the option name
+	// from its value (if any).
+        final int index1 = s.indexOf('=');
+        final int index2 = s.indexOf(':');
+        final int index;
+
+	if (index1 < 0)
+	  index = index2;
+	else if (index2 < 0)
+	  index = index1;
+	else if (index1 < index2)
+	  index = index1;
+	else
+	  index = index2;
+        
+        if (index < 0) {
+            name = s.toUpperCase();
+            if (optionValues.containsKey(name))
+            {
+              Val = Boolean.TRUE;
+            } else if (name.length() > 2 && name.charAt(0) == 'N' && name.charAt(1) == 'O') {
+              Val = Boolean.FALSE;
+              name = name.substring(2);
             } else {
                 System.out.println("Warning: Bad option \"" + arg
                         + "\" will be ignored.");
                 return;
             }
         } else {
-            if (s.substring(index + 1).equals("TRUE")) {
+            name = s.substring(0, index).toUpperCase();
+            if (s.substring(index + 1).equalsIgnoreCase("TRUE")) {
                 Val = Boolean.TRUE;
-            } else if (s.substring(index + 1).equals("FALSE")) {
+            } else if (s.substring(index + 1).equalsIgnoreCase("FALSE")) {
                 Val = Boolean.FALSE;
             } else {
                 try {
@@ -278,19 +298,19 @@ public class Options {
                     }
                     Val = new Integer(i);
                 } catch (NumberFormatException e) {
-                    Val = arg.substring(index + 1);
-                    if (arg.length() > index + 2) {
+                    Val = s.substring(index + 1);
+                    if (s.length() > index + 2) {
                         // i.e., there is space for two '"'s in value
-                        if (arg.charAt(index + 1) == '"'
-                                && arg.charAt(arg.length() - 1) == '"') {
+                        if (s.charAt(index + 1) == '"'
+                                && s.charAt(s.length() - 1) == '"') {
                             // remove the two '"'s.
-                            Val = arg.substring(index + 2, arg.length() - 1);
+                            Val = s.substring(index + 2, s.length() - 1);
                         }
                     }
                 }
             }
-            name = s.substring(1, index);
         }
+        
         if (!optionValues.containsKey(name)) {
             System.out.println("Warning: Bad option \"" + arg
                     + "\" will be ignored.");
