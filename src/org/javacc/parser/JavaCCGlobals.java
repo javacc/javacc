@@ -313,8 +313,9 @@ public class JavaCCGlobals {
           return makeToolNameVector(new String(buf, 0, total));
     }
     finally {
-       try { stream.close(); }
-       catch (Exception e3) { }
+       if (stream != null) 
+         try { stream.close(); }
+         catch (Exception e3) { }
     }
 
     return new Vector();
