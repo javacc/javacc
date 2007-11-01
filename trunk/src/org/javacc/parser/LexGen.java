@@ -857,38 +857,50 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
 
   static void DumpFillToken()
   {
+	 final double tokenVersion = JavaFiles.getVersion("Token.java");
+//	 System.out.println("TokenVersion: " + tokenVersion);
+//	 if (true) throw new Error("TokenVersion: " + tokenVersion);
+	 final boolean hasBinaryNewToken = tokenVersion > 4.09;
+	 
      ostr.println(staticString + "protected Token jjFillToken()");
      ostr.println("{");
-     ostr.println("   Token t = Token.newToken(jjmatchedKind);");
-     ostr.println("   t.kind = jjmatchedKind;");
-
+     ostr.println("   final Token t;");
+     ostr.println("   final String tokenImage;");
+     if (keepLineCol)
+     {
+	     ostr.println("   final int beginLine;");
+	     ostr.println("   final int endLine;");
+	     ostr.println("   final int beginColumn;");
+	     ostr.println("   final int endColumn;");
+     }
+     
      if (hasEmptyMatch)
      {
         ostr.println("   if (jjmatchedPos < 0)");
         ostr.println("   {");
         ostr.println("      if (image == null)");
-        ostr.println("         t.image = \"\";");
+        ostr.println("         tokenImage = \"\";");
         ostr.println("      else");
-        ostr.println("         t.image = image.toString();");
+        ostr.println("         tokenImage = image.toString();");
 
         if (keepLineCol)
         {
-           ostr.println("      t.beginLine = t.endLine = input_stream.getBeginLine();");
-           ostr.println("      t.beginColumn = t.endColumn = input_stream.getBeginColumn();");
+           ostr.println("      beginLine = endLine = input_stream.getBeginLine();");
+           ostr.println("      beginColumn = endColumn = input_stream.getBeginColumn();");
         }
 
         ostr.println("   }");
         ostr.println("   else");
         ostr.println("   {");
         ostr.println("      String im = jjstrLiteralImages[jjmatchedKind];");
-        ostr.println("      t.image = (im == null) ? input_stream.GetImage() : im;");
+        ostr.println("      tokenImage = (im == null) ? input_stream.GetImage() : im;");
 
         if (keepLineCol)
         {
-           ostr.println("      t.beginLine = input_stream.getBeginLine();");
-           ostr.println("      t.beginColumn = input_stream.getBeginColumn();");
-           ostr.println("      t.endLine = input_stream.getEndLine();");
-           ostr.println("      t.endColumn = input_stream.getEndColumn();");
+           ostr.println("      beginLine = input_stream.getBeginLine();");
+           ostr.println("      beginColumn = input_stream.getBeginColumn();");
+           ostr.println("      endLine = input_stream.getEndLine();");
+           ostr.println("      endColumn = input_stream.getEndColumn();");
         }
 
         ostr.println("   }");
@@ -896,18 +908,30 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
      else
      {
         ostr.println("   String im = jjstrLiteralImages[jjmatchedKind];");
-        ostr.println("   t.image = (im == null) ? input_stream.GetImage() : im;");
-
+        ostr.println("   tokenImage = (im == null) ? input_stream.GetImage() : im;");
         if (keepLineCol)
         {
-           ostr.println("   t.beginLine = input_stream.getBeginLine();");
-           ostr.println("   t.beginColumn = input_stream.getBeginColumn();");
-           ostr.println("   t.endLine = input_stream.getEndLine();");
-           ostr.println("   t.endColumn = input_stream.getEndColumn();");
+           ostr.println("   beginLine = input_stream.getBeginLine();");
+           ostr.println("   beginColumn = input_stream.getBeginColumn();");
+           ostr.println("   endLine = input_stream.getEndLine();");
+           ostr.println("   endColumn = input_stream.getEndColumn();");
         }
-
      }
 
+     if (hasBinaryNewToken)
+     {
+    	 ostr.println("   t = new Token(jjmatchedKind, tokenImage);");
+     }
+     else
+     {
+    	 ostr.println("   t = new Token(jjmatchedKind);");
+    	 ostr.println("   t.image = tokenImage;");
+     }
+     ostr.println("   t.beginLine = beginLine;");
+     ostr.println("   t.endLine = endLine;");
+     ostr.println("   t.beginColumn = beginColumn;");
+     ostr.println("   t.endColumn = endColumn;");
+     ostr.println("");
      ostr.println("   return t;");
      ostr.println("}");
   }
