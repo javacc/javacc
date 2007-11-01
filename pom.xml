@@ -8,7 +8,7 @@
   <version>4.1d1-SNAPSHOT</version>
 
   <description>
-JavaCC is a parser/scanner generator for java
+JavaCC is a parser/scanner generator for java.
   </description>
   <url>https://javacc.dev.java.net/</url>
   <issueManagement>
@@ -115,6 +115,9 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
     </resource>
    </resources-->
   
+  <!-- NOTE sourceDirectory paths currently configured for Windows due to 
+       http://jira.codehaus.org/browse/MJAVACC-29 
+   --> 
   <plugins>
     <plugin>
      <groupId>org.codehaus.mojo</groupId>
@@ -128,7 +131,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
        </goals>
        <configuration>
         <packageName>org.javacc.parser</packageName>
-        <sourceDirectory>${project.build.sourceDirectory}/org/javacc/parser</sourceDirectory>
+        <sourceDirectory>src\org\javacc\parser</sourceDirectory>
        </configuration>
       </execution>
       <execution>
@@ -142,7 +145,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
          <exclude>**/parser/**</exclude>
         </excludes>
         <packageName>org.javacc.jjtree</packageName>
-        <sourceDirectory>${project.build.sourceDirectory}/org/javacc/jjtree</sourceDirectory>
+        <sourceDirectory>src\org\javacc\jjtree</sourceDirectory>
        </configuration>
       </execution>
       <execution>
@@ -153,9 +156,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
        </goals>
        <configuration>
         <packageName>org.javacc.jjtree</packageName>
-        <!-- When my patch hits maven plugin -->
-        <!-- sourceDirectory>${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree</sourceDirectory -->
-        <sourceDirectory>${project.build.directory}/generated-sources/jjtree</sourceDirectory>
+        <sourceDirectory>target\generated-sources\jjtree</sourceDirectory>
        </configuration>
       </execution>
      </executions>
@@ -186,35 +187,12 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
     </plugin>
     <plugin>
      <artifactId>maven-antrun-plugin</artifactId>
-     <executions>
-      <execution>
-       <id>prepare</id>
-       <phase>generate-sources</phase>
-        <configuration>
-         <tasks>
-    <copy todir="${project.build.directory}/generated-sources/javacc/org/javacc/parser">
-      <fileset dir="${project.build.sourceDirectory}/org/javacc/parser">
-        <include name="**/Token.java" />
-      </fileset>
-    </copy>
-    <copy todir="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree">
-      <fileset dir="${project.build.sourceDirectory}/org/javacc/jjtree">
-        <include name="**/*.java" />
-      </fileset>
-    </copy>
-         </tasks>
-       </configuration>
-       <goals>
-        <goal>run</goal>
-       </goals>
-      </execution>
-      
+     <executions>      
       <execution>
        <id>overwrite</id>
        <phase>process-sources</phase>
         <configuration>
          <tasks>
-
     <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTBNF.java" />
     <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTBNFAction.java" />
     <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTBNFDeclaration.java" />
@@ -273,9 +251,71 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
     <delete file="${project.build.directory}/generated-sources/jjtree/Token.java" />
     <delete file="${project.build.directory}/generated-sources/jjtree/TokenUtils.java" />
 
-
-    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Token.java" />
     <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/jjtree/Token.java" />
+
+
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Action.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/BNFProduction.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/CharacterRange.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Choice.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Container.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Expansion.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/ExpansionTest.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/ExpansionTreeWalker.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/JavaCCErrors.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/JavaCCGlobals.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/JavaCCParserInternals.java" />
+
+<!-- 
+JavaCCParser.java
+JavaCCParserConstants.java
+JavaCCParserTokenManager.java
+JavaCharStream.java
+ParseException.java
+-->
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/JavaCodeProduction.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/JavaFiles.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/LexGen.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Lookahead.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/LookaheadCalc.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/LookaheadWalk.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Main.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/MatchInfo.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/MetaParseException.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Nfa.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/NfaState.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/NonTerminal.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/NormalProduction.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/OneOrMore.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Options.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/OptionsTest.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/OtherFilesGen.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/ParseEngine.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/ParseGen.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RCharacterList.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RChoice.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/REndOfFile.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RJustName.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/ROneOrMore.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RRepetitionRange.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RSequence.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RStringLiteral.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RZeroOrMore.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RZeroOrOne.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RegExprSpec.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RegularExpression.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Semanticize.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Sequence.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/SingleCharacter.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Token.java" />
+    <!-- 
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/TokenMgrError.java" />
+    -->
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/TokenProduction.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/TreeWalkerOp.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/TryBlock.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/ZeroOrMore.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/ZeroOrOne.java" />
     
          </tasks>
        </configuration>
@@ -301,11 +341,31 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
 
     <echo />
     
-    <java fork="true" classname="javacc" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/CORBA-IDL examples/CORBA-IDL/IDL.jj" />
     </java>
 
     <javac fork="true" srcdir="test.tmp/CORBA-IDL" />
+
+    <copy todir="test.tmp/CORBA-IDL/">
+      <fileset dir="examples/CORBA-IDL">
+        <include name="*.idl" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="IDLParser" classpath="test.tmp/CORBA-IDL/" outputproperty="test.corba.out">
+      <arg line="test.tmp/CORBA-IDL/Hello.idl" />
+    </java>
+
+    <echo>${test.corba.out}</echo>
+
+    <fail message="CORBA failed">
+     <condition>
+      <not>
+       <contains string="${test.corba.out}" substring="IDL file parsed successfully" />
+      </not>
+     </condition>
+    </fail>
 
     <echo />
     
@@ -315,7 +375,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       </fileset>
     </copy>
 
-    <java fork="true" classname="javacc" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/ParserVersion examples/GUIParsing/ParserVersion/CalcInput.jj" />
     </java>
 
@@ -329,7 +389,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       </fileset>
     </copy>
 
-    <java fork="true" classname="javacc" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion examples/GUIParsing/TokenMgrVersion/CalcInput.jj" />
     </java>
     
@@ -343,27 +403,74 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       </fileset>
     </copy>
 
-    <java fork="true" classname="jjtree" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter examples/Interpreter/SPL.jjt" />
     </java>
 
-    <java fork="true" classname="javacc" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter test.tmp/Interpreter/SPL.jj" />
     </java>
 
     <javac fork="true"  srcdir="test.tmp/Interpreter" />
-    
-    <echo />
-    
-    <copy todir="test.tmp/JJTreeExamples.eg1">
-      <fileset dir="examples/JJTreeExamples">
-        <include name="*.java" />
-        <exclude name="eg4DumpVisitor.java" />
-        <exclude name="ASTMyOtherID.java" />
+
+    <copy todir="test.tmp/Interpreter/">
+      <fileset dir="examples/Interpreter/">
+        <include name="*.spl" />
       </fileset>
     </copy>
+
+    <java failonerror="true" fork="true" 
+          classname="SPL" 
+          classpath="test.tmp/Interpreter/"
+          inputstring="3"
+          outputproperty="spl.out1"
+    >
+      <arg line="test.tmp/Interpreter/fact.spl" />
+    </java>
+    <echo>${spl.out1}</echo>
+    <fail message="SPL fact parse failed">
+     <condition>
+      <not>
+       <contains string="${spl.out1}" substring="Value of fact : 6" />
+      </not>
+     </condition>
+    </fail>
+    <java failonerror="true" fork="true" 
+          classname="SPL" 
+          classpath="test.tmp/Interpreter/"
+          inputstring="3"
+          outputproperty="spl.out2"
+    >
+      <arg line="test.tmp/Interpreter/odd.spl" />
+    </java>
+    <echo>${spl.out2}</echo>
+    <fail message="SPL odd parse failed">
+     <condition>
+      <not>
+       <contains string="${spl.out2}" substring="Value of odd : true" />
+      </not>
+     </condition>
+    </fail>
+    <java failonerror="true" fork="true" 
+          classname="SPL" 
+          classpath="test.tmp/Interpreter/"
+          inputstring="9"
+          outputproperty="spl.out3"
+    >
+      <arg line="test.tmp/Interpreter/sqrt.spl" />
+    </java>
+    <echo>${spl.out3}</echo>
+    <fail message="SPL sqrt parse failed">
+     <condition>
+      <not>
+       <contains string="${spl.out3}" substring="Value of sqrt : 3" />
+      </not>
+     </condition>
+    </fail>
+
+    <echo />
     
-    <java fork="true" classname="jjtree" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1 examples/JJTreeExamples/eg1.jjt" />
     </java>
 
@@ -372,46 +479,94 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
     </java>
 
     <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg1" />
-    
+
+    <java failonerror="true" fork="true" 
+          classname="Eg1" 
+          classpath="test.tmp/JJTreeExamples.eg1/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg1.out"
+    >
+    </java>
+    <echo>${jjtree.eg1.out}</echo>
+    <fail message="JJTree eg1 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg1.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
+ 
     <echo />
     
     <copy todir="test.tmp/JJTreeExamples.eg2">
       <fileset dir="examples/JJTreeExamples">
         <include name="*.java" />
-        <exclude name="eg4DumpVisitor.java" />
+        <exclude name="Eg4DumpVisitor.java" />
         <exclude name="ASTMyOtherID.java" />
       </fileset>
     </copy>
 
-    <java fork="true" classname="jjtree" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2 examples/JJTreeExamples/eg2.jjt" />
     </java>
 
-    <java fork="true" classname="javacc" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2 test.tmp/JJTreeExamples.eg2/eg2.jj" />
     </java>
 
     <javac  fork="true" srcdir="test.tmp/JJTreeExamples.eg2" />
     
+    <java failonerror="true" fork="true" 
+          classname="Eg2" 
+          classpath="test.tmp/JJTreeExamples.eg2/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg2.out"
+    >
+    </java>
+    <echo>${jjtree.eg2.out}</echo>
+    <fail message="JJTree eg2 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg2.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
     <echo />
 
     <copy todir="test.tmp/JJTreeExamples.eg3">
       <fileset dir="examples/JJTreeExamples">
         <include name="*.java" />
-        <exclude name="eg4DumpVisitor.java" />
+        <exclude name="Eg4DumpVisitor.java" />
         <exclude name="ASTMyOtherID.java" />
       </fileset>
     </copy>
 
-    <java fork="true" classname="jjtree" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3 examples/JJTreeExamples/eg3.jjt" />
     </java>
 
-    <java fork="true" classname="javacc" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3 test.tmp/JJTreeExamples.eg3/eg3.jj" />
     </java>
     
-    <javac  fork="true" srcdir="test.tmp/JJTreeExamples.eg3" />
+    <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg3" />
+
+    <java failonerror="true" fork="true" 
+          classname="Eg3" 
+          classpath="test.tmp/JJTreeExamples.eg3/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg3.out"
+    >
+    </java>
+    <echo>${jjtree.eg3.out}</echo>
+    <fail message="JJTree eg3 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg3.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
+
     
     <echo />
 
@@ -421,19 +576,35 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       </fileset>
     </copy>
 
-    <java fork="true" classname="jjtree" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4 examples/JJTreeExamples/eg4.jjt" />
     </java>
     
-    <java fork="true" classname="javacc" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4 test.tmp/JJTreeExamples.eg4/eg4.jj" />
     </java>
 
-    <javac  fork="true" srcdir="test.tmp/JJTreeExamples.eg4" />
+    <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg4" />
+
+    <java failonerror="true" fork="true" 
+          classname="Eg4" 
+          classpath="test.tmp/JJTreeExamples.eg4/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg4.out"
+    >
+    </java>
+    <echo>${jjtree.eg4.out}</echo>
+    <fail message="JJTree eg4 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg4.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
 
     <echo />
 
-    <java fork="true" classname="javacc" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/JavaCCGrammar examples/JavaCCGrammar/JavaCC.jj" />
     </java>
 
@@ -441,15 +612,55 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
 
     <!-- TODO, test cases for JavaGrammars -->
 
-    <!-- TODO, test cases for LookAhead -->
+    <echo />
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg1 examples/Lookahead/Example1.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg2 examples/Lookahead/Example2.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg3 examples/Lookahead/Example3.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg4 examples/Lookahead/Example4.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg5 examples/Lookahead/Example5.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg6 examples/Lookahead/Example6.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg7 examples/Lookahead/Example7.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg8 examples/Lookahead/Example8.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg9 examples/Lookahead/Example9.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg10 examples/Lookahead/Example10.jj" />
+    </java>
 
     <echo />
 
-    <java fork="true" classname="javacc" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing examples/MailProcessing/Digest.jj" />
     </java>
 
-    <java fork="true" classname="javacc" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing examples/MailProcessing/Faq.jj" />
     </java>
 
@@ -463,15 +674,15 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       </fileset>
     </copy>
 
-    <java fork="true" classname="javacc" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator examples/Obfuscator/Java1.1.jj" />
     </java>
 
-    <java fork="true" classname="javacc" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator examples/Obfuscator/IdsFile.jj" />
     </java>
 
-    <java fork="true" classname="javacc" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator examples/Obfuscator/MapFile.jj" />
     </java>
 
@@ -487,11 +698,11 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       </fileset>
     </copy>
 
-    <java fork="true" classname="jjtree" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer examples/Transformer/ToyJava.jjt" />
     </java>
 
-    <java fork="true" classname="javacc" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer test.tmp/Transformer/ToyJava.jj" />
     </java>
 
@@ -505,11 +716,11 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       </fileset>
     </copy>
 
-    <java fork="true" classname="jjtree" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer examples/VTransformer/Java1.1.jjt" />
     </java>
 
-    <java fork="true" classname="javacc" classpath="target/classes">
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
       <arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer test.tmp/VTransformer/Java1.1.jj" />
     </java>
     <javac  fork="true" srcdir="test.tmp/VTransformer" />
