@@ -28,6 +28,7 @@
 
 package org.javacc.parser;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,12 +54,12 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   /**
    * ID of the latest version (of JavaCC) in which the TokenManager interface is modified.
    */
-  static final String tokenManagerVersion = "3.0";
+  static final String tokenManagerVersion = "4.1";
 
   /**
    * ID of the latest version (of JavaCC) in which the Token class is modified.
    */
-  static final String tokenVersion = "3.0";
+  static final String tokenVersion = "4.1";
 
   /**
    * ID of the latest version (of JavaCC) in which the ParseException class is
@@ -94,6 +95,60 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
           b.append(c);
 
      return b.toString();
+  }
+
+  /**
+   * Read the version from the comment in the specified file.
+   * This method does not try to recover from invalid comment syntax, but
+   * rather returns version 0.0 (which will always be taken to mean the file
+   * is out of date).
+   * @param fileName eg Token&amp;java
+   * @return The version as a double, eg 4&amp;1
+   * @since 4.1
+  */
+  static double getVersion(String fileName)
+  {
+    final String commentHeader = "/* " + getIdString(toolName, fileName) + " Version ";
+    File file = new File(Options.getOutputDirectory(), replaceBackslash(fileName));
+    
+    BufferedReader reader = null;
+    try {
+      reader = new BufferedReader(new FileReader(file));
+      String str;
+      double version = 0.0;
+      
+      // Although the version comment should be the first line, sometimes the
+      // user might have put comments before it.
+      while ( (str = reader.readLine()) != null) {
+        if (str.startsWith(commentHeader)) {
+          str = str.substring(commentHeader.length());
+          int pos = str.indexOf(' ');
+          if (pos >= 0) str = str.substring(0, pos);
+          if (str.length() > 0) {
+            try {
+              version = Double.parseDouble(str);
+            }
+            catch (NumberFormatException nfe) {
+              // Ignore - leave version as 0.0
+            }
+          }
+          
+          break;
+        }
+      }
+      
+      return version;
+    }
+    catch (IOException ioe)
+    {
+      return 0.0;
+    }
+    finally {
+      if (reader != null)
+      {
+        try { reader.close(); } catch (IOException e) {}
+      }
+    }
   }
 
   static void CheckVersion(String fileName, String versionId)
@@ -2263,6 +2318,28 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
     ostr.println("  public Token specialToken;");
     ostr.println("");
     ostr.println("  /**");
+    ostr.println("   * No-argument contructor");
+    ostr.println("   */");
+    ostr.println("  public Token() {}");
+    ostr.println("");
+    ostr.println("  /**");
+    ostr.println("   * Constructs a new token for the specified Image.");
+    ostr.println("   */");
+    ostr.println("  public Token(int kind)");
+    ostr.println("  {");
+    ostr.println("     this(kind, null);");
+    ostr.println("  }");
+    ostr.println("");
+    ostr.println("  /**");
+    ostr.println("   * Constructs a new token for the specified Image and Kind.");
+    ostr.println("   */");
+    ostr.println("  public Token(int kind, String image)");
+    ostr.println("  {");
+    ostr.println("     this.kind = kind;");
+    ostr.println("     this.image = image;");
+    ostr.println("  }");
+    ostr.println("");
+    ostr.println("  /**");
     ostr.println("   * Returns the image.");
     ostr.println("   */");
     ostr.println("  public String toString()");
@@ -2277,17 +2354,22 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
     ostr.println("   * For example, if you have a subclass of Token called IDToken that");
     ostr.println("   * you want to create if ofKind is ID, simply add something like :");
     ostr.println("   *");
-    ostr.println("   *    case MyParserConstants.ID : return new IDToken();");
+    ostr.println("   *    case MyParserConstants.ID : return new IDToken(ofKind, image);");
     ostr.println("   *");
     ostr.println("   * to the following switch statement. Then you can cast matchedToken");
     ostr.println("   * variable to the appropriate type and use it in your lexical actions.");
     ostr.println("   */");
-    ostr.println("  public static final Token newToken(int ofKind)");
+    ostr.println("  public static final Token newToken(int ofKind, String image)");
     ostr.println("  {");
     ostr.println("     switch(ofKind)");
     ostr.println("     {");
-    ostr.println("       default : return new Token();");
+    ostr.println("       default : return new Token(ofKind, image);");
     ostr.println("     }");
+    ostr.println("  }");
+    ostr.println("");
+    ostr.println("  public static final Token newToken(int ofKind)");
+    ostr.println("  {");
+    ostr.println("     return newToken(ofKind, null);");
     ostr.println("  }");
     ostr.println("");
     ostr.println("}");
@@ -2301,6 +2383,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       return;
     }
     System.out.println("File \"TokenManager.java\" does not exist.  Will create one.");
+    
     try {
       ostr = new PrintWriter(
                 new BufferedWriter(
