@@ -12,7 +12,7 @@ import junit.framework.TestCase;
  * @since 2 Nov 2007
  *
  */
-public class JavaCCTestCase extends TestCase {
+public abstract class JavaCCTestCase extends TestCase {
 
   /**
    * 
