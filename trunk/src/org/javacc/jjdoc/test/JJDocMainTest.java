@@ -28,16 +28,16 @@
 
 package org.javacc.jjdoc.test;
 
+import org.javacc.JavaCCTestCase;
 import org.javacc.jjdoc.JJDocMain;
 
-import junit.framework.TestCase;
 
 /**
  * @author timp
  * @since 7 Mar 2007
  *
  */
-public class JJDocMainTest extends TestCase {
+public class JJDocMainTest extends JavaCCTestCase {
 
   /**
    * @param name
@@ -72,15 +72,15 @@ public class JJDocMainTest extends TestCase {
    * Test method for {@link org.javacc.jjdoc.JJDocMain#mainProgram(java.lang.String[])}.
    */
   public void testMainProgramHTML() throws Exception {
-    JJDocMain.mainProgram(new String[] {"-OUTPUT_FILE:www/doc/JavaCC.html","src/org/javacc/parser/JavaCC.jj"});
+    assertEquals(0, JJDocMain.mainProgram(new String[] {"-OUTPUT_FILE:" + getJJDocOutputDirectory() + "JavaCC.html", getJJInputDirectory() + "JavaCC.jj"}));
   }
 
   /**
    * Test method for {@link org.javacc.jjdoc.JJDocMain#mainProgram(java.lang.String[])}.
    */
   public void testMainProgramText() throws Exception {
-    JJDocMain.mainProgram(new String[] {"-OUTPUT_FILE:www/doc/JavaCC.txt",
-            "-TEXT:true","src/org/javacc/parser/JavaCC.jj"});
+    assertEquals(0, JJDocMain.mainProgram(new String[] {"-OUTPUT_FILE:" + getJJDocOutputDirectory() + "JavaCC.txt",
+            "-TEXT:true",getJJInputDirectory() + "JavaCC.jj"}));
   }
 
 }
