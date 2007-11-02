@@ -2318,6 +2318,18 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
     ostr.println("  public Token specialToken;");
     ostr.println("");
     ostr.println("  /**");
+    ostr.println("   * An optional attribute value of the Token.");
+    ostr.println("   * Tokens which are not used as syntactic sugar will often contain");
+    ostr.println("   * meaningful values that will be used later on by the compiler or");
+    ostr.println("   * interpreter. This attribute value is often different from the image.");
+    ostr.println("   * Any subclass of Token that actually wants to return a non-null value can");
+    ostr.println("   * override this method as appropriate.");
+    ostr.println("   */");
+    ostr.println("  public Object getValue() {");
+    ostr.println("    return null;");
+    ostr.println("  }");
+    ostr.println("");
+    ostr.println("  /**");
     ostr.println("   * No-argument contructor");
     ostr.println("   */");
     ostr.println("  public Token() {}");
