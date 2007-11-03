@@ -29,6 +29,7 @@
 
 options {
   MULTI=true;
+  KEEP_LINE_COLUMN = false;
 }
 
 PARSER_BEGIN(Eg2)
