@@ -858,8 +858,6 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
   static void DumpFillToken()
   {
 	 final double tokenVersion = JavaFiles.getVersion("Token.java");
-//	 System.out.println("TokenVersion: " + tokenVersion);
-//	 if (true) throw new Error("TokenVersion: " + tokenVersion);
 	 final boolean hasBinaryNewToken = tokenVersion > 4.09;
 	 
      ostr.println(staticString + "protected Token jjFillToken()");
@@ -927,10 +925,15 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
     	 ostr.println("   t = Token.newToken(jjmatchedKind);");
     	 ostr.println("   t.image = tokenImage;");
      }
-     ostr.println("   t.beginLine = beginLine;");
-     ostr.println("   t.endLine = endLine;");
-     ostr.println("   t.beginColumn = beginColumn;");
-     ostr.println("   t.endColumn = endColumn;");
+     
+     if (keepLineCol) {
+         ostr.println("");
+         ostr.println("   t.beginLine = beginLine;");
+         ostr.println("   t.endLine = endLine;");
+         ostr.println("   t.beginColumn = beginColumn;");
+         ostr.println("   t.endColumn = endColumn;");
+     }
+
      ostr.println("");
      ostr.println("   return t;");
      ostr.println("}");
