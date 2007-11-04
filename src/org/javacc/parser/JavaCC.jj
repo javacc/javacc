@@ -231,8 +231,9 @@ TOKEN_MGR_DECLS :
 
 TOKEN :
 {
-  < _OPTIONS: "options" >
-| < _LOOKAHEAD: "LOOKAHEAD" >
+// "options" is no longer reserved (see issue 126).
+//  < _OPTIONS: "options" >
+  < _LOOKAHEAD: "LOOKAHEAD" >
 | < _IGNORE_CASE: "IGNORE_CASE" >
 | < _PARSER_BEGIN: "PARSER_BEGIN" >
 | < _PARSER_END: "PARSER_END" >
@@ -548,7 +549,7 @@ void javacc_input() :
 void javacc_options() :
 {}
 {
-  [ "options" "{" ( option_binding() )* "}" ]
+  [ LOOKAHEAD({ getToken(1).image.equals("options") }) <IDENTIFIER>  "{" ( option_binding() )* "}" ]
 	{
 	  Options.normalize();
 	}
@@ -1414,7 +1415,6 @@ Token JavaIdentifier() :
 {
 (
   <IDENTIFIER>
-| "options"
 | "LOOKAHEAD"
 | "IGNORE_CASE"
 | "PARSER_BEGIN"
