@@ -304,6 +304,10 @@ Option names are not case-sensitive.
 </tr>
 <tr>
 <td></td><td align="center" valign="baseline">|</td>
+<td align="left" valign="baseline">"TOKEN_EXTENDS" "=" <em>java_string_literal</em> ";"</td>
+</tr>
+<tr>
+<td></td><td align="center" valign="baseline">|</td>
 <td align="left" valign="baseline">"TOKEN_MANAGER_USES_PARSER" "=" <em>java_boolean_literal</em> ";"</td>
 </tr>
 <tr>
@@ -490,6 +494,14 @@ instance (of type <CODE>MyParser</CODE> in the above example).
 The main reason for having a parser in a token manager is using
 some of its logic in lexical actions.
 This option has no effect if the STATIC option is set to true.
+</li>
+<li>
+<strong>TOKEN_EXTENDS:</strong>
+This is a string option whose default value is
+"", meaning that the generated Token class will extend
+java.lang.Object. This option may be set to the name of a
+class that will be used as the base class for the generated
+<code>Token</code> class.
 </li>
 <li>
 <strong>SANITY_CHECK:</strong>

@@ -14,7 +14,7 @@ public final class OptionsTest extends TestCase {
         Options.init();
         JavaCCErrors.reInit();
 
-        assertEquals(23, Options.optionValues.size());
+        assertEquals(24, Options.optionValues.size());
 
         assertEquals(true, Options.getBuildParser());
         assertEquals(true, Options.getBuildTokenManager());
@@ -40,8 +40,8 @@ public final class OptionsTest extends TestCase {
         assertEquals(1, Options.getOtherAmbiguityCheck());
 
         assertEquals("1.4", Options.getJdkVersion());
-
         assertEquals(new File("."), Options.getOutputDirectory());
+        assertEquals("", Options.getTokenExtends());
 
         assertEquals(0, JavaCCErrors.get_warning_count());
         assertEquals(0, JavaCCErrors.get_error_count());
@@ -69,6 +69,15 @@ public final class OptionsTest extends TestCase {
         assertEquals(0, JavaCCErrors.get_error_count());
         assertEquals(0, JavaCCErrors.get_parse_error_count());
         assertEquals(0, JavaCCErrors.get_semantic_error_count());
+    }
+
+    public void testSetStringOption() {
+        Options.init();
+        JavaCCErrors.reInit();
+
+        assertEquals("", Options.getTokenExtends());
+        Options.setCmdLineOption("-TOKEN_EXTENDS=java.lang.Object");
+        assertEquals("java.lang.Object", Options.getTokenExtends());
     }
 
     public void testSetNonexistentOption() {

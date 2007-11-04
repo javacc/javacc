@@ -2266,7 +2266,14 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
     ostr.println(" * Describes the input token stream.");
     ostr.println(" */");
     ostr.println("");
-    ostr.println("public class Token {");
+    if (Options.getTokenExtends().equals(""))
+    {
+    	ostr.println("public class Token {");
+    }
+    else
+    {
+    	ostr.println("public class Token extends " + Options.getTokenExtends() + " {");
+    }
     ostr.println("");
     ostr.println("  /**");
     ostr.println("   * An integer that describes the kind of this token.  This numbering");
