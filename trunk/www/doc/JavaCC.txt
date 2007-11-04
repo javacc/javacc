@@ -6,8 +6,7 @@ TOKENS
  **********************************************/
 
 /* JAVACC RESERVED WORDS: These are the only tokens in JavaCC but not in Java */<DEFAULT> TOKEN : {
-<_OPTIONS: "options">
-| <_LOOKAHEAD: "LOOKAHEAD">
+<_LOOKAHEAD: "LOOKAHEAD">
 | <_IGNORE_CASE: "IGNORE_CASE">
 | <_PARSER_BEGIN: "PARSER_BEGIN">
 | <_PARSER_END: "PARSER_END">
@@ -193,7 +192,7 @@ NON-TERMINALS
 /************************************************
  * THE JAVACC GRAMMAR SPECIFICATION STARTS HERE *
  ************************************************/	javacc_input	:=	javacc_options "PARSER_BEGIN" "(" identifier ")" CompilationUnit "PARSER_END" "(" identifier ")" ( production )+ <EOF>
-	javacc_options	:=	( "options" "{" ( option_binding )* "}" )?
+	javacc_options	:=	( <IDENTIFIER> "{" ( option_binding )* "}" )?
 	option_binding	:=	( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "static" ) "=" ( IntegerLiteral | BooleanLiteral | StringLiteral ) ";"
 	production	:=	javacode_production
 		|	regular_expr_production
@@ -243,7 +242,7 @@ NON-TERMINALS
 /*
  * The following production defines Java identifiers - it
  * includes the reserved words of JavaCC also.
- */	JavaIdentifier	:=	( <IDENTIFIER> | "options" | "LOOKAHEAD" | "IGNORE_CASE" | "PARSER_BEGIN" | "PARSER_END" | "JAVACODE" | "TOKEN" | "SPECIAL_TOKEN" | "MORE" | "SKIP" | "TOKEN_MGR_DECLS" | "EOF" )
+ */	JavaIdentifier	:=	( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "PARSER_BEGIN" | "PARSER_END" | "JAVACODE" | "TOKEN" | "SPECIAL_TOKEN" | "MORE" | "SKIP" | "TOKEN_MGR_DECLS" | "EOF" )
 /*
  * Program structuring syntax follows.
  */	CompilationUnit	:=	( PackageDeclaration )? ( ImportDeclaration )* ( TypeDeclaration )*

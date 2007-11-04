@@ -23,8 +23,7 @@
   <TD>
    <PRE>
 &lt;DEFAULT&gt; TOKEN : {
-&lt;_OPTIONS: "options"&gt;
-| &lt;_LOOKAHEAD: "LOOKAHEAD"&gt;
+&lt;_LOOKAHEAD: "LOOKAHEAD"&gt;
 | &lt;_IGNORE_CASE: "IGNORE_CASE"&gt;
 | &lt;_PARSER_BEGIN: "PARSER_BEGIN"&gt;
 | &lt;_PARSER_END: "PARSER_END"&gt;
@@ -376,7 +375,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod2">javacc_options</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>( "options" "{" ( <A HREF="#prod6">option_binding</A> )* "}" )?</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( &lt;IDENTIFIER&gt; "{" ( <A HREF="#prod6">option_binding</A> )* "}" )?</TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod6">option_binding</A></TD>
@@ -585,7 +584,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod35">JavaIdentifier</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>( &lt;IDENTIFIER&gt; | "options" | "LOOKAHEAD" | "IGNORE_CASE" | "PARSER_BEGIN" | "PARSER_END" | "JAVACODE" | "TOKEN" | "SPECIAL_TOKEN" | "MORE" | "SKIP" | "TOKEN_MGR_DECLS" | "EOF" )</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( &lt;IDENTIFIER&gt; | "LOOKAHEAD" | "IGNORE_CASE" | "PARSER_BEGIN" | "PARSER_END" | "JAVACODE" | "TOKEN" | "SPECIAL_TOKEN" | "MORE" | "SKIP" | "TOKEN_MGR_DECLS" | "EOF" )</TD>
 </TR>
  <!-- Special token -->
  <TR>

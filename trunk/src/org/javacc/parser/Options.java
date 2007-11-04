@@ -121,6 +121,7 @@ public class Options {
 
         optionValues.put("OUTPUT_DIRECTORY", ".");
         optionValues.put("JDK_VERSION", "1.4");
+        optionValues.put("TOKEN_EXTENDS", "");
     }
 
     /**
@@ -543,6 +544,16 @@ public class Options {
         return stringValue("JDK_VERSION");
     }
 
+    /**
+     * Return the Token's superclass.
+     * 
+     * @return The required base class for Token.
+     */
+    public static String getTokenExtends()
+    {
+    	return stringValue("TOKEN_EXTENDS");
+    }
+    
     /**
      * Find the output directory.
      * 
