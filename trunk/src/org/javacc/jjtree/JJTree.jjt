@@ -75,8 +75,9 @@ PARSER_END(JJTreeParser)
 
 TOKEN :
 {
-  < _OPTIONS: "options" >
-| < _LOOKAHEAD: "LOOKAHEAD" >
+//  Options is no longer a reserved word (Issue 126)
+//  < _OPTIONS: "options" >
+  < _LOOKAHEAD: "LOOKAHEAD" >
 | < _IGNORE_CASE: "IGNORE_CASE" >
 | < _PARSER_BEGIN: "PARSER_BEGIN" >
 | < _PARSER_END: "PARSER_END" >
@@ -377,7 +378,7 @@ void javacc_options() :
 	{
 	}
 {
-  [ ( "options" "{" ( option_binding() )* "}" ) #Options ]
+  [ LOOKAHEAD( { getToken(1).image.equals("options") }) ( <IDENTIFIER> "{" ( option_binding() )* "}" ) #Options ]
 }
 
 void option_binding() #OptionBinding :
@@ -895,7 +896,6 @@ String JavaIdentifier() :
 {}
 {
 (  <IDENTIFIER>
-| "options"
 | "LOOKAHEAD"
 | "IGNORE_CASE"
 | "PARSER_BEGIN"
