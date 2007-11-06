@@ -27,6 +27,9 @@
  */
 package org.javacc.parser;
 
+import java.util.Iterator;
+import java.util.Set;
+
 /**
  * Describes JavaCC productions.
  */
@@ -104,5 +107,27 @@ public class NormalProduction {
    * production.
    */
   public Token firstToken, lastToken;
+
+  protected String eol = System.getProperty("line.separator", "\n");
+  protected StringBuffer dumpPrefix(int indent) {
+    StringBuffer sb = new StringBuffer(128);
+    for (int i = 0; i < indent; i++)
+      sb.append("  ");
+    return sb;
+  }
+
+  public StringBuffer dump(int indent, Set alreadyDumped) {
+    StringBuffer sb = dumpPrefix(indent).append(System.identityHashCode(this)).append(' ').append(getClass().getSimpleName()).append(' ').append(lhs);
+    if (!alreadyDumped.contains(this))
+    {
+      alreadyDumped.add(this);
+      if (expansion != null)
+      {
+        sb.append(eol).append(expansion.dump(indent + 1, alreadyDumped));
+      }
+    }
+    
+    return sb;
+  }
 
 }

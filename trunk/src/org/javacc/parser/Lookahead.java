@@ -27,6 +27,8 @@
  */
 package org.javacc.parser;
 
+import java.util.Set;
+
 /**
  * Describes lookahead rule for a particular expansion or expansion
  * sequence (See Sequence.java).  In case this describes the lookahead
@@ -66,5 +68,13 @@ public class Lookahead extends Expansion {
    * Is set to true if this is an explicit lookahead specification.
    */
   public boolean isExplicit;
-
+  
+  public StringBuffer dump(int indent, Set alreadyDumped) {
+    StringBuffer sb = super.dump(indent, alreadyDumped);
+    if (alreadyDumped.contains(this))
+      return sb;
+    alreadyDumped.add(this);
+    sb.append(eol).append(la_expansion.dump(indent + 1, alreadyDumped));
+    return sb;
+  }
 }

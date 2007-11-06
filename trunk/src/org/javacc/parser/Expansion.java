@@ -27,6 +27,8 @@
  */
 package org.javacc.parser;
 
+import java.util.Set;
+
 /**
  * Describes expansions - entities that may occur on the
  * right hand sides of productions.  This is the base class of
@@ -99,5 +101,21 @@ public class Expansion {
    {
       nextGenerationIndex = 1;
    }
+   
+  public String toString() {
+	  return "[" + line + "," + column + " " + System.identityHashCode(this) + " " + getClass().getSimpleName() + "]"; 
+  }
 
+  protected static final String eol = System.getProperty("line.separator", "\n");
+  protected StringBuffer dumpPrefix(int indent) {
+    StringBuffer sb = new StringBuffer(128);
+    for (int i = 0; i < indent; i++)
+      sb.append("  ");
+    return sb;
+  }
+  
+  public StringBuffer dump(int indent, Set alreadyDumped) {
+    StringBuffer value = dumpPrefix(indent).append(System.identityHashCode(this)).append(" ").append(getClass().getSimpleName());
+    return value;
+  }
 }

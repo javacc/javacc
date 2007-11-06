@@ -27,6 +27,9 @@
  */
 package org.javacc.parser;
 
+import java.util.Iterator;
+import java.util.Set;
+
 /**
  * Describes actions that may occur on the right hand side
  * of productions.
@@ -40,4 +43,13 @@ public class Action extends Expansion {
    */
   public java.util.Vector action_tokens = new java.util.Vector();
 
+  public StringBuffer dump(int indent, Set alreadyDumped) {
+    StringBuffer sb = super.dump(indent, alreadyDumped);
+    alreadyDumped.add(this);
+    if (action_tokens.size() > 0)
+    {
+      sb.append(' ').append(action_tokens.get(0));
+    }
+    return sb;
+  }
 }

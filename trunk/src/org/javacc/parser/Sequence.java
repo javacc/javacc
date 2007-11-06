@@ -28,6 +28,11 @@
 
 package org.javacc.parser;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Set;
+
 /**
  * Describes expansions that are sequences of expansion
  * units.  (c1 c2 ...)
@@ -49,4 +54,16 @@ public class Sequence extends Expansion {
         this.units.add(lookahead);
     }
 
+    
+    public StringBuffer dump(int indent, Set alreadyDumped) {
+      StringBuffer sb = super.dump(indent, alreadyDumped);
+      if (alreadyDumped.contains(this))
+        return sb;
+      alreadyDumped.add(this);
+      for (Iterator it = units.iterator(); it.hasNext(); ) {
+        Expansion next = (Expansion)it.next();
+        sb.append(eol).append(next.dump(indent + 1, alreadyDumped));
+      }
+      return sb;
+    }
 }
