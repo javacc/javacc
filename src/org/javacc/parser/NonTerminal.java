@@ -27,6 +27,8 @@
  */
 package org.javacc.parser;
 
+import java.util.Set;
+
 /**
  * Describes non terminals.
  */
@@ -55,4 +57,8 @@ public class NonTerminal extends Expansion {
    */
   public NormalProduction prod;
 
+  public StringBuffer dump(int indent, Set alreadyDumped) {
+    StringBuffer value = super.dump(indent, alreadyDumped).append(' ').append(name);
+    return value;
+  }
 }

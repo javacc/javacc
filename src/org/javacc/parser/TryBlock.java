@@ -27,6 +27,8 @@
  */
 package org.javacc.parser;
 
+import java.util.Set;
+
 /**
  * Describes expansions of the form "try {...} ...".
  */
@@ -61,5 +63,14 @@ public class TryBlock extends Expansion {
    * If there is no finally block, this is null.
    */
   public java.util.Vector finallyblk;
+
+  public StringBuffer dump(int indent, Set alreadyDumped) {
+    StringBuffer sb = super.dump(indent, alreadyDumped);
+    if (alreadyDumped.contains(this))
+      return sb;
+    alreadyDumped.add(this);
+    sb.append(eol).append(exp.dump(indent + 1, alreadyDumped));
+    return sb;
+  }
 
 }

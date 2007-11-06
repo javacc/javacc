@@ -27,6 +27,8 @@
  */
 package org.javacc.parser;
 
+import java.util.Set;
+
 /**
  * Describes regular expressions.
  */
@@ -89,4 +91,10 @@ public abstract class RegularExpression extends Expansion {
    */
   int walkStatus = 0;
 
+  public StringBuffer dump(int indent, Set alreadyDumped) {
+    StringBuffer sb = super.dump(indent, alreadyDumped);
+    alreadyDumped.add(this);
+    sb.append(' ').append(label);
+    return sb;
+  }
 }

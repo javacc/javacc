@@ -30,6 +30,8 @@ package org.javacc.parser;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.Vector;
 
 final class KindInfo
@@ -1339,4 +1341,8 @@ public class RStringLiteral extends RegularExpression {
     boilerPlateDumped = false;
   }
 
+  public StringBuffer dump(int indent, Set alreadyDumped) {
+    StringBuffer sb = super.dump(indent, alreadyDumped).append(' ').append(image);
+    return sb;
+  }
 }

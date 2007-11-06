@@ -28,6 +28,9 @@
 
 package org.javacc.parser;
 
+import java.util.Iterator;
+import java.util.Set;
+
 /**
  * Describes expansions where one of many choices
  * is taken (c1|c2|...).
@@ -54,4 +57,15 @@ public class Choice extends Expansion {
         this.choices.addElement(expansion);
     }
 
+    public StringBuffer dump(int indent, Set alreadyDumped) {
+      StringBuffer sb = super.dump(indent, alreadyDumped);
+      if (alreadyDumped.contains(this))
+        return sb;
+      alreadyDumped.add(this);
+      for (Iterator it = choices.iterator(); it.hasNext(); ) {
+        Expansion next = (Expansion)it.next();
+        sb.append(eol).append(next.dump(indent + 1, alreadyDumped));
+      }
+      return sb;
+    }
 }
