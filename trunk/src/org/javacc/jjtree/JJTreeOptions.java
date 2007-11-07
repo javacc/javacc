@@ -56,7 +56,6 @@ class JJTreeOptions extends Options {
         Options.optionValues.put("MULTI", Boolean.FALSE);
         Options.optionValues.put("NODE_DEFAULT_VOID", Boolean.FALSE);
         Options.optionValues.put("NODE_SCOPE_HOOK", Boolean.FALSE);
-        Options.optionValues.put("NODE_FACTORY", Boolean.FALSE);
         Options.optionValues.put("NODE_USES_PARSER", Boolean.FALSE);
         Options.optionValues.put("BUILD_NODE_FILES", Boolean.TRUE);
         Options.optionValues.put("VISITOR", Boolean.FALSE);
@@ -65,6 +64,7 @@ class JJTreeOptions extends Options {
         Options.optionValues.put("NODE_PREFIX", "AST");
         Options.optionValues.put("NODE_PACKAGE", "");
         Options.optionValues.put("NODE_EXTENDS", "");
+        Options.optionValues.put("NODE_FACTORY", "");
         Options.optionValues.put("OUTPUT_FILE", "");
         Options.optionValues.put("VISITOR_DATA_TYPE", "");
         Options.optionValues.put("VISITOR_EXCEPTION", "");
@@ -113,8 +113,8 @@ class JJTreeOptions extends Options {
      * 
      * @return The requested node factory value.
      */
-    public static boolean getNodeFactory() {
-        return booleanValue("NODE_FACTORY");
+    public static String getNodeFactory() {
+        return stringValue("NODE_FACTORY");
     }
 
     /**

@@ -136,97 +136,56 @@ public class Options {
         return opt != null && opt.length() > 1 && opt.charAt(0) == '-';
     }
 
-    public static void setInputFileOption(Object nameloc, Object valueloc,
-            String name, int value) {
-        String s = name.toUpperCase();
-        if (!optionValues.containsKey(s)) {
-            JavaCCErrors.warning(nameloc, "Bad option name \"" + name
-                    + "\".  Option setting will be ignored.");
-            return;
-        }
-        Object Val = optionValues.get(s);
-        if (Val != null) {
-            if (!(Val instanceof Integer) || value <= 0) {
-                JavaCCErrors.warning(valueloc, "Bad option value \"" + value
-                        + "\" for \"" + name
-                        + "\".  Option setting will be ignored.");
-                return;
-            }
-            if (inputFileSetting.contains(s)) {
-                JavaCCErrors.warning(nameloc, "Duplicate option setting for \""
-                        + name + "\" will be ignored.");
-                return;
-            }
-            if (cmdLineSetting.contains(s)) {
-                if (((Integer) Val).intValue() != value) {
-                    JavaCCErrors.warning(nameloc, "Command line setting of \""
-                            + name + "\" modifies option value in file.");
-                }
-                return;
-            }
-        }
-
-        optionValues.put(s, new Integer(value));
-        inputFileSetting.add(s);
+    /**
+     * Help function to handle cases where the meaning of an option has changed
+     * over time. If the user has supplied an option in the old format, it will
+     * be converted to the new format.
+     * 
+     * @param name The name of the option being checked.
+     * @param value The option's value.
+     * @return The upgraded value.
+     */
+    public static Object upgradeValue(final String name, Object value) {
+      if (name.equalsIgnoreCase("NODE_FACTORY") && value.getClass() == Boolean.class) {
+          if (((Boolean)value).booleanValue()) {
+            value = "*";
+          } else {
+            value = "";
+          }
+      }
+      
+      return value;
     }
-
+    
     public static void setInputFileOption(Object nameloc, Object valueloc,
-            String name, boolean value) {
+            String name, Object value) {
         String s = name.toUpperCase();
         if (!optionValues.containsKey(s)) {
             JavaCCErrors.warning(nameloc, "Bad option name \"" + name
                     + "\".  Option setting will be ignored.");
             return;
         }
-        Object Val = optionValues.get(s);
-        if (Val != null) {
-            if (!(Val instanceof Boolean)) {
+        final Object existingValue = optionValues.get(s);
+        
+        value = upgradeValue(name, value);
+        
+        if (existingValue != null) {
+            if ((existingValue.getClass() != value.getClass()) ||
+                    (value instanceof Integer && ((Integer)value).intValue() <= 0)) {
                 JavaCCErrors.warning(valueloc, "Bad option value \"" + value
                         + "\" for \"" + name
                         + "\".  Option setting will be ignored.");
                 return;
             }
+        
             if (inputFileSetting.contains(s)) {
                 JavaCCErrors.warning(nameloc, "Duplicate option setting for \""
                         + name + "\" will be ignored.");
                 return;
             }
+            
             if (cmdLineSetting.contains(s)) {
-                if (((Boolean) Val).booleanValue() != value) {
-                    JavaCCErrors.warning(nameloc, "Command line setting of \""
-                            + name + "\" modifies option value in file.");
-                }
-                return;
-            }
-        }
-
-        optionValues.put(s, (value ? Boolean.TRUE : Boolean.FALSE));
-        inputFileSetting.add(s);
-    }
-
-    public static void setInputFileOption(Object nameloc, Object valueloc,
-            String name, String value) {
-        String s = name.toUpperCase();
-        if (!optionValues.containsKey(s)) {
-            JavaCCErrors.warning(nameloc, "Bad option name \"" + name
-                    + "\".  Option setting will be ignored.");
-            return;
-        }
-        Object Val = optionValues.get(s);
-        if (Val != null) {
-            if (!(Val instanceof String)) {
-                JavaCCErrors.warning(valueloc, "Bad option value \"" + value
-                        + "\" for \"" + name
-                        + "\".  Option setting will be ignored.");
-                return;
-            }
-            if (inputFileSetting.contains(s)) {
-                JavaCCErrors.warning(nameloc, "Duplicate option setting for \""
-                        + name + "\" will be ignored.");
-                return;
-            }
-            if (cmdLineSetting.contains(s)) {
-                if (!Val.equals(value)) {
+                if (!existingValue.equals(value)) {
                     JavaCCErrors.warning(nameloc, "Command line setting of \""
                             + name + "\" modifies option value in file.");
                 }
@@ -237,6 +196,8 @@ public class Options {
         optionValues.put(s, value);
         inputFileSetting.add(s);
     }
+    
+
 
     /**
      * Process a single command-line option.
@@ -261,14 +222,14 @@ public class Options {
         final int index2 = s.indexOf(':');
         final int index;
 
-	if (index1 < 0)
-	  index = index2;
-	else if (index2 < 0)
-	  index = index1;
-	else if (index1 < index2)
-	  index = index1;
-	else
-	  index = index2;
+        if (index1 < 0)
+          index = index2;
+        else if (index2 < 0)
+          index = index1;
+        else if (index1 < index2)
+          index = index1;
+        else
+          index = index2;
         
         if (index < 0) {
             name = s.toUpperCase();
@@ -329,6 +290,8 @@ public class Options {
             return;
         }
 
+        Val = upgradeValue(name, Val);
+        
         optionValues.put(name, Val);
         cmdLineSetting.add(name);
     }

@@ -299,7 +299,7 @@ final class NodeFiles {
     ostr.println("  }");
     ostr.println("");
 
-    if (JJTreeOptions.getNodeFactory()) {
+    if (JJTreeOptions.getNodeFactory().length() > 0) {
       ostr.println("  public static Node jjtCreate(int id) {");
       ostr.println("    return new SimpleNode(id);");
       ostr.println("  }");
@@ -420,7 +420,7 @@ final class NodeFiles {
     ostr.println("  }");
     ostr.println();
 
-    if (JJTreeOptions.getNodeFactory()) {
+    if (JJTreeOptions.getNodeFactory().length() > 0) {
       ostr.println("  public static Node jjtCreate(int id) {");
       ostr.println("      return new " + nodeType + "(id);");
       ostr.println("  }");

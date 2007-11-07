@@ -113,23 +113,18 @@ public class NodeScope
     NodeFiles.ensure(io, type);
 
     io.print(indent + type + " " + nodeVar + " = ");
-    if (JJTreeOptions.getNodeFactory()) {
-      if (JJTreeOptions.getNodeUsesParser()) {
-        String p = JJTreeOptions.getStatic() ? "null" : "this";
-        io.println("(" + type + ")" + type + ".jjtCreate(" + p + ", " +
+    String p = JJTreeOptions.getStatic() ? "null" : "this";
+    String parserArg = JJTreeOptions.getNodeUsesParser() ? (p + ", ") : ""; 
+    
+    if (JJTreeOptions.getNodeFactory().equals("*")) {
+      // Old-style multiple-implementations.
+      io.println("(" + type + ")" + type + ".jjtCreate(" + parserArg +
+          node_descriptor.getNodeId() +");");
+    } else if (JJTreeOptions.getNodeFactory().length() > 0) {
+      io.println("(" + type + ")" + JJTreeOptions.getNodeFactory() + ".jjtCreate(" + parserArg +
        node_descriptor.getNodeId() +");");
-      } else {
-       io.println("(" + type + ")" + type + ".jjtCreate(" +
-       node_descriptor.getNodeId() +");");
-      }
     } else {
-      if (JJTreeOptions.getNodeUsesParser()) {
-        String p = JJTreeOptions.getStatic() ? "null" : "this";
-        io.println("new " + type + "(" + p + ", " +
-        node_descriptor.getNodeId() + ");");
-      } else {
-        io.println("new " + type + "(" + node_descriptor.getNodeId() + ");");
-      }
+      io.println("new " + type + "(" + parserArg + node_descriptor.getNodeId() + ");");
     }
 
     if (usesCloseNodeVar()) {

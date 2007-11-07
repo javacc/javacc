@@ -34,6 +34,7 @@ options {
   MULTI=true;
   VISITOR=true;
   NODE_USES_PARSER=true;
+  NODE_FACTORY = true;
 }
 
 PARSER_BEGIN(JavaParser)

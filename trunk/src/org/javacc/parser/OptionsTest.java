@@ -71,11 +71,43 @@ public final class OptionsTest extends TestCase {
         assertEquals(0, JavaCCErrors.get_semantic_error_count());
     }
 
+
+    public void testIntBooleanOption() {
+        Options.init();
+        JavaCCErrors.reInit();
+
+        assertEquals(1, Options.getLookahead());
+        Options.setCmdLineOption("LOOKAHEAD=2");
+        assertEquals(2, Options.getLookahead());
+        assertEquals(0, JavaCCErrors.get_warning_count());
+        Options.setCmdLineOption("LOOKAHEAD=0");
+        assertEquals(2, Options.getLookahead());
+        assertEquals(0, JavaCCErrors.get_warning_count());
+        Options.setInputFileOption(null, null, "LOOKAHEAD", new Integer(0));
+        assertEquals(2, Options.getLookahead());
+        assertEquals(1, JavaCCErrors.get_warning_count());
+
+        assertEquals(0, JavaCCErrors.get_error_count());
+        assertEquals(0, JavaCCErrors.get_parse_error_count());
+        assertEquals(0, JavaCCErrors.get_semantic_error_count());
+    }
+    
     public void testSetStringOption() {
         Options.init();
         JavaCCErrors.reInit();
 
         assertEquals("", Options.getTokenExtends());
+        Options.setCmdLineOption("-TOKEN_EXTENDS=java.lang.Object");
+        assertEquals("java.lang.Object", Options.getTokenExtends());
+        Options.setInputFileOption(null, null, "TOKEN_EXTENDS", "Object");
+        // File option does not override cmd line
+        assertEquals("java.lang.Object", Options.getTokenExtends());
+
+        Options.init();
+        JavaCCErrors.reInit();
+
+        Options.setInputFileOption(null, null, "TOKEN_EXTENDS", "Object");
+        assertEquals("Object", Options.getTokenExtends());
         Options.setCmdLineOption("-TOKEN_EXTENDS=java.lang.Object");
         assertEquals("java.lang.Object", Options.getTokenExtends());
     }
@@ -85,7 +117,7 @@ public final class OptionsTest extends TestCase {
         JavaCCErrors.reInit();
 
         assertEquals(0, JavaCCErrors.get_warning_count());
-        Options.setInputFileOption(null, null, "OPTION", true);
+        Options.setInputFileOption(null, null, "OPTION", Boolean.TRUE );
         assertEquals(1, JavaCCErrors.get_warning_count());
 
         assertEquals(0, JavaCCErrors.get_error_count());
@@ -99,14 +131,14 @@ public final class OptionsTest extends TestCase {
 
         assertEquals(0, JavaCCErrors.get_warning_count());
         assertEquals(0, JavaCCErrors.get_error_count());
-        Options.setInputFileOption(null, null, "STATIC", 8);
+        Options.setInputFileOption(null, null, "STATIC", new Integer(8));
         assertEquals(1, JavaCCErrors.get_warning_count());
 
         assertEquals(0, JavaCCErrors.get_error_count());
         assertEquals(0, JavaCCErrors.get_parse_error_count());
         assertEquals(0, JavaCCErrors.get_semantic_error_count());
     }
-
+    
     public void testNormalize() {
         Options.init();
         JavaCCErrors.reInit();

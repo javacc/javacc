@@ -572,12 +572,12 @@ void option_binding() :
   (
     int_val = IntegerLiteral()
 	{
-	  Options.setInputFileOption(t, getToken(0), option_name, int_val);
+	  Options.setInputFileOption(t, getToken(0), option_name, new Integer(int_val));
 	}
   |
     bool_val = BooleanLiteral()
 	{
-	  Options.setInputFileOption(t, getToken(0), option_name, bool_val);
+	  Options.setInputFileOption(t, getToken(0), option_name, new Boolean(bool_val));
 	}
   |
     string_val = StringLiteral()
