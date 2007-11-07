@@ -73,7 +73,7 @@ public class ParseEngine extends JavaCCGlobals {
 
   /**
    * Returns true if there is a JAVACODE production that the argument expansion
-   * may directly expand to (without consuming tokens).
+   * may directly expand to (without consuming tokens or encountering lookahead).
    */
   static private boolean javaCodeCheck(Expansion exp) {
     if (exp instanceof RegularExpression) {
