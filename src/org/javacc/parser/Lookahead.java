@@ -70,7 +70,7 @@ public class Lookahead extends Expansion {
   public boolean isExplicit;
   
   public StringBuffer dump(int indent, Set alreadyDumped) {
-    StringBuffer sb = super.dump(indent, alreadyDumped);
+    StringBuffer sb = super.dump(indent, alreadyDumped).append(isExplicit ? " explicit" : " implicit");
     if (alreadyDumped.contains(this))
       return sb;
     alreadyDumped.add(this);

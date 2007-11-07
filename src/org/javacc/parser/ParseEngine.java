@@ -27,7 +27,10 @@
  */
 package org.javacc.parser;
 
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 
 public class ParseEngine extends JavaCCGlobals {
 
@@ -85,7 +88,7 @@ public class ParseEngine extends JavaCCGlobals {
     } else if (exp instanceof Choice) {
       Choice ch = (Choice)exp;
       for (int i = 0; i < ch.choices.size(); i++) {
-        if (javaCodeCheck((Expansion)(ch.choices.elementAt(i)))) {
+        if (javaCodeCheck((Expansion)(ch.choices.get(i)))) {
           return true;
         }
       }
@@ -93,9 +96,15 @@ public class ParseEngine extends JavaCCGlobals {
     } else if (exp instanceof Sequence) {
       Sequence seq = (Sequence)exp;
       for (int i = 0; i < seq.units.size(); i++) {
-        if (javaCodeCheck((Expansion)(seq.units.elementAt(i)))) {
+        Expansion[] units = (Expansion[])seq.units.toArray(new Expansion[seq.units.size()]);
+        if (units[i] instanceof Lookahead && ((Lookahead)units[i]).isExplicit) {
+          // An explicit lookahead (rather than one generated implicitly). Assume
+          // the user knows what he / she is doing, e.g.
+          //    "A" ( "B" | LOOKAHEAD("X") jcode() | "C" )* "D"
+          return false;
+        } else if (javaCodeCheck((units[i]))) {
           return true;
-        } else if (!Semanticize.emptyExpansionExists((Expansion)(seq.units.elementAt(i)))) {
+        } else if (!Semanticize.emptyExpansionExists(units[i])) {
           return false;
         }
       }
@@ -132,7 +141,10 @@ public class ParseEngine extends JavaCCGlobals {
     if (exp instanceof RegularExpression) {
       firstSet[((RegularExpression)exp).ordinal] = true;
     } else if (exp instanceof NonTerminal) {
-      genFirstSet(((BNFProduction)(((NonTerminal)exp).prod)).expansion);
+        if (!(((NonTerminal)exp).prod instanceof JavaCodeProduction))
+        {
+        	genFirstSet(((BNFProduction)(((NonTerminal)exp).prod)).expansion);
+        }
     } else if (exp instanceof Choice) {
       Choice ch = (Choice)exp;
       for (int i = 0; i < ch.choices.size(); i++) {
@@ -172,6 +184,14 @@ public class ParseEngine extends JavaCCGlobals {
   static final int OPENIF = 1;
   static final int OPENSWITCH = 2;
 
+  private static void dumpLookaheads(Lookahead[] conds, String[] actions) {
+    for (int i = 0; i < conds.length; i++) {
+      System.err.println("Lookahead: " + i);
+      System.err.println(conds[i].dump(0, new HashSet()));
+      System.err.println();
+    }
+  }
+  
   /**
    * This method takes two parameters - an array of Lookahead's
    * "conds", and an array of String's "actions".  "actions" contains
@@ -190,8 +210,8 @@ public class ParseEngine extends JavaCCGlobals {
    * case, a noop is generated for that action.
    */
   static String buildLookaheadChecker(Lookahead[] conds, String[] actions) {
-
-    // The state variables.
+    
+	  // The state variables.
     int state = NOOPENSTM;
     int indentAmt = 0;
     boolean[] casedValues = new boolean[tokenCount];

@@ -56,10 +56,13 @@ public class Sequence extends Expansion {
 
     
     public StringBuffer dump(int indent, Set alreadyDumped) {
-      StringBuffer sb = super.dump(indent, alreadyDumped);
       if (alreadyDumped.contains(this))
-        return sb;
+      {
+        return super.dump(0, alreadyDumped).insert(0, '[').append(']').insert(0, dumpPrefix(indent));
+      }
+      
       alreadyDumped.add(this);
+      final StringBuffer sb = super.dump(indent, alreadyDumped);
       for (Iterator it = units.iterator(); it.hasNext(); ) {
         Expansion next = (Expansion)it.next();
         sb.append(eol).append(next.dump(indent + 1, alreadyDumped));
