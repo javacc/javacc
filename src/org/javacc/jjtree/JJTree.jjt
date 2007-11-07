@@ -391,19 +391,19 @@ void option_binding() #OptionBinding :
   (
      v=IntegerLiteral()
         {
-	  JJTreeOptions.setInputFileOption(o, v, o.image, Integer.parseInt(v.image));
+	  JJTreeOptions.setInputFileOption(o, v, o.image, new Integer(v.image));
 	  jjtThis.initialize(o.image, v.image);
 	}
    | v=BooleanLiteral()
         {
-	  JJTreeOptions.setInputFileOption(o, v, o.image,
-				     Boolean.valueOf(v.image).booleanValue());
+	  JJTreeOptions.setInputFileOption(o, v, o.image, 
+				     Boolean.valueOf(v.image));
 	  jjtThis.initialize(o.image, v.image);
 	}
    | v=StringLiteral()
         {	
 	  String vs = TokenUtils.remove_escapes_and_quotes(v, v.image);
-	  JJTreeOptions.setInputFileOption(o, v, o.image, vs);
+	  JJTreeOptions.setInputFileOption(o, v, o.image, (Object)vs);
 	  jjtThis.initialize(o.image, vs);
 	}
   ) ";"

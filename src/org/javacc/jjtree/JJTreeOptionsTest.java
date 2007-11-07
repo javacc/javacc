@@ -35,4 +35,28 @@ public final class JJTreeOptionsTest extends TestCase {
         assertEquals(0, JavaCCErrors.get_parse_error_count());
         assertEquals(0, JavaCCErrors.get_semantic_error_count());
     }
-}
+  
+    public void testNodeFactory() {
+      JJTreeOptions.init();
+      JavaCCErrors.reInit();
+
+      assertEquals(0, JavaCCErrors.get_warning_count());
+      assertEquals(0, JavaCCErrors.get_error_count());
+      JJTreeOptions.setInputFileOption(null, null, "NODE_FACTORY", Boolean.FALSE);
+      assertEquals(JJTreeOptions.getNodeFactory(), "");
+
+      JJTreeOptions.init();
+      JJTreeOptions.setInputFileOption(null, null, "NODE_FACTORY", Boolean.TRUE);
+      assertEquals(JJTreeOptions.getNodeFactory(), "*");
+
+      JJTreeOptions.init();
+      JJTreeOptions.setInputFileOption(null, null, "NODE_FACTORY", "mypackage.MyNode");
+      assertEquals(JJTreeOptions.getNodeFactory(), "mypackage.MyNode");
+
+      assertEquals(0, JavaCCErrors.get_warning_count());
+
+      assertEquals(0, JavaCCErrors.get_error_count());
+      assertEquals(0, JavaCCErrors.get_parse_error_count());
+      assertEquals(0, JavaCCErrors.get_semantic_error_count());
+    }
+  }
