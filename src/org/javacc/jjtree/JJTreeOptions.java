@@ -64,6 +64,7 @@ class JJTreeOptions extends Options {
         Options.optionValues.put("NODE_PREFIX", "AST");
         Options.optionValues.put("NODE_PACKAGE", "");
         Options.optionValues.put("NODE_EXTENDS", "");
+        Options.optionValues.put("NODE_CLASS", "");
         Options.optionValues.put("NODE_FACTORY", "");
         Options.optionValues.put("OUTPUT_FILE", "");
         Options.optionValues.put("VISITOR_DATA_TYPE", "");
@@ -169,6 +170,15 @@ class JJTreeOptions extends Options {
      */
     public static String getNodeExtends() {
         return stringValue("NODE_EXTENDS");
+    }
+
+    /**
+     * Find the node class name.
+     * 
+     * @return The requested node class
+     */
+    public static String getNodeClass() {
+        return stringValue("NODE_CLASS");
     }
 
     /**
