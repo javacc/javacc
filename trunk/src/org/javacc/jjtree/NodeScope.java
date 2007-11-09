@@ -107,24 +107,30 @@ public class NodeScope
   void insertOpenNodeCode(IO io, String indent)
   {
     String type = node_descriptor.getNodeType();
+    final String nodeClass;
+    if (JJTreeOptions.getNodeClass().length() > 0 && !JJTreeOptions.getMulti()) {
+      nodeClass = JJTreeOptions.getNodeClass();
+    } else {
+      nodeClass = type;
+    }
 
     /* Ensure that there is a template definition file for the node
        type. */
     NodeFiles.ensure(io, type);
 
-    io.print(indent + type + " " + nodeVar + " = ");
+    io.print(indent + nodeClass + " " + nodeVar + " = ");
     String p = JJTreeOptions.getStatic() ? "null" : "this";
     String parserArg = JJTreeOptions.getNodeUsesParser() ? (p + ", ") : ""; 
     
     if (JJTreeOptions.getNodeFactory().equals("*")) {
       // Old-style multiple-implementations.
-      io.println("(" + type + ")" + type + ".jjtCreate(" + parserArg +
+      io.println("(" + nodeClass + ")" + nodeClass + ".jjtCreate(" + parserArg +
           node_descriptor.getNodeId() +");");
     } else if (JJTreeOptions.getNodeFactory().length() > 0) {
-      io.println("(" + type + ")" + JJTreeOptions.getNodeFactory() + ".jjtCreate(" + parserArg +
+      io.println("(" + nodeClass + ")" + JJTreeOptions.getNodeFactory() + ".jjtCreate(" + parserArg +
        node_descriptor.getNodeId() +");");
     } else {
-      io.println("new " + type + "(" + parserArg + node_descriptor.getNodeId() + ");");
+      io.println("new " + nodeClass + "(" + parserArg + node_descriptor.getNodeId() + ");");
     }
 
     if (usesCloseNodeVar()) {

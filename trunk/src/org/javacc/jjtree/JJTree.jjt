@@ -32,6 +32,7 @@ options {
   NODE_SCOPE_HOOK=true;
   JAVA_UNICODE_ESCAPE = true;
   STATIC = false;
+  NODE_CLASS = "org.javacc.jjtree.JJTreeNode";
 }
 
 PARSER_BEGIN(JJTreeParser)

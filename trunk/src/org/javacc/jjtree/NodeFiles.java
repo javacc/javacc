@@ -410,7 +410,12 @@ final class NodeFiles {
   {
     generatePrologue(ostr, nodeType + ".java");
 
-    ostr.println("public class " + nodeType + " extends SimpleNode {");
+    if (JJTreeOptions.getNodeClass().length() > 0) {
+      ostr.println("public class " + nodeType + " extends " + JJTreeOptions.getNodeClass() + "{");
+    } else {
+      ostr.println("public class " + nodeType + " extends SimpleNode {");
+    }
+    
     ostr.println("  public " + nodeType + "(int id) {");
     ostr.println("    super(id);");
     ostr.println("  }");

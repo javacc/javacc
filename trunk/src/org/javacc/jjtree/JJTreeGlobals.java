@@ -49,6 +49,7 @@ class JJTreeGlobals
 	    jjtreeOptions.add("NODE_PREFIX");
 	    jjtreeOptions.add("NODE_PACKAGE");
 	    jjtreeOptions.add("NODE_EXTENDS");
+      jjtreeOptions.add("NODE_CLASS");
 	    jjtreeOptions.add("NODE_STACK_SIZE");
 	    jjtreeOptions.add("NODE_DEFAULT_VOID");
 	    jjtreeOptions.add("OUTPUT_FILE");
