@@ -545,10 +545,10 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
       }
       if (Options.getErrorReporting()) {
         if (!Options.getJdkVersion().equals("1.5"))
-          ostr.println("  " + staticOpt() + "private java.util.Vector jj_expentries = new java.util.Vector();");
+          ostr.println("  " + staticOpt() + "private java.util.List jj_expentries = new java.util.ArrayList();");
         else
           ostr.println("  " + staticOpt() +
-                  "private java.util.Vector<int[]> jj_expentries = new java.util.Vector<int[]>();");
+                  "private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();");
         ostr.println("  " + staticOpt() + "private int[] jj_expentry;");
         ostr.println("  " + staticOpt() + "private int jj_kind = -1;");
         if (jj2index != 0) {
@@ -565,8 +565,8 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
           ostr.println("        jj_expentry[i] = jj_lasttokens[i];");
           ostr.println("      }");
           ostr.println("      boolean exists = false;");
-          ostr.println("      for (java.util.Enumeration e = jj_expentries.elements(); e.hasMoreElements();) {");
-          ostr.println("        int[] oldentry = (int[])(e.nextElement());");
+          ostr.println("      for (java.util.Iterator it = jj_expentries.iterator(); it.hasNext();) {");
+          ostr.println("        int[] oldentry = (int[])(it.next());");
           ostr.println("        if (oldentry.length == jj_expentry.length) {");
           ostr.println("          exists = true;");
           ostr.println("          for (int i = 0; i < jj_expentry.length; i++) {");
@@ -578,7 +578,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
           ostr.println("          if (exists) break;");
           ostr.println("        }");
           ostr.println("      }");
-          ostr.println("      if (!exists) jj_expentries.addElement(jj_expentry);");
+          ostr.println("      if (!exists) jj_expentries.add(jj_expentry);");
           ostr.println("      if (pos != 0) jj_lasttokens[(jj_endpos = pos) - 1] = kind;");
           ostr.println("    }");
           ostr.println("  }");
@@ -586,7 +586,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
         ostr.println("");
         ostr.println("  /** Generate ParseException. */");
         ostr.println("  " + staticOpt() + "public ParseException generateParseException() {");
-        ostr.println("    jj_expentries.removeAllElements();");
+        ostr.println("    jj_expentries.clear();");
         ostr.println("    boolean[] la1tokens = new boolean[" + tokenCount + "];");
         ostr.println("    if (jj_kind >= 0) {");
         ostr.println("      la1tokens[jj_kind] = true;");
@@ -611,7 +611,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
         ostr.println("      if (la1tokens[i]) {");
         ostr.println("        jj_expentry = new int[1];");
         ostr.println("        jj_expentry[0] = i;");
-        ostr.println("        jj_expentries.addElement(jj_expentry);");
+        ostr.println("        jj_expentries.add(jj_expentry);");
         ostr.println("      }");
         ostr.println("    }");
         if (jj2index != 0) {
@@ -622,9 +622,9 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
         ostr.println("    int[][] exptokseq = new int[jj_expentries.size()][];");
         ostr.println("    for (int i = 0; i < jj_expentries.size(); i++) {");
         if (!Options.getJdkVersion().equals("1.5"))
-           ostr.println("      exptokseq[i] = (int[])jj_expentries.elementAt(i);");
+           ostr.println("      exptokseq[i] = (int[])jj_expentries.get(i);");
         else
-           ostr.println("      exptokseq[i] = jj_expentries.elementAt(i);");
+           ostr.println("      exptokseq[i] = jj_expentries.get(i);");
         ostr.println("    }");
         ostr.println("    return new ParseException(token, exptokseq, tokenImage);");
         ostr.println("  }");
