@@ -30,7 +30,7 @@ package org.javacc.jjtree;
 import java.util.Hashtable;
 import java.util.Vector;
 
-public class ASTNodeDescriptor extends SimpleNode {
+public class ASTNodeDescriptor extends JJTreeNode {
   ASTNodeDescriptor(int id) {
     super(id);
   }

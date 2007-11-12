@@ -28,14 +28,14 @@
 package org.javacc.jjtree;
 
 
-public class ASTExpansionNodeScope extends SimpleNode
+public class ASTExpansionNodeScope extends JJTreeNode
 {
   ASTExpansionNodeScope(int id) {
     super(id);
   }
 
   NodeScope node_scope;
-  SimpleNode expansion_unit;
+  JJTreeNode expansion_unit;
 
   public void print(IO io)
   {

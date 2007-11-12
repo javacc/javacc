@@ -72,7 +72,7 @@ public final class TokenUtils
   }
 
 
-  static boolean hasTokens(SimpleNode n)
+  static boolean hasTokens(JJTreeNode n)
   {
     if (n.getLastToken().next == n.getFirstToken()) {
       return false;

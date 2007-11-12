@@ -28,7 +28,7 @@
 package org.javacc.jjtree;
 
 
-public class ASTBNFAction extends SimpleNode {
+public class ASTBNFAction extends JJTreeNode {
 
   ASTBNFAction(int id) {
     super(id);
@@ -65,7 +65,7 @@ public class ASTBNFAction extends SimpleNode {
       boolean needClose = true;
       Node sp = getScopingParent(ns);
 
-      SimpleNode n = this;
+      JJTreeNode n = this;
       while (true) {
         Node p = n.jjtGetParent();
         if (p instanceof ASTBNFSequence || p instanceof ASTBNFTryBlock) {
@@ -84,7 +84,7 @@ public class ASTBNFAction extends SimpleNode {
           /* No more parents to look at. */
           break;
         }
-        n = (SimpleNode)p;
+        n = (JJTreeNode)p;
       }
       if (needClose) {
         openJJTreeComment(io, null);

@@ -31,7 +31,7 @@ package org.javacc.jjtree;
 import org.javacc.parser.JavaCCGlobals;
 
 
-public class ASTGrammar extends SimpleNode {
+public class ASTGrammar extends JJTreeNode {
   ASTGrammar(int id) {
     super(id);
   }

@@ -28,7 +28,7 @@
 package org.javacc.jjtree;
 
 
-public class ASTNodeDescriptorExpression extends SimpleNode {
+public class ASTNodeDescriptorExpression extends JJTreeNode {
   ASTNodeDescriptorExpression(int id) {
     super(id);
   }

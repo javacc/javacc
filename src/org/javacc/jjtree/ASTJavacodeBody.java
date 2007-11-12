@@ -28,7 +28,7 @@
 package org.javacc.jjtree;
 
 
-public class ASTJavacodeBody extends SimpleNode {
+public class ASTJavacodeBody extends JJTreeNode {
   ASTJavacodeBody(int id) {
     super(id);
   }
@@ -49,7 +49,7 @@ public class ASTJavacodeBody extends SimpleNode {
       indent += " ";
     }
 
-    SimpleNode.openJJTreeComment(io, node_scope.getNodeDescriptorText());
+    JJTreeNode.openJJTreeComment(io, node_scope.getNodeDescriptorText());
     io.println();
     node_scope.insertOpenNodeCode(io, indent);
     node_scope.tryTokenSequence(io, indent, first, getLastToken());

@@ -31,7 +31,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 
-public class ASTProduction extends SimpleNode
+public class ASTProduction extends JJTreeNode
 {
   ASTProduction(int id) {
     super(id);

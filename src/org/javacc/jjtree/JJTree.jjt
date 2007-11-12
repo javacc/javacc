@@ -32,6 +32,7 @@ options {
   NODE_SCOPE_HOOK=true;
   JAVA_UNICODE_ESCAPE = true;
   STATIC = false;
+  NODE_CLASS = "JJTreeNode";
 }
 
 PARSER_BEGIN(JJTreeParser)
@@ -42,12 +43,12 @@ public class JJTreeParser {
 
   void jjtreeOpenNodeScope(Node n)
   {
-	((SimpleNode)n).setFirstToken(getToken(1));
+	((JJTreeNode)n).setFirstToken(getToken(1));
   }
 
   void jjtreeCloseNodeScope(Node n)
   {
-	((SimpleNode)n).setLastToken(getToken(0));
+	((JJTreeNode)n).setLastToken(getToken(0));
   }
 
 
@@ -490,7 +491,7 @@ void bnf_production() #BNF :
 	  ASTBNF prod;
 	  ASTNodeDescriptor nd = null;
 	  NodeScope ns;
-	  SimpleNode eu;
+	  JJTreeNode eu;
 	  String n;
 	}
 {
@@ -586,19 +587,19 @@ void regexpr_spec() #RESpec :
   regular_expression() [ Block() ] [ ":" <IDENTIFIER> ]
 }
 
-SimpleNode expansion_choices(ASTProduction p) #BNFChoice(>1) :
+JJTreeNode expansion_choices(ASTProduction p) #BNFChoice(>1) :
 	{
 	}
 {
   expansion(p) ( "|" expansion(p) )*
         {
-	  return (SimpleNode)jjtree.peekNode();
+	  return (JJTreeNode)jjtree.peekNode();
 	}
 }
 
 void expansion(ASTProduction p) #BNFSequence(>1) :
 	{
-	  SimpleNode eu;
+	  JJTreeNode eu;
 	  ASTNodeDescriptor nd = null;
 	}
 {
@@ -662,7 +663,7 @@ void local_lookahead(ASTProduction p) :
   ]
 }
 
-SimpleNode expansion_unit(ASTProduction p) :
+JJTreeNode expansion_unit(ASTProduction p) :
 	{
 	  Token t;
 	}
@@ -717,11 +718,11 @@ SimpleNode expansion_unit(ASTProduction p) :
       #BNFParenthesized(1)
   )
 	{
-	  ((SimpleNode)jjtree.peekNode()).setFirstToken(t);
+	  ((JJTreeNode)jjtree.peekNode()).setFirstToken(t);
 	}
 )
         {
-	  return (SimpleNode)jjtree.peekNode();
+	  return (JJTreeNode)jjtree.peekNode();
 	}
 }
 
@@ -786,7 +787,7 @@ void complex_regular_expression_unit() :
       #REParenthesized(1)
   )
 	{
-	  ((SimpleNode)jjtree.peekNode()).setFirstToken(t);
+	  ((JJTreeNode)jjtree.peekNode()).setFirstToken(t);
 	}
 }
 
