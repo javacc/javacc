@@ -28,7 +28,7 @@
 package org.javacc.jjtree;
 
 
-public class ASTLHS extends SimpleNode {
+public class ASTLHS extends JJTreeNode {
   ASTLHS(int id) {
     super(id);
   }

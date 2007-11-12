@@ -214,7 +214,7 @@ public class NodeScope
   void tryTokenSequence(IO io, String indent, Token first, Token last)
   {
     io.println(indent + "try {");
-    SimpleNode.closeJJTreeComment(io);
+    JJTreeNode.closeJJTreeComment(io);
 
     /* Print out all the tokens, converting all references to
        `jjtThis' into the current node variable. */
@@ -222,7 +222,7 @@ public class NodeScope
       TokenUtils.print(t, io, "jjtThis", nodeVar);
     }
 
-    SimpleNode.openJJTreeComment(io, null);
+    JJTreeNode.openJJTreeComment(io, null);
     io.println();
 
     Enumeration thrown_names = production.throws_list.elements();
@@ -235,12 +235,12 @@ public class NodeScope
       io.println(indent + "  }");
     }
     io.println(indent + "}");
-    SimpleNode.closeJJTreeComment(io);
+    JJTreeNode.closeJJTreeComment(io);
   }
 
 
   private static void findThrown(Hashtable thrown_set,
-         SimpleNode expansion_unit)
+      JJTreeNode expansion_unit)
   {
     if (expansion_unit instanceof ASTBNFNonTerminal) {
       /* Should really make the nonterminal explicitly maintain its
@@ -256,20 +256,20 @@ public class NodeScope
       }
     }
     for (int i = 0; i < expansion_unit.jjtGetNumChildren(); ++i) {
-      SimpleNode n = (SimpleNode)expansion_unit.jjtGetChild(i);
+      JJTreeNode n = (JJTreeNode)expansion_unit.jjtGetChild(i);
       findThrown(thrown_set, n);
     }
   }
 
 
-  void tryExpansionUnit(IO io, String indent, SimpleNode expansion_unit)
+  void tryExpansionUnit(IO io, String indent, JJTreeNode expansion_unit)
   {
     io.println(indent + "try {");
-    SimpleNode.closeJJTreeComment(io);
+    JJTreeNode.closeJJTreeComment(io);
 
     expansion_unit.print(io);
 
-    SimpleNode.openJJTreeComment(io, null);
+    JJTreeNode.openJJTreeComment(io, null);
     io.println();
 
     Hashtable thrown_set = new Hashtable();
@@ -284,7 +284,7 @@ public class NodeScope
       io.println(indent + "  }");
     }
     io.println(indent + "}");
-    SimpleNode.closeJJTreeComment(io);
+    JJTreeNode.closeJJTreeComment(io);
   }
 
 

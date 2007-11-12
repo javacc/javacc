@@ -28,7 +28,7 @@
 package org.javacc.jjtree;
 
 
-public class ASTOptionBinding extends SimpleNode {
+public class ASTOptionBinding extends JJTreeNode {
   ASTOptionBinding(int id) {
     super(id);
   }

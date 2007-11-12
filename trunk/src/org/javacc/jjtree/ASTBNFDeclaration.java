@@ -28,7 +28,7 @@
 package org.javacc.jjtree;
 
 
-public class ASTBNFDeclaration extends SimpleNode {
+public class ASTBNFDeclaration extends JJTreeNode {
   ASTBNFDeclaration(int id) {
     super(id);
   }

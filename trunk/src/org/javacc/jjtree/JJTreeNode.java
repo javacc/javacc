@@ -27,79 +27,20 @@
  */
 package org.javacc.jjtree;
 
-public class SimpleNode implements Node {
-  private Node parent;
-  private Node[] children;
-  private int id;
-  private int myOrdinal;
+public class JJTreeNode extends SimpleNode {
 
-  public SimpleNode(int i) {
-    id = i;
+  public JJTreeNode(int id) {
+	super(id);
   }
 
-  public SimpleNode(JJTreeParser p, int i) {
+  public JJTreeNode(JJTreeParser p, int i) {
     this(i);
   }
 
-  public void jjtOpen() {}
-  public void jjtClose() {}
-
-  public void jjtSetParent(Node n) { parent = n; }
-  public Node jjtGetParent() { return parent; }
-
-  public void jjtAddChild(Node n, int i) {
-    if (children == null) {
-      children = new Node[i + 1];
-    } else if (i >= children.length) {
-      Node c[] = new Node[i + 1];
-      System.arraycopy(children, 0, c, 0, children.length);
-      children = c;
-    }
-    children[i] = n;
-    ((SimpleNode)n).setOrdinal(i);
+  public static Node jjtCreate(int id) {
+	return new JJTreeNode(id);
   }
 
-  public Node jjtGetChild(int i) {
-    return children[i];
-  }
-
-  public int jjtGetNumChildren() {
-    return (children == null) ? 0 : children.length;
-  }
-
-  /* You can override these two methods in subclasses of SimpleNode to
-     customize the way the node appears when the tree is dumped.  If
-     your output uses more than one line you should override
-     toString(String), otherwise overriding toString() is probably all
-     you need to do. */
-
-  public String toString() { return JJTreeParserTreeConstants.jjtNodeName[id]; }
-  public String toString(String prefix) { return prefix + toString(); }
-
-  /* Override this method if you want to customize how the node dumps
-     out its children. */
-
-  public void dump(String prefix) {
-    System.out.println(toString(prefix));
-    if (children != null) {
-      for (int i = 0; i < children.length; ++i) {
-        SimpleNode n = (SimpleNode)children[i];
-        if (n != null) {
-          n.dump(prefix + " ");
-        }
-      }
-    }
-  }
-
-  public int getOrdinal()
-  {
-    return myOrdinal;
-  }
-
-  public void setOrdinal(int o)
-  {
-    myOrdinal = o;
-  }
 
 
   /*****************************************************************
@@ -117,6 +58,17 @@ public class SimpleNode implements Node {
   public void setFirstToken(Token t) { first = t; }
   public Token getLastToken() { return last;  }
   public void setLastToken(Token t) { last = t; }
+  private int myOrdinal;
+
+  public int getOrdinal()
+  {
+    return myOrdinal;
+  }
+
+  public void setOrdinal(int o)
+  {
+    myOrdinal = o;
+  }
 
   /* This method prints the tokens corresponding to this node
      recursively calling the print methods of its children.
@@ -133,9 +85,9 @@ public class SimpleNode implements Node {
     Token t1 = getFirstToken();
     Token t = new Token();
     t.next = t1;
-    SimpleNode n;
+    JJTreeNode n;
     for (int ord = 0; ord < jjtGetNumChildren(); ord++) {
-      n = (SimpleNode)jjtGetChild(ord);
+      n = (JJTreeNode)jjtGetChild(ord);
       while (true) {
         t = t.next;
         if (t == n.getFirstToken()) break;
@@ -251,13 +203,13 @@ public class SimpleNode implements Node {
   }
 
 
-  String getIndentation(SimpleNode n)
+  String getIndentation(JJTreeNode n)
   {
     return getIndentation(n, 0);
   }
 
 
-  String getIndentation(SimpleNode n, int offset)
+  String getIndentation(JJTreeNode n, int offset)
   {
     String s = "";
     for (int i = offset + 1; i < n.getFirstToken().beginColumn; ++i) {

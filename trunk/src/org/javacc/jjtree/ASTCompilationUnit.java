@@ -28,7 +28,7 @@
 package org.javacc.jjtree;
 
 
-public class ASTCompilationUnit extends SimpleNode {
+public class ASTCompilationUnit extends JJTreeNode {
   ASTCompilationUnit(int id) {
     super(id);
   }
