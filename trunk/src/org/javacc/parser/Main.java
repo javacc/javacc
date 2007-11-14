@@ -79,7 +79,8 @@ public final class Main {
     System.out.println("The string valued options are:");
     System.out.println("");
     System.out.println("    OUTPUT_DIRECTORY       (default Current Directory)");
-    System.out.println("    TOKEN_EXTENDS          (java.lang.Object)");
+    System.out.println("    TOKEN_EXTENDS          (default java.lang.Object)");
+    System.out.println("    TOKEN_FACTORY          (default none)");
     System.out.println("    JDK_VERSION            (default 1.5)");
     System.out.println("");
     System.out.println("EXAMPLE:");

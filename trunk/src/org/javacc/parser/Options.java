@@ -122,6 +122,7 @@ public class Options {
         optionValues.put("OUTPUT_DIRECTORY", ".");
         optionValues.put("JDK_VERSION", "1.4");
         optionValues.put("TOKEN_EXTENDS", "");
+        optionValues.put("TOKEN_FACTORY", "");
     }
 
     /**
@@ -514,7 +515,17 @@ public class Options {
      */
     public static String getTokenExtends()
     {
-    	return stringValue("TOKEN_EXTENDS");
+      return stringValue("TOKEN_EXTENDS");
+    }
+    
+    /**
+     * Return the Token's factory class.
+     * 
+     * @return The required factory class for Token.
+     */
+    public static String getTokenFactory()
+    {
+      return stringValue("TOKEN_FACTORY");
     }
     
     /**
