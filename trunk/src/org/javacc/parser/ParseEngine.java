@@ -29,8 +29,6 @@ package org.javacc.parser;
 
 import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
 
 public class ParseEngine extends JavaCCGlobals {
 

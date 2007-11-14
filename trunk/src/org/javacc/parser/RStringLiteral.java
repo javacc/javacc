@@ -30,7 +30,6 @@ package org.javacc.parser;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 
