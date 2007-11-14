@@ -14,7 +14,7 @@ public final class OptionsTest extends TestCase {
         Options.init();
         JavaCCErrors.reInit();
 
-        assertEquals(24, Options.optionValues.size());
+        assertEquals(25, Options.optionValues.size());
 
         assertEquals(true, Options.getBuildParser());
         assertEquals(true, Options.getBuildTokenManager());
@@ -42,6 +42,7 @@ public final class OptionsTest extends TestCase {
         assertEquals("1.4", Options.getJdkVersion());
         assertEquals(new File("."), Options.getOutputDirectory());
         assertEquals("", Options.getTokenExtends());
+        assertEquals("", Options.getTokenFactory());
 
         assertEquals(0, JavaCCErrors.get_warning_count());
         assertEquals(0, JavaCCErrors.get_error_count());
