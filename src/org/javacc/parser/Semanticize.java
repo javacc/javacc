@@ -27,9 +27,6 @@
  */
 package org.javacc.parser;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Semanticize extends JavaCCGlobals {
 
   static java.util.Vector removeList = new java.util.Vector();
