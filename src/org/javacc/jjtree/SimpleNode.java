@@ -158,12 +158,18 @@ public class SimpleNode implements Node {
 
   String whiteOut(Token t)
   {
-    String s = "";
+    StringBuffer sb = new StringBuffer(t.image.length());
 
     for (int i = 0; i < t.image.length(); ++i) {
-      s += " ";
+      char ch = t.image.charAt(i);
+      if (ch != '\t' && ch != '\n' && ch != '\r' && ch != '\f') {
+        sb.append(' ');
+      } else {
+        sb.append(ch);
+      }
     }
-    return s;
+    
+    return sb.toString();
   }
 
 
