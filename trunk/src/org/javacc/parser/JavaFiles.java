@@ -102,8 +102,8 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
    * This method does not try to recover from invalid comment syntax, but
    * rather returns version 0.0 (which will always be taken to mean the file
    * is out of date).
-   * @param fileName eg Token&amp;java
-   * @return The version as a double, eg 4&amp;1
+   * @param fileName eg Token.java
+   * @return The version as a double, eg 4.1
    * @since 4.1
   */
   static double getVersion(String fileName)
@@ -2378,7 +2378,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
     ostr.println("   * to the following switch statement. Then you can cast matchedToken");
     ostr.println("   * variable to the appropriate type and use it in your lexical actions.");
     ostr.println("   */");
-    ostr.println("  public static final Token newToken(int ofKind, String image)");
+    ostr.println("  public static Token newToken(int ofKind, String image)");
     ostr.println("  {");
     ostr.println("     switch(ofKind)");
     ostr.println("     {");
@@ -2386,7 +2386,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
     ostr.println("     }");
     ostr.println("  }");
     ostr.println("");
-    ostr.println("  public static final Token newToken(int ofKind)");
+    ostr.println("  public static Token newToken(int ofKind)");
     ostr.println("  {");
     ostr.println("     return newToken(ofKind, null);");
     ostr.println("  }");
