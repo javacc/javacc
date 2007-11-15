@@ -44,6 +44,10 @@ public class ASTExpansionNodeScope extends JJTreeNode
     io.println();
     node_scope.insertOpenNodeAction(io, indent);
     node_scope.tryExpansionUnit(io, indent, expansion_unit);
+
+    // Print the "whiteOut" equivalent of the Node descriptor to preserve
+    // line numbers in the generated file.
+    ((ASTNodeDescriptor)jjtGetChild(1)).print(io);
   }
 
 }
