@@ -185,10 +185,45 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
                        " that a new one can be generated for you.");
   }
 
+  /**
+   * Read the options line from the file and compare 
+   * @param fileName
+   * @param options TODO
+   */
+  static void checkOptions(String fileName, String[] options)
+  {
+    fileName = replaceBackslash(fileName);
+
+    try {
+      File fp = new File(Options.getOutputDirectory(), fileName);
+      BufferedReader reader = new BufferedReader(new FileReader(fp));
+
+      String line;
+      while ( (line = reader.readLine()) != null) {
+        if (line.startsWith("/* JavaCCOptions:")) {
+          String currentOptions = Options.getOptionsString(options);
+          if (!line.contains(currentOptions)) {
+            JavaCCErrors.warning(fileName + ": Generated using imcompatible options. Please rename or delete this file so" +
+                       " that a new one can be generated for you."); 
+          }
+          return;
+        }
+      }
+    } catch(FileNotFoundException e1) {
+      // This should never happen
+      JavaCCErrors.semantic_error("Could not open file " + fileName + " for writing.");
+      throw new Error();
+    } catch(IOException e2) {
+    }
+    
+    // Not found so cannot check
+  }
+
   public static void gen_JavaCharStream() {
     File tmp;
     if ((tmp = new File(Options.getOutputDirectory(), "JavaCharStream.java")).exists()) {
       CheckVersion("JavaCharStream.java", charStreamVersion);
+      checkOptions("JavaCharStream.java", new String[] {"STATIC"});
       return;
     }
     System.out.println("File \"JavaCharStream.java\" does not exist.  Will create one.");
@@ -205,7 +240,9 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
     }
 
     ostr.println("/* " + getIdString(toolName, "JavaCharStream.java") + " Version " + charStreamVersion + " */");
-
+//    String options = Options.getOptionsString(new String[] {"STATIC"});
+//    ostr.println("/* JavaCCOptions:" + options + " */");
+    
     if (cu_to_insertion_point_1.size() != 0 &&
         ((Token)cu_to_insertion_point_1.elementAt(0)).kind == PACKAGE
        ) {

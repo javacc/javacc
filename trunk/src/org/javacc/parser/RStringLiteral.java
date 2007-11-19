@@ -1344,4 +1344,8 @@ public class RStringLiteral extends RegularExpression {
     StringBuffer sb = super.dump(indent, alreadyDumped).append(' ').append(image);
     return sb;
   }
+  
+  public String toString() {
+    return super.toString() + " - " + image;
+  }
 }
