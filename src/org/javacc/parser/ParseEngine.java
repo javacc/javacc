@@ -155,7 +155,18 @@ public class ParseEngine extends JavaCCGlobals {
         jj2LA = true;
       }
       for (int i = 0; i < seq.units.size(); i++) {
-        genFirstSet((Expansion)(seq.units.elementAt(i)));
+        Expansion unit = (Expansion) seq.units.elementAt(i);
+	// Javacode productions can not have FIRST sets. Instead we generate the FIRST set
+	// for the preceding LOOKAHEAD (the semantic checks should have made sure that
+	// the LOOKAHEAD is suitable).
+        if (unit instanceof NonTerminal && ((NonTerminal)unit).prod instanceof JavaCodeProduction) {
+          if (i > 0 && seq.units.elementAt(i-1) instanceof Lookahead) {
+            Lookahead la = (Lookahead)seq.units.elementAt(i-1);
+            genFirstSet(la.la_expansion);
+          }
+        } else {
+          genFirstSet((Expansion)(seq.units.elementAt(i)));
+        }
         if (!Semanticize.emptyExpansionExists((Expansion)(seq.units.elementAt(i)))) {
           break;
         }
