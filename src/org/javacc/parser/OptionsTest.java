@@ -158,4 +158,18 @@ public final class OptionsTest extends TestCase {
         assertEquals(0, JavaCCErrors.get_parse_error_count());
         assertEquals(0, JavaCCErrors.get_semantic_error_count());
     }
+    
+    public void testOptionsString() throws ParseException {
+      Options.init();
+      JavaCCErrors.reInit();
+      
+      Options.setCmdLineOption("-STATIC=False");
+      Options.setCmdLineOption("-IGNORE_CASE=True");
+      String[] options = {
+          "STATIC",
+          "IGNORE_CASE"
+      };
+      String optionString = Options.getOptionsString(options);
+      assertEquals("STATIC=false,IGNORE_CASE=true", optionString);
+    }
 }

@@ -124,6 +124,31 @@ public class Options {
         optionValues.put("TOKEN_EXTENDS", "");
         optionValues.put("TOKEN_FACTORY", "");
     }
+    
+    /**
+     * Returns a string representation of the specified options of interest.
+     * Used when, for example, generating Token.java to record the JavaCC options
+     * that were used to generate the file. All of the options must be
+     * boolean values.
+     * @param interestingOptions the options of interest, eg {"STATIC", "CACHE_TOKENS"} 
+     * @return the string representation of the options, eg "STATIC=true,CACHE_TOKENS=false"
+     */
+    public static String getOptionsString(String[] interestingOptions) {
+      StringBuffer sb = new StringBuffer();
+      
+      for (int i = 0; i < interestingOptions.length; i++) {
+        String key = interestingOptions[i];
+        sb.append(key);
+        sb.append('=');
+        sb.append(optionValues.get(key));
+        if (i != interestingOptions.length -1) {
+          sb.append(',');
+        }
+      }
+      
+      return sb.toString();
+    }
+    
 
     /**
      * Determine if a given command line argument might be an option flag.
