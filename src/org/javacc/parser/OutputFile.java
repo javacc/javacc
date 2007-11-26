@@ -87,6 +87,11 @@ public class OutputFile {
 	 * 
 	 * @param file
 	 *            the file to write to.
+	 * @param compatibleVersion
+	 * 			  the minimum compatible JavaCC version.
+	 * @param options
+	 *            if the file already exists, and cannot be overwritten, this is
+	 *		      a list of options (such s STATIC=false) to check for changes. 
 	 * @throws IOException
 	 */
 	public OutputFile(File file, String compatibleVersion, String[] options)
@@ -150,6 +155,12 @@ public class OutputFile {
 
 	public boolean needToWrite = true;
 
+	/**
+	 * Output a warning if the file was created with an incompatible version
+	 * of JavaCC.
+	 * @param fileName
+	 * @param versionId
+	 */
 	private void checkVersion(String fileName, String versionId) {
 		fileName = replaceBackslash(fileName);
 		String firstLine = "/* "
@@ -185,11 +196,11 @@ public class OutputFile {
 	}
 
 	/**
-	 * Read the options line from the file and compare
+	 * Read the options line from the file and compare to the options currently in
+	 * use. Output a warning if they are different.
 	 * 
 	 * @param fileName
 	 * @param options
-	 *            TODO
 	 */
 	private void checkOptions(String fileName, String[] options) {
 		fileName = replaceBackslash(fileName);
@@ -222,6 +233,13 @@ public class OutputFile {
 		// Not found so cannot check
 	}
 
+	/**
+	 * Return a PrintWriter object that may be used to write to this file. Any
+	 * necessary header information is written by this method.
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
 	public PrintWriter getPrintWriter() throws IOException {
 		if (pw == null) {
 			MessageDigest digest;
@@ -246,6 +264,11 @@ public class OutputFile {
 		return pw;
 	}
 
+	/**
+	 * Close the OutputFile, writing any necessary trailer information
+	 * (such as a checksum).
+	 * @throws IOException
+	 */
 	public void close() throws IOException {
 
 		// Write the trailer (checksum).
