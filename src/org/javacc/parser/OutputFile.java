@@ -34,10 +34,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import org.javacc.Version;
 
 /**
  * This class handles the creation and maintenance of the boiler-plate classes,
@@ -62,13 +63,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class OutputFile {
 	private static final String MD5_LINE_PART_1 = "/* JavaCC - OriginalChecksum=";
-
 	private static final String MD5_LINE_PART_2 = " (do not edit this line) */";
-
-	// private static final String VERSION_LINE_PART_1 = "/* " +
-	// JavaCCGlobals.getIdString(JavaCCGlobals.toolName, fileName) + " Version "
-	// + versionId + " */";
-	// private static final Format f;
 
 	TrapClosePrintWriter pw;
 
@@ -135,8 +130,13 @@ public class OutputFile {
 				// No checksum in file, or checksum differs.
 				needToWrite = false;
 
-				checkVersion(file.getName(), compatibleVersion);
-				checkOptions(file.getName(), options);
+				if (compatibleVersion != null) {
+				  checkVersion(file, compatibleVersion);
+        }
+        
+        if (options != null) {
+          checkOptions(file, options);
+        }
 
 			} else {
 				// The file has not been altered since JavaCC created it.
@@ -153,6 +153,10 @@ public class OutputFile {
 		}
 	}
 
+  public OutputFile(File file) throws IOException {
+    this(file, null, null);
+  }
+
 	public boolean needToWrite = true;
 
 	/**
@@ -161,40 +165,34 @@ public class OutputFile {
 	 * @param fileName
 	 * @param versionId
 	 */
-	private void checkVersion(String fileName, String versionId) {
-		fileName = replaceBackslash(fileName);
-		String firstLine = "/* "
-				+ JavaCCGlobals.getIdString(toolName, fileName) + " Version "
-				+ versionId + " */";
-		char[] buf = new char[firstLine.length()];
+	private void checkVersion(File file, String versionId) {
+		String firstLine = "/* " + JavaCCGlobals.getIdString(toolName, file.getName()) + " Version ";
+    
+    try {
+      BufferedReader reader = new BufferedReader(new FileReader(file));
 
-		try {
-			File fp = new File(Options.getOutputDirectory(), fileName);
-			Reader stream = new FileReader(fp);
-			int read, total = 0;
-
-			for (;;)
-				if ((read = stream.read(buf, 0, buf.length)) > 0) {
-					if ((total += read) == buf.length)
-						if (new String(buf).equals(firstLine))
-							return;
-						else
-							break;
-				} else
-					break;
-		} catch (FileNotFoundException e1) {
-			// This should never happen
-			JavaCCErrors.semantic_error("Could not open file " + fileName
-					+ " for writing.");
-			throw new Error();
-		} catch (IOException e2) {
-		}
-
-		JavaCCErrors.warning(fileName
-				+ ": File is obsolete.  Please rename or delete this file so"
-				+ " that a new one can be generated for you.");
-	}
-
+      String line;
+      while ((line = reader.readLine()) != null) {
+        if (line.startsWith(firstLine)) {
+          String version = firstLine.replaceFirst(".* Version ", "").replaceAll(" \\*/", "");
+          if (version != versionId) {
+            JavaCCErrors.warning(file.getName()
+                + ": File is obsolete.  Please rename or delete this file so"
+                + " that a new one can be generated for you.");
+          }
+          return;
+        }
+      }
+      // If no version line is found, do not output the warning.
+    } catch (FileNotFoundException e1) {
+      // This should never happen
+      JavaCCErrors.semantic_error("Could not open file " + file.getName()
+          + " for writing.");
+      throw new Error();
+    } catch (IOException e2) {
+    }
+  }
+  
 	/**
 	 * Read the options line from the file and compare to the options currently in
 	 * use. Output a warning if they are different.
@@ -202,12 +200,9 @@ public class OutputFile {
 	 * @param fileName
 	 * @param options
 	 */
-	private void checkOptions(String fileName, String[] options) {
-		fileName = replaceBackslash(fileName);
-
+	private void checkOptions(File file, String[] options) {
 		try {
-			File fp = new File(Options.getOutputDirectory(), fileName);
-			BufferedReader reader = new BufferedReader(new FileReader(fp));
+			BufferedReader reader = new BufferedReader(new FileReader(file));
 
 			String line;
 			while ((line = reader.readLine()) != null) {
@@ -215,8 +210,8 @@ public class OutputFile {
 					String currentOptions = Options.getOptionsString(options);
 					if (!line.contains(currentOptions)) {
 						JavaCCErrors
-								.warning(fileName
-										+ ": Generated using imcompatible options. Please rename or delete this file so"
+								.warning(file.getName()
+										+ ": Generated using incompatible options. Please rename or delete this file so"
 										+ " that a new one can be generated for you.");
 					}
 					return;
@@ -224,7 +219,7 @@ public class OutputFile {
 			}
 		} catch (FileNotFoundException e1) {
 			// This should never happen
-			JavaCCErrors.semantic_error("Could not open file " + fileName
+			JavaCCErrors.semantic_error("Could not open file " + file.getName()
 					+ " for writing.");
 			throw new Error();
 		} catch (IOException e2) {
@@ -254,11 +249,13 @@ public class OutputFile {
 			pw = new TrapClosePrintWriter(dos);
 
 			// Write the headers....
+      String version = compatibleVersion == null ? Version.version : compatibleVersion;
 			pw.println("/* "
 					+ JavaCCGlobals.getIdString(toolName, file.getName())
-					+ " Version " + compatibleVersion + " */");
-			pw.println("/* JavaCCOptions:" + Options.getOptionsString(options)
-					+ " */");
+					+ " Version " + version + " */");
+      if (options != null) {
+        pw.println("/* JavaCCOptions:" + Options.getOptionsString(options) + " */");
+      }
 		}
 
 		return pw;
@@ -276,6 +273,7 @@ public class OutputFile {
 		if (pw != null) {
 			pw.println(MD5_LINE_PART_1 + getMD5sum() + MD5_LINE_PART_2);
 			pw.closePrintWriter();
+//			file.renameTo(dest)
 		}
 	}
 
@@ -295,30 +293,6 @@ public class OutputFile {
 			sb.append(HEX_DIGITS[(b & 0xF0) >> 4]).append(HEX_DIGITS[b & 0x0F]);
 		}
 		return sb.toString();
-	}
-
-	/**
-	 * Replaces all backslahes with double backslashes.
-	 */
-	private static String replaceBackslash(String str) {
-		StringBuffer b;
-		int i = 0, len = str.length();
-
-		while (i < len && str.charAt(i++) != '\\')
-			;
-
-		if (i == len) // No backslash found.
-			return str;
-
-		char c;
-		b = new StringBuffer();
-		for (i = 0; i < len; i++)
-			if ((c = str.charAt(i)) == '\\')
-				b.append("\\\\");
-			else
-				b.append(c);
-
-		return b.toString();
 	}
 
 	private static class NullOutputStream extends OutputStream {

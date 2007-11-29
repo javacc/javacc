@@ -145,7 +145,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <fail message="Changed Options Failed">
      <condition>
-        <not> <contains string="${test5.out}" substring="Warning: SimpleCharStream.java: Generated using imcompatible options. Please rename or delete this file so that a new one can be generated for you." /> </not>
+        <not> <contains string="${test5.out}" substring="Warning: SimpleCharStream.java: Generated using incompatible options. Please rename or delete this file so that a new one can be generated for you." /> </not>
      </condition>
     </fail>
 
@@ -157,6 +157,71 @@ THE POSSIBILITY OF SUCH DAMAGE.
            classpath="../../bin/lib/javacc.jar">
     </javac>
     <java classname="Parser" classpath="out-dir/non-static" inputstring="A" failonerror="true"> </java>
+
+    <echo></echo>
+    <echo>Test 6 - Create JJtree Nodes</echo>
+
+    <java failonerror="true" fork="true" outputproperty="test6.out" classname="jjtree" classpath="../../bin/lib/javacc.jar">
+      <arg line="Tree.jjt" />
+    </java>
+    <echo>${test6.out}</echo>
+
+    <fail message="JJtree Nodes Failed">
+     <condition>
+        <not> <contains string="${test6.out}" substring="File &quot;SimpleNode.java&quot; does not exist.  Will create one." /> </not>
+     </condition>
+    </fail>
+
+    <echo></echo>
+    <echo>Test 7 - Create JJtree Nodes</echo>
+
+    <java failonerror="true" fork="true" outputproperty="test7.out" classname="jjtree" classpath="../../bin/lib/javacc.jar">
+      <arg line="Tree.jjt" />
+    </java>
+    <echo>${test7.out}</echo>
+
+    <fail message="JJtree Nodes Failed">
+     <condition>
+        <not> <contains string="${test7.out}" substring="File &quot;SimpleNode.java&quot; is being rebuilt." /> </not>
+     </condition>
+    </fail>
+
+
+    <echo></echo>
+    <echo>Test 8 - Regenerate JJtree Nodes</echo>
+
+    <delete file="out-dir/SimpleNode.java" />
+    <copy file="ModifiedSimpleNode.java" tofile="out-dir/SimpleNode.java" />
+
+    <java failonerror="true" fork="true" outputproperty="test8.out" classname="jjtree" classpath="../../bin/lib/javacc.jar">
+      <arg line="Tree.jjt" />
+    </java>
+    <echo>${test8.out}</echo>
+
+    <fail message="Regenerate JJtree Nodes Failed">
+     <condition>
+        <contains string="${test8.out}" substring="File &quot;SimpleNode.java&quot; is being rebuilt." /> 
+     </condition>
+    </fail>
+
+    <echo></echo>
+    <echo>Test 9 - Incompatible JJtree Nodes</echo>
+
+    <delete file="out-dir/SimpleNode.java" />
+    <copy file="IncompatSimpleNode.java" tofile="out-dir/SimpleNode.java" />
+
+    <java failonerror="true" fork="true" outputproperty="test9.out" classname="jjtree" classpath="../../bin/lib/javacc.jar">
+      <arg line="Tree.jjt" />
+    </java>
+    <echo>${test9.out}</echo>
+
+    <fail message="Incompatible JJtree Nodes Failed">
+     <condition>
+        <not> <contains string="${test9.out}" substring="Warning: SimpleNode.java: Generated using incompatible options. Please rename or delete this file so that a new one can be generated for you." />  </not>
+     </condition>
+    </fail>
+
+
 
   </target>
 
