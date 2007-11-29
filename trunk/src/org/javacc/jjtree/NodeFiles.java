@@ -28,16 +28,25 @@
 
 package org.javacc.jjtree;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
-import org.javacc.parser.JavaCCGlobals;
+
+import org.javacc.parser.OutputFile;
 final class NodeFiles {
-  static final int outputBufferSize = 8096;
   private NodeFiles() {}
+  
+  /**
+   * ID of the latest version (of JJTree) in which one of the Node classes
+   * was modified.
+   */
+  static final String nodeVersion = "4.1";
+
+  static Set nodesGenerated = new HashSet();
+  
   static void ensure(IO io, String nodeType)
   {
     File file = new File(JJTreeOptions.getJJTreeOutputDirectory(), nodeType + ".java");
@@ -55,28 +64,30 @@ final class NodeFiles {
       return;
     }
 
-    if (file.exists()) {
+    if (file.exists() && nodesGenerated.contains(file.getName())) {
       return;
     }
 
-    io.getMsg().println("File \"" + file +
-      "\" does not exist.  Will create one.");
-
-    PrintWriter ostr;
-
     try {
-      ostr = new PrintWriter(new BufferedWriter(
-          new FileWriter(file), outputBufferSize));
-
-      if (nodeType.equals("Node")) {
-        generateNode_java(ostr);
-      } else if (nodeType.equals("SimpleNode")) {
-        generateSimpleNode_java(ostr);
-      } else {
-        generateMULTINode_java(ostr, nodeType);
+      String[] options = new String[] {"MULTI", "NODE_USES_PARSER", "VISITOR", "TRACK_TOKENS", "NODE_PREFIX", "NODE_EXTENDS", "NODE_FACTORY"};
+      OutputFile outputFile = new OutputFile(file, nodeVersion, options);
+      outputFile.setToolName("JJTree");
+      
+      nodesGenerated.add(file.getName());
+      
+      if (!outputFile.needToWrite) {
+        return;
       }
 
-      ostr.close();
+      if (nodeType.equals("Node")) {
+        generateNode_java(outputFile);
+      } else if (nodeType.equals("SimpleNode")) {
+        generateSimpleNode_java(outputFile);
+      } else {
+        generateMULTINode_java(outputFile, nodeType);
+      }
+
+      outputFile.close();
 
     } catch (IOException e) {
       throw new Error(e.toString());
@@ -84,14 +95,8 @@ final class NodeFiles {
   }
 
 
-  static void generatePrologue(PrintWriter ostr, String fileName)
+  static void generatePrologue(PrintWriter ostr)
   {
-    ostr.println("/* " +
-     JavaCCGlobals.getIdString(JJTreeGlobals.toolList,
-             fileName) +
-     " */");
-    ostr.println();
-    
     // Output the node's package name. JJTreeGlobals.nodePackageName
     // will be the value of NODE_PACKAGE in OPTIONS; if that wasn't set it
     // will default to the parser's package name.
@@ -120,14 +125,13 @@ final class NodeFiles {
     File file = new File(JJTreeOptions.getJJTreeOutputDirectory(), name + ".java");
 
     try {
-      PrintWriter ostr = new PrintWriter(new BufferedWriter(
-                new FileWriter(file),
-                outputBufferSize));
+      OutputFile outputFile = new OutputFile(file);
+      PrintWriter ostr = outputFile.getPrintWriter();
 
       Vector nodeIds = ASTNodeDescriptor.getNodeIds();
       Vector nodeNames = ASTNodeDescriptor.getNodeNames();
 
-      generatePrologue(ostr, file.getName());
+      generatePrologue(ostr);
       ostr.println("public interface " + name);
       ostr.println("{");
 
@@ -170,13 +174,12 @@ final class NodeFiles {
     File file = new File(JJTreeOptions.getJJTreeOutputDirectory(), name + ".java");
 
     try {
-      PrintWriter ostr = new PrintWriter(new BufferedWriter(
-                new FileWriter(file),
-                outputBufferSize));
+      OutputFile outputFile = new OutputFile(file);
+      PrintWriter ostr = outputFile.getPrintWriter();
 
       Vector nodeNames = ASTNodeDescriptor.getNodeNames();
 
-      generatePrologue(ostr, file.getName());
+      generatePrologue(ostr);
       ostr.println("public interface " + name);
       ostr.println("{");
 
@@ -217,9 +220,11 @@ final class NodeFiles {
   }
 
 
-  private static void generateNode_java(PrintWriter ostr)
+  private static void generateNode_java(OutputFile outputFile) throws IOException
   {
-    generatePrologue(ostr, "Node.java");
+    PrintWriter ostr = outputFile.getPrintWriter();
+    
+    generatePrologue(ostr);
 
     ostr.println("/* All AST nodes must implement this interface.  It provides basic");
     ostr.println("   machinery for constructing the parent and child relationships");
@@ -269,9 +274,11 @@ final class NodeFiles {
   }
 
 
-  private static void generateSimpleNode_java(PrintWriter ostr)
+  private static void generateSimpleNode_java(OutputFile outputFile) throws IOException
   {
-    generatePrologue(ostr, "SimpleNode.java");
+    PrintWriter ostr = outputFile.getPrintWriter();
+    
+    generatePrologue(ostr);
 
     ostr.print("public class SimpleNode");
     if (!JJTreeOptions.getNodeExtends().equals(""))
@@ -406,9 +413,11 @@ final class NodeFiles {
   }
 
 
-  private static void generateMULTINode_java(PrintWriter ostr, String nodeType)
+  private static void generateMULTINode_java(OutputFile outputFile, String nodeType) throws IOException
   {
-    generatePrologue(ostr, nodeType + ".java");
+    PrintWriter ostr = outputFile.getPrintWriter();
+    
+    generatePrologue(ostr);
 
     if (JJTreeOptions.getNodeClass().length() > 0) {
       ostr.println("public class " + nodeType + " extends " + JJTreeOptions.getNodeClass() + "{");

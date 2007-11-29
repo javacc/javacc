@@ -28,11 +28,11 @@
 
 package org.javacc.jjtree;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import org.javacc.parser.OutputFile;
 
 /**
  * Generate the State of a tree.
@@ -67,17 +67,12 @@ final class JJTreeState
   {
     File file = new File(JJTreeOptions.getJJTreeOutputDirectory(), nameState() + ".java");
 
-    if (file.exists()) {
-      return;
-    }
-
     try {
-      PrintWriter ostr = new PrintWriter(new BufferedWriter(
-                          new FileWriter(file),
-                          8096));
-      NodeFiles.generatePrologue(ostr, file.getName());
+      OutputFile outputFile = new OutputFile(file);
+      PrintWriter ostr = outputFile.getPrintWriter();
+      NodeFiles.generatePrologue(ostr);
       insertState(ostr);
-      ostr.close();
+      outputFile.close();
     } catch (IOException e) {
       throw new Error(e.toString());
     }
