@@ -34,6 +34,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.javacc.Version;
+
 /**
  * Generate CharStream, TokenManager and Exceptions.
  */
@@ -104,6 +106,16 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   {
     final String commentHeader = "/* " + getIdString(toolName, fileName) + " Version ";
     File file = new File(Options.getOutputDirectory(), replaceBackslash(fileName));
+    
+    if (!file.exists()) {
+      // Has not yet been created, so it must be up to date.
+      try {
+        String majorVersion = Version.version.replaceAll("[^0-9.]+.*", "");
+        return Double.parseDouble(majorVersion);
+      } catch (NumberFormatException e) {
+        return 0.0; // Should never happen
+      }
+    }
     
     BufferedReader reader = null;
     try {

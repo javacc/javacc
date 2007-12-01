@@ -916,7 +916,9 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
         }
      }
 
-     if (hasBinaryNewToken)
+     if (Options.getTokenFactory().length() > 0) {
+       ostr.println("   t = " + Options.getTokenFactory() + ".newToken(jjmatchedKind, tokenImage);");
+     } else if (hasBinaryNewToken)
      {
     	 ostr.println("   t = Token.newToken(jjmatchedKind, tokenImage);");
      }

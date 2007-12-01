@@ -504,6 +504,15 @@ class that will be used as the base class for the generated
 <code>Token</code> class.
 </li>
 <li>
+<strong>TOKEN_FACTORY:</strong>
+This is a string option whose default value is
+"", meaning that Tokens will be created by calling
+<code>Token.newToken()</code>. If set the option names a
+Token factory class containing a
+<code>public static Token newToken(int ofKind, String image)</code>
+method.
+</li>
+<li>
 <strong>SANITY_CHECK:</strong>
 This is a boolean option whose default value is true.
 JavaCC performs many syntactic and semantic checks on the grammar
