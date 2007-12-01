@@ -69,6 +69,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
          <include name="TokenMgrError.java"/>
          <include name="ParseException.java"/>
          <include name="Node.java"/>
+         <include name="SimpleNode.java"/>
          <include name="ASTProductions.java"/>
          <include name="ASTRE.java"/>
          <include name="ASTTokenDecls.java"/>
