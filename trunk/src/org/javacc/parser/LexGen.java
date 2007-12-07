@@ -109,7 +109,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
          break;
 
         kind = ((Token)cu_to_insertion_point_1.elementAt(l)).kind;
-        if(kind == PACKAGE) { // || kind == IMPORT) {
+        if(kind == PACKAGE || kind == IMPORT) {
          for (; i < cu_to_insertion_point_1.size(); i++) {
            kind = ((Token)cu_to_insertion_point_1.elementAt(i)).kind;
            if (kind == SEMICOLON ||
