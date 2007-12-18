@@ -74,12 +74,11 @@ Compiler [tm] grammar files.
 </tr>
 <tr>
 <td align="left"><strong><a href="#MORE">MORE</a></strong></td>
-<td align="left"><strong><a href="#options">options</a></strong></td>
 <td align="left"><strong><a href="#PARSER_BEGIN">PARSER_BEGIN</a></strong></td>
 <td align="left"><strong><a href="#PARSER_END">PARSER_END</a></strong></td>
+<td align="left"><strong><a href="#SKIP">SKIP</a></strong></td>
 </tr>
 <tr>
-<td align="left"><strong><a href="#SKIP">SKIP</a></strong></td>
 <td align="left"><strong><a href="#SPECIAL_TOKEN">SPECIAL_TOKEN</a></strong></td>
 <td align="left"><strong><a href="#TOKEN">TOKEN</a></strong></td>
 <td align="left"><strong><a href="#TOKEN_MGR_DECLS">TOKEN_MGR_DECLS</a></strong></td>
@@ -148,7 +147,8 @@ A bunch of useful constants.
 <p>
 Other files such as "Token.java", "ParseException.java", etc. are also
 generated.  However, these files contain boilerplate code and are
-the same for any grammar and may be reused across grammars.
+the same for any grammar and may be reused across grammars (provided the
+grammars use compatible options).
 </p>
 <p>
 Between the PARSER_BEGIN and PARSER_END constructs is a regular
@@ -305,6 +305,10 @@ Option names are not case-sensitive.
 <tr>
 <td></td><td align="center" valign="baseline">|</td>
 <td align="left" valign="baseline">"TOKEN_EXTENDS" "=" <em>java_string_literal</em> ";"</td>
+</tr>
+<tr>
+<td></td><td align="center" valign="baseline">|</td>
+<td align="left" valign="baseline">"TOKEN_FACTORY" "=" <em>java_string_literal</em> ";"</td>
 </tr>
 <tr>
 <td></td><td align="center" valign="baseline">|</td>
@@ -680,12 +684,28 @@ point as in the following example, there is no problem:
   }
 </pre>
 <p>
+JAVACODE productions at choice points may also be preceded by syntactic or
+semantic LOOKAHEAD, as in this example:
+</p>
+<pre>
+  void NT() :
+  {}
+  {
+    LOOKAHEAD( {errorOccurred} ) skip_to_matching_brace()
+  |
+    "(" parameter_list() ")"
+  }
+</pre>
+<!-- JavaCC *should* print a warning message, but currently doesn't (see issue 166).
+<p>
+     When this issue is fixed ww should re-instate this paragraph.
 When JAVACODE productions are used at choice points, JavaCC will
 print a warning message stating this fact.  You will then have to
 insert some explicit LOOKAHEAD specifications to help JavaCC.  See
 <a href="lookahead.html">the minitutorial on LOOKAHEAD</a> for a
 detailed guide on such issues.
 </p>
+-->
 <p>
 The default access modifier for JAVACODE productions is package private.
 </p>
