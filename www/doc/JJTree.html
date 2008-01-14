@@ -264,35 +264,42 @@ THE POSSIBILITY OF SUCH DAMAGE.
       have to be declared as static as well.  They are both called
       with the current node as a parameter.</p>
 
-    <p>One use for these functions is to store the node's first and
-      last tokens so that the input can be easily reproduced again.
-      For example:</p>
+    <p>One use might be to store the parser object itself in the
+      node so that state that should be shared by all nodes produced
+      by that parser can be provided.  For example, the parser might
+      maintain a symbol table.</p>
 
 
     <pre>
     void jjtreeOpenNodeScope(Node n)
     {
-      ((MySimpleNode)n).first_token = getToken(1);
+      ((SimpleNode)n).jjtSetValue(getSymbolTable());
     }
 
     void jjtreeCloseNodeScope(Node n)
     {
-      ((MySimpleNode)n).last_token = getToken(0);
     }
     </pre>
 
-    <p>where <code>MySimpleNode</code> is based on
-      <code>SimpleNode</code> and has the following additional
-      fields:</p>
+    <p>Where <code>getSymbolTable()</code> is a user-defined method to
+      return a symbol table structure for the node.</p>
 
-    <pre>
-    Token first_token, last_token;
-    </pre>
+    <h3><a name="hooks">Tracking Tokens</a></h3>
 
-    <p>Another use might be to store the parser object itself in the
-      node so that state that should be shared by all nodes produced
-      by that parser can be provided.  For example, the parser might
-      maintain a symbol table.</p>
+    <p>It is often useful to keep track of each node's first and last
+      token so that input can be easily reproduced again. By
+      setting the <code>TRACK_TOKENS</code> option the generated
+      <code>SimpleNode</code> class will contain 4 extra methods:</p>
+
+      <pre>
+      public Token jjtGetFirstToken()
+      public void jjtSetFirstToken(Token token)
+      public Token jjtGetLastToken()
+      public void jjtSetLastToken(Token token)
+      </pre>
+
+    <p>The first and last token for each node will be set
+      up automatically when the parser is run. </p>
 
     <h3>The Life Cycle of a Node</h3>
 
