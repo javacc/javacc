@@ -66,7 +66,6 @@ public class JJTree {
     p("    MULTI                    (default false)");
     p("    NODE_DEFAULT_VOID        (default false)");
     p("    NODE_SCOPE_HOOK          (default false)");
-    p("    NODE_FACTORY             (default false)");
     p("    NODE_USES_PARSER         (default false)");
     p("    BUILD_NODE_FILES         (default true)");
     p("    TRACK_TOKENS             (default false)");
@@ -78,6 +77,7 @@ public class JJTree {
     p("    NODE_PREFIX              (default \"AST\")");
     p("    NODE_PACKAGE             (default \"\")");
     p("    NODE_EXTENDS             (default \"\")");
+    p("    NODE_FACTORY             (default \"\")");
     p("    OUTPUT_FILE              (default remove input file suffix, add .jj)");
     p("    OUTPUT_DIRECTORY         (default \"\")");
     p("    JJTREE_OUTPUT_DIRECTORY  (default value of OUTPUT_DIRECTORY option)");
