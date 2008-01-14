@@ -70,4 +70,28 @@ public final class JJTreeOptionsTest extends TestCase {
       assertEquals("", JJTreeOptions.getNodeClass());
       // Need some functional tests, as well.
     }
+
+    public void testValidate() {
+      JJTreeOptions.init();
+      JavaCCErrors.reInit();
+
+      JJTreeOptions.setCmdLineOption("VISITOR_DATA_TYPE=Object");
+      JJTreeOptions.validate();
+      assertEquals(1, JavaCCErrors.get_warning_count());
+
+      JJTreeOptions.init();
+      JavaCCErrors.reInit();
+
+      JJTreeOptions.setCmdLineOption("VISITOR_DATA_TYPE=Object");
+      JJTreeOptions.setCmdLineOption("VISITOR=true");
+      JJTreeOptions.validate();
+      assertEquals(0, JavaCCErrors.get_warning_count());
+
+      JJTreeOptions.init();
+      JavaCCErrors.reInit();
+
+      JJTreeOptions.setCmdLineOption("VISITOR_DATA_TYPE=Object");
+      JJTreeOptions.validate();
+      assertEquals(1, JavaCCErrors.get_warning_count());
+    }
   }
