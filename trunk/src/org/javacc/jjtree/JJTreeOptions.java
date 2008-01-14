@@ -30,6 +30,7 @@ package org.javacc.jjtree;
 
 import java.io.File;
 
+import org.javacc.parser.JavaCCErrors;
 import org.javacc.parser.Options;
 
 /**
@@ -72,6 +73,18 @@ class JJTreeOptions extends Options {
 
         Options.optionValues.put("JJTREE_OUTPUT_DIRECTORY", "");
     }
+    
+    /**
+     *  Check options for consistency 
+     */
+    public static void validate() {
+      if (!getVisitor()) {
+        if (getVisitorDataType().length() > 0 || getVisitorException().length() > 0) {
+          JavaCCErrors.warning("Cannot specify VISITOR_EXCEPTION or VISITOR_DATA_TYPE wiout VISITOR=true"); 
+        }
+      }
+    }
+
 
     /**
      * Find the JDK version.

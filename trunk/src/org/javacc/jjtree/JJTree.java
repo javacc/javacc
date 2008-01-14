@@ -138,6 +138,8 @@ public class JJTree {
         }
         JJTreeOptions.setCmdLineOption(args[arg]);
       }
+      
+      JJTreeOptions.validate();
 
       try {
         io.setInput(fn);
