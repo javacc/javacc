@@ -238,7 +238,7 @@ by grabbing the return value of a token.  The methods getToken and getNextToken
 described below also give access to objects of this type.
 </p>
 <p>
-Each Token object has the following fields:
+Each Token object has the following fields and methods:
 </p>
 <ul>
 <li>
@@ -295,8 +295,23 @@ The next fields of special tokens refer to other special tokens that
 immediately follow it (without an intervening regular token).  If there
 is no such token, this field is null.
 </li>
+
+<li>
+<strong>public Object getValue();</strong>
+<br />
+An optional attribute value of the Token.
+<br />
+Tokens which are not used as syntactic sugar will often contain
+meaningful values that will be used later on by the compiler or
+interpreter. This attribute value is often different from the image.
+Any subclass of Token that actually wants to return a non-null value can
+override this method as appropriate.
+</li>
+
 <li>
 <strong>static final Token newToken(int ofKind);</strong>
+<br />
+<strong>static final Token newToken(int ofKind, String image);</strong>
 <br />
 Returns a new token object as its default behavior.  If you wish to
 perform special actions when a token is constructed or create subclasses

@@ -320,15 +320,22 @@ JavaCC options statement:
       Instead of making each non-decorated production an indefinite node, make
       it void instead.
 
-    NODE_FACTORY (default: false)
-      Use a factory method with following signature to construct nodes:
-      public static Node jjtCreate(int id)
+    NODE_CLASS (default: "")
+      If set defines the name of a user-supplied class that will extend
+      SimpleNode. Any tree nodes created will then be subclasses of NODE_CLASS.
+
+    NODE_FACTORY (default: "")
+      Specify a class containing a factory method with following signature
+      to construct nodes:
+        public static Node jjtCreate(int id)
+      For backwards compatibility, the value "false" may also be specified,
+      meaning that SimpleNode will be used as the factory class.
 
     NODE_PACKAGE (default: "")
       The package to generate the node classes into. The default for this is
       the parser package.
 
-    NODE_EXTENDS (default: "")
+    NODE_EXTENDS (default: "") (DEPRECATED)
       The superclass for the SimpleNode class.  By providing a custom
       superclass you may be able to avoid the need to edit the generated
       SimpleNode.java.  See the examples/Interpreter for an example usage.

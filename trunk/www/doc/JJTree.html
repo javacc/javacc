@@ -389,12 +389,19 @@ THE POSSIBILITY OF SUCH DAMAGE.
       <dd>Instead of making each non-decorated production an
 	indefinite node, make it void instead.</dd>
 
-      <dt><code>NODE_FACTORY</code> (default: <code>false</code>)</dt>
+      <dt><code>NODE_CLASS</code> (default: <code>""</code>)</dt>
+      <dd>If set defines the name of a user-supplied class that will
+          extend <code>SimpleNode</code>. Any tree nodes created will
+	  then be subclasses of NODE_CLASS.</dd>
 
-      <dd>Use a factory method with following signature to construct
-	nodes:
+      <dt><code>NODE_FACTORY</code> (default: <code>""</code>)</dt>
+      <dd>Specify a class containing a factory method with following
+      signature to construct nodes:
 
 	<br /><code>public static Node jjtCreate(int id)</code>
+	<br />For backwards compatibility, the value <code>false</code>
+	      may also be specified, meaning that <code>SimpleNode</code>
+	      will be used as the factory class.
       </dd>
 
       <dt><code>NODE_PACKAGE</code> (default: <code>""</code>)</dt>
@@ -402,7 +409,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
       <dd> The package to generate the node classes into.  The default
           for this is the parser package.</dd>
 
-      <dt><code>NODE_EXTENDS</code> (default: <code>""</code>)</dt>
+      <dt><code>NODE_EXTENDS</code> (default: <code>""</code>) <em>Deprecated</em></dt>
 
       <dd>The superclass for the SimpleNode class.
 	  By providing a custom superclass you may be able to avoid
@@ -436,7 +443,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
       <dd>Insert <code>jjtGetFirstToken(), jjtSetFirstToken(), getLastToken(),
       </code> and <code>jjtSetLastToken()</code> methods in SimpleNode. The
-      <code>lastToken</code> is automatically set up on entry to a node
+      <code>FirstToken</code> is automatically set up on entry to a node
       scope; the <code>LastToken</code> is automatically set up on exit
       from a node scope.
       </dd>
