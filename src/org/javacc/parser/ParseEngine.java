@@ -937,7 +937,7 @@ public class ParseEngine extends JavaCCGlobals {
         Lookahead la = (Lookahead)(nested_seq.units.elementAt(0));
         if (la.action_tokens.size() != 0) {
           // We have semantic lookahead that must be evaluated.
-          ostr.println("    lookingAhead = true;");
+          ostr.println("    jj_lookingAhead = true;");
           ostr.print("    jj_semLA = ");
           printTokenSetup((Token)(la.action_tokens.elementAt(0)));
           for (java.util.Enumeration enumeration = la.action_tokens.elements(); enumeration.hasMoreElements();) {
@@ -946,7 +946,7 @@ public class ParseEngine extends JavaCCGlobals {
           }
           printTrailingComments(t, ostr);
           ostr.println(";");
-          ostr.println("    lookingAhead = false;");
+          ostr.println("    jj_lookingAhead = false;");
         }
         ostr.print("    if (");
         if (la.action_tokens.size() != 0) {

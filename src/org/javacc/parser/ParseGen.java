@@ -127,7 +127,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
         ostr.println("  " + staticOpt() + "private Token jj_scanpos, jj_lastpos;");
         ostr.println("  " + staticOpt() + "private int jj_la;");
         ostr.println("  /** Whether we are looking ahead. */");
-        ostr.println("  " + staticOpt() + "public boolean lookingAhead = false;");
+        ostr.println("  " + staticOpt() + "private boolean jj_lookingAhead = false;");
         ostr.println("  " + staticOpt() + "private boolean jj_semLA;");
       }
       if (Options.getErrorReporting()) {
@@ -201,6 +201,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
           } else {
             ostr.println("    jj_ntk = -1;");
           }
+          ostr.println("    jj_lookingAhead = false;");
           if (jjtreeGenerated) {
             ostr.println("    jjtree.reset();");
           }
@@ -523,7 +524,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
       ostr.println("/** Get the specific Token. */");
       ostr.println("  " + staticOpt() + "final public Token getToken(int index) {");
       if (jj2index != 0) {
-        ostr.println("    Token t = lookingAhead ? jj_scanpos : token;");
+        ostr.println("    Token t = jj_lookingAhead ? jj_scanpos : token;");
       } else {
         ostr.println("    Token t = token;");
       }
