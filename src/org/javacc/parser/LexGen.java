@@ -749,9 +749,9 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
 
       if (hasMoreActions || hasSkipActions || hasTokenActions)
       {
-         ostr.println(staticString + Options.stringBufOrBuild() + " image;");
-         ostr.println(staticString + "int jjimageLen;");
-         ostr.println(staticString + "int lengthOfMatch;");
+         ostr.println("private " + staticString + "final " + Options.stringBufOrBuild() + " image = new " + Options.stringBufOrBuild() + "();");
+         ostr.println("private " + staticString + "int jjimageLen;");
+         ostr.println("private " + staticString + "int lengthOfMatch;");
       }
 
       ostr.println(staticString + "protected char curChar;");
@@ -992,7 +992,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
 
      if (hasMoreActions || hasSkipActions || hasTokenActions)
      {
-        ostr.println("   image = null;");
+        ostr.println("   image.setLength(0);");
         ostr.println("   jjimageLen = 0;");
      }
 
@@ -1355,9 +1355,6 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
                 act.action_tokens.size() == 0)
               break;
 
-           ostr.println("         if (image == null)");
-           ostr.println("            image = new " + Options.stringBufOrBuild() + "();");
-
            ostr.print(  "         image.append");
            if (RStringLiteral.allImages[i] != null) {
               ostr.println("(jjstrLiteralImages[" + i + "]);");
@@ -1438,8 +1435,6 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
               break;
            }
 
-           ostr.println("         if (image == null)");
-           ostr.println("            image = new " + Options.stringBufOrBuild() + "();");
            ostr.print(  "         image.append");
 
            if (RStringLiteral.allImages[i] != null)
@@ -1520,12 +1515,10 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
 
            if (i == 0)
            {
-              ostr.println("      image = null;"); // For EOF no image is there
+              ostr.println("      image.setLength(0);"); // For EOF no image is there
            }
            else
            {
-             ostr.println("        if (image == null)");
-             ostr.println("            image = new " + Options.stringBufOrBuild() + "();");
              ostr.print(  "        image.append");
 
              if (RStringLiteral.allImages[i] != null) {
