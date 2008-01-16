@@ -79,8 +79,11 @@ class JJTreeOptions extends Options {
      */
     public static void validate() {
       if (!getVisitor()) {
-        if (getVisitorDataType().length() > 0 || getVisitorException().length() > 0) {
-          JavaCCErrors.warning("Cannot specify VISITOR_EXCEPTION or VISITOR_DATA_TYPE wiout VISITOR=true"); 
+        if (getVisitorDataType().length() > 0) {
+          JavaCCErrors.warning("VISITOR_DATA_TYPE option will be ignored since VISITOR is false"); 
+        }
+        if (getVisitorException().length() > 0) {
+          JavaCCErrors.warning("VISITOR_EXCEPTION option will be ignored since VISITOR is false"); 
         }
       }
     }
