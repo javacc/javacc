@@ -958,8 +958,9 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
      ostr.println("public " + staticString + "Token getNextToken()" +
                  " ");
      ostr.println("{");
-     ostr.println("  //int kind;");
-     ostr.println("  Token specialToken = null;");
+     if (hasSpecial) {
+       ostr.println("  Token specialToken = null;");
+     }
      ostr.println("  Token matchedToken;");
      ostr.println("  int curPos = 0;");
      ostr.println("");
