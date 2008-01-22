@@ -1361,12 +1361,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
               ostr.println("(jjstrLiteralImages[" + i + "]);");
               ostr.println("        lengthOfMatch = jjstrLiteralImages[" + i + "].length();");
            } else {
-              if (Options.getJavaUnicodeEscape() ||
-                  Options.getUserCharStream()) {
-                 ostr.println("(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
-              } else {
-                 ostr.println("(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
-              }
+             ostr.println("(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
            }
 
            printTokenSetup((Token)act.action_tokens.elementAt(0));
@@ -1439,13 +1434,9 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
            ostr.print(  "         image.append");
 
            if (RStringLiteral.allImages[i] != null)
-              ostr.println("(jjstrLiteralImages[" + i + "]);");
+             ostr.println("(jjstrLiteralImages[" + i + "]);");
            else
-              if (Options.getJavaUnicodeEscape() ||
-                  Options.getUserCharStream())
-                 ostr.println("(input_stream.GetSuffix(jjimageLen));");
-              else
-                 ostr.println("(input_stream.GetSuffix(jjimageLen));");
+             ostr.println("(input_stream.GetSuffix(jjimageLen));");
 
            ostr.println("         jjimageLen = 0;");
            printTokenSetup((Token)act.action_tokens.elementAt(0));
@@ -1526,12 +1517,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
                ostr.println("(jjstrLiteralImages[" + i + "]);");
                ostr.println("        lengthOfMatch = jjstrLiteralImages[" + i + "].length();");
              } else {
-               if (Options.getJavaUnicodeEscape() ||
-                   Options.getUserCharStream())
-                 ostr.println("(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
-               else
-                 ostr.println("(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
-
+               ostr.println("(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
              }
            }
 
