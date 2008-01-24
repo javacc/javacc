@@ -532,6 +532,19 @@ public class Options {
     public static String getJdkVersion() {
         return stringValue("JDK_VERSION");
     }
+    
+    /**
+     * Determine if the output language is at least the specified
+     * version.
+     * @param version the version to check against. E.g. <code>1.5</code>
+     * @return true if the output version is at least the specified version.
+     */
+    public static boolean jdkVersionAtLeast(double version) {
+      double jdkVersion = Double.parseDouble(getJdkVersion());
+      
+      // Comparing doubles is safe here, as it is two simple assignments.
+      return jdkVersion >= version;
+    }
 
     /**
      * Return the Token's superclass.

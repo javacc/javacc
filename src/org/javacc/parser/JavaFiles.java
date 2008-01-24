@@ -608,11 +608,13 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("     }");
       ostr.println("  }");
       ostr.println("");
+      if (Options.jdkVersionAtLeast(1.5)) {
+        ostr.println("  @Deprecated");
+      }
       ostr.println("  /**");
       ostr.println("   * @deprecated ");
       ostr.println("   * @see #getEndColumn");
       ostr.println("   */");
-      ostr.println("");
       ostr.println(prefix + "public int getColumn() {");
 
       if (OtherFilesGen.keepLineCol)
@@ -626,11 +628,13 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       ostr.println("  }");
       ostr.println("");
+      if (Options.jdkVersionAtLeast(1.5)) {
+        ostr.println("  @Deprecated");
+      }
       ostr.println("  /**");
       ostr.println("   * @deprecated ");
       ostr.println("   * @see #getEndLine");
       ostr.println("   */");
-      ostr.println("");
       ostr.println(prefix + "public int getLine() {");
 
       if (OtherFilesGen.keepLineCol)
