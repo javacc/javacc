@@ -57,7 +57,8 @@ public class NfaState
    static Hashtable stateSetsToFix = new Hashtable();
 
    static boolean jjCheckNAddStatesUnaryNeeded = false;
-   
+   static boolean jjCheckNAddStatesDualNeeded = false;
+
    public static void ReInit()
    {
       generatedStates = 0;
@@ -1899,12 +1900,14 @@ public class NfaState
             int[] indices = GetStateSetIndicesForUse(next.epsilonMovesString);
             boolean notTwo = (indices[0] + 1 != indices[1]);
 
-            if (nextIntersects) { 
+            if (nextIntersects) {
               ostr.print(prefix + "                  jjCheckNAddStates(" + indices[0]);
-              if (notTwo)  
+              if (notTwo) {
+                jjCheckNAddStatesDualNeeded = true;
                 ostr.print(", " + indices[1]);
-              else 
-                jjCheckNAddStatesUnaryNeeded = true;              
+              } else {
+                jjCheckNAddStatesUnaryNeeded = true;
+              }
               ostr.println(");");
             } else
                ostr.println(prefix + "                  jjAddStates(" +
@@ -2046,12 +2049,14 @@ public class NfaState
             int[] indices = GetStateSetIndicesForUse(next.epsilonMovesString);
             boolean notTwo = (indices[0] + 1 != indices[1]);
 
-            if (nextIntersects) { 
+            if (nextIntersects) {
               ostr.print(prefix + "                  jjCheckNAddStates(" + indices[0]);
-              if (notTwo)  
+              if (notTwo) {
+                jjCheckNAddStatesDualNeeded = true;
                 ostr.print(", " + indices[1]);
-              else 
-                jjCheckNAddStatesUnaryNeeded = true;              
+              } else {
+                jjCheckNAddStatesUnaryNeeded = true;
+              }
               ostr.println(");");
             } else
                ostr.println(prefix + "                  jjAddStates(" +
@@ -2273,12 +2278,14 @@ public class NfaState
             int[] indices = GetStateSetIndicesForUse(next.epsilonMovesString);
             boolean notTwo = (indices[0] + 1 != indices[1]);
 
-            if (nextIntersects) { 
+            if (nextIntersects) {
               ostr.print("                     jjCheckNAddStates(" + indices[0]);
-              if (notTwo)  
+              if (notTwo) {
+                jjCheckNAddStatesDualNeeded = true;
                 ostr.print(", " + indices[1]);
-              else 
-                jjCheckNAddStatesUnaryNeeded = true;              
+              } else {
+                jjCheckNAddStatesUnaryNeeded = true;
+              }
               ostr.println(");");
             } else
               ostr.println("                     jjAddStates(" + indices[0] + ", " + indices[1] + ");");
@@ -2398,12 +2405,14 @@ public class NfaState
             int[] indices = GetStateSetIndicesForUse(next.epsilonMovesString);
             boolean notTwo = (indices[0] + 1 != indices[1]);
 
-            if (nextIntersects) { 
+            if (nextIntersects) {
               ostr.print(prefix + "                  jjCheckNAddStates(" + indices[0]);
-              if (notTwo)  
+              if (notTwo) {
+                jjCheckNAddStatesDualNeeded = true;
                 ostr.print(", " + indices[1]);
-              else 
-                jjCheckNAddStatesUnaryNeeded = true;              
+              } else {
+                jjCheckNAddStatesUnaryNeeded = true;
+              }
               ostr.println(");");
             } else
               ostr.println(prefix + "                  jjAddStates(" + indices[0] + ", " + indices[1] + ");");
@@ -2583,14 +2592,16 @@ public class NfaState
       ostr.println("   jjCheckNAdd(state2);");
       ostr.println("}");
       ostr.println("");
-      ostr.println((Options.getStatic() ? "static " : "") + "private void " +
-                    "jjCheckNAddStates(int start, int end)");
-      ostr.println("{");
-      ostr.println("   do {");
-      ostr.println("      jjCheckNAdd(jjnextStates[start]);");
-      ostr.println("   } while (start++ != end);");
-      ostr.println("}");
-      ostr.println("");
+      if(jjCheckNAddStatesDualNeeded) {
+         ostr.println((Options.getStatic() ? "static " : "") + "private void " +
+                       "jjCheckNAddStates(int start, int end)");
+         ostr.println("{");
+         ostr.println("   do {");
+         ostr.println("      jjCheckNAdd(jjnextStates[start]);");
+         ostr.println("   } while (start++ != end);");
+         ostr.println("}");
+         ostr.println("");
+      }
 
       if(jjCheckNAddStatesUnaryNeeded) {
         ostr.println((Options.getStatic() ? "static " : "") + "private void " +
@@ -3014,6 +3025,7 @@ public class NfaState
       lastIndex = 0;
       //boilerPlateDumped = false;
       jjCheckNAddStatesUnaryNeeded = false;
+      jjCheckNAddStatesDualNeeded = false;
       kinds = null;
       statesForState = null;
    }
