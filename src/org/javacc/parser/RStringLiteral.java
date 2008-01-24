@@ -555,14 +555,11 @@ public class RStringLiteral extends RegularExpression {
         boilerPlateDumped = true;
      }
 
-     if (!LexGen.mixed[LexGen.lexStateIndex] && NfaState.generatedStates != 0)
-        DumpStartWithStates(ostr);
-
-     boolean startNfaNeeded;
+     boolean createStartNfa = false;;
      for (i = 0; i < maxLen; i++)
      {
         boolean atLeastOne = false;
-        startNfaNeeded = false;
+        boolean startNfaNeeded = false;
         tab = (Hashtable)charPosKind.elementAt(i);
         String[] keys = ReArrange(tab);
 
@@ -853,6 +850,7 @@ public class RStringLiteral extends RegularExpression {
 
                        if (stateSetName != -1)
                        {
+                          createStartNfa = true;
                           ostr.println(prefix + "return jjStartNfaWithStates" +
                               LexGen.lexStateSuffix + "(" + i +
                               ", " + kindToPrint + ", " + stateSetName + ");");
@@ -1027,6 +1025,9 @@ public class RStringLiteral extends RegularExpression {
 
         ostr.println("}");
      }
+
+     if (!LexGen.mixed[LexGen.lexStateIndex] && NfaState.generatedStates != 0 && createStartNfa)
+        DumpStartWithStates(ostr);
   }
 
   static final int GetStrKind(String str)
