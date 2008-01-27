@@ -2285,7 +2285,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("  }");
       ostr.println("");
       ostr.println("  /**");
-      ostr.println("   * No-argument contructor");
+      ostr.println("   * No-argument constructor");
       ostr.println("   */");
       ostr.println("  public Token() {}");
       ostr.println("");
