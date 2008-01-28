@@ -2788,7 +2788,6 @@ public class NfaState
          ostr.println("   curPos = 0;");
       }
 
-      ostr.println("   //int[] nextStates; // not used");
       ostr.println("   int startsAt = 0;");
       ostr.println("   jjnewStateCnt = " + generatedStates + ";");
       ostr.println("   int i = 1;");
@@ -2805,7 +2804,6 @@ public class NfaState
                  "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
                  "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
 
-      ostr.println("   //int j; // not used");
       ostr.println("   int kind = 0x" + Integer.toHexString(Integer.MAX_VALUE) + ";");
       ostr.println("   for (;;)");
       ostr.println("   {");
