@@ -38,7 +38,7 @@ import java.util.Vector;
 import org.javacc.parser.OutputFile;
 final class NodeFiles {
   private NodeFiles() {}
-  
+
   /**
    * ID of the latest version (of JJTree) in which one of the Node classes
    * was modified.
@@ -46,7 +46,7 @@ final class NodeFiles {
   static final String nodeVersion = "4.1";
 
   static Set nodesGenerated = new HashSet();
-  
+
   static void ensure(IO io, String nodeType)
   {
     File file = new File(JJTreeOptions.getJJTreeOutputDirectory(), nodeType + ".java");
@@ -72,9 +72,9 @@ final class NodeFiles {
       String[] options = new String[] {"MULTI", "NODE_USES_PARSER", "VISITOR", "TRACK_TOKENS", "NODE_PREFIX", "NODE_EXTENDS", "NODE_FACTORY"};
       OutputFile outputFile = new OutputFile(file, nodeVersion, options);
       outputFile.setToolName("JJTree");
-      
+
       nodesGenerated.add(file.getName());
-      
+
       if (!outputFile.needToWrite) {
         return;
       }
@@ -190,7 +190,7 @@ final class NodeFiles {
         argumentType = JJTreeOptions.getVisitorDataType();
       }
 
-      ostr.println("  public Object visit(SimpleNode node, " + argumentType + " data)" +
+      ostr.println("  public " + JJTreeOptions.getVisitorReturnType() + " visit(SimpleNode node, " + argumentType + " data)" +
           ve + ";");
       if (JJTreeOptions.getMulti()) {
         for (int i = 0; i < nodeNames.size(); ++i) {
@@ -199,7 +199,7 @@ final class NodeFiles {
             continue;
           }
           String nodeType = JJTreeOptions.getNodePrefix() + n;
-           ostr.println("  public Object visit(" + nodeType +
+           ostr.println("  public " + JJTreeOptions.getVisitorReturnType() + " visit(" + nodeType +
                " node, " + argumentType + " data)" + ve + ";");
         }
       }
@@ -223,7 +223,7 @@ final class NodeFiles {
   private static void generateNode_java(OutputFile outputFile) throws IOException
   {
     PrintWriter ostr = outputFile.getPrintWriter();
-    
+
     generatePrologue(ostr);
 
     ostr.println("/* All AST nodes must implement this interface.  It provides basic");
@@ -264,7 +264,7 @@ final class NodeFiles {
 
       ostr.println("");
       ostr.println("  /** Accept the visitor. **/");
-      ostr.println("  public Object jjtAccept(" + visitorClass() +
+      ostr.println("  public " + JJTreeOptions.getVisitorReturnType() + " jjtAccept(" + visitorClass() +
           " visitor, " + argumentType + " data)" + mergeVisitorException() + ";");
     }
 
@@ -277,7 +277,7 @@ final class NodeFiles {
   private static void generateSimpleNode_java(OutputFile outputFile) throws IOException
   {
     PrintWriter ostr = outputFile.getPrintWriter();
-    
+
     generatePrologue(ostr);
 
     ostr.print("public class SimpleNode");
@@ -365,9 +365,9 @@ final class NodeFiles {
       }
 
       ostr.println("  /** Accept the visitor. **/");
-      ostr.println("  public Object jjtAccept(" + visitorClass() +
+      ostr.println("  public " + JJTreeOptions.getVisitorReturnType() + " jjtAccept(" + visitorClass() +
           " visitor, " + argumentType + " data)" + ve + " {");
-      ostr.println("    return visitor.visit(this, data);");
+      ostr.println("    " + (JJTreeOptions.getVisitorReturnType().equals("void") ? "" : "return ") + "visitor.visit(this, data);");
       ostr.println("  }");
       ostr.println("");
 
@@ -416,7 +416,7 @@ final class NodeFiles {
   private static void generateMULTINode_java(OutputFile outputFile, String nodeType) throws IOException
   {
     PrintWriter ostr = outputFile.getPrintWriter();
-    
+
     generatePrologue(ostr);
 
     if (JJTreeOptions.getNodeClass().length() > 0) {
@@ -453,9 +453,9 @@ final class NodeFiles {
 
       ostr.println("");
       ostr.println("  /** Accept the visitor. **/");
-      ostr.println("  public Object jjtAccept(" + visitorClass() +
+      ostr.println("  public " + JJTreeOptions.getVisitorReturnType() + " jjtAccept(" + visitorClass() +
           " visitor, " + argumentType + " data)" + mergeVisitorException() + " {");
-      ostr.println("    return visitor.visit(this, data);");
+      ostr.println("    " + (JJTreeOptions.getVisitorReturnType().equals("void") ? "" : "return ") + "visitor.visit(this, data);");
       ostr.println("  }");
     }
 

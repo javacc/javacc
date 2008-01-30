@@ -42,7 +42,7 @@ class JJTreeGlobals
 	    parserClassBodyStart = null;
 	    parserImports = null;
 	    productions = new Hashtable();
-	    
+
 	    jjtreeOptions = new HashSet();
 	    jjtreeOptions.add("JJTREE_OUTPUT_DIRECTORY");
 	    jjtreeOptions.add("MULTI");
@@ -62,6 +62,7 @@ class JJTreeGlobals
 	    jjtreeOptions.add("VISITOR");
 	    jjtreeOptions.add("VISITOR_EXCEPTION");
 	    jjtreeOptions.add("VISITOR_DATA_TYPE");
+	    jjtreeOptions.add("VISITOR_RETURN_TYPE");
   }
 
   static {
@@ -70,10 +71,10 @@ class JJTreeGlobals
 
   /**
    * This set stores the JJTree-specific options that should not be
-   * passed down to JavaCC 
+   * passed down to JavaCC
    */
   private static Set jjtreeOptions;
-  
+
   public static boolean isOptionJJTreeOnly(String optionName)
   {
 	  return jjtreeOptions.contains(optionName.toUpperCase());
