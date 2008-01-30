@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 /**
  * Test the JJTree-specific options.
- * 
+ *
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
 public final class JJTreeOptionsTest extends TestCase {
@@ -35,7 +35,7 @@ public final class JJTreeOptionsTest extends TestCase {
         assertEquals(0, JavaCCErrors.get_parse_error_count());
         assertEquals(0, JavaCCErrors.get_semantic_error_count());
     }
-  
+
     public void testNodeFactory() {
       JJTreeOptions.init();
       JavaCCErrors.reInit();
@@ -59,14 +59,14 @@ public final class JJTreeOptionsTest extends TestCase {
       assertEquals(0, JavaCCErrors.get_parse_error_count());
       assertEquals(0, JavaCCErrors.get_semantic_error_count());
     }
-    
+
     public void testNodeClass() {
       JJTreeOptions.init();
       JavaCCErrors.reInit();
 
       assertEquals(0, JavaCCErrors.get_warning_count());
       assertEquals(0, JavaCCErrors.get_error_count());
-      
+
       assertEquals("", JJTreeOptions.getNodeClass());
       // Need some functional tests, as well.
     }
@@ -91,6 +91,30 @@ public final class JJTreeOptionsTest extends TestCase {
       JavaCCErrors.reInit();
 
       JJTreeOptions.setCmdLineOption("VISITOR_DATA_TYPE=Object");
+      JJTreeOptions.validate();
+      assertEquals(1, JavaCCErrors.get_warning_count());
+    }
+
+    public void testValidateReturnType() {
+      JJTreeOptions.init();
+      JavaCCErrors.reInit();
+
+      JJTreeOptions.setCmdLineOption("VISITOR_DATA_TYPE=String");
+      JJTreeOptions.validate();
+      assertEquals(1, JavaCCErrors.get_warning_count());
+
+      JJTreeOptions.init();
+      JavaCCErrors.reInit();
+
+      JJTreeOptions.setCmdLineOption("VISITOR_DATA_TYPE=String");
+      JJTreeOptions.setCmdLineOption("VISITOR=true");
+      JJTreeOptions.validate();
+      assertEquals(0, JavaCCErrors.get_warning_count());
+
+      JJTreeOptions.init();
+      JavaCCErrors.reInit();
+
+      JJTreeOptions.setCmdLineOption("VISITOR_DATA_TYPE=String");
       JJTreeOptions.validate();
       assertEquals(1, JavaCCErrors.get_warning_count());
     }

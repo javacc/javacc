@@ -82,6 +82,7 @@ public class JJTree {
     p("    OUTPUT_DIRECTORY         (default \"\")");
     p("    JJTREE_OUTPUT_DIRECTORY  (default value of OUTPUT_DIRECTORY option)");
     p("    VISITOR_DATA_TYPE        (default \"\")");
+    p("    VISITOR_RETURN_TYPE      (default \"Object\")");
     p("    VISITOR_EXCEPTION        (default \"\")");
     p("");
     p("JJTree also accepts JavaCC options, which it inserts into the generated file.");
@@ -138,7 +139,7 @@ public class JJTree {
         }
         JJTreeOptions.setCmdLineOption(args[arg]);
       }
-      
+
       JJTreeOptions.validate();
 
       try {

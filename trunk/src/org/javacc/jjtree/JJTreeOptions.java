@@ -35,7 +35,7 @@ import org.javacc.parser.Options;
 
 /**
  * The JJTree-specific options.
- * 
+ *
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
 class JJTreeOptions extends Options {
@@ -69,21 +69,25 @@ class JJTreeOptions extends Options {
         Options.optionValues.put("NODE_FACTORY", "");
         Options.optionValues.put("OUTPUT_FILE", "");
         Options.optionValues.put("VISITOR_DATA_TYPE", "");
+        Options.optionValues.put("VISITOR_RETURN_TYPE", "Object");
         Options.optionValues.put("VISITOR_EXCEPTION", "");
 
         Options.optionValues.put("JJTREE_OUTPUT_DIRECTORY", "");
     }
-    
+
     /**
-     *  Check options for consistency 
+     *  Check options for consistency
      */
     public static void validate() {
       if (!getVisitor()) {
         if (getVisitorDataType().length() > 0) {
-          JavaCCErrors.warning("VISITOR_DATA_TYPE option will be ignored since VISITOR is false"); 
+          JavaCCErrors.warning("VISITOR_DATA_TYPE option will be ignored since VISITOR is false");
+        }
+        if (getVisitorReturnType().length() > 0 && !getVisitorReturnType().equals("Object")) {
+          JavaCCErrors.warning("VISITOR_RETURN_TYPE option will be ignored since VISITOR is false");
         }
         if (getVisitorException().length() > 0) {
-          JavaCCErrors.warning("VISITOR_EXCEPTION option will be ignored since VISITOR is false"); 
+          JavaCCErrors.warning("VISITOR_EXCEPTION option will be ignored since VISITOR is false");
         }
       }
     }
@@ -91,7 +95,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the JDK version.
-     * 
+     *
      * @return The specified JDK version.
      */
     public static String getJdkVersion() {
@@ -100,7 +104,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the multi value.
-     * 
+     *
      * @return The requested multi value.
      */
     public static boolean getMulti() {
@@ -109,7 +113,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the node default void value.
-     * 
+     *
      * @return The requested node default void value.
      */
     public static boolean getNodeDefaultVoid() {
@@ -118,7 +122,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the node scope hook value.
-     * 
+     *
      * @return The requested node scope hook value.
      */
     public static boolean getNodeScopeHook() {
@@ -127,7 +131,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the node factory value.
-     * 
+     *
      * @return The requested node factory value.
      */
     public static String getNodeFactory() {
@@ -136,7 +140,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the node uses parser value.
-     * 
+     *
      * @return The requested node uses parser value.
      */
     public static boolean getNodeUsesParser() {
@@ -145,7 +149,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the build node files value.
-     * 
+     *
      * @return The requested build node files value.
      */
     public static boolean getBuildNodeFiles() {
@@ -154,7 +158,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the visitor value.
-     * 
+     *
      * @return The requested visitor value.
      */
     public static boolean getVisitor() {
@@ -163,7 +167,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the trackTokens value.
-     * 
+     *
      * @return The requested trackTokens value.
      */
     public static boolean getTrackTokens() {
@@ -172,7 +176,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the node prefix value.
-     * 
+     *
      * @return The requested node prefix value.
      */
     public static String getNodePrefix() {
@@ -181,7 +185,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the node super class name.
-     * 
+     *
      * @return The requested node super class
      */
     public static String getNodeExtends() {
@@ -190,7 +194,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the node class name.
-     * 
+     *
      * @return The requested node class
      */
     public static String getNodeClass() {
@@ -199,7 +203,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the node package value.
-     * 
+     *
      * @return The requested node package value.
      */
     public static String getNodePackage() {
@@ -208,7 +212,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the output file value.
-     * 
+     *
      * @return The requested output file value.
      */
     public static String getOutputFile() {
@@ -217,7 +221,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the visitor exception value
-     * 
+     *
      * @return The requested visitor exception value.
      */
     public static String getVisitorException() {
@@ -226,7 +230,7 @@ class JJTreeOptions extends Options {
 
     /**
      * Find the visitor data type value
-     * 
+     *
      * @return The requested visitor data type value.
      */
     public static String getVisitorDataType() {
@@ -234,22 +238,31 @@ class JJTreeOptions extends Options {
     }
 
     /**
+     * Find the visitor return type value
+     *
+     * @return The requested visitor return type value.
+     */
+    public static String getVisitorReturnType() {
+        return stringValue("VISITOR_RETURN_TYPE");
+    }
+
+    /**
      * Find the output directory to place the generated <code>.jj</code> files
      * into. If none is configured, use the value of
      * <code>getOutputDirectory()</code>.
-     * 
+     *
      * @return The requested JJTree output directory
      */
     public static File getJJTreeOutputDirectory() {
         final String dirName = stringValue("JJTREE_OUTPUT_DIRECTORY");
         File dir = null;
-        
+
         if ("".equals(dirName)) {
             dir = getOutputDirectory();
         } else {
             dir = new File(dirName);
-        } 
-        
+        }
+
         return dir;
     }
 }

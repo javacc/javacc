@@ -41,7 +41,7 @@ final class JJTreeState
 {
 
   private JJTreeState() {}
-  
+
   static void insertParserMembers(IO io) {
     String s;
 
