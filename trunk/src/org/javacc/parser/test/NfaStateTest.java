@@ -123,7 +123,7 @@ public class NfaStateTest extends JavaCCTestCase {
     PrintWriter contentWriter = new PrintWriter(output);
     NfaState.DumpStateSets(contentWriter);
     assertEquals("static final int[] jjnextStates = {\n};\n" ,
-            output.toString().replace("\r", ""));
+            output.toString().replaceAll("\r", ""));
   }
 
   /**
@@ -141,7 +141,7 @@ public class NfaStateTest extends JavaCCTestCase {
         "   60, 61, 62, 10, 11, 17, 18, 20, 25, 27, 29, 36, 37, 40, 41, 46, \n" +
         "   47, 55, 56, 57, 58, 63, 64, \n" +
         "};\n" ,
-        output.toString().replace("\r", ""));
+        output.toString().replaceAll("\r", ""));
   }
 
   /**
@@ -162,7 +162,7 @@ public class NfaStateTest extends JavaCCTestCase {
         "               default : break;\n" +
         "            }\n" +
         "         } while(i != startsAt);\n"
-        ,output.toString().replace("\r", ""));
+        ,output.toString().replaceAll("\r", ""));
   }
 
   /**
@@ -187,7 +187,7 @@ public class NfaStateTest extends JavaCCTestCase {
         "               default : break;\n" +
         "            }\n" +
         "         } while(i != startsAt);\n"
-        ,output.toString().replace("\r", ""));
+        ,output.toString().replaceAll("\r", ""));
   }
 
   /**
@@ -389,7 +389,7 @@ public class NfaStateTest extends JavaCCTestCase {
         "            return true;\n" +
         "         return false;\n" +
         "   }\n" +
-        "}\n", output.toString().replace("\r", ""));
+        "}\n", output.toString().replaceAll("\r", ""));
   }
 
   /**
@@ -451,7 +451,7 @@ public class NfaStateTest extends JavaCCTestCase {
     assertEquals("private int jjMoveNfa_3(int startState, int curPos)\n" +
         "{\n" +
         "   return curPos;\n" +
-        "}\n", output.toString().replace("\r", ""));
+        "}\n", output.toString().replaceAll("\r", ""));
   }
 
   /**
@@ -463,7 +463,7 @@ public class NfaStateTest extends JavaCCTestCase {
     PrintWriter contentWriter = new PrintWriter(output);
     NfaState.DumpStatesForState(contentWriter);
     assertEquals("protected static final int[][][] statesForState = null;\n" ,
-            output.toString().replace("\r", ""));
+            output.toString().replaceAll("\r", ""));
   }
 
   /**
@@ -553,7 +553,7 @@ public class NfaStateTest extends JavaCCTestCase {
         " null, \n" +
         "\n" +
         "};\n",
-        output.toString().replace("\r", ""));
+        output.toString().replaceAll("\r", ""));
   }
 
   /**
@@ -565,7 +565,7 @@ public class NfaStateTest extends JavaCCTestCase {
     NfaState.DumpStatesForKind(contentWriter);
     assertEquals("protected static final int[][][] statesForState = null;\n" +
                  "protected static final int[][] kindForState = null;\n" ,
-            output.toString().replace("\r", ""));
+            output.toString().replaceAll("\r", ""));
   }
 
   /**
@@ -666,7 +666,7 @@ public class NfaStateTest extends JavaCCTestCase {
         "null\n, \n" +
         "null\n\n" +
         "};\n",
-            output.toString().replace("\r", ""));
+            output.toString().replaceAll("\r", ""));
   }
    
    
