@@ -63,7 +63,9 @@ import org.javacc.Version;
  */
 public class OutputFile {
 	private static final String MD5_LINE_PART_1 = "/* JavaCC - OriginalChecksum=";
+	private static final String MD5_LINE_PART_1q = "/\\* JavaCC - OriginalChecksum=";
 	private static final String MD5_LINE_PART_2 = " (do not edit this line) */";
+	private static final String MD5_LINE_PART_2q = " \\(do not edit this line\\) \\*/";
 
 	TrapClosePrintWriter pw;
 
@@ -115,8 +117,8 @@ public class OutputFile {
 			String existingMD5 = null;
 			while ((line = br.readLine()) != null) {
 				if (line.startsWith(MD5_LINE_PART_1)) {
-					existingMD5 = line.replace(MD5_LINE_PART_1, "").replace(
-							MD5_LINE_PART_2, "");
+					existingMD5 = line.replaceAll(MD5_LINE_PART_1q, "").replaceAll(
+							MD5_LINE_PART_2q, "");
 				} else {
 					pw.println(line);
 				}
@@ -208,7 +210,7 @@ public class OutputFile {
 			while ((line = reader.readLine()) != null) {
 				if (line.startsWith("/* JavaCCOptions:")) {
 					String currentOptions = Options.getOptionsString(options);
-					if (!line.contains(currentOptions)) {
+					if (line.indexOf(currentOptions) == -1) {
 						JavaCCErrors
 								.warning(file.getName()
 										+ ": Generated using incompatible options. Please rename or delete this file so"
