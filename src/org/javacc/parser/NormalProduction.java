@@ -115,8 +115,13 @@ public class NormalProduction {
     return sb;
   }
 
+  protected String getSimpleName() {
+    String name = getClass().getName();
+    return name.substring(name.lastIndexOf(".")+1); // strip the package name
+  }
+
   public StringBuffer dump(int indent, Set alreadyDumped) {
-    StringBuffer sb = dumpPrefix(indent).append(System.identityHashCode(this)).append(' ').append(getClass().getSimpleName()).append(' ').append(lhs);
+    StringBuffer sb = dumpPrefix(indent).append(System.identityHashCode(this)).append(' ').append(getSimpleName()).append(' ').append(lhs);
     if (!alreadyDumped.contains(this))
     {
       alreadyDumped.add(this);
