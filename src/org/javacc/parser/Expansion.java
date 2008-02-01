@@ -102,8 +102,13 @@ public class Expansion {
       nextGenerationIndex = 1;
    }
    
+  private String getSimpleName() {
+    String name = getClass().getName();
+    return name.substring(name.lastIndexOf(".")+1); // strip the package name
+  }
+
   public String toString() {
-	  return "[" + line + "," + column + " " + System.identityHashCode(this) + " " + getClass().getSimpleName() + "]"; 
+    return "[" + line + "," + column + " " + System.identityHashCode(this) + " " + getSimpleName() + "]"; 
   }
 
   protected static final String eol = System.getProperty("line.separator", "\n");
@@ -115,7 +120,7 @@ public class Expansion {
   }
   
   public StringBuffer dump(int indent, Set alreadyDumped) {
-    StringBuffer value = dumpPrefix(indent).append(System.identityHashCode(this)).append(" ").append(getClass().getSimpleName());
+    StringBuffer value = dumpPrefix(indent).append(System.identityHashCode(this)).append(" ").append(getSimpleName());
     return value;
   }
 }
