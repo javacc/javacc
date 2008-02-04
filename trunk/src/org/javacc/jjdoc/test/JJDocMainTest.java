@@ -46,7 +46,7 @@ public class JJDocMainTest extends JavaCCTestCase {
     super(name);
   }
 
-  /** 
+  /**
    * {@inheritDoc}
    * @see junit.framework.TestCase#setUp()
    */
@@ -54,7 +54,7 @@ public class JJDocMainTest extends JavaCCTestCase {
     super.setUp();
   }
 
-  /** 
+  /**
    * {@inheritDoc}
    * @see junit.framework.TestCase#tearDown()
    */

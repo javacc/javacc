@@ -32,7 +32,7 @@ import org.javacc.parser.Options;
 
 /**
  * The options, specific to JJDoc.
- * 
+ *
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
 public class JJDocOptions extends Options {
@@ -59,7 +59,7 @@ public class JJDocOptions extends Options {
 
     /**
      * Find the one table value.
-     * 
+     *
      * @return The requested one table value.
      */
     public static boolean getOneTable() {
@@ -77,7 +77,7 @@ public class JJDocOptions extends Options {
 
     /**
      * Find the text value.
-     * 
+     *
      * @return The requested text value.
      */
     public static boolean getText() {
@@ -86,7 +86,7 @@ public class JJDocOptions extends Options {
 
     /**
      * Find the output file value.
-     * 
+     *
      * @return The requested output value.
      */
     public static String getOutputFile() {

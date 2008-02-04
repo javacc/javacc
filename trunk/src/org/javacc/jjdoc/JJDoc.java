@@ -63,7 +63,7 @@ import org.javacc.parser.ZeroOrOne;
  * The main entry point for JJDoc.
  */
 public class JJDoc extends JJDocGlobals {
-  
+
   static void start() {
     generator = getGenerator();
     generator.documentStart();
@@ -433,7 +433,7 @@ public class JJDoc extends JJDocGlobals {
   /**
    * A utility to produce a string of blanks.
    */
-  
+
   /*
   private static String ws(int len) {
     String s = "";
@@ -443,5 +443,5 @@ public class JJDoc extends JJDocGlobals {
     return s;
   }
   */
-  
+
 }

@@ -56,7 +56,7 @@ static final char[] diffLowerCaseRanges = {
 334, 334, 336, 336, 338, 338, 340, 340, 342, 342, 344, 344, 346, 346, 348, 348,
 350, 350, 352, 352, 354, 354, 356, 356, 358, 358, 360, 360, 362, 362, 364, 364,
 366, 366, 368, 368, 370, 370, 372, 372, 374, 374, 376, 376, 377, 377, 379, 379,
-381, 381, 385, 385, 386, 386, 388, 388, 390, 390, 391, 391, 
+381, 381, 385, 385, 386, 386, 388, 388, 390, 390, 391, 391,
 /* new for fixing 1.0.2 */ 393, 393, /* End new */ 394, 394, 395, 395,
 /*398, Sreeni fixed for 1.2*/ 399, 399, 400, 400, 401, 401, 403, 403, 404, 404, 406, 406, 407, 407, 408, 408,
 412, 412, 413, 413, 416, 416, 418, 418, 420, 420, 423, 423, 425, 425, 428, 428,
@@ -123,7 +123,7 @@ static final char[] diffUpperCaseRanges = {
 476, 476, 479, 479, 481, 481, 483, 483, 485, 485, 487, 487, 489, 489, 491, 491,
 493, 493, 495, 495, 498, 498, 499, 499, 501, 501, 507, 507, 509, 509, 511, 511,
 513, 513, 515, 515, 517, 517, 519, 519, 521, 521, 523, 523, 525, 525, 527, 527,
-529, 529, 531, 531, 533, 533, 535, 535, 595, 595, 596, 596, 598, 
+529, 529, 531, 531, 533, 533, 535, 535, 595, 595, 596, 596, 598,
 /* new for fixing 1.0.2 */ 598, 599, /* End new */ 599, /*600, Sreeni fixed for 1.2 */
 601, 601,
 603, 603, 608, 608, 611, 611, 616, 616, 617, 617, 623, 623, 626, 626, 643, 643,
@@ -181,10 +181,10 @@ static final char[] diffUpperCaseRanges = {
         char ch = ((SingleCharacter)descriptors.elementAt(i)).ch;
 
         if (ch != Character.toLowerCase(ch))
-          descriptors.addElement(new 
+          descriptors.addElement(new
                          SingleCharacter(Character.toLowerCase(ch)));
         if (ch != Character.toUpperCase(ch))
-           descriptors.addElement(new 
+           descriptors.addElement(new
                          SingleCharacter(Character.toUpperCase(ch)));
       }
       else
@@ -320,7 +320,7 @@ static final char[] diffUpperCaseRanges = {
               {
                  char l = ((CharacterRange)descriptors.elementAt(i)).left;
                  char r = ((CharacterRange)descriptors.elementAt(i)).right;
-      
+
                  System.out.print((int)l + "-" + (int)r + " ");
               }
               if ((i + 1) % 6 == 0)
@@ -345,7 +345,7 @@ static final char[] diffUpperCaseRanges = {
               {
                  char l = ((CharacterRange)descriptors.elementAt(i)).left;
                  char r = ((CharacterRange)descriptors.elementAt(i)).right;
-      
+
                  System.out.print((int)l + "-" + (int)r + " ");
               }
               if ((i + 1) % 6 == 0)

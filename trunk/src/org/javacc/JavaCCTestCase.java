@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.javacc;
 
@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 /**
  * An ancestor class to enable transition to a different directory structure.
- * 
+ *
  * @author timp
  * @since 2 Nov 2007
  *
@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 public abstract class JavaCCTestCase extends TestCase {
 
   /**
-   * 
+   *
    */
   public JavaCCTestCase() {
     super();
@@ -29,18 +29,18 @@ public abstract class JavaCCTestCase extends TestCase {
   }
 
   /**
-   * @return the documentation output directory name String relative to the root 
+   * @return the documentation output directory name String relative to the root
    */
-  public String getJJDocOutputDirectory() { 
+  public String getJJDocOutputDirectory() {
     return "www/doc/";
     //return "src/site/resources/";
   }
-  
+
   /**
    * Where the input jj files are located
-   * @return the directory name String relative to the root 
+   * @return the directory name String relative to the root
    */
-  public String getJJInputDirectory() { 
+  public String getJJInputDirectory() {
     return "src/org/javacc/parser/";
     //return "src/main/javacc/org/javacc/parser/";
   }

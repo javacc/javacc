@@ -68,7 +68,7 @@ public class Lookahead extends Expansion {
    * Is set to true if this is an explicit lookahead specification.
    */
   public boolean isExplicit;
-  
+
   public StringBuffer dump(int indent, Set alreadyDumped) {
     StringBuffer sb = super.dump(indent, alreadyDumped).append(isExplicit ? " explicit" : " implicit");
     if (alreadyDumped.contains(this))

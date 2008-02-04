@@ -35,7 +35,7 @@ import org.javacc.parser.JavaCCErrors;
 public final class TokenUtils
 {
   private TokenUtils() {}
-  
+
   static void print(Token t, IO io, String in, String out) {
     Token tt = t.specialToken;
     if (tt != null) {

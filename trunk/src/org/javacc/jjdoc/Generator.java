@@ -67,8 +67,8 @@ public interface Generator {
   void documentEnd();
 
   /**
-   * Output Special Tokens. 
-   * @param s tokens to output 
+   * Output Special Tokens.
+   * @param s tokens to output
    */
   void specialTokens(String s);
 
@@ -85,12 +85,12 @@ public interface Generator {
   void tokenEnd(TokenProduction tp);
 
   /**
-   * Output start of non-terminal. 
+   * Output start of non-terminal.
    */
   void nonterminalsStart();
 
   /**
-   * Output end of non-terminal. 
+   * Output end of non-terminal.
    */
   void nonterminalsEnd();
 
@@ -105,7 +105,7 @@ public interface Generator {
   void tokensEnd();
 
   /**
-   * Output comment from a production. 
+   * Output comment from a production.
    * @param jp the JavaCodeProduction to output
    */
   void javacode(JavaCodeProduction jp);

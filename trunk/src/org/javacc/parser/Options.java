@@ -124,18 +124,18 @@ public class Options {
         optionValues.put("TOKEN_EXTENDS", "");
         optionValues.put("TOKEN_FACTORY", "");
     }
-    
+
     /**
      * Returns a string representation of the specified options of interest.
      * Used when, for example, generating Token.java to record the JavaCC options
      * that were used to generate the file. All of the options must be
      * boolean values.
-     * @param interestingOptions the options of interest, eg {"STATIC", "CACHE_TOKENS"} 
+     * @param interestingOptions the options of interest, eg {"STATIC", "CACHE_TOKENS"}
      * @return the string representation of the options, eg "STATIC=true,CACHE_TOKENS=false"
      */
     public static String getOptionsString(String[] interestingOptions) {
       StringBuffer sb = new StringBuffer();
-      
+
       for (int i = 0; i < interestingOptions.length; i++) {
         String key = interestingOptions[i];
         sb.append(key);
@@ -145,15 +145,15 @@ public class Options {
           sb.append(',');
         }
       }
-      
+
       return sb.toString();
     }
-    
+
 
     /**
      * Determine if a given command line argument might be an option flag.
      * Command line options start with a dash&nbsp;(-).
-     * 
+     *
      * @param opt
      *            The command line argument to examine.
      * @return True when the argument looks like an option flag.
@@ -166,7 +166,7 @@ public class Options {
      * Help function to handle cases where the meaning of an option has changed
      * over time. If the user has supplied an option in the old format, it will
      * be converted to the new format.
-     * 
+     *
      * @param name The name of the option being checked.
      * @param value The option's value.
      * @return The upgraded value.
@@ -179,10 +179,10 @@ public class Options {
             value = "";
           }
       }
-      
+
       return value;
     }
-    
+
     public static void setInputFileOption(Object nameloc, Object valueloc,
             String name, Object value) {
         String s = name.toUpperCase();
@@ -192,9 +192,9 @@ public class Options {
             return;
         }
         final Object existingValue = optionValues.get(s);
-        
+
         value = upgradeValue(name, value);
-        
+
         if (existingValue != null) {
             if ((existingValue.getClass() != value.getClass()) ||
                     (value instanceof Integer && ((Integer)value).intValue() <= 0)) {
@@ -203,13 +203,13 @@ public class Options {
                         + "\".  Option setting will be ignored.");
                 return;
             }
-        
+
             if (inputFileSetting.contains(s)) {
                 JavaCCErrors.warning(nameloc, "Duplicate option setting for \""
                         + name + "\" will be ignored.");
                 return;
             }
-            
+
             if (cmdLineSetting.contains(s)) {
                 if (!existingValue.equals(value)) {
                     JavaCCErrors.warning(nameloc, "Command line setting of \""
@@ -222,7 +222,7 @@ public class Options {
         optionValues.put(s, value);
         inputFileSetting.add(s);
     }
-    
+
 
 
     /**
@@ -232,13 +232,13 @@ public class Options {
      */
     public static void setCmdLineOption(String arg) {
         final String s;
-        
+
         if (arg.charAt(0) == '-') {
             s = arg.substring(1);
         } else {
             s = arg;
         }
-        
+
         String name;
         Object Val;
 
@@ -256,7 +256,7 @@ public class Options {
           index = index1;
         else
           index = index2;
-        
+
         if (index < 0) {
             name = s.toUpperCase();
             if (optionValues.containsKey(name))
@@ -298,7 +298,7 @@ public class Options {
                 }
             }
         }
-        
+
         if (!optionValues.containsKey(name)) {
             System.out.println("Warning: Bad option \"" + arg
                     + "\" will be ignored.");
@@ -317,7 +317,7 @@ public class Options {
         }
 
         Val = upgradeValue(name, Val);
-        
+
         optionValues.put(name, Val);
         cmdLineSetting.add(name);
     }
@@ -327,7 +327,7 @@ public class Options {
             if (cmdLineSetting.contains("DEBUG_PARSER")
                     || inputFileSetting.contains("DEBUG_PARSER")) {
                 JavaCCErrors
-                        .warning("True setting of option DEBUG_LOOKAHEAD overrides " + 
+                        .warning("True setting of option DEBUG_LOOKAHEAD overrides " +
                                  "false setting of option DEBUG_PARSER.");
             }
             optionValues.put("DEBUG_PARSER", Boolean.TRUE);
@@ -336,7 +336,7 @@ public class Options {
 
     /**
      * Find the lookahead setting.
-     * 
+     *
      * @return The requested lookahead value.
      */
     public static int getLookahead() {
@@ -345,7 +345,7 @@ public class Options {
 
     /**
      * Find the choice ambiguity check value.
-     * 
+     *
      * @return The requested choice ambiguity check value.
      */
     public static int getChoiceAmbiguityCheck() {
@@ -354,7 +354,7 @@ public class Options {
 
     /**
      * Find the other ambiguity check value.
-     * 
+     *
      * @return The requested other ambiguity check value.
      */
     public static int getOtherAmbiguityCheck() {
@@ -363,7 +363,7 @@ public class Options {
 
     /**
      * Find the static value.
-     * 
+     *
      * @return The requested static value.
      */
     public static boolean getStatic() {
@@ -372,7 +372,7 @@ public class Options {
 
     /**
      * Find the debug parser value.
-     * 
+     *
      * @return The requested debug parser value.
      */
     public static boolean getDebugParser() {
@@ -381,7 +381,7 @@ public class Options {
 
     /**
      * Find the debug lookahead value.
-     * 
+     *
      * @return The requested debug lookahead value.
      */
     public static boolean getDebugLookahead() {
@@ -390,7 +390,7 @@ public class Options {
 
     /**
      * Find the debug tokenmanager value.
-     * 
+     *
      * @return The requested debug tokenmanager value.
      */
     public static boolean getDebugTokenManager() {
@@ -399,7 +399,7 @@ public class Options {
 
     /**
      * Find the error reporting value.
-     * 
+     *
      * @return The requested error reporting value.
      */
     public static boolean getErrorReporting() {
@@ -408,7 +408,7 @@ public class Options {
 
     /**
      * Find the Java unicode escape value.
-     * 
+     *
      * @return The requested Java unicode escape value.
      */
     public static boolean getJavaUnicodeEscape() {
@@ -417,7 +417,7 @@ public class Options {
 
     /**
      * Find the unicode input value.
-     * 
+     *
      * @return The requested unicode input value.
      */
     public static boolean getUnicodeInput() {
@@ -426,7 +426,7 @@ public class Options {
 
     /**
      * Find the ignore case value.
-     * 
+     *
      * @return The requested ignore case value.
      */
     public static boolean getIgnoreCase() {
@@ -435,7 +435,7 @@ public class Options {
 
     /**
      * Find the user tokenmanager value.
-     * 
+     *
      * @return The requested user tokenmanager value.
      */
     public static boolean getUserTokenManager() {
@@ -444,7 +444,7 @@ public class Options {
 
     /**
      * Find the user charstream value.
-     * 
+     *
      * @return The requested user charstream value.
      */
     public static boolean getUserCharStream() {
@@ -453,7 +453,7 @@ public class Options {
 
     /**
      * Find the build parser value.
-     * 
+     *
      * @return The requested build parser value.
      */
     public static boolean getBuildParser() {
@@ -462,7 +462,7 @@ public class Options {
 
     /**
      * Find the build token manager value.
-     * 
+     *
      * @return The requested build token manager value.
      */
     public static boolean getBuildTokenManager() {
@@ -480,7 +480,7 @@ public class Options {
 
     /**
      * Find the sanity check value.
-     * 
+     *
      * @return The requested sanity check value.
      */
     public static boolean getSanityCheck() {
@@ -489,7 +489,7 @@ public class Options {
 
     /**
      * Find the force lookahead check value.
-     * 
+     *
      * @return The requested force lookahead value.
      */
     public static boolean getForceLaCheck() {
@@ -498,7 +498,7 @@ public class Options {
 
     /**
      * Find the common token action value.
-     * 
+     *
      * @return The requested common token action value.
      */
 
@@ -508,7 +508,7 @@ public class Options {
 
     /**
      * Find the cache tokens value.
-     * 
+     *
      * @return The requested cache tokens value.
      */
     public static boolean getCacheTokens() {
@@ -517,7 +517,7 @@ public class Options {
 
     /**
      * Find the keep line column value.
-     * 
+     *
      * @return The requested keep line column value.
      */
     public static boolean getKeepLineColumn() {
@@ -526,13 +526,13 @@ public class Options {
 
     /**
      * Find the JDK version.
-     * 
+     *
      * @return The requested jdk version.
      */
     public static String getJdkVersion() {
         return stringValue("JDK_VERSION");
     }
-    
+
     /**
      * Determine if the output language is at least the specified
      * version.
@@ -541,34 +541,34 @@ public class Options {
      */
     public static boolean jdkVersionAtLeast(double version) {
       double jdkVersion = Double.parseDouble(getJdkVersion());
-      
+
       // Comparing doubles is safe here, as it is two simple assignments.
       return jdkVersion >= version;
     }
 
     /**
      * Return the Token's superclass.
-     * 
+     *
      * @return The required base class for Token.
      */
     public static String getTokenExtends()
     {
       return stringValue("TOKEN_EXTENDS");
     }
-    
+
     /**
      * Return the Token's factory class.
-     * 
+     *
      * @return The required factory class for Token.
      */
     public static String getTokenFactory()
     {
       return stringValue("TOKEN_FACTORY");
     }
-    
+
     /**
      * Find the output directory.
-     * 
+     *
      * @return The requested output directory.
      */
     public static File getOutputDirectory() {

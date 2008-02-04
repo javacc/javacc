@@ -88,14 +88,14 @@ public class TextGenerator implements Generator {
     ostr.print(s);
   }
 
-  /** 
+  /**
    * {@inheritDoc}
    * @see org.javacc.jjdoc.Generator#tokenStart(org.javacc.parser.TokenProduction)
    */
   public void tokenStart(TokenProduction tp) {
   }
 
-  /** 
+  /**
    * {@inheritDoc}
    * @see org.javacc.jjdoc.Generator#tokenEnd(org.javacc.parser.TokenProduction)
    */
@@ -244,7 +244,7 @@ public class TextGenerator implements Generator {
     return ostr;
   }
 
-  /** 
+  /**
    * {@inheritDoc}
    * @see org.javacc.jjdoc.Generator#debug(java.lang.String)
    */
@@ -252,7 +252,7 @@ public class TextGenerator implements Generator {
     System.err.println(message);
   }
 
-  /** 
+  /**
    * {@inheritDoc}
    * @see org.javacc.jjdoc.Generator#info(java.lang.String)
    */
@@ -260,7 +260,7 @@ public class TextGenerator implements Generator {
     System.err.println(message);
   }
 
-  /** 
+  /**
    * {@inheritDoc}
    * @see org.javacc.jjdoc.Generator#warn(java.lang.String)
    */
@@ -268,7 +268,7 @@ public class TextGenerator implements Generator {
     System.err.println(message);
   }
 
-  /** 
+  /**
    * {@inheritDoc}
    * @see org.javacc.jjdoc.Generator#error(java.lang.String)
    */

@@ -35,8 +35,8 @@ public final class LookaheadWalk {
 
   public static Vector sizeLimitedMatches;
 
-  private LookaheadWalk() {} 
-  
+  private LookaheadWalk() {}
+
   public static void vectorAppend(Vector vToAppendTo, Vector vToAppend) {
     for (int i = 0; i < vToAppend.size(); i++) {
       vToAppendTo.addElement(vToAppend.elementAt(i));
