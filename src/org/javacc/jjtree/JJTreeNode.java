@@ -30,7 +30,7 @@ package org.javacc.jjtree;
 public class JJTreeNode extends SimpleNode {
 
   private int myOrdinal;
-  
+
   public JJTreeNode(int id) {
 	super(id);
   }
@@ -42,7 +42,7 @@ public class JJTreeNode extends SimpleNode {
   public static Node jjtCreate(int id) {
 	return new JJTreeNode(id);
   }
-  
+
   public void jjtAddChild(Node n, int i) {
     super.jjtAddChild(n, i);
     ((JJTreeNode)n).setOrdinal(i);
@@ -125,7 +125,7 @@ public class JJTreeNode extends SimpleNode {
         sb.append(ch);
       }
     }
-    
+
     return sb.toString();
   }
 

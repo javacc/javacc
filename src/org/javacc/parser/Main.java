@@ -32,7 +32,7 @@ package org.javacc.parser;
  */
 public final class Main {
   private Main() {}
-  
+
   static void help_message() {
     System.out.println("Usage:");
     System.out.println("    javacc option-settings inputfile");

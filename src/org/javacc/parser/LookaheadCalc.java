@@ -114,7 +114,7 @@ public class LookaheadCalc extends JavaCCGlobals {
         v.addElement(m);
         LookaheadWalk.genFirstSet(v, (Expansion)ch.choices.elementAt(i));
         dbl[i] = LookaheadWalk.sizeLimitedMatches;
-      }      
+      }
       LookaheadWalk.considerSemanticLA = false;
       for (int i = first+1; i < ch.choices.size(); i++) {
         LookaheadWalk.sizeLimitedMatches = new java.util.Vector();
@@ -124,16 +124,16 @@ public class LookaheadCalc extends JavaCCGlobals {
         v.addElement(m);
         LookaheadWalk.genFirstSet(v, (Expansion)ch.choices.elementAt(i));
         dbr[i] = LookaheadWalk.sizeLimitedMatches;
-      }      
+      }
       if (la == 1) {
         for (int i = first; i < ch.choices.size()-1; i++) {
           Expansion exp = (Expansion)ch.choices.elementAt(i);
           if (Semanticize.emptyExpansionExists(exp)) {
-            JavaCCErrors.warning(exp, "This choice can expand to the empty token sequence " + 
+            JavaCCErrors.warning(exp, "This choice can expand to the empty token sequence " +
                     "and will therefore always be taken in favor of the choices appearing later.");
             break;
           } else if (javaCodeCheck(dbl[i])) {
-            JavaCCErrors.warning(exp, "JAVACODE non-terminal will force this choice to be taken " + 
+            JavaCCErrors.warning(exp, "JAVACODE non-terminal will force this choice to be taken " +
                     "in favor of the choices appearing later.");
             break;
           }
@@ -237,8 +237,8 @@ public class LookaheadCalc extends JavaCCGlobals {
       follow = LookaheadWalk.sizeLimitedMatches;
       if (la == 1) {
         if (javaCodeCheck(first)) {
-          JavaCCErrors.warning(nested, "JAVACODE non-terminal within " + image(exp) + 
-                  " construct will force this construct to be entered in favor of " + 
+          JavaCCErrors.warning(nested, "JAVACODE non-terminal within " + image(exp) +
+                  " construct will force this construct to be entered in favor of " +
                   "expansions occurring after construct.");
         }
       }
@@ -248,13 +248,13 @@ public class LookaheadCalc extends JavaCCGlobals {
       m1 = m;
     }
     if (la > Options.getOtherAmbiguityCheck()) {
-      JavaCCErrors.warning("Choice conflict in " + image(exp) + " construct " + 
+      JavaCCErrors.warning("Choice conflict in " + image(exp) + " construct " +
               "at line " + exp.line + ", column " + exp.column + ".");
       System.err.println("         Expansion nested within construct and expansion following construct");
       System.err.println("         have common prefixes, one of which is: " + image(m1));
       System.err.println("         Consider using a lookahead of " + la + " or more for nested expansion.");
     } else if (la > 1) {
-      JavaCCErrors.warning("Choice conflict in " + image(exp) + " construct " + 
+      JavaCCErrors.warning("Choice conflict in " + image(exp) + " construct " +
               "at line " + exp.line + ", column " + exp.column + ".");
       System.err.println("         Expansion nested within construct and expansion following construct");
       System.err.println("         have common prefixes, one of which is: " + image(m1));

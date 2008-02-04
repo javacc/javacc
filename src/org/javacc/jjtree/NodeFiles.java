@@ -424,7 +424,7 @@ final class NodeFiles {
     } else {
       ostr.println("public class " + nodeType + " extends SimpleNode {");
     }
-    
+
     ostr.println("  public " + nodeType + "(int id) {");
     ostr.println("    super(id);");
     ostr.println("  }");

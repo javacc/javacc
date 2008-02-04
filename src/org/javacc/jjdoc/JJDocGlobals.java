@@ -48,7 +48,7 @@ public class JJDocGlobals extends JavaCCGlobals {
    * The Generator to create output with.
    */
   public static Generator generator;
-  
+
   /**
    * @param generator
    *        The generator to set.
@@ -58,25 +58,25 @@ public class JJDocGlobals extends JavaCCGlobals {
   }
 
   /**
-   * The commandline option is either TEXT or not, but the generator might 
-   * have been set to some other Generator using the setGenerator method. 
-   * 
+   * The commandline option is either TEXT or not, but the generator might
+   * have been set to some other Generator using the setGenerator method.
+   *
    * @return the generator configured in options or set by setter.
    */
   public static Generator getGenerator() {
-    if (generator == null) { 
-      if (JJDocOptions.getText()) {  
+    if (generator == null) {
+      if (JJDocOptions.getText()) {
         generator = new TextGenerator();
-      } else { 
+      } else {
         generator = new HTMLGenerator();
       }
-    } else { 
-      if (JJDocOptions.getText()) { 
-        if(generator instanceof HTMLGenerator) { 
+    } else {
+      if (JJDocOptions.getText()) {
+        if(generator instanceof HTMLGenerator) {
           generator = new TextGenerator();
         }
-      } else { 
-        if(generator instanceof TextGenerator) { 
+      } else {
+        if(generator instanceof TextGenerator) {
           generator = new HTMLGenerator();
         }
       }
@@ -85,28 +85,28 @@ public class JJDocGlobals extends JavaCCGlobals {
   }
 
   /**
-   * Log informational messages. 
+   * Log informational messages.
    * @param message the message to log
    */
-  public static void debug(String message) { 
+  public static void debug(String message) {
     getGenerator().debug(message);
   }
-  
+
   /**
-   * Log informational messages. 
+   * Log informational messages.
    * @param message the message to log
    */
-  public static void info(String message) { 
+  public static void info(String message) {
     getGenerator().info(message);
   }
-  
+
   /**
    * Log error messages.
    * @param message the message to log
    */
-  public static void error(String message) { 
+  public static void error(String message) {
     getGenerator().error(message);
   }
-  
+
 
 }

@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 /**
  * Test cases to prod at the valitity of Options a little.
- * 
+ *
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
 public final class OptionsTest extends TestCase {
@@ -92,7 +92,7 @@ public final class OptionsTest extends TestCase {
         assertEquals(0, JavaCCErrors.get_parse_error_count());
         assertEquals(0, JavaCCErrors.get_semantic_error_count());
     }
-    
+
     public void testSetStringOption() {
         Options.init();
         JavaCCErrors.reInit();
@@ -139,7 +139,7 @@ public final class OptionsTest extends TestCase {
         assertEquals(0, JavaCCErrors.get_parse_error_count());
         assertEquals(0, JavaCCErrors.get_semantic_error_count());
     }
-    
+
     public void testNormalize() {
         Options.init();
         JavaCCErrors.reInit();
@@ -158,11 +158,11 @@ public final class OptionsTest extends TestCase {
         assertEquals(0, JavaCCErrors.get_parse_error_count());
         assertEquals(0, JavaCCErrors.get_semantic_error_count());
     }
-    
+
     public void testOptionsString() throws ParseException {
       Options.init();
       JavaCCErrors.reInit();
-      
+
       Options.setCmdLineOption("-STATIC=False");
       Options.setCmdLineOption("-IGNORE_CASE=True");
       String[] options = {

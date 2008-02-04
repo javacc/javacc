@@ -43,7 +43,7 @@ public class ASTJavacodeBody extends JJTreeNode {
     }
 
     Token first = getFirstToken();
-   
+
     String indent = "";
     for (int i = 4; i < first.beginColumn; ++i) {
       indent += " ";

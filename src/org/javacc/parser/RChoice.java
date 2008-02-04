@@ -67,7 +67,7 @@ public class RChoice extends RegularExpression {
   }
 
   void CompressCharLists()
-  { 
+  {
      CompressChoices(); // Unroll nested choices
      RegularExpression curRE;
      RCharacterList curCharList = null;

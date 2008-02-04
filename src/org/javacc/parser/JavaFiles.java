@@ -106,7 +106,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   {
     final String commentHeader = "/* " + getIdString(toolName, fileName) + " Version ";
     File file = new File(Options.getOutputDirectory(), replaceBackslash(fileName));
-    
+
     if (!file.exists()) {
       // Has not yet been created, so it must be up to date.
       try {
@@ -116,13 +116,13 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
         return 0.0; // Should never happen
       }
     }
-    
+
     BufferedReader reader = null;
     try {
       reader = new BufferedReader(new FileReader(file));
       String str;
       double version = 0.0;
-      
+
       // Although the version comment should be the first line, sometimes the
       // user might have put comments before it.
       while ( (str = reader.readLine()) != null) {
@@ -138,11 +138,11 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
               // Ignore - leave version as 0.0
             }
           }
-          
+
           break;
         }
       }
-      
+
       return version;
     }
     catch (IOException ioe)
@@ -720,7 +720,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       if (Options.getStatic())
       {
         ostr.println("    if (inputStream != null)");
-        ostr.println("       throw new Error(\"\\n   ERROR: Second call to the constructor " + 
+        ostr.println("       throw new Error(\"\\n   ERROR: Second call to the constructor " +
         "of a static JavaCharStream.\\n\" +");
         ostr.println("       \"       You must either use ReInit() or set the JavaCC option STATIC to false\\n\" +");
         ostr.println("       \"       during the generation of this class.\");");
@@ -811,7 +811,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("  public JavaCharStream(java.io.InputStream dstream, String encoding, int startline,");
       ostr.println("  int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException");
       ostr.println("  {");
-      ostr.println("     this(encoding == null ? new java.io.InputStreamReader(dstream) : " + 
+      ostr.println("     this(encoding == null ? new java.io.InputStreamReader(dstream) : " +
       "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
       ostr.println("  }");
       ostr.println("");
@@ -837,7 +837,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("  }");
       ostr.println("");
       ostr.println("/** Constructor. */");
-      ostr.println("  public JavaCharStream(java.io.InputStream dstream, String encoding) " + 
+      ostr.println("  public JavaCharStream(java.io.InputStream dstream, String encoding) " +
       "throws java.io.UnsupportedEncodingException");
       ostr.println("  {");
       ostr.println("     this(dstream, encoding, 1, 1, 4096);");
@@ -853,7 +853,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding, int startline,");
       ostr.println("  int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException");
       ostr.println("  {");
-      ostr.println("     ReInit(encoding == null ? new java.io.InputStreamReader(dstream) : " + 
+      ostr.println("     ReInit(encoding == null ? new java.io.InputStreamReader(dstream) : " +
       "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
       ostr.println("  }");
       ostr.println("");
@@ -876,7 +876,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("     ReInit(dstream, startline, startcolumn, 4096);");
       ostr.println("  }");
       ostr.println("/** Reinitialise. */");
-      ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding) " + 
+      ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding) " +
       "throws java.io.UnsupportedEncodingException");
       ostr.println("  {");
       ostr.println("     ReInit(dstream, encoding, 1, 1, 4096);");
@@ -1360,7 +1360,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       if (Options.getStatic())
       {
          ostr.println("    if (inputStream != null)");
-         ostr.println("       throw new Error(\"\\n   " + 
+         ostr.println("       throw new Error(\"\\n   " +
                  "ERROR: Second call to the constructor of a static SimpleCharStream.\\n\" +");
          ostr.println("       \"       You must either use ReInit() or set the JavaCC option STATIC to false\\n\" +");
          ostr.println("       \"       during the generation of this class.\");");
@@ -1450,7 +1450,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("  public SimpleCharStream(java.io.InputStream dstream, String encoding, int startline,");
       ostr.println("  int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException");
       ostr.println("  {");
-      ostr.println("     this(encoding == null ? new java.io.InputStreamReader(dstream) : " + 
+      ostr.println("     this(encoding == null ? new java.io.InputStreamReader(dstream) : " +
               "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
       ostr.println("  }");
       ostr.println("");
@@ -1476,7 +1476,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("  }");
       ostr.println("");
       ostr.println("  /** Constructor. */");
-      ostr.println("  public SimpleCharStream(java.io.InputStream dstream, String encoding) " + 
+      ostr.println("  public SimpleCharStream(java.io.InputStream dstream, String encoding) " +
               "throws java.io.UnsupportedEncodingException");
       ostr.println("  {");
       ostr.println("     this(dstream, encoding, 1, 1, 4096);");
@@ -1490,10 +1490,10 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("");
       ostr.println("  /** Reinitialise. */");
       ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding, int startline,");
-      ostr.println("                          int startcolumn, int buffersize) " + 
+      ostr.println("                          int startcolumn, int buffersize) " +
               "throws java.io.UnsupportedEncodingException");
       ostr.println("  {");
-      ostr.println("     ReInit(encoding == null ? new java.io.InputStreamReader(dstream) : " + 
+      ostr.println("     ReInit(encoding == null ? new java.io.InputStreamReader(dstream) : " +
               "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
       ostr.println("  }");
       ostr.println("");
@@ -1505,7 +1505,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("  }");
       ostr.println("");
       ostr.println("  /** Reinitialise. */");
-      ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding) " + 
+      ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding) " +
               "throws java.io.UnsupportedEncodingException");
       ostr.println("  {");
       ostr.println("     ReInit(dstream, encoding, 1, 1, 4096);");
@@ -1772,7 +1772,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       throw new Error();
     }
   }
-  
+
   public static void gen_ParseException() {
     try {
       final File file = new File(Options.getOutputDirectory(), "ParseException.java");
@@ -1782,9 +1782,9 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       {
         return;
       }
-      
+
       final PrintWriter ostr = outputFile.getPrintWriter();
-      
+
       if (cu_to_insertion_point_1.size() != 0 &&
           ((Token)cu_to_insertion_point_1.elementAt(0)).kind == PACKAGE
          ) {
@@ -1929,7 +1929,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("    }");
       if (OtherFilesGen.keepLineCol)
       {
-        ostr.println("    retval += \"\\\" at line \" + currentToken.next.beginLine + \", " + 
+        ostr.println("    retval += \"\\\" at line \" + currentToken.next.beginLine + \", " +
                 "column \" + currentToken.next.beginColumn;");
       }
       ostr.println("    retval += \".\" + eol;");
@@ -2015,7 +2015,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       {
         return;
       }
-      
+
       final PrintWriter ostr = outputFile.getPrintWriter();
 
       if (cu_to_insertion_point_1.size() != 0 &&
@@ -2035,7 +2035,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
         }
       }
       ostr.println("/** Token Manager Error. */");
-      if(Options.getJdkVersion().compareTo("1.5") >= 0) 
+      if(Options.getJdkVersion().compareTo("1.5") >= 0)
         ostr.println("@SuppressWarnings(\"serial\")");
       ostr.println("public class TokenMgrError extends Error");
       ostr.println("{");
@@ -2131,12 +2131,12 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("    *    curchar     : the offending character");
       ostr.println("    * Note: You can customize the lexical error message by modifying this method.");
       ostr.println("    */");
-      ostr.println("   protected static String LexicalError(" + 
+      ostr.println("   protected static String LexicalError(" +
               "boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {");
       ostr.println("      return(\"Lexical error at line \" +");
       ostr.println("           errorLine + \", column \" +");
       ostr.println("           errorColumn + \".  Encountered: \" +");
-      ostr.println("           (EOFSeen ? \"<EOF> \" : " + 
+      ostr.println("           (EOFSeen ? \"<EOF> \" : " +
               "(\"\\\"\" + addEscapes(String.valueOf(curChar)) + \"\\\"\") + \" (\" + (int)curChar + \"), \") +");
       ostr.println("           \"after : \\\"\" + addEscapes(errorAfter) + \"\\\"\");");
       ostr.println("   }");
@@ -2169,13 +2169,13 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("   }");
       ostr.println("");
       ostr.println("   /** Full Constructor. */");
-     ostr.println("   public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, " + 
+     ostr.println("   public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, " +
               "String errorAfter, char curChar, int reason) {");
       ostr.println("      this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);");
       ostr.println("   }");
       ostr.println("}");
       ostr.close();
-    } catch (IOException e) { 
+    } catch (IOException e) {
       System.err.println("Failed to create TokenMgrError " + e);
       JavaCCErrors.semantic_error("Could not open file TokenMgrError.java for writing.");
       throw new Error();
@@ -2191,7 +2191,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       {
         return;
       }
-      
+
       final PrintWriter ostr = outputFile.getPrintWriter();
 
       if (cu_to_insertion_point_1.size() != 0 &&
@@ -2241,7 +2241,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
         ostr.println("  /** The column number of the last character of this Token. */");
         ostr.println("  public int endColumn;");
       }
-  
+
       ostr.println("");
       ostr.println("  /**");
       ostr.println("   * The string image of the token.");
@@ -2359,7 +2359,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       }
 
       final PrintWriter ostr = outputFile.getPrintWriter();
-      
+
       if (cu_to_insertion_point_1.size() != 0 &&
           ((Token)cu_to_insertion_point_1.elementAt(0)).kind == PACKAGE
          ) {

@@ -120,8 +120,8 @@ public class NodeScope
 
     io.print(indent + nodeClass + " " + nodeVar + " = ");
     String p = JJTreeOptions.getStatic() ? "null" : "this";
-    String parserArg = JJTreeOptions.getNodeUsesParser() ? (p + ", ") : ""; 
-    
+    String parserArg = JJTreeOptions.getNodeUsesParser() ? (p + ", ") : "";
+
     if (JJTreeOptions.getNodeFactory().equals("*")) {
       // Old-style multiple-implementations.
       io.println("(" + nodeClass + ")" + nodeClass + ".jjtCreate(" + parserArg +

@@ -38,7 +38,7 @@ import org.javacc.parser.Main;
  * Main class.
  */
 public final class JJDocMain extends JJDocGlobals {
-  
+
   private JJDocMain() {}
 
   static void help_message() {

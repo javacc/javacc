@@ -15,7 +15,7 @@ import org.javacc.parser.Semanticize;
 
 /**
  * A sea anchor, to ensure that code is not inadvertently broken.
- * 
+ *
  * @author timp
  * @since 16 Mar 2007
  *
@@ -405,37 +405,37 @@ public class NfaStateTest extends JavaCCTestCase {
       e = null;
     }
     assertEquals("", output.toString());
-    /* 
-     assertEquals("static private final void jjCheckNAdd(int state)\n" + 
-        "{\n" + 
-        "   if (jjrounds[state] != jjround)\n" + 
-        "   {\n" + 
-        "      jjstateSet[jjnewStateCnt++] = state;\n" + 
-        "      jjrounds[state] = jjround;\n" + 
-        "   }\n" + 
-        "}\n" + 
-        "static private final void jjAddStates(int start, int end)\n" + 
-        "{\n" + 
-        "   do {\n" + 
-        "      jjstateSet[jjnewStateCnt++] = jjnextStates[start];\n" + 
-        "   } while (start++ != end);\n" + 
-        "}\n" + 
-        "static private final void jjCheckNAddTwoStates(int state1, int state2)\n" + 
-        "{\n" + 
-        "   jjCheckNAdd(state1);\n" + 
-        "   jjCheckNAdd(state2);\n" + 
-        "}\n" + 
-        "static private final void jjCheckNAddStates(int start, int end)\n" + 
-        "{\n" + 
-        "   do {\n" + 
-        "      jjCheckNAdd(jjnextStates[start]);\n" + 
-        "   } while (start++ != end);\n" + 
-        "}\n" + 
-        "static private final void jjCheckNAddStates(int start)\n" + 
-        "{\n" + 
-        "   jjCheckNAdd(jjnextStates[start]);\n" + 
-        "   jjCheckNAdd(jjnextStates[start + 1]);\n" + 
-        "}\n" + 
+    /*
+     assertEquals("static private final void jjCheckNAdd(int state)\n" +
+        "{\n" +
+        "   if (jjrounds[state] != jjround)\n" +
+        "   {\n" +
+        "      jjstateSet[jjnewStateCnt++] = state;\n" +
+        "      jjrounds[state] = jjround;\n" +
+        "   }\n" +
+        "}\n" +
+        "static private final void jjAddStates(int start, int end)\n" +
+        "{\n" +
+        "   do {\n" +
+        "      jjstateSet[jjnewStateCnt++] = jjnextStates[start];\n" +
+        "   } while (start++ != end);\n" +
+        "}\n" +
+        "static private final void jjCheckNAddTwoStates(int state1, int state2)\n" +
+        "{\n" +
+        "   jjCheckNAdd(state1);\n" +
+        "   jjCheckNAdd(state2);\n" +
+        "}\n" +
+        "static private final void jjCheckNAddStates(int start, int end)\n" +
+        "{\n" +
+        "   do {\n" +
+        "      jjCheckNAdd(jjnextStates[start]);\n" +
+        "   } while (start++ != end);\n" +
+        "}\n" +
+        "static private final void jjCheckNAddStates(int start)\n" +
+        "{\n" +
+        "   jjCheckNAdd(jjnextStates[start]);\n" +
+        "   jjCheckNAdd(jjnextStates[start + 1]);\n" +
+        "}\n" +
         "", output.toString());
         */
   }
@@ -660,7 +660,7 @@ public class NfaStateTest extends JavaCCTestCase {
         "  90, 90, 140, 140, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, 84, \n" +
         "  84, 84, 84, 84, 84, 80, 80, 80, 84, 84, 84, 84, 84, 84, 84, \n" +
         "  84, 84, 84, 84, 84, 84}, \n" +
-        "null\n" + 
+        "null\n" +
         ", \n" +
         "{ 23, 23, 23}, \n" +
         "null\n, \n" +
@@ -668,11 +668,11 @@ public class NfaStateTest extends JavaCCTestCase {
         "};\n",
             output.toString().replaceAll("\r", ""));
   }
-   
-   
-   
-   
-   
+
+
+
+
+
   /**
    * Test method for {@link org.javacc.parser.NfaState#reInit()}.
    */

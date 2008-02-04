@@ -97,7 +97,7 @@ public class RStringLiteral extends RegularExpression {
   /**
    * Initialize all the static variables, so that there is no interference
    * between the various states of the lexer.
-   * 
+   *
    * Need to call this method after generating code for each lexical state.
    */
   public static void ReInit()
@@ -119,7 +119,7 @@ public class RStringLiteral extends RegularExpression {
     String image;
     int i;
     charCnt = 0; // Set to zero in reInit() but just to be sure
-    
+
     ostr.println("");
     ostr.println("/** Token literal values. */");
     ostr.println("public static final String[] jjstrLiteralImages = {");
@@ -1335,7 +1335,7 @@ public class RStringLiteral extends RegularExpression {
   public static void reInit()
   {
     ReInit();
-     
+
     charCnt = 0;
     allImages = null;
     boilerPlateDumped = false;
@@ -1345,7 +1345,7 @@ public class RStringLiteral extends RegularExpression {
     StringBuffer sb = super.dump(indent, alreadyDumped).append(' ').append(image);
     return sb;
   }
-  
+
   public String toString() {
     return super.toString() + " - " + image;
   }

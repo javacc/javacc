@@ -39,10 +39,10 @@ public class ASTOptionBinding extends JJTreeNode {
   void initialize(String n, String v)
   {
     name = n;
-    
+
     // If an option is specific to JJTree it should not be written out
     // to the output file for JavaCC.
- 
+
     if (JJTreeGlobals.isOptionJJTreeOnly(name)) {
       suppressed = true;
     }

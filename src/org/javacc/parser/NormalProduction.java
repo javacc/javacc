@@ -130,7 +130,7 @@ public class NormalProduction {
         sb.append(eol).append(expansion.dump(indent + 1, alreadyDumped));
       }
     }
-    
+
     return sb;
   }
 

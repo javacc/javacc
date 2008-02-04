@@ -105,8 +105,8 @@ public class HTMLGenerator extends TextGenerator implements Generator {
     ostr.close();
   }
 
-  /** 
-   * Prints out comments, used for tokens and non-terminals. 
+  /**
+   * Prints out comments, used for tokens and non-terminals.
    * {@inheritDoc}
    * @see org.javacc.jjdoc.TextGenerator#specialTokens(java.lang.String)
    */

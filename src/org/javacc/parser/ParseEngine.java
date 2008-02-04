@@ -200,7 +200,7 @@ public class ParseEngine extends JavaCCGlobals {
       System.err.println();
     }
   }
-  
+
   /**
    * This method takes two parameters - an array of Lookahead's
    * "conds", and an array of String's "actions".  "actions" contains
@@ -219,7 +219,7 @@ public class ParseEngine extends JavaCCGlobals {
    * case, a noop is generated for that action.
    */
   static String buildLookaheadChecker(Lookahead[] conds, String[] actions) {
-    
+
 	  // The state variables.
     int state = NOOPENSTM;
     int indentAmt = 0;
@@ -975,7 +975,7 @@ public class ParseEngine extends JavaCCGlobals {
         Expansion eseq = (Expansion)(e_nrw.units.elementAt(i));
         buildPhase3Routine(new Phase3Data(eseq, cnt), true);
 
-//System.out.println("minimumSize: line: " + eseq.line + ", column: " + eseq.column + ": " + 
+//System.out.println("minimumSize: line: " + eseq.line + ", column: " + eseq.column + ": " +
 //        minimumSize(eseq));//Test Code
 
         cnt -= minimumSize(eseq);

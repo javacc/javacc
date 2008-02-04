@@ -104,7 +104,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
     rexprlist.addElement(p);
     if (Options.getUserTokenManager()) {
       if (p.lexStates == null || p.lexStates.length != 1 || !p.lexStates[0].equals("DEFAULT")) {
-        JavaCCErrors.warning(p, "Ignoring lexical state specifications since option " + 
+        JavaCCErrors.warning(p, "Ignoring lexical state specifications since option " +
                                 "USER_TOKEN_MANAGER has been set to true.");
       }
     }
@@ -132,7 +132,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
     } else {
       token_mgr_decls = decls;
       if (Options.getUserTokenManager()) {
-        JavaCCErrors.warning(t, "Ignoring declarations in \"TOKEN_MGR_DECLS\" since option " + 
+        JavaCCErrors.warning(t, "Ignoring declarations in \"TOKEN_MGR_DECLS\" since option " +
                                 "USER_TOKEN_MANAGER has been set to true.");
       }
     }
@@ -244,12 +244,12 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
             }
           }
         }
-        JavaCCErrors.parse_error(t, "Encountered non-hex character '" + ch + 
-                "' at position " + index + " of string " + 
+        JavaCCErrors.parse_error(t, "Encountered non-hex character '" + ch +
+                "' at position " + index + " of string " +
                 "- Unicode escape must have 4 hex digits after it.");
         return retval;
       }
-      JavaCCErrors.parse_error(t, "Illegal escape sequence '\\" + ch + 
+      JavaCCErrors.parse_error(t, "Illegal escape sequence '\\" + ch +
               "' at position " + index + " of string.");
       return retval;
     }
@@ -270,7 +270,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
       JavaCCErrors.parse_error(t, "String in character list may contain only one character.");
       return ' ';
     } else if ((int)(left.charAt(0)) > (int)(s.charAt(0))) {
-      JavaCCErrors.parse_error(t, "Right end of character range \'" + s + 
+      JavaCCErrors.parse_error(t, "Right end of character range \'" + s +
               "\' has a lower ordinal value than the left end of character range \'" + left + "\'.");
       return left.charAt(0);
     } else {

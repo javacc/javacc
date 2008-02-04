@@ -52,13 +52,13 @@ public class Sequence extends Expansion {
         this.units.add(lookahead);
     }
 
-    
+
     public StringBuffer dump(int indent, Set alreadyDumped) {
       if (alreadyDumped.contains(this))
       {
         return super.dump(0, alreadyDumped).insert(0, '[').append(']').insert(0, dumpPrefix(indent));
       }
-      
+
       alreadyDumped.add(this);
       final StringBuffer sb = super.dump(indent, alreadyDumped);
       for (Iterator it = units.iterator(); it.hasNext(); ) {
