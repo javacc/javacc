@@ -46,7 +46,7 @@ public class SimpleNode implements Node {
 
   public void jjtClose() {
   }
-  
+
   public void jjtSetParent(Node n) { parent = n; }
   public Node jjtGetParent() { return parent; }
 
@@ -104,7 +104,7 @@ public class SimpleNode implements Node {
     throw new Error();
   }
 
-  // The following method prints token t, as well as all preceding 
+  // The following method prints token t, as well as all preceding
   // special tokens (essentially, white space and comments).
 
   protected void print(Token t, PrintWriter ostr) {

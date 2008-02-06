@@ -66,8 +66,8 @@ public class UnparseVisitor implements JavaParserVisitor
     }
     return data;
   }
-  
-  
+
+
   protected void print(Token t) {
     Token tt = t.specialToken;
     if (tt != null) {

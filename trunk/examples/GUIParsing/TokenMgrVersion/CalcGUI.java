@@ -80,7 +80,7 @@ public class CalcGUI extends Frame implements CalcInputParserConstants {
   static boolean firstDigit = true;
 
   /**
-   * Indicates an error has occured 
+   * Indicates an error has occured
    */
   static boolean error = false;
 
@@ -130,7 +130,7 @@ public class CalcGUI extends Frame implements CalcInputParserConstants {
    */
   public boolean handleEvent(Event evt) {
     char c = 0;
- 
+
     if (evt.id != Event.ACTION_EVENT) {
       return false;
     }
@@ -176,7 +176,7 @@ public class CalcGUI extends Frame implements CalcInputParserConstants {
       label = "0";
       firstDigit = true;
     }
-    else 
+    else
     {
       if (firstDigit)
          label = "";

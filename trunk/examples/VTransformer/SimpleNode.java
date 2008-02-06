@@ -60,7 +60,7 @@ public class SimpleNode implements Node {
 
   public Token getFirstToken() { return first; } // new
   public Token getLastToken() { return last; }   // new
-  
+
   public void jjtSetParent(Node n) { parent = n; }
   public Node jjtGetParent() { return parent; }
 
