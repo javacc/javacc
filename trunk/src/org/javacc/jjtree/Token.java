@@ -79,7 +79,7 @@ public class Token {
    */
   public Token(int kind)
   {
-     this(kind, null);
+    this(kind, null);
   }
 
   /**
@@ -87,8 +87,8 @@ public class Token {
    */
   public Token(int kind, String image)
   {
-     this.kind = kind;
-     this.image = image;
+    this.kind = kind;
+    this.image = image;
   }
 
   /**
@@ -96,7 +96,7 @@ public class Token {
    */
   public String toString()
   {
-     return image;
+    return image;
   }
 
   /**
@@ -113,19 +113,19 @@ public class Token {
    */
   public static final Token newToken(int ofKind, String image)
   {
-     switch(ofKind)
-     {
-       default : return new Token(ofKind, image);
-       case JJTreeParserConstants.RUNSIGNEDSHIFT:
-       case JJTreeParserConstants.RSIGNEDSHIFT:
-       case JJTreeParserConstants.GT:
-          return new GTToken(ofKind, image);
-     }
+    switch(ofKind)
+    {
+    default : return new Token(ofKind, image);
+    case JJTreeParserConstants.RUNSIGNEDSHIFT:
+    case JJTreeParserConstants.RSIGNEDSHIFT:
+    case JJTreeParserConstants.GT:
+      return new GTToken(ofKind, image);
+    }
   }
 
   public static final Token newToken(int ofKind)
   {
-     return newToken(ofKind, null);
+    return newToken(ofKind, null);
   }
 
   /**
@@ -133,11 +133,11 @@ public class Token {
    */
   public static class GTToken extends Token
   {
-     public GTToken(int kind, String image)
-     {
-     	super(kind, image);
-     }
+    public GTToken(int kind, String image)
+    {
+      super(kind, image);
+    }
 
-     int realKind = JJTreeParserConstants.GT;
+    int realKind = JJTreeParserConstants.GT;
   }
 }

@@ -35,38 +35,38 @@ import java.util.Vector;
 class JJTreeGlobals
 {
   static void initialize() {
-	    toolList = new Vector();
-	    parserName = null;
-	    packageName = "";
-	    parserImplements = null;
-	    parserClassBodyStart = null;
-	    parserImports = null;
-	    productions = new Hashtable();
+    toolList = new Vector();
+    parserName = null;
+    packageName = "";
+    parserImplements = null;
+    parserClassBodyStart = null;
+    parserImports = null;
+    productions = new Hashtable();
 
-	    jjtreeOptions = new HashSet();
-	    jjtreeOptions.add("JJTREE_OUTPUT_DIRECTORY");
-	    jjtreeOptions.add("MULTI");
-	    jjtreeOptions.add("NODE_PREFIX");
-	    jjtreeOptions.add("NODE_PACKAGE");
-	    jjtreeOptions.add("NODE_EXTENDS");
-	    jjtreeOptions.add("NODE_CLASS");
-	    jjtreeOptions.add("NODE_STACK_SIZE");
-	    jjtreeOptions.add("NODE_DEFAULT_VOID");
-	    jjtreeOptions.add("OUTPUT_FILE");
-	    jjtreeOptions.add("CHECK_DEFINITE_NODE");
-	    jjtreeOptions.add("NODE_SCOPE_HOOK");
-	    jjtreeOptions.add("TRACK_TOKENS");
-	    jjtreeOptions.add("NODE_FACTORY");
-	    jjtreeOptions.add("NODE_USES_PARSER");
-	    jjtreeOptions.add("BUILD_NODE_FILES");
-	    jjtreeOptions.add("VISITOR");
-	    jjtreeOptions.add("VISITOR_EXCEPTION");
-	    jjtreeOptions.add("VISITOR_DATA_TYPE");
-	    jjtreeOptions.add("VISITOR_RETURN_TYPE");
+    jjtreeOptions = new HashSet();
+    jjtreeOptions.add("JJTREE_OUTPUT_DIRECTORY");
+    jjtreeOptions.add("MULTI");
+    jjtreeOptions.add("NODE_PREFIX");
+    jjtreeOptions.add("NODE_PACKAGE");
+    jjtreeOptions.add("NODE_EXTENDS");
+    jjtreeOptions.add("NODE_CLASS");
+    jjtreeOptions.add("NODE_STACK_SIZE");
+    jjtreeOptions.add("NODE_DEFAULT_VOID");
+    jjtreeOptions.add("OUTPUT_FILE");
+    jjtreeOptions.add("CHECK_DEFINITE_NODE");
+    jjtreeOptions.add("NODE_SCOPE_HOOK");
+    jjtreeOptions.add("TRACK_TOKENS");
+    jjtreeOptions.add("NODE_FACTORY");
+    jjtreeOptions.add("NODE_USES_PARSER");
+    jjtreeOptions.add("BUILD_NODE_FILES");
+    jjtreeOptions.add("VISITOR");
+    jjtreeOptions.add("VISITOR_EXCEPTION");
+    jjtreeOptions.add("VISITOR_DATA_TYPE");
+    jjtreeOptions.add("VISITOR_RETURN_TYPE");
   }
 
   static {
-	  initialize();
+    initialize();
   }
 
   /**
@@ -77,7 +77,7 @@ class JJTreeGlobals
 
   public static boolean isOptionJJTreeOnly(String optionName)
   {
-	  return jjtreeOptions.contains(optionName.toUpperCase());
+    return jjtreeOptions.contains(optionName.toUpperCase());
   }
 
   static Vector toolList = new Vector();

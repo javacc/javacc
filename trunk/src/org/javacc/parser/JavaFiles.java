@@ -74,23 +74,23 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
    */
   static String replaceBackslash(String str)
   {
-     StringBuffer b;
-     int i = 0, len = str.length();
+    StringBuffer b;
+    int i = 0, len = str.length();
 
-     while (i < len && str.charAt(i++) != '\\') ;
+    while (i < len && str.charAt(i++) != '\\') ;
 
-     if (i == len)  // No backslash found.
-       return str;
+    if (i == len)  // No backslash found.
+      return str;
 
-     char c;
-     b = new StringBuffer();
-     for (i = 0; i < len; i++)
-       if ((c = str.charAt(i)) == '\\')
-          b.append("\\\\");
-       else
-          b.append(c);
+    char c;
+    b = new StringBuffer();
+    for (i = 0; i < len; i++)
+      if ((c = str.charAt(i)) == '\\')
+        b.append("\\\\");
+      else
+        b.append(c);
 
-     return b.toString();
+    return b.toString();
   }
 
   /**
@@ -101,7 +101,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
    * @param fileName eg Token.java
    * @return The version as a double, eg 4.1
    * @since 4.1
-  */
+   */
   static double getVersion(String fileName)
   {
     final String commentHeader = "/* " + getIdString(toolName, fileName) + " Version ";
@@ -1005,7 +1005,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (cu_to_insertion_point_1.size() != 0 &&
           ((Token)cu_to_insertion_point_1.elementAt(0)).kind == PACKAGE
-         ) {
+      ) {
         for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
           if (((Token)cu_to_insertion_point_1.elementAt(i)).kind == SEMICOLON) {
             cline = ((Token)(cu_to_insertion_point_1.elementAt(0))).beginLine;
@@ -1029,7 +1029,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("{");
       ostr.println("/** Whether parser is static. */");
       ostr.println("  public static final boolean staticFlag = " +
-                                           Options.getStatic() + ";");
+          Options.getStatic() + ";");
       ostr.println(prefix + "int bufsize;");
       ostr.println(prefix + "int available;");
       ostr.println(prefix + "int tokenBegin;");
@@ -1038,14 +1038,14 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-         ostr.println(prefix + "protected int bufline[];");
-         ostr.println(prefix + "protected int bufcolumn[];");
-         ostr.println("");
-         ostr.println(prefix + "protected int column = 0;");
-         ostr.println(prefix + "protected int line = 1;");
-         ostr.println("");
-         ostr.println(prefix + "protected boolean prevCharIsCR = false;");
-         ostr.println(prefix + "protected boolean prevCharIsLF = false;");
+        ostr.println(prefix + "protected int bufline[];");
+        ostr.println(prefix + "protected int bufcolumn[];");
+        ostr.println("");
+        ostr.println(prefix + "protected int column = 0;");
+        ostr.println(prefix + "protected int line = 1;");
+        ostr.println("");
+        ostr.println(prefix + "protected boolean prevCharIsCR = false;");
+        ostr.println(prefix + "protected boolean prevCharIsLF = false;");
       }
 
       ostr.println("");
@@ -1066,8 +1066,8 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-         ostr.println("     int newbufline[] = new int[bufsize + 2048];");
-         ostr.println("     int newbufcolumn[] = new int[bufsize + 2048];");
+        ostr.println("     int newbufline[] = new int[bufsize + 2048];");
+        ostr.println("     int newbufcolumn[] = new int[bufsize + 2048];");
       }
 
       ostr.println("");
@@ -1082,14 +1082,14 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("");
-      ostr.println("           System.arraycopy(bufline, tokenBegin, newbufline, 0, bufsize - tokenBegin);");
-      ostr.println("           System.arraycopy(bufline, 0, newbufline, bufsize - tokenBegin, bufpos);");
-      ostr.println("           bufline = newbufline;");
-      ostr.println("");
-      ostr.println("           System.arraycopy(bufcolumn, tokenBegin, newbufcolumn, 0, bufsize - tokenBegin);");
-      ostr.println("           System.arraycopy(bufcolumn, 0, newbufcolumn, bufsize - tokenBegin, bufpos);");
-      ostr.println("           bufcolumn = newbufcolumn;");
+        ostr.println("");
+        ostr.println("           System.arraycopy(bufline, tokenBegin, newbufline, 0, bufsize - tokenBegin);");
+        ostr.println("           System.arraycopy(bufline, 0, newbufline, bufsize - tokenBegin, bufpos);");
+        ostr.println("           bufline = newbufline;");
+        ostr.println("");
+        ostr.println("           System.arraycopy(bufcolumn, tokenBegin, newbufcolumn, 0, bufsize - tokenBegin);");
+        ostr.println("           System.arraycopy(bufcolumn, 0, newbufcolumn, bufsize - tokenBegin, bufpos);");
+        ostr.println("           bufcolumn = newbufcolumn;");
       }
 
       ostr.println("");
@@ -1102,12 +1102,12 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("");
-      ostr.println("           System.arraycopy(bufline, tokenBegin, newbufline, 0, bufsize - tokenBegin);");
-      ostr.println("           bufline = newbufline;");
-      ostr.println("");
-      ostr.println("           System.arraycopy(bufcolumn, tokenBegin, newbufcolumn, 0, bufsize - tokenBegin);");
-      ostr.println("           bufcolumn = newbufcolumn;");
+        ostr.println("");
+        ostr.println("           System.arraycopy(bufline, tokenBegin, newbufline, 0, bufsize - tokenBegin);");
+        ostr.println("           bufline = newbufline;");
+        ostr.println("");
+        ostr.println("           System.arraycopy(bufcolumn, tokenBegin, newbufcolumn, 0, bufsize - tokenBegin);");
+        ostr.println("           bufcolumn = newbufcolumn;");
       }
 
       ostr.println("");
@@ -1182,46 +1182,46 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("");
-      ostr.println(prefix + "protected void UpdateLineColumn(char c)");
-      ostr.println("  {");
-      ostr.println("     column++;");
-      ostr.println("");
-      ostr.println("     if (prevCharIsLF)");
-      ostr.println("     {");
-      ostr.println("        prevCharIsLF = false;");
-      ostr.println("        line += (column = 1);");
-      ostr.println("     }");
-      ostr.println("     else if (prevCharIsCR)");
-      ostr.println("     {");
-      ostr.println("        prevCharIsCR = false;");
-      ostr.println("        if (c == '\\n')");
-      ostr.println("        {");
-      ostr.println("           prevCharIsLF = true;");
-      ostr.println("        }");
-      ostr.println("        else");
-      ostr.println("           line += (column = 1);");
-      ostr.println("     }");
-      ostr.println("");
-      ostr.println("     switch (c)");
-      ostr.println("     {");
-      ostr.println("        case '\\r' :");
-      ostr.println("           prevCharIsCR = true;");
-      ostr.println("           break;");
-      ostr.println("        case '\\n' :");
-      ostr.println("           prevCharIsLF = true;");
-      ostr.println("           break;");
-      ostr.println("        case '\\t' :");
-      ostr.println("           column--;");
-      ostr.println("           column += (tabSize - (column % tabSize));");
-      ostr.println("           break;");
-      ostr.println("        default :");
-      ostr.println("           break;");
-      ostr.println("     }");
-      ostr.println("");
-      ostr.println("     bufline[bufpos] = line;");
-      ostr.println("     bufcolumn[bufpos] = column;");
-      ostr.println("  }");
+        ostr.println("");
+        ostr.println(prefix + "protected void UpdateLineColumn(char c)");
+        ostr.println("  {");
+        ostr.println("     column++;");
+        ostr.println("");
+        ostr.println("     if (prevCharIsLF)");
+        ostr.println("     {");
+        ostr.println("        prevCharIsLF = false;");
+        ostr.println("        line += (column = 1);");
+        ostr.println("     }");
+        ostr.println("     else if (prevCharIsCR)");
+        ostr.println("     {");
+        ostr.println("        prevCharIsCR = false;");
+        ostr.println("        if (c == '\\n')");
+        ostr.println("        {");
+        ostr.println("           prevCharIsLF = true;");
+        ostr.println("        }");
+        ostr.println("        else");
+        ostr.println("           line += (column = 1);");
+        ostr.println("     }");
+        ostr.println("");
+        ostr.println("     switch (c)");
+        ostr.println("     {");
+        ostr.println("        case '\\r' :");
+        ostr.println("           prevCharIsCR = true;");
+        ostr.println("           break;");
+        ostr.println("        case '\\n' :");
+        ostr.println("           prevCharIsLF = true;");
+        ostr.println("           break;");
+        ostr.println("        case '\\t' :");
+        ostr.println("           column--;");
+        ostr.println("           column += (tabSize - (column % tabSize));");
+        ostr.println("           break;");
+        ostr.println("        default :");
+        ostr.println("           break;");
+        ostr.println("     }");
+        ostr.println("");
+        ostr.println("     bufline[bufpos] = line;");
+        ostr.println("     bufcolumn[bufpos] = column;");
+        ostr.println("  }");
       }
 
       ostr.println("");
@@ -1246,7 +1246,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("     UpdateLineColumn(c);");
+        ostr.println("     UpdateLineColumn(c);");
       }
 
       ostr.println("     return c;");
@@ -1261,11 +1261,11 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("     return bufcolumn[bufpos];");
+        ostr.println("     return bufcolumn[bufpos];");
       }
       else
       {
-         ostr.println("     return -1;");
+        ostr.println("     return -1;");
       }
 
       ostr.println("  }");
@@ -1279,11 +1279,11 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("     return bufline[bufpos];");
+        ostr.println("     return bufline[bufpos];");
       }
       else
       {
-         ostr.println("     return -1;");
+        ostr.println("     return -1;");
       }
 
       ostr.println("  }");
@@ -1293,11 +1293,11 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("     return bufcolumn[bufpos];");
+        ostr.println("     return bufcolumn[bufpos];");
       }
       else
       {
-         ostr.println("     return -1;");
+        ostr.println("     return -1;");
       }
 
       ostr.println("  }");
@@ -1307,11 +1307,11 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("     return bufline[bufpos];");
+        ostr.println("     return bufline[bufpos];");
       }
       else
       {
-         ostr.println("     return -1;");
+        ostr.println("     return -1;");
       }
 
       ostr.println("  }");
@@ -1321,11 +1321,11 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("     return bufcolumn[tokenBegin];");
+        ostr.println("     return bufcolumn[tokenBegin];");
       }
       else
       {
-         ostr.println("     return -1;");
+        ostr.println("     return -1;");
       }
 
       ostr.println("  }");
@@ -1335,11 +1335,11 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("     return bufline[tokenBegin];");
+        ostr.println("     return bufline[tokenBegin];");
       }
       else
       {
-         ostr.println("     return -1;");
+        ostr.println("     return -1;");
       }
 
       ostr.println("  }");
@@ -1359,19 +1359,19 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (Options.getStatic())
       {
-         ostr.println("    if (inputStream != null)");
-         ostr.println("       throw new Error(\"\\n   " +
-                 "ERROR: Second call to the constructor of a static SimpleCharStream.\\n\" +");
-         ostr.println("       \"       You must either use ReInit() or set the JavaCC option STATIC to false\\n\" +");
-         ostr.println("       \"       during the generation of this class.\");");
+        ostr.println("    if (inputStream != null)");
+        ostr.println("       throw new Error(\"\\n   " +
+        "ERROR: Second call to the constructor of a static SimpleCharStream.\\n\" +");
+        ostr.println("       \"       You must either use ReInit() or set the JavaCC option STATIC to false\\n\" +");
+        ostr.println("       \"       during the generation of this class.\");");
       }
 
       ostr.println("    inputStream = dstream;");
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("    line = startline;");
-      ostr.println("    column = startcolumn - 1;");
+        ostr.println("    line = startline;");
+        ostr.println("    column = startcolumn - 1;");
       }
 
       ostr.println("");
@@ -1380,8 +1380,8 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("    bufline = new int[buffersize];");
-      ostr.println("    bufcolumn = new int[buffersize];");
+        ostr.println("    bufline = new int[buffersize];");
+        ostr.println("    bufcolumn = new int[buffersize];");
       }
 
       ostr.println("  }");
@@ -1407,8 +1407,8 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("    line = startline;");
-      ostr.println("    column = startcolumn - 1;");
+        ostr.println("    line = startline;");
+        ostr.println("    column = startcolumn - 1;");
       }
 
       ostr.println("");
@@ -1419,15 +1419,15 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("      bufline = new int[buffersize];");
-      ostr.println("      bufcolumn = new int[buffersize];");
+        ostr.println("      bufline = new int[buffersize];");
+        ostr.println("      bufcolumn = new int[buffersize];");
       }
 
       ostr.println("    }");
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("    prevCharIsLF = prevCharIsCR = false;");
+        ostr.println("    prevCharIsLF = prevCharIsCR = false;");
       }
 
       ostr.println("    tokenBegin = inBuf = maxNextCharInd = 0;");
@@ -1451,7 +1451,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("  int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException");
       ostr.println("  {");
       ostr.println("     this(encoding == null ? new java.io.InputStreamReader(dstream) : " +
-              "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
+      "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
       ostr.println("  }");
       ostr.println("");
       ostr.println("  /** Constructor. */");
@@ -1477,7 +1477,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("");
       ostr.println("  /** Constructor. */");
       ostr.println("  public SimpleCharStream(java.io.InputStream dstream, String encoding) " +
-              "throws java.io.UnsupportedEncodingException");
+      "throws java.io.UnsupportedEncodingException");
       ostr.println("  {");
       ostr.println("     this(dstream, encoding, 1, 1, 4096);");
       ostr.println("  }");
@@ -1491,10 +1491,10 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("  /** Reinitialise. */");
       ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding, int startline,");
       ostr.println("                          int startcolumn, int buffersize) " +
-              "throws java.io.UnsupportedEncodingException");
+      "throws java.io.UnsupportedEncodingException");
       ostr.println("  {");
       ostr.println("     ReInit(encoding == null ? new java.io.InputStreamReader(dstream) : " +
-              "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
+      "new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);");
       ostr.println("  }");
       ostr.println("");
       ostr.println("  /** Reinitialise. */");
@@ -1506,7 +1506,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("");
       ostr.println("  /** Reinitialise. */");
       ostr.println("  public void ReInit(java.io.InputStream dstream, String encoding) " +
-              "throws java.io.UnsupportedEncodingException");
+      "throws java.io.UnsupportedEncodingException");
       ostr.println("  {");
       ostr.println("     ReInit(dstream, encoding, 1, 1, 4096);");
       ostr.println("  }");
@@ -1562,63 +1562,63 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("     bufline = null;");
-      ostr.println("     bufcolumn = null;");
+        ostr.println("     bufline = null;");
+        ostr.println("     bufcolumn = null;");
       }
 
       ostr.println("  }");
 
       if (OtherFilesGen.keepLineCol)
       {
-      ostr.println("");
-      ostr.println("  /**");
-      ostr.println("   * Method to adjust line and column numbers for the start of a token.");
-      ostr.println("   */");
-      ostr.println(prefix + "public void adjustBeginLineColumn(int newLine, int newCol)");
-      ostr.println("  {");
-      ostr.println("     int start = tokenBegin;");
-      ostr.println("     int len;");
-      ostr.println("");
-      ostr.println("     if (bufpos >= tokenBegin)");
-      ostr.println("     {");
-      ostr.println("        len = bufpos - tokenBegin + inBuf + 1;");
-      ostr.println("     }");
-      ostr.println("     else");
-      ostr.println("     {");
-      ostr.println("        len = bufsize - tokenBegin + bufpos + 1 + inBuf;");
-      ostr.println("     }");
-      ostr.println("");
-      ostr.println("     int i = 0, j = 0, k = 0;");
-      ostr.println("     int nextColDiff = 0, columnDiff = 0;");
-      ostr.println("");
-      ostr.println("     while (i < len &&");
-      ostr.println("            bufline[j = start % bufsize] == bufline[k = ++start % bufsize])");
-      ostr.println("     {");
-      ostr.println("        bufline[j] = newLine;");
-      ostr.println("        nextColDiff = columnDiff + bufcolumn[k] - bufcolumn[j];");
-      ostr.println("        bufcolumn[j] = newCol + columnDiff;");
-      ostr.println("        columnDiff = nextColDiff;");
-      ostr.println("        i++;");
-      ostr.println("     } ");
-      ostr.println("");
-      ostr.println("     if (i < len)");
-      ostr.println("     {");
-      ostr.println("        bufline[j] = newLine++;");
-      ostr.println("        bufcolumn[j] = newCol + columnDiff;");
-      ostr.println("");
-      ostr.println("        while (i++ < len)");
-      ostr.println("        {");
-      ostr.println("           if (bufline[j = start % bufsize] != bufline[++start % bufsize])");
-      ostr.println("              bufline[j] = newLine++;");
-      ostr.println("           else");
-      ostr.println("              bufline[j] = newLine;");
-      ostr.println("        }");
-      ostr.println("     }");
-      ostr.println("");
-      ostr.println("     line = bufline[j];");
-      ostr.println("     column = bufcolumn[j];");
-      ostr.println("  }");
-      ostr.println("");
+        ostr.println("");
+        ostr.println("  /**");
+        ostr.println("   * Method to adjust line and column numbers for the start of a token.");
+        ostr.println("   */");
+        ostr.println(prefix + "public void adjustBeginLineColumn(int newLine, int newCol)");
+        ostr.println("  {");
+        ostr.println("     int start = tokenBegin;");
+        ostr.println("     int len;");
+        ostr.println("");
+        ostr.println("     if (bufpos >= tokenBegin)");
+        ostr.println("     {");
+        ostr.println("        len = bufpos - tokenBegin + inBuf + 1;");
+        ostr.println("     }");
+        ostr.println("     else");
+        ostr.println("     {");
+        ostr.println("        len = bufsize - tokenBegin + bufpos + 1 + inBuf;");
+        ostr.println("     }");
+        ostr.println("");
+        ostr.println("     int i = 0, j = 0, k = 0;");
+        ostr.println("     int nextColDiff = 0, columnDiff = 0;");
+        ostr.println("");
+        ostr.println("     while (i < len &&");
+        ostr.println("            bufline[j = start % bufsize] == bufline[k = ++start % bufsize])");
+        ostr.println("     {");
+        ostr.println("        bufline[j] = newLine;");
+        ostr.println("        nextColDiff = columnDiff + bufcolumn[k] - bufcolumn[j];");
+        ostr.println("        bufcolumn[j] = newCol + columnDiff;");
+        ostr.println("        columnDiff = nextColDiff;");
+        ostr.println("        i++;");
+        ostr.println("     } ");
+        ostr.println("");
+        ostr.println("     if (i < len)");
+        ostr.println("     {");
+        ostr.println("        bufline[j] = newLine++;");
+        ostr.println("        bufcolumn[j] = newCol + columnDiff;");
+        ostr.println("");
+        ostr.println("        while (i++ < len)");
+        ostr.println("        {");
+        ostr.println("           if (bufline[j = start % bufsize] != bufline[++start % bufsize])");
+        ostr.println("              bufline[j] = newLine++;");
+        ostr.println("           else");
+        ostr.println("              bufline[j] = newLine;");
+        ostr.println("        }");
+        ostr.println("     }");
+        ostr.println("");
+        ostr.println("     line = bufline[j];");
+        ostr.println("     column = bufcolumn[j];");
+        ostr.println("  }");
+        ostr.println("");
       }
 
       ostr.println("}");
@@ -1644,7 +1644,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (cu_to_insertion_point_1.size() != 0 &&
           ((Token)cu_to_insertion_point_1.elementAt(0)).kind == PACKAGE
-         ) {
+      ) {
         for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
           if (((Token)cu_to_insertion_point_1.elementAt(i)).kind == SEMICOLON) {
             cline = ((Token)(cu_to_insertion_point_1.elementAt(0))).beginLine;
@@ -1787,7 +1787,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (cu_to_insertion_point_1.size() != 0 &&
           ((Token)cu_to_insertion_point_1.elementAt(0)).kind == PACKAGE
-         ) {
+      ) {
         for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
           if (((Token)cu_to_insertion_point_1.elementAt(i)).kind == SEMICOLON) {
             cline = ((Token)(cu_to_insertion_point_1.elementAt(0))).beginLine;
@@ -1930,7 +1930,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       if (OtherFilesGen.keepLineCol)
       {
         ostr.println("    retval += \"\\\" at line \" + currentToken.next.beginLine + \", " +
-                "column \" + currentToken.next.beginColumn;");
+        "column \" + currentToken.next.beginColumn;");
       }
       ostr.println("    retval += \".\" + eol;");
       ostr.println("    if (expectedTokenSequences.length == 1) {");
@@ -2020,7 +2020,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (cu_to_insertion_point_1.size() != 0 &&
           ((Token)cu_to_insertion_point_1.elementAt(0)).kind == PACKAGE
-         ) {
+      ) {
         for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
           if (((Token)cu_to_insertion_point_1.elementAt(i)).kind == SEMICOLON) {
             cline = ((Token)(cu_to_insertion_point_1.elementAt(0))).beginLine;
@@ -2132,12 +2132,12 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("    * Note: You can customize the lexical error message by modifying this method.");
       ostr.println("    */");
       ostr.println("   protected static String LexicalError(" +
-              "boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {");
+      "boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {");
       ostr.println("      return(\"Lexical error at line \" +");
       ostr.println("           errorLine + \", column \" +");
       ostr.println("           errorColumn + \".  Encountered: \" +");
       ostr.println("           (EOFSeen ? \"<EOF> \" : " +
-              "(\"\\\"\" + addEscapes(String.valueOf(curChar)) + \"\\\"\") + \" (\" + (int)curChar + \"), \") +");
+      "(\"\\\"\" + addEscapes(String.valueOf(curChar)) + \"\\\"\") + \" (\" + (int)curChar + \"), \") +");
       ostr.println("           \"after : \\\"\" + addEscapes(errorAfter) + \"\\\"\");");
       ostr.println("   }");
       ostr.println("");
@@ -2169,8 +2169,8 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("   }");
       ostr.println("");
       ostr.println("   /** Full Constructor. */");
-     ostr.println("   public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, " +
-              "String errorAfter, char curChar, int reason) {");
+      ostr.println("   public TokenMgrError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, " +
+      "String errorAfter, char curChar, int reason) {");
       ostr.println("      this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);");
       ostr.println("   }");
       ostr.println("}");
@@ -2196,7 +2196,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (cu_to_insertion_point_1.size() != 0 &&
           ((Token)cu_to_insertion_point_1.elementAt(0)).kind == PACKAGE
-         ) {
+      ) {
         for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
           if (((Token)cu_to_insertion_point_1.elementAt(i)).kind == SEMICOLON) {
             cline = ((Token)(cu_to_insertion_point_1.elementAt(0))).beginLine;
@@ -2216,11 +2216,11 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("");
       if (Options.getTokenExtends().equals(""))
       {
-      	ostr.println("public class Token {");
+        ostr.println("public class Token {");
       }
       else
       {
-      	ostr.println("public class Token extends " + Options.getTokenExtends() + " {");
+        ostr.println("public class Token extends " + Options.getTokenExtends() + " {");
       }
       ostr.println("");
       ostr.println("  /**");
@@ -2362,7 +2362,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       if (cu_to_insertion_point_1.size() != 0 &&
           ((Token)cu_to_insertion_point_1.elementAt(0)).kind == PACKAGE
-         ) {
+      ) {
         for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
           if (((Token)cu_to_insertion_point_1.elementAt(i)).kind == SEMICOLON) {
             cline = ((Token)(cu_to_insertion_point_1.elementAt(0))).beginLine;
@@ -2398,8 +2398,8 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
     }
   }
 
-   public static void reInit()
-   {
-   }
+  public static void reInit()
+  {
+  }
 
 }
