@@ -43,9 +43,9 @@ import org.javacc.Version;
 /**
  * This class handles the creation and maintenance of the boiler-plate classes,
  * such as Token.java, JavaCharStream.java etc.
- * 
+ *
  * It is responsible for:
- * 
+ *
  * <ul>
  * <li>Writing the JavaCC header lines to the file.</li>
  * <li>Writing the checksum line.</li>
@@ -57,9 +57,9 @@ import org.javacc.Version;
  * overwritten).</li>
  * <li></li>
  * </ul>
- * 
+ *
  * @author Paul Cager
- * 
+ *
  */
 public class OutputFile {
 	private static final String MD5_LINE_PART_1 = "/* JavaCC - OriginalChecksum=";
@@ -81,14 +81,14 @@ public class OutputFile {
 
 	/**
 	 * Create a new OutputFile.
-	 * 
+	 *
 	 * @param file
 	 *            the file to write to.
 	 * @param compatibleVersion
 	 * 			  the minimum compatible JavaCC version.
 	 * @param options
 	 *            if the file already exists, and cannot be overwritten, this is
-	 *		      a list of options (such s STATIC=false) to check for changes. 
+	 *		      a list of options (such s STATIC=false) to check for changes.
 	 * @throws IOException
 	 */
 	public OutputFile(File file, String compatibleVersion, String[] options)
@@ -135,7 +135,7 @@ public class OutputFile {
 				if (compatibleVersion != null) {
 				  checkVersion(file, compatibleVersion);
         }
-        
+
         if (options != null) {
           checkOptions(file, options);
         }
@@ -169,7 +169,7 @@ public class OutputFile {
 	 */
 	private void checkVersion(File file, String versionId) {
 		String firstLine = "/* " + JavaCCGlobals.getIdString(toolName, file.getName()) + " Version ";
-    
+
     try {
       BufferedReader reader = new BufferedReader(new FileReader(file));
 
@@ -194,11 +194,11 @@ public class OutputFile {
     } catch (IOException e2) {
     }
   }
-  
+
 	/**
 	 * Read the options line from the file and compare to the options currently in
 	 * use. Output a warning if they are different.
-	 * 
+	 *
 	 * @param fileName
 	 * @param options
 	 */
@@ -233,7 +233,7 @@ public class OutputFile {
 	/**
 	 * Return a PrintWriter object that may be used to write to this file. Any
 	 * necessary header information is written by this method.
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
