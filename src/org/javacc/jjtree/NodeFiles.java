@@ -106,8 +106,8 @@ final class NodeFiles {
       ostr.println("package " + JJTreeGlobals.nodePackageName + ";");
       ostr.println();
       if (!JJTreeGlobals.nodePackageName.equals(JJTreeGlobals.packageName)) {
-		  ostr.println("import " + JJTreeGlobals.packageName + ".*;");
-		  ostr.println();
+        ostr.println("import " + JJTreeGlobals.packageName + ".*;");
+        ostr.println();
       }
 
     }
@@ -199,8 +199,8 @@ final class NodeFiles {
             continue;
           }
           String nodeType = JJTreeOptions.getNodePrefix() + n;
-           ostr.println("  public " + JJTreeOptions.getVisitorReturnType() + " visit(" + nodeType +
-               " node, " + argumentType + " data)" + ve + ";");
+          ostr.println("  public " + JJTreeOptions.getVisitorReturnType() + " visit(" + nodeType +
+              " node, " + argumentType + " data)" + ve + ";");
         }
       }
       ostr.println("}");
@@ -216,7 +216,7 @@ final class NodeFiles {
     if (!"".equals(ve)) {
       ve = " throws " + ve;
     }
-      return ve;
+    return ve;
   }
 
 
@@ -282,7 +282,7 @@ final class NodeFiles {
 
     ostr.print("public class SimpleNode");
     if (!JJTreeOptions.getNodeExtends().equals(""))
-       ostr.print(" extends " + JJTreeOptions.getNodeExtends());
+      ostr.print(" extends " + JJTreeOptions.getNodeExtends());
     ostr.println(" implements Node {");
     ostr.println("  protected Node parent;");
     ostr.println("  protected Node[] children;");

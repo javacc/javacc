@@ -32,7 +32,7 @@ public class JJTreeNode extends SimpleNode {
   private int myOrdinal;
 
   public JJTreeNode(int id) {
-	super(id);
+    super(id);
   }
 
   public JJTreeNode(JJTreeParser p, int i) {
@@ -40,7 +40,7 @@ public class JJTreeNode extends SimpleNode {
   }
 
   public static Node jjtCreate(int id) {
-	return new JJTreeNode(id);
+    return new JJTreeNode(id);
   }
 
   public void jjtAddChild(Node n, int i) {
