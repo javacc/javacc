@@ -98,7 +98,7 @@ public class CharCollector implements CharStream {
      }
   }
 
-  /** 
+  /**
    * Puts a character into the buffer.
    */
   synchronized public final void put(char c)
@@ -132,7 +132,7 @@ public class CharCollector implements CharStream {
   }
 
   /**
-   * @deprecated 
+   * @deprecated
    * @see #getEndColumn
    */
 
@@ -141,7 +141,7 @@ public class CharCollector implements CharStream {
   }
 
   /**
-   * @deprecated 
+   * @deprecated
    * @see #getEndLine
    */
 
