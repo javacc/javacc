@@ -749,7 +749,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
 
     if (hasMoreActions || hasSkipActions || hasTokenActions)
     {
-      ostr.println("private " + staticString + "final " + Options.stringBufOrBuild() + " image = new " + Options.stringBufOrBuild() + "();");
+      ostr.println("private " + staticString + Options.stringBufOrBuild() + " image = new " + Options.stringBufOrBuild() + "();");
       ostr.println("private " + staticString + "int jjimageLen;");
       ostr.println("private " + staticString + "int lengthOfMatch;");
     }
