@@ -192,6 +192,7 @@ public class JavaCCGlobals {
    */
   static protected int maskindex = 0;
   static protected int jj2index = 0;
+  public static boolean lookaheadNeeded;
   static protected Vector maskVals = new Vector();
 
   static Action actForEof;
