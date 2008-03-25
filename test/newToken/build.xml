@@ -63,9 +63,9 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <fail message="newToken failed">
      <condition>
        <or>
-        <not> <contains string="${plainTokens}" substring="t = Token.newToken(jjmatchedKind, tokenImage);" /> </not>
+        <not> <contains string="${plainTokens}" substring="t = Token.newToken(jjmatchedKind, curTokenImage);" /> </not>
         <not> <contains string="${oldTokens}" substring="t = Token.newToken(jjmatchedKind);" /> </not>
-        <not> <contains string="${tokenFactory}" substring="t = my.token.Factory.newToken(jjmatchedKind, tokenImage);" /> </not>
+        <not> <contains string="${tokenFactory}" substring="t = my.token.Factory.newToken(jjmatchedKind, curTokenImage);" /> </not>
        </or>
      </condition>
     </fail>
