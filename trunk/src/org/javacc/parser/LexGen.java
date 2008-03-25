@@ -864,7 +864,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
     ostr.println(staticString + "protected Token jjFillToken()");
     ostr.println("{");
     ostr.println("   final Token t;");
-    ostr.println("   final String tokenImage;");
+    ostr.println("   final String curTokenImage;");
     if (keepLineCol)
     {
       ostr.println("   final int beginLine;");
@@ -878,9 +878,9 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("   if (jjmatchedPos < 0)");
       ostr.println("   {");
       ostr.println("      if (image == null)");
-      ostr.println("         tokenImage = \"\";");
+      ostr.println("         curTokenImage = \"\";");
       ostr.println("      else");
-      ostr.println("         tokenImage = image.toString();");
+      ostr.println("         curTokenImage = image.toString();");
 
       if (keepLineCol)
       {
@@ -892,7 +892,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("   else");
       ostr.println("   {");
       ostr.println("      String im = jjstrLiteralImages[jjmatchedKind];");
-      ostr.println("      tokenImage = (im == null) ? input_stream.GetImage() : im;");
+      ostr.println("      curTokenImage = (im == null) ? input_stream.GetImage() : im;");
 
       if (keepLineCol)
       {
@@ -907,7 +907,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
     else
     {
       ostr.println("   String im = jjstrLiteralImages[jjmatchedKind];");
-      ostr.println("   tokenImage = (im == null) ? input_stream.GetImage() : im;");
+      ostr.println("   curTokenImage = (im == null) ? input_stream.GetImage() : im;");
       if (keepLineCol)
       {
         ostr.println("   beginLine = input_stream.getBeginLine();");
@@ -918,16 +918,16 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
     }
 
     if (Options.getTokenFactory().length() > 0) {
-      ostr.println("   t = " + Options.getTokenFactory() + ".newToken(jjmatchedKind, tokenImage);");
+      ostr.println("   t = " + Options.getTokenFactory() + ".newToken(jjmatchedKind, curTokenImage);");
     } else if (hasBinaryNewToken)
     {
-      ostr.println("   t = Token.newToken(jjmatchedKind, tokenImage);");
+      ostr.println("   t = Token.newToken(jjmatchedKind, curTokenImage);");
     }
     else
     {
       ostr.println("   t = Token.newToken(jjmatchedKind);");
       ostr.println("   t.kind = jjmatchedKind;");
-      ostr.println("   t.image = tokenImage;");
+      ostr.println("   t.image = curTokenImage;");
     }
 
     if (keepLineCol) {
