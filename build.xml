@@ -33,7 +33,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 <project name="javacc" default="jar" basedir=".">
 
-  <property name="version" value="4.1d1" />
+  <property name="version" value="4.1" />
 
   <target name="compile" depends="generated-files,classes,javacc-compile,jjtree-compile,jjdoc-compile" />
 
