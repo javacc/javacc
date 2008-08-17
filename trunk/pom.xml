@@ -5,7 +5,7 @@
   <artifactId>javacc</artifactId>
   <packaging>jar</packaging>
   <name>JavaCC</name>
-  <version>4.1d1-SNAPSHOT</version>
+  <version>4.1-SNAPSHOT</version>
 
   <description>
 JavaCC is a parser/scanner generator for java.
