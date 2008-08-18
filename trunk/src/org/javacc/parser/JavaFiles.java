@@ -612,7 +612,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
         ostr.println("  @Deprecated");
       }
       ostr.println("  /**");
-      ostr.println("   * @deprecated ");
+      ostr.println("   * @deprecated");
       ostr.println("   * @see #getEndColumn");
       ostr.println("   */");
       ostr.println(prefix + "public int getColumn() {");
@@ -632,7 +632,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
         ostr.println("  @Deprecated");
       }
       ostr.println("  /**");
-      ostr.println("   * @deprecated ");
+      ostr.println("   * @deprecated");
       ostr.println("   * @see #getEndLine");
       ostr.println("   */");
       ostr.println(prefix + "public int getLine() {");
@@ -1253,7 +1253,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("  }");
       ostr.println("");
       ostr.println("  /**");
-      ostr.println("   * @deprecated ");
+      ostr.println("   * @deprecated");
       ostr.println("   * @see #getEndColumn");
       ostr.println("   */");
       ostr.println("");
@@ -1271,7 +1271,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("  }");
       ostr.println("");
       ostr.println("  /**");
-      ostr.println("   * @deprecated ");
+      ostr.println("   * @deprecated");
       ostr.println("   * @see #getEndLine");
       ostr.println("   */");
       ostr.println("");
@@ -1684,14 +1684,14 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("");
       ostr.println("  /**");
       ostr.println("   * Returns the column position of the character last read.");
-      ostr.println("   * @deprecated ");
+      ostr.println("   * @deprecated");
       ostr.println("   * @see #getEndColumn");
       ostr.println("   */");
       ostr.println("  int getColumn();");
       ostr.println("");
       ostr.println("  /**");
       ostr.println("   * Returns the line number of the character last read.");
-      ostr.println("   * @deprecated ");
+      ostr.println("   * @deprecated");
       ostr.println("   * @see #getEndLine");
       ostr.println("   */");
       ostr.println("  int getLine();");
