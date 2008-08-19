@@ -1,9 +1,9 @@
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *     * Redistributions of source code must retain the above copyright notice,
  *       this list of conditions and the following disclaimer.
  *     * Redistributions in binary form must reproduce the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of the Sun Microsystems, Inc. nor the names of its
  *       contributors may be used to endorse or promote products derived from
  *       this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -397,7 +397,7 @@ void option_binding() #OptionBinding :
 	}
    | v=BooleanLiteral()
         {
-	  JJTreeOptions.setInputFileOption(o, v, o.image, 
+	  JJTreeOptions.setInputFileOption(o, v, o.image,
 				     Boolean.valueOf(v.image));
 	  jjtThis.initialize(o.image, v.image);
 	}
@@ -607,7 +607,7 @@ void expansion(ASTProduction p) #BNFSequence(>1) :
     LOOKAHEAD(1)
     ( "LOOKAHEAD" "(" local_lookahead(p) ")" ) #BNFLookahead
   )?
-  ( 
+  (
    LOOKAHEAD(0, { notTailOfExpansionUnit() } )
    (
      eu=expansion_unit(p)
@@ -821,7 +821,7 @@ Token identifier() :
 
 ASTNodeDescriptor node_descriptor() #NodeDescriptor :
 {
-  Token t = null; 
+  Token t = null;
   String s = null;
 }
 {
@@ -839,7 +839,7 @@ ASTNodeDescriptor node_descriptor() #NodeDescriptor :
   [
    LOOKAHEAD(1)
    "("
-      [ ">" 
+      [ ">"
                    {
 		     jjtThis.isGT = true;
 		   }
@@ -1337,7 +1337,7 @@ void Expression() :
 {}
 {
   ConditionalExpression()
-  [ 
+  [
 	LOOKAHEAD(2)
     AssignmentOperator() Expression()
   ]
@@ -1799,7 +1799,7 @@ void ForStatement():
 
   (
       LOOKAHEAD(Modifiers() Type() JavaIdentifier() ":")
-      Modifiers() Type() JavaIdentifier() ":" Expression() 
+      Modifiers() Type() JavaIdentifier() ":" Expression()
     |
      [ ForInit() ] ";" [ Expression() ] ";" [ ForUpdate() ]
   )
