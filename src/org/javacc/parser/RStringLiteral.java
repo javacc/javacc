@@ -645,7 +645,7 @@ public class RStringLiteral extends RegularExpression {
                     else
                        ostr.print("0L, ");
                  if (i <= maxLenForActive[j] + 1)
-                    ostr.println("old" + j + "); ");
+                    ostr.println("old" + j + ");");
                  else
                     ostr.println("0L);");
               }
@@ -669,7 +669,7 @@ public class RStringLiteral extends RegularExpression {
               {
                  if (i <= maxLenForActive[vecs])
                  {
-                    ostr.println(" + ");
+                    ostr.println(" +");
                     ostr.print("         jjKindsForBitVector(" + vecs + ", ");
                     ostr.print("active" + vecs + ") ");
                  }

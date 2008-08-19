@@ -656,7 +656,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
     ostr.println("/** Lexer state names. */");
     ostr.println("public static final String[] lexStateNames = {");
     for (i = 0; i < maxLexStates; i++)
-      ostr.println("   \"" + lexStateName[i] + "\", ");
+      ostr.println("   \"" + lexStateName[i] + "\",");
     ostr.println("};");
 
     if (maxLexStates > 1)
@@ -966,13 +966,13 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
     ostr.println("  int curPos = 0;");
     ostr.println("");
     ostr.println("  EOFLoop :\n  for (;;)");
-    ostr.println("  {   ");
-    ostr.println("   try   ");
-    ostr.println("   {     ");
+    ostr.println("  {");
+    ostr.println("   try");
+    ostr.println("   {");
     ostr.println("      curChar = input_stream.BeginToken();");
-    ostr.println("   }     ");
+    ostr.println("   }");
     ostr.println("   catch(java.io.IOException e)");
-    ostr.println("   {        ");
+    ostr.println("   {");
 
     if (Options.getDebugTokenManager())
       ostr.println("      debugStream.println(\"Returning the <EOF> token.\");");
@@ -1234,7 +1234,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
 
             if (hasSkipActions)
             {
-              ostr.println(prefix + "         else ");
+              ostr.println(prefix + "         else");
               ostr.println(prefix + "            SkipLexicalActions(null);");
             }
           }
@@ -1342,7 +1342,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
             ostr.println("         if (jjmatchedPos == -1)");
             ostr.println("         {");
             ostr.println("            if (jjbeenHere[" + lexStates[i] + "] &&");
-            ostr.println("                jjemptyLineNo[" + lexStates[i] + "] == input_stream.getBeginLine() && ");
+            ostr.println("                jjemptyLineNo[" + lexStates[i] + "] == input_stream.getBeginLine() &&");
             ostr.println("                jjemptyColNo[" + lexStates[i] + "] == input_stream.getBeginColumn())");
             ostr.println("               throw new TokenMgrError(" +
                 "(\"Error: Bailing out of infinite loop caused by repeated empty string matches " +
@@ -1415,7 +1415,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
             ostr.println("         if (jjmatchedPos == -1)");
             ostr.println("         {");
             ostr.println("            if (jjbeenHere[" + lexStates[i] + "] &&");
-            ostr.println("                jjemptyLineNo[" + lexStates[i] + "] == input_stream.getBeginLine() && ");
+            ostr.println("                jjemptyLineNo[" + lexStates[i] + "] == input_stream.getBeginLine() &&");
             ostr.println("                jjemptyColNo[" + lexStates[i] + "] == input_stream.getBeginColumn())");
             ostr.println("               throw new TokenMgrError(" +
                 "(\"Error: Bailing out of infinite loop caused by repeated empty string matches " +
@@ -1454,7 +1454,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
         ostr.println("         break;");
       }
 
-    ostr.println("      default : ");
+    ostr.println("      default :");
     ostr.println("         break;");
 
     ostr.println("   }");
@@ -1491,7 +1491,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
             ostr.println("         if (jjmatchedPos == -1)");
             ostr.println("         {");
             ostr.println("            if (jjbeenHere[" + lexStates[i] + "] &&");
-            ostr.println("                jjemptyLineNo[" + lexStates[i] + "] == input_stream.getBeginLine() && ");
+            ostr.println("                jjemptyLineNo[" + lexStates[i] + "] == input_stream.getBeginLine() &&");
             ostr.println("                jjemptyColNo[" + lexStates[i] + "] == input_stream.getBeginColumn())");
             ostr.println("               throw new TokenMgrError(" +
                 "(\"Error: Bailing out of infinite loop caused by repeated empty string matches " +
@@ -1536,7 +1536,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
         ostr.println("         break;");
       }
 
-    ostr.println("      default : ");
+    ostr.println("      default :");
     ostr.println("         break;");
     ostr.println("   }");
     ostr.println("}");
