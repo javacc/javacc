@@ -1409,7 +1409,7 @@ public class NfaState
 
       int[] commonBlock = new int[blockLen];
       int cnt = 0;
-      //System.out.println("Common Block for " + set + " : ");
+      //System.out.println("Common Block for " + set + " :");
       for (i = 0; i < nameSet.length; i++)
       {
          if (live[i])
@@ -2521,7 +2521,7 @@ public class NfaState
          }
       }
 
-      ostr.println("      default : ");
+      ostr.println("      default :");
 
       if (nonAsciiMoveIndices != null &&
           (j = nonAsciiMoveIndices.length) > 0)
@@ -2920,7 +2920,7 @@ public class NfaState
 
        if (statesForState[i] == null)
        {
-          ostr.println(" null, ");
+          ostr.println(" null,");
           continue;
        }
 
@@ -2932,7 +2932,7 @@ public class NfaState
 
          if (stateSet == null)
          {
-            ostr.println("   { " + j + " }, ");
+            ostr.println("   { " + j + " },");
             continue;
          }
 
@@ -2967,7 +2967,7 @@ public class NfaState
       for (int i = 0; i < kinds.length; i++)
       {
          if (moreThanOne)
-            ostr.println(", ");
+            ostr.println(",");
          moreThanOne = true;
 
          if (kinds[i] == null)
@@ -2979,10 +2979,12 @@ public class NfaState
             for (int j = 0; j < kinds[i].length; j++)
             {
                if (cnt++ > 0)
-                  ostr.print(", ");
+                  ostr.print(",");
 
                if (cnt % 15 == 0)
                   ostr.print("\n  ");
+               else if (cnt > 1)
+                  ostr.print(" ");
 
                ostr.print(kinds[i][j]);
             }

@@ -386,7 +386,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("");
       ostr.println("/** @return starting character for token. */");
       ostr.println(prefix + "public char BeginToken() throws java.io.IOException");
-      ostr.println("  {     ");
+      ostr.println("  {");
       ostr.println("     if (inBuf > 0)");
       ostr.println("     {");
       ostr.println("        --inBuf;");
@@ -402,7 +402,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("     bufpos = -1;");
       ostr.println("");
       ostr.println("     return readChar();");
-      ostr.println("  }     ");
+      ostr.println("  }");
       ostr.println("");
       ostr.println(prefix + "protected void AdjustBuffSize()");
       ostr.println("  {");
@@ -960,7 +960,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
         ostr.println("        bufcolumn[j] = newCol + columnDiff;");
         ostr.println("        columnDiff = nextColDiff;");
         ostr.println("        i++;");
-        ostr.println("     } ");
+        ostr.println("     }");
         ostr.println("");
         ostr.println("     if (i < len)");
         ostr.println("     {");
@@ -1599,7 +1599,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
         ostr.println("        bufcolumn[j] = newCol + columnDiff;");
         ostr.println("        columnDiff = nextColDiff;");
         ostr.println("        i++;");
-        ostr.println("     } ");
+        ostr.println("     }");
         ostr.println("");
         ostr.println("     if (i < len)");
         ostr.println("     {");
@@ -1736,7 +1736,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("  char BeginToken() throws java.io.IOException;");
       ostr.println("");
       ostr.println("  /**");
-      ostr.println("   * Returns a string made up of characters from the marked token beginning ");
+      ostr.println("   * Returns a string made up of characters from the marked token beginning");
       ostr.println("   * to the current buffer position. Implementations have the choice of returning");
       ostr.println("   * anything that they want to. For example, for efficiency, one might decide");
       ostr.println("   * to just return null, which is a valid implementation.");
@@ -1925,7 +1925,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("      retval += \" \\\"\";");
       ostr.println("      retval += add_escapes(tok.image);");
       ostr.println("      retval += \" \\\"\";");
-      ostr.println("      tok = tok.next; ");
+      ostr.println("      tok = tok.next;");
       ostr.println("    }");
       if (OtherFilesGen.keepLineCol)
       {
@@ -1946,7 +1946,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("   * The end of line string for this machine.");
       ostr.println("   */");
       ostr.println("  protected String eol = System.getProperty(\"line.separator\", \"\\n\");");
-      ostr.println(" ");
+      ostr.println("");
       ostr.println("  /**");
       ostr.println("   * Used to convert raw characters to their escaped version");
       ostr.println("   * when these raw version cannot be used as part of an ASCII");
@@ -2122,7 +2122,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("   /**");
       ostr.println("    * Returns a detailed message for the Error when it is thrown by the");
       ostr.println("    * token manager to indicate a lexical error.");
-      ostr.println("    * Parameters : ");
+      ostr.println("    * Parameters :");
       ostr.println("    *    EOFSeen     : indicates if EOF caused the lexical error");
       ostr.println("    *    curLexState : lexical state in which this error occurred");
       ostr.println("    *    errorLine   : line number when the error occurred");
@@ -2144,7 +2144,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("   /**");
       ostr.println("    * You can also modify the body of this method to customize your error messages.");
       ostr.println("    * For example, cases like LOOP_DETECTED and INVALID_LEXICAL_STATE are not");
-      ostr.println("    * of end-users concern, so you can return something like : ");
+      ostr.println("    * of end-users concern, so you can return something like :");
       ostr.println("    *");
       ostr.println("    *     \"Internal Error : Please file a bug report .... \"");
       ostr.println("    *");

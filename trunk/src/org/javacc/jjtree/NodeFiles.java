@@ -322,7 +322,7 @@ final class NodeFiles {
     ostr.println("");
     ostr.println("  public void jjtClose() {");
     ostr.println("  }");
-    ostr.println("  ");
+    ostr.println("");
     ostr.println("  public void jjtSetParent(Node n) { parent = n; }");
     ostr.println("  public Node jjtGetParent() { return parent; }");
     ostr.println("");
