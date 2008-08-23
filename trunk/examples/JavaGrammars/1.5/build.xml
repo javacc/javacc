@@ -15,7 +15,14 @@
   </property>
 
   <target name="compile-and-test" depends="compile">
-     <exec executable="java">
+     <exec failonerror="true" executable="java">
+           <arg value="-classpath"/>
+           <arg value="."/>
+           <arg value="JavaParser"/>
+           <arg value="JavaGenerics.java"/>
+     </exec>
+
+     <exec failonerror="true" executable="java">
            <arg value="-classpath"/>
            <arg value="."/>
            <arg value="JavaParser"/>
@@ -36,6 +43,7 @@
          <include name="JavaParserTokenManager.java"/>
          <include name="JavaParserConstants.java"/>
          <include name="*CharStream*.java"/>
+         <include name="Token.java"/>
          <include name="TokenMgrError.java"/>
          <include name="ParseException.java"/>
          <include name="*.class"/>
@@ -51,7 +59,7 @@
   </target>
 
   <target name="generated-files" depends="parser-files-init" if="parser.gen">
-     <exec executable="${javacc.root}/bin/javacc" >
+     <exec failonerror="true" executable="${javacc.root}/bin/javacc" >
            <arg value="-DEBUG_PARSER=${debug_parser}"/>
            <arg value="-DEBUG_TOKEN_MANAGER=${debug_scanner}"/>
            <arg value="Java1.5.jj"/>
