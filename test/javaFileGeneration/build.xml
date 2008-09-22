@@ -28,11 +28,12 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 -->
 
-<project name="test-javafiles" default="test" basedir=".">
+<project name="test-javafiles" default="test-javafile-contents" basedir=".">
 
-  <target name="test" depends="" description="run boiler-plate test cases">
+  <target name="test-javafile-contents" depends="" description="run boiler-plate test cases">
     <antcall target="test-static" />
     <antcall target="test-non-static" />
+    <antcall target="test-no-keep-line" />
   </target>
 
   <target name="test-static">
@@ -113,6 +114,48 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <fail message="Non-Static TokenMgrError">
      <condition>
         <not> <filesmatch file1="out-dir/TokenMgrError.java" file2="expected/non-static/TokenMgrError.java" /> </not>
+     </condition>
+    </fail>
+  </target>
+
+
+  <target name="test-no-keep-line">
+
+    <echo>No-Keep-Line Parser</echo>
+
+    <antcall target="reset" />
+    <java failonerror="true" fork="true" classname="javacc" classpath="../../bin/lib/javacc.jar">
+      <arg line="-NOKEEP_LINE_COLUMN" />
+      <arg line="Parser.jj" />
+    </java>
+
+    <fail message="No-Keep_line ParseException">
+     <condition>
+        <not> <filesmatch file1="out-dir/ParseException.java" file2="expected/no-keep-line/ParseException.java" /> </not>
+     </condition>
+    </fail>
+
+    <fail message="No-Keep_line ParserTokenManager">
+     <condition>
+        <not> <filesmatch file1="out-dir/ParserTokenManager.java" file2="expected/no-keep-line/ParserTokenManager.java" /> </not>
+     </condition>
+    </fail>
+
+    <fail message="No-Keep_line SimpleCharStream">
+     <condition>
+        <not> <filesmatch file1="out-dir/SimpleCharStream.java" file2="expected/no-keep-line/SimpleCharStream.java" /> </not>
+     </condition>
+    </fail>
+
+    <fail message="No-Keep_line Token">
+     <condition>
+        <not> <filesmatch file1="out-dir/Token.java" file2="expected/no-keep-line/Token.java" /> </not>
+     </condition>
+    </fail>
+
+    <fail message="No-Keep_line TokenMgrError">
+     <condition>
+        <not> <filesmatch file1="out-dir/TokenMgrError.java" file2="expected/no-keep-line/TokenMgrError.java" /> </not>
      </condition>
     </fail>
   </target>
