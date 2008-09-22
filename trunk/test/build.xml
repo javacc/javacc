@@ -37,6 +37,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <ant antfile="build.xml" target="test" dir="lineNumbers" />
     <ant antfile="build.xml" target="test" dir="javacodeLA" />
     <ant antfile="build.xml" target="test" dir="javaFiles" />
+    <ant antfile="build.xml" target="test" dir="javaFileGeneration" />
     <ant antfile="build.xml" target="test" dir="newToken" />
     <ant antfile="build.xml" target="test" dir="imports" />
     <ant antfile="build.xml" target="test" dir="lom" />
@@ -46,6 +47,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <ant antfile="build.xml" target="clean" dir="lineNumbers" />
     <ant antfile="build.xml" target="clean" dir="javacodeLA" />
     <ant antfile="build.xml" target="clean" dir="javaFiles" />
+    <ant antfile="build.xml" target="clean" dir="javaFileGeneration" />
     <ant antfile="build.xml" target="clean" dir="newToken" />
     <ant antfile="build.xml" target="clean" dir="imports" />
     <ant antfile="build.xml" target="clean" dir="lom" />
