@@ -34,6 +34,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <antcall target="test-static" />
     <antcall target="test-non-static" />
     <antcall target="test-no-keep-line" />
+    <antcall target="test-generator" />
   </target>
 
   <target name="test-static">
@@ -158,6 +159,23 @@ THE POSSIBILITY OF SUCH DAMAGE.
         <not> <filesmatch file1="out-dir/TokenMgrError.java" file2="expected/no-keep-line/TokenMgrError.java" /> </not>
      </condition>
     </fail>
+  </target>
+
+  <target name="test-generator">
+    <echo>test-generator</echo>
+
+    <antcall target="reset" />
+    <java failonerror="true" fork="true" classname="org.javacc.utils.JavaFileGenerator" classpath=".:../../bin/lib/javacc.jar">
+      <arg line="/template.txt" />
+      <arg line="out-dir/generated.txt" />
+    </java>
+
+    <fail message="test-generator">
+     <condition>
+        <not> <filesmatch file1="out-dir/generated.txt" file2="expected/generated.txt" /> </not>
+     </condition>
+    </fail>
+
   </target>
 
   <target name="reset">

@@ -35,7 +35,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
   <property name="version" value="4.1" />
 
-  <target name="compile" depends="generated-files,classes,javacc-compile,jjtree-compile,jjdoc-compile" />
+  <target name="compile" depends="generated-files,resources,classes,javacc-compile,jjtree-compile,jjdoc-compile" />
 
   <target name="generated-files">
     <ant antfile="build.xml" target="parser-files" dir="src/org/javacc/parser" />
@@ -44,6 +44,12 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
   <target name="classes">
     <mkdir dir="classes"/>
+  </target>
+
+  <target name="resources">
+    <copy todir="classes/templates">
+      <fileset dir="templates" />
+    </copy>
   </target>
 
   <target name="javacc-compile">

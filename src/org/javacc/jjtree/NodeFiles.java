@@ -31,11 +31,15 @@ package org.javacc.jjtree;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import org.javacc.parser.Options;
 import org.javacc.parser.OutputFile;
+import org.javacc.utils.JavaFileGenerator;
 final class NodeFiles {
   private NodeFiles() {}
 
@@ -225,50 +229,14 @@ final class NodeFiles {
     PrintWriter ostr = outputFile.getPrintWriter();
 
     generatePrologue(ostr);
-
-    ostr.println("/* All AST nodes must implement this interface.  It provides basic");
-    ostr.println("   machinery for constructing the parent and child relationships");
-    ostr.println("   between nodes. */");
-    ostr.println("");
-    ostr.println("public interface Node {");
-    ostr.println("");
-    ostr.println("  /** This method is called after the node has been made the current");
-    ostr.println("    node.  It indicates that child nodes can now be added to it. */");
-    ostr.println("  public void jjtOpen();");
-    ostr.println("");
-    ostr.println("  /** This method is called after all the child nodes have been");
-    ostr.println("    added. */");
-    ostr.println("  public void jjtClose();");
-    ostr.println("");
-    ostr.println("  /** This pair of methods are used to inform the node of its");
-    ostr.println("    parent. */");
-    ostr.println("  public void jjtSetParent(Node n);");
-    ostr.println("  public Node jjtGetParent();");
-    ostr.println("");
-    ostr.println("  /** This method tells the node to add its argument to the node's");
-    ostr.println("    list of children.  */");
-    ostr.println("  public void jjtAddChild(Node n, int i);");
-    ostr.println("");
-    ostr.println("  /** This method returns a child node.  The children are numbered");
-    ostr.println("     from zero, left to right. */");
-    ostr.println("  public Node jjtGetChild(int i);");
-    ostr.println("");
-    ostr.println("  /** Return the number of children the node has. */");
-    ostr.println("  public int jjtGetNumChildren();");
-
-    if (JJTreeOptions.getVisitor()) {
-      String argumentType = "Object";
-      if (!JJTreeOptions.getVisitorDataType().equals("")) {
-        argumentType = JJTreeOptions.getVisitorDataType();
-      }
-
-      ostr.println("");
-      ostr.println("  /** Accept the visitor. **/");
-      ostr.println("  public " + JJTreeOptions.getVisitorReturnType() + " jjtAccept(" + visitorClass() +
-          " visitor, " + argumentType + " data)" + mergeVisitorException() + ";");
-    }
-
-    ostr.println("}");
+    
+    Map options = new HashMap(Options.getOptions());
+    options.put("PARSER_NAME", JJTreeGlobals.parserName);
+    
+    JavaFileGenerator generator = new JavaFileGenerator(
+        "/templates/Node.template", options);
+    
+    generator.generate(ostr);
 
     ostr.close();
   }
@@ -279,137 +247,17 @@ final class NodeFiles {
     PrintWriter ostr = outputFile.getPrintWriter();
 
     generatePrologue(ostr);
+    
+    Map options = new HashMap(Options.getOptions());
+    options.put("PARSER_NAME", JJTreeGlobals.parserName);
+    options.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(JJTreeOptions.getVisitorReturnType().equals("void")));
+    
+    JavaFileGenerator generator = new JavaFileGenerator(
+        "/templates/SimpleNode.template", options);
+    
+    generator.generate(ostr);
 
-    ostr.print("public class SimpleNode");
-    if (!JJTreeOptions.getNodeExtends().equals(""))
-      ostr.print(" extends " + JJTreeOptions.getNodeExtends());
-    ostr.println(" implements Node {");
-    ostr.println("  protected Node parent;");
-    ostr.println("  protected Node[] children;");
-    ostr.println("  protected int id;");
-    ostr.println("  protected Object value;");
-    ostr.println("  protected " + JJTreeGlobals.parserName + " parser;");
-
-    if (JJTreeOptions.getTrackTokens()) {
-      ostr.println("  protected Token firstToken;");
-      ostr.println("  protected Token lastToken;");
-    }
-
-    ostr.println("");
-    ostr.println("  public SimpleNode(int i) {");
-    ostr.println("    id = i;");
-    ostr.println("  }");
-    ostr.println("");
-    ostr.println("  public SimpleNode(" + JJTreeGlobals.parserName + " p, int i) {");
-    ostr.println("    this(i);");
-    ostr.println("    parser = p;");
-    ostr.println("  }");
-    ostr.println("");
-
-    if (JJTreeOptions.getNodeFactory().length() > 0) {
-      ostr.println("  public static Node jjtCreate(int id) {");
-      ostr.println("    return new SimpleNode(id);");
-      ostr.println("  }");
-      ostr.println("");
-      ostr.println("  public static Node jjtCreate(" + JJTreeGlobals.parserName + " p, int id) {");
-      ostr.println("    return new SimpleNode(p, id);");
-      ostr.println("  }");
-      ostr.println("");
-    }
-
-    ostr.println("  public void jjtOpen() {");
-    ostr.println("  }");
-    ostr.println("");
-    ostr.println("  public void jjtClose() {");
-    ostr.println("  }");
-    ostr.println("");
-    ostr.println("  public void jjtSetParent(Node n) { parent = n; }");
-    ostr.println("  public Node jjtGetParent() { return parent; }");
-    ostr.println("");
-    ostr.println("  public void jjtAddChild(Node n, int i) {");
-    ostr.println("    if (children == null) {");
-    ostr.println("      children = new Node[i + 1];");
-    ostr.println("    } else if (i >= children.length) {");
-    ostr.println("      Node c[] = new Node[i + 1];");
-    ostr.println("      System.arraycopy(children, 0, c, 0, children.length);");
-    ostr.println("      children = c;");
-    ostr.println("    }");
-    ostr.println("    children[i] = n;");
-    ostr.println("  }");
-    ostr.println("");
-    ostr.println("  public Node jjtGetChild(int i) {");
-    ostr.println("    return children[i];");
-    ostr.println("  }");
-    ostr.println("");
-    ostr.println("  public int jjtGetNumChildren() {");
-    ostr.println("    return (children == null) ? 0 : children.length;");
-    ostr.println("  }");
-    ostr.println("");
-    ostr.println("  public void jjtSetValue(Object value) { this.value = value; }");
-    ostr.println("  public Object jjtGetValue() { return value; }");
-    ostr.println("");
-
-    if (JJTreeOptions.getTrackTokens()) {
-      ostr.println("  public Token jjtGetFirstToken() { return firstToken; }");
-      ostr.println("  public void jjtSetFirstToken(Token token) { this.firstToken = token; }");
-      ostr.println("  public Token jjtGetLastToken() { return lastToken; }");
-      ostr.println("  public void jjtSetLastToken(Token token) { this.lastToken = token; }");
-      ostr.println("");
-    }
-
-    if (JJTreeOptions.getVisitor()) {
-      String ve = mergeVisitorException();
-      String argumentType = "Object";
-      if (!JJTreeOptions.getVisitorDataType().equals("")) {
-        argumentType = JJTreeOptions.getVisitorDataType();
-      }
-
-      ostr.println("  /** Accept the visitor. **/");
-      ostr.println("  public " + JJTreeOptions.getVisitorReturnType() + " jjtAccept(" + visitorClass() +
-          " visitor, " + argumentType + " data)" + ve + " {");
-      ostr.println("    " + (JJTreeOptions.getVisitorReturnType().equals("void") ? "" : "return ") + "visitor.visit(this, data);");
-      ostr.println("  }");
-      ostr.println("");
-
-      ostr.println("  /** Accept the visitor. **/");
-      ostr.println("  public Object childrenAccept(" + visitorClass() +
-          " visitor, " + argumentType + " data)" + ve + " {");
-      ostr.println("    if (children != null) {");
-      ostr.println("      for (int i = 0; i < children.length; ++i) {");
-      ostr.println("        children[i].jjtAccept(visitor, data);");
-      ostr.println("      }");
-      ostr.println("    }");
-      ostr.println("    return data;");
-      ostr.println("  }");
-      ostr.println("");
-    }
-
-    ostr.println("  /* You can override these two methods in subclasses of SimpleNode to");
-    ostr.println("     customize the way the node appears when the tree is dumped.  If");
-    ostr.println("     your output uses more than one line you should override");
-    ostr.println("     toString(String), otherwise overriding toString() is probably all");
-    ostr.println("     you need to do. */");
-    ostr.println("");
-    ostr.println("  public String toString() { return " + nodeConstants() + ".jjtNodeName[id]; }");
-    ostr.println("  public String toString(String prefix) { return prefix + toString(); }");
-
-    ostr.println("");
-    ostr.println("  /* Override this method if you want to customize how the node dumps");
-    ostr.println("     out its children. */");
-    ostr.println("");
-    ostr.println("  public void dump(String prefix) {");
-    ostr.println("    System.out.println(toString(prefix));");
-    ostr.println("    if (children != null) {");
-    ostr.println("      for (int i = 0; i < children.length; ++i) {");
-    ostr.println("  SimpleNode n = (SimpleNode)children[i];");
-    ostr.println("  if (n != null) {");
-    ostr.println("    n.dump(prefix + \" \");");
-    ostr.println("  }");
-    ostr.println("      }");
-    ostr.println("    }");
-    ostr.println("  }");
-    ostr.println("}");
-    ostr.println("");
+    ostr.close();
   }
 
 
@@ -419,54 +267,17 @@ final class NodeFiles {
 
     generatePrologue(ostr);
 
-    if (JJTreeOptions.getNodeClass().length() > 0) {
-      ostr.println("public class " + nodeType + " extends " + JJTreeOptions.getNodeClass() + "{");
-    } else {
-      ostr.println("public class " + nodeType + " extends SimpleNode {");
-    }
+    Map options = new HashMap(Options.getOptions());
+    options.put("PARSER_NAME", JJTreeGlobals.parserName);
+    options.put("NODE_TYPE", nodeType);
+    options.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(JJTreeOptions.getVisitorReturnType().equals("void")));
+    
+    JavaFileGenerator generator = new JavaFileGenerator(
+        "/templates/MultiNode.template", options);
+    
+    generator.generate(ostr);
 
-    ostr.println("  public " + nodeType + "(int id) {");
-    ostr.println("    super(id);");
-    ostr.println("  }");
-    ostr.println();
-    ostr.println("  public " + nodeType + "(" + JJTreeGlobals.parserName + " p, int id) {");
-    ostr.println("    super(p, id);");
-    ostr.println("  }");
-    ostr.println();
-
-    if (JJTreeOptions.getNodeFactory().length() > 0) {
-      ostr.println("  public static Node jjtCreate(int id) {");
-      ostr.println("      return new " + nodeType + "(id);");
-      ostr.println("  }");
-      ostr.println();
-      ostr.println("  public static Node jjtCreate(" +
-          JJTreeGlobals.parserName + " p, int id) {");
-      ostr.println("      return new " + nodeType + "(p, id);");
-      ostr.println("  }");
-    }
-
-    if (JJTreeOptions.getVisitor()) {
-      String argumentType = "Object";
-      if (!JJTreeOptions.getVisitorDataType().equals("")) {
-        argumentType = JJTreeOptions.getVisitorDataType();
-      }
-
-      ostr.println("");
-      ostr.println("  /** Accept the visitor. **/");
-      ostr.println("  public " + JJTreeOptions.getVisitorReturnType() + " jjtAccept(" + visitorClass() +
-          " visitor, " + argumentType + " data)" + mergeVisitorException() + " {");
-      ostr.println("    " + (JJTreeOptions.getVisitorReturnType().equals("void") ? "" : "return ") + "visitor.visit(this, data);");
-      ostr.println("  }");
-    }
-
-    ostr.println("}");
     ostr.close();
   }
 
 }
-
-
-/*end*/
-
-
-

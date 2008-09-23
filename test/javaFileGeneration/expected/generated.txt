@@ -1,0 +1,10 @@
+Hello, world
+   But this should
+   -->someString<--
+
+	True1
+	someString
+	Should be here
+	  True2
+	
+The end.
