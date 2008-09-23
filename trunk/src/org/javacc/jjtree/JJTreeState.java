@@ -82,12 +82,12 @@ final class JJTreeState
   private static void insertState(PrintWriter ostr) {
     ostr.println("public class " + nameState() + " {");
 
-    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+    if (!JJTreeOptions.getGenerateGenerics())
        ostr.println("  private java.util.List nodes;");
     else
        ostr.println("  private java.util.List<Node> nodes;");
 
-    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+    if (!JJTreeOptions.getGenerateGenerics())
        ostr.println("  private java.util.List marks;");
     else
        ostr.println("  private java.util.List<Integer> marks;");
@@ -99,12 +99,12 @@ final class JJTreeState
     ostr.println("");
     ostr.println("  public " + nameState() + "() {");
 
-    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+    if (!JJTreeOptions.getGenerateGenerics())
        ostr.println("    nodes = new java.util.ArrayList();");
     else
        ostr.println("    nodes = new java.util.ArrayList<Node>();");
 
-    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+    if (!JJTreeOptions.getGenerateGenerics())
        ostr.println("    marks = new java.util.ArrayList();");
     else
        ostr.println("    marks = new java.util.ArrayList<Integer>();");
@@ -132,7 +132,7 @@ final class JJTreeState
     ostr.println("  /* Returns the root node of the AST.  It only makes sense to call");
     ostr.println("     this after a successful parse. */");
     ostr.println("  public Node rootNode() {");
-    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+    if (!JJTreeOptions.getGenerateGenerics())
       ostr.println("    return (Node)nodes.get(0);");
     else
       ostr.println("    return nodes.get(0);");
@@ -148,12 +148,12 @@ final class JJTreeState
     ostr.println("     stack.  */");
     ostr.println("  public Node popNode() {");
     ostr.println("    if (--sp < mk) {");
-    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+    if (!JJTreeOptions.getGenerateGenerics())
       ostr.println("      mk = ((Integer)marks.remove(marks.size()-1)).intValue();");
     else
       ostr.println("      mk = marks.remove(marks.size()-1);");
     ostr.println("    }");
-    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+    if (!JJTreeOptions.getGenerateGenerics())
       ostr.println("    return (Node)nodes.remove(nodes.size()-1);");
     else
       ostr.println("    return nodes.remove(nodes.size()-1);");
@@ -161,7 +161,7 @@ final class JJTreeState
     ostr.println("");
     ostr.println("  /* Returns the node currently on the top of the stack. */");
     ostr.println("  public Node peekNode() {");
-    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+    if (!JJTreeOptions.getGenerateGenerics())
       ostr.println("    return (Node)nodes.get(nodes.size()-1);");
     else
       ostr.println("    return nodes.get(nodes.size()-1);");
@@ -178,7 +178,7 @@ final class JJTreeState
     ostr.println("    while (sp > mk) {");
     ostr.println("      popNode();");
     ostr.println("    }");
-    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+    if (!JJTreeOptions.getGenerateGenerics())
       ostr.println("    mk = ((Integer)marks.remove(marks.size()-1)).intValue();");
     else
       ostr.println("    mk = marks.remove(marks.size()-1);");
@@ -186,7 +186,7 @@ final class JJTreeState
     ostr.println("");
     ostr.println("");
     ostr.println("  public void openNodeScope(Node n) {");
-    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+    if (!JJTreeOptions.getGenerateGenerics())
       ostr.println("    marks.add(new Integer(mk));");
     else
       ostr.println("    marks.add(mk);");
@@ -200,7 +200,7 @@ final class JJTreeState
     ostr.println("     made the children of the definite node.  Then the definite node");
     ostr.println("     is pushed on to the stack. */");
     ostr.println("  public void closeNodeScope(Node n, int num) {");
-    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+    if (!JJTreeOptions.getGenerateGenerics())
       ostr.println("    mk = ((Integer)marks.remove(marks.size()-1)).intValue();");
     else
       ostr.println("    mk = marks.remove(marks.size()-1);");
@@ -223,7 +223,7 @@ final class JJTreeState
     ostr.println("  public void closeNodeScope(Node n, boolean condition) {");
     ostr.println("    if (condition) {");
     ostr.println("      int a = nodeArity();");
-    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+    if (!JJTreeOptions.getGenerateGenerics())
       ostr.println("      mk = ((Integer)marks.remove(marks.size()-1)).intValue();");
     else
       ostr.println("      mk = marks.remove(marks.size()-1);");
@@ -236,7 +236,7 @@ final class JJTreeState
     ostr.println("      pushNode(n);");
     ostr.println("      node_created = true;");
     ostr.println("    } else {");
-    if (!JJTreeOptions.getJdkVersion().equals("1.5"))
+    if (!JJTreeOptions.getGenerateGenerics())
       ostr.println("      mk = ((Integer)marks.remove(marks.size()-1)).intValue();");
     else
       ostr.println("      mk = marks.remove(marks.size()-1);");

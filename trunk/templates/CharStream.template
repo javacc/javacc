@@ -22,6 +22,9 @@ public interface CharStream {
    */
   char readChar() throws java.io.IOException;
 
+#if GENERATE_ANNOTATIONS
+  @Deprecated
+#fi
   /**
    * Returns the column position of the character last read.
    * @deprecated
@@ -29,6 +32,9 @@ public interface CharStream {
    */
   int getColumn();
 
+#if GENERATE_ANNOTATIONS
+  @Deprecated
+#fi
   /**
    * Returns the line number of the character last read.
    * @deprecated

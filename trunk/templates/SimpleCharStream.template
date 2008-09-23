@@ -211,6 +211,9 @@ public class SimpleCharStream
      return c;
   }
 
+#if GENERATE_ANNOTATIONS
+  @Deprecated
+#fi
   /**
    * @deprecated
    * @see #getEndColumn
@@ -224,6 +227,9 @@ public class SimpleCharStream
 #fi
   }
 
+#if GENERATE_ANNOTATIONS
+  @Deprecated
+#fi
   /**
    * @deprecated
    * @see #getEndLine

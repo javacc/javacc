@@ -235,7 +235,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
             ostr.println("    jj_initialized_once = true;");
           }
           if (Options.getJavaUnicodeEscape()) {
-              if (Options.getJdkVersion().equals("1.3")) {
+              if (!Options.getGenerateChainedException()) {
                   ostr.println("    try { jj_input_stream = new JavaCharStream(stream, encoding, 1, 1); } " +
                           "catch(java.io.UnsupportedEncodingException e) {" +
                           " throw new RuntimeException(e.getMessage()); }");
@@ -244,7 +244,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
                         "catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }");
               }
           } else {
-              if (Options.getJdkVersion().equals("1.3")) {
+              if (!Options.getGenerateChainedException()) {
                   ostr.println("    try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } " +
                           "catch(java.io.UnsupportedEncodingException e) { " +
                           "throw new RuntimeException(e.getMessage()); }");
@@ -279,7 +279,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
           ostr.println("  }");
           ostr.println("  /** Reinitialise. */");
           ostr.println("  " + staticOpt() + "public void ReInit(java.io.InputStream stream, String encoding) {");
-          if (Options.getJdkVersion().equals("1.3")) {
+          if (!Options.getGenerateChainedException()) {
             ostr.println("    try { jj_input_stream.ReInit(stream, encoding, 1, 1); } " +
                     "catch(java.io.UnsupportedEncodingException e) { " +
                     "throw new RuntimeException(e.getMessage()); }");
@@ -549,7 +549,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
         ostr.println("");
       }
       if (Options.getErrorReporting()) {
-        if (!Options.getJdkVersion().equals("1.5"))
+        if (!Options.getGenerateGenerics())
           ostr.println("  " + staticOpt() + "private java.util.List jj_expentries = new java.util.ArrayList();");
         else
           ostr.println("  " + staticOpt() +
@@ -623,7 +623,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
         }
         ostr.println("    int[][] exptokseq = new int[jj_expentries.size()][];");
         ostr.println("    for (int i = 0; i < jj_expentries.size(); i++) {");
-        if (!Options.getJdkVersion().equals("1.5"))
+        if (!Options.getGenerateGenerics())
            ostr.println("      exptokseq[i] = (int[])jj_expentries.get(i);");
         else
            ostr.println("      exptokseq[i] = jj_expentries.get(i);");
