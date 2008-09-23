@@ -34,13 +34,13 @@ THE POSSIBILITY OF SUCH DAMAGE.
 <project name="functional-tests" default="test" basedir=".">
 
   <target name="test" depends="" description="run functional test cases">
-    <ant antfile="build.xml" target="test" dir="lineNumbers" />
-    <ant antfile="build.xml" target="test" dir="javacodeLA" />
-    <ant antfile="build.xml" target="test" dir="javaFiles" />
-    <ant antfile="build.xml" target="test" dir="javaFileGeneration" />
-    <ant antfile="build.xml" target="test" dir="newToken" />
-    <ant antfile="build.xml" target="test" dir="imports" />
-    <ant antfile="build.xml" target="test" dir="lom" />
+    <ant antfile="build.xml" dir="lineNumbers" />
+    <ant antfile="build.xml" dir="javacodeLA" />
+    <ant antfile="build.xml" dir="javaFiles" />
+    <ant antfile="build.xml" dir="javaFileGeneration" />
+    <ant antfile="build.xml" dir="newToken" />
+    <ant antfile="build.xml" dir="imports" />
+    <ant antfile="build.xml" dir="lom" />
   </target>
 
   <target name="clean">

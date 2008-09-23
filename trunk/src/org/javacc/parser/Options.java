@@ -73,6 +73,11 @@ public class Options {
   protected static String stringValue(final String option) {
     return (String) optionValues.get(option);
   }
+  
+  public static Map getOptions()
+  {
+    return new HashMap(optionValues);
+  }
 
   /**
    * Keep track of what options were set as a command line argument. We use
