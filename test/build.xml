@@ -41,6 +41,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <ant antfile="build.xml" dir="newToken" />
     <ant antfile="build.xml" dir="imports" />
     <ant antfile="build.xml" dir="lom" />
+    <ant antfile="build.xml" dir="exceptions" />
   </target>
 
   <target name="clean">
@@ -51,6 +52,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <ant antfile="build.xml" target="clean" dir="newToken" />
     <ant antfile="build.xml" target="clean" dir="imports" />
     <ant antfile="build.xml" target="clean" dir="lom" />
+    <ant antfile="build.xml" target="clean" dir="exceptions" />
   </target>
 
 </project>
