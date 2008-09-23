@@ -370,7 +370,7 @@ public class JavaCharStream
      }
   }
 
-#if ANNOTATIONS
+#if GENERATE_ANNOTATIONS
   @Deprecated
 #fi
   /**
@@ -385,7 +385,7 @@ public class JavaCharStream
 #fi
   }
 
-#if ANNOTATIONS
+#if GENERATE_ANNOTATIONS
   @Deprecated
 #fi
   /**

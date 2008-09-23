@@ -123,6 +123,11 @@ public class Options {
     optionValues.put("COMMON_TOKEN_ACTION", Boolean.FALSE);
     optionValues.put("CACHE_TOKENS", Boolean.FALSE);
     optionValues.put("KEEP_LINE_COLUMN", Boolean.TRUE);
+    
+    optionValues.put("GENERATE_CHAINED_EXCEPTION", Boolean.FALSE);
+    optionValues.put("GENERATE_GENERICS", Boolean.FALSE);
+    optionValues.put("GENERATE_STRING_BUILDER", Boolean.FALSE);
+    optionValues.put("GENERATE_ANNOTATIONS", Boolean.FALSE);
 
     optionValues.put("OUTPUT_DIRECTORY", ".");
     optionValues.put("JDK_VERSION", "1.4");
@@ -327,7 +332,7 @@ public class Options {
     cmdLineSetting.add(name);
   }
 
-  public static void normalize() {
+  static void normalize() {
     if (getDebugLookahead() && !getDebugParser()) {
       if (cmdLineSetting.contains("DEBUG_PARSER")
           || inputFileSetting.contains("DEBUG_PARSER")) {
@@ -337,6 +342,13 @@ public class Options {
       }
       optionValues.put("DEBUG_PARSER", Boolean.TRUE);
     }
+    
+    // Now set the "GENERATE" options from the supplied (or default) JDK version.
+    
+    optionValues.put("GENERATE_CHAINED_EXCEPTION", Boolean.valueOf(jdkVersionAtLeast(1.4)));
+    optionValues.put("GENERATE_GENERICS", Boolean.valueOf(jdkVersionAtLeast(1.5)));
+    optionValues.put("GENERATE_STRING_BUILDER", Boolean.valueOf(jdkVersionAtLeast(1.5)));
+    optionValues.put("GENERATE_ANNOTATIONS", Boolean.valueOf(jdkVersionAtLeast(1.5)));
   }
 
   /**
@@ -539,6 +551,38 @@ public class Options {
   }
 
   /**
+   * Should the generated code create Exceptions using a constructor taking a nested exception?
+   * @return
+   */
+  public static boolean getGenerateChainedException() {
+    return booleanValue("GENERATE_CHAINED_EXCEPTION");
+  }
+
+  /**
+   * Should the generated code contain Generics?
+   * @return
+   */
+  public static boolean getGenerateGenerics() {
+    return booleanValue("GENERATE_GENERICS");
+  }
+
+  /**
+   * Should the generated code use StringBuilder rather than StringBuffer?
+   * @return
+   */
+  public static boolean getGenerateStringBuilder() {
+    return booleanValue("GENERATE_STRING_BUILDER");
+  }
+
+  /**
+   * Should the generated code contain Annotations?
+   * @return
+   */
+  public static boolean getGenerateAnnotations() {
+    return booleanValue("GENERATE_ANNOTATIONS");
+  }
+
+  /**
    * Determine if the output language is at least the specified
    * version.
    * @param version the version to check against. E.g. <code>1.5</code>
@@ -581,7 +625,7 @@ public class Options {
   }
 
   public static String stringBufOrBuild() {
-    if (Options.getJdkVersion().equals("1.5") || Options.getJdkVersion().equals("1.6")) {
+    if (getGenerateStringBuilder()) {
       return "StringBuilder";
     } else {
       return "StringBuffer";
