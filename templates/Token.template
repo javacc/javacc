@@ -3,10 +3,17 @@
  */
 
 #if TOKEN_EXTENDS
-public class Token extends ${TOKEN_EXTENDS} {
+public class Token extends ${TOKEN_EXTENDS} implements java.io.Serializable {
 #else
-public class Token {
+public class Token implements java.io.Serializable {
 #fi
+
+  /**
+   * The version identifier for this Serializable class.
+   * Increment only if the <i>serialized</i> form of the
+   * class changes.
+   */
+  private static final long serialVersionUID = 1L;
 
   /**
    * An integer that describes the kind of this token.  This numbering
