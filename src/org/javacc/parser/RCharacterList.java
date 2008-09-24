@@ -361,6 +361,12 @@ static final char[] diffUpperCaseRanges = {
            SortDescriptors();
      }
 
+     if (descriptors.size() == 0 && !negated_list)
+     {
+        JavaCCErrors.semantic_error(this, "Empty character set is not allowed as it will not match any character.");
+        return new Nfa();
+     }
+
      transformed = true;
      Nfa retVal = new Nfa();
      NfaState startState = retVal.start;
