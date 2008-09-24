@@ -4,6 +4,13 @@
 public class TokenMgrError extends Error
 {
 
+   /**
+    * The version identifier for this Serializable class.
+    * Increment only if the <i>serialized</i> form of the
+    * class changes.
+    */
+   private static final long serialVersionUID = 1L;
+
    /*
     * Ordinals for various reasons why an Error of this type can be thrown.
     */
@@ -135,4 +142,4 @@ public class TokenMgrError extends Error
       this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
    }
 }
-/* JavaCC - OriginalChecksum=a097c696efb9ab6c6d60508a4ab539ed (do not edit this line) */
+/* JavaCC - OriginalChecksum=694a4bf61f0b1f8476808397fda8c772 (do not edit this line) */

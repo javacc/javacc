@@ -4,7 +4,14 @@
  * Describes the input token stream.
  */
 
-public class Token {
+public class Token implements java.io.Serializable {
+
+  /**
+   * The version identifier for this Serializable class.
+   * Increment only if the <i>serialized</i> form of the
+   * class changes.
+   */
+  private static final long serialVersionUID = 1L;
 
   /**
    * An integer that describes the kind of this token.  This numbering
@@ -119,4 +126,4 @@ public class Token {
   }
 
 }
-/* JavaCC - OriginalChecksum=b22594d109e44e02bd7931f6707504a9 (do not edit this line) */
+/* JavaCC - OriginalChecksum=daafebe73f040b32671020d834381f1a (do not edit this line) */
