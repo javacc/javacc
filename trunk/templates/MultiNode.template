@@ -9,11 +9,11 @@ public class ${NODE_TYPE} extends ${NODE_CLASS:-SimpleNode} {
 
 #if NODE_FACTORY
   public static Node jjtCreate(int id) {
-      return new ${NODE_TYPE}(id);
+    return new ${NODE_TYPE}(id);
   }
 
   public static Node jjtCreate(${PARSER_NAME} p, int id) {
-      return new ${NODE_TYPE}(p, id);
+    return new ${NODE_TYPE}(p, id);
   }
 #fi
 #if VISITOR
