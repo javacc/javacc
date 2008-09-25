@@ -71,7 +71,7 @@ public class Token implements java.io.Serializable {
    */
   public Token(int kind)
   {
-     this(kind, null);
+    this(kind, null);
   }
 
   /**
@@ -79,8 +79,8 @@ public class Token implements java.io.Serializable {
    */
   public Token(int kind, String image)
   {
-     this.kind = kind;
-     this.image = image;
+    this.kind = kind;
+    this.image = image;
   }
 
   /**
@@ -88,7 +88,7 @@ public class Token implements java.io.Serializable {
    */
   public String toString()
   {
-     return image;
+    return image;
   }
 
   /**
@@ -105,16 +105,16 @@ public class Token implements java.io.Serializable {
    */
   public static Token newToken(int ofKind, String image)
   {
-     switch(ofKind)
-     {
-       default : return new Token(ofKind, image);
-     }
+    switch(ofKind)
+    {
+      default : return new Token(ofKind, image);
+    }
   }
 
   public static Token newToken(int ofKind)
   {
-     return newToken(ofKind, null);
+    return newToken(ofKind, null);
   }
 
 }
-/* JavaCC - OriginalChecksum=3075dea99356795e0d78d363604df367 (do not edit this line) */
+/* JavaCC - OriginalChecksum=dd643336f23a66a164095d442eeb5c6a (do not edit this line) */
