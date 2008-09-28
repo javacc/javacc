@@ -34,6 +34,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <antcall target="test-static" />
     <antcall target="test-non-static" />
     <antcall target="test-no-keep-line" />
+    <antcall target="test-not-public" />
     <antcall target="test-generator" />
   </target>
 
@@ -157,6 +158,47 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <fail message="No-Keep_line TokenMgrError">
      <condition>
         <not> <filesmatch file1="out-dir/TokenMgrError.java" file2="expected/no-keep-line/TokenMgrError.java" /> </not>
+     </condition>
+    </fail>
+  </target>
+
+  <target name="test-not-public">
+
+    <echo>Not Public</echo>
+
+    <antcall target="reset" />
+    <java failonerror="true" fork="true" classname="javacc" classpath="../../bin/lib/javacc.jar">
+      <arg line="-SUPPORT_CLASS_VISIBILITY_PUBLIC=false" />
+      <arg line="Parser.jj" />
+    </java>
+
+    <fail message="Not-Public ParseException">
+     <condition>
+        <not> <filesmatch file1="out-dir/ParseException.java" file2="expected/not-public/ParseException.java" /> </not>
+     </condition>
+    </fail>
+
+    <fail message="Not-Public ParserTokenManager">
+     <condition>
+        <not> <filesmatch file1="out-dir/ParserTokenManager.java" file2="expected/not-public/ParserTokenManager.java" /> </not>
+     </condition>
+    </fail>
+
+    <fail message="Not-Public SimpleCharStream">
+     <condition>
+        <not> <filesmatch file1="out-dir/SimpleCharStream.java" file2="expected/not-public/SimpleCharStream.java" /> </not>
+     </condition>
+    </fail>
+
+    <fail message="Not-Public Token">
+     <condition>
+        <not> <filesmatch file1="out-dir/Token.java" file2="expected/not-public/Token.java" /> </not>
+     </condition>
+    </fail>
+
+    <fail message="Not-Public TokenMgrError">
+     <condition>
+        <not> <filesmatch file1="out-dir/TokenMgrError.java" file2="expected/not-public/TokenMgrError.java" /> </not>
      </condition>
     </fail>
   </target>
