@@ -3,7 +3,7 @@
  * contain only ASCII characters (without unicode processing).
  */
 
-public class SimpleCharStream
+${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
 {
 /** Whether parser is static. */
   public static final boolean staticFlag = ${STATIC};

@@ -128,6 +128,7 @@ public class Options {
     optionValues.put("GENERATE_GENERICS", Boolean.FALSE);
     optionValues.put("GENERATE_STRING_BUILDER", Boolean.FALSE);
     optionValues.put("GENERATE_ANNOTATIONS", Boolean.FALSE);
+    optionValues.put("SUPPORT_CLASS_VISIBILITY_PUBLIC", Boolean.TRUE);
 
     optionValues.put("OUTPUT_DIRECTORY", ".");
     optionValues.put("JDK_VERSION", "1.4");
@@ -580,6 +581,14 @@ public class Options {
    */
   public static boolean getGenerateAnnotations() {
     return booleanValue("GENERATE_ANNOTATIONS");
+  }
+  
+  /**
+   * Should the generated code class visibility public?
+   * @return
+   */
+  public static boolean getSupportClassVisibilityPublic() {
+	  return booleanValue("SUPPORT_CLASS_VISIBILITY_PUBLIC");
   }
 
   /**

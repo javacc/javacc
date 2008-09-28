@@ -1,4 +1,7 @@
-public class ${NODE_TYPE} extends ${NODE_CLASS:-SimpleNode} {
+#if SUPPORT_CLASS_VISIBILITY_PUBLIC
+public
+#fi
+class ${NODE_TYPE} extends ${NODE_CLASS:-SimpleNode} {
   public ${NODE_TYPE}(int id) {
     super(id);
   }
