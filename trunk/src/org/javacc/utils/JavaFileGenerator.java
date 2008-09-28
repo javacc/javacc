@@ -116,49 +116,108 @@ public class JavaFileGenerator {
     return false;
   }
   
-  private String substitute(String variable)
+  private String substitute(String text) throws IOException
   {
-    String varName = variable;
-    String defaultValue = "";
+    int startPos;
     
-    int pos = variable.indexOf(":-");
-    
-    if (pos != -1)
+    if ( (startPos = text.indexOf("${")) == -1)
     {
-      varName = variable.substring(0, pos);
-      defaultValue = variable.substring(pos + 2);
+      return text;
     }
     
-    Object obj = options.get(varName.trim());
+    // Find matching "}".
+    int braceDepth = 1;
+    int endPos = startPos + 2;
+    
+    while ( endPos < text.length() && braceDepth > 0)
+    {
+      if (text.charAt(endPos) == '{')
+        braceDepth++;
+      else if (text.charAt(endPos) == '}')
+        braceDepth--;
+      
+      endPos++;
+    }
+    
+    if (braceDepth != 0)
+      throw new IOException("Mismatched \"{}\" in template string: " + text); 
+    
+    final String variableExpression = text.substring(startPos + 2, endPos - 1);
+
+    // Find the end of the variable name
+    final String variableName;
+    String value = null;
+    
+    for (int i = 0; i < variableExpression.length(); i++)
+    {
+      char ch = variableExpression.charAt(i);
+      
+      if (ch == ':' && i < variableExpression.length() - 1 && variableExpression.charAt(i+1) == '-' )
+      {
+        value = substituteWithDefault(variableExpression.substring(0, i), variableExpression.substring(i + 2));
+        break;
+      }
+      else if (ch == '?')
+      {
+        value = substituteWithConditional(variableExpression.substring(0, i), variableExpression.substring(i + 1));
+        break;
+      }
+      else if (ch != '_' && !Character.isJavaIdentifierPart(ch))
+      {
+        throw new IOException("Invalid variable in " + text);
+      }
+    }
+    
+    if (value == null)
+    {
+      value = substituteWithDefault(variableExpression, "");
+    }
+    
+    return text.substring(0, startPos) + value + text.substring(endPos);
+  }
+  
+  /**
+   * @param substring
+   * @param defaultValue
+   * @return
+   * @throws IOException 
+   */
+  private String substituteWithConditional(String variableName, String values) throws IOException
+  {
+    // Split values into true and false values.
+    
+    int pos = values.indexOf(':');
+    if (pos == -1)
+      throw new IOException("No ':' separator in " + values);
+    
+    if (evaluate(variableName))
+      return substitute(values.substring(0, pos));
+    else
+      return substitute(values.substring(pos + 1));
+  }
+
+  /**
+   * @param variableName
+   * @param defaultValue
+   * @return
+   */
+  private String substituteWithDefault(String variableName, String defaultValue) throws IOException
+  {
+    Object obj = options.get(variableName.trim());
     if (obj == null || obj.toString().length() == 0)
-      return defaultValue;
+      return substitute(defaultValue);
     
     return obj.toString();
   }
-  
+
   private void write(PrintWriter out, String text) throws IOException
   {
-    if (text.indexOf("${") == -1)
+    while ( text.indexOf("${") != -1)
     {
-      out.println(text);
-      return;
+      text = substitute(text);
     }
     
-    StringBuffer buff = new StringBuffer(text);
-    int pos;
-    
-    while ( (pos = buff.indexOf("${")) != -1)
-    {
-      int closingBrace = buff.indexOf("}", pos);
-      if (closingBrace == -1)
-        throw new IOException("Missing '}' in template");
-      
-      String var = buff.substring(pos+2, closingBrace);
-      
-      buff.replace(pos, closingBrace + 1, substitute(var));
-    }
-    
-    out.println(buff.toString());
+    out.println(text);
   }
   
   private void process(BufferedReader in, PrintWriter out, boolean ignoring)  throws IOException

@@ -24,4 +24,10 @@ Hello, world
 	#fi
 #fi
 	
+This should say no: ${falseArg?yes:no}
+This should say yes: ${trueArg?yes:no}
+
+This should say someString: ${trueArg?${stringValue}:}
+This should say xxsomeStringxx: ${not_found?${stringValue}:xx${stringValue}xx}
+
 The end.

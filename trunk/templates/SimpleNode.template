@@ -1,7 +1,10 @@
+#if SUPPORT_CLASS_VISIBILITY_PUBLIC
+public
+#fi
 #if NODE_EXTENDS
-public class SimpleNode extends ${NODE_EXTENDS} implements Node {
+class SimpleNode extends ${NODE_EXTENDS} implements Node {
 #else
-public class SimpleNode implements Node {
+class SimpleNode implements Node {
 #fi
 
   protected Node parent;

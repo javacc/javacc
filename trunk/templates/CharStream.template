@@ -13,7 +13,10 @@
  * operation.
  */
 
-public interface CharStream {
+#if SUPPORT_CLASS_VISIBILITY_PUBLIC
+public
+#fi
+interface CharStream {
 
   /**
    * Returns the next character from the selected input.  The method

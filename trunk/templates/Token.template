@@ -3,9 +3,9 @@
  */
 
 #if TOKEN_EXTENDS
-public class Token extends ${TOKEN_EXTENDS} implements java.io.Serializable {
+${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class Token extends ${TOKEN_EXTENDS} implements java.io.Serializable {
 #else
-public class Token implements java.io.Serializable {
+${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class Token implements java.io.Serializable {
 #fi
 
   /**

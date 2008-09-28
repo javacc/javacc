@@ -3,7 +3,10 @@
  * contain only ASCII characters (with java-like unicode escape processing).
  */
 
-public class JavaCharStream
+#if SUPPORT_CLASS_VISIBILITY_PUBLIC
+public
+#fi
+class JavaCharStream
 {
   /** Whether parser is static. */
   public static final boolean staticFlag = ${STATIC};
