@@ -27,6 +27,7 @@
  */
 package org.javacc.parser;
 
+import java.util.List;
 import java.util.Vector;
 
 public final class LookaheadWalk {
@@ -148,11 +149,11 @@ public final class LookaheadWalk {
       vectorAppend(retval, partialMatches);
       return retval;
     } else if (exp.parent instanceof NormalProduction) {
-      Vector parents = ((NormalProduction)exp.parent).parents;
+      List parents = ((NormalProduction)exp.parent).parents;
       Vector retval = new Vector();
 //System.out.println("1; gen: " + generation + "; exp: " + exp);
       for (int i = 0; i < parents.size(); i++) {
-        Vector v = genFollowSet(partialMatches, (Expansion)parents.elementAt(i), generation);
+        Vector v = genFollowSet(partialMatches, (Expansion)parents.get(i), generation);
         vectorAppend(retval, v);
       }
       return retval;

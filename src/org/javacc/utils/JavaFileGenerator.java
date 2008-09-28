@@ -145,7 +145,6 @@ public class JavaFileGenerator {
     final String variableExpression = text.substring(startPos + 2, endPos - 1);
 
     // Find the end of the variable name
-    final String variableName;
     String value = null;
     
     for (int i = 0; i < variableExpression.length(); i++)

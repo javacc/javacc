@@ -28,6 +28,7 @@
 package org.javacc.parser;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -108,14 +109,14 @@ public class JavaCCGlobals {
    * they appear in the input file.  Each entry here will be a subclass of
    * "NormalProduction".
    */
-  static public java.util.Vector bnfproductions = new java.util.Vector();
+  static public java.util.List bnfproductions = new java.util.ArrayList();
 
   /**
    * A symbol table of all grammar productions - normal and JAVACODE.  The
    * symbol table is indexed by the name of the left hand side non-terminal.
    * Its contents are of type "NormalProduction".
    */
-  static public java.util.Hashtable production_table = new java.util.Hashtable();
+  static public java.util.Map production_table = new java.util.HashMap();
 
   /**
    * A mapping of lexical state strings to their integer internal representation.
@@ -132,14 +133,14 @@ public class JavaCCGlobals {
   /**
    * The declarations to be inserted into the TokenManager class.
    */
-  static public java.util.Vector token_mgr_decls;
+  static public java.util.List token_mgr_decls;
 
   /**
    * The list of all TokenProductions from the input file.  This list includes
    * implicit TokenProductions that are created for uses of regular expressions
    * within BNF productions.
    */
-  static public java.util.Vector rexprlist = new java.util.Vector();
+  static public java.util.List rexprlist = new java.util.ArrayList();
 
   /**
    * The total number of distinct tokens.  This is therefore one more than the
@@ -152,13 +153,13 @@ public class JavaCCGlobals {
    * defined with a label).  The index to the table is the image of the label
    * and the contents of the table are of type "RegularExpression".
    */
-  static public java.util.Hashtable named_tokens_table = new java.util.Hashtable();
+  static public java.util.Map named_tokens_table = new java.util.HashMap();
 
   /**
    * Contains the same entries as "named_tokens_table", but this is an ordered
    * list which is ordered by the order of appearance in the input file.
    */
-  static public java.util.Vector ordered_named_tokens = new java.util.Vector();
+  static public java.util.List ordered_named_tokens = new java.util.ArrayList();
 
   /**
    * A mapping of ordinal values (represented as objects of type "Integer") to
@@ -167,13 +168,13 @@ public class JavaCCGlobals {
    * If there are multiple labels representing the same ordinal value, then
    * only one label is stored.
    */
-  static public java.util.Hashtable names_of_tokens = new java.util.Hashtable();
+  static public java.util.Map names_of_tokens = new java.util.HashMap();
 
   /**
    * A mapping of ordinal values (represented as objects of type "Integer") to
    * the corresponding RegularExpression's.
    */
-  static public java.util.Hashtable rexps_of_tokens = new java.util.Hashtable();
+  static public java.util.Map rexps_of_tokens = new java.util.HashMap();
 
   /**
    * This is a three-level symbol table that contains all simple tokens (those
@@ -193,7 +194,7 @@ public class JavaCCGlobals {
   static protected int maskindex = 0;
   static protected int jj2index = 0;
   public static boolean lookaheadNeeded;
-  static protected Vector maskVals = new Vector();
+  static protected List maskVals = new ArrayList();
 
   static Action actForEof;
   static String nextStateForEof;
@@ -524,21 +525,21 @@ public class JavaCCGlobals {
       cu_to_insertion_point_1 = new java.util.Vector();
       cu_to_insertion_point_2 = new java.util.Vector();
       cu_from_insertion_point_2 = new java.util.Vector();
-      bnfproductions = new java.util.Vector();
-      production_table = new java.util.Hashtable();
+      bnfproductions = new java.util.ArrayList();
+      production_table = new java.util.HashMap();
       lexstate_S2I = new java.util.Hashtable();
       lexstate_I2S = new java.util.Hashtable();
       token_mgr_decls = null;
-      rexprlist = new java.util.Vector();
+      rexprlist = new java.util.ArrayList();
       tokenCount = 0;
-      named_tokens_table = new java.util.Hashtable();
-      ordered_named_tokens = new java.util.Vector();
-      names_of_tokens = new java.util.Hashtable();
-      rexps_of_tokens = new java.util.Hashtable();
+      named_tokens_table = new java.util.HashMap();
+      ordered_named_tokens = new java.util.ArrayList();
+      names_of_tokens = new java.util.HashMap();
+      rexps_of_tokens = new java.util.HashMap();
       simple_tokens_table = new java.util.Hashtable();
       maskindex = 0;
       jj2index = 0;
-      maskVals = new Vector();
+      maskVals = new ArrayList();
       cline = 0;
       ccol = 0;
       actForEof = null;

@@ -33,6 +33,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Vector;
 
 /**
@@ -145,8 +146,8 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
         for (int i = 0; i < tokenMaskSize; i++) {
           ostr.println("   private static void jj_la1_init_" + i + "() {");
           ostr.print("      jj_la1_" + i + " = new int[] {");
-          for (Enumeration enumeration = maskVals.elements(); enumeration.hasMoreElements();) {
-            int[] tokenMask = (int[])(enumeration.nextElement());
+          for (Iterator it = maskVals.iterator(); it.hasNext();) {
+            int[] tokenMask = (int[])(it.next());
             ostr.print("0x" + Integer.toHexString(tokenMask[i]) + ",");
           }
           ostr.println("};");

@@ -89,7 +89,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
   }
 
   static protected void addproduction(NormalProduction p) {
-    bnfproductions.addElement(p);
+    bnfproductions.add(p);
   }
 
   static protected void production_addexpansion(BNFProduction p, Expansion e) {
@@ -101,7 +101,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
 
   static protected void addregexpr(TokenProduction p) {
     Integer ii;
-    rexprlist.addElement(p);
+    rexprlist.add(p);
     if (Options.getUserTokenManager()) {
       if (p.lexStates == null || p.lexStates.length != 1 || !p.lexStates[0].equals("DEFAULT")) {
         JavaCCErrors.warning(p, "Ignoring lexical state specifications since option " +
@@ -151,7 +151,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
       res.nextState = null;
       res.nsTok = null;
       p.respecs.addElement(res);
-      rexprlist.addElement(p);
+      rexprlist.add(p);
     }
   }
 

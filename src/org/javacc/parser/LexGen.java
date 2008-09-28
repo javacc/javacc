@@ -31,6 +31,7 @@ package org.javacc.parser;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Vector;
 
 /**
@@ -152,16 +153,16 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
 
     if (token_mgr_decls != null && token_mgr_decls.size() > 0)
     {
-      Token t = (Token)token_mgr_decls.elementAt(0);
+      Token t = (Token)token_mgr_decls.get(0);
       boolean commonTokenActionSeen = false;
       boolean commonTokenActionNeeded = Options.getCommonTokenAction();
 
-      printTokenSetup((Token)token_mgr_decls.elementAt(0));
+      printTokenSetup((Token)token_mgr_decls.get(0));
       ccol = 1;
 
       for (j = 0; j < token_mgr_decls.size(); j++)
       {
-        t = (Token)token_mgr_decls.elementAt(j);
+        t = (Token)token_mgr_decls.get(j);
         if (t.kind == IDENTIFIER &&
             commonTokenActionNeeded &&
             !commonTokenActionSeen)
@@ -258,14 +259,14 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
 
   static void BuildLexStatesTable()
   {
-    Enumeration e = rexprlist.elements();
+    Iterator it = rexprlist.iterator();
     TokenProduction tp;
     int i;
 
     String[] tmpLexStateName = new String[lexstate_I2S.size()];
-    while (e.hasMoreElements())
+    while (it.hasNext())
     {
-      tp = (TokenProduction)e.nextElement();
+      tp = (TokenProduction)it.next();
       Vector respecs = tp.respecs;
       Vector tps;
 

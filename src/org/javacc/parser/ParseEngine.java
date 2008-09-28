@@ -272,7 +272,7 @@ public class ParseEngine extends JavaCCGlobals {
               retval += "\njj_la1[" + maskindex + "] = jj_gen;";
               maskindex++;
             }
-            maskVals.addElement(tokenMask);
+            maskVals.add(tokenMask);
             retval += "\n" + "if (";
             indentAmt++;
           }
@@ -377,7 +377,7 @@ public class ParseEngine extends JavaCCGlobals {
             retval += "\njj_la1[" + maskindex + "] = jj_gen;";
             maskindex++;
           }
-          maskVals.addElement(tokenMask);
+          maskVals.add(tokenMask);
           retval += "\n" + "if (";
           indentAmt++;
         }
@@ -420,7 +420,7 @@ public class ParseEngine extends JavaCCGlobals {
       retval += "\u0002\n" + "default:" + "\u0001";
       if (Options.getErrorReporting()) {
         retval += "\njj_la1[" + maskindex + "] = jj_gen;";
-        maskVals.addElement(tokenMask);
+        maskVals.add(tokenMask);
         maskindex++;
       }
       retval += actions[index];
@@ -465,7 +465,7 @@ public class ParseEngine extends JavaCCGlobals {
 
   static void buildPhase1Routine(BNFProduction p) {
     Token t;
-    t = (Token)(p.return_type_tokens.elementAt(0));
+    t = (Token)(p.return_type_tokens.get(0));
     boolean voidReturn = false;
     if (t.kind == JavaCCParserConstants.VOID) {
       voidReturn = true;
@@ -476,25 +476,25 @@ public class ParseEngine extends JavaCCGlobals {
     cline = t.beginLine; ccol = t.beginColumn;
     printTokenOnly(t, ostr);
     for (int i = 1; i < p.return_type_tokens.size(); i++) {
-      t = (Token)(p.return_type_tokens.elementAt(i));
+      t = (Token)(p.return_type_tokens.get(i));
       printToken(t, ostr);
     }
     printTrailingComments(t, ostr);
     ostr.print(" " + p.lhs + "(");
     if (p.parameter_list_tokens.size() != 0) {
-      printTokenSetup((Token)(p.parameter_list_tokens.elementAt(0)));
-      for (java.util.Enumeration enumeration = p.parameter_list_tokens.elements(); enumeration.hasMoreElements();) {
-        t = (Token)enumeration.nextElement();
+      printTokenSetup((Token)(p.parameter_list_tokens.get(0)));
+      for (java.util.Iterator it = p.parameter_list_tokens.iterator(); it.hasNext();) {
+        t = (Token)it.next();
         printToken(t, ostr);
       }
       printTrailingComments(t, ostr);
     }
     ostr.print(") throws ParseException");
-    for (java.util.Enumeration enumeration = p.throws_list.elements(); enumeration.hasMoreElements();) {
+    for (java.util.Iterator it = p.throws_list.iterator(); it.hasNext();) {
       ostr.print(", ");
-      java.util.Vector name = (java.util.Vector)enumeration.nextElement();
-      for (java.util.Enumeration enum1 = name.elements(); enum1.hasMoreElements();) {
-        t = (Token)enum1.nextElement();
+      java.util.List name = (java.util.List)it.next();
+      for (java.util.Iterator it2 = name.iterator(); it2.hasNext();) {
+        t = (Token)it2.next();
         ostr.print(t.image);
       }
     }
@@ -1113,36 +1113,36 @@ public class ParseEngine extends JavaCCGlobals {
 
     ostr = ps;
 
-    for (java.util.Enumeration enumeration = bnfproductions.elements(); enumeration.hasMoreElements();) {
-      p = (NormalProduction)enumeration.nextElement();
+    for (java.util.Iterator prodIterator = bnfproductions.iterator(); prodIterator.hasNext();) {
+      p = (NormalProduction)prodIterator.next();
       if (p instanceof JavaCodeProduction) {
         jp = (JavaCodeProduction)p;
-        t = (Token)(jp.return_type_tokens.elementAt(0));
+        t = (Token)(jp.return_type_tokens.get(0));
         printTokenSetup(t); ccol = 1;
         printLeadingComments(t, ostr);
         ostr.print("  " + staticOpt() + (p.accessMod != null ? p.accessMod + " " : ""));
         cline = t.beginLine; ccol = t.beginColumn;
         printTokenOnly(t, ostr);
         for (int i = 1; i < jp.return_type_tokens.size(); i++) {
-          t = (Token)(jp.return_type_tokens.elementAt(i));
+          t = (Token)(jp.return_type_tokens.get(i));
           printToken(t, ostr);
         }
         printTrailingComments(t, ostr);
         ostr.print(" " + jp.lhs + "(");
         if (jp.parameter_list_tokens.size() != 0) {
-          printTokenSetup((Token)(jp.parameter_list_tokens.elementAt(0)));
-          for (java.util.Enumeration enum1 = jp.parameter_list_tokens.elements(); enum1.hasMoreElements();) {
-            t = (Token)enum1.nextElement();
+          printTokenSetup((Token)(jp.parameter_list_tokens.get(0)));
+          for (java.util.Iterator it = jp.parameter_list_tokens.iterator(); it.hasNext();) {
+            t = (Token)it.next();
             printToken(t, ostr);
           }
           printTrailingComments(t, ostr);
         }
         ostr.print(") throws ParseException");
-        for (java.util.Enumeration enum1 = jp.throws_list.elements(); enum1.hasMoreElements();) {
+        for (java.util.Iterator it = jp.throws_list.iterator(); it.hasNext();) {
           ostr.print(", ");
-          java.util.Vector name = (java.util.Vector)enum1.nextElement();
-          for (java.util.Enumeration enum2 = name.elements(); enum2.hasMoreElements();) {
-            t = (Token)enum2.nextElement();
+          java.util.List name = (java.util.List)it.next();
+          for (java.util.Iterator it2 = name.iterator(); it2.hasNext();) {
+            t = (Token)it2.next();
             ostr.print(t.image);
           }
         }
@@ -1153,9 +1153,9 @@ public class ParseEngine extends JavaCCGlobals {
           ostr.print("    try {");
         }
         if (jp.code_tokens.size() != 0) {
-          printTokenSetup((Token)(jp.code_tokens.elementAt(0))); cline--;
-          for (java.util.Enumeration enum1 = jp.code_tokens.elements(); enum1.hasMoreElements();) {
-            t = (Token)enum1.nextElement();
+          printTokenSetup((Token)(jp.code_tokens.get(0))); cline--;
+          for (java.util.Iterator it = jp.code_tokens.iterator(); it.hasNext();) {
+            t = (Token)it.next();
             printToken(t, ostr);
           }
           printTrailingComments(t, ostr);
