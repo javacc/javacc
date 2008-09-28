@@ -103,8 +103,8 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
     RegularExpression re;
     ostr.println("  /** End of File. */");
     ostr.println("  int EOF = 0;");
-    for (java.util.Enumeration enumeration = ordered_named_tokens.elements(); enumeration.hasMoreElements();) {
-      re = (RegularExpression)enumeration.nextElement();
+    for (java.util.Iterator it = ordered_named_tokens.iterator(); it.hasNext();) {
+      re = (RegularExpression)it.next();
       ostr.println("  /** RegularExpression Id. */");
       ostr.println("  int " + re.label + " = " + re.ordinal + ";");
     }
@@ -120,8 +120,8 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
     ostr.println("  String[] tokenImage = {");
     ostr.println("    \"<EOF>\",");
 
-    for (java.util.Enumeration enumeration = rexprlist.elements(); enumeration.hasMoreElements();) {
-      TokenProduction tp = (TokenProduction)(enumeration.nextElement());
+    for (java.util.Iterator it = rexprlist.iterator(); it.hasNext();) {
+      TokenProduction tp = (TokenProduction)(it.next());
       java.util.Vector respecs = tp.respecs;
       for (java.util.Enumeration enum1 = respecs.elements(); enum1.hasMoreElements();) {
         RegExprSpec res = (RegExprSpec)(enum1.nextElement());

@@ -36,6 +36,6 @@ public class JavaCodeProduction extends NormalProduction {
   /**
    * The tokens that implement this JAVACODE production.
    */
-  public java.util.Vector code_tokens = new java.util.Vector();
+  public java.util.List code_tokens = new java.util.ArrayList();
 
 }

@@ -49,6 +49,8 @@ PARSER_BEGIN(JavaCCParser)
 package org.javacc.parser;
 
 import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 public class JavaCCParser extends JavaCCParserInternals {
 
@@ -622,8 +624,8 @@ void javacode_production() :
 	{
 	  JavaCodeProduction p = new JavaCodeProduction();
 	  Token t = p.firstToken = getToken(1);
-	  java.util.Vector excName;
-	  p.throws_list = new java.util.Vector();
+	  java.util.List excName;
+	  p.throws_list = new java.util.ArrayList();
 	  p.line = t.beginLine;
 	  p.column = t.beginColumn;
 	}
@@ -635,19 +637,19 @@ void javacode_production() :
   FormalParameters(p.parameter_list_tokens)
   [ "throws"
 	{
-	  excName = new java.util.Vector();
+	  excName = new ArrayList();
 	}
     Name(excName)
 	{
-	  p.throws_list.addElement(excName);
+	  p.throws_list.add(excName);
 	}
     (
 	{
-	  excName = new java.util.Vector();
+	  excName = new ArrayList();
 	}
       "," Name(excName)
 	{
-	  p.throws_list.addElement(excName);
+	  p.throws_list.add(excName);
 	}
     )*
   ]
@@ -663,8 +665,8 @@ void bnf_production() :
 	  BNFProduction p = new BNFProduction();
 	  Container c = new Container();
 	  Token t = p.firstToken = getToken(1);
-	  java.util.Vector excName;
-	  p.throws_list = new java.util.Vector();
+	  java.util.List excName;
+	  p.throws_list = new java.util.ArrayList();
 	  p.line = t.beginLine;
 	  p.column = t.beginColumn;
 	  jumpPatched = false;
@@ -676,19 +678,19 @@ void bnf_production() :
   FormalParameters(p.parameter_list_tokens)
   [ "throws"
 	{
-	  excName = new java.util.Vector();
+	  excName = new ArrayList();
 	}
     Name(excName)
 	{
-	  p.throws_list.addElement(excName);
+	  p.throws_list.add(excName);
 	}
     (
 	{
-	  excName = new java.util.Vector();
+	  excName = new ArrayList();
 	}
       "," Name(excName)
 	{
-	  p.throws_list.addElement(excName);
+	  p.throws_list.add(excName);
 	}
     )*
   ]
@@ -719,7 +721,7 @@ void AccessModifier(NormalProduction p) :
 void regular_expr_production() :
 	{
 	  TokenProduction p = new TokenProduction();
-	  java.util.Vector states;
+	  java.util.List states;
 	  Token t = p.firstToken = getToken(1);
 	  p.line = t.beginLine;
 	  p.column = t.beginColumn;
@@ -738,22 +740,22 @@ void regular_expr_production() :
   |
     "<"
 	{
-	  states = new java.util.Vector();
+	  states = new java.util.ArrayList();
 	}
       t=<IDENTIFIER>
 	{
-	  states.addElement(t.image);
+	  states.add(t.image);
 	}
       ( "," t=<IDENTIFIER>
 	{
-	  states.addElement(t.image);
+	  states.add(t.image);
 	}
       )*
     ">"
 	{
 	  p.lexStates = new String[states.size()];
 	  for (int i = 0; i < states.size(); i++) {
-	    p.lexStates[i] = (String)states.elementAt(i);
+	    p.lexStates[i] = (String)states.get(i);
 	  }
 	}
   ]
@@ -1458,13 +1460,13 @@ void CompilationUnit() :
 void PackageDeclaration() :
 {}
 {
-  Modifiers() "package" Name(new Vector()) ";"
+  Modifiers() "package" Name(null) ";"
 }
 
 void ImportDeclaration() :
 {}
 {
-  "import" [ "static" ] Name(new java.util.Vector()) [ "." "*" ] ";"
+  "import" [ "static" ] Name(null) [ "." "*" ] ";"
 }
 
 /*
@@ -1524,7 +1526,7 @@ void TypeDeclaration():
 |
   modifiers = Modifiers()
   (
-     ClassOrInterfaceDeclaration(modifiers, new Vector())
+     ClassOrInterfaceDeclaration(modifiers, null)
    |
      EnumDeclaration(modifiers)
    |
@@ -1533,12 +1535,14 @@ void TypeDeclaration():
 }
 
 
-void ClassOrInterfaceDeclaration(int modifiers, Vector tokens):
+void ClassOrInterfaceDeclaration(int modifiers, List tokens):
 {
    boolean isInterface = false;
 	  class_nesting++;
 	  Token t;
 	  boolean is_parser_class = false;
+  if (tokens == null)
+    tokens = new ArrayList();
 }
 {
   ( "class" | "interface" { isInterface = true; } )
@@ -1627,13 +1631,15 @@ void TypeBound():
    "extends" ClassOrInterfaceType() ( "&" ClassOrInterfaceType() )*
 }
 
-void ClassOrInterfaceBody(boolean isInterface, Vector tokens):
+void ClassOrInterfaceBody(boolean isInterface, List tokens):
 /*
  * Parsing this fills "tokens" with all tokens of the block
  * excluding the braces at each end.
  */
 	{
 	  Token first, last;
+	  if (tokens == null)
+	    tokens = new ArrayList();
 	}
 {
   "{"
@@ -1649,7 +1655,7 @@ void ClassOrInterfaceBody(boolean isInterface, Vector tokens):
 	  if (last.next != first) { // i.e., this is not an empty sequence
 	    Token t = first;
 	    while (true) {
-	      tokens.addElement(t);
+	      tokens.add(t);
 	      if (t == last) break;
 	      t = t.next;
 	    }
@@ -1737,7 +1743,7 @@ void MethodDeclarator():
   <IDENTIFIER> FormalParameters(new Vector()) ( "[" "]" )*
 }
 
-void FormalParameters(Vector tokens) :
+void FormalParameters(List tokens) :
 /*
  * Parsing this fills "tokens" with all tokens of the formal
  * parameters excluding the parentheses at each end.
@@ -1759,7 +1765,7 @@ void FormalParameters(Vector tokens) :
 	  if (last.next != first) { // i.e., this is not an empty sequence
 	    Token t = first;
 	    while (true) {
-	      tokens.addElement(t);
+	      tokens.add(t);
 	      if (t == last) break;
 	      t = t.next;
 	    }
@@ -1872,7 +1878,7 @@ void PrimitiveType():
 }
 
 
-void ResultType(java.util.Vector tokens) :
+void ResultType(List tokens) :
 	{
 	  Token first = getToken(1);
 	}
@@ -1886,19 +1892,21 @@ void ResultType(java.util.Vector tokens) :
 	  Token last = getToken(0);
 	  Token t = first;
 	  while (true) {
-	    tokens.addElement(t);
+	    tokens.add(t);
 	    if (t == last) break;
 	    t = t.next;
 	  }
 	}
 }
 
-void Name(java.util.Vector tokens) :
+void Name(List tokens) :
 /*
  * A lookahead of 2 is required below since "Name" can be followed
  * by a ".*" when used in the context of an "ImportDeclaration".
  */
 	{
+	  if (tokens == null)
+	    tokens = new ArrayList();
 	  Token first = getToken(1);
 	}
 {
@@ -1909,7 +1917,7 @@ void Name(java.util.Vector tokens) :
 	  Token last = getToken(0);
 	  Token t = first;
 	  while (true) {
-	    tokens.addElement(t);
+	    tokens.add(t);
 	    if (t == last) break;
 	    t = t.next;
 	  }
@@ -1920,7 +1928,7 @@ void Name(java.util.Vector tokens) :
 void NameList():
 {}
 {
-  Name(new Vector()) ( "," Name(new Vector()) )*
+  Name(null) ( "," Name(null) )*
 }
 
 
@@ -1928,7 +1936,7 @@ void NameList():
  * Expression syntax follows.
  */
 
-void Expression(java.util.Vector tokens) :
+void Expression(List tokens) :
 /*
  * This expansion has been written this way instead of:
  *   Assignment() | ConditionalExpression()
@@ -1951,7 +1959,7 @@ void Expression(java.util.Vector tokens) :
 	  Token last = getToken(0);
 	  Token t = first;
 	  while (true) {
-	    tokens.addElement(t);
+	    tokens.add(t);
 	    if (t == last) break;
 	    t = t.next;
 	  }
@@ -2130,7 +2138,7 @@ void PrimaryPrefix():
   LOOKAHEAD( ResultType(new Vector()) "." "class" )
   ResultType(new Vector()) "." "class"
 |
-  Name(new Vector())
+  Name(null)
 }
 
 void PrimarySuffix():
@@ -2329,7 +2337,7 @@ void LabeledStatement():
   <IDENTIFIER> ":" Statement()
 }
 
-void Block(java.util.Vector tokens) :
+void Block(List tokens) :
 /*
  * Parsing this fills "tokens" with all tokens of the block
  * excluding the braces at each end.
@@ -2351,7 +2359,7 @@ void Block(java.util.Vector tokens) :
 	  if (last.next != first) { // i.e., this is not an empty sequence
 	    Token t = first;
 	    while (true) {
-	      tokens.addElement(t);
+	      tokens.add(t);
 	      if (t == last) break;
 	      t = t.next;
 	    }
@@ -2586,10 +2594,10 @@ void RSIGNEDSHIFT():
 void Annotation():
 {}
 {
-   LOOKAHEAD( "@" Name(new Vector()) "(" ( <IDENTIFIER> "=" | ")" ))
+   LOOKAHEAD( "@" Name(null) "(" ( <IDENTIFIER> "=" | ")" ))
    NormalAnnotation()
  |
-   LOOKAHEAD( "@" Name(new Vector()) "(" )
+   LOOKAHEAD( "@" Name(null) "(" )
    SingleMemberAnnotation()
  |
    MarkerAnnotation()
@@ -2598,19 +2606,19 @@ void Annotation():
 void NormalAnnotation():
 {}
 {
-   "@" Name(new Vector()) "(" [ MemberValuePairs() ] ")"
+   "@" Name(null) "(" [ MemberValuePairs() ] ")"
 }
 
 void MarkerAnnotation():
 {}
 {
-  "@" Name(new Vector())
+  "@" Name(null)
 }
 
 void SingleMemberAnnotation():
 {}
 {
-  "@" Name(new Vector()) "(" MemberValue() ")"
+  "@" Name(null) "(" MemberValue() ")"
 }
 
 void MemberValuePairs():

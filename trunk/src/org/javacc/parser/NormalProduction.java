@@ -44,7 +44,7 @@ public class NormalProduction {
   /**
    * The NonTerminal nodes which refer to this production.
    */
-  java.util.Vector parents = new java.util.Vector();
+  java.util.List parents = new java.util.ArrayList();
 
   /**
    * The access modifier of this production.
@@ -59,19 +59,19 @@ public class NormalProduction {
   /**
    * The tokens that make up the return type of this production.
    */
-  public java.util.Vector return_type_tokens = new java.util.Vector();
+  public java.util.List return_type_tokens = new java.util.ArrayList();
 
   /**
    * The tokens that make up the parameters of this production.
    */
-  public java.util.Vector parameter_list_tokens = new java.util.Vector();
+  public java.util.List parameter_list_tokens = new java.util.ArrayList();
 
   /**
-   * Each entry in this vector is a vector of tokens that represents an
+   * Each entry in this list is a list of tokens that represents an
    * exception in the throws list of this production.  This list does not
    * include ParseException which is always thrown.
    */
-  public java.util.Vector throws_list = new java.util.Vector();
+  public java.util.List throws_list = new java.util.ArrayList();
 
   /**
    * The RHS of this production.  Not used for JavaCodeProduction.

@@ -28,6 +28,8 @@
 
 package org.javacc.jjdoc;
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 import org.javacc.parser.Action;
 import org.javacc.parser.BNFProduction;
@@ -107,11 +109,11 @@ public class JJDoc extends JJDocGlobals {
   }
   */
 
-  private static void emitTokenProductions(Generator gen, Vector prods) {
+  private static void emitTokenProductions(Generator gen, List prods) {
     gen.tokensStart();
     // FIXME there are many empty productions here
-    for (Enumeration enumeration = prods.elements(); enumeration.hasMoreElements();) {
-      TokenProduction tp = (TokenProduction)enumeration.nextElement();
+    for (Iterator it = prods.iterator(); it.hasNext();) {
+      TokenProduction tp = (TokenProduction)it.next();
       emitTopLevelSpecialTokens(tp.firstToken, gen);
 
       String token = "";
@@ -158,10 +160,10 @@ public class JJDoc extends JJDocGlobals {
     gen.tokensEnd();
   }
 
-  private static void emitNormalProductions(Generator gen, Vector prods) {
+  private static void emitNormalProductions(Generator gen, List prods) {
     gen.nonterminalsStart();
-    for (Enumeration enumeration = prods.elements(); enumeration.hasMoreElements();) {
-      NormalProduction np = (NormalProduction)enumeration.nextElement();
+    for (Iterator it = prods.iterator(); it.hasNext();) {
+      NormalProduction np = (NormalProduction)it.next();
       emitTopLevelSpecialTokens(np.firstToken, gen);
       if (np instanceof BNFProduction) {
         gen.productionStart(np);
