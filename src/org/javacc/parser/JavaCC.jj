@@ -48,7 +48,6 @@ PARSER_BEGIN(JavaCCParser)
 
 package org.javacc.parser;
 
-import java.util.Vector;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -784,7 +783,7 @@ void regular_expr_production() :
 
 void token_manager_decls() :
 	{
-	  java.util.Vector decls = new java.util.Vector();
+	  java.util.List decls = new java.util.ArrayList();
 	  Token t;
 	}
 {
@@ -857,7 +856,7 @@ void regexpr_spec(TokenProduction p) :
 	{
 	  res.act = act;
 	  res.nsTok = t;
-	  p.respecs.addElement(res);
+	  p.respecs.add(res);
 	}
 }
 
@@ -872,13 +871,13 @@ void expansion_choices(Container c1) :
   ( "|" expansion(c2)
 	{
 	  if (morethanone) {
-	    ch.choices.addElement(c2.member);
+	    ch.choices.add(c2.member);
 	    ((Expansion)c2.member).parent = ch;
 	  } else {
 	    morethanone = true;
 	    ch = new Choice((Expansion)c1.member);
 	    ((Expansion)c1.member).parent = ch;
-	    ch.choices.addElement(c2.member);
+	    ch.choices.add(c2.member);
 	    ((Expansion)c2.member).parent = ch;
 	  }
 	}
@@ -916,12 +915,12 @@ void expansion(Container c1) :
 	}
   )?
 	{
-	  seq.units.addElement(la);
+	  seq.units.add(la);
 	}
   ( LOOKAHEAD(0, { notTailOfExpansionUnit() } )
     expansion_unit(c2)
 	{
-	  seq.units.addElement(c2.member);
+	  seq.units.add(c2.member);
 	  ((Expansion)c2.member).parent = seq;
 	  ((Expansion)c2.member).ordinal = seq.units.size()-1;
 	}
@@ -996,7 +995,7 @@ Lookahead local_lookahead() :
 void expansion_unit(Container c) :
 	{
 	  String name;
-	  java.util.Vector lhsTokens = new java.util.Vector();
+	  java.util.List lhsTokens = new java.util.ArrayList();
 	  NonTerminal nt;
 	  Action act;
 	  Token t;
@@ -1019,9 +1018,9 @@ void expansion_unit(Container c) :
 	  la.parent = seq; la.ordinal = 0;
 	  act = new Action();
 	  act.line = t.beginLine; act.column = t.beginColumn;
-	  seq.units.addElement(act);
+	  seq.units.add(act);
 	  act.parent = seq; act.ordinal = 1;
-	  ch.choices.addElement(seq);
+	  ch.choices.add(seq);
 	  seq.parent = ch; seq.ordinal = 0;
 	  if (la.amount != 0) {
 	    if (la.action_tokens.size() != 0) {
@@ -1056,26 +1055,26 @@ void expansion_unit(Container c) :
 |
 	{
 	  Container expch = new Container();
-	  java.util.Vector types = new java.util.Vector();
-	  java.util.Vector ids = new java.util.Vector();
-	  java.util.Vector catchblks = new java.util.Vector();
-	  java.util.Vector finallyblk = null;
-	  java.util.Vector vec = new java.util.Vector();
+	  java.util.List types = new java.util.ArrayList();
+	  java.util.List ids = new java.util.ArrayList();
+	  java.util.List catchblks = new java.util.ArrayList();
+	  java.util.List finallyblk = null;
+	  java.util.List vec = new java.util.ArrayList();
 	  Token t0;
 	}
   t0="try" "{" expansion_choices(expch) "}"
   ( "catch" "(" Name(vec) t=<IDENTIFIER> ")"
 	{
-	  types.addElement(vec);
-	  ids.addElement(t);
-	  vec = new java.util.Vector();
+	  types.add(vec);
+	  ids.add(t);
+	  vec = new java.util.ArrayList();
 	  inAction = true;
 	}
     Block(vec)
 	{
 	  inAction = false;
-	  catchblks.addElement(vec);
-	  vec = new java.util.Vector();
+	  catchblks.add(vec);
+	  vec = new java.util.ArrayList();
 	}
   )*
   [
@@ -1114,7 +1113,7 @@ void expansion_unit(Container c) :
 	{
 	  t = first;
 	  while (true) {
-	    lhsTokens.addElement(t);
+	    lhsTokens.add(t);
 	    if (t == last) break;
 	    t = t.next;
 	  }
@@ -1181,7 +1180,7 @@ void regular_expression(Container c) :
 	  RegularExpression re;
 	  if (c.member instanceof RJustName) {
 	    RSequence seq = new RSequence();
-	    seq.units.addElement(c.member);
+	    seq.units.add(c.member);
 	    re = seq;
 	  } else {
 	    re = (RegularExpression)c.member;
@@ -1220,14 +1219,14 @@ void complex_regular_expression_choices(Container c1) :
   ( "|" complex_regular_expression(c2)
 	{
 	  if (morethanone) {
-	    ch.choices.addElement(c2.member);
+	    ch.choices.add(c2.member);
 	  } else {
 	    morethanone = true;
 	    ch = new RChoice();
 	    ch.line = ((RegularExpression)c1.member).line;
 	    ch.column = ((RegularExpression)c1.member).column;
-	    ch.choices.addElement(c1.member);
-	    ch.choices.addElement(c2.member);
+	    ch.choices.add(c1.member);
+	    ch.choices.add(c2.member);
 	  }
 	}
   )*
@@ -1254,10 +1253,10 @@ void complex_regular_expression(Container c1) :
 	    seq = new RSequence();
 	    seq.line = ((RegularExpression)c1.member).line;
 	    seq.column = ((RegularExpression)c1.member).column;
-	    seq.units.addElement(c1.member);
-	    seq.units.addElement(c2.member);
+	    seq.units.add(c1.member);
+	    seq.units.add(c2.member);
 	  } else {
-	    seq.units.addElement(c2.member);
+	    seq.units.add(c2.member);
 	  }
 	}
   )+
@@ -1337,11 +1336,11 @@ void character_list(Container c1) :
   ]
   "[" [ character_descriptor(c2)
 	{
-	  chlist.descriptors.addElement(c2.member);
+	  chlist.descriptors.add(c2.member);
 	}
         ( "," character_descriptor(c2)
 	{
-	  chlist.descriptors.addElement(c2.member);
+	  chlist.descriptors.add(c2.member);
 	}
         )*
       ]
@@ -1556,7 +1555,7 @@ void ClassOrInterfaceDeclaration(int modifiers, List tokens):
 	    setinsertionpoint(getToken(1), 1);
 	  }
 	}
-  ClassOrInterfaceBody(isInterface, new Vector())
+  ClassOrInterfaceBody(isInterface, null)
 	{
 	  if (is_parser_class) {
 	    setinsertionpoint(getToken(0), 2);
@@ -1610,7 +1609,7 @@ void EnumBody():
 void EnumConstant():
 {}
 {
-  Modifiers() <IDENTIFIER> [ Arguments(new Vector()) ] [ ClassOrInterfaceBody(false, new Vector()) ]
+  Modifiers() <IDENTIFIER> [ Arguments(null) ] [ ClassOrInterfaceBody(false, null) ]
 }
 
 void TypeParameters():
@@ -1678,7 +1677,7 @@ void ClassOrInterfaceBodyDeclaration(boolean isInterface):
   modifiers = Modifiers() // Just get all the modifiers out of the way. If you want to do
               // more checks, pass the modifiers down to the member
   (
-      ClassOrInterfaceDeclaration(modifiers, new Vector())
+      ClassOrInterfaceDeclaration(modifiers, null)
     |
       EnumDeclaration(modifiers)
     |
@@ -1718,7 +1717,7 @@ void VariableInitializer():
 {
   ArrayInitializer()
 |
-  Expression(new Vector())
+  Expression(null)
 }
 
 void ArrayInitializer():
@@ -1732,15 +1731,15 @@ void MethodDeclaration(int modifiers):
 {
   // Modifiers already matched in the caller!
   [ TypeParameters() ]
-  ResultType(new Vector())
+  ResultType(null)
   MethodDeclarator() [ "throws" NameList() ]
-  ( Block(new Vector()) | ";" )
+  ( Block(null) | ";" )
 }
 
 void MethodDeclarator():
 {}
 {
-  <IDENTIFIER> FormalParameters(new Vector()) ( "[" "]" )*
+  <IDENTIFIER> FormalParameters(null) ( "[" "]" )*
 }
 
 void FormalParameters(List tokens) :
@@ -1750,6 +1749,8 @@ void FormalParameters(List tokens) :
  */
 	{
 	  Token first, last;
+	  if (tokens == null)
+	    tokens = new ArrayList();
 	}
 {
   "("
@@ -1784,7 +1785,7 @@ void ConstructorDeclaration():
 {
   [ TypeParameters() ]
   // Modifiers matched in the caller
-  <IDENTIFIER> FormalParameters(new Vector()) [ "throws" NameList() ]
+  <IDENTIFIER> FormalParameters(null) [ "throws" NameList() ]
   "{"
     [ LOOKAHEAD(ExplicitConstructorInvocation()) ExplicitConstructorInvocation() ]
     ( BlockStatement() )*
@@ -1794,16 +1795,16 @@ void ConstructorDeclaration():
 void ExplicitConstructorInvocation():
 {}
 {
-  LOOKAHEAD("this" Arguments(new Vector()) ";")
-  "this" Arguments(new Vector()) ";"
+  LOOKAHEAD("this" Arguments(null) ";")
+  "this" Arguments(null) ";"
 |
-  [ LOOKAHEAD(2) PrimaryExpression() "." ] "super" Arguments(new Vector()) ";"
+  [ LOOKAHEAD(2) PrimaryExpression() "." ] "super" Arguments(null) ";"
 }
 
 void Initializer():
 {}
 {
-  [ "static" ] Block(new Vector())
+  [ "static" ] Block(null)
 }
 
 
@@ -1881,6 +1882,8 @@ void PrimitiveType():
 void ResultType(List tokens) :
 	{
 	  Token first = getToken(1);
+	  if (tokens == null)
+	    tokens = new ArrayList();
 	}
 {
 (
@@ -1948,12 +1951,14 @@ void Expression(List tokens) :
  */
 	{
 	  Token first = getToken(1);
+	  if (tokens == null)
+	    tokens = new ArrayList();
 	}
 {
   ConditionalExpression()
   [
 	LOOKAHEAD(2)
-    AssignmentOperator() Expression(new java.util.Vector())
+    AssignmentOperator() Expression(null)
   ]
 	{
 	  Token last = getToken(0);
@@ -1976,7 +1981,7 @@ void AssignmentOperator():
 void ConditionalExpression():
 {}
 {
-  ConditionalOrExpression() [ "?" Expression(new Vector()) ":" Expression(new Vector()) ]
+  ConditionalOrExpression() [ "?" Expression(null) ":" Expression(null) ]
 }
 
 void ConditionalOrExpression():
@@ -2131,12 +2136,12 @@ void PrimaryPrefix():
 |
   "super" "." <IDENTIFIER>
 |
-  "(" Expression(new Vector()) ")"
+  "(" Expression(null) ")"
 |
   AllocationExpression()
 |
-  LOOKAHEAD( ResultType(new Vector()) "." "class" )
-  ResultType(new Vector()) "." "class"
+  LOOKAHEAD( ResultType(null) "." "class" )
+  ResultType(null) "." "class"
 |
   Name(null)
 }
@@ -2153,11 +2158,11 @@ void PrimarySuffix():
   LOOKAHEAD(3)
   MemberSelector()
 |
-  "[" Expression(new Vector()) "]"
+  "[" Expression(null) "]"
 |
   "." <IDENTIFIER>
 |
-  Arguments(new Vector())
+  Arguments(null)
 }
 
 void Literal():
@@ -2220,13 +2225,15 @@ void NullLiteral() :
   "null"
 }
 
-void Arguments(java.util.Vector tokens) :
+void Arguments(java.util.List tokens) :
 /*
  * Parsing this fills "tokens" with all tokens of the arguments
  * excluding the parentheses at each end.
  */
 	{
 	  Token first, last;
+	  if (tokens == null)
+	    tokens = new ArrayList();
 	}
 {
   "("
@@ -2242,7 +2249,7 @@ void Arguments(java.util.Vector tokens) :
 	  if (last.next != first) { // i.e., this is not an empty sequence
 	    Token t = first;
 	    while (true) {
-	      tokens.addElement(t);
+	      tokens.add(t);
 	      if (t == last) break;
 	      t = t.next;
 	    }
@@ -2253,7 +2260,7 @@ void Arguments(java.util.Vector tokens) :
 void ArgumentList():
 {}
 {
-  Expression(new Vector()) ( "," Expression(new Vector()) )*
+  Expression(null) ( "," Expression(null) )*
 }
 
 void AllocationExpression():
@@ -2266,7 +2273,7 @@ void AllocationExpression():
     (
       ArrayDimsAndInits()
     |
-      Arguments(new Vector()) [ ClassOrInterfaceBody(false, new Vector()) ]
+      Arguments(null) [ ClassOrInterfaceBody(false, null) ]
     )
 }
 
@@ -2278,7 +2285,7 @@ void ArrayDimsAndInits():
 {}
 {
   LOOKAHEAD(2)
-  ( LOOKAHEAD(2) "[" Expression(new Vector()) "]" )+ ( LOOKAHEAD(2) "[" "]" )*
+  ( LOOKAHEAD(2) "[" Expression(null) "]" )+ ( LOOKAHEAD(2) "[" "]" )*
 |
   ( "[" "]" )+ ArrayInitializer()
 }
@@ -2296,7 +2303,7 @@ void Statement():
 |
   AssertStatement()
 |
-  Block(new Vector())
+  Block(null)
 |
   EmptyStatement()
 |
@@ -2328,7 +2335,7 @@ void Statement():
 void AssertStatement():
 {}
 {
-  "assert" Expression(new Vector()) [ ":" Expression(new Vector()) ] ";"
+  "assert" Expression(null) [ ":" Expression(null) ] ";"
 }
 
 void LabeledStatement():
@@ -2344,6 +2351,8 @@ void Block(List tokens) :
  */
 	{
 	  Token first, last;
+	  if (tokens == null)
+	    tokens = new ArrayList();
 	}
 {
   "{"
@@ -2375,7 +2384,7 @@ void BlockStatement():
 |
   Statement()
 |
-  ClassOrInterfaceDeclaration(0, new Vector())
+  ClassOrInterfaceDeclaration(0, null)
 }
 
 void LocalVariableDeclaration():
@@ -2408,14 +2417,14 @@ void StatementExpression():
   |
     "--"
   |
-    AssignmentOperator() Expression(new Vector())
+    AssignmentOperator() Expression(null)
   ]
 }
 
 void SwitchStatement():
 {}
 {
-  "switch" "(" Expression(new Vector()) ")" "{"
+  "switch" "(" Expression(null) ")" "{"
     ( SwitchLabel() ( BlockStatement() )* )*
   "}"
 }
@@ -2423,7 +2432,7 @@ void SwitchStatement():
 void SwitchLabel():
 {}
 {
-  "case" Expression(new Vector()) ":"
+  "case" Expression(null) ":"
 |
   "default" ":"
 }
@@ -2436,19 +2445,19 @@ void IfStatement():
  */
 {}
 {
-  "if" "(" Expression(new Vector()) ")" Statement() [ LOOKAHEAD(1) "else" Statement() ]
+  "if" "(" Expression(null) ")" Statement() [ LOOKAHEAD(1) "else" Statement() ]
 }
 
 void WhileStatement():
 {}
 {
-  "while" "(" Expression(new Vector()) ")" Statement()
+  "while" "(" Expression(null) ")" Statement()
 }
 
 void DoStatement():
 {}
 {
-  "do" Statement() "while" "(" Expression(new Vector()) ")" ";"
+  "do" Statement() "while" "(" Expression(null) ")" ";"
 }
 
 void ForStatement():
@@ -2458,9 +2467,9 @@ void ForStatement():
 
   (
       LOOKAHEAD(Modifiers() Type() <IDENTIFIER> ":")
-      Modifiers() Type() <IDENTIFIER> ":" Expression(new Vector())
+      Modifiers() Type() <IDENTIFIER> ":" Expression(null)
     |
-     [ ForInit() ] ";" [ Expression(new Vector()) ] ";" [ ForUpdate() ]
+     [ ForInit() ] ";" [ Expression(null) ] ";" [ ForUpdate() ]
   )
 
   ")" Statement()
@@ -2514,7 +2523,7 @@ void ReturnStatement() :
 	  }
 	}
   [
-    Expression(new java.util.Vector())
+    Expression(null)
   ]
   t=";"
 	{
@@ -2539,7 +2548,7 @@ void ThrowStatement() :
 	    jumpPatched = true;
 	  }
 	}
-  Expression(new java.util.Vector())
+  Expression(null)
   t=";"
 	{
 	  // Add closing brace for above if statement.
@@ -2552,7 +2561,7 @@ void ThrowStatement() :
 void SynchronizedStatement():
 {}
 {
-  "synchronized" "(" Expression(new Vector()) ")" Block(new Vector())
+  "synchronized" "(" Expression(null) ")" Block(null)
 }
 
 void TryStatement():
@@ -2562,9 +2571,9 @@ void TryStatement():
  */
 {}
 {
-  "try" Block(new Vector())
-  ( "catch" "(" FormalParameter() ")" Block(new Vector()) )*
-  [ "finally" Block(new Vector()) ]
+  "try" Block(null)
+  ( "catch" "(" FormalParameter() ")" Block(null) )*
+  [ "finally" Block(null) ]
 }
 
 /* We use productions to match >>>, >> and > so that we can keep the
@@ -2674,7 +2683,7 @@ void AnnotationTypeMemberDeclaration():
    LOOKAHEAD(Type() <IDENTIFIER> "(")
    Type() <IDENTIFIER> "(" ")" [ DefaultValue() ] ";"
   |
-   ClassOrInterfaceDeclaration(modifiers, new Vector())
+   ClassOrInterfaceDeclaration(modifiers, null)
   |
    EnumDeclaration(modifiers)
   |

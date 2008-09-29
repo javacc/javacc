@@ -27,6 +27,8 @@
  */
 package org.javacc.parser;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -50,10 +52,10 @@ public abstract class RegularExpression extends Expansion {
 
   /**
    * The LHS to which the token value of the regular expression
-   * is assigned.  In case there is no LHS, then the vector
+   * is assigned.  In case there is no LHS, then the list
    * remains empty.
    */
-  public java.util.Vector lhsTokens = new java.util.Vector();
+  public List lhsTokens = new ArrayList();
 
   /**
    * We now allow qualified access to token members. Store it here.

@@ -99,7 +99,7 @@ public final class ExpansionTest extends TestCase {
         c = new Choice(e);
         assertEquals(e.column, c.column);
         assertEquals(e.line, c.line);
-        assertEquals(e, c.choices.firstElement());
+        assertEquals(e, c.choices.get(0));
     }
 
     public void testRJustNameConstructor() {
@@ -114,6 +114,6 @@ public final class ExpansionTest extends TestCase {
         Sequence s = new Sequence(t, la);
         assertEquals(t.beginColumn, s.column);
         assertEquals(t.beginLine, s.line);
-        assertSame(la, s.units.firstElement());
+        assertSame(la, s.units.get(0));
     }
 }

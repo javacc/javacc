@@ -33,13 +33,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 
 import org.javacc.parser.Options;
 import org.javacc.parser.OutputFile;
 import org.javacc.utils.JavaFileGenerator;
+
 final class NodeFiles {
   private NodeFiles() {}
 
@@ -132,15 +133,15 @@ final class NodeFiles {
       OutputFile outputFile = new OutputFile(file);
       PrintWriter ostr = outputFile.getPrintWriter();
 
-      Vector nodeIds = ASTNodeDescriptor.getNodeIds();
-      Vector nodeNames = ASTNodeDescriptor.getNodeNames();
+      List nodeIds = ASTNodeDescriptor.getNodeIds();
+      List nodeNames = ASTNodeDescriptor.getNodeNames();
 
       generatePrologue(ostr);
       ostr.println("public interface " + name);
       ostr.println("{");
 
       for (int i = 0; i < nodeIds.size(); ++i) {
-        String n = (String)nodeIds.elementAt(i);
+        String n = (String)nodeIds.get(i);
         ostr.println("  public int " + n + " = " + i + ";");
       }
 
@@ -149,7 +150,7 @@ final class NodeFiles {
 
       ostr.println("  public String[] jjtNodeName = {");
       for (int i = 0; i < nodeNames.size(); ++i) {
-        String n = (String)nodeNames.elementAt(i);
+        String n = (String)nodeNames.get(i);
         ostr.println("    \"" + n + "\",");
       }
       ostr.println("  };");
@@ -181,7 +182,7 @@ final class NodeFiles {
       OutputFile outputFile = new OutputFile(file);
       PrintWriter ostr = outputFile.getPrintWriter();
 
-      Vector nodeNames = ASTNodeDescriptor.getNodeNames();
+      List nodeNames = ASTNodeDescriptor.getNodeNames();
 
       generatePrologue(ostr);
       ostr.println("public interface " + name);
@@ -198,7 +199,7 @@ final class NodeFiles {
           ve + ";");
       if (JJTreeOptions.getMulti()) {
         for (int i = 0; i < nodeNames.size(); ++i) {
-          String n = (String)nodeNames.elementAt(i);
+          String n = (String)nodeNames.get(i);
           if (n.equals("void")) {
             continue;
           }

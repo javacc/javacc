@@ -27,6 +27,8 @@
  */
 package org.javacc.parser;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -42,12 +44,12 @@ public class Lookahead extends Expansion {
   /**
    * Contains the list of tokens that make up the semantic lookahead
    * if any.  If this node represents a different kind of lookahead (other
-   * than semantic lookahead), then this vector contains nothing.  If
-   * this vector contains something, then it is the boolean expression
+   * than semantic lookahead), then this list contains nothing.  If
+   * this list contains something, then it is the boolean expression
    * that forms the semantic lookahead.  In this case, the following
    * fields "amount" and "la_expansion" are ignored.
    */
-  public java.util.Vector action_tokens = new java.util.Vector();
+  public List action_tokens = new ArrayList();
 
   /**
    * The lookahead amount.  Its default value essentially gives us

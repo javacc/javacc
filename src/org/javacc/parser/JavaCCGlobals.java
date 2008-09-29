@@ -30,7 +30,6 @@ package org.javacc.parser;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import org.javacc.Version;
 
@@ -66,7 +65,7 @@ public class JavaCCGlobals {
    * The list of tools that have participated in generating the
    * input grammar file.
    */
-  static public Vector toolNames;
+  static public List toolNames;
 
   /**
    * This prints the banner line when the various tools are invoked.  This
@@ -89,20 +88,20 @@ public class JavaCCGlobals {
    * This is a list of tokens that appear after "PARSER_BEGIN(name)" all the
    * way until (but not including) the opening brace "{" of the class "name".
    */
-  static public java.util.Vector cu_to_insertion_point_1 = new java.util.Vector();
+  static public java.util.List cu_to_insertion_point_1 = new java.util.ArrayList();
 
   /**
    * This is the list of all tokens that appear after the tokens in
    * "cu_to_insertion_point_1" and until (but not including) the closing brace "}"
    * of the class "name".
    */
-  static public java.util.Vector cu_to_insertion_point_2 = new java.util.Vector();
+  static public java.util.List cu_to_insertion_point_2 = new java.util.ArrayList();
 
   /**
    * This is the list of all tokens that appear after the tokens in
    * "cu_to_insertion_point_2" and until "PARSER_END(name)".
    */
-  static public java.util.Vector cu_from_insertion_point_2 = new java.util.Vector();
+  static public java.util.List cu_from_insertion_point_2 = new java.util.ArrayList();
 
   /**
    * A list of all grammar productions - normal and JAVACODE - in the order
@@ -207,8 +206,8 @@ public class JavaCCGlobals {
    * used to generate it.
    */
   public static String getIdString(String toolName, String fileName) {
-     Vector toolNames = new Vector();
-     toolNames.addElement(toolName);
+     List toolNames = new ArrayList();
+     toolNames.add(toolName);
      return getIdString(toolNames, fileName);
   }
 
@@ -238,17 +237,17 @@ public class JavaCCGlobals {
    * by getToolNames(fileName).
    */
   public static boolean isGeneratedBy(String toolName, String fileName) {
-     Vector v = getToolNames(fileName);
+     List v = getToolNames(fileName);
 
      for (int i = 0; i < v.size(); i++)
-        if (toolName.equals(v.elementAt(i)))
+        if (toolName.equals(v.get(i)))
            return true;
 
      return false;
   }
 
-  private static Vector makeToolNameVector(String str) {
-     Vector retVal = new Vector();
+  private static List makeToolNameList(String str) {
+     List retVal = new ArrayList();
 
      int limit1 = str.indexOf('\n');
      if (limit1 == -1) limit1 = 1000;
@@ -277,21 +276,21 @@ public class JavaCCGlobals {
 
      while (j < tmp.length() && (i = tmp.indexOf('&', j)) != -1)
      {
-        retVal.addElement(tmp.substring(j, i));
+        retVal.add(tmp.substring(j, i));
         j = i + 1;
      }
 
      if (j < tmp.length())
-        retVal.addElement(tmp.substring(j));
+        retVal.add(tmp.substring(j));
 
      return retVal;
   }
 
   /**
-   * Returns a Vector of names of the tools that have been used to generate
+   * Returns a List of names of the tools that have been used to generate
    * the given file.
    */
-  public static Vector getToolNames(String fileName) {
+  public static List getToolNames(String fileName) {
      char[] buf = new char[256];
      java.io.FileReader stream = null;
      int read, total = 0;
@@ -308,11 +307,11 @@ public class JavaCCGlobals {
           else
              break;
 
-       return makeToolNameVector(new String(buf, 0, total));
+       return makeToolNameList(new String(buf, 0, total));
     } catch(java.io.FileNotFoundException e1) {
     } catch(java.io.IOException e2) {
        if (total > 0)
-          return makeToolNameVector(new String(buf, 0, total));
+          return makeToolNameList(new String(buf, 0, total));
     }
     finally {
        if (stream != null)
@@ -320,7 +319,7 @@ public class JavaCCGlobals {
          catch (Exception e3) { }
     }
 
-    return new Vector();
+    return new ArrayList();
   }
 
   public static void createOutputDir(File outputDir) {
@@ -522,9 +521,9 @@ public class JavaCCGlobals {
       jjtreeGenerated = false;
       toolNames = null;
       cu_name = null;
-      cu_to_insertion_point_1 = new java.util.Vector();
-      cu_to_insertion_point_2 = new java.util.Vector();
-      cu_from_insertion_point_2 = new java.util.Vector();
+      cu_to_insertion_point_1 = new java.util.ArrayList();
+      cu_to_insertion_point_2 = new java.util.ArrayList();
+      cu_from_insertion_point_2 = new java.util.ArrayList();
       bnfproductions = new java.util.ArrayList();
       production_table = new java.util.HashMap();
       lexstate_S2I = new java.util.Hashtable();

@@ -27,7 +27,9 @@
  */
 package org.javacc.parser;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Describes character lists.
  */
@@ -41,10 +43,10 @@ public class RCharacterList extends RegularExpression {
   public boolean negated_list = false;
 
   /**
-   * This is the list of descriptors of the character list.  Each vector
+   * This is the list of descriptors of the character list.  Each list
    * entry will narrow to either SingleCharacter or to CharacterRange.
    */
-  public java.util.Vector descriptors = new java.util.Vector();
+  public List descriptors = new ArrayList();
 
 static final char[] diffLowerCaseRanges = {
 65, 90, 192, 214, 216, 222, 256, 256, 258, 258, 260, 260, 262, 262, 264, 264,
@@ -176,21 +178,21 @@ static final char[] diffUpperCaseRanges = {
 
     for (int i = 0; i < cnt; i++)
     {
-      if (descriptors.elementAt(i) instanceof SingleCharacter)
+      if (descriptors.get(i) instanceof SingleCharacter)
       {
-        char ch = ((SingleCharacter)descriptors.elementAt(i)).ch;
+        char ch = ((SingleCharacter)descriptors.get(i)).ch;
 
         if (ch != Character.toLowerCase(ch))
-          descriptors.addElement(new
+          descriptors.add(new
                          SingleCharacter(Character.toLowerCase(ch)));
         if (ch != Character.toUpperCase(ch))
-           descriptors.addElement(new
+           descriptors.add(new
                          SingleCharacter(Character.toUpperCase(ch)));
       }
       else
       {
-        char l = ((CharacterRange)descriptors.elementAt(i)).left;
-        char r = ((CharacterRange)descriptors.elementAt(i)).right;
+        char l = ((CharacterRange)descriptors.get(i)).left;
+        char r = ((CharacterRange)descriptors.get(i)).right;
         int j = 0;
 
         /* Add ranges for which lower case is different. */
@@ -206,25 +208,25 @@ static final char[] diffUpperCaseRanges = {
 
             if (r <= diffLowerCaseRanges[j + 1])
             {
-              descriptors.addElement(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
+              descriptors.add(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
                    (char)(Character.toLowerCase(diffLowerCaseRanges[j]) + r - diffLowerCaseRanges[j])));
               break;
             }
 
-            descriptors.addElement(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
+            descriptors.add(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
                                                        Character.toLowerCase(diffLowerCaseRanges[j + 1])));
           }
           else
           {
             if (r <= diffLowerCaseRanges[j + 1])
             {
-              descriptors.addElement(new CharacterRange(
+              descriptors.add(new CharacterRange(
                               (char)(Character.toLowerCase(diffLowerCaseRanges[j]) + l - diffLowerCaseRanges[j]),
                               (char)(Character.toLowerCase(diffLowerCaseRanges[j]) + r - diffLowerCaseRanges[j])));
               break;
             }
 
-            descriptors.addElement(new CharacterRange(
+            descriptors.add(new CharacterRange(
                            (char)(Character.toLowerCase(diffLowerCaseRanges[j]) + l - diffLowerCaseRanges[j]),
                            Character.toLowerCase(diffLowerCaseRanges[j + 1])));
           }
@@ -234,12 +236,12 @@ static final char[] diffUpperCaseRanges = {
           {
             if (r <= diffLowerCaseRanges[j + 1])
             {
-              descriptors.addElement(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
+              descriptors.add(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
                               (char)(Character.toLowerCase(diffLowerCaseRanges[j]) + r - diffLowerCaseRanges[j])));
               break;
             }
 
-            descriptors.addElement(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
+            descriptors.add(new CharacterRange(Character.toLowerCase(diffLowerCaseRanges[j]),
                                                        Character.toLowerCase(diffLowerCaseRanges[j + 1])));
             j += 2;
           }
@@ -258,25 +260,25 @@ static final char[] diffUpperCaseRanges = {
 
           if (r <= diffUpperCaseRanges[j + 1])
           {
-            descriptors.addElement(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
+            descriptors.add(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
                  (char)(Character.toUpperCase(diffUpperCaseRanges[j]) + r - diffUpperCaseRanges[j])));
             continue;
           }
 
-          descriptors.addElement(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
+          descriptors.add(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
                                                      Character.toUpperCase(diffUpperCaseRanges[j + 1])));
         }
         else
         {
           if (r <= diffUpperCaseRanges[j + 1])
           {
-            descriptors.addElement(new CharacterRange(
+            descriptors.add(new CharacterRange(
                             (char)(Character.toUpperCase(diffUpperCaseRanges[j]) + l - diffUpperCaseRanges[j]),
                             (char)(Character.toUpperCase(diffUpperCaseRanges[j]) + r - diffUpperCaseRanges[j])));
             continue;
           }
 
-          descriptors.addElement(new CharacterRange(
+          descriptors.add(new CharacterRange(
                           (char)(Character.toUpperCase(diffUpperCaseRanges[j]) + l - diffUpperCaseRanges[j]),
                           Character.toUpperCase(diffUpperCaseRanges[j + 1])));
         }
@@ -286,12 +288,12 @@ static final char[] diffUpperCaseRanges = {
         {
           if (r <= diffUpperCaseRanges[j + 1])
           {
-            descriptors.addElement(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
+            descriptors.add(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
                             (char)(Character.toUpperCase(diffUpperCaseRanges[j]) + r - diffUpperCaseRanges[j])));
             break;
           }
 
-          descriptors.addElement(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
+          descriptors.add(new CharacterRange(Character.toUpperCase(diffUpperCaseRanges[j]),
                                                      Character.toUpperCase(diffUpperCaseRanges[j + 1])));
           j += 2;
         }
@@ -311,15 +313,15 @@ static final char[] diffUpperCaseRanges = {
            System.out.println("Before:");
            for (i = 0; i < descriptors.size(); i++)
            {
-              if (descriptors.elementAt(i) instanceof SingleCharacter)
+              if (descriptors.get(i) instanceof SingleCharacter)
               {
-                 char c = ((SingleCharacter)descriptors.elementAt(i)).ch;
+                 char c = ((SingleCharacter)descriptors.get(i)).ch;
                  System.out.print((int)c + " ");
               }
               else
               {
-                 char l = ((CharacterRange)descriptors.elementAt(i)).left;
-                 char r = ((CharacterRange)descriptors.elementAt(i)).right;
+                 char l = ((CharacterRange)descriptors.get(i)).left;
+                 char r = ((CharacterRange)descriptors.get(i)).right;
 
                  System.out.print((int)l + "-" + (int)r + " ");
               }
@@ -336,15 +338,15 @@ static final char[] diffUpperCaseRanges = {
            System.out.println("After:");
            for (i = 0; i < descriptors.size(); i++)
            {
-              if (descriptors.elementAt(i) instanceof SingleCharacter)
+              if (descriptors.get(i) instanceof SingleCharacter)
               {
-                 char c = ((SingleCharacter)descriptors.elementAt(i)).ch;
+                 char c = ((SingleCharacter)descriptors.get(i)).ch;
                  System.out.print((int)c + " ");
               }
               else
               {
-                 char l = ((CharacterRange)descriptors.elementAt(i)).left;
-                 char r = ((CharacterRange)descriptors.elementAt(i)).right;
+                 char l = ((CharacterRange)descriptors.get(i)).left;
+                 char r = ((CharacterRange)descriptors.get(i)).right;
 
                  System.out.print((int)l + "-" + (int)r + " ");
               }
@@ -375,11 +377,11 @@ static final char[] diffUpperCaseRanges = {
 
      for (i = 0; i < descriptors.size(); i++)
      {
-        if (descriptors.elementAt(i) instanceof SingleCharacter)
-           startState.AddChar(((SingleCharacter)descriptors.elementAt(i)).ch);
-        else // if (descriptors.elementAt(i) instanceof CharacterRange)
+        if (descriptors.get(i) instanceof SingleCharacter)
+           startState.AddChar(((SingleCharacter)descriptors.get(i)).ch);
+        else // if (descriptors.get(i) instanceof CharacterRange)
         {
-           CharacterRange cr = (CharacterRange)descriptors.elementAt(i);
+           CharacterRange cr = (CharacterRange)descriptors.get(i);
 
            if (cr.left == cr.right)
               startState.AddChar(cr.left);
@@ -412,7 +414,7 @@ static final char[] diffUpperCaseRanges = {
   {
      int j;
 
-     Vector newDesc = new Vector(descriptors.size());
+     List newDesc = new ArrayList(descriptors.size());
      int cnt = 0;
 
      Outer:
@@ -421,82 +423,81 @@ static final char[] diffUpperCaseRanges = {
         SingleCharacter s;
         CharacterRange range;
 
-        if (descriptors.elementAt(i) instanceof SingleCharacter)
+        if (descriptors.get(i) instanceof SingleCharacter)
         {
-           s = (SingleCharacter)descriptors.elementAt(i);
+           s = (SingleCharacter)descriptors.get(i);
 
            for (j = 0; j < cnt; j++)
            {
-              if (newDesc.elementAt(j) instanceof SingleCharacter)
+              if (newDesc.get(j) instanceof SingleCharacter)
               {
-                 if (((SingleCharacter)newDesc.elementAt(j)).ch > s.ch)
+                 if (((SingleCharacter)newDesc.get(j)).ch > s.ch)
                     break;
-                 else if (((SingleCharacter)newDesc.elementAt(j)).ch == s.ch)
+                 else if (((SingleCharacter)newDesc.get(j)).ch == s.ch)
                     continue Outer;
               }
               else
               {
-                 char l = ((CharacterRange)newDesc.elementAt(j)).left;
+                 char l = ((CharacterRange)newDesc.get(j)).left;
 
-                 if (InRange(s.ch, (CharacterRange)newDesc.elementAt(j)))
+                 if (InRange(s.ch, (CharacterRange)newDesc.get(j)))
                     continue Outer;
                  else if (l > s.ch)
                     break;
               }
            }
 
-           newDesc.insertElementAt(s, j);
+           newDesc.add(j, s);
            cnt++;
         }
         else
         {
-           range = (CharacterRange)descriptors.elementAt(i);
+           range = (CharacterRange)descriptors.get(i);
 
            for (j = 0; j < cnt; j++)
            {
-              if (newDesc.elementAt(j) instanceof SingleCharacter)
+              if (newDesc.get(j) instanceof SingleCharacter)
               {
-                 if (InRange(((SingleCharacter)newDesc.elementAt(j)).ch, range))
+                 if (InRange(((SingleCharacter)newDesc.get(j)).ch, range))
                  {
-                    newDesc.removeElementAt(j--);
+                    newDesc.remove(j--);
                     cnt--;
                  }
-                 else if (((SingleCharacter)newDesc.elementAt(j)).ch > range.right)
+                 else if (((SingleCharacter)newDesc.get(j)).ch > range.right)
                     break;
               }
               else
               {
-                 if (SubRange(range, (CharacterRange)newDesc.elementAt(j)))
+                 if (SubRange(range, (CharacterRange)newDesc.get(j)))
                  {
                     continue Outer;
                  }
-                 else if (SubRange((CharacterRange)newDesc.elementAt(j), range))
+                 else if (SubRange((CharacterRange)newDesc.get(j), range))
                  {
-                    newDesc.setElementAt(range, j);
+                    newDesc.set(j, range);
                     continue Outer;
                  }
-                 else if (Overlaps(range,  (CharacterRange)newDesc.elementAt(j)))
+                 else if (Overlaps(range,  (CharacterRange)newDesc.get(j)))
                  {
-                    range.left = (char)(((CharacterRange)newDesc.elementAt(j)).right + 1);
+                    range.left = (char)(((CharacterRange)newDesc.get(j)).right + 1);
                  }
-                 else if (Overlaps((CharacterRange)newDesc.elementAt(j), range))
+                 else if (Overlaps((CharacterRange)newDesc.get(j), range))
                  {
                     CharacterRange tmp = range;
-                    ((CharacterRange)newDesc.elementAt(j)).right = (char)(range.left + 1);
-                    range = (CharacterRange)newDesc.elementAt(j);
-                    newDesc.setElementAt(tmp, j);
+                    ((CharacterRange)newDesc.get(j)).right = (char)(range.left + 1);
+                    range = (CharacterRange)newDesc.get(j);
+                    newDesc.set(j, tmp);
                  }
-                 else if (((CharacterRange)newDesc.elementAt(j)).left > range.right)
+                 else if (((CharacterRange)newDesc.get(j)).left > range.right)
                     break;
               }
            }
 
-           newDesc.insertElementAt(range, j);
+           newDesc.add(j, range);
            cnt++;
         }
      }
 
-     newDesc.trimToSize();
      descriptors = newDesc;
   }
 
@@ -510,15 +511,15 @@ static final char[] diffUpperCaseRanges = {
      System.out.println("REM. NEG Before:");
      for (i = 0; i < descriptors.size(); i++)
      {
-        if (descriptors.elementAt(i) instanceof SingleCharacter)
+        if (descriptors.get(i) instanceof SingleCharacter)
         {
-           char c = ((SingleCharacter)descriptors.elementAt(i)).ch;
+           char c = ((SingleCharacter)descriptors.get(i)).ch;
            System.out.print((int)c + " ");
         }
         else
         {
-           char l = ((CharacterRange)descriptors.elementAt(i)).left;
-           char r = ((CharacterRange)descriptors.elementAt(i)).right;
+           char l = ((CharacterRange)descriptors.get(i)).left;
+           char r = ((CharacterRange)descriptors.get(i)).right;
 
            System.out.print((int)l + "-" + (int)r + " ");
         }
@@ -526,14 +527,14 @@ static final char[] diffUpperCaseRanges = {
      System.out.println("");
 */
 
-     Vector newDescriptors = new Vector();
+     List newDescriptors = new ArrayList();
      int lastRemoved = -1; // One less than the first valid character.
 
      for (i = 0; i < descriptors.size(); i++)
      {
-        if (descriptors.elementAt(i) instanceof SingleCharacter)
+        if (descriptors.get(i) instanceof SingleCharacter)
         {
-           char c = ((SingleCharacter)descriptors.elementAt(i)).ch;
+           char c = ((SingleCharacter)descriptors.get(i)).ch;
 
            if (c >= 0 && c <= lastRemoved + 1)
            {
@@ -542,13 +543,13 @@ static final char[] diffUpperCaseRanges = {
            }
 
            //System.out.println("lastRemoved : " + (int)lastRemoved + "; char : "  + (int)c);
-           newDescriptors.addElement(new CharacterRange((char)(lastRemoved + 1),
+           newDescriptors.add(new CharacterRange((char)(lastRemoved + 1),
                                          (char)((lastRemoved = c) - 1)));
         }
         else
         {
-           char l = ((CharacterRange)descriptors.elementAt(i)).left;
-           char r = ((CharacterRange)descriptors.elementAt(i)).right;
+           char l = ((CharacterRange)descriptors.get(i)).left;
+           char r = ((CharacterRange)descriptors.get(i)).right;
 
            if (l >= 0 && l <= lastRemoved + 1)
            {
@@ -557,7 +558,7 @@ static final char[] diffUpperCaseRanges = {
            }
 
            //System.out.println("lastRemoved : " + (int)lastRemoved + "; left : "  + l + "; right : " + (int)r);
-           newDescriptors.addElement(new CharacterRange((char)(lastRemoved + 1),
+           newDescriptors.add(new CharacterRange((char)(lastRemoved + 1),
                                             (char)(l - 1)));
            lastRemoved = r;
         }
@@ -567,13 +568,13 @@ static final char[] diffUpperCaseRanges = {
      if (NfaState.unicodeWarningGiven || Options.getJavaUnicodeEscape())
      {
         if (lastRemoved < (char)0xffff)
-           newDescriptors.addElement(new CharacterRange((char)(lastRemoved + 1),
+           newDescriptors.add(new CharacterRange((char)(lastRemoved + 1),
                                      (char)0xffff));
      }
      else
      {
         if (lastRemoved < (char)0xff)
-           newDescriptors.addElement(new CharacterRange((char)(lastRemoved + 1),
+           newDescriptors.add(new CharacterRange((char)(lastRemoved + 1),
                                                                    (char)0xff));
      }
 
@@ -584,15 +585,15 @@ static final char[] diffUpperCaseRanges = {
      System.out.println("REM NEG After:");
      for (i = 0; i < descriptors.size(); i++)
      {
-        if (descriptors.elementAt(i) instanceof SingleCharacter)
+        if (descriptors.get(i) instanceof SingleCharacter)
         {
-           char c = ((SingleCharacter)descriptors.elementAt(i)).ch;
+           char c = ((SingleCharacter)descriptors.get(i)).ch;
            System.out.print((int)c + " ");
         }
         else
         {
-           char l = ((CharacterRange)descriptors.elementAt(i)).left;
-           char r = ((CharacterRange)descriptors.elementAt(i)).right;
+           char l = ((CharacterRange)descriptors.get(i)).left;
+           char r = ((CharacterRange)descriptors.get(i)).right;
 
            System.out.print((int)l + "-" + (int)r + " ");
         }
@@ -607,8 +608,8 @@ static final char[] diffUpperCaseRanges = {
 
   RCharacterList(char c)
   {
-    descriptors = new Vector();
-    descriptors.addElement(new SingleCharacter(c));
+    descriptors = new ArrayList();
+    descriptors.add(new SingleCharacter(c));
     negated_list = false;
     ordinal = Integer.MAX_VALUE;
   }

@@ -29,10 +29,11 @@
 package org.javacc.parser;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
 /**
  * Generate lexer.
@@ -97,8 +98,8 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
               8092
           )
       );
-      Vector tn = (Vector)(toolNames.clone());
-      tn.addElement(toolName);
+      List tn = new ArrayList(toolNames);
+      tn.add(toolName);
 
       ostr.println("/* " + getIdString(tn, tokMgrClassName + ".java") + " */");
 
@@ -109,10 +110,10 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
         if (cu_to_insertion_point_1.size() <= l)
           break;
 
-        kind = ((Token)cu_to_insertion_point_1.elementAt(l)).kind;
+        kind = ((Token)cu_to_insertion_point_1.get(l)).kind;
         if(kind == PACKAGE || kind == IMPORT) {
           for (; i < cu_to_insertion_point_1.size(); i++) {
-            kind = ((Token)cu_to_insertion_point_1.elementAt(i)).kind;
+            kind = ((Token)cu_to_insertion_point_1.get(i)).kind;
             if (kind == SEMICOLON ||
                 kind == ABSTRACT ||
                 kind == FINAL ||
@@ -120,13 +121,13 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
                 kind == CLASS ||
                 kind == INTERFACE)
             {
-              cline = ((Token)(cu_to_insertion_point_1.elementAt(l))).beginLine;
-              ccol = ((Token)(cu_to_insertion_point_1.elementAt(l))).beginColumn;
+              cline = ((Token)(cu_to_insertion_point_1.get(l))).beginLine;
+              ccol = ((Token)(cu_to_insertion_point_1.get(l))).beginColumn;
               for (j = l; j < i; j++) {
-                printToken((Token)(cu_to_insertion_point_1.elementAt(j)), ostr);
+                printToken((Token)(cu_to_insertion_point_1.get(j)), ostr);
               }
               if (kind == SEMICOLON)
-                printToken((Token)(cu_to_insertion_point_1.elementAt(j)), ostr);
+                printToken((Token)(cu_to_insertion_point_1.get(j)), ostr);
               ostr.println("");
               break;
             }
@@ -267,18 +268,18 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
     while (it.hasNext())
     {
       tp = (TokenProduction)it.next();
-      Vector respecs = tp.respecs;
-      Vector tps;
+      List respecs = tp.respecs;
+      List tps;
 
       for (i = 0; i < tp.lexStates.length; i++)
       {
-        if ((tps = (Vector)allTpsForState.get(tp.lexStates[i])) == null)
+        if ((tps = (List)allTpsForState.get(tp.lexStates[i])) == null)
         {
           tmpLexStateName[maxLexStates++] = tp.lexStates[i];
-          allTpsForState.put(tp.lexStates[i], tps = new Vector());
+          allTpsForState.put(tp.lexStates[i], tps = new ArrayList());
         }
 
-        tps.addElement(tp);
+        tps.add(tp);
       }
 
       if (respecs == null || respecs.size() == 0)
@@ -286,7 +287,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
 
       RegularExpression re;
       for (i = 0; i < respecs.size(); i++)
-        if (maxOrdinal <= (re = ((RegExprSpec)respecs.elementAt(i)).rexp).ordinal)
+        if (maxOrdinal <= (re = ((RegExprSpec)respecs.get(i)).rexp).ordinal)
           maxOrdinal = re.ordinal + 1;
     }
 
@@ -347,7 +348,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
       return;
 
     keepLineCol = Options.getKeepLineColumn();
-    Vector choices = new Vector();
+    List choices = new ArrayList();
     Enumeration e;
     TokenProduction tp;
     int i, j;
@@ -371,7 +372,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
 
       lexStateIndex = GetIndex(key);
       lexStateSuffix = "_" + lexStateIndex;
-      Vector allTps = (Vector)allTpsForState.get(key);
+      List allTps = (List)allTpsForState.get(key);
       initStates.put(key, initialState = new NfaState());
       ignoring = false;
 
@@ -383,17 +384,17 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
 
       for (i = 0; i < allTps.size(); i++)
       {
-        tp = (TokenProduction)allTps.elementAt(i);
+        tp = (TokenProduction)allTps.get(i);
         int kind = tp.kind;
         boolean ignore = tp.ignoreCase;
-        Vector rexps = tp.respecs;
+        List rexps = tp.respecs;
 
         if (i == 0)
           ignoring = ignore;
 
         for (j = 0; j < rexps.size(); j++)
         {
-          RegExprSpec respec = (RegExprSpec)rexps.elementAt(j);
+          RegExprSpec respec = (RegExprSpec)rexps.get(j);
           curRE = respec.rexp;
 
           rexprs[curKind = curRE.ordinal] = curRE;
@@ -424,7 +425,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
             Nfa temp;
 
             if (curRE instanceof RChoice)
-              choices.addElement(curRE);
+              choices.add(curRE);
 
             temp = curRE.GenerateNfa(ignore);
             temp.end.isFinal = true;
@@ -531,7 +532,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
     }
 
     for (i = 0; i < choices.size(); i++)
-      ((RChoice)choices.elementAt(i)).CheckUnmatchability();
+      ((RChoice)choices.get(i)).CheckUnmatchability();
 
     NfaState.DumpStateSets(ostr);
     CheckEmptyStringMatch();
@@ -1370,11 +1371,11 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
             ostr.println("(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
           }
 
-          printTokenSetup((Token)act.action_tokens.elementAt(0));
+          printTokenSetup((Token)act.action_tokens.get(0));
           ccol = 1;
 
           for (int j = 0; j < act.action_tokens.size(); j++)
-            printToken((Token)act.action_tokens.elementAt(j), ostr);
+            printToken((Token)act.action_tokens.get(j), ostr);
           ostr.println("");
 
           break;
@@ -1445,11 +1446,11 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
             ostr.println("(input_stream.GetSuffix(jjimageLen));");
 
           ostr.println("         jjimageLen = 0;");
-          printTokenSetup((Token)act.action_tokens.elementAt(0));
+          printTokenSetup((Token)act.action_tokens.get(0));
           ccol = 1;
 
           for (int j = 0; j < act.action_tokens.size(); j++)
-            printToken((Token)act.action_tokens.elementAt(j), ostr);
+            printToken((Token)act.action_tokens.get(j), ostr);
           ostr.println("");
 
           break;
@@ -1527,11 +1528,11 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
             }
           }
 
-          printTokenSetup((Token)act.action_tokens.elementAt(0));
+          printTokenSetup((Token)act.action_tokens.get(0));
           ccol = 1;
 
           for (int j = 0; j < act.action_tokens.size(); j++)
-            printToken((Token)act.action_tokens.elementAt(j), ostr);
+            printToken((Token)act.action_tokens.get(j), ostr);
           ostr.println("");
 
           break;

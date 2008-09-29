@@ -27,6 +27,8 @@
  */
 package org.javacc.parser;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -40,7 +42,7 @@ public class Action extends Expansion {
    * Contains the list of tokens that make up the action.  This
    * list does not include the surrounding braces.
    */
-  public java.util.Vector action_tokens = new java.util.Vector();
+  public List action_tokens = new ArrayList();
 
   public StringBuffer dump(int indent, Set alreadyDumped) {
     StringBuffer sb = super.dump(indent, alreadyDumped);

@@ -33,8 +33,8 @@ public class ASTBNF extends ASTProduction
 {
   ASTBNF(int id) {
     super(id);
-    throws_list.addElement("ParseException");
-    throws_list.addElement("RuntimeException");
+    throws_list.add("ParseException");
+    throws_list.add("RuntimeException");
   }
 
   Token declBeginLoc;

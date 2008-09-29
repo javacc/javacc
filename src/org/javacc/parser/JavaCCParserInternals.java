@@ -28,6 +28,8 @@
 
 package org.javacc.parser;
 
+import java.util.List;
+
 /**
  * Utilities.
  */
@@ -50,14 +52,14 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
     }
   }
 
-  static private java.util.Vector add_cu_token_here = cu_to_insertion_point_1;
+  static private List add_cu_token_here = cu_to_insertion_point_1;
   static private Token first_cu_token;
   static private boolean insertionpoint1set = false;
   static private boolean insertionpoint2set = false;
 
   static protected void setinsertionpoint(Token t, int no) {
     do {
-      add_cu_token_here.addElement(first_cu_token);
+      add_cu_token_here.add(first_cu_token);
       first_cu_token = first_cu_token.next;
     } while (first_cu_token != t);
     if (no == 1) {
@@ -76,7 +78,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
 
   static protected void insertionpointerrors(Token t) {
     while (first_cu_token != t) {
-      add_cu_token_here.addElement(first_cu_token);
+      add_cu_token_here.add(first_cu_token);
       first_cu_token = first_cu_token.next;
     }
     if (!insertionpoint1set || !insertionpoint2set) {
@@ -126,7 +128,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
     }
   }
 
-  static protected void add_token_manager_decls(Token t, java.util.Vector decls) {
+  static protected void add_token_manager_decls(Token t, java.util.List decls) {
     if (token_mgr_decls != null) {
       JavaCCErrors.parse_error(t, "Multiple occurrence of \"TOKEN_MGR_DECLS\".");
     } else {
@@ -150,7 +152,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
       res.act = new Action();
       res.nextState = null;
       res.nsTok = null;
-      p.respecs.addElement(res);
+      p.respecs.add(res);
       rexprlist.add(p);
     }
   }
@@ -282,10 +284,10 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
     Token tryLoc,
     Container result,
     Container nestedExp,
-    java.util.Vector types,
-    java.util.Vector ids,
-    java.util.Vector catchblks,
-    java.util.Vector finallyblk
+    List types,
+    List ids,
+    List catchblks,
+    List finallyblk
   )
   {
     if (catchblks.size() == 0 && finallyblk == null) {

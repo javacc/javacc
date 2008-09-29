@@ -28,10 +28,11 @@
 
 package org.javacc.parser;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 final class KindInfo
 {
@@ -79,20 +80,20 @@ public class RStringLiteral extends RegularExpression {
     this.image = image;
   }
 
-  static int maxStrKind = 0;
-  static int maxLen = 0;
-  static int charCnt = 0;
-  static Vector charPosKind = new Vector(); // Elements are hashtables
-                                            // with single char keys;
-  static int[] maxLenForActive = new int[100]; // 6400 tokens
+  private static int maxStrKind = 0;
+  private static int maxLen = 0;
+  private static int charCnt = 0;
+  private static List charPosKind = new ArrayList(); // Elements are hashtables
+                                                     // with single char keys;
+  private static int[] maxLenForActive = new int[100]; // 6400 tokens
   public static String[] allImages;
-  static int[][] intermediateKinds;
-  static int[][] intermediateMatchedPos;
+  private static int[][] intermediateKinds;
+  private static int[][] intermediateMatchedPos;
 
-  static int startStateCnt = 0;
-  static boolean subString[];
-  static boolean subStringAtPos[];
-  static Hashtable[] statesForPos;
+  private static int startStateCnt = 0;
+  private static boolean subString[];
+  private static boolean subStringAtPos[];
+  private static Hashtable[] statesForPos;
 
   /**
    * Initialize all the static variables, so that there is no interference
@@ -104,7 +105,7 @@ public class RStringLiteral extends RegularExpression {
   {
     maxStrKind = 0;
     maxLen = 0;
-    charPosKind = new Vector();
+    charPosKind = new ArrayList();
     maxLenForActive = new int[100]; // 6400 tokens
     intermediateKinds = null;
     intermediateMatchedPos = null;
@@ -232,9 +233,9 @@ public class RStringLiteral extends RegularExpression {
         }
 
         if (i >= charPosKind.size()) // Kludge, but OK
-           charPosKind.addElement(temp = new Hashtable());
+           charPosKind.add(temp = new Hashtable());
         else
-           temp = (Hashtable)charPosKind.elementAt(i);
+           temp = (Hashtable)charPosKind.get(i);
 
         if ((info = (KindInfo)temp.get(s)) == null)
            temp.put(s, info = new KindInfo(LexGen.maxOrdinal));
@@ -250,9 +251,9 @@ public class RStringLiteral extends RegularExpression {
            s = ("" + image.charAt(i)).toLowerCase();
 
            if (i >= charPosKind.size()) // Kludge, but OK
-              charPosKind.addElement(temp = new Hashtable());
+              charPosKind.add(temp = new Hashtable());
            else
-              temp = (Hashtable)charPosKind.elementAt(i);
+              temp = (Hashtable)charPosKind.get(i);
 
            if ((info = (KindInfo)temp.get(s)) == null)
               temp.put(s, info = new KindInfo(LexGen.maxOrdinal));
@@ -269,9 +270,9 @@ public class RStringLiteral extends RegularExpression {
            s = ("" + image.charAt(i)).toUpperCase();
 
            if (i >= charPosKind.size()) // Kludge, but OK
-              charPosKind.addElement(temp = new Hashtable());
+              charPosKind.add(temp = new Hashtable());
            else
-              temp = (Hashtable)charPosKind.elementAt(i);
+              temp = (Hashtable)charPosKind.get(i);
 
            if ((info = (KindInfo)temp.get(s)) == null)
               temp.put(s, info = new KindInfo(LexGen.maxOrdinal));
@@ -560,7 +561,7 @@ public class RStringLiteral extends RegularExpression {
      {
         boolean atLeastOne = false;
         boolean startNfaNeeded = false;
-        tab = (Hashtable)charPosKind.elementAt(i);
+        tab = (Hashtable)charPosKind.get(i);
         String[] keys = ReArrange(tab);
 
         ostr.print((Options.getStatic() ? "static " : "") + "private int " +
@@ -1054,8 +1055,8 @@ public class RStringLiteral extends RegularExpression {
      int i, j, kind, jjmatchedPos = 0;
      int maxKindsReqd = maxStrKind / 64 + 1;
      long[] actives;
-     Vector newStates = new Vector();
-     Vector oldStates = null, jjtmpStates;
+     List newStates = new ArrayList();
+     List oldStates = null, jjtmpStates;
 
      statesForPos = new Hashtable[maxLen];
      intermediateKinds = new int[maxStrKind + 1][];
@@ -1073,7 +1074,7 @@ public class RStringLiteral extends RegularExpression {
 
         try
         {
-           if ((oldStates = (Vector)initialState.epsilonMoves.clone()) == null ||
+           if ((oldStates = (List)initialState.epsilonMoves.clone()) == null ||
                oldStates.size() == 0)
            {
               DumpNfaStartStatesCode(statesForPos, ostr);
@@ -1101,7 +1102,7 @@ public class RStringLiteral extends RegularExpression {
            else
            {
               kind = NfaState.MoveFromSet(image.charAt(j), oldStates, newStates);
-              oldStates.removeAllElements();
+              oldStates.clear();
 
               if (j == 0 && kind != Integer.MAX_VALUE &&
                   LexGen.canMatchAnyChar[LexGen.lexStateIndex] != -1 &&
@@ -1139,21 +1140,21 @@ public class RStringLiteral extends RegularExpression {
               stateSets.put(stateSetString, stateSetString);
               for (p = 0; p < newStates.size(); p++)
               {
-                 if (seen[((NfaState)newStates.elementAt(p)).stateName])
-                    ((NfaState)newStates.elementAt(p)).inNextOf++;
+                 if (seen[((NfaState)newStates.get(p)).stateName])
+                    ((NfaState)newStates.get(p)).inNextOf++;
                  else
-                    seen[((NfaState)newStates.elementAt(p)).stateName] = true;
+                    seen[((NfaState)newStates.get(p)).stateName] = true;
               }
            }
            else
            {
               for (p = 0; p < newStates.size(); p++)
-                 seen[((NfaState)newStates.elementAt(p)).stateName] = true;
+                 seen[((NfaState)newStates.get(p)).stateName] = true;
            }
 
            jjtmpStates = oldStates;
            oldStates = newStates;
-           (newStates = jjtmpStates).removeAllElements();
+           (newStates = jjtmpStates).clear();
 
            if (statesForPos[j] == null)
               statesForPos[j] = new Hashtable();

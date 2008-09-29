@@ -27,7 +27,8 @@
  */
 package org.javacc.parser;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Describes one-or-more regular expressions (<foo+>).
@@ -45,27 +46,27 @@ public class RRepetitionRange extends RegularExpression {
 
   public Nfa GenerateNfa(boolean ignoreCase)
   {
-     Vector units = new Vector();
+     List units = new ArrayList();
      RSequence seq;
      int i;
 
      for (i = 0; i < min; i++)
      {
-        units.addElement(regexpr);
+        units.add(regexpr);
      }
 
      if (hasMax && max == -1) // Unlimited
      {
         RZeroOrMore zoo = new RZeroOrMore();
         zoo.regexpr = regexpr;
-        units.addElement(zoo);
+        units.add(zoo);
      }
 
      while (i++ < max)
      {
         RZeroOrOne zoo = new RZeroOrOne();
         zoo.regexpr = regexpr;
-        units.addElement(zoo);
+        units.add(zoo);
      }
      seq = new RSequence(units);
      return seq.GenerateNfa(ignoreCase);

@@ -27,6 +27,9 @@
  */
 package org.javacc.parser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Generates the Constants file.
  */
@@ -69,18 +72,18 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
       throw new Error();
     }
 
-    java.util.Vector tn = (java.util.Vector)(toolNames.clone());
-    tn.addElement(toolName);
+    List tn = new ArrayList(toolNames);
+    tn.add(toolName);
     ostr.println("/* " + getIdString(tn, cu_name + "Constants.java") + " */");
 
     if (cu_to_insertion_point_1.size() != 0 &&
-        ((Token)cu_to_insertion_point_1.elementAt(0)).kind == PACKAGE
+        ((Token)cu_to_insertion_point_1.get(0)).kind == PACKAGE
        ) {
       for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
-        if (((Token)cu_to_insertion_point_1.elementAt(i)).kind == SEMICOLON) {
-          printTokenSetup((Token)(cu_to_insertion_point_1.elementAt(0)));
+        if (((Token)cu_to_insertion_point_1.get(i)).kind == SEMICOLON) {
+          printTokenSetup((Token)(cu_to_insertion_point_1.get(0)));
           for (int j = 0; j <= i; j++) {
-            t = (Token)(cu_to_insertion_point_1.elementAt(j));
+            t = (Token)(cu_to_insertion_point_1.get(j));
             printToken(t, ostr);
           }
           printTrailingComments(t, ostr);
@@ -122,9 +125,9 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
 
     for (java.util.Iterator it = rexprlist.iterator(); it.hasNext();) {
       TokenProduction tp = (TokenProduction)(it.next());
-      java.util.Vector respecs = tp.respecs;
-      for (java.util.Enumeration enum1 = respecs.elements(); enum1.hasMoreElements();) {
-        RegExprSpec res = (RegExprSpec)(enum1.nextElement());
+      List respecs = tp.respecs;
+      for (java.util.Iterator it2 = respecs.iterator(); it2.hasNext();) {
+        RegExprSpec res = (RegExprSpec)(it2.next());
         re = res.rexp;
         if (re instanceof RStringLiteral) {
           ostr.println("    \"\\\"" + add_escapes(add_escapes(((RStringLiteral)re).image)) + "\\\"\",");
