@@ -27,6 +27,8 @@
  */
 package org.javacc.parser;
 
+import java.util.Iterator;
+
 /**
  * A set of routines that walk down the Expansion tree in
  * various ways.
@@ -43,12 +45,12 @@ public final class ExpansionTreeWalker {
     opObj.action(node);
     if (opObj.goDeeper(node)) {
       if (node instanceof Choice) {
-        for (java.util.Enumeration enumeration = ((Choice)node).choices.elements(); enumeration.hasMoreElements();) {
-          preOrderWalk((Expansion)enumeration.nextElement(), opObj);
+        for (Iterator it = ((Choice)node).choices.iterator(); it.hasNext();) {
+          preOrderWalk((Expansion)it.next(), opObj);
         }
       } else if (node instanceof Sequence) {
-        for (java.util.Enumeration enumeration = ((Sequence)node).units.elements(); enumeration.hasMoreElements();) {
-          preOrderWalk((Expansion)enumeration.nextElement(), opObj);
+        for (Iterator it = ((Sequence)node).units.iterator(); it.hasNext();) {
+          preOrderWalk((Expansion)it.next(), opObj);
         }
       } else if (node instanceof OneOrMore) {
         preOrderWalk(((OneOrMore)node).expansion, opObj);
@@ -58,18 +60,18 @@ public final class ExpansionTreeWalker {
         preOrderWalk(((ZeroOrOne)node).expansion, opObj);
       } else if (node instanceof Lookahead) {
         Expansion nested_e = ((Lookahead)node).la_expansion;
-        if (!(nested_e instanceof Sequence && (Expansion)(((Sequence)nested_e).units.elementAt(0)) == node)) {
+        if (!(nested_e instanceof Sequence && (Expansion)(((Sequence)nested_e).units.get(0)) == node)) {
           preOrderWalk(nested_e, opObj);
         }
       } else if (node instanceof TryBlock) {
         preOrderWalk(((TryBlock)node).exp, opObj);
       } else if (node instanceof RChoice) {
-        for (java.util.Enumeration enumeration = ((RChoice)node).choices.elements(); enumeration.hasMoreElements();) {
-          preOrderWalk((Expansion)enumeration.nextElement(), opObj);
+        for (Iterator it = ((RChoice)node).choices.iterator(); it.hasNext();) {
+          preOrderWalk((Expansion)it.next(), opObj);
         }
       } else if (node instanceof RSequence) {
-        for (java.util.Enumeration enumeration = ((RSequence)node).units.elements(); enumeration.hasMoreElements();) {
-          preOrderWalk((Expansion)enumeration.nextElement(), opObj);
+        for (Iterator it = ((RSequence)node).units.iterator(); it.hasNext();) {
+          preOrderWalk((Expansion)it.next(), opObj);
         }
       } else if (node instanceof ROneOrMore) {
         preOrderWalk(((ROneOrMore)node).regexpr, opObj);
@@ -91,12 +93,12 @@ public final class ExpansionTreeWalker {
   static void postOrderWalk(Expansion node, TreeWalkerOp opObj) {
     if (opObj.goDeeper(node)) {
       if (node instanceof Choice) {
-        for (java.util.Enumeration enumeration = ((Choice)node).choices.elements(); enumeration.hasMoreElements();) {
-          postOrderWalk((Expansion)enumeration.nextElement(), opObj);
+        for (Iterator it = ((Choice)node).choices.iterator(); it.hasNext();) {
+          postOrderWalk((Expansion)it.next(), opObj);
         }
       } else if (node instanceof Sequence) {
-        for (java.util.Enumeration enumeration = ((Sequence)node).units.elements(); enumeration.hasMoreElements();) {
-          postOrderWalk((Expansion)enumeration.nextElement(), opObj);
+        for (Iterator it = ((Sequence)node).units.iterator(); it.hasNext();) {
+          postOrderWalk((Expansion)it.next(), opObj);
         }
       } else if (node instanceof OneOrMore) {
         postOrderWalk(((OneOrMore)node).expansion, opObj);
@@ -106,18 +108,18 @@ public final class ExpansionTreeWalker {
         postOrderWalk(((ZeroOrOne)node).expansion, opObj);
       } else if (node instanceof Lookahead) {
         Expansion nested_e = ((Lookahead)node).la_expansion;
-        if (!(nested_e instanceof Sequence && (Expansion)(((Sequence)nested_e).units.elementAt(0)) == node)) {
+        if (!(nested_e instanceof Sequence && (Expansion)(((Sequence)nested_e).units.get(0)) == node)) {
           postOrderWalk(nested_e, opObj);
         }
       } else if (node instanceof TryBlock) {
         postOrderWalk(((TryBlock)node).exp, opObj);
       } else if (node instanceof RChoice) {
-        for (java.util.Enumeration enumeration = ((RChoice)node).choices.elements(); enumeration.hasMoreElements();) {
-          postOrderWalk((Expansion)enumeration.nextElement(), opObj);
+        for (Iterator it = ((RChoice)node).choices.iterator(); it.hasNext();) {
+          postOrderWalk((Expansion)it.next(), opObj);
         }
       } else if (node instanceof RSequence) {
-        for (java.util.Enumeration enumeration = ((RSequence)node).units.elements(); enumeration.hasMoreElements();) {
-          postOrderWalk((Expansion)enumeration.nextElement(), opObj);
+        for (Iterator it = ((RSequence)node).units.iterator(); it.hasNext();) {
+          postOrderWalk((Expansion)it.next(), opObj);
         }
       } else if (node instanceof ROneOrMore) {
         postOrderWalk(((ROneOrMore)node).regexpr, opObj);

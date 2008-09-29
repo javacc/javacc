@@ -27,6 +27,9 @@
  */
 package org.javacc.parser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Describes the various regular expression productions.
  */
@@ -72,7 +75,7 @@ public class TokenProduction {
    * The list of regular expression specifications that comprise this
    * production.  Each entry is a "RegExprSpec".
    */
-  public java.util.Vector respecs = new java.util.Vector();
+  public List respecs = new ArrayList();
 
   /**
    * This is true if this corresponds to a production that actually

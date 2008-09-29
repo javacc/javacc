@@ -28,7 +28,9 @@
 
 package org.javacc.parser;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -40,9 +42,9 @@ public class Sequence extends Expansion {
 
   /**
    * The list of units in this expansion sequence.  Each
-   * Vector component will narrow to Expansion.
+   * List component will narrow to Expansion.
    */
-  public java.util.Vector units = new java.util.Vector();
+  public List units = new ArrayList();
 
     public Sequence() {}
 

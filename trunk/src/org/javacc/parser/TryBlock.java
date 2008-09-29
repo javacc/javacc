@@ -27,6 +27,7 @@
  */
 package org.javacc.parser;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,28 +42,28 @@ public class TryBlock extends Expansion {
   public Expansion exp;
 
   /**
-   * The types of each catch block.  Each vector entry is itself a
-   * vector which in turn contains tokens as entries.
+   * The types of each catch block.  Each list entry is itself a
+   * list which in turn contains tokens as entries.
    */
-  public java.util.Vector types;
+  public List types;
 
   /**
-   * The exception identifiers of each catch block.  Each vector entry
+   * The exception identifiers of each catch block.  Each list entry
    * is a token.
    */
-  public java.util.Vector ids;
+  public List ids;
 
   /**
-   * The block part of each catch block.  Each vector entry is itself a
-   * vector which in turn contains tokens as entries.
+   * The block part of each catch block.  Each list entry is itself a
+   * list which in turn contains tokens as entries.
    */
-  public java.util.Vector catchblks;
+  public List catchblks;
 
   /**
-   * The block part of the finally block.  Each vector entry is a token.
+   * The block part of the finally block.  Each list entry is a token.
    * If there is no finally block, this is null.
    */
-  public java.util.Vector finallyblk;
+  public List finallyblk;
 
   public StringBuffer dump(int indent, Set alreadyDumped) {
     StringBuffer sb = super.dump(indent, alreadyDumped);

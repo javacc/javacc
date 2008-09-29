@@ -26,7 +26,8 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 package org.javacc.parser;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Describes regular expressions which are choices from
@@ -37,16 +38,16 @@ public class RChoice extends RegularExpression {
 
   /**
    * The list of choices of this regular expression.  Each
-   * Vector component will narrow to RegularExpression.
+   * list component will narrow to RegularExpression.
    */
-  public java.util.Vector choices = new java.util.Vector();
+  public List choices = new ArrayList();
 
   public Nfa GenerateNfa(boolean ignoreCase)
   {
      CompressCharLists();
 
      if (choices.size() == 1)
-        return ((RegularExpression)choices.elementAt(0)).GenerateNfa(ignoreCase);
+        return ((RegularExpression)choices.get(0)).GenerateNfa(ignoreCase);
 
      Nfa retVal = new Nfa();
      NfaState startState = retVal.start;
@@ -55,7 +56,7 @@ public class RChoice extends RegularExpression {
      for (int i = 0; i < choices.size(); i++)
      {
         Nfa temp;
-        RegularExpression curRE = (RegularExpression)choices.elementAt(i);
+        RegularExpression curRE = (RegularExpression)choices.get(i);
 
         temp = curRE.GenerateNfa(ignoreCase);
 
@@ -74,31 +75,30 @@ public class RChoice extends RegularExpression {
 
      for (int i = 0; i < choices.size(); i++)
      {
-        curRE = (RegularExpression)choices.elementAt(i);
+        curRE = (RegularExpression)choices.get(i);
 
         while (curRE instanceof RJustName)
            curRE = ((RJustName)curRE).regexpr;
 
         if (curRE instanceof RStringLiteral &&
             ((RStringLiteral)curRE).image.length() == 1)
-           choices.setElementAt(curRE = new RCharacterList(
-                      ((RStringLiteral)curRE).image.charAt(0)), i);
+           choices.set(i, curRE = new RCharacterList(
+                      ((RStringLiteral)curRE).image.charAt(0)));
 
         if (curRE instanceof RCharacterList)
         {
            if (((RCharacterList)curRE).negated_list)
               ((RCharacterList)curRE).RemoveNegation();
 
-           Vector tmp = ((RCharacterList)curRE).descriptors;
+           List tmp = ((RCharacterList)curRE).descriptors;
 
            if (curCharList == null)
-              choices.setElementAt(curRE = curCharList =
-                                    new RCharacterList(), i);
+              choices.set(i, curRE = curCharList = new RCharacterList());
            else
-              choices.removeElementAt(i--);
+              choices.remove(i--);
 
            for (int j = tmp.size(); j-- > 0;)
-              curCharList.descriptors.addElement(tmp.elementAt(j));
+              curCharList.descriptors.add(tmp.get(j));
          }
 
      }
@@ -110,16 +110,16 @@ public class RChoice extends RegularExpression {
 
      for (int i = 0; i < choices.size(); i++)
      {
-        curRE = (RegularExpression)choices.elementAt(i);
+        curRE = (RegularExpression)choices.get(i);
 
         while (curRE instanceof RJustName)
            curRE = ((RJustName)curRE).regexpr;
 
         if (curRE instanceof RChoice)
         {
-           choices.removeElementAt(i--);
+           choices.remove(i--);
            for (int j = ((RChoice)curRE).choices.size(); j-- > 0;)
-              choices.addElement(((RChoice)curRE).choices.elementAt(j));
+              choices.add(((RChoice)curRE).choices.get(j));
         }
      }
   }
@@ -131,7 +131,7 @@ public class RChoice extends RegularExpression {
 
      for (int i = 0; i < choices.size(); i++)
      {
-        if (!(curRE = (RegularExpression)choices.elementAt(i)).private_rexp &&
+        if (!(curRE = (RegularExpression)choices.get(i)).private_rexp &&
             //curRE instanceof RJustName &&
             curRE.ordinal > 0 && curRE.ordinal < ordinal &&
             LexGen.lexStates[curRE.ordinal] == LexGen.lexStates[ordinal])

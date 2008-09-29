@@ -28,7 +28,9 @@
 
 package org.javacc.parser;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -40,9 +42,9 @@ public class Choice extends Expansion {
 
   /**
    * The list of choices of this expansion unit.  Each
-   * Vector component will narrow to ExpansionUnit.
+   * List component will narrow to ExpansionUnit.
    */
-  public java.util.Vector choices = new java.util.Vector();
+  public List choices = new ArrayList();
 
     public Choice() {}
 
@@ -54,7 +56,7 @@ public class Choice extends Expansion {
     public Choice(Expansion expansion) {
         this.line = expansion.line;
         this.column = expansion.column;
-        this.choices.addElement(expansion);
+        this.choices.add(expansion);
     }
 
     public StringBuffer dump(int indent, Set alreadyDumped) {

@@ -32,9 +32,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
 /**
  * Generate the parser.
@@ -63,16 +63,16 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
         throw new Error();
       }
 
-      Vector tn = (Vector)(toolNames.clone());
-      tn.addElement(toolName);
+      List tn = new ArrayList(toolNames);
+      tn.add(toolName);
       ostr.println("/* " + getIdString(tn, cu_name + ".java") + " */");
 
       boolean implementsExists = false;
 
       if (cu_to_insertion_point_1.size() != 0) {
-        printTokenSetup((Token)(cu_to_insertion_point_1.elementAt(0))); ccol = 1;
-        for (Enumeration enumeration = cu_to_insertion_point_1.elements(); enumeration.hasMoreElements();) {
-          t = (Token)enumeration.nextElement();
+        printTokenSetup((Token)(cu_to_insertion_point_1.get(0))); ccol = 1;
+        for (Iterator it = cu_to_insertion_point_1.iterator(); it.hasNext();) {
+          t = (Token)it.next();
           if (t.kind == IMPLEMENTS) {
             implementsExists = true;
           } else if (t.kind == CLASS) {
@@ -88,9 +88,9 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
       }
       ostr.print(cu_name + "Constants ");
       if (cu_to_insertion_point_2.size() != 0) {
-        printTokenSetup((Token)(cu_to_insertion_point_2.elementAt(0)));
-        for (Enumeration enumeration = cu_to_insertion_point_2.elements(); enumeration.hasMoreElements();) {
-          t = (Token)enumeration.nextElement();
+        printTokenSetup((Token)(cu_to_insertion_point_2.get(0)));
+        for (Iterator it = cu_to_insertion_point_2.iterator(); it.hasNext();) {
+          t = (Token)it.next();
           printToken(t, ostr);
         }
       }
@@ -758,9 +758,9 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
       }
 
       if (cu_from_insertion_point_2.size() != 0) {
-        printTokenSetup((Token)(cu_from_insertion_point_2.elementAt(0))); ccol = 1;
-        for (Enumeration enumeration = cu_from_insertion_point_2.elements(); enumeration.hasMoreElements();) {
-          t = (Token)enumeration.nextElement();
+        printTokenSetup((Token)(cu_from_insertion_point_2.get(0))); ccol = 1;
+        for (Iterator it = cu_from_insertion_point_2.iterator(); it.hasNext();) {
+          t = (Token)it.next();
           printToken(t, ostr);
         }
         printTrailingComments(t, ostr);

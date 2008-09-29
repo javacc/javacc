@@ -40,7 +40,7 @@ public class NonTerminal extends Expansion {
    * is assigned.  In case there is no LHS, then the vector
    * remains empty.
    */
-  public java.util.Vector lhsTokens = new java.util.Vector();
+  public java.util.List lhsTokens = new java.util.ArrayList();
 
   /**
    * The name of the non-terminal.
@@ -50,7 +50,7 @@ public class NonTerminal extends Expansion {
   /**
    * The list of all tokens in the argument list.
    */
-  public java.util.Vector argument_tokens = new java.util.Vector();
+  public java.util.List argument_tokens = new java.util.ArrayList();
 
   /**
    * The production this non-terminal corresponds to.

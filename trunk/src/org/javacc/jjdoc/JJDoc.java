@@ -30,7 +30,6 @@ package org.javacc.jjdoc;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 import org.javacc.parser.Action;
 import org.javacc.parser.BNFProduction;
 import org.javacc.parser.CharacterRange;
@@ -135,8 +134,8 @@ public class JJDoc extends JJDocGlobals {
           token += " [IGNORE_CASE]";
         }
         token += " : {\n";
-        for (Enumeration e2 = tp.respecs.elements(); e2.hasMoreElements();) {
-          RegExprSpec res = (RegExprSpec)e2.nextElement();
+        for (Iterator it2 = tp.respecs.iterator(); it2.hasNext();) {
+          RegExprSpec res = (RegExprSpec)it2.next();
 
           token += emitRE(res.rexp);
 
@@ -145,7 +144,7 @@ public class JJDoc extends JJDocGlobals {
           }
 
           token += "\n";
-          if (e2.hasMoreElements()) {
+          if (it2.hasNext()) {
             token += "| ";
           }
         }
@@ -170,9 +169,8 @@ public class JJDoc extends JJDocGlobals {
         if (np.expansion instanceof Choice) {
           boolean first = true;
           Choice c = (Choice)np.expansion;
-          for (java.util.Enumeration enume = c.choices.elements();
-               enume.hasMoreElements();) {
-            Expansion e = (Expansion)(enume.nextElement());
+          for (Iterator expansionsIterator = c.choices.iterator(); expansionsIterator.hasNext();) {
+            Expansion e = (Expansion)(expansionsIterator.next());
             gen.expansionStart(e, first);
             emitExpansionTree(e, gen);
             gen.expansionEnd(e, first);
@@ -220,11 +218,10 @@ public class JJDoc extends JJDocGlobals {
   private static void emitExpansionAction(Action a, Generator gen) {
   }
   private static void emitExpansionChoice(Choice c, Generator gen) {
-    for (java.util.Enumeration enumeration = c.choices.elements();
-                enumeration.hasMoreElements();) {
-      Expansion e = (Expansion)(enumeration.nextElement());
+    for (Iterator it = c.choices.iterator(); it.hasNext();) {
+      Expansion e = (Expansion)(it.next());
       emitExpansionTree(e, gen);
-      if (enumeration.hasMoreElements()) {
+      if (it.hasNext()) {
         gen.text(" | ");
       }
     }
@@ -252,9 +249,8 @@ public class JJDoc extends JJDocGlobals {
   }
   private static void emitExpansionSequence(Sequence s, Generator gen) {
     boolean firstUnit = true;
-    for (java.util.Enumeration enumeration = s.units.elements();
-            enumeration.hasMoreElements();) {
-      Expansion e = (Expansion)enumeration.nextElement();
+    for (Iterator it = s.units.iterator(); it.hasNext();) {
+      Expansion e = (Expansion)it.next();
       if (e instanceof Lookahead || e instanceof Action) {
         continue;
       }
@@ -319,9 +315,8 @@ public class JJDoc extends JJDocGlobals {
         returnString += "~";
       }
       returnString += "[";
-      for (java.util.Enumeration enumeration = cl.descriptors.elements();
-               enumeration.hasMoreElements();) {
-        Object o = enumeration.nextElement();
+      for (Iterator it = cl.descriptors.iterator(); it.hasNext();) {
+        Object o = it.next();
         if (o instanceof SingleCharacter) {
           returnString += "\"";
           char s[] = { ((SingleCharacter)o).ch };
@@ -338,18 +333,17 @@ public class JJDoc extends JJDocGlobals {
         } else {
           error("Oops: unknown character list element type.");
         }
-        if (enumeration.hasMoreElements()) {
+        if (it.hasNext()) {
           returnString += ",";
         }
       }
       returnString += "]";
     } else if (re instanceof RChoice) {
       RChoice c = (RChoice)re;
-      for (java.util.Enumeration enumeration = c.choices.elements();
-              enumeration.hasMoreElements();) {
-        RegularExpression sub = (RegularExpression)(enumeration.nextElement());
+      for (Iterator it = c.choices.iterator(); it.hasNext();) {
+        RegularExpression sub = (RegularExpression)(it.next());
         returnString += emitRE(sub);
-        if (enumeration.hasMoreElements()) {
+        if (it.hasNext()) {
           returnString += " | ";
         }
       }
@@ -365,9 +359,8 @@ public class JJDoc extends JJDocGlobals {
       returnString += ")+";
     } else if (re instanceof RSequence) {
       RSequence s = (RSequence)re;
-      for (java.util.Enumeration enumeration = s.units.elements();
-              enumeration.hasMoreElements();) {
-        RegularExpression sub = (RegularExpression)(enumeration.nextElement());
+      for (Iterator it = s.units.iterator(); it.hasNext();) {
+        RegularExpression sub = (RegularExpression)(it.next());
         boolean needParens = false;
         if (sub instanceof RChoice) {
           needParens = true;
@@ -379,7 +372,7 @@ public class JJDoc extends JJDocGlobals {
         if (needParens) {
           returnString += ")";
         }
-        if (enumeration.hasMoreElements()) {
+        if (it.hasNext()) {
           returnString += " ";
         }
       }

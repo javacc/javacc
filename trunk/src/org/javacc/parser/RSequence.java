@@ -27,7 +27,9 @@
  */
 package org.javacc.parser;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Describes regular expressions which are sequences of
  * other regular expressions.
@@ -37,14 +39,14 @@ public class RSequence extends RegularExpression {
 
   /**
    * The list of units in this regular expression sequence.  Each
-   * Vector component will narrow to RegularExpression.
+   * list component will narrow to RegularExpression.
    */
-  public java.util.Vector units = new java.util.Vector();
+  public List units = new ArrayList();
 
   public Nfa GenerateNfa(boolean ignoreCase)
   {
      if (units.size() == 1)
-        return ((RegularExpression)units.elementAt(0)).GenerateNfa(ignoreCase);
+        return ((RegularExpression)units.get(0)).GenerateNfa(ignoreCase);
 
      Nfa retVal = new Nfa();
      NfaState startState = retVal.start;
@@ -54,13 +56,13 @@ public class RSequence extends RegularExpression {
 
      RegularExpression curRE;
 
-     curRE = (RegularExpression)units.elementAt(0);
+     curRE = (RegularExpression)units.get(0);
      temp1 = curRE.GenerateNfa(ignoreCase);
      startState.AddMove(temp1.start);
 
      for (int i = 1; i < units.size(); i++)
      {
-        curRE = (RegularExpression)units.elementAt(i);
+        curRE = (RegularExpression)units.get(i);
 
         temp2 = curRE.GenerateNfa(ignoreCase);
         temp1.end.AddMove(temp2.start);
@@ -76,7 +78,7 @@ public class RSequence extends RegularExpression {
   {
   }
 
-  RSequence(Vector seq)
+  RSequence(List seq)
   {
      ordinal = Integer.MAX_VALUE;
      units = seq;

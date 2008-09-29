@@ -27,28 +27,28 @@
  */
 package org.javacc.parser;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public final class LookaheadWalk {
 
   public static boolean considerSemanticLA;
 
-  public static Vector sizeLimitedMatches;
+  public static ArrayList sizeLimitedMatches;
 
   private LookaheadWalk() {}
 
-  public static void vectorAppend(Vector vToAppendTo, Vector vToAppend) {
+  private static void listAppend(List vToAppendTo, List vToAppend) {
     for (int i = 0; i < vToAppend.size(); i++) {
-      vToAppendTo.addElement(vToAppend.elementAt(i));
+      vToAppendTo.add(vToAppend.get(i));
     }
   }
 
-  public static Vector genFirstSet(Vector partialMatches, Expansion exp) {
+  public static List genFirstSet(List partialMatches, Expansion exp) {
     if (exp instanceof RegularExpression) {
-      Vector retval = new Vector();
+      List retval = new ArrayList();
       for (int i = 0; i < partialMatches.size(); i++) {
-        MatchInfo m = (MatchInfo)partialMatches.elementAt(i);
+        MatchInfo m = (MatchInfo)partialMatches.get(i);
         MatchInfo mnew = new MatchInfo();
         for (int j = 0; j < m.firstFreeLoc; j++) {
           mnew.match[j] = m.match[j];
@@ -56,60 +56,60 @@ public final class LookaheadWalk {
         mnew.firstFreeLoc = m.firstFreeLoc;
         mnew.match[mnew.firstFreeLoc++] = ((RegularExpression)exp).ordinal;
         if (mnew.firstFreeLoc == MatchInfo.laLimit) {
-          sizeLimitedMatches.addElement(mnew);
+          sizeLimitedMatches.add(mnew);
         } else {
-          retval.addElement(mnew);
+          retval.add(mnew);
         }
       }
       return retval;
     } else if (exp instanceof NonTerminal) {
       NormalProduction prod = ((NonTerminal)exp).prod;
       if (prod instanceof JavaCodeProduction) {
-        return new Vector();
+        return new ArrayList();
       } else {
         return genFirstSet(partialMatches, prod.expansion);
       }
     } else if (exp instanceof Choice) {
-      Vector retval = new Vector();
+      List retval = new ArrayList();
       Choice ch = (Choice)exp;
       for (int i = 0; i < ch.choices.size(); i++) {
-        Vector v = genFirstSet(partialMatches, (Expansion)ch.choices.elementAt(i));
-        vectorAppend(retval, v);
+        List v = genFirstSet(partialMatches, (Expansion)ch.choices.get(i));
+        listAppend(retval, v);
       }
       return retval;
     } else if (exp instanceof Sequence) {
-      Vector v = partialMatches;
+      List v = partialMatches;
       Sequence seq = (Sequence)exp;
       for (int i = 0; i < seq.units.size(); i++) {
-        v = genFirstSet(v, (Expansion)seq.units.elementAt(i));
+        v = genFirstSet(v, (Expansion)seq.units.get(i));
         if (v.size() == 0) break;
       }
       return v;
     } else if (exp instanceof OneOrMore) {
-      Vector retval = new Vector();
-      Vector v = partialMatches;
+      List retval = new ArrayList();
+      List v = partialMatches;
       OneOrMore om = (OneOrMore)exp;
       while (true) {
         v = genFirstSet(v, om.expansion);
         if (v.size() == 0) break;
-        vectorAppend(retval, v);
+        listAppend(retval, v);
       }
       return retval;
     } else if (exp instanceof ZeroOrMore) {
-      Vector retval = new Vector();
-      vectorAppend(retval, partialMatches);
-      Vector v = partialMatches;
+      List retval = new ArrayList();
+      listAppend(retval, partialMatches);
+      List v = partialMatches;
       ZeroOrMore zm = (ZeroOrMore)exp;
       while (true) {
         v = genFirstSet(v, zm.expansion);
         if (v.size() == 0) break;
-        vectorAppend(retval, v);
+        listAppend(retval, v);
       }
       return retval;
     } else if (exp instanceof ZeroOrOne) {
-      Vector retval = new Vector();
-      vectorAppend(retval, partialMatches);
-      vectorAppend(retval, genFirstSet(partialMatches, ((ZeroOrOne)exp).expansion));
+      List retval = new ArrayList();
+      listAppend(retval, partialMatches);
+      listAppend(retval, genFirstSet(partialMatches, ((ZeroOrOne)exp).expansion));
       return retval;
     } else if (exp instanceof TryBlock) {
       return genFirstSet(partialMatches, ((TryBlock)exp).exp);
@@ -117,56 +117,56 @@ public final class LookaheadWalk {
                exp instanceof Lookahead &&
                ((Lookahead)exp).action_tokens.size() != 0
               ) {
-      return new Vector();
+      return new ArrayList();
     } else {
-      Vector retval = new Vector();
-      vectorAppend(retval, partialMatches);
+      List retval = new ArrayList();
+      listAppend(retval, partialMatches);
       return retval;
     }
   }
 
-  public static void vectorSplit(Vector toSplit, Vector mask, Vector partInMask, Vector rest) {
+  private static void listSplit(List toSplit, List mask, List partInMask, List rest) {
     OuterLoop:
     for (int i = 0; i < toSplit.size(); i++) {
       for (int j = 0; j < mask.size(); j++) {
-        if (toSplit.elementAt(i) == mask.elementAt(j)) {
-          partInMask.addElement(toSplit.elementAt(i));
+        if (toSplit.get(i) == mask.get(j)) {
+          partInMask.add(toSplit.get(i));
           continue OuterLoop;
         }
       }
-      rest.addElement(toSplit.elementAt(i));
+      rest.add(toSplit.get(i));
     }
   }
 
-  public static Vector genFollowSet(Vector partialMatches, Expansion exp, long generation) {
+  public static List genFollowSet(List partialMatches, Expansion exp, long generation) {
     if (exp.myGeneration == generation) {
-      return new Vector();
+      return new ArrayList();
     }
 //System.out.println("*** Parent: " + exp.parent);
     exp.myGeneration = generation;
     if (exp.parent == null) {
-      Vector retval = new Vector();
-      vectorAppend(retval, partialMatches);
+      List retval = new ArrayList();
+      listAppend(retval, partialMatches);
       return retval;
     } else if (exp.parent instanceof NormalProduction) {
       List parents = ((NormalProduction)exp.parent).parents;
-      Vector retval = new Vector();
+      List retval = new ArrayList();
 //System.out.println("1; gen: " + generation + "; exp: " + exp);
       for (int i = 0; i < parents.size(); i++) {
-        Vector v = genFollowSet(partialMatches, (Expansion)parents.get(i), generation);
-        vectorAppend(retval, v);
+        List v = genFollowSet(partialMatches, (Expansion)parents.get(i), generation);
+        listAppend(retval, v);
       }
       return retval;
     } else if (exp.parent instanceof Sequence) {
       Sequence seq = (Sequence)exp.parent;
-      Vector v = partialMatches;
+      List v = partialMatches;
       for (int i = exp.ordinal+1; i < seq.units.size(); i++) {
-        v = genFirstSet(v, (Expansion)seq.units.elementAt(i));
+        v = genFirstSet(v, (Expansion)seq.units.get(i));
         if (v.size() == 0) return v;
       }
-      Vector v1 = new Vector();
-      Vector v2 = new Vector();
-      vectorSplit(v, partialMatches, v1, v2);
+      List v1 = new ArrayList();
+      List v2 = new ArrayList();
+      listSplit(v, partialMatches, v1, v2);
       if (v1.size() != 0) {
 //System.out.println("2; gen: " + generation + "; exp: " + exp);
         v1 = genFollowSet(v1, seq, generation);
@@ -175,20 +175,20 @@ public final class LookaheadWalk {
 //System.out.println("3; gen: " + generation + "; exp: " + exp);
         v2 = genFollowSet(v2, seq, Expansion.nextGenerationIndex++);
       }
-      vectorAppend(v2, v1);
+      listAppend(v2, v1);
       return v2;
     } else if (exp.parent instanceof OneOrMore || exp.parent instanceof ZeroOrMore) {
-      Vector moreMatches = new Vector();
-      vectorAppend(moreMatches, partialMatches);
-      Vector v = partialMatches;
+      List moreMatches = new ArrayList();
+      listAppend(moreMatches, partialMatches);
+      List v = partialMatches;
       while (true) {
         v = genFirstSet(v, exp);
         if (v.size() == 0) break;
-        vectorAppend(moreMatches, v);
+        listAppend(moreMatches, v);
       }
-      Vector v1 = new Vector();
-      Vector v2 = new Vector();
-      vectorSplit(moreMatches, partialMatches, v1, v2);
+      List v1 = new ArrayList();
+      List v2 = new ArrayList();
+      listSplit(moreMatches, partialMatches, v1, v2);
       if (v1.size() != 0) {
 //System.out.println("4; gen: " + generation + "; exp: " + exp);
         v1 = genFollowSet(v1, (Expansion)exp.parent, generation);
@@ -197,7 +197,7 @@ public final class LookaheadWalk {
 //System.out.println("5; gen: " + generation + "; exp: " + exp);
         v2 = genFollowSet(v2, (Expansion)exp.parent, Expansion.nextGenerationIndex++);
       }
-      vectorAppend(v2, v1);
+      listAppend(v2, v1);
       return v2;
     } else {
 //System.out.println("6; gen: " + generation + "; exp: " + exp);

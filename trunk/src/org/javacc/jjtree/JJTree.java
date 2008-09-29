@@ -28,8 +28,9 @@
 
 package org.javacc.jjtree;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Vector;
+
 
 import org.javacc.parser.JavaCCGlobals;
 
@@ -106,8 +107,8 @@ public class JJTree {
   public int main(String args[]) {
 
     // initialize static state for allowing repeat runs without exiting
-    ASTNodeDescriptor.nodeIds = new Vector();
-    ASTNodeDescriptor.nodeNames = new Vector();
+    ASTNodeDescriptor.nodeIds = new ArrayList();
+    ASTNodeDescriptor.nodeNames = new ArrayList();
     ASTNodeDescriptor.nodeSeen = new Hashtable();
     org.javacc.parser.Main.reInitAll();
 

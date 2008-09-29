@@ -27,6 +27,9 @@
  */
 package org.javacc.parser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Describes BNF productions.
  */
@@ -36,7 +39,7 @@ public class BNFProduction extends NormalProduction {
   /**
    * The declarations of this production.
    */
-  public java.util.Vector declaration_tokens = new java.util.Vector();
+  public List declaration_tokens = new ArrayList();
 
   /**
    * This flag keeps track of whether or not return and throw
