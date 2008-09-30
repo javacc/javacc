@@ -163,13 +163,13 @@ public class JJDoc extends JJDocGlobals {
     gen.nonterminalsStart();
     for (Iterator it = prods.iterator(); it.hasNext();) {
       NormalProduction np = (NormalProduction)it.next();
-      emitTopLevelSpecialTokens(np.firstToken, gen);
+      emitTopLevelSpecialTokens(np.getFirstToken(), gen);
       if (np instanceof BNFProduction) {
         gen.productionStart(np);
-        if (np.expansion instanceof Choice) {
+        if (np.getExpansion() instanceof Choice) {
           boolean first = true;
-          Choice c = (Choice)np.expansion;
-          for (Iterator expansionsIterator = c.choices.iterator(); expansionsIterator.hasNext();) {
+          Choice c = (Choice)np.getExpansion();
+          for (Iterator expansionsIterator = c.getChoices().iterator(); expansionsIterator.hasNext();) {
             Expansion e = (Expansion)(expansionsIterator.next());
             gen.expansionStart(e, first);
             emitExpansionTree(e, gen);
@@ -177,9 +177,9 @@ public class JJDoc extends JJDocGlobals {
             first = false;
           }
         } else {
-          gen.expansionStart(np.expansion, true);
-          emitExpansionTree(np.expansion, gen);
-          gen.expansionEnd(np.expansion, true);
+          gen.expansionStart(np.getExpansion(), true);
+          emitExpansionTree(np.getExpansion(), gen);
+          gen.expansionEnd(np.getExpansion(), true);
         }
         gen.productionEnd(np);
       } else if (np instanceof JavaCodeProduction) {
@@ -218,7 +218,7 @@ public class JJDoc extends JJDocGlobals {
   private static void emitExpansionAction(Action a, Generator gen) {
   }
   private static void emitExpansionChoice(Choice c, Generator gen) {
-    for (Iterator it = c.choices.iterator(); it.hasNext();) {
+    for (Iterator it = c.getChoices().iterator(); it.hasNext();) {
       Expansion e = (Expansion)(it.next());
       emitExpansionTree(e, gen);
       if (it.hasNext()) {
@@ -230,7 +230,7 @@ public class JJDoc extends JJDocGlobals {
   }
   private static void emitExpansionNonTerminal(NonTerminal nt, Generator gen) {
     gen.nonTerminalStart(nt);
-    gen.text(nt.name);
+    gen.text(nt.getName());
     gen.nonTerminalEnd(nt);
   }
   private static void emitExpansionOneOrMore(OneOrMore o, Generator gen) {
@@ -324,10 +324,10 @@ public class JJDoc extends JJDocGlobals {
           returnString += "\"";
         } else if (o instanceof CharacterRange) {
           returnString += "\"";
-          char s[] = { ((CharacterRange)o).left };
+          char s[] = { ((CharacterRange)o).getLeft() };
           returnString += add_escapes(new String(s));
           returnString += "\"-\"";
-          s[0] = ((CharacterRange)o).right;
+          s[0] = ((CharacterRange)o).getRight();
           returnString += add_escapes(new String(s));
           returnString += "\"";
         } else {
@@ -340,7 +340,7 @@ public class JJDoc extends JJDocGlobals {
       returnString += "]";
     } else if (re instanceof RChoice) {
       RChoice c = (RChoice)re;
-      for (Iterator it = c.choices.iterator(); it.hasNext();) {
+      for (Iterator it = c.getChoices().iterator(); it.hasNext();) {
         RegularExpression sub = (RegularExpression)(it.next());
         returnString += emitRE(sub);
         if (it.hasNext()) {

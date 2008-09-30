@@ -44,30 +44,44 @@ public class Choice extends Expansion {
    * The list of choices of this expansion unit.  Each
    * List component will narrow to ExpansionUnit.
    */
-  public List choices = new ArrayList();
+  private List choices = new ArrayList();
 
-    public Choice() {}
+  public Choice() {}
 
-    public Choice(Token token) {
-        this.line = token.beginLine;
-        this.column = token.beginColumn;
-    }
+  public Choice(Token token) {
+    this.setLine(token.beginLine);
+    this.setColumn(token.beginColumn);
+  }
 
-    public Choice(Expansion expansion) {
-        this.line = expansion.line;
-        this.column = expansion.column;
-        this.choices.add(expansion);
-    }
+  public Choice(Expansion expansion) {
+    this.setLine(expansion.getLine());
+    this.setColumn(expansion.getColumn());
+    this.getChoices().add(expansion);
+  }
 
-    public StringBuffer dump(int indent, Set alreadyDumped) {
-      StringBuffer sb = super.dump(indent, alreadyDumped);
-      if (alreadyDumped.contains(this))
-        return sb;
-      alreadyDumped.add(this);
-      for (Iterator it = choices.iterator(); it.hasNext(); ) {
-        Expansion next = (Expansion)it.next();
-        sb.append(eol).append(next.dump(indent + 1, alreadyDumped));
-      }
+  /**
+   * @param choices the choices to set
+   */
+  public void setChoices(List choices) {
+    this.choices = choices;
+  }
+
+  /**
+   * @return the choices
+   */
+  public List getChoices() {
+    return choices;
+  }
+
+  public StringBuffer dump(int indent, Set alreadyDumped) {
+    StringBuffer sb = super.dump(indent, alreadyDumped);
+    if (alreadyDumped.contains(this))
       return sb;
+    alreadyDumped.add(this);
+    for (Iterator it = getChoices().iterator(); it.hasNext(); ) {
+      Expansion next = (Expansion)it.next();
+      sb.append(eol).append(next.dump(indent + 1, alreadyDumped));
     }
+    return sb;
+  }
 }

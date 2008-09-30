@@ -448,8 +448,8 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
               !respec.nextState.equals(lexStateName[lexStateIndex]))
             newLexState[curRE.ordinal] = respec.nextState;
 
-          if (respec.act != null && respec.act.action_tokens != null &&
-              respec.act.action_tokens.size() > 0)
+          if (respec.act != null && respec.act.getActionTokens() != null &&
+              respec.act.getActionTokens().size() > 0)
             actions[curRE.ordinal] = respec.act;
 
           switch(kind)
@@ -607,8 +607,8 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
             continue Outer;
           if (len != 0)
             reList += "; ";
-          reList += "line " + rexprs[initMatch[j]].line + ", column " +
-          rexprs[initMatch[j]].column;
+          reList += "line " + rexprs[initMatch[j]].getLine() + ", column " +
+          rexprs[initMatch[j]].getColumn();
           len++;
         }
 
@@ -1336,8 +1336,8 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
         for (;;)
         {
           if (((act = (Action)actions[i]) == null ||
-              act.action_tokens == null ||
-              act.action_tokens.size() == 0) && !canLoop[lexStates[i]])
+              act.getActionTokens() == null ||
+              act.getActionTokens().size() == 0) && !canLoop[lexStates[i]])
             continue Outer;
 
           ostr.println("      case " + i + " :");
@@ -1360,7 +1360,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
           }
 
           if ((act = (Action)actions[i]) == null ||
-              act.action_tokens.size() == 0)
+              act.getActionTokens().size() == 0)
             break;
 
           ostr.print(  "         image.append");
@@ -1371,11 +1371,11 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
             ostr.println("(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
           }
 
-          printTokenSetup((Token)act.action_tokens.get(0));
+          printTokenSetup((Token)act.getActionTokens().get(0));
           ccol = 1;
 
-          for (int j = 0; j < act.action_tokens.size(); j++)
-            printToken((Token)act.action_tokens.get(j), ostr);
+          for (int j = 0; j < act.getActionTokens().size(); j++)
+            printToken((Token)act.getActionTokens().get(j), ostr);
           ostr.println("");
 
           break;
@@ -1409,8 +1409,8 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
         for (;;)
         {
           if (((act = (Action)actions[i]) == null ||
-              act.action_tokens == null ||
-              act.action_tokens.size() == 0) && !canLoop[lexStates[i]])
+              act.getActionTokens() == null ||
+              act.getActionTokens().size() == 0) && !canLoop[lexStates[i]])
             continue Outer;
 
           ostr.println("      case " + i + " :");
@@ -1433,7 +1433,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
           }
 
           if ((act = (Action)actions[i]) == null ||
-              act.action_tokens.size() == 0)
+              act.getActionTokens().size() == 0)
           {
             break;
           }
@@ -1446,11 +1446,11 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
             ostr.println("(input_stream.GetSuffix(jjimageLen));");
 
           ostr.println("         jjimageLen = 0;");
-          printTokenSetup((Token)act.action_tokens.get(0));
+          printTokenSetup((Token)act.getActionTokens().get(0));
           ccol = 1;
 
-          for (int j = 0; j < act.action_tokens.size(); j++)
-            printToken((Token)act.action_tokens.get(j), ostr);
+          for (int j = 0; j < act.getActionTokens().size(); j++)
+            printToken((Token)act.getActionTokens().get(j), ostr);
           ostr.println("");
 
           break;
@@ -1485,8 +1485,8 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
         for (;;)
         {
           if (((act = (Action)actions[i]) == null ||
-              act.action_tokens == null ||
-              act.action_tokens.size() == 0) && !canLoop[lexStates[i]])
+              act.getActionTokens() == null ||
+              act.getActionTokens().size() == 0) && !canLoop[lexStates[i]])
             continue Outer;
 
           ostr.println("      case " + i + " :");
@@ -1509,7 +1509,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
           }
 
           if ((act = (Action)actions[i]) == null ||
-              act.action_tokens.size() == 0)
+              act.getActionTokens().size() == 0)
             break;
 
           if (i == 0)
@@ -1528,11 +1528,11 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
             }
           }
 
-          printTokenSetup((Token)act.action_tokens.get(0));
+          printTokenSetup((Token)act.getActionTokens().get(0));
           ccol = 1;
 
-          for (int j = 0; j < act.action_tokens.size(); j++)
-            printToken((Token)act.action_tokens.get(j), ostr);
+          for (int j = 0; j < act.getActionTokens().size(); j++)
+            printToken((Token)act.getActionTokens().get(j), ostr);
           ostr.println("");
 
           break;

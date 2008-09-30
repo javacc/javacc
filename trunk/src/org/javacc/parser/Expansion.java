@@ -41,7 +41,9 @@ public class Expansion {
    * The line and column number of the construct that corresponds
    * most closely to this node.
    */
-  int line, column;
+  private int line;
+
+  private int column;
 
   /**
    * A reimplementing of Object.hashCode() to be deterministic.  This uses
@@ -50,7 +52,7 @@ public class Expansion {
    * their actual values.
    */
   public int hashCode() {
-    return line + column;
+    return getLine() + getColumn();
   }
 
   /**
@@ -108,7 +110,7 @@ public class Expansion {
   }
 
   public String toString() {
-    return "[" + line + "," + column + " " + System.identityHashCode(this) + " " + getSimpleName() + "]";
+    return "[" + getLine() + "," + getColumn() + " " + System.identityHashCode(this) + " " + getSimpleName() + "]";
   }
 
   protected static final String eol = System.getProperty("line.separator", "\n");
@@ -122,5 +124,33 @@ public class Expansion {
   public StringBuffer dump(int indent, Set alreadyDumped) {
     StringBuffer value = dumpPrefix(indent).append(System.identityHashCode(this)).append(" ").append(getSimpleName());
     return value;
+  }
+
+  /**
+   * @param column the column to set
+   */
+  void setColumn(int column) {
+    this.column = column;
+  }
+
+  /**
+   * @return the column
+   */
+  int getColumn() {
+    return column;
+  }
+
+  /**
+   * @param line the line to set
+   */
+  void setLine(int line) {
+    this.line = line;
+  }
+
+  /**
+   * @return the line
+   */
+  int getLine() {
+    return line;
   }
 }

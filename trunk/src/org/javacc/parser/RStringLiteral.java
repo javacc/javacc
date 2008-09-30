@@ -75,8 +75,8 @@ public class RStringLiteral extends RegularExpression {
   }
 
   public RStringLiteral(Token t, String image) {
-    this.line = t.beginLine;
-    this.column = t.beginColumn;
+    this.setLine(t.beginLine);
+    this.setColumn(t.beginColumn);
     this.image = image;
   }
 
@@ -384,12 +384,12 @@ public class RStringLiteral extends RegularExpression {
 
   static int GetLine(int kind)
   {
-     return LexGen.rexprs[kind].line;
+     return LexGen.rexprs[kind].getLine();
   }
 
   static int GetColumn(int kind)
   {
-     return LexGen.rexprs[kind].column;
+     return LexGen.rexprs[kind].getColumn();
   }
 
   /**

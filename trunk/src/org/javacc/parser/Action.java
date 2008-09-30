@@ -42,15 +42,22 @@ public class Action extends Expansion {
    * Contains the list of tokens that make up the action.  This
    * list does not include the surrounding braces.
    */
-  public List action_tokens = new ArrayList();
+  private List action_tokens = new ArrayList();
 
   public StringBuffer dump(int indent, Set alreadyDumped) {
     StringBuffer sb = super.dump(indent, alreadyDumped);
     alreadyDumped.add(this);
-    if (action_tokens.size() > 0)
+    if (getActionTokens().size() > 0)
     {
-      sb.append(' ').append(action_tokens.get(0));
+      sb.append(' ').append(getActionTokens().get(0));
     }
     return sb;
+  }
+
+  /**
+   * @return the action_tokens
+   */
+  public List getActionTokens() {
+    return action_tokens;
   }
 }

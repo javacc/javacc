@@ -68,7 +68,7 @@ public class Semanticize extends JavaCCGlobals {
      * can be evaluated during other lookahead evaluations.
      */
     for (Iterator it = bnfproductions.iterator(); it.hasNext();) {
-      ExpansionTreeWalker.postOrderWalk(((NormalProduction)it.next()).expansion,
+      ExpansionTreeWalker.postOrderWalk(((NormalProduction)it.next()).getExpansion(),
                                         new LookaheadFixer());
     }
 
@@ -77,8 +77,8 @@ public class Semanticize extends JavaCCGlobals {
      */
     for (Iterator it = bnfproductions.iterator(); it.hasNext();) {
       NormalProduction p = (NormalProduction)it.next();
-      if (production_table.put(p.lhs, p) != null) {
-        JavaCCErrors.semantic_error(p, p.lhs + " occurs on the left hand side of more than one production.");
+      if (production_table.put(p.getLhs(), p) != null) {
+        JavaCCErrors.semantic_error(p, p.getLhs() + " occurs on the left hand side of more than one production.");
       }
     }
 
@@ -87,7 +87,7 @@ public class Semanticize extends JavaCCGlobals {
      * non-terminals on RHS's are defined on the LHS.
      */
     for (Iterator it = bnfproductions.iterator(); it.hasNext();) {
-      ExpansionTreeWalker.preOrderWalk(((NormalProduction)it.next()).expansion,
+      ExpansionTreeWalker.preOrderWalk(((NormalProduction)it.next()).getExpansion(),
                                        new ProductionDefinedChecker());
     }
 
@@ -217,7 +217,7 @@ public class Semanticize extends JavaCCGlobals {
                 // inline BNF string is used earlier with an IGNORE_CASE.
                 JavaCCErrors.semantic_error(sl, "String \"" + sl.image + "\" can never be matched " +
                         "due to presence of more general (IGNORE_CASE) regular expression " +
-                        "at line " + other.line + ", column " + other.column + ".");
+                        "at line " + other.getLine() + ", column " + other.getColumn() + ".");
               } else {
                 // give the standard error message.
                 JavaCCErrors.semantic_error(sl, "Duplicate definition of string token \"" + sl.image + "\" " +
@@ -230,7 +230,7 @@ public class Semanticize extends JavaCCGlobals {
               for (Enumeration enum2 = table2.elements(); enum2.hasMoreElements();) {
                 RegularExpression rexp = (RegularExpression)(enum2.nextElement());
                 if (count != 0) pos += ",";
-                pos += " line " + rexp.line;
+                pos += " line " + rexp.getLine();
                 count++;
               }
               if (count == 1) {
@@ -392,9 +392,9 @@ public class Semanticize extends JavaCCGlobals {
       emptyUpdate = false;
       for (Iterator it = bnfproductions.iterator(); it.hasNext();) {
         NormalProduction prod = (NormalProduction)it.next();
-        if (emptyExpansionExists(prod.expansion)) {
-          if (!prod.emptyPossible) {
-            emptyUpdate = prod.emptyPossible = true;
+        if (emptyExpansionExists(prod.getExpansion())) {
+          if (!prod.isEmptyPossible()) {
+            emptyUpdate = prod.setEmptyPossible(true);
           }
         }
       }
@@ -405,7 +405,7 @@ public class Semanticize extends JavaCCGlobals {
       // The following code checks that all ZeroOrMore, ZeroOrOne, and OneOrMore nodes
       // do not contain expansions that can expand to the empty token list.
       for (Iterator it = bnfproductions.iterator(); it.hasNext();) {
-        ExpansionTreeWalker.preOrderWalk(((NormalProduction)it.next()).expansion, new EmptyChecker());
+        ExpansionTreeWalker.preOrderWalk(((NormalProduction)it.next()).getExpansion(), new EmptyChecker());
       }
 
       // The following code goes through the productions and adds pointers to other
@@ -413,7 +413,7 @@ public class Semanticize extends JavaCCGlobals {
       // done, a left-recursion check can be performed.
       for (Iterator it = bnfproductions.iterator(); it.hasNext();) {
         NormalProduction prod = (NormalProduction)it.next();
-        addLeftMost(prod, prod.expansion);
+        addLeftMost(prod, prod.getExpansion());
       }
 
       // Now the following loop calls a recursive walk routine that searches for
@@ -422,7 +422,7 @@ public class Semanticize extends JavaCCGlobals {
       // in any other loop.
       for (Iterator it = bnfproductions.iterator(); it.hasNext();) {
         NormalProduction prod = (NormalProduction)it.next();
-        if (prod.walkStatus == 0) {
+        if (prod.getWalkStatus() == 0) {
           prodWalk(prod);
         }
       }
@@ -455,7 +455,7 @@ public class Semanticize extends JavaCCGlobals {
        */
       if (JavaCCErrors.get_error_count() == 0) {
         for (Iterator it = bnfproductions.iterator(); it.hasNext();) {
-          ExpansionTreeWalker.preOrderWalk(((NormalProduction)it.next()).expansion,
+          ExpansionTreeWalker.preOrderWalk(((NormalProduction)it.next()).getExpansion(),
                                            new LookaheadChecker());
         }
       }
@@ -489,7 +489,7 @@ public class Semanticize extends JavaCCGlobals {
   // returns true if "exp" can expand to the empty string, returns false otherwise.
   public static boolean emptyExpansionExists(Expansion exp) {
     if (exp instanceof NonTerminal) {
-      return ((NonTerminal)exp).prod.emptyPossible;
+      return ((NonTerminal)exp).getProd().isEmptyPossible();
     } else if (exp instanceof Action) {
       return true;
     } else if (exp instanceof RegularExpression) {
@@ -501,7 +501,7 @@ public class Semanticize extends JavaCCGlobals {
     } else if (exp instanceof Lookahead) {
       return true;
     } else if (exp instanceof Choice) {
-      for (Iterator it = ((Choice)exp).choices.iterator(); it.hasNext();) {
+      for (Iterator it = ((Choice)exp).getChoices().iterator(); it.hasNext();) {
         if (emptyExpansionExists((Expansion)it.next())) {
           return true;
         }
@@ -525,16 +525,16 @@ public class Semanticize extends JavaCCGlobals {
   static private void addLeftMost(NormalProduction prod, Expansion exp) {
     if (exp instanceof NonTerminal) {
       for (int i=0; i<prod.leIndex; i++) {
-        if (prod.leftExpansions[i] == ((NonTerminal)exp).prod) {
+        if (prod.getLeftExpansions()[i] == ((NonTerminal)exp).getProd()) {
           return;
         }
       }
-      if (prod.leIndex == prod.leftExpansions.length) {
+      if (prod.leIndex == prod.getLeftExpansions().length) {
         NormalProduction[] newle = new NormalProduction[prod.leIndex*2];
-        System.arraycopy(prod.leftExpansions, 0, newle, 0, prod.leIndex);
-        prod.leftExpansions = newle;
+        System.arraycopy(prod.getLeftExpansions(), 0, newle, 0, prod.leIndex);
+        prod.setLeftExpansions(newle);
       }
-      prod.leftExpansions[prod.leIndex++] = ((NonTerminal)exp).prod;
+      prod.getLeftExpansions()[prod.leIndex++] = ((NonTerminal)exp).getProd();
     } else if (exp instanceof OneOrMore) {
       addLeftMost(prod, ((OneOrMore)exp).expansion);
     } else if (exp instanceof ZeroOrMore) {
@@ -542,7 +542,7 @@ public class Semanticize extends JavaCCGlobals {
     } else if (exp instanceof ZeroOrOne) {
       addLeftMost(prod, ((ZeroOrOne)exp).expansion);
     } else if (exp instanceof Choice) {
-      for (Iterator it = ((Choice)exp).choices.iterator(); it.hasNext();) {
+      for (Iterator it = ((Choice)exp).getChoices().iterator(); it.hasNext();) {
         addLeftMost(prod, (Expansion)it.next());
       }
     } else if (exp instanceof Sequence) {
@@ -564,34 +564,34 @@ public class Semanticize extends JavaCCGlobals {
   // Returns true to indicate an unraveling of a detected left recursion loop,
   // and returns false otherwise.
   static private boolean prodWalk(NormalProduction prod) {
-    prod.walkStatus = -1;
+    prod.setWalkStatus(-1);
     for (int i = 0; i < prod.leIndex; i++) {
-      if (prod.leftExpansions[i].walkStatus == -1) {
-        prod.leftExpansions[i].walkStatus = -2;
-        loopString = prod.lhs + "... --> " + prod.leftExpansions[i].lhs + "...";
-        if (prod.walkStatus == -2) {
-          prod.walkStatus = 1;
+      if (prod.getLeftExpansions()[i].getWalkStatus() == -1) {
+        prod.getLeftExpansions()[i].setWalkStatus(-2);
+        loopString = prod.getLhs() + "... --> " + prod.getLeftExpansions()[i].getLhs() + "...";
+        if (prod.getWalkStatus() == -2) {
+          prod.setWalkStatus(1);
           JavaCCErrors.semantic_error(prod, "Left recursion detected: \"" + loopString + "\"");
           return false;
         } else {
-          prod.walkStatus = 1;
+          prod.setWalkStatus(1);
           return true;
         }
-      } else if (prod.leftExpansions[i].walkStatus == 0) {
-        if (prodWalk(prod.leftExpansions[i])) {
-          loopString = prod.lhs + "... --> " + loopString;
-          if (prod.walkStatus == -2) {
-            prod.walkStatus = 1;
+      } else if (prod.getLeftExpansions()[i].getWalkStatus() == 0) {
+        if (prodWalk(prod.getLeftExpansions()[i])) {
+          loopString = prod.getLhs() + "... --> " + loopString;
+          if (prod.getWalkStatus() == -2) {
+            prod.setWalkStatus(1);
             JavaCCErrors.semantic_error(prod, "Left recursion detected: \"" + loopString + "\"");
             return false;
           } else {
-            prod.walkStatus = 1;
+            prod.setWalkStatus(1);
             return true;
           }
         }
       }
     }
-    prod.walkStatus = 1;
+    prod.setWalkStatus(1);
     return false;
   }
 
@@ -625,7 +625,7 @@ public class Semanticize extends JavaCCGlobals {
         }
       }
     } else if (rexp instanceof RChoice) {
-      for (Iterator it = ((RChoice)rexp).choices.iterator(); it.hasNext();) {
+      for (Iterator it = ((RChoice)rexp).getChoices().iterator(); it.hasNext();) {
         if (rexpWalk((RegularExpression)it.next())) {
           return true;
         }
@@ -701,25 +701,25 @@ public class Semanticize extends JavaCCGlobals {
         }
         Sequence seq = (Sequence)e;
         Lookahead la = (Lookahead)(seq.units.get(0));
-        if (!la.isExplicit) {
+        if (!la.isExplicit()) {
           return;
         }
         // Create a singleton choice with an empty action.
         Choice ch = new Choice();
-        ch.line = la.line; ch.column = la.column;
+        ch.setLine(la.getLine()); ch.setColumn(la.getColumn());
         ch.parent = seq;
         Sequence seq1 = new Sequence();
-        seq1.line = la.line; seq1.column = la.column;
+        seq1.setLine(la.getLine()); seq1.setColumn(la.getColumn());
         seq1.parent = ch;
         seq1.units.add(la);
         la.parent = seq1;
         Action act = new Action();
-        act.line = la.line; act.column = la.column;
+        act.setLine(la.getLine()); act.setColumn(la.getColumn());
         act.parent = seq1;
         seq1.units.add(act);
-        ch.choices.add(seq1);
-        if (la.amount != 0) {
-          if (la.action_tokens.size() != 0) {
+        ch.getChoices().add(seq1);
+        if (la.getAmount() != 0) {
+          if (la.getActionTokens().size() != 0) {
             JavaCCErrors.warning(la, "Encountered LOOKAHEAD(...) at a non-choice location.  " +
                     "Only semantic lookahead will be considered here.");
           } else {
@@ -729,12 +729,12 @@ public class Semanticize extends JavaCCGlobals {
         // Now we have moved the lookahead into the singleton choice.  Now create
         // a new dummy lookahead node to replace this one at its original location.
         Lookahead la1 = new Lookahead();
-        la1.isExplicit = false;
-        la1.line = la.line; la1.column = la.column;
+        la1.setExplicit(false);
+        la1.setLine(la.getLine()); la1.setColumn(la.getColumn());
         la1.parent = seq;
         // Now set the la_expansion field of la and la1 with a dummy expansion (we use EOF).
-        la.la_expansion = new REndOfFile();
-        la1.la_expansion = new REndOfFile();
+        la.setLaExpansion(new REndOfFile());
+        la1.setLaExpansion(new REndOfFile());
         seq.units.set(0, la1);
         seq.units.add(1, ch);
       }
@@ -755,10 +755,10 @@ public class Semanticize extends JavaCCGlobals {
     public void action(Expansion e) {
       if (e instanceof NonTerminal) {
         NonTerminal nt = (NonTerminal)e;
-        if ((nt.prod = (NormalProduction)production_table.get(nt.name)) == null) {
-          JavaCCErrors.semantic_error(e, "Non-terminal " + nt.name + " has not been defined.");
+        if ((nt.setProd((NormalProduction)production_table.get(nt.getName()))) == null) {
+          JavaCCErrors.semantic_error(e, "Non-terminal " + nt.getName() + " has not been defined.");
         } else {
-          nt.prod.parents.add(nt);
+          nt.getProd().getParents().add(nt);
         }
       }
     }
@@ -838,7 +838,7 @@ public class Semanticize extends JavaCCGlobals {
         return true;
       }
       Lookahead la = (Lookahead)obj;
-      return !la.isExplicit;
+      return !la.isExplicit();
     }
 
   }

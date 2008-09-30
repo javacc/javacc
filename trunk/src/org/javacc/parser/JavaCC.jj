@@ -622,25 +622,27 @@ void production() :
 void javacode_production() :
 	{
 	  JavaCodeProduction p = new JavaCodeProduction();
-	  Token t = p.firstToken = getToken(1);
+	  String lhs;
+	  Token t = getToken(1);
+	  p.setFirstToken(t);
 	  java.util.List excName;
-	  p.throws_list = new java.util.ArrayList();
-	  p.line = t.beginLine;
-	  p.column = t.beginColumn;
+	  p.setThrowsList(new java.util.ArrayList());
+	  p.setLine(t.beginLine);
+	  p.setColumn(t.beginColumn);
 	}
 {
   "JAVACODE"
   AccessModifier(p)
-  ResultType(p.return_type_tokens)
-  p.lhs=identifier()
-  FormalParameters(p.parameter_list_tokens)
+  ResultType(p.getReturnTypeTokens())
+  lhs=identifier()	{ p.setLhs(lhs); }
+  FormalParameters(p.getParameterListTokens())
   [ "throws"
 	{
 	  excName = new ArrayList();
 	}
     Name(excName)
 	{
-	  p.throws_list.add(excName);
+	  p.getThrowsList().add(excName);
 	}
     (
 	{
@@ -648,13 +650,13 @@ void javacode_production() :
 	}
       "," Name(excName)
 	{
-	  p.throws_list.add(excName);
+	  p.getThrowsList().add(excName);
 	}
     )*
   ]
-  Block(p.code_tokens)
+  Block(p.getCodeTokens())
 	{
-	  p.lastToken = getToken(0);
+	  p.setLastToken(getToken(0));
 	  addproduction(p);
 	}
 }
@@ -663,25 +665,27 @@ void bnf_production() :
 	{
 	  BNFProduction p = new BNFProduction();
 	  Container c = new Container();
-	  Token t = p.firstToken = getToken(1);
+	  Token t = getToken(1);
+	  p.setFirstToken(t);
 	  java.util.List excName;
-	  p.throws_list = new java.util.ArrayList();
-	  p.line = t.beginLine;
-	  p.column = t.beginColumn;
+	  String lhs;
+	  p.setThrowsList(new java.util.ArrayList());
+	  p.setLine(t.beginLine);
+	  p.setColumn(t.beginColumn);
 	  jumpPatched = false;
 	}
 {
   AccessModifier(p)
-  ResultType(p.return_type_tokens)
-  p.lhs=identifier()
-  FormalParameters(p.parameter_list_tokens)
+  ResultType(p.getReturnTypeTokens())
+  lhs=identifier()  { p.setLhs(lhs); }
+  FormalParameters(p.getParameterListTokens())
   [ "throws"
 	{
 	  excName = new ArrayList();
 	}
     Name(excName)
 	{
-	  p.throws_list.add(excName);
+	  p.getThrowsList().add(excName);
 	}
     (
 	{
@@ -689,16 +693,16 @@ void bnf_production() :
 	}
       "," Name(excName)
 	{
-	  p.throws_list.add(excName);
+	  p.getThrowsList().add(excName);
 	}
     )*
   ]
   ":"
-  Block(p.declaration_tokens)
+  Block(p.getDeclarationTokens())
   "{" expansion_choices(c) t="}"
 	{
-	  p.lastToken = t;
-	  p.jumpPatched = jumpPatched;
+	  p.setLastToken(t);
+	  p.setJumpPatched(jumpPatched);
 	  production_addexpansion(p, (Expansion)(c.member));
 	  addproduction(p);
 	}
@@ -712,7 +716,7 @@ void AccessModifier(NormalProduction p) :
 	( t = "public" | t = "protected" | t = "private" )?
 	{
 	  if(t != null){
-	    p.accessMod = t.image;
+	    p.setAccessMod(t.image);
 	  }
 	}
 }
@@ -722,8 +726,8 @@ void regular_expr_production() :
 	  TokenProduction p = new TokenProduction();
 	  java.util.List states;
 	  Token t = p.firstToken = getToken(1);
-	  p.line = t.beginLine;
-	  p.column = t.beginColumn;
+	  p.setLine(t.beginLine);
+	  p.setColumn(t.beginColumn);
 	}
 {
 	{
@@ -835,7 +839,7 @@ void regexpr_spec(TokenProduction p) :
 	{
 	  t = getToken(1);
 	}
-    Block(act.action_tokens)
+    Block(act.getActionTokens())
 	{
 	  if (Options.getUserTokenManager()) {
 	    JavaCCErrors.warning(t, "Ignoring action in regular expression specification since option USER_TOKEN_MANAGER has been set to true.");
@@ -871,13 +875,13 @@ void expansion_choices(Container c1) :
   ( "|" expansion(c2)
 	{
 	  if (morethanone) {
-	    ch.choices.add(c2.member);
+	    ch.getChoices().add(c2.member);
 	    ((Expansion)c2.member).parent = ch;
 	  } else {
 	    morethanone = true;
 	    ch = new Choice((Expansion)c1.member);
 	    ((Expansion)c1.member).parent = ch;
-	    ch.choices.add(c2.member);
+	    ch.getChoices().add(c2.member);
 	    ((Expansion)c2.member).parent = ch;
 	  }
 	}
@@ -895,21 +899,21 @@ void expansion(Container c1) :
 	  Container c2 = new Container();
 	  Lookahead la = new Lookahead();
 	  Token t = getToken(1);
-	  seq.line = t.beginLine;
-	  seq.column = t.beginColumn;
-	  la.line = t.beginLine;
-	  la.column = t.beginColumn;
+	  seq.setLine(t.beginLine);
+	  seq.setColumn(t.beginColumn);
+	  la.setLine(t.beginLine);
+	  la.setColumn(t.beginColumn);
 	}
 {
 	{
-	  la.amount = Options.getLookahead();
-	  la.la_expansion = null;
-	  la.isExplicit = false;
+	  la.setAmount(Options.getLookahead());
+	  la.setLaExpansion(null);
+	  la.setExplicit(false);
 	}
   ( LOOKAHEAD(1)
     t="LOOKAHEAD" "(" la=local_lookahead() ")"
 	{
-	  if (inLocalLA != 0 && la.amount != 0) {
+	  if (inLocalLA != 0 && la.getAmount() != 0) {
 	    JavaCCErrors.warning(t, "Only semantic lookahead specifications within other lookahead specifications is considered.  Syntactic lookahead is ignored.");
 	  }
 	}
@@ -926,8 +930,8 @@ void expansion(Container c1) :
 	}
   )+
 	{
-	  if (la.la_expansion == null) {
-	    la.la_expansion = seq;
+	  if (la.getLaExpansion() == null) {
+	    la.setLaExpansion(seq);
 	  }
 	  c1.member = seq;
 	}
@@ -936,13 +940,14 @@ void expansion(Container c1) :
 Lookahead local_lookahead() :
 	{
 	  Lookahead la = new Lookahead();
-	  la.isExplicit = true;
+	  la.setExplicit(true);
 	  Token t = getToken(1);
-	  la.line = t.beginLine;
-	  la.column = t.beginColumn;
-	  la.la_expansion = null;
+	  la.setLine(t.beginLine);
+	  la.setColumn(t.beginColumn);
+	  la.setLaExpansion(null);
 	  Container c = new Container();
 	  boolean commaAtEnd = false, emptyLA = true;
+	  int laAmount;
 	  inLocalLA++;
 	}
 {
@@ -954,9 +959,10 @@ Lookahead local_lookahead() :
      * know that this is what we want.
      */
     LOOKAHEAD(1)
-    la.amount = IntegerLiteral()
+    laAmount = IntegerLiteral()
 	{
 	  emptyLA = false;
+	  la.setAmount(laAmount);
 	}
   ]
   [ LOOKAHEAD(0, { !emptyLA && (getToken(1).kind != RPAREN) } )
@@ -969,7 +975,7 @@ Lookahead local_lookahead() :
     expansion_choices(c)
 	{
 	  emptyLA = false; commaAtEnd = false;
-	  la.la_expansion = (Expansion)c.member;
+	  la.setLaExpansion((Expansion)c.member);
 	}
   ]
   [ LOOKAHEAD(0, { !emptyLA && !commaAtEnd && (getToken(1).kind != RPAREN) } )
@@ -979,10 +985,10 @@ Lookahead local_lookahead() :
 	}
   ]
   [ LOOKAHEAD(0, { emptyLA || commaAtEnd } )
-    "{" Expression(la.action_tokens) "}"
+    "{" Expression(la.getActionTokens()) "}"
 	{
 	  if (emptyLA) {
-	    la.amount = 0;
+	    la.setAmount(0);
 	  }
 	}
   ]
@@ -1011,19 +1017,20 @@ void expansion_unit(Container c) :
 	{
 	  // Now set the la_expansion field of la with a dummy
 	  // expansion (we use EOF).
-	  la.la_expansion = new REndOfFile();
+	  la.setLaExpansion(new REndOfFile());
 	  // Create a singleton choice with an empty action.
 	  Choice ch = new Choice(t);
 	  Sequence seq = new Sequence(t, la);
 	  la.parent = seq; la.ordinal = 0;
 	  act = new Action();
-	  act.line = t.beginLine; act.column = t.beginColumn;
+	  act.setLine(t.beginLine);
+	  act.setColumn(t.beginColumn);
 	  seq.units.add(act);
 	  act.parent = seq; act.ordinal = 1;
-	  ch.choices.add(seq);
+	  ch.getChoices().add(seq);
 	  seq.parent = ch; seq.ordinal = 0;
-	  if (la.amount != 0) {
-	    if (la.action_tokens.size() != 0) {
+	  if (la.getAmount() != 0) {
+	    if (la.getActionTokens().size() != 0) {
 	      JavaCCErrors.warning(t, "Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.");
 	    } else {
 	      JavaCCErrors.warning(t, "Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.");
@@ -1035,11 +1042,11 @@ void expansion_unit(Container c) :
 	{
 	  act = new Action();
 	  t = getToken(1);
-	  act.line = t.beginLine;
-	  act.column = t.beginColumn;
+	  act.setLine(t.beginLine);
+	  act.setColumn(t.beginColumn);
 	  inAction = true;
 	}
-  Block(act.action_tokens)
+  Block(act.getActionTokens())
 	{
 	  inAction = false;
 	  if (inLocalLA != 0) {
@@ -1124,13 +1131,13 @@ void expansion_unit(Container c) :
 	{
 	  nt = new NonTerminal();
 	  t = getToken(1);
-	  nt.line = t.beginLine;
-	  nt.column = t.beginColumn;
-	  nt.lhsTokens = lhsTokens;
+	  nt.setLine(t.beginLine);
+	  nt.setColumn(t.beginColumn);
+	  nt.setLhsTokens(lhsTokens);
 	}
-   name=identifier() Arguments(nt.argument_tokens)
+   name=identifier() Arguments(nt.getArgumentTokens())
 	{
-	  nt.name = name;
+	  nt.setName(name);
 	  c.member = nt;
 	}
   |
@@ -1187,8 +1194,8 @@ void regular_expression(Container c) :
 	  }
 	  re.label = image;
 	  re.private_rexp = private_rexp;
-	  re.line = t.beginLine;
-	  re.column = t.beginColumn;
+	  re.setLine(t.beginLine);
+	  re.setColumn(t.beginColumn);
 	  c.member = re;
 	}
 |
@@ -1201,8 +1208,8 @@ void regular_expression(Container c) :
   "<" "EOF" ">"
 	{
 	  ef = new REndOfFile();
-	  ef.line = t.beginLine;
-	  ef.column = t.beginColumn;
+	  ef.setLine(t.beginLine);
+	  ef.setColumn(t.beginColumn);
 	  ef.ordinal = 0;
 	  c.member = ef;
 	}
@@ -1219,14 +1226,14 @@ void complex_regular_expression_choices(Container c1) :
   ( "|" complex_regular_expression(c2)
 	{
 	  if (morethanone) {
-	    ch.choices.add(c2.member);
+	    ch.getChoices().add(c2.member);
 	  } else {
 	    morethanone = true;
 	    ch = new RChoice();
-	    ch.line = ((RegularExpression)c1.member).line;
-	    ch.column = ((RegularExpression)c1.member).column;
-	    ch.choices.add(c1.member);
-	    ch.choices.add(c2.member);
+	    ch.setLine(((RegularExpression)c1.member).getLine());
+	    ch.setColumn(((RegularExpression)c1.member).getColumn());
+	    ch.getChoices().add(c1.member);
+	    ch.getChoices().add(c2.member);
 	  }
 	}
   )*
@@ -1251,8 +1258,8 @@ void complex_regular_expression(Container c1) :
 	    c1.member = c2.member; // if count does not go beyond 1, we are done.
 	  } else if (count == 2) { // more than 1, so create a sequence.
 	    seq = new RSequence();
-	    seq.line = ((RegularExpression)c1.member).line;
-	    seq.column = ((RegularExpression)c1.member).column;
+	    seq.setLine(((RegularExpression)c1.member).getLine());
+	    seq.setColumn(((RegularExpression)c1.member).getColumn());
 	    seq.units.add(c1.member);
 	    seq.units.add(c2.member);
 	  } else {
@@ -1299,8 +1306,8 @@ void complex_regular_expression_unit(Container c) :
    | "?"
 	{
 	  RZeroOrOne zorexp = new RZeroOrOne();
-	  zorexp.line = t.beginLine;
-	  zorexp.column = t.beginColumn;
+	  zorexp.setLine(t.beginLine);
+	  zorexp.setColumn(t.beginColumn);
 	  zorexp.regexpr = (RegularExpression)c.member;
 	  c.member = zorexp;
 	}
@@ -1309,8 +1316,8 @@ void complex_regular_expression_unit(Container c) :
      "}"
 	{
 	  RRepetitionRange rrrexp = new RRepetitionRange();
-	  rrrexp.line = t.beginLine;
-	  rrrexp.column = t.beginColumn;
+	  rrrexp.setLine(t.beginLine);
+	  rrrexp.setColumn(t.beginColumn);
 	  rrrexp.min = r1;
 	  rrrexp.max = r2;
         rrrexp.hasMax = hasMax;
@@ -1324,8 +1331,8 @@ void character_list(Container c1) :
 	{
 	  RCharacterList chlist = new RCharacterList();
 	  Token t = getToken(1);
-	  chlist.line = t.beginLine;
-	  chlist.column = t.beginColumn;
+	  chlist.setLine(t.beginLine);
+	  chlist.setColumn(t.beginColumn);
 	  Container c2 = new Container();
 	}
 {
@@ -1371,15 +1378,15 @@ void character_descriptor(Container c) :
 	{
 	  if (isrange) {
 	    CharacterRange cr = new CharacterRange();
-	    cr.line = t.beginLine;
-	    cr.column = t.beginColumn;
-	    cr.left = c1;
-	    cr.right = c2;
+	    cr.setLine(t.beginLine);
+	    cr.setColumn(t.beginColumn);
+        cr.setLeft(c1);
+        cr.setRight(c2);
 	    c.member = cr;
 	  } else {
 	    SingleCharacter sc = new SingleCharacter();
-	    sc.line = t.beginLine;
-	    sc.column = t.beginColumn;
+	    sc.setLine(t.beginLine);
+	    sc.setColumn(t.beginColumn);
 	    sc.ch = c1;
 	    c.member = sc;
 	  }

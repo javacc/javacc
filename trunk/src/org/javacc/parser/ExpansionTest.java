@@ -40,21 +40,21 @@ public final class ExpansionTest extends TestCase {
         t.beginColumn = 2;
         t.beginLine = 3;
         e = new Expansion();
-        e.column = 5;
-        e.line = 6;
+        e.setColumn(5);
+        e.setLine(6);
     }
     public void testZeroOrOneConstructor() {
         ZeroOrOne zoo = new ZeroOrOne(t, e);
-        assertEquals(t.beginColumn, zoo.column);
-        assertEquals(t.beginLine, zoo.line);
+        assertEquals(t.beginColumn, zoo.getColumn());
+        assertEquals(t.beginLine, zoo.getLine());
         assertEquals(e, zoo.expansion);
         assertSame(e.parent, zoo);
     }
 
     public void testZeroOrMoreConstructor() {
         ZeroOrMore zom = new ZeroOrMore(t, e);
-        assertEquals(t.beginColumn, zom.column);
-        assertEquals(t.beginLine, zom.line);
+        assertEquals(t.beginColumn, zom.getColumn());
+        assertEquals(t.beginLine, zom.getLine());
         assertEquals(e, zom.expansion);
         assertEquals(e.parent, zom);
     }
@@ -62,24 +62,24 @@ public final class ExpansionTest extends TestCase {
     public void testRZeroOrMoreConstructor() {
         RegularExpression r = new RChoice();
         RZeroOrMore rzom = new RZeroOrMore(t, r);
-        assertEquals(t.beginColumn, rzom.column);
-        assertEquals(t.beginLine, rzom.line);
+        assertEquals(t.beginColumn, rzom.getColumn());
+        assertEquals(t.beginLine, rzom.getLine());
         assertEquals(r, rzom.regexpr);
     }
 
     public void testROneOrMoreConstructor() {
         RegularExpression r = new RChoice();
         ROneOrMore room = new ROneOrMore(t, r);
-        assertEquals(t.beginColumn, room.column);
-        assertEquals(t.beginLine, room.line);
+        assertEquals(t.beginColumn, room.getColumn());
+        assertEquals(t.beginLine, room.getLine());
         assertEquals(r, room.regexpr);
     }
 
     public void testOneOrMoreConstructor() {
         Expansion rce = new RChoice();
         OneOrMore oom = new OneOrMore(t, rce);
-        assertEquals(t.beginColumn, oom.column);
-        assertEquals(t.beginLine, oom.line);
+        assertEquals(t.beginColumn, oom.getColumn());
+        assertEquals(t.beginLine, oom.getLine());
         assertEquals(rce, oom.expansion);
         assertEquals(rce.parent, oom);
     }
@@ -87,33 +87,33 @@ public final class ExpansionTest extends TestCase {
 
     public void testRStringLiteralConstructor() {
         RStringLiteral r = new RStringLiteral(t, "hey");
-        assertEquals(t.beginColumn, r.column);
-        assertEquals(t.beginLine, r.line);
+        assertEquals(t.beginColumn, r.getColumn());
+        assertEquals(t.beginLine, r.getLine());
         assertEquals("hey", r.image);
     }
 
     public void testChoiceConstructor() {
         Choice c = new Choice(t);
-        assertEquals(t.beginColumn, c.column);
-        assertEquals(t.beginLine, c.line);
+        assertEquals(t.beginColumn, c.getColumn());
+        assertEquals(t.beginLine, c.getLine());
         c = new Choice(e);
-        assertEquals(e.column, c.column);
-        assertEquals(e.line, c.line);
-        assertEquals(e, c.choices.get(0));
+        assertEquals(e.getColumn(), c.getColumn());
+        assertEquals(e.getLine(), c.getLine());
+        assertEquals(e, c.getChoices().get(0));
     }
 
     public void testRJustNameConstructor() {
         RJustName r = new RJustName(t, "hey");
-        assertEquals(t.beginColumn, r.column);
-        assertEquals(t.beginLine, r.line);
+        assertEquals(t.beginColumn, r.getColumn());
+        assertEquals(t.beginLine, r.getLine());
         assertEquals("hey", r.label);
     }
 
     public void testSequenceConstructor() {
         Lookahead la = new Lookahead();
         Sequence s = new Sequence(t, la);
-        assertEquals(t.beginColumn, s.column);
-        assertEquals(t.beginLine, s.line);
+        assertEquals(t.beginColumn, s.getColumn());
+        assertEquals(t.beginLine, s.getLine());
         assertSame(la, s.units.get(0));
     }
 }

@@ -27,6 +27,8 @@
  */
 package org.javacc.parser;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -39,56 +41,58 @@ public class NormalProduction {
    * The line and column number of the construct that corresponds
    * most closely to this node.
    */
-  public int line, column;
+  private int column;
+
+  private int line;
 
   /**
    * The NonTerminal nodes which refer to this production.
    */
-  java.util.List parents = new java.util.ArrayList();
+  private List parents = new ArrayList();
 
   /**
    * The access modifier of this production.
    */
-  public String accessMod;
+  private String accessMod;
 
   /**
    * The name of the non-terminal of this production.
    */
-  public String lhs;
+  private String lhs;
 
   /**
    * The tokens that make up the return type of this production.
    */
-  public java.util.List return_type_tokens = new java.util.ArrayList();
+  private List return_type_tokens = new ArrayList();
 
   /**
    * The tokens that make up the parameters of this production.
    */
-  public java.util.List parameter_list_tokens = new java.util.ArrayList();
+  private List parameter_list_tokens = new ArrayList();
 
   /**
    * Each entry in this list is a list of tokens that represents an
    * exception in the throws list of this production.  This list does not
    * include ParseException which is always thrown.
    */
-  public java.util.List throws_list = new java.util.ArrayList();
+  private List throws_list = new ArrayList();
 
   /**
    * The RHS of this production.  Not used for JavaCodeProduction.
    */
-  public Expansion expansion;
+  private Expansion expansion;
 
   /**
    * This boolean flag is true if this production can expand to empty.
    */
-  boolean emptyPossible = false;
+  private boolean emptyPossible = false;
 
   /**
    * A list of all non-terminals that this one can expand to without
    * having to consume any tokens.  Also an index that shows how many
    * pointers exist.
    */
-  NormalProduction[] leftExpansions = new NormalProduction[10];
+  private NormalProduction[] leftExpansions = new NormalProduction[10];
   int leIndex = 0;
 
   /**
@@ -99,13 +103,15 @@ public class NormalProduction {
    * node has been traversed.  i.e., -1 indicates partially processed,
    * and 1 indicates fully processed.
    */
-  int walkStatus = 0;
+  private int walkStatus = 0;
 
   /**
    * The first and last tokens from the input stream that represent this
    * production.
    */
-  public Token firstToken, lastToken;
+  private Token lastToken;
+
+  private Token firstToken;
 
   protected String eol = System.getProperty("line.separator", "\n");
   protected StringBuffer dumpPrefix(int indent) {
@@ -121,17 +127,201 @@ public class NormalProduction {
   }
 
   public StringBuffer dump(int indent, Set alreadyDumped) {
-    StringBuffer sb = dumpPrefix(indent).append(System.identityHashCode(this)).append(' ').append(getSimpleName()).append(' ').append(lhs);
+    StringBuffer sb = dumpPrefix(indent).append(System.identityHashCode(this)).append(' ').append(getSimpleName()).append(' ').append(getLhs());
     if (!alreadyDumped.contains(this))
     {
       alreadyDumped.add(this);
-      if (expansion != null)
+      if (getExpansion() != null)
       {
-        sb.append(eol).append(expansion.dump(indent + 1, alreadyDumped));
+        sb.append(eol).append(getExpansion().dump(indent + 1, alreadyDumped));
       }
     }
 
     return sb;
+  }
+
+  /**
+   * @param line the line to set
+   */
+  public void setLine(int line) {
+    this.line = line;
+  }
+
+  /**
+   * @return the line
+   */
+  public int getLine() {
+    return line;
+  }
+
+  /**
+   * @param column the column to set
+   */
+  public void setColumn(int column) {
+    this.column = column;
+  }
+
+  /**
+   * @return the column
+   */
+  public int getColumn() {
+    return column;
+  }
+
+  /**
+   * @param parents the parents to set
+   */
+  void setParents(List parents) {
+    this.parents = parents;
+  }
+
+  /**
+   * @return the parents
+   */
+  List getParents() {
+    return parents;
+  }
+
+  /**
+   * @param accessMod the accessMod to set
+   */
+  public void setAccessMod(String accessMod) {
+    this.accessMod = accessMod;
+  }
+
+  /**
+   * @return the accessMod
+   */
+  public String getAccessMod() {
+    return accessMod;
+  }
+
+  /**
+   * @param lhs the lhs to set
+   */
+  public void setLhs(String lhs) {
+    this.lhs = lhs;
+  }
+
+  /**
+   * @return the lhs
+   */
+  public String getLhs() {
+    return lhs;
+  }
+
+  /**
+   * @return the return_type_tokens
+   */
+  public List getReturnTypeTokens() {
+    return return_type_tokens;
+  }
+
+  /**
+   * @return the parameter_list_tokens
+   */
+  public List getParameterListTokens() {
+    return parameter_list_tokens;
+  }
+
+  /**
+   * @param throws_list the throws_list to set
+   */
+  public void setThrowsList(List throws_list) {
+    this.throws_list = throws_list;
+  }
+
+  /**
+   * @return the throws_list
+   */
+  public List getThrowsList() {
+    return throws_list;
+  }
+
+  /**
+   * @param expansion the expansion to set
+   */
+  public void setExpansion(Expansion expansion) {
+    this.expansion = expansion;
+  }
+
+  /**
+   * @return the expansion
+   */
+  public Expansion getExpansion() {
+    return expansion;
+  }
+
+  /**
+   * @param emptyPossible the emptyPossible to set
+   */
+  boolean setEmptyPossible(boolean emptyPossible) {
+    this.emptyPossible = emptyPossible;
+    return emptyPossible;
+  }
+
+  /**
+   * @return the emptyPossible
+   */
+  boolean isEmptyPossible() {
+    return emptyPossible;
+  }
+
+  /**
+   * @param leftExpansions the leftExpansions to set
+   */
+  void setLeftExpansions(NormalProduction[] leftExpansions) {
+    this.leftExpansions = leftExpansions;
+  }
+
+  /**
+   * @return the leftExpansions
+   */
+  NormalProduction[] getLeftExpansions() {
+    return leftExpansions;
+  }
+
+  /**
+   * @param walkStatus the walkStatus to set
+   */
+  void setWalkStatus(int walkStatus) {
+    this.walkStatus = walkStatus;
+  }
+
+  /**
+   * @return the walkStatus
+   */
+  int getWalkStatus() {
+    return walkStatus;
+  }
+
+  /**
+   * @param firstToken the firstToken to set
+   */
+  public Token setFirstToken(Token firstToken) {
+    this.firstToken = firstToken;
+    return firstToken;
+  }
+
+  /**
+   * @return the firstToken
+   */
+  public Token getFirstToken() {
+    return firstToken;
+  }
+
+  /**
+   * @param lastToken the lastToken to set
+   */
+  public void setLastToken(Token lastToken) {
+    this.lastToken = lastToken;
+  }
+
+  /**
+   * @return the lastToken
+   */
+  public Token getLastToken() {
+    return lastToken;
   }
 
 }

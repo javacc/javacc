@@ -49,13 +49,13 @@ public class Lookahead extends Expansion {
    * that forms the semantic lookahead.  In this case, the following
    * fields "amount" and "la_expansion" are ignored.
    */
-  public List action_tokens = new ArrayList();
+  private List action_tokens = new ArrayList();
 
   /**
    * The lookahead amount.  Its default value essentially gives us
    * infinite lookahead.
    */
-  public int amount = Integer.MAX_VALUE;
+  private int amount = Integer.MAX_VALUE;
 
   /**
    * The expansion used to determine whether or not to choose the
@@ -64,12 +64,12 @@ public class Lookahead extends Expansion {
    * is found.  Usually, this is the same as the expansion to be
    * parsed.
    */
-  public Expansion la_expansion;
+  private Expansion la_expansion;
 
   /**
    * Is set to true if this is an explicit lookahead specification.
    */
-  public boolean isExplicit;
+  private boolean isExplicit;
 
   public StringBuffer dump(int indent, Set alreadyDumped) {
     StringBuffer sb = super.dump(indent, alreadyDumped).append(isExplicit ? " explicit" : " implicit");
@@ -79,4 +79,53 @@ public class Lookahead extends Expansion {
     sb.append(eol).append(la_expansion.dump(indent + 1, alreadyDumped));
     return sb;
   }
+
+/**
+ * @return the action_tokens
+ */
+public List getActionTokens() {
+	return action_tokens;
+}
+
+/**
+ * @param amount the amount to set
+ */
+public void setAmount(int amount) {
+	this.amount = amount;
+}
+
+/**
+ * @return the amount
+ */
+public int getAmount() {
+	return amount;
+}
+
+/**
+ * @param la_expansion the la_expansion to set
+ */
+public void setLaExpansion(Expansion la_expansion) {
+	this.la_expansion = la_expansion;
+}
+
+/**
+ * @return the la_expansion
+ */
+public Expansion getLaExpansion() {
+	return la_expansion;
+}
+
+/**
+ * @param isExplicit the isExplicit to set
+ */
+public void setExplicit(boolean isExplicit) {
+	this.isExplicit = isExplicit;
+}
+
+/**
+ * @return the isExplicit
+ */
+public boolean isExplicit() {
+	return isExplicit;
+}
 }

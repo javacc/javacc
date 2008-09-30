@@ -164,10 +164,10 @@ public class HTMLGenerator extends TextGenerator implements Generator {
     if (!JJDocOptions.getOneTable()) {
       println("");
       println("<TABLE ALIGN=CENTER>");
-      println("<CAPTION><STRONG>" + np.lhs + "</STRONG></CAPTION>");
+      println("<CAPTION><STRONG>" + np.getLhs() + "</STRONG></CAPTION>");
     }
     println("<TR>");
-    println("<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME=\"" + get_id(np.lhs) + "\">" + np.lhs + "</A></TD>");
+    println("<TD ALIGN=RIGHT VALIGN=BASELINE><A NAME=\"" + get_id(np.getLhs()) + "\">" + np.getLhs() + "</A></TD>");
     println("<TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>");
     print("<TD ALIGN=LEFT VALIGN=BASELINE>");
   }
@@ -192,7 +192,7 @@ public class HTMLGenerator extends TextGenerator implements Generator {
   }
 
   public void nonTerminalStart(NonTerminal nt) {
-    print("<A HREF=\"#" + get_id(nt.name) + "\">");
+    print("<A HREF=\"#" + get_id(nt.getName()) + "\">");
   }
   public void nonTerminalEnd(NonTerminal nt) {
     print("</A>");

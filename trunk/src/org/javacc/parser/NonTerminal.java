@@ -27,6 +27,8 @@
  */
 package org.javacc.parser;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -40,25 +42,81 @@ public class NonTerminal extends Expansion {
    * is assigned.  In case there is no LHS, then the vector
    * remains empty.
    */
-  public java.util.List lhsTokens = new java.util.ArrayList();
+  private List lhsTokens = new ArrayList();
 
   /**
    * The name of the non-terminal.
    */
-  public String name;
+  private String name;
 
   /**
    * The list of all tokens in the argument list.
    */
-  public java.util.List argument_tokens = new java.util.ArrayList();
+  private List argument_tokens = new ArrayList();
 
   /**
    * The production this non-terminal corresponds to.
    */
-  public NormalProduction prod;
+  private NormalProduction prod;
 
   public StringBuffer dump(int indent, Set alreadyDumped) {
     StringBuffer value = super.dump(indent, alreadyDumped).append(' ').append(name);
     return value;
   }
+
+/**
+ * @param lhsTokens the lhsTokens to set
+ */
+public void setLhsTokens(List lhsTokens) {
+	this.lhsTokens = lhsTokens;
+}
+
+/**
+ * @return the lhsTokens
+ */
+public List getLhsTokens() {
+	return lhsTokens;
+}
+
+/**
+ * @param name the name to set
+ */
+public void setName(String name) {
+	this.name = name;
+}
+
+/**
+ * @return the name
+ */
+public String getName() {
+	return name;
+}
+
+/**
+ * @param argument_tokens the argument_tokens to set
+ */
+public void setArgumentTokens(List argument_tokens) {
+	this.argument_tokens = argument_tokens;
+}
+
+/**
+ * @return the argument_tokens
+ */
+public List getArgumentTokens() {
+	return argument_tokens;
+}
+
+/**
+ * @param prod the prod to set
+ */
+public NormalProduction setProd(NormalProduction prod) {
+	return this.prod = prod;
+}
+
+/**
+ * @return the prod
+ */
+public NormalProduction getProd() {
+	return prod;
+}
 }

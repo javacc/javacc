@@ -39,6 +39,7 @@ import java.util.Set;
  */
 public class Options {
 
+  
   /**
    * Limit subclassing to derived classes.
    */
@@ -588,7 +589,7 @@ public class Options {
    * @return
    */
   public static boolean getSupportClassVisibilityPublic() {
-	  return booleanValue("SUPPORT_CLASS_VISIBILITY_PUBLIC");
+    return booleanValue("SUPPORT_CLASS_VISIBILITY_PUBLIC");
   }
 
   /**
