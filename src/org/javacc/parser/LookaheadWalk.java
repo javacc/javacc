@@ -63,17 +63,17 @@ public final class LookaheadWalk {
       }
       return retval;
     } else if (exp instanceof NonTerminal) {
-      NormalProduction prod = ((NonTerminal)exp).prod;
+      NormalProduction prod = ((NonTerminal)exp).getProd();
       if (prod instanceof JavaCodeProduction) {
         return new ArrayList();
       } else {
-        return genFirstSet(partialMatches, prod.expansion);
+        return genFirstSet(partialMatches, prod.getExpansion());
       }
     } else if (exp instanceof Choice) {
       List retval = new ArrayList();
       Choice ch = (Choice)exp;
-      for (int i = 0; i < ch.choices.size(); i++) {
-        List v = genFirstSet(partialMatches, (Expansion)ch.choices.get(i));
+      for (int i = 0; i < ch.getChoices().size(); i++) {
+        List v = genFirstSet(partialMatches, (Expansion)ch.getChoices().get(i));
         listAppend(retval, v);
       }
       return retval;
@@ -115,7 +115,7 @@ public final class LookaheadWalk {
       return genFirstSet(partialMatches, ((TryBlock)exp).exp);
     } else if (considerSemanticLA &&
                exp instanceof Lookahead &&
-               ((Lookahead)exp).action_tokens.size() != 0
+               ((Lookahead)exp).getActionTokens().size() != 0
               ) {
       return new ArrayList();
     } else {
@@ -149,7 +149,7 @@ public final class LookaheadWalk {
       listAppend(retval, partialMatches);
       return retval;
     } else if (exp.parent instanceof NormalProduction) {
-      List parents = ((NormalProduction)exp.parent).parents;
+      List parents = ((NormalProduction)exp.parent).getParents();
       List retval = new ArrayList();
 //System.out.println("1; gen: " + generation + "; exp: " + exp);
       for (int i = 0; i < parents.size(); i++) {

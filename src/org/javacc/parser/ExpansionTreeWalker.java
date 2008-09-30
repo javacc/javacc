@@ -45,7 +45,7 @@ public final class ExpansionTreeWalker {
     opObj.action(node);
     if (opObj.goDeeper(node)) {
       if (node instanceof Choice) {
-        for (Iterator it = ((Choice)node).choices.iterator(); it.hasNext();) {
+        for (Iterator it = ((Choice)node).getChoices().iterator(); it.hasNext();) {
           preOrderWalk((Expansion)it.next(), opObj);
         }
       } else if (node instanceof Sequence) {
@@ -59,14 +59,14 @@ public final class ExpansionTreeWalker {
       } else if (node instanceof ZeroOrOne) {
         preOrderWalk(((ZeroOrOne)node).expansion, opObj);
       } else if (node instanceof Lookahead) {
-        Expansion nested_e = ((Lookahead)node).la_expansion;
+        Expansion nested_e = ((Lookahead)node).getLaExpansion();
         if (!(nested_e instanceof Sequence && (Expansion)(((Sequence)nested_e).units.get(0)) == node)) {
           preOrderWalk(nested_e, opObj);
         }
       } else if (node instanceof TryBlock) {
         preOrderWalk(((TryBlock)node).exp, opObj);
       } else if (node instanceof RChoice) {
-        for (Iterator it = ((RChoice)node).choices.iterator(); it.hasNext();) {
+        for (Iterator it = ((RChoice)node).getChoices().iterator(); it.hasNext();) {
           preOrderWalk((Expansion)it.next(), opObj);
         }
       } else if (node instanceof RSequence) {
@@ -93,7 +93,7 @@ public final class ExpansionTreeWalker {
   static void postOrderWalk(Expansion node, TreeWalkerOp opObj) {
     if (opObj.goDeeper(node)) {
       if (node instanceof Choice) {
-        for (Iterator it = ((Choice)node).choices.iterator(); it.hasNext();) {
+        for (Iterator it = ((Choice)node).getChoices().iterator(); it.hasNext();) {
           postOrderWalk((Expansion)it.next(), opObj);
         }
       } else if (node instanceof Sequence) {
@@ -107,14 +107,14 @@ public final class ExpansionTreeWalker {
       } else if (node instanceof ZeroOrOne) {
         postOrderWalk(((ZeroOrOne)node).expansion, opObj);
       } else if (node instanceof Lookahead) {
-        Expansion nested_e = ((Lookahead)node).la_expansion;
+        Expansion nested_e = ((Lookahead)node).getLaExpansion();
         if (!(nested_e instanceof Sequence && (Expansion)(((Sequence)nested_e).units.get(0)) == node)) {
           postOrderWalk(nested_e, opObj);
         }
       } else if (node instanceof TryBlock) {
         postOrderWalk(((TryBlock)node).exp, opObj);
       } else if (node instanceof RChoice) {
-        for (Iterator it = ((RChoice)node).choices.iterator(); it.hasNext();) {
+        for (Iterator it = ((RChoice)node).getChoices().iterator(); it.hasNext();) {
           postOrderWalk((Expansion)it.next(), opObj);
         }
       } else if (node instanceof RSequence) {

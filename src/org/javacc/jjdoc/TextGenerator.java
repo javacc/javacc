@@ -145,7 +145,7 @@ public class TextGenerator implements Generator {
    * @see org.javacc.jjdoc.Generator#productionStart(org.javacc.parser.NormalProduction)
    */
   public void productionStart(NormalProduction np) {
-    ostr.print("\t" + np.lhs + "\t:=\t");
+    ostr.print("\t" + np.getLhs() + "\t:=\t");
   }
   /**
    * {@inheritDoc}

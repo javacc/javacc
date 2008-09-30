@@ -37,7 +37,9 @@ public class SingleCharacter {
    * The line and column number of the construct that corresponds
    * most closely to this node.
    */
-  int line, column;
+  private int column;
+
+  private int line;
 
   /**
    * The character of this descriptor.
@@ -51,6 +53,34 @@ public class SingleCharacter {
   SingleCharacter(char c)
   {
      ch = c;
+  }
+
+  /**
+   * @param line the line to set
+   */
+  void setLine(int line) {
+    this.line = line;
+  }
+
+  /**
+   * @return the line
+   */
+  int getLine() {
+    return line;
+  }
+
+  /**
+   * @param column the column to set
+   */
+  void setColumn(int column) {
+    this.column = column;
+  }
+
+  /**
+   * @return the column
+   */
+  int getColumn() {
+    return column;
   }
 
 }

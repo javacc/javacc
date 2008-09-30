@@ -41,26 +41,27 @@ public class NfaState
 {
    public static boolean unicodeWarningGiven = false;
    public static int generatedStates = 0;
-   static int idCnt = 0;
-   static int lohiByteCnt;
-   static int dummyStateIndex = -1;
-   static boolean done;
-   static boolean mark[];
-   static boolean stateDone[];
+   
+   private static int idCnt = 0;
+   private static int lohiByteCnt;
+   private static int dummyStateIndex = -1;
+   private static boolean done;
+   private static boolean mark[];
+   private static boolean stateDone[];
 
-   static List allStates = new ArrayList();
-   static List indexedAllStates = new ArrayList();
-   static List nonAsciiTableForMethod = new ArrayList();
-   static Hashtable equivStatesTable = new Hashtable();
-   static Hashtable allNextStates = new Hashtable();
-   static Hashtable lohiByteTab = new Hashtable();
-   static Hashtable stateNameForComposite = new Hashtable();
-   static Hashtable compositeStateTable = new Hashtable();
-   static Hashtable stateBlockTable = new Hashtable();
-   static Hashtable stateSetsToFix = new Hashtable();
+   private static List allStates = new ArrayList();
+   private static List indexedAllStates = new ArrayList();
+   private static List nonAsciiTableForMethod = new ArrayList();
+   private static Hashtable equivStatesTable = new Hashtable();
+   private static Hashtable allNextStates = new Hashtable();
+   private static Hashtable lohiByteTab = new Hashtable();
+   private static Hashtable stateNameForComposite = new Hashtable();
+   private static Hashtable compositeStateTable = new Hashtable();
+   private static Hashtable stateBlockTable = new Hashtable();
+   private static Hashtable stateSetsToFix = new Hashtable();
 
-   static boolean jjCheckNAddStatesUnaryNeeded = false;
-   static boolean jjCheckNAddStatesDualNeeded = false;
+   private static boolean jjCheckNAddStatesUnaryNeeded = false;
+   private static boolean jjCheckNAddStatesDualNeeded = false;
 
    public static void ReInit()
    {
@@ -83,31 +84,31 @@ public class NfaState
 
    long[] asciiMoves = new long[2];
    char[] charMoves = null;
-   char[] rangeMoves = null;
+   private char[] rangeMoves = null;
    NfaState next = null;
-   NfaState stateForCase;
+   private NfaState stateForCase;
    Vector epsilonMoves = new Vector();
-   String epsilonMovesString;
-   NfaState[] epsilonMoveArray;
+   private String epsilonMovesString;
+   private NfaState[] epsilonMoveArray;
 
-   int id;
+   private int id;
    int stateName = -1;
    int kind = Integer.MAX_VALUE;
-   int lookingFor;
-   int usefulEpsilonMoves = 0;
+   private int lookingFor;
+   private int usefulEpsilonMoves = 0;
    int inNextOf;
    private int lexState;
-   int nonAsciiMethod = -1;
-   int kindToPrint = Integer.MAX_VALUE;
+   private int nonAsciiMethod = -1;
+   private int kindToPrint = Integer.MAX_VALUE;
    boolean dummy = false;
-   boolean isComposite = false;
-   int[] compositeStates = null;
+   private boolean isComposite = false;
+   private int[] compositeStates = null;
    boolean isFinal = false;
-   public Vector loByteVec;
-   public int[] nonAsciiMoveIndices;
-   int round = 0;
-   int onlyChar = 0;
-   char matchSingleChar;
+   private Vector loByteVec;
+   private int[] nonAsciiMoveIndices;
+   private int round = 0;
+   private int onlyChar = 0;
+   private char matchSingleChar;
 
    NfaState()
    {

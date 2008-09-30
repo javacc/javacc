@@ -44,8 +44,8 @@ public class OneOrMore extends Expansion {
     public OneOrMore() {}
 
     public OneOrMore(Token t, Expansion e) {
-        this.line = t.beginLine;
-        this.column = t.beginColumn;
+        this.setLine(t.beginLine);
+        this.setColumn(t.beginColumn);
         this.expansion = e;
         expansion.parent = this;
     }

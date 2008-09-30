@@ -40,23 +40,37 @@ public class RChoice extends RegularExpression {
    * The list of choices of this regular expression.  Each
    * list component will narrow to RegularExpression.
    */
-  public List choices = new ArrayList();
+  private List choices = new ArrayList();
+
+  /**
+   * @param choices the choices to set
+   */
+  public void setChoices(List choices) {
+    this.choices = choices;
+  }
+
+  /**
+   * @return the choices
+   */
+  public List getChoices() {
+    return choices;
+  }
 
   public Nfa GenerateNfa(boolean ignoreCase)
   {
      CompressCharLists();
 
-     if (choices.size() == 1)
-        return ((RegularExpression)choices.get(0)).GenerateNfa(ignoreCase);
+     if (getChoices().size() == 1)
+        return ((RegularExpression)getChoices().get(0)).GenerateNfa(ignoreCase);
 
      Nfa retVal = new Nfa();
      NfaState startState = retVal.start;
      NfaState finalState = retVal.end;
 
-     for (int i = 0; i < choices.size(); i++)
+     for (int i = 0; i < getChoices().size(); i++)
      {
         Nfa temp;
-        RegularExpression curRE = (RegularExpression)choices.get(i);
+        RegularExpression curRE = (RegularExpression)getChoices().get(i);
 
         temp = curRE.GenerateNfa(ignoreCase);
 
@@ -73,16 +87,16 @@ public class RChoice extends RegularExpression {
      RegularExpression curRE;
      RCharacterList curCharList = null;
 
-     for (int i = 0; i < choices.size(); i++)
+     for (int i = 0; i < getChoices().size(); i++)
      {
-        curRE = (RegularExpression)choices.get(i);
+        curRE = (RegularExpression)getChoices().get(i);
 
         while (curRE instanceof RJustName)
            curRE = ((RJustName)curRE).regexpr;
 
         if (curRE instanceof RStringLiteral &&
             ((RStringLiteral)curRE).image.length() == 1)
-           choices.set(i, curRE = new RCharacterList(
+           getChoices().set(i, curRE = new RCharacterList(
                       ((RStringLiteral)curRE).image.charAt(0)));
 
         if (curRE instanceof RCharacterList)
@@ -93,9 +107,9 @@ public class RChoice extends RegularExpression {
            List tmp = ((RCharacterList)curRE).descriptors;
 
            if (curCharList == null)
-              choices.set(i, curRE = curCharList = new RCharacterList());
+              getChoices().set(i, curRE = curCharList = new RCharacterList());
            else
-              choices.remove(i--);
+              getChoices().remove(i--);
 
            for (int j = tmp.size(); j-- > 0;)
               curCharList.descriptors.add(tmp.get(j));
@@ -108,18 +122,18 @@ public class RChoice extends RegularExpression {
   {
      RegularExpression curRE;
 
-     for (int i = 0; i < choices.size(); i++)
+     for (int i = 0; i < getChoices().size(); i++)
      {
-        curRE = (RegularExpression)choices.get(i);
+        curRE = (RegularExpression)getChoices().get(i);
 
         while (curRE instanceof RJustName)
            curRE = ((RJustName)curRE).regexpr;
 
         if (curRE instanceof RChoice)
         {
-           choices.remove(i--);
-           for (int j = ((RChoice)curRE).choices.size(); j-- > 0;)
-              choices.add(((RChoice)curRE).choices.get(j));
+           getChoices().remove(i--);
+           for (int j = ((RChoice)curRE).getChoices().size(); j-- > 0;)
+              getChoices().add(((RChoice)curRE).getChoices().get(j));
         }
      }
   }
@@ -129,9 +143,9 @@ public class RChoice extends RegularExpression {
      RegularExpression curRE;
      int numStrings = 0;
 
-     for (int i = 0; i < choices.size(); i++)
+     for (int i = 0; i < getChoices().size(); i++)
      {
-        if (!(curRE = (RegularExpression)choices.get(i)).private_rexp &&
+        if (!(curRE = (RegularExpression)getChoices().get(i)).private_rexp &&
             //curRE instanceof RJustName &&
             curRE.ordinal > 0 && curRE.ordinal < ordinal &&
             LexGen.lexStates[curRE.ordinal] == LexGen.lexStates[ordinal])

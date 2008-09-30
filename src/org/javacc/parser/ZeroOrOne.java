@@ -44,8 +44,8 @@ public class ZeroOrOne extends Expansion {
   public ZeroOrOne() {}
 
     public ZeroOrOne(Token t, Expansion e) {
-        this.line = t.beginLine;
-        this.column = t.beginColumn;
+        this.setLine(t.beginLine);
+        this.setColumn(t.beginColumn);
         this.expansion = e;
         e.parent = this;
     }

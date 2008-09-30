@@ -55,7 +55,9 @@ public class TokenProduction {
   /**
    * The starting line and column of this token production.
    */
-  public int line, column;
+  private int column;
+
+  private int line;
 
   /**
    * The states in which this regular expression production exists.  If
@@ -96,5 +98,33 @@ public class TokenProduction {
    * production.
    */
   public Token firstToken, lastToken;
+
+  /**
+   * @param line the line to set
+   */
+  public void setLine(int line) {
+    this.line = line;
+  }
+
+  /**
+   * @return the line
+   */
+  public int getLine() {
+    return line;
+  }
+
+  /**
+   * @param column the column to set
+   */
+  public void setColumn(int column) {
+    this.column = column;
+  }
+
+  /**
+   * @return the column
+   */
+  public int getColumn() {
+    return column;
+  }
 
 }

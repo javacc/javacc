@@ -191,8 +191,8 @@ static final char[] diffUpperCaseRanges = {
       }
       else
       {
-        char l = ((CharacterRange)descriptors.get(i)).left;
-        char r = ((CharacterRange)descriptors.get(i)).right;
+        char l = ((CharacterRange)descriptors.get(i)).getLeft();
+        char r = ((CharacterRange)descriptors.get(i)).getRight();
         int j = 0;
 
         /* Add ranges for which lower case is different. */
@@ -383,10 +383,10 @@ static final char[] diffUpperCaseRanges = {
         {
            CharacterRange cr = (CharacterRange)descriptors.get(i);
 
-           if (cr.left == cr.right)
-              startState.AddChar(cr.left);
+           if (cr.getLeft() == cr.getRight())
+              startState.AddChar(cr.getLeft());
            else
-              startState.AddRange(cr.left, cr.right);
+              startState.AddRange(cr.getLeft(), cr.getRight());
         }
      }
 
@@ -397,17 +397,17 @@ static final char[] diffUpperCaseRanges = {
 
   static boolean Overlaps(CharacterRange r1, CharacterRange r2)
   {
-     return (r1.left <= r2.right && r1.right > r2.right);
+     return (r1.getLeft() <= r2.getRight() && r1.getRight() > r2.getRight());
   }
 
   static boolean SubRange(CharacterRange r1, CharacterRange r2)
   {
-     return (r1.left >= r2.left && r1.right <= r2.right);
+     return (r1.getLeft() >= r2.getLeft() && r1.getRight() <= r2.getRight());
   }
 
   static boolean InRange(char c, CharacterRange range)
   {
-     return (c >= range.left && c <= range.right);
+     return (c >= range.getLeft() && c <= range.getRight());
   }
 
   void SortDescriptors()
@@ -438,7 +438,7 @@ static final char[] diffUpperCaseRanges = {
               }
               else
               {
-                 char l = ((CharacterRange)newDesc.get(j)).left;
+                 char l = ((CharacterRange)newDesc.get(j)).getLeft();
 
                  if (InRange(s.ch, (CharacterRange)newDesc.get(j)))
                     continue Outer;
@@ -463,7 +463,7 @@ static final char[] diffUpperCaseRanges = {
                     newDesc.remove(j--);
                     cnt--;
                  }
-                 else if (((SingleCharacter)newDesc.get(j)).ch > range.right)
+                 else if (((SingleCharacter)newDesc.get(j)).ch > range.getRight())
                     break;
               }
               else
@@ -479,16 +479,16 @@ static final char[] diffUpperCaseRanges = {
                  }
                  else if (Overlaps(range,  (CharacterRange)newDesc.get(j)))
                  {
-                    range.left = (char)(((CharacterRange)newDesc.get(j)).right + 1);
+                    range.setLeft((char)(((CharacterRange)newDesc.get(j)).getRight() + 1));
                  }
                  else if (Overlaps((CharacterRange)newDesc.get(j), range))
                  {
                     CharacterRange tmp = range;
-                    ((CharacterRange)newDesc.get(j)).right = (char)(range.left + 1);
+                    ((CharacterRange)newDesc.get(j)).setRight((char)(range.getLeft() + 1));
                     range = (CharacterRange)newDesc.get(j);
                     newDesc.set(j, tmp);
                  }
-                 else if (((CharacterRange)newDesc.get(j)).left > range.right)
+                 else if (((CharacterRange)newDesc.get(j)).getLeft() > range.getRight())
                     break;
               }
            }
@@ -548,8 +548,8 @@ static final char[] diffUpperCaseRanges = {
         }
         else
         {
-           char l = ((CharacterRange)descriptors.get(i)).left;
-           char r = ((CharacterRange)descriptors.get(i)).right;
+           char l = ((CharacterRange)descriptors.get(i)).getLeft();
+           char r = ((CharacterRange)descriptors.get(i)).getRight();
 
            if (l >= 0 && l <= lastRemoved + 1)
            {

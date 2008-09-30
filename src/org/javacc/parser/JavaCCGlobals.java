@@ -438,6 +438,17 @@ public class JavaCCGlobals {
     printTokenOnly(t, ostr);
   }
 
+  static protected void printTokenList(List list, java.io.PrintWriter ostr) {
+    Token t = null;
+    for (java.util.Iterator it = list.iterator(); it.hasNext();) {
+      t = (Token)it.next();
+      printToken(t, ostr);
+    }
+    
+    if (t != null)
+      printTrailingComments(t, ostr);
+  }
+
   static protected void printLeadingComments(Token t, java.io.PrintWriter ostr) {
     if (t.specialToken == null) return;
     Token tt = t.specialToken;

@@ -96,7 +96,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
 
   static protected void production_addexpansion(BNFProduction p, Expansion e) {
     e.parent = p;
-    p.expansion = e;
+    p.setExpansion(e);
   }
 
   static private int nextFreeLexState = 1;
@@ -295,8 +295,8 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
       return;
     }
     TryBlock tblk = new TryBlock();
-    tblk.line = tryLoc.beginLine;
-    tblk.column = tryLoc.beginColumn;
+    tblk.setLine(tryLoc.beginLine);
+    tblk.setColumn(tryLoc.beginColumn);
     tblk.exp = (Expansion)(nestedExp.member);
     tblk.exp.parent = tblk;
     tblk.exp.ordinal = 0;
