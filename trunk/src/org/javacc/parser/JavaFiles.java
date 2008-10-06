@@ -165,7 +165,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   public static void gen_JavaCharStream() {
     try {
       final File file = new File(Options.getOutputDirectory(), "JavaCharStream.java");
-      final OutputFile outputFile = new OutputFile(file, charStreamVersion, new String[] {"STATIC"});
+      final OutputFile outputFile = new OutputFile(file, charStreamVersion, new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"});
 
       if (!outputFile.needToWrite)
       {
@@ -210,7 +210,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   public static void gen_SimpleCharStream() {
     try {
       final File file = new File(Options.getOutputDirectory(), "SimpleCharStream.java");
-      final OutputFile outputFile = new OutputFile(file, charStreamVersion, new String[] {"STATIC"});
+      final OutputFile outputFile = new OutputFile(file, charStreamVersion, new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"});
 
       if (!outputFile.needToWrite)
       {
@@ -255,7 +255,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   public static void gen_CharStream() {
     try {
       final File file = new File(Options.getOutputDirectory(), "CharStream.java");
-      final OutputFile outputFile = new OutputFile(file, charStreamVersion, new String[] {"STATIC"});
+      final OutputFile outputFile = new OutputFile(file, charStreamVersion, new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"});
 
       if (!outputFile.needToWrite)
       {
@@ -381,7 +381,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   public static void gen_Token() {
     try {
       final File file = new File(Options.getOutputDirectory(), "Token.java");
-      final OutputFile outputFile = new OutputFile(file, tokenVersion, new String[] {"TOKEN_EXTENDS", "KEEP_LINE_COL"});
+      final OutputFile outputFile = new OutputFile(file, tokenVersion, new String[] {"TOKEN_EXTENDS", "KEEP_LINE_COL", "SUPPORT_CLASS_VISIBILITY_PUBLIC"});
 
       if (!outputFile.needToWrite)
       {
@@ -423,7 +423,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   public static void gen_TokenManager() {
     try {
       final File file = new File(Options.getOutputDirectory(), "TokenManager.java");
-      final OutputFile outputFile = new OutputFile(file, tokenManagerVersion, new String[0]);
+      final OutputFile outputFile = new OutputFile(file, tokenManagerVersion, new String[] {"SUPPORT_CLASS_VISIBILITY_PUBLIC"});
 
       if (!outputFile.needToWrite)
       {
