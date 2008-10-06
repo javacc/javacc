@@ -74,7 +74,7 @@ final class NodeFiles {
     }
 
     try {
-      String[] options = new String[] {"MULTI", "NODE_USES_PARSER", "VISITOR", "TRACK_TOKENS", "NODE_PREFIX", "NODE_EXTENDS", "NODE_FACTORY"};
+      String[] options = new String[] {"MULTI", "NODE_USES_PARSER", "VISITOR", "TRACK_TOKENS", "NODE_PREFIX", "NODE_EXTENDS", "NODE_FACTORY", "SUPPORT_CLASS_VISIBILITY_PUBLIC"};
       OutputFile outputFile = new OutputFile(file, nodeVersion, options);
       outputFile.setToolName("JJTree");
 
