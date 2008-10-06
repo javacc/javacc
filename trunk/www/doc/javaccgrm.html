@@ -260,6 +260,10 @@ Option names are not case-sensitive.
 </tr>
 <tr>
 <td></td><td align="center" valign="baseline">|</td>
+<td align="left" valign="baseline">"SUPPORT_CLASS_VISIBILITY_PUBLIC" "=" <em>java_boolean_literal</em> ";"</td>
+</tr>
+<tr>
+<td></td><td align="center" valign="baseline">|</td>
 <td align="left" valign="baseline">"DEBUG_PARSER" "=" <em>java_boolean_literal</em> ";"</td>
 </tr>
 <tr>
@@ -456,6 +460,14 @@ that works on the specified grammar tokens.  If this
 option is set to true, then the parser is generated to accept tokens
 from any token manager of type "TokenManager" - this interface
 is generated into the generated parser directory.
+</li>
+<li>
+<strong>SUPPORT_CLASS_VISIBILITY_PUBLIC:</strong>
+This is a boolean option whose default value is
+true.  The default action is to generate support classes (such as
+Token.java, ParseException.java etc) with <em>Public</em> visibility. If
+set to false, the classes will be generated with package-private
+visibility.
 </li>
 <li>
 <strong>USER_CHAR_STREAM:</strong>

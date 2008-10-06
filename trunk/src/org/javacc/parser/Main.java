@@ -58,6 +58,7 @@ public final class Main {
     System.out.println("The boolean valued options are:");
     System.out.println("");
     System.out.println("    STATIC                 (default true)");
+    System.out.println("    SUPPORT_CLASS_VISIBILITY_PUBLIC (default true)");
     System.out.println("    DEBUG_PARSER           (default false)");
     System.out.println("    DEBUG_LOOKAHEAD        (default false)");
     System.out.println("    DEBUG_TOKEN_MANAGER    (default false)");
