@@ -59,7 +59,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     </javac>
   </target>
 
-  <target name="realclean">
+  <target name="clean">
     <delete>
       <fileset dir=".">
          <include name="JJTreeParser.java"/>

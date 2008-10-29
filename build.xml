@@ -89,6 +89,9 @@ THE POSSIBILITY OF SUCH DAMAGE.
   </target>
 
   <target name="clean">
+    <ant antfile="build.xml" target="clean" dir="src/org/javacc/parser" />
+    <ant antfile="build.xml" target="clean" dir="src/org/javacc/jjtree" />
+
     <delete dir="classes" />
     <delete dir="bin/lib" />
     <delete dir="test.tmp" />
@@ -97,8 +100,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
   </target>
 
   <target name="realclean" depends="clean">
-    <ant antfile="build.xml" target="realclean" dir="src/org/javacc/parser" />
-    <ant antfile="build.xml" target="realclean" dir="src/org/javacc/jjtree" />
+    <!-- No longer used - realclean and clean are synonymous. Target kept for compability -->
   </target>
 
   <condition property="isUnix">
@@ -115,6 +117,9 @@ THE POSSIBILITY OF SUCH DAMAGE.
   </target>
 
   <target name="unittest" depends="compile" description="run JUnit unit test cases">
+    <delete dir="test.tmp" />
+    <mkdir dir="test.tmp" />
+
     <junit printsummary="yes" haltonfailure="yes">
       <classpath>
        <pathelement path="classes" />
@@ -125,6 +130,9 @@ THE POSSIBILITY OF SUCH DAMAGE.
         </fileset>
       </batchtest>
     </junit>
+
+    <!-- Should sort this out properly, in the test. But for now... -->
+    <delete file="JavaCCParserTokenManager.java" />
   </target>
 
   <target name="test" depends="realclean,jar,unittest" description="run functional test cases">
