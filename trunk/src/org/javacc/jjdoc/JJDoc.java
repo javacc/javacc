@@ -50,6 +50,7 @@ import org.javacc.parser.RSequence;
 import org.javacc.parser.RStringLiteral;
 import org.javacc.parser.RZeroOrMore;
 import org.javacc.parser.RZeroOrOne;
+import org.javacc.parser.RRepetitionRange;
 import org.javacc.parser.RegExprSpec;
 import org.javacc.parser.RegularExpression;
 import org.javacc.parser.Sequence;
@@ -389,6 +390,20 @@ public class JJDoc extends JJDocGlobals {
       returnString += "(";
       returnString += emitRE(zo.regexpr);
       returnString += ")?";
+	} else if (re instanceof RRepetitionRange) {
+	  RRepetitionRange zo = (RRepetitionRange)re;
+	  returnString += "(";
+	  returnString += emitRE(zo.regexpr);
+	  returnString += ")";
+	  returnString += "{";
+	  if (zo.hasMax) {
+		returnString += zo.min;
+		returnString += ",";
+		returnString += zo.max;
+	  } else {
+	    returnString += zo.min;
+	  }
+	  returnString += "}";
     } else {
       error("Oops: Unknown regular expression type.");
     }
