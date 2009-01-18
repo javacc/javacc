@@ -334,7 +334,7 @@ public class Options {
     cmdLineSetting.add(name);
   }
 
-  static void normalize() {
+  public static void normalize() {
     if (getDebugLookahead() && !getDebugParser()) {
       if (cmdLineSetting.contains("DEBUG_PARSER")
           || inputFileSetting.contains("DEBUG_PARSER")) {
