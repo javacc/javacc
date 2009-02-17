@@ -135,6 +135,7 @@ public class Options {
     optionValues.put("JDK_VERSION", "1.4");
     optionValues.put("TOKEN_EXTENDS", "");
     optionValues.put("TOKEN_FACTORY", "");
+    optionValues.put("GRAMMAR_ENCODING", "");
   }
 
   /**
@@ -623,6 +624,20 @@ public class Options {
   public static String getTokenFactory()
   {
     return stringValue("TOKEN_FACTORY");
+  }
+
+  /**
+   * Return the file encoding; this will return the file.encoding system property if no value was explicitly set
+   *
+   * @return The file encoding (e.g., UTF-8, ISO_8859-1, MacRoman)
+   */
+  public static String getGrammarEncoding()
+  {
+	if (stringValue("GRAMMAR_ENCODING").equals("")) {
+	    return System.getProperties().getProperty("file.encoding");
+	} else {
+	    return stringValue("GRAMMAR_ENCODING");
+	}
   }
 
   /**
