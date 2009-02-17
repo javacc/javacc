@@ -83,6 +83,7 @@ public final class Main {
     System.out.println("    TOKEN_EXTENDS          (default java.lang.Object)");
     System.out.println("    TOKEN_FACTORY          (default none)");
     System.out.println("    JDK_VERSION            (default 1.5)");
+    System.out.println("    GRAMMAR_ENCODING       (defaults to platform file encoding)");
     System.out.println("");
     System.out.println("EXAMPLE:");
     System.out.println("    javacc -STATIC=false -LOOKAHEAD:2 -debug_parser mygrammar.jj");
@@ -140,7 +141,7 @@ public final class Main {
          System.out.println(args[args.length-1] + " is a directory. Please use a valid file name.");
          return 1;
       }
-      parser = new JavaCCParser(new java.io.FileReader(args[args.length-1]));
+      parser = new JavaCCParser(new java.io.BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(args[args.length-1]), Options.getGrammarEncoding())));
     } catch (SecurityException se) {
       System.out.println("Security violation while trying to open " + args[args.length-1]);
       return 1;

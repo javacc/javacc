@@ -30,6 +30,9 @@ package org.javacc.jjtree;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -150,7 +153,7 @@ final class IO
       }
       ifn = fp.getPath();
 
-      in = new FileReader(ifn);
+      in = new BufferedReader(new InputStreamReader(new FileInputStream(ifn), JJTreeOptions.getGrammarEncoding()));
 
     } catch (NullPointerException ne) { // Should never happen
       throw new JJTreeIOException(ne.toString());

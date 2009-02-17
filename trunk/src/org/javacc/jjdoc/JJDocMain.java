@@ -144,7 +144,7 @@ public final class JJDocMain extends JJDocGlobals {
            return 1;
         }
         JJDocGlobals.input_file = fp.getName();
-        parser = new JavaCCParser(new java.io.FileReader(args[args.length-1]));
+        parser = new JavaCCParser(new java.io.BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(args[args.length-1]), JJDocOptions.getGrammarEncoding())));
       } catch (SecurityException se) {
         error("Security violation while trying to open " + args[args.length-1]);
         return 1;

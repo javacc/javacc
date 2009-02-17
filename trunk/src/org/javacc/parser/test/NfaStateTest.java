@@ -49,7 +49,7 @@ public class NfaStateTest extends JavaCCTestCase {
   }
 
   protected void setupState() throws Exception {
-    JavaCCParser parser = new JavaCCParser(new java.io.FileReader(parserInput));
+	JavaCCParser parser = new JavaCCParser(new java.io.BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(parserInput), Options.getGrammarEncoding())));
     parser.javacc_input();
     JavaCCGlobals.fileName = JavaCCGlobals.origFileName = parserInput;
     JavaCCGlobals.jjtreeGenerated = JavaCCGlobals.isGeneratedBy("JJTree", parserInput);
