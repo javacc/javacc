@@ -75,6 +75,7 @@ public class JJTree {
     p("The string valued options are:");
     p("");
     p("    JDK_VERSION              (default \"1.5\")");
+    p("    NODE_CLASS               (default \"\")");
     p("    NODE_PREFIX              (default \"AST\")");
     p("    NODE_PACKAGE             (default \"\")");
     p("    NODE_EXTENDS             (default \"\")");
