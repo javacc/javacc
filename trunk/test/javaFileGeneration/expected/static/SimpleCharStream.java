@@ -199,6 +199,7 @@ public class SimpleCharStream
     return c;
   }
 
+  @Deprecated
   /**
    * @deprecated
    * @see #getEndColumn
@@ -208,6 +209,7 @@ public class SimpleCharStream
     return bufcolumn[bufpos];
   }
 
+  @Deprecated
   /**
    * @deprecated
    * @see #getEndLine
@@ -468,4 +470,4 @@ public class SimpleCharStream
   }
 
 }
-/* JavaCC - OriginalChecksum=f0bb7ce412d7b9984c49f747272736c8 (do not edit this line) */
+/* JavaCC - OriginalChecksum=0ae1d02a36c4a14265281e86b23e49db (do not edit this line) */

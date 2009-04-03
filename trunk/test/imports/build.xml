@@ -41,7 +41,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <javac srcdir="out-dir"
            destdir="out-dir"
-           source="1.4"
+           source="1.5"
 	   debug="true"
            classpath="../../bin/lib/javacc.jar">
     </javac>

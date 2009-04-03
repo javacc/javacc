@@ -132,7 +132,7 @@ public class Options {
     optionValues.put("SUPPORT_CLASS_VISIBILITY_PUBLIC", Boolean.TRUE);
 
     optionValues.put("OUTPUT_DIRECTORY", ".");
-    optionValues.put("JDK_VERSION", "1.4");
+    optionValues.put("JDK_VERSION", "1.5");
     optionValues.put("TOKEN_EXTENDS", "");
     optionValues.put("TOKEN_FACTORY", "");
     optionValues.put("GRAMMAR_ENCODING", "");

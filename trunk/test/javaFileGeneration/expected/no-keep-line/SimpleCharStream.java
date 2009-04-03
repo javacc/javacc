@@ -134,6 +134,7 @@ public class SimpleCharStream
     return c;
   }
 
+  @Deprecated
   /**
    * @deprecated
    * @see #getEndColumn
@@ -143,6 +144,7 @@ public class SimpleCharStream
     return -1;
   }
 
+  @Deprecated
   /**
    * @deprecated
    * @see #getEndLine
@@ -344,4 +346,4 @@ public class SimpleCharStream
     buffer = null;
   }
 }
-/* JavaCC - OriginalChecksum=cfc71f2e4831d8c80ca3fd44ac356772 (do not edit this line) */
+/* JavaCC - OriginalChecksum=1ddf23bde5c9959bab6f8086ea6cb155 (do not edit this line) */
