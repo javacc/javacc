@@ -53,7 +53,7 @@ class JJTreeOptions extends Options {
     public static void init() {
         Options.init();
 
-        Options.optionValues.put("JDK_VERSION", "1.4");
+        Options.optionValues.put("JDK_VERSION", "1.5");
         Options.optionValues.put("MULTI", Boolean.FALSE);
         Options.optionValues.put("NODE_DEFAULT_VOID", Boolean.FALSE);
         Options.optionValues.put("NODE_SCOPE_HOOK", Boolean.FALSE);
