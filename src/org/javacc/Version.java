@@ -32,6 +32,6 @@ package org.javacc;
  * Supply the version number.
  */
 public interface Version {
-   String version = "4.2";
+   String version = "4.3";
 }
 

@@ -48,29 +48,29 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
    * ID of the latest version (of JavaCC) in which one of the CharStream classes
    * or the CharStream interface is modified.
    */
-  static final String charStreamVersion = "4.1";
+  static final String charStreamVersion = "4.3";
 
   /**
    * ID of the latest version (of JavaCC) in which the TokenManager interface is modified.
    */
-  static final String tokenManagerVersion = "4.1";
+  static final String tokenManagerVersion = "4.3";
 
   /**
    * ID of the latest version (of JavaCC) in which the Token class is modified.
    */
-  static final String tokenVersion = "4.1";
+  static final String tokenVersion = "4.3";
 
   /**
    * ID of the latest version (of JavaCC) in which the ParseException class is
    * modified.
    */
-  static final String parseExceptionVersion = "4.1";
+  static final String parseExceptionVersion = "4.3";
 
   /**
    * ID of the latest version (of JavaCC) in which the TokenMgrError class is
    * modified.
    */
-  static final String tokenMgrErrorVersion = "4.1";
+  static final String tokenMgrErrorVersion = "4.3";
 
   /**
    * Replaces all backslahes with double backslashes.
