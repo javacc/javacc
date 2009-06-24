@@ -71,6 +71,7 @@ public final class JJDocMain extends JJDocGlobals {
     info("");
     info("    ONE_TABLE              (default true)");
     info("    TEXT                   (default false)");
+    info("    BNF                    (default false)");
     info("");
 
     info("");
