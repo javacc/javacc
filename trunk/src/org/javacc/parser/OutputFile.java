@@ -251,7 +251,7 @@ public class OutputFile {
       pw = new TrapClosePrintWriter(dos);
 
       // Write the headers....
-      String version = compatibleVersion == null ? Version.version : compatibleVersion;
+      String version = compatibleVersion == null ? Version.versionNumber : compatibleVersion;
       pw.println("/* "
           + JavaCCGlobals.getIdString(toolName, file.getName())
           + " Version " + version + " */");

@@ -72,7 +72,7 @@ public class JavaCCGlobals {
    * takes as argument the tool's full name and its version.
    */
   static public void bannerLine(String fullName, String ver) {
-    System.out.print("Java Compiler Compiler Version " + Version.version + " (" + fullName);
+    System.out.print("Java Compiler Compiler Version " + Version.versionNumber + " (" + fullName);
     if (!ver.equals("")) {
       System.out.print(" Version " + ver);
     }
