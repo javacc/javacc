@@ -48,29 +48,29 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
    * ID of the latest version (of JavaCC) in which one of the CharStream classes
    * or the CharStream interface is modified.
    */
-  static final String charStreamVersion = "4.3";
+  static final String charStreamVersion = "5.0";
 
   /**
    * ID of the latest version (of JavaCC) in which the TokenManager interface is modified.
    */
-  static final String tokenManagerVersion = "4.3";
+  static final String tokenManagerVersion = "5.0";
 
   /**
    * ID of the latest version (of JavaCC) in which the Token class is modified.
    */
-  static final String tokenVersion = "4.3";
+  static final String tokenVersion = "5.0";
 
   /**
    * ID of the latest version (of JavaCC) in which the ParseException class is
    * modified.
    */
-  static final String parseExceptionVersion = "4.3";
+  static final String parseExceptionVersion = "5.0";
 
   /**
    * ID of the latest version (of JavaCC) in which the TokenMgrError class is
    * modified.
    */
-  static final String tokenMgrErrorVersion = "4.3";
+  static final String tokenMgrErrorVersion = "5.0";
 
   /**
    * Replaces all backslahes with double backslashes.
@@ -113,7 +113,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
     if (!file.exists()) {
       // Has not yet been created, so it must be up to date.
       try {
-        String majorVersion = Version.version.replaceAll("[^0-9.]+.*", "");
+        String majorVersion = Version.versionNumber.replaceAll("[^0-9.]+.*", "");
         return Double.parseDouble(majorVersion);
       } catch (NumberFormatException e) {
         return 0.0; // Should never happen
