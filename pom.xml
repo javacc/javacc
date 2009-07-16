@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project>
-  <modelVersion>4.0.0</modelVersion>
+  <modelVersion>5.0.0</modelVersion>
   <groupId>net.java.dev.javacc</groupId>
   <artifactId>javacc</artifactId>
   <packaging>jar</packaging>
