@@ -474,6 +474,7 @@ public class ParseGen extends JavaCCGlobals implements JavaCCParserConstants {
       ostr.println("  }");
       ostr.println("");
       if (jj2index != 0) {
+        ostr.println("  @SuppressWarnings(\"serial\")");
         ostr.println("  static private final class LookaheadSuccess extends java.lang.Error { }");
         ostr.println("  " + staticOpt() + "final private LookaheadSuccess jj_ls = new LookaheadSuccess();");
         ostr.println("  " + staticOpt() + "private boolean jj_scan_token(int kind) {");
