@@ -140,6 +140,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
 
       ostr.println("");
       ostr.println("/** Token Manager. */");
+      ostr.println("@SuppressWarnings(\"unused\")");
       if(Options.getSupportClassVisibilityPublic()) {
     	  ostr.print("public ");
       }
