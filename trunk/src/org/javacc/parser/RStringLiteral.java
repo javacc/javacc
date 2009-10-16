@@ -1190,12 +1190,14 @@ public class RStringLiteral extends RegularExpression {
                   LexGen.lexStateSuffix + "(int pos, ");
      for (i = 0; i < maxKindsReqd - 1; i++)
         ostr.print("long active" + i + ", ");
-     ostr.println("long active" + i + ")\n{");
+     ostr.println("long active" + i + ")");
+     ostr.println("{");
 
      if (Options.getDebugTokenManager())
         ostr.println("      debugStream.println(\"   No more string literal token matches are possible.\");");
 
-     ostr.println("   switch (pos)\n   {");
+     ostr.println("   switch (pos)");
+     ostr.println("   {");
 
      for (i = 0; i < maxLen - 1; i++)
      {
@@ -1308,7 +1310,8 @@ public class RStringLiteral extends RegularExpression {
                   LexGen.lexStateSuffix + "(int pos, ");
      for (i = 0; i < maxKindsReqd - 1; i++)
         ostr.print("long active" + i + ", ");
-     ostr.println("long active" + i + ")\n{");
+     ostr.println("long active" + i + ")");
+     ostr.println("{");
 
      if (LexGen.mixed[LexGen.lexStateIndex])
      {
