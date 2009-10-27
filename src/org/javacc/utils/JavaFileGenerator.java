@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,24 +97,14 @@ public class JavaFileGenerator {
   {
     condition = condition.trim();
     
-    Object obj = options.get(condition);
-    
-    if (obj == null)
+    try
     {
-      return condition.equalsIgnoreCase("true") || condition.equalsIgnoreCase("yes");
+      return new ConditionParser(new StringReader(condition)).CompilationUnit(options);
     }
-    
-    if (obj instanceof Boolean)
+    catch (ParseException e)
     {
-      return ((Boolean)obj).booleanValue();
+      return false;
     }
-    else if (obj instanceof String)
-    {
-      String string = ((String)obj).trim();
-      return string.length() > 0 && !string.equalsIgnoreCase("false") && !string.equalsIgnoreCase("no");
-    }
-    
-    return false;
   }
   
   private String substitute(String text) throws IOException

@@ -52,7 +52,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <javac srcdir="${javacc.root}/src"
            destdir="${javacc.root}/classes"
            debug="${build.compiler.debug}"
-           source="1.4"
+           source="1.6"
            classpath="${javacc.root}/classes:${junit.jar}">
     </javac>
   </target>
@@ -90,5 +90,4 @@ THE POSSIBILITY OF SUCH DAMAGE.
            <arg file="JavaCC.jj"/>
      </java>
   </target>
-
 </project>

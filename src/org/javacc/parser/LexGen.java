@@ -29,11 +29,16 @@
 package org.javacc.parser;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import org.javacc.utils.JavaFileGenerator;
 
 /**
  * Generate lexer.
@@ -201,62 +206,54 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
       ostr.println("  public " + cu_name + " parser = null;");
     }
   }
-
-  static void DumpDebugMethods()
+  
+  @SuppressWarnings("unchecked")
+  private static void writeTemplate(String name, Object... additionalOptions) throws IOException
   {
+    Map<String, Object> options = new HashMap<String, Object>(Options.getOptions());
 
-    ostr.println("  " + staticString + " int kindCnt = 0;");
-    ostr.println("  protected " + staticString + " final String jjKindsForBitVector(int i, long vec)");
-    ostr.println("  {");
-    ostr.println("    String retVal = \"\";");
-    ostr.println("    if (i == 0)");
-    ostr.println("       kindCnt = 0;");
-    ostr.println("    for (int j = 0; j < 64; j++)");
-    ostr.println("    {");
-    ostr.println("       if ((vec & (1L << j)) != 0L)");
-    ostr.println("       {");
-    ostr.println("          if (kindCnt++ > 0)");
-    ostr.println("             retVal += \", \";");
-    ostr.println("          if (kindCnt % 5 == 0)");
-    ostr.println("             retVal += \"\\n     \";");
-    ostr.println("          retVal += tokenImage[i * 64 + j];");
-    ostr.println("       }");
-    ostr.println("    }");
-    ostr.println("    return retVal;");
-    ostr.println("  }");
-    ostr.println("");
+    options.put("maxOrdinal", Integer.valueOf(maxOrdinal));
+    options.put("maxLexStates", Integer.valueOf(maxLexStates));
+    options.put("hasEmptyMatch", Boolean.valueOf(hasEmptyMatch));
+    options.put("hasSkip", Boolean.valueOf(hasSkip));
+    options.put("hasMore", Boolean.valueOf(hasMore));
+    options.put("hasSpecial", Boolean.valueOf(hasSpecial));
+    options.put("hasMoreActions", Boolean.valueOf(hasMoreActions));
+    options.put("hasSkipActions", Boolean.valueOf(hasSkipActions));
+    options.put("hasTokenActions", Boolean.valueOf(hasTokenActions));
+    options.put("stateSetSize", stateSetSize);
+    options.put("hasActions", hasMoreActions || hasSkipActions || hasTokenActions);
+    options.put("tokMgrClassName", tokMgrClassName);
+    options.put("cu_name", JavaCCGlobals.cu_name);
 
-    ostr.println("  protected " + staticString + " final String jjKindsForStateVector(" +
-    "int lexState, int[] vec, int start, int end)");
-    ostr.println("  {");
-    ostr.println("    boolean[] kindDone = new boolean[" + maxOrdinal + "];");
-    ostr.println("    String retVal = \"\";");
-    ostr.println("    int cnt = 0;");
-    ostr.println("    for (int i = start; i < end; i++)");
-    ostr.println("    {");
-    ostr.println("     if (vec[i] == -1)");
-    ostr.println("       continue;");
-    ostr.println("     int[] stateSet = statesForState[curLexState][vec[i]];");
-    ostr.println("     for (int j = 0; j < stateSet.length; j++)");
-    ostr.println("     {");
-    ostr.println("       int state = stateSet[j];");
-    ostr.println("       if (!kindDone[kindForState[lexState][state]])");
-    ostr.println("       {");
-    ostr.println("          kindDone[kindForState[lexState][state]] = true;");
-    ostr.println("          if (cnt++ > 0)");
-    ostr.println("             retVal += \", \";");
-    ostr.println("          if (cnt % 5 == 0)");
-    ostr.println("             retVal += \"\\n     \";");
-    ostr.println("          retVal += tokenImage[kindForState[lexState][state]];");
-    ostr.println("       }");
-    ostr.println("     }");
-    ostr.println("    }");
-    ostr.println("    if (cnt == 0)");
-    ostr.println("       return \"{  }\";");
-    ostr.println("    else");
-    ostr.println("       return \"{ \" + retVal + \" }\";");
-    ostr.println("  }");
-    ostr.println("");
+    // options.put("", .valueOf(maxOrdinal));
+    
+    
+    for (int i = 0; i < additionalOptions.length; i++)
+    {
+      Object o = additionalOptions[i];
+    
+      if (o instanceof Map<?,?>)
+      {
+        options.putAll((Map<String,Object>) o);
+      }
+      else
+      {
+        if (i == additionalOptions.length - 1)
+          throw new IllegalArgumentException("Must supply pairs of [name value] args");
+        
+        options.put((String) o, additionalOptions[i+1]);
+        i++;
+      }
+    }
+    
+    JavaFileGenerator gen = new JavaFileGenerator(name, options);
+    gen.generate(ostr);
+  }
+
+  static void DumpDebugMethods() throws IOException
+  {
+    writeTemplate("/templates/DumpDebugMethods.template");
   }
 
   static void BuildLexStatesTable()
@@ -341,7 +338,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
     singlesToSkip[lexStateIndex].kind = kind;
   }
 
-  public static void start()
+  public static void start() throws IOException
   {
     if (!Options.getBuildTokenManager() ||
         Options.getUserTokenManager() ||
@@ -653,7 +650,7 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
     ostr.println("\n};");
   }
 
-  static void DumpStaticVarDeclarations()
+  static void DumpStaticVarDeclarations() throws IOException
   {
     int i;
     String charStreamName;
@@ -746,6 +743,10 @@ public class LexGen extends JavaCCGlobals implements JavaCCParserConstants
         charStreamName = "SimpleCharStream";
     }
 
+//    writeTemplate("/templates/DumpStaticVarDeclarations.template",
+//        "charStreamName", charStreamName
+//        );
+    
     ostr.println(staticString + "protected " + charStreamName + " input_stream;");
 
     ostr.println(staticString + "private final int[] jjrounds = " +
