@@ -41,6 +41,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
   <target name="generated-files">
     <ant antfile="build.xml" target="parser-files" dir="src/org/javacc/parser" />
     <ant antfile="build.xml" target="tree-files" dir="src/org/javacc/jjtree" />
+    <ant antfile="build.xml" target="utils-files" dir="src/org/javacc/utils" />
   </target>
 
   <target name="classes">
@@ -98,24 +99,69 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <delete dir="bin/lib" />
     <delete dir="test.tmp" />
     <ant antfile="build.xml" target="clean" dir="test" />
-    <delete file="javacc-${version}.*" />
+  	
+  	<delete dir="dist" />
   </target>
 
   <target name="realclean" depends="clean">
     <!-- No longer used - realclean and clean are synonymous. Target kept for compability -->
   </target>
 
-  <condition property="isUnix">
-    <os family="unix"/>
-  </condition>
-  <target name="osCheck" unless="isUnix">
-    <echo message="Binary Distribution is only buildable on Unix systems." />
-  </target>  
-  <target name="binary-distribution" depends="realclean,jar,test,osCheck" if="isUnix">
+  <target name="binary-distribution" depends="realclean,jar">
     <property name="install-name" value="javacc-${version}" />
-    <exec executable="./makedist" dir=".">
-      <arg line="${version}" />
-    </exec>
+  	
+  	<delete dir="dist" />
+  	<mkdir dir="dist/${install-name}" />
+  	<mkdir dir="dist/${install-name}/bin" />
+  	<mkdir dir="dist/${install-name}/doc" />
+  	<mkdir dir="dist/${install-name}/examples" />
+  	
+  	<copy todir="dist/${install-name}/bin">
+  		<fileset dir="bin" />
+  	</copy>
+  	<copy todir="dist/${install-name}/doc">
+  		<fileset dir="www/doc" />
+  	</copy>
+  	<copy todir="dist/${install-name}/examples">
+  		<fileset dir="examples" />
+  	</copy>
+  	<copy todir="dist/${install-name}">
+  		<fileset file="LICENSE" />
+  	</copy>
+  	
+  	<delete>
+  		<fileset dir="dist/${install-name}" includes="CVS/**"/>
+  	</delete>
+	
+  	<delete file="${install-name}.tar.gz" />
+  	<tar destfile="${install-name}.tar.gz" compression="gzip">
+  		<tarfileset username="root" uid="1" group="root" prefix="${install-name}/bin" filemode="555" file="bin/**" excludes="**/*.bat,**/*.jar" />
+  		<tarfileset username="root" uid="1" group="root" prefix="${install-name}/bin" filemode="444" dir="bin" includes="**/*.bat,**/*.jar" />
+  		<tarfileset username="root" uid="1" group="root" prefix="${install-name}/doc" filemode="444" dir="www/doc" />
+  		<tarfileset username="root" uid="1" group="root" prefix="${install-name}/examples" filemode="444" dir="examples/" />
+  		<tarfileset username="root" uid="1" group="root" prefix="${install-name}" filemode="444" file="LICENSE" />
+  	</tar>
+	  	
+  	<delete file="${install-name}.zip" />
+  	<zip destfile="${install-name}.zip">
+  		<zipfileset prefix="${install-name}/bin" filemode="555" file="bin/**" excludes="**/*.bat,**/*.jar" />
+  		<zipfileset prefix="${install-name}/bin" filemode="444" dir="bin" includes="**/*.bat,**/*.jar" />
+  		<zipfileset prefix="${install-name}/doc" filemode="444" dir="www/doc" />
+  		<zipfileset prefix="${install-name}/examples" filemode="444" dir="examples/" />
+  		<zipfileset prefix="${install-name}" filemode="444" file="LICENSE" />
+  	</zip>
+	
+  	<antcall target="clean"/>
+  	<delete dir="." includes="**/*.class" />
+  	<delete file="${install-name}src.tar.gz" />
+  	<tar destfile="${install-name}src.tar.gz" compression="gzip">
+  		<tarfileset username="root" uid="1" group="root" prefix="${install-name}" filemode="444" file="./**" excludes="CVS,**/*.zip,**/*.tar.gz" />
+  	</tar>
+  	<delete file="${install-name}src.zip" />
+  	<zip destfile="${install-name}src.zip">
+  		<zipfileset prefix="${install-name}" filemode="444" file="./**" excludes="CVS,**/*.zip,**/*.tar.gz" />
+  	</zip>
+
   </target>
 
   <target name="unittest" depends="compile" description="run JUnit unit test cases">
