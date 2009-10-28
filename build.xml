@@ -92,6 +92,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
   </target>
 
   <target name="clean">
+    <ant antfile="build.xml" target="clean" dir="src/org/javacc/utils" />
     <ant antfile="build.xml" target="clean" dir="src/org/javacc/parser" />
     <ant antfile="build.xml" target="clean" dir="src/org/javacc/jjtree" />
 

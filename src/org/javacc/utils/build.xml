@@ -64,6 +64,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
          <include name="ConditionParserTokenManager.java"/>
          <include name="ConditionParserConstants.java"/>
          <include name="*CharStream*.java"/>
+         <include name="Token.java"/>
          <include name="TokenMgrError.java"/>
          <include name="ParseException.java"/>
       </fileset>
