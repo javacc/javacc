@@ -212,29 +212,12 @@ public class JavaFileGenerator {
   
   private void process(BufferedReader in, PrintWriter out, boolean ignoring)  throws IOException
   {
-//    out.println("*** process ignore=" + ignoring + " : " + peekLine(in));
+    //    out.println("*** process ignore=" + ignoring + " : " + peekLine(in));
     while ( peekLine(in) != null)
     {
       if (peekLine(in).trim().startsWith("#if"))
       {
-        String line = getLine(in).trim();
-        final boolean condition = evaluate(line.substring(3).trim());
-        
-        process(in, out, ignoring || !condition);
-        
-        if (peekLine(in) != null && peekLine(in).trim().startsWith("#else"))
-        {
-          getLine(in);   // Discard the #else line
-          process(in, out, ignoring || condition);
-        }
-        
-        line = getLine(in);
-        
-        if (line == null)
-          throw new IOException("Missing \"#fi\"");
-        
-        if (!line.trim().startsWith("#fi"))
-          throw new IOException("Expected \"#fi\", got: " + line);
+        processIf(in, out, ignoring);
       }
       else if (peekLine(in).trim().startsWith("#")) 
       {
@@ -246,9 +229,43 @@ public class JavaFileGenerator {
         if (!ignoring) write(out, line);
       }
     }
-    
+
     out.flush();
   }
+
+  private void processIf(BufferedReader in, PrintWriter out, boolean ignoring)  throws IOException
+  {
+        String line = getLine(in).trim();
+    assert line.trim().startsWith("#if");
+    boolean foundTrueCondition = false;
+        
+    boolean condition = evaluate(line.substring(3).trim());
+    while (true)
+    {
+      process(in, out, ignoring || foundTrueCondition || !condition);
+      foundTrueCondition |= condition;
+
+      if (peekLine(in) == null || !peekLine(in).trim().startsWith("#elif"))
+        break;
+
+      condition = evaluate(getLine(in).trim().substring(5).trim());
+    }
+        
+        if (peekLine(in) != null && peekLine(in).trim().startsWith("#else"))
+        {
+          getLine(in);   // Discard the #else line
+      process(in, out, ignoring || foundTrueCondition);
+        }
+        
+        line = getLine(in);
+        
+        if (line == null)
+          throw new IOException("Missing \"#fi\"");
+        
+        if (!line.trim().startsWith("#fi"))
+          throw new IOException("Expected \"#fi\", got: " + line);
+      }
+    
   
   public static void main(String[] args) throws Exception
   {
