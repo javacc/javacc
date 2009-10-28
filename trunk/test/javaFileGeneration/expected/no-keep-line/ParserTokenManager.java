@@ -42,54 +42,62 @@ public static final String[] jjstrLiteralImages = {
 public static final String[] lexStateNames = {
    "DEFAULT",
 };
-static protected SimpleCharStream input_stream;
-static private final int[] jjrounds = new int[0];
-static private final int[] jjstateSet = new int[0];
-static protected char curChar;
-/** Constructor. */
-public ParserTokenManager(SimpleCharStream stream){
-   if (input_stream != null)
-      throw new TokenMgrError("ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.", TokenMgrError.STATIC_LEXER_ERROR);
-   input_stream = stream;
-}
+    static protected SimpleCharStream  input_stream;
 
-/** Constructor. */
-public ParserTokenManager(SimpleCharStream stream, int lexState){
-   this(stream);
-   SwitchTo(lexState);
-}
+    static private final int[] jjrounds = new int[0];
+    static private final int[] jjstateSet = new int[2 * 0];
 
-/** Reinitialise parser. */
-static public void ReInit(SimpleCharStream stream)
-{
-   jjmatchedPos = jjnewStateCnt = 0;
-   curLexState = defaultLexState;
-   input_stream = stream;
-   ReInitRounds();
-}
-static private void ReInitRounds()
-{
-   int i;
-   jjround = 0x80000001;
-   for (i = 0; i-- > 0;)
+    
+    static protected char curChar;
+
+    /** Constructor. */
+    public ParserTokenManager(SimpleCharStream stream){
+
+      if (input_stream != null)
+        throw new TokenMgrError("ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.", TokenMgrError.STATIC_LEXER_ERROR);
+
+    input_stream = stream;
+  }
+
+  /** Constructor. */
+  public ParserTokenManager (SimpleCharStream stream, int lexState){
+    this(stream);
+    SwitchTo(lexState);
+  }
+
+  /** Reinitialise parser. */
+  static public void ReInit(SimpleCharStream stream)
+  {
+    jjmatchedPos = jjnewStateCnt = 0;
+    curLexState = defaultLexState;
+    input_stream = stream;
+    ReInitRounds();
+  }
+
+  static private void ReInitRounds()
+  {
+    int i;
+    jjround = 0x80000001;
+    for (i = 0; i-- > 0;)
       jjrounds[i] = 0x80000000;
-}
+  }
 
-/** Reinitialise parser. */
-static public void ReInit(SimpleCharStream stream, int lexState)
-{
-   ReInit(stream);
-   SwitchTo(lexState);
-}
+  /** Reinitialise parser. */
+  static public void ReInit(SimpleCharStream stream, int lexState)
+  {
+    ReInit(stream);
+    SwitchTo(lexState);
+  }
 
-/** Switch to specified lex state. */
-static public void SwitchTo(int lexState)
-{
-   if (lexState >= 1 || lexState < 0)
+
+  /** Switch to specified lex state. */
+  static public void SwitchTo(int lexState)
+  {
+    if (lexState >= 1 || lexState < 0)
       throw new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
-   else
+    else
       curLexState = lexState;
-}
+  }
 
 static protected Token jjFillToken()
 {
