@@ -1623,7 +1623,7 @@ public class NfaState
       {
          if (Options.getJavaUnicodeEscape() || unicodeWarningGiven)
          {
-           ostr.println("         int hiByte = (int)(curChar >> 8);");
+           ostr.println("         int hiByte = (curChar >> 8);");
            ostr.println("         int i1 = hiByte >> 6;");
            ostr.println("         long l1 = 1L << (hiByte & 077);");
          }
