@@ -346,4 +346,4 @@ public class SimpleCharStream
     buffer = null;
   }
 }
-/* JavaCC - OriginalChecksum=2be772234ef663705e3245220a5a5c6e (do not edit this line) */
+/* JavaCC - OriginalChecksum=ef34bc2196a4ac3032f8fd45964ca3ae (do not edit this line) */
