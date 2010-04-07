@@ -470,4 +470,4 @@ public class SimpleCharStream
   }
 
 }
-/* JavaCC - OriginalChecksum=382b1af94ddaf8942012341b3b13600e (do not edit this line) */
+/* JavaCC - OriginalChecksum=6b7f7f4b746919da31b6afa559f28922 (do not edit this line) */
