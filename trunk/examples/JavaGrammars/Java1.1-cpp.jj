@@ -29,44 +29,16 @@
 
 options {
   JAVA_UNICODE_ESCAPE = true;
+  output_language = "c++";
 }
 
 PARSER_BEGIN(JavaParser)
 
-public class JavaParser {
-
-  public static void main(String args[]) {
-    JavaParser parser;
-    if (args.length == 0) {
-      System.out.println("Java Parser Version 1.1:  Reading from standard input . . .");
-      parser = new JavaParser(System.in);
-    } else if (args.length == 1) {
-      System.out.println("Java Parser Version 1.1:  Reading from file " + args[0] + " . . .");
-      try {
-        parser = new JavaParser(new java.io.FileInputStream(args[0]));
-      } catch (java.io.FileNotFoundException e) {
-        System.out.println("Java Parser Version 1.1:  File " + args[0] + " not found.");
-        return;
-      }
-    } else {
-      System.out.println("Java Parser Version 1.1:  Usage is one of:");
-      System.out.println("         java JavaParser < inputfile");
-      System.out.println("OR");
-      System.out.println("         java JavaParser inputfile");
-      return;
-    }
-    try {
-      parser.CompilationUnit();
-      System.out.println("Java Parser Version 1.1:  Java program parsed successfully.");
-    } catch (ParseException e) {
-      System.out.println(e.getMessage());
-      System.out.println("Java Parser Version 1.1:  Encountered errors during parse.");
-    }
-  }
-
-}
-
 PARSER_END(JavaParser)
+
+TOKEN_MGR_DECLS:
+{
+}
 
 
 /* WHITE SPACE */
@@ -86,7 +58,7 @@ MORE :
 {
   "//" : IN_SINGLE_LINE_COMMENT
 |
-  <"/**" ~["/"]> { input_stream.backup(1); } : IN_FORMAL_COMMENT
+  <"/**" ~["/"]> { input_stream->backup(1); } : IN_FORMAL_COMMENT
 |
   "/*" : IN_MULTI_LINE_COMMENT
 }
@@ -149,7 +121,7 @@ TOKEN :
 | < LONG: "long" >
 | < NATIVE: "native" >
 | < NEW: "new" >
-| < NULL: "null" >
+| < _NULL: "null" >
 | < PACKAGE: "package">
 | < PRIVATE: "private" >
 | < PROTECTED: "protected" >
