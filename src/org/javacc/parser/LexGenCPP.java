@@ -509,7 +509,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     genCodeLine("  private: " + cu_name + "*parser;");
     genCodeLine("  private: void ReInitRounds();");
     genCodeLine("  public: " + tokMgrClassName + "(CharStream stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = null);");
-    genCodeLine("  public: ~" + tokMgrClassName + "();");
+    genCodeLine("  public: virtual ~" + tokMgrClassName + "();");
     genCodeLine("  void ReInit(CharStream stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = null);");
     genCodeLine("  void SwitchTo(int lexState);");
     genCodeLine("  const char *jjKindsForBitVector(int i, long vec);");
