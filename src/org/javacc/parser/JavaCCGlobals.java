@@ -197,6 +197,8 @@ public class JavaCCGlobals {
 
   static Action actForEof;
   static String nextStateForEof;
+  static public Token otherLanguageDeclTokenBeg;
+  static public Token otherLanguageDeclTokenEnd;
 
 
   // Some general purpose utilities follow.
@@ -383,6 +385,9 @@ public class JavaCCGlobals {
   }
 
   static public String addUnicodeEscapes(String str) {
+    if (!Options.getOutputLanguage().equals("java"))
+       return str;
+
     String retval = "";
     char ch;
     for (int i = 0; i < str.length(); i++) {
@@ -554,6 +559,20 @@ public class JavaCCGlobals {
       ccol = 0;
       actForEof = null;
       nextStateForEof = null;
+   }
+
+
+   static String getFileExtension(String language) {
+     String lang = Options.getOutputLanguage();
+
+     if (lang.equals("java")) {
+       return ".java";
+     } else if (lang.toLowerCase().equals("c++")) {
+       return ".cc";
+     }
+
+     assert(false);
+     return null;
    }
 
 }

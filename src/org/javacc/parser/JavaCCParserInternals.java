@@ -35,6 +35,8 @@ import java.util.List;
  */
 public abstract class JavaCCParserInternals extends JavaCCGlobals {
 
+  protected boolean isJavaLanguage = Options.getOutputLanguage().equals("java");
+
   static protected void initialize() {
     Integer i = new Integer(0);
     lexstate_S2I.put("DEFAULT", i);

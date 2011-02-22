@@ -1,0 +1,27 @@
+\#ifndef __JAVACC_H
+\#define __JAVACC_H
+\#include <stdio.h>
+\#include <string>
+\#include <memory.h>
+
+\#define null 0L
+\#define finally 
+
+typedef int Integer;
+typedef std::string String;
+typedef std::string StringBuffer;
+typedef void *Object;
+typedef bool boolean;
+
+//class Throwable { String message; public: virtual String getMessage() { return message; }; Throwable(String m): message(m) { } Throwable() { } };
+
+//class Exception:Throwable { } ;
+//class IOException : Exception {};
+//class Error:Throwable { public: Error(String s):Throwable(s) { }  };
+//
+//#include "CharStream.h"
+//#include "Token.h"
+//#include "TokenMgrError.h"
+//#include "ParseException.h"
+
+\#endif

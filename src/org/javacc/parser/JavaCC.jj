@@ -187,6 +187,12 @@ public class JavaCCParser extends JavaCCParserInternals {
      }
    }
 
+   private void eatUptoCloseBrace() {
+     int b = 1;
+     while(getToken(1).kind != RBRACE || --b != 0) {
+       if (getNextToken().kind == LBRACE) b++;
+     }
+   }
 
 }
 
@@ -533,6 +539,14 @@ void javacc_input() :
 	{
 	  processing_cu = true;
 	  parser_class_name = id1;
+
+          if (!isJavaLanguage) {
+            JavaCCGlobals.otherLanguageDeclTokenBeg = getToken(1);
+            while(getToken(1).kind != _PARSER_END) {
+              getNextToken();
+            }
+            JavaCCGlobals.otherLanguageDeclTokenEnd = getToken(1);
+          }
 	}
   CompilationUnit()
 	{
@@ -985,7 +999,20 @@ Lookahead local_lookahead() :
 	}
   ]
   [ LOOKAHEAD(0, { emptyLA || commaAtEnd } )
-    "{" Expression(la.getActionTokens()) "}"
+    "{"
+        {
+          if (!isJavaLanguage) {
+            int b = 0;
+            while(getToken(1).kind != RBRACE || --b > 0) {
+              t = getNextToken();
+              la.getActionTokens().add(t);
+              if (t.kind == LBRACE) b++;
+            }
+          }
+        }
+
+        [ Expression(la.getActionTokens()) ]
+    "}"
 	{
 	  if (emptyLA) {
 	    la.setAmount(0);
@@ -1084,7 +1111,7 @@ void expansion_unit(Container c) :
 	  vec = new java.util.ArrayList();
 	}
   )*
-  [
+  [ LOOKAHEAD({isJavaLanguage})
 	{
 	  inAction = true;
 	}
@@ -1459,7 +1486,9 @@ void CompilationUnit() :
   ( ImportDeclaration() )*
   ( TypeDeclaration() )*
 	{
-	  insertionpointerrors(getToken(1));
+          if (Options.getOutputLanguage().equals("java")) {
+	    insertionpointerrors(getToken(1));
+          }
 	}
 }
 
@@ -2365,6 +2394,9 @@ void Block(List tokens) :
   "{"
 	{
 	  first = getToken(1);
+          if (!isJavaLanguage) {
+            eatUptoCloseBrace();
+          }
 	}
   ( BlockStatement() )*
 	{
@@ -3359,4 +3391,9 @@ TOKEN :
          "\ufff9"-"\ufffb"
       ]
   >
+}
+
+TOKEN: // just to be safe, in actions, we might get random stuff for non-java?
+{
+ <ACT_TOK: ~[]>
 }

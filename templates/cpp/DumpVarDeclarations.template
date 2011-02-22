@@ -1,0 +1,8 @@
+    ${charStreamName}  input_stream;
+    int jjrounds[${stateSetSize}];
+    int jjstateSet[2 * ${stateSetSize}];
+    StringBuffer jjimage;
+    StringBuffer image;
+    int jjimageLen;
+    int lengthOfMatch;
+    char curChar;

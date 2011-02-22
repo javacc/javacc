@@ -119,4 +119,8 @@ public final class JavaCCErrors {
       warning_count = 0;
    }
 
+   public static void fatal(String message) {
+      System.err.println("Fatal Error: " + message);
+      System.exit(1);
+   }
 }
