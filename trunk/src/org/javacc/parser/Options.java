@@ -136,6 +136,7 @@ public class Options {
     optionValues.put("TOKEN_EXTENDS", "");
     optionValues.put("TOKEN_FACTORY", "");
     optionValues.put("GRAMMAR_ENCODING", "");
+    optionValues.put("OUTPUT_LANGUAGE", "java");
   }
 
   /**
@@ -650,11 +651,30 @@ public class Options {
   }
 
   public static String stringBufOrBuild() {
-    if (getGenerateStringBuilder()) {
+    if (getOutputLanguage().equals("java") && getGenerateStringBuilder()) {
       return "StringBuilder";
     } else {
       return "StringBuffer";
     }
+  }
+
+  private static final Set<String> supportedLanguages = new HashSet<String>();
+  static {
+    supportedLanguages.add("java");
+    supportedLanguages.add("C++");
+  }
+  /**
+   * @return the output language. default java
+   */
+  public static String getOutputLanguage() {
+     return stringValue("OUTPUT_LANGUAGE");
+  }
+
+  public static void setOutputLanguage(String lang) {
+     if (supportedLanguages.contains(lang.toLowerCase()))
+        optionValues.put("OUTPUT_LANGUAGE", lang.toLowerCase().toString());
+
+     JavaCCErrors.fatal("Language: " + lang + " is not supported.");
   }
 
 }

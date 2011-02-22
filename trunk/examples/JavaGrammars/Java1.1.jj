@@ -149,7 +149,7 @@ TOKEN :
 | < LONG: "long" >
 | < NATIVE: "native" >
 | < NEW: "new" >
-| < NULL: "null" >
+| < _NULL: "null" >
 | < PACKAGE: "package">
 | < PRIVATE: "private" >
 | < PROTECTED: "protected" >

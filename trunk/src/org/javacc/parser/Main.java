@@ -33,6 +33,7 @@ package org.javacc.parser;
 public final class Main {
   private Main() {}
 
+  public static LexGen lg;
   static void help_message() {
     System.out.println("Usage:");
     System.out.println("    javacc option-settings inputfile");
@@ -131,6 +132,11 @@ public final class Main {
       Options.setCmdLineOption(args[arg]);
     }
 
+    if (Options.getOutputLanguage().equals("java")) {
+      lg = new LexGen();
+    } else  {
+      lg = new LexGenCPP();
+    }
     try {
       java.io.File fp = new java.io.File(args[args.length-1]);
       if (!fp.exists()) {
@@ -166,8 +172,22 @@ public final class Main {
       }
 
       Semanticize.start();
-      ParseGen.start();
-      LexGen.start();
+      if (Options.getOutputLanguage().equals("java")) {
+        if (Options.getBuildParser()) {
+          new ParseGen().start();
+        }
+        if (Options.getBuildParser()) {
+          new LexGen().start();
+        }
+      } else { // C++ for now
+        if (Options.getBuildParser()) {
+          new ParseGenCPP().start();
+        }
+        if (Options.getBuildParser()) {
+          new LexGenCPP().start();
+        }
+      }
+
       OtherFilesGen.start();
 
       if ((JavaCCErrors.get_error_count() == 0) && (Options.getBuildParser() || Options.getBuildTokenManager())) {
@@ -204,14 +224,11 @@ public final class Main {
       org.javacc.parser.JavaCCParserInternals.reInit();
       org.javacc.parser.RStringLiteral.reInit();
       org.javacc.parser.JavaFiles.reInit();
-      org.javacc.parser.LexGen.reInit();
       org.javacc.parser.NfaState.reInit();
       org.javacc.parser.MatchInfo.reInit();
       org.javacc.parser.LookaheadWalk.reInit();
       org.javacc.parser.Semanticize.reInit();
-      org.javacc.parser.ParseGen.reInit();
       org.javacc.parser.OtherFilesGen.reInit();
-      org.javacc.parser.ParseEngine.reInit();
    }
 
 }

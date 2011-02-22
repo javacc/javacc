@@ -1,0 +1,154 @@
+\#include "CharStream.h"
+
+//class _CharStream
+//{
+  void _CharStream::setTabSize(int i) { tabSize = i; }
+  int _CharStream::getTabSize(int i) { return tabSize == 0 ? 8 : tabSize; }
+
+/** @return starting character for token. */
+  char _CharStream::BeginToken() throw(InputStreamException)
+  {
+    tokenBegin = bufpos + 1;
+    return readChar();
+  }
+
+  char _CharStream::readChar() throw(InputStreamException)
+  {
+    if (inBuf > 0)
+    {
+      --inBuf;
+      return buffer[++bufpos];
+    }
+
+    if (++bufpos >= bufsize)
+      throw new _InputStreamException();
+
+    char c=buffer[bufpos];
+    UpdateLineColumn(c);
+    return c;
+  }
+
+  void _CharStream::UpdateLineColumn(char c)
+  {
+    column++;
+
+    if (prevCharIsLF)
+    {
+      prevCharIsLF = false;
+      column = 1;
+      line ++;
+    }
+    else if (prevCharIsCR)
+    {
+      prevCharIsCR = false;
+      if (c == '\n') {
+        prevCharIsLF = true;
+      } else {
+        column = 1;
+        line ++;
+      }
+    }
+
+    switch (c)
+    {
+      case '\r' :
+        prevCharIsCR = true;
+        break;
+      case '\n' :
+        prevCharIsLF = true;
+        break;
+      case '\t' :
+        column--;
+        column += (tabSize - (column % tabSize));
+        break;
+      default :
+        break;
+    }
+
+    bufline[bufpos] = line;
+    bufcolumn[bufpos] = column;
+  }
+
+  /**
+   * @deprecated
+   * @see #getEndColumn
+   */
+  int _CharStream::getColumn() {
+    return bufcolumn[bufpos];
+  }
+
+  /**
+   * @deprecated
+   * @see #getEndLine
+   */
+  int _CharStream::getLine() {
+    return bufline[bufpos];
+  }
+
+/** Get end column. */
+  int _CharStream::getEndColumn() {
+    return bufcolumn[bufpos];
+  }
+
+/** Get end line. */
+  int _CharStream::getEndLine() {
+    return bufline[bufpos];
+  }
+
+/** @return column of token start */
+  int _CharStream::getBeginColumn() {
+    return bufcolumn[tokenBegin];
+  }
+
+/** @return line number of token start */
+  int _CharStream::getBeginLine() {
+    return bufline[tokenBegin];
+  }
+
+/** Retreat. */
+  void _CharStream::backup(int amount) {
+    inBuf += amount;
+    if ((bufpos -= amount) < 0)
+      throw new InputStreamException();
+  }
+
+  _CharStream::_CharStream(char *buf,int sz, int startline, int startcolumn) {
+    ReInit(buf, sz, startline, startcolumn);
+    tabSize = 8;
+  }
+
+  void _CharStream::ReInit(char *buf,int sz, int startline, int startcolumn) {
+    line = startline;
+    column = startcolumn - 1;
+
+    bufsize = sz;
+    buffer = buf;
+    bufline = new int[sz];
+    bufcolumn = new int[sz];
+    tokenBegin = inBuf = 0;
+    bufpos = -1;
+    prevCharIsLF = prevCharIsCR = false;
+  }
+
+  /** @return token image as String */
+  String _CharStream::GetImage()
+  {
+    return *new String(buffer+tokenBegin, bufpos - tokenBegin + 1);
+  }
+
+  /** @return suffix */
+  String _CharStream::GetSuffix(int len)
+  {
+    return *new String(buffer+ bufpos - len + 1, len);
+  }
+
+  /** Set buffers back to NULL when finished. */
+  _CharStream::~_CharStream() {
+    Done();
+  }
+
+  void _CharStream::Done()
+  {
+    delete[] bufline;
+    delete[] bufcolumn;
+  }

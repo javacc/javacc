@@ -226,6 +226,9 @@ public class JavaFileGenerator {
       else
       {
         String line = getLine(in);
+        if (line.startsWith("\\#")) { // Hack to escape # for C++
+          line = line.substring(1);
+        }
         if (!ignoring) write(out, line);
       }
     }

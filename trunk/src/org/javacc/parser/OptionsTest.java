@@ -14,7 +14,7 @@ public final class OptionsTest extends TestCase {
         Options.init();
         JavaCCErrors.reInit();
 
-        assertEquals(31, Options.optionValues.size());
+        assertEquals(32, Options.optionValues.size());
 
         assertEquals(true, Options.getBuildParser());
         assertEquals(true, Options.getBuildTokenManager());
