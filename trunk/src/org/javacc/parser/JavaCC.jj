@@ -91,6 +91,9 @@ public class JavaCCParser extends JavaCCParserInternals {
    */
   boolean jumpPatched = false;
 
+  protected boolean isJavaLanguage = true;
+
+
   /*
    * Returns true if the next token is not in the FOLLOW list of "expansion".
    * It is used to decide when the end of an "expansion" has been reached.
@@ -531,6 +534,9 @@ void javacc_input() :
 	}
 {
   javacc_options()
+  {
+    isJavaLanguage = Options.getOutputLanguage().equals("java");
+  }
   "PARSER_BEGIN" "(" id1=identifier()
 	{
 	  addcuname(id1);
