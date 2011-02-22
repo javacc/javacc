@@ -114,7 +114,10 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("    ReInit(tm);");
     genCodeLine("}");
 
-    generateMethodDefHeader("   ", cu_name, "~" +cu_name + "()");
+    switchToIncludeFile();
+    genCodeLine("   public: virtual ~" + cu_name + "();");
+    switchToMainFile();
+    genCodeLine("   " + cu_name + "::~" +cu_name + "()");
     genCodeLine("{");
     genCodeLine("}");
     generateMethodDefHeader("void", cu_name, "ReInit(TokenManager tm)");

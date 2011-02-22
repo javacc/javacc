@@ -84,6 +84,8 @@ class _Token {
    */
   String toString();
 
+  public: virtual ~_Token();
+
   /**
    * Returns a new Token object, by default. However, if you want, you
    * can create and return subclass objects based on the value of ofKind.

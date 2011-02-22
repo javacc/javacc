@@ -69,3 +69,7 @@
   {
     return newToken(ofKind, NULL);
   }
+
+  _Token::~_Token() {
+    if (next) delete next;
+  }
