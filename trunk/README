@@ -39,7 +39,7 @@ in Java.
 
 CONTENTS
 
-This distribution contains the javacc, jjtree and jjdoc sources, 
+This distribution contains the JavaCC, JJTree and JJDoc sources, 
 launcher scripts, example grammars and documentation. It also contains
 a bootstrap version of JavaCC needed to build JavaCC.
 
