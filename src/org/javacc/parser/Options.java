@@ -661,7 +661,7 @@ public class Options {
   private static final Set<String> supportedLanguages = new HashSet<String>();
   static {
     supportedLanguages.add("java");
-    supportedLanguages.add("C++");
+    supportedLanguages.add("c++");
   }
   /**
    * @return the output language. default java
@@ -672,7 +672,7 @@ public class Options {
 
   public static void setOutputLanguage(String lang) {
      if (supportedLanguages.contains(lang.toLowerCase()))
-        optionValues.put("OUTPUT_LANGUAGE", lang.toLowerCase().toString());
+        optionValues.put("OUTPUT_LANGUAGE", lang.toUpperCase().toString());
 
      JavaCCErrors.fatal("Language: " + lang + " is not supported.");
   }
