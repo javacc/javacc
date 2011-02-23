@@ -45,6 +45,7 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("    Token first;");
     genCodeLine("    int arg;");
     genCodeLine("    _JJCalls *next;");
+    genCodeLine("    ~_JJCalls() { if (next) delete next; }");
     genCodeLine("  } *JJCalls;");
     genCodeLine("");
 
@@ -121,6 +122,8 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("{");
     genCodeLine("  if (token_source) delete token_source;");
     genCodeLine("  if (head) delete head;");
+    genCodeLine("  for (int i = 0; i < " + jj2index + "; i++)");
+    genCodeLine("    delete jj_2_rtns[i];");
     genCodeLine("}");
     generateMethodDefHeader("void", cu_name, "ReInit(TokenManager tm)");
     genCodeLine("{");

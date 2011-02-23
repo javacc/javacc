@@ -133,13 +133,13 @@
   /** @return token image as String */
   String _CharStream::GetImage()
   {
-    return *new String(buffer+tokenBegin, bufpos - tokenBegin + 1);
+    return String("").append(buffer+tokenBegin, bufpos - tokenBegin + 1);
   }
 
   /** @return suffix */
   String _CharStream::GetSuffix(int len)
   {
-    return *new String(buffer+ bufpos - len + 1, len);
+    return String("").append(buffer+ bufpos - len + 1, len);
   }
 
   /** Set buffers back to NULL when finished. */
