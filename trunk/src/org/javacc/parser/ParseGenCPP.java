@@ -119,6 +119,8 @@ public class ParseGenCPP extends ParseGen {
     switchToMainFile();
     genCodeLine("   " + cu_name + "::~" +cu_name + "()");
     genCodeLine("{");
+    genCodeLine("  if (token_source) delete token_source;");
+    genCodeLine("  if (head) delete head;");
     genCodeLine("}");
     generateMethodDefHeader("void", cu_name, "ReInit(TokenManager tm)");
     genCodeLine("{");
