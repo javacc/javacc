@@ -177,7 +177,7 @@ file.  All complex regular expressions are enclosed within angular
 brackets.
 
 The first production above says that the non-terminal "Input" expands
-to the non-terminal "MethodBraces" followed by zero or more line
+to the non-terminal "MatchedBraces" followed by zero or more line
 terminators ("\n" or "\r") and then the end of file.
 
 The second production above says that the non-terminal "MatchedBraces"
