@@ -18,7 +18,10 @@
   /**
    * No-argument constructor
    */
-  _Token::_Token() {}
+  _Token::_Token() {
+    this->next = null;
+    this->specialToken = null;
+  }
 
   /**
    * Constructs a new token for the specified Image.
@@ -26,6 +29,8 @@
   _Token::_Token(int kind)
   {
     this->kind = kind;
+    this->next = null;
+    this->specialToken = null;
   }
 
   /**
@@ -35,6 +40,8 @@
   {
     this->kind = kind;
     this->image = image;
+    this->next = null;
+    this->specialToken = null;
   }
 
   /**
@@ -67,9 +74,10 @@
 
   Token _Token::newToken(int ofKind)
   {
-    return newToken(ofKind, NULL);
+    return newToken(ofKind, String(""));
   }
 
   _Token::~_Token() {
     if (next) delete next;
+    if (specialToken) delete specialToken;
   }
