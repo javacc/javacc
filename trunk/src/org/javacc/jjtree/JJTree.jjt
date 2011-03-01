@@ -69,7 +69,7 @@ public class JJTreeParser {
   private void eatUptoCloseBrace() {
     int b = 1;
     while(getToken(1).kind != RBRACE || --b != 0) {
-      if (getNextToken().kind == EOF) break;
+      if (getToken(1).kind == EOF) break;
       if (getNextToken().kind == LBRACE) b++;
     }
   }
