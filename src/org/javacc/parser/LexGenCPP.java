@@ -441,6 +441,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     NfaState.DumpStateSets(this);
     CheckEmptyStringMatch();
     NfaState.DumpNonAsciiMoveMethods(this);
+    RStringLiteral.DumpStrLiteralImages(this);
     DumpFillToken();
     DumpGetNextToken();
 
@@ -497,7 +498,6 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     genCodeLine(/*{*/ "};");
 
     switchToStaticsFile();
-    RStringLiteral.DumpStrLiteralImages(this);
     String fileName = Options.getOutputDirectory() + File.separator +
                       tokMgrClassName +
                       getFileExtension(Options.getOutputLanguage());

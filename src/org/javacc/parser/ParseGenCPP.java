@@ -81,7 +81,7 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("  public: Token jj_nt;");
     genCodeLine("  private: int jj_ntk;");
 
-    genCodeLine("  private: JJCalls *jj_2_rtns;");
+    genCodeLine("  private: JJCalls jj_2_rtns[" + jj2index + "];");
     genCodeLine("  private: boolean jj_rescan;");
     genCodeLine("  private: int jj_gc;");
     genCodeLine("  private: Token jj_scanpos, jj_lastpos;");
@@ -143,7 +143,6 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("    jj_kind = -1;");
     genCodeLine("    trace_indent = 0;");
     genCodeLine("    trace_enabled = " + Options.getDebugParser() + ";");
-    genCodeLine("    jj_2_rtns = new JJCalls[" + jj2index + "];");
 
     if (Options.getCacheTokens()) {
       genCodeLine("    token->next = jj_nt = token_source->getNextToken();");
