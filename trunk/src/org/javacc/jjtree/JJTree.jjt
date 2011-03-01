@@ -719,7 +719,7 @@ void local_lookahead(ASTProduction p) :
         eatUptoCloseBrace();
       }
     }
-    Expression() "}"
+    [ Expression() ] "}"
   ]
 }
 
