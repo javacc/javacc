@@ -140,7 +140,7 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
     }
     ostr.println("");
     if (!Options.getUserTokenManager() && Options.getBuildTokenManager()) {
-      for (int i = 0; i < LexGen.lexStateName.length; i++) {
+      for (int i = 0; i < Main.lg.lexStateName.length; i++) {
         ostr.println("  /** Lexical state. */");
         ostr.println(constPrefix + "  int " + LexGen.lexStateName[i] + " = " + i + ";");
       }
