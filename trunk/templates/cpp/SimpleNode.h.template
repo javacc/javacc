@@ -66,6 +66,7 @@ class _SimpleNode : public ${NODE_EXTENDS:-_Node} {
      out its children. */
 
   public: virtual void dump(String prefix);
+  public: virtual ~_SimpleNode();
 };
 
 \#endif

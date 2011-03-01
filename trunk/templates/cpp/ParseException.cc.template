@@ -116,6 +116,7 @@
     retval += expected.toString();
     return retval;
 \#endif
+    return "Parse exception";
   }
 
   /**

@@ -17,5 +17,6 @@ class _${NODE_TYPE} : public ${NODE_CLASS:-_SimpleNode} {
   /** Accept the visitor. **/
   public: virtual ${VISITOR_RETURN_TYPE} jjtAccept(${PARSER_NAME}Visitor visitor, ${VISITOR_DATA_TYPE:-Object} data);
 #fi
+  public: virtual ~_${NODE_TYPE}();
 };
 \#endif

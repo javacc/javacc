@@ -139,12 +139,13 @@ final class CPPNodeFiles {
       ostr.println("#ifndef " + file.getName().replace('.', '_'));
       ostr.println("#define " + file.getName().replace('.', '_'));
 
+      ostr.println("  enum {");
       for (int i = 0; i < nodeIds.size(); ++i) {
         String n = (String)nodeIds.get(i);
-        ostr.println("  static int " + n + " = " + i + ";");
+        ostr.println("  " + n + " = " + i + ",");
       }
 
-      ostr.println();
+      ostr.println("};");
       ostr.println();
 
       ostr.println("  static String jjtNodeName[] = {");
@@ -184,6 +185,9 @@ final class CPPNodeFiles {
       List nodeNames = ASTNodeDescriptor.getNodeNames();
 
       generatePrologue(ostr);
+      ostr.println("#ifndef " + file.getName().replace('.', '_').toUpperCase());
+      ostr.println("#define " + file.getName().replace('.', '_').toUpperCase());
+
       ostr.println("typedef class _" + name + " *name;");
       ostr.println("class _" + name);
       ostr.println("{");
@@ -207,7 +211,10 @@ final class CPPNodeFiles {
               " node, " + argumentType + " data)" + ve + " = 0;");
         }
       }
+
+      ostr.println(" public: virtual ~_" + name + "() { }");
       ostr.println("};");
+      ostr.println("#endif");
       ostr.close();
 
     } catch (IOException e) {
@@ -274,6 +281,8 @@ final class CPPNodeFiles {
               " node, " + argumentType + " data)" + ve + ";");
         }
       }
+
+      ostr.println("public: virtual ~_" + className + "();");
       ostr.println("};");
       ostr.println("#endif");
       ostr.close();
@@ -333,6 +342,7 @@ final class CPPNodeFiles {
           ostr.println("  }");
         }
       }
+      ostr.println("_" + className + "::~_" + className + "() { }");
       ostr.close();
 
     } catch (IOException e) {

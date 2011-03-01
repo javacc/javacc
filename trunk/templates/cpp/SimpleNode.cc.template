@@ -94,3 +94,6 @@
       }
     }
   }
+
+  _SimpleNode::~_SimpleNode() {
+  }

@@ -20,4 +20,7 @@
     return visitor->visit(this, data);
 #fi
   }
+
+  _${NODE_TYPE}::~_${NODE_TYPE}() {
+  }
 #fi

@@ -41,5 +41,6 @@ class _Node {
   /** Accept the visitor. **/
   public: virtual ${VISITOR_RETURN_TYPE} jjtAccept(${PARSER_NAME}Visitor visitor, ${VISITOR_DATA_TYPE:-Object} data) = 0;
 #fi
+  public: virtual ~_Node() { }
 };
 \#endif

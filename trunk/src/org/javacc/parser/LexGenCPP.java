@@ -586,7 +586,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       genCodeLine("\n};");
     }
 
-    if (hasMore)
+    /*if (hasMore) // Not needed as we just use else
     {
       // Bit vector for MORE
       genCode("static long jjtoMore[] = {");
@@ -597,7 +597,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
         genCode("0x" + Long.toHexString(toMore[i]) + "L, ");
       }
       genCodeLine("\n};");
-    }
+    }*/
   }
 
   void DumpFillToken()
@@ -700,7 +700,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     genCodeLine("public: int jjmatchedKind;");
     genCodeLine("");
     switchToMainFile();
-    genCodeLine("static int defaultLexState = " + defaultLexState + ";");
+    genCodeLine("const int defaultLexState = " + defaultLexState + ";");
     genCodeLine("/** Get the next Token. */");
     generateMethodDefHeader("Token", tokMgrClassName, "getNextToken()");
     genCodeLine("{");
