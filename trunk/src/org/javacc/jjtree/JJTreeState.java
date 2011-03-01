@@ -42,9 +42,6 @@ final class JJTreeState
 {
 
   private JJTreeState() {}
-  private static String nameState() {
-    return "JJT" + JJTreeGlobals.parserName + "State";
-  }
 
   static void insertParserMembers(IO io) {
     String s;
