@@ -46,6 +46,26 @@ final class JJTreeState
     return "JJT" + JJTreeGlobals.parserName + "State";
   }
 
+  static void insertParserMembers(IO io) {
+    String s;
+
+    if (JJTreeOptions.getStatic()) {
+      s = "static ";
+    } else {
+      s = "";
+    }
+
+    io.println();
+    io.println("  protected " + s + nameState() +
+         " jjtree = new " + nameState() + "();");
+    io.println();
+  }
+
+
+  private static String nameState() {
+    return "JJT" + JJTreeGlobals.parserName + "State";
+  }
+
 
   static void generateTreeState_java()
   {
