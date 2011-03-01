@@ -193,6 +193,7 @@ public class JavaCCParser extends JavaCCParserInternals {
    private void eatUptoCloseBrace() {
      int b = 1;
      while(getToken(1).kind != RBRACE || --b != 0) {
+       if (getToken(1).kind == EOF) break;
        if (getNextToken().kind == LBRACE) b++;
      }
    }
