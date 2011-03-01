@@ -19,24 +19,6 @@ final class CPPJJTreeState
 
   private CPPJJTreeState() {}
 
-  static void insertParserMembers(IO io) {
-    String s;
-
-    if (JJTreeOptions.getStatic()) {
-      s = "static ";
-    } else {
-      s = "";
-    }
-
-    io.println();
-  }
-
-
-  private static String nameState() {
-    return "JJT" + JJTreeGlobals.parserName + "State";
-  }
-
-
   static void generateTreeState() throws IOException
   {
     Map options = new HashMap();
