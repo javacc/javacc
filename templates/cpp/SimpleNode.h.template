@@ -1,5 +1,6 @@
 \#ifndef SIMPLENODE_H
 \#define SIMPLENODE_H
+\#include <vector>
 \#include "JavaCC.h"
 \#include "Node.h"
 \#include "${PARSER_NAME}TreeConstants.h"
@@ -9,7 +10,7 @@ typedef class _SimpleNode *SimpleNode;
 class _SimpleNode : public ${NODE_EXTENDS:-_Node} {
 
   protected: Node parent;
-  protected: Node *children;
+  protected: std::vector<Node> children;
   protected: int id;
   protected: Object value;
   protected: ${PARSER_NAME} *parser;

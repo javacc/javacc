@@ -6,15 +6,11 @@
 
   _SimpleNode::_SimpleNode(int i) {
     id = i;
-    numChildren = 0;
-    children = null;
   }
 
   _SimpleNode::_SimpleNode(${PARSER_NAME} *p, int i) {
     id = i;
     parser = p;
-    numChildren = 0;
-    children = null;
   }
 
   void _SimpleNode::jjtOpen() {
@@ -27,26 +23,19 @@
   Node _SimpleNode::jjtGetParent() { return parent; }
 
   void _SimpleNode::jjtAddChild(Node n, int i) {
-    if (i >= numChildren) {
-      Node *c = new Node[numChildren++];
-      for (int j = 0; j < numChildren - 1; j++)
-        c[j] = children[j];
-
-      if (children)
-        delete[] children;
-
-      children = c;
+    if (i >= children.size()) {
+      children.resize(i + 1);
     }
 
     children[i] = n;
   }
 
   Node _SimpleNode::jjtGetChild(int i) {
-    return i < numChildren ? children[i] : null;
+    return i < children.size() ? children[i] : null;
   }
 
   int _SimpleNode::jjtGetNumChildren() {
-    return numChildren;
+    return children.size();
   }
 
   void _SimpleNode::jjtSetValue(Object value) { this->value = value; }
@@ -72,7 +61,7 @@
 
   /** Accept the visitor. **/
   Object _SimpleNode::childrenAccept(${PARSER_NAME}Visitor visitor, ${VISITOR_DATA_TYPE:-Object} data) {
-    for (int i = 0; i < numChildren; ++i) {
+    for (int i = 0; i < children.size(); ++i) {
       children[i]->jjtAccept(visitor, data);
     }
 
@@ -94,7 +83,7 @@
 
   void _SimpleNode::dump(String prefix) {
     printf("%s\n", toString(prefix).c_str());
-    for (int i = 0; i < numChildren; ++i) {
+    for (int i = 0; i < children.size(); ++i) {
       SimpleNode n = (SimpleNode)children[i];
       if (n != null) {
         n->dump(prefix + " ");
