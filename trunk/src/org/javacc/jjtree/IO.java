@@ -93,7 +93,8 @@ final class IO
 
   void println(String s)
   {
-    out.println(s);
+    out.print(s);
+    out.println();
   }
 
   void println()

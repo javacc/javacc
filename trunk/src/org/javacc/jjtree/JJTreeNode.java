@@ -75,39 +75,6 @@ public class JJTreeNode extends SimpleNode {
   public Token getLastToken() { return last;  }
   public void setLastToken(Token t) { last = t; }
 
-  /* This method prints the tokens corresponding to this node
-     recursively calling the print methods of its children.
-     Overriding this print method in appropriate nodes gives the
-     output the added stuff not in the input.  */
-
-  public void print(IO io) {
-    /* Some productions do not consume any tokens.  In that case their
-       first and last tokens are a bit strange. */
-    if (getLastToken().next == getFirstToken()) {
-      return;
-    }
-
-    Token t1 = getFirstToken();
-    Token t = new Token();
-    t.next = t1;
-    JJTreeNode n;
-    for (int ord = 0; ord < jjtGetNumChildren(); ord++) {
-      n = (JJTreeNode)jjtGetChild(ord);
-      while (true) {
-        t = t.next;
-        if (t == n.getFirstToken()) break;
-        print(t, io);
-      }
-      n.print(io);
-      t = n.getLastToken();
-    }
-    while (t != getLastToken()) {
-      t = t.next;
-      print(t, io);
-    }
-  }
-
-
   String translateImage(Token t)
   {
     return t.image;
@@ -128,8 +95,6 @@ public class JJTreeNode extends SimpleNode {
 
     return sb.toString();
   }
-
-
 
   /* Indicates whether the token should be replaced by white space or
      replaced with the actual node variable. */
@@ -196,37 +161,4 @@ public class JJTreeNode extends SimpleNode {
 
     io.print(TokenUtils.addUnicodeEscapes(translateImage(t)));
   }
-
-
-  static void openJJTreeComment(IO io, String arg)
-  {
-    if (arg != null) {
-      io.print("/*@bgen(jjtree) " + arg + " */");
-    } else {
-      io.print("/*@bgen(jjtree)*/");
-    }
-  }
-
-
-  static void closeJJTreeComment(IO io)
-  {
-    io.print("/*@egen*/");
-  }
-
-
-  String getIndentation(JJTreeNode n)
-  {
-    return getIndentation(n, 0);
-  }
-
-
-  String getIndentation(JJTreeNode n, int offset)
-  {
-    String s = "";
-    for (int i = offset + 1; i < n.getFirstToken().beginColumn; ++i) {
-      s += " ";
-    }
-    return s;
-  }
-
 }

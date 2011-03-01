@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 
+import org.javacc.parser.Options;
 import org.javacc.parser.JavaCCGlobals;
 
 public class JJTree {
@@ -172,9 +173,18 @@ public class JJTree {
         root.generate(io);
         io.getOut().close();
 
-        NodeFiles.generateTreeConstants_java();
-        NodeFiles.generateVisitor_java();
-        JJTreeState.generateTreeState_java();
+        if (JJTreeOptions.getOutputLanguage().equals("java")) {
+          NodeFiles.generateTreeConstants_java();
+          NodeFiles.generateVisitor_java();
+          NodeFiles.generateDefaultVisitor_java();
+          JJTreeState.generateTreeState_java();
+        } else {
+          CPPNodeFiles.generateTreeConstants();
+          CPPNodeFiles.generateVisitor();
+          CPPNodeFiles.generateDefaultVisitor();
+          CPPJJTreeState.generateTreeState();
+          CPPNodeFiles.generateJJTreeH();
+        }
 
         p("Annotated grammar generated successfully in " +
               io.getOutputFileName());

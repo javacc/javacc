@@ -39,6 +39,10 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("#include \"TokenManager.h\"");
     genCodeLine("#include \"" + cu_name + "Constants.h\"");
 
+    if (jjtreeGenerated) {
+      genCodeLine("#include \"JJTree.h\"");
+    }
+
     switchToIncludeFile();
     genCodeLine("  typedef struct _JJCalls {");
     genCodeLine("    int gen;");
@@ -147,7 +151,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("    jj_ntk = -1;");
     }
     if (jjtreeGenerated) {
-      genCodeLine("    jjtree->reset();");
+      genCodeLine("    jjtree.reset();");
     }
     if (Options.getErrorReporting()) {
       genCodeLine("    jj_gen = 0;");
@@ -523,7 +527,12 @@ public class ParseGenCPP extends ParseGen {
       printToken(t1);
       t1 = t1.next;
     }
-    genCodeLine(/*{*/ "};");
+
+    if (jjtreeGenerated) {
+      genCodeLine("_JJT" + cu_name + "State jjtree;");
+    }
+
+    genCodeLine(/*{*/ "\n};");
 
     saveOutput(Options.getOutputDirectory() + File.separator + cu_name + getFileExtension(Options.getOutputLanguage()));
   }

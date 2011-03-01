@@ -342,4 +342,8 @@ public class OutputFile {
   public void setToolName(String toolName) {
     this.toolName = toolName;
   }
+ 
+  public String getPath() {
+    return file.getAbsolutePath();
+  }
 }

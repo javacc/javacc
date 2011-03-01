@@ -35,24 +35,9 @@ public class ASTBNFDeclaration extends JJTreeNode {
 
   NodeScope node_scope;
 
-  public void print(IO io)
-  {
-    if (!node_scope.isVoid()) {
-      String indent = "";
-      if (TokenUtils.hasTokens(this)) {
-        for (int i = 1; i < getFirstToken().beginColumn; ++i) {
-          indent += " ";
-        }
-      } else {
-        indent = "  ";
-      }
-
-      openJJTreeComment(io,  node_scope.getNodeDescriptorText());
-      io.println();
-      node_scope.insertOpenNodeCode(io, indent);
-      closeJJTreeComment(io);
-    }
-    super.print(io);
+  /** Accept the visitor. **/
+  public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
+    return visitor.visit(this, data);
   }
 }
 

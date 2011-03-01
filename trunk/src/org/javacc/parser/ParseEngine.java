@@ -803,7 +803,7 @@ public class ParseEngine {
         if (isJavaLanguage) {
           retval += " finally {\u0003\n";
         } else {
-          retval += " catch(...) { } finally {\u0003\n";
+          retval += " finally {\u0003\n";
         }
 
         if (e_nrw.finallyblk.size() != 0) {

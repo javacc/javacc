@@ -33,51 +33,9 @@ public class ASTCompilationUnit extends JJTreeNode {
     super(id);
   }
 
-
-  public void print(IO io)
-  {
-    Token t = getFirstToken();
-
-    while (true) {
-      if (t == JJTreeGlobals.parserImports) {
-
-        // If the parser and nodes are in separate packages (NODE_PACKAGE specified in
-        // OPTIONS), then generate an import for the node package.
-        if (!JJTreeGlobals.nodePackageName.equals("") && !JJTreeGlobals.nodePackageName.equals(JJTreeGlobals.packageName))
-        {
-          io.getOut().println("");
-          io.getOut().println("import " + JJTreeGlobals.nodePackageName + ".*;");
-        }
-      }
-
-      if (t == JJTreeGlobals.parserImplements) {
-        if (t.image.equals("implements")) {
-          print(t, io);
-          openJJTreeComment(io, null);
-          io.getOut().print(" " + NodeFiles.nodeConstants() + ", ");
-          closeJJTreeComment(io);
-        } else {
-          // t is pointing at the opening brace of the class body.
-          openJJTreeComment(io, null);
-          io.getOut().print("implements " + NodeFiles.nodeConstants());
-          closeJJTreeComment(io);
-          print(t, io);
-        }
-      } else {
-        print(t, io);
-      }
-
-      if (t == JJTreeGlobals.parserClassBodyStart) {
-        openJJTreeComment(io, null);
-        JJTreeState.insertParserMembers(io);
-        closeJJTreeComment(io);
-      }
-
-      if (t == getLastToken()) {
-        return;
-      }
-      t = t.next;
-    }
+  /** Accept the visitor. **/
+  public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
+    return visitor.visit(this, data);
   }
 
 }

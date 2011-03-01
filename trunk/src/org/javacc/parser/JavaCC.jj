@@ -1103,7 +1103,17 @@ void expansion_unit(Container c) :
 	  Token t0;
 	}
   t0="try" "{" expansion_choices(expch) "}"
-  ( "catch" "(" Name(vec) t=<IDENTIFIER> ")"
+  ("catch" "("
+    {
+      if (!isJavaLanguage) {
+        while (getToken(1).kind != RPAREN) getNextToken();
+      }
+      t = getToken(0);
+      t.kind = IDENTIFIER;
+      t.image = "...";
+    }
+    [ LOOKAHEAD({isJavaLanguage}) Name(vec) t=<IDENTIFIER> ]
+   ")"
 	{
 	  types.add(vec);
 	  ids.add(t);
@@ -1117,7 +1127,7 @@ void expansion_unit(Container c) :
 	  vec = new java.util.ArrayList();
 	}
   )*
-  [ LOOKAHEAD({isJavaLanguage})
+  [
 	{
 	  inAction = true;
 	}
