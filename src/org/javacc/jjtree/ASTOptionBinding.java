@@ -68,6 +68,11 @@ public class ASTOptionBinding extends JJTreeNode {
       return t.image;
     }
   }
+
+  /** Accept the visitor. **/
+  public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
+    return visitor.visit(this, data);
+  }
 }
 
 

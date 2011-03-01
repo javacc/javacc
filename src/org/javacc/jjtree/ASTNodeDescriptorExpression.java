@@ -37,6 +37,11 @@ public class ASTNodeDescriptorExpression extends JJTreeNode {
   {
     return whiteOut(t);
   }
+
+  /** Accept the visitor. **/
+  public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
+    return visitor.visit(this, data);
+  }
 }
 
 /*end*/

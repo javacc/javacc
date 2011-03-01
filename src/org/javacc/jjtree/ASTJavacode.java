@@ -34,6 +34,11 @@ public class ASTJavacode extends ASTProduction {
   }
 
   Token stmBeginLoc;
+
+  /** Accept the visitor. **/
+  public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
+    return visitor.visit(this, data);
+  }
 }
 
 /*end*/

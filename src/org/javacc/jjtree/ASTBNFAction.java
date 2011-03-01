@@ -34,7 +34,7 @@ public class ASTBNFAction extends JJTreeNode {
     super(id);
   }
 
-  private Node getScopingParent(NodeScope ns)
+  protected Node getScopingParent(NodeScope ns)
   {
     for (Node n = this.jjtGetParent(); n != null; n = n.jjtGetParent()) {
       if (n instanceof ASTBNFNodeScope) {
@@ -51,51 +51,10 @@ public class ASTBNFAction extends JJTreeNode {
   }
 
 
-  public void print(IO io)
-  {
-    /* Assume that this action requires an early node close, and then
-       try to decide whether this assumption is false.  Do this by
-       looking outwards through the enclosing expansion units.  If we
-       ever find that we are enclosed in a unit which is not the final
-       unit in a sequence we know that an early close is not
-       required. */
-
-    NodeScope ns = NodeScope.getEnclosingNodeScope(this);
-    if (ns != null && !ns.isVoid()) {
-      boolean needClose = true;
-      Node sp = getScopingParent(ns);
-
-      JJTreeNode n = this;
-      while (true) {
-        Node p = n.jjtGetParent();
-        if (p instanceof ASTBNFSequence || p instanceof ASTBNFTryBlock) {
-          if (n.getOrdinal() != p.jjtGetNumChildren() - 1) {
-            /* We're not the final unit in the sequence. */
-            needClose = false;
-            break;
-          }
-        } else if (p instanceof ASTBNFZeroOrOne ||
-                 p instanceof ASTBNFZeroOrMore ||
-                 p instanceof ASTBNFOneOrMore) {
-          needClose = false;
-          break;
-        }
-        if (p == sp) {
-          /* No more parents to look at. */
-          break;
-        }
-        n = (JJTreeNode)p;
-      }
-      if (needClose) {
-        openJJTreeComment(io, null);
-        io.println();
-        ns.insertCloseNodeAction(io, getIndentation(this));
-        closeJJTreeComment(io);
-      }
-    }
-    super.print(io);
+  /** Accept the visitor. **/
+  public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
+    return visitor.visit(this, data);
   }
-
 
 }
 

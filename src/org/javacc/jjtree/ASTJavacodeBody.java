@@ -35,24 +35,9 @@ public class ASTJavacodeBody extends JJTreeNode {
 
   NodeScope node_scope;
 
-  public void print(IO io)
-  {
-    if (node_scope.isVoid()) {
-      super.print(io);
-      return;
-    }
-
-    Token first = getFirstToken();
-
-    String indent = "";
-    for (int i = 4; i < first.beginColumn; ++i) {
-      indent += " ";
-    }
-
-    JJTreeNode.openJJTreeComment(io, node_scope.getNodeDescriptorText());
-    io.println();
-    node_scope.insertOpenNodeCode(io, indent);
-    node_scope.tryTokenSequence(io, indent, first, getLastToken());
+  /** Accept the visitor. **/
+  public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
+    return visitor.visit(this, data);
   }
 }
 

@@ -33,18 +33,9 @@ public class ASTLHS extends JJTreeNode {
     super(id);
   }
 
-  public void print(IO io)
-  {
-    NodeScope ns = NodeScope.getEnclosingNodeScope(this);
-
-    /* Print out all the tokens, converting all references to
-       `jjtThis' into the current node variable. */
-    Token first = getFirstToken();
-    Token last = getLastToken();
-    for (Token t = first; t != last.next; t = t.next) {
-      TokenUtils.print(t, io, "jjtThis", ns.getNodeVariable());
-    }
-
+  /** Accept the visitor. **/
+  public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
+    return visitor.visit(this, data);
   }
 }
 

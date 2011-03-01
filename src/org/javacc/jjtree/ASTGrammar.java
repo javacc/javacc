@@ -28,8 +28,6 @@
 
 package org.javacc.jjtree;
 
-import java.io.File;
-
 import org.javacc.parser.JavaCCGlobals;
 
 
@@ -38,14 +36,18 @@ public class ASTGrammar extends JJTreeNode {
     super(id);
   }
 
-  void generate(IO io)
-  {
-    io.println("/*@bgen(jjtree) " +
-        JavaCCGlobals.getIdString(JJTreeGlobals.toolList,
-        new File(io.getOutputFileName()).getName()) +
-         " */");
-    io.print("/*@egen*/");
-    print(io);
+  void generate(IO io) {
+System.out.println("opt:" + JJTreeOptions.getOutputLanguage());
+    if (JJTreeOptions.getOutputLanguage().equals("java")) {
+      new JavaCodeGenerator().visit(this, io);
+    } else {
+      new CPPCodeGenerator().visit(this, io);
+    }
+  }
+
+  /** Accept the visitor. **/
+  public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
+    return visitor.visit(this, data);
   }
 }
 

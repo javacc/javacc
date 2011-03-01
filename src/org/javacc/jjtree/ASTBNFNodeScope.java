@@ -37,20 +37,11 @@ public class ASTBNFNodeScope extends JJTreeNode
   NodeScope node_scope;
   JJTreeNode expansion_unit;
 
-  public void print(IO io)
-  {
-    if (node_scope.isVoid()) {
-      super.print(io);
-      return;
-    }
 
-    String indent = getIndentation(expansion_unit);
-
-    openJJTreeComment(io, node_scope.getNodeDescriptor().getDescriptor());
-    io.println();
-    node_scope.tryExpansionUnit(io, indent, expansion_unit);
+  /** Accept the visitor. **/
+  public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
+    return visitor.visit(this, data);
   }
-
 }
 
 /*end*/

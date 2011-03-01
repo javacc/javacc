@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.javacc.parser.Options;
 import org.javacc.parser.OutputFile;
 
 /**
@@ -41,23 +42,6 @@ final class JJTreeState
 {
 
   private JJTreeState() {}
-
-  static void insertParserMembers(IO io) {
-    String s;
-
-    if (JJTreeOptions.getStatic()) {
-      s = "static ";
-    } else {
-      s = "";
-    }
-
-    io.println();
-    io.println("  protected " + s + nameState() +
-         " jjtree = new " + nameState() + "();");
-    io.println();
-  }
-
-
   private static String nameState() {
     return "JJT" + JJTreeGlobals.parserName + "State";
   }
