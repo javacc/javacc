@@ -97,7 +97,7 @@ public class ParseGenCPP extends ParseGen {
     if (Options.getErrorReporting()) {
       switchToStaticsFile();
       for (int i = 0; i < tokenMaskSize; i++) {
-        genCodeLine("  static int jj_la1_" + i + "[] = {");
+        genCodeLine("  int jj_la1_" + i + "[] = {");
         for (Iterator it = maskVals.iterator(); it.hasNext();) {
           int[] tokenMask = (int[])(it.next());
           genCode("0x" + Integer.toHexString(tokenMask[i]) + ",");
@@ -294,8 +294,8 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("  int *jj_expentry;");
       if (jj2index != 0) {
         switchToStaticsFile();
-        genCodeLine("  static int *jj_lasttokens = new int[100];");
-        genCodeLine("  static int jj_endpos;");
+        genCodeLine("  int *jj_lasttokens = new int[100];");
+        genCodeLine("  int jj_endpos;");
         genCodeLine("");
 
         generateMethodDefHeader("void",  cu_name, "jj_add_error_token(int kind, int pos)");

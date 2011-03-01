@@ -141,8 +141,8 @@ class _CharStream {
   /**
    * pointer tobufer buf will be released on ReInit or delete.
    */
-  virtual void ReInit(char *buf,int sz, int startline, int startcolumn);
-  ~_CharStream();
+  public: virtual void ReInit(char *buf,int sz, int startline, int startcolumn);
+  public: virtual ~_CharStream();
 
 };
 typedef _CharStream *CharStream;

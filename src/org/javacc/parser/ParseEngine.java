@@ -588,6 +588,10 @@ public class ParseEngine {
         codeGenerator.genCodeLine("    }");
       }
     }
+    if (!isJavaLanguage && !voidReturn) {
+      codeGenerator.genCodeLine("assert(false);");
+    }
+
     codeGenerator.genCodeLine("  }");
     codeGenerator.genCodeLine("");
   }
@@ -697,7 +701,9 @@ public class ParseEngine {
       }
       retval += "\n";
       int labelIndex = ++gensymindex;
-      retval += "label_" + labelIndex + ":\n";
+      if (isJavaLanguage) {
+        retval += "label_" + labelIndex + ":\n";
+      }
       retval += "while (true) {\u0001";
       retval += phase1ExpansionGen(nested_e);
       conds = new Lookahead[1];
@@ -729,7 +735,9 @@ public class ParseEngine {
       }
       retval += "\n";
       int labelIndex = ++gensymindex;
-      retval += "label_" + labelIndex + ":\n";
+      if (isJavaLanguage) {
+        retval += "label_" + labelIndex + ":\n";
+      }
       retval += "while (true) {\u0001";
       conds = new Lookahead[1];
       conds[0] = la;

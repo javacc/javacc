@@ -3,6 +3,7 @@
 \#include <stdio.h>
 \#include <string>
 \#include <memory.h>
+\#include <assert.h>
 
 \#define null 0L
 \#define finally 
