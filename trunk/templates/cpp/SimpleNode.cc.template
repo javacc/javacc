@@ -13,6 +13,10 @@
     parser = p;
   }
 
+  int _SimpleNode::getId() {
+    return id;
+  }
+
   void _SimpleNode::jjtOpen() {
   }
 

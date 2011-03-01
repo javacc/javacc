@@ -28,6 +28,7 @@ class _SimpleNode : public ${NODE_EXTENDS:-_Node} {
 \#define jjtCreate(p, id) new _SimpleNode(p, id)
 #fi
 
+  public: virtual int getId();
   public: virtual void jjtOpen();
   public: virtual void jjtClose();
   public: virtual void jjtSetParent(Node n);
