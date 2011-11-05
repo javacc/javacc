@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
@@ -57,27 +58,31 @@ public class Options {
   /**
    * Convenience method to retrieve integer options.
    */
-  protected static int intValue(final String option) {
+  public static int intValue(final String option) {
     return ((Integer) optionValues.get(option)).intValue();
   }
 
   /**
    * Convenience method to retrieve boolean options.
    */
-  protected static boolean booleanValue(final String option) {
+  public static boolean booleanValue(final String option) {
     return ((Boolean) optionValues.get(option)).booleanValue();
   }
 
   /**
    * Convenience method to retrieve string options.
    */
-  protected static String stringValue(final String option) {
+  public static String stringValue(final String option) {
     return (String) optionValues.get(option);
   }
   
   public static Map getOptions()
   {
-    return new HashMap(optionValues);
+    HashMap ret = new HashMap(optionValues);
+    if (Options.stringValue("NAMESPACE").length() > 0) {
+      ret.put("HAS_NAMESPACE", Boolean.TRUE);
+    }
+    return ret;
   }
 
   /**
@@ -101,6 +106,9 @@ public class Options {
     optionValues = new HashMap();
     cmdLineSetting = new HashSet();
     inputFileSetting = new HashSet();
+
+    optionValues.put("PARSER_SUPER_CLASS", null);
+    optionValues.put("TOKEN_MANAGER_SUPER_CLASS", null);
 
     optionValues.put("LOOKAHEAD", new Integer(1));
     optionValues.put("CHOICE_AMBIGUITY_CHECK", new Integer(2));
@@ -137,6 +145,7 @@ public class Options {
     optionValues.put("TOKEN_FACTORY", "");
     optionValues.put("GRAMMAR_ENCODING", "");
     optionValues.put("OUTPUT_LANGUAGE", "java");
+    optionValues.put("NAMESPACE", "");
   }
 
   /**
@@ -677,4 +686,15 @@ public class Options {
      JavaCCErrors.fatal("Language: " + lang + " is not supported.");
   }
 
+  public static void setStringOption(String optionName, String optionValue) {
+    optionValues.put(optionName, optionValue);
+  }
+
+  public static String getLongType() {
+    if (getOutputLanguage().equalsIgnoreCase("java")) {
+      return "long";
+    } else {
+      return "unsigned long long";
+    }
+  }
 }

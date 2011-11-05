@@ -1,7 +1,11 @@
-  const char *${tokMgrClassName}::jjKindsForBitVector(int i, long vec)
+
+#if NAMESPACE
+namespace ${NAMESPACE} {
+#fi
+  const JAVACC_CHAR_TYPE *${tokMgrClassName}::jjKindsForBitVector(int i, long long vec)
   {
     int kindCnt = 0;
-    String retVal = "";
+    JAVACC_STRING_TYPE retVal = (JAVACC_CHAR_TYPE*)"";
     if (i == 0)
        kindCnt = 0;
     for (int j = 0; j < 64; j++)
@@ -19,10 +23,10 @@
     return retVal.c_str();
   }
 
-  const char *${tokMgrClassName}::jjKindsForStateVector(int lexState, int vec[], int start, int end)
+  const JAVACC_CHAR_TYPE *${tokMgrClassName}::jjKindsForStateVector(int lexState, int vec[], int start, int end)
   {
-    boolean kindDone[${maxOrdinal}];
-    String retVal = "";
+    bool kindDone[${maxOrdinal}];
+    JAVACC_STRING_TYPE retVal = (JAVACC_CHAR_TYPE*)"";
     int cnt = 0;
     for (int i = start; i < end; i++)
     {
@@ -48,3 +52,7 @@
     else
        return ("{ " + retVal + " }").c_str();
   }
+
+#if NAMESPACE
+}
+#fi

@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 package org.javacc.parser;
 
 import static org.javacc.parser.JavaCCGlobals.addUnicodeEscapes;
@@ -26,6 +27,12 @@ public class CodeGenerator {
       String incfileName = fileName.replace(".cc", ".h");
       includeBuffer.insert(0, "#define " + new File(incfileName).getName().replace('.', '_').toUpperCase() + "\n");
       includeBuffer.insert(0, "#ifndef " + new File(incfileName).getName().replace('.', '_').toUpperCase() + "\n");
+      if (Options.stringValue("NAMESPACE").length() > 0) {
+        mainBuffer.insert(0, "namespace " + Options.stringValue("NAMESPACE") + " {");
+        mainBuffer.append("}\n");
+        includeBuffer.append("}\n");
+      }
+
       includeBuffer.append("#endif\n");
       saveOutput(incfileName, includeBuffer);
 
@@ -38,8 +45,34 @@ public class CodeGenerator {
     saveOutput(fileName, mainBuffer);
   }
 
+  private static boolean isHexDigit(char c) {
+    return (c >= '0' && c <= '9') ||
+           (c >= 'a' && c <= 'f') ||
+           (c >= 'A' && c <= 'F');
+  }
+
+  // HACK
+  private void fixupLongLiterals(StringBuffer sb) {
+    for (int i = 0; i < sb.length() - 1; i++) {
+      int beg = i;
+      char c1 = sb.charAt(i);
+      char c2 = sb.charAt(i + 1);
+      if (Character.isDigit(c1) || (c1 == '0' && c2 == 'x')) {
+        i += c1 == '0' ? 2 : 1;
+        while (isHexDigit(sb.charAt(i))) i++;
+        if (sb.charAt(i) == 'L') {
+          sb.insert(i, "L");
+        }
+        i++;
+      }
+    }
+  }
+
   public void saveOutput(String fileName, StringBuffer sb) {
     PrintWriter fw = null;
+    if (!isJavaLanguage()) {
+      fixupLongLiterals(sb);
+    }
     try {
       File tmp = new File(fileName);
       fw = new PrintWriter(
@@ -199,7 +232,7 @@ public class CodeGenerator {
     }
     genCode("class " + name);
     if (isJavaLanguage()) {
-      if (superClasses.length == 1) {
+      if (superClasses.length == 1 && superClasses[0] != null) {
         genCode(" extends " + superClasses[0]);
       }
       if (superInterfaces.length != 0) {
@@ -264,14 +297,22 @@ public class CodeGenerator {
       genCodeLine("");
     } else {
       includeBuffer.append("\n" + modsAndRetType + " " + nameAndParams);
-      if (exceptions != null)
-        includeBuffer.append(" throw(" + exceptions + ")");
+      //if (exceptions != null)
+        //includeBuffer.append(" throw(" + exceptions + ")");
       includeBuffer.append(";\n");
+
+      int i = modsAndRetType.lastIndexOf(':');
+      if (i >= 0)
+        modsAndRetType = modsAndRetType.substring(i+1);
+
+      i = modsAndRetType.lastIndexOf("virtual");
+      if (i >= 0)
+        modsAndRetType = modsAndRetType.substring(i + "virtual".length());
 
       mainBuffer.append("\n" + modsAndRetType + " " +
                            getClassQualifier(className) + nameAndParams);
-      if (exceptions != null)
-        mainBuffer.append(" throw( " + exceptions + ")");
+      //if (exceptions != null)
+        //mainBuffer.append(" throw( " + exceptions + ")");
       switchToMainFile();
     }
   }

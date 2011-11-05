@@ -3,27 +3,31 @@
 \#include "JavaCC.h"
 \#include "Token.h"
 
+
+#if NAMESPACE
+namespace ${NAMESPACE} {
+#fi
 /**
  * This exception is thrown when parse errors are encountered.
  * You can explicitly create objects of this exception type by
- * calling the method generate_ParseException in the generated
+ * calling the method generateParseException in the generated
  * parser.
  *
  * You can modify this class to customize your error reporting
  * mechanisms so long as you retain the fields.
  */
-class _ParseException {
+class ParseException {
   public:
 
   /**
-   * This constructor is used by the method "generate_ParseException"
+   * This constructor is used by the method "generateParseException"
    * in the generated parser.  Calling this constructor generates
    * a new object of this type with the fields "currentToken",
    * "expectedTokenSequences", and "tokenImage" set.
    */
-  _ParseException(Token currentTokenVal,
+  ParseException(Token currentTokenVal,
                         int** expectedTokenSequencesVal,
-                        String* tokenImageVal
+                        JAVACC_STRING_TYPE* tokenImageVal
                        );
 
   /**
@@ -36,10 +40,10 @@ class _ParseException {
    * these constructors.
    */
 
-  _ParseException();
+  ParseException();
 
   /** Constructor with message. */
-  _ParseException(String message);
+  ParseException(JAVACC_STRING_TYPE message);
 
 
   /**
@@ -61,7 +65,7 @@ class _ParseException {
    * parser within which the parse error occurred.  This array is
    * defined in the generated ...Constants class.
    */
-  String* tokenImage;
+  JAVACC_STRING_TYPE* tokenImage;
 
   /**
    * It uses "currentToken" and "expectedTokenSequences" to generate a parse
@@ -70,9 +74,9 @@ class _ParseException {
    * from the parser) the correct error message
    * gets displayed.
    */
-  private:  String initialise(Token currentToken,
+  private:  JAVACC_STRING_TYPE initialise(Token currentToken,
                            int** expectedTokenSequences,
-                           String* tokenImage);
+                           JAVACC_STRING_TYPE* tokenImage);
 
   /**
    * The end of line string for this machine.
@@ -84,9 +88,11 @@ class _ParseException {
    * when these raw version cannot be used as part of an ASCII
    * string literal.
    */
-   String add_escapes(String str);
+   JAVACC_STRING_TYPE add_escapes(JAVACC_STRING_TYPE str);
 
 };
 
-typedef _ParseException *ParseException;
+#if NAMESPACE
+}
+#fi
 \#endif

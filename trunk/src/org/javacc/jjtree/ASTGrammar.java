@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
@@ -42,6 +43,7 @@ System.out.println("opt:" + JJTreeOptions.getOutputLanguage());
       new JavaCodeGenerator().visit(this, io);
     } else {
       new CPPCodeGenerator().visit(this, io);
+      CPPNodeFiles.generateTreeClasses();
     }
   }
 

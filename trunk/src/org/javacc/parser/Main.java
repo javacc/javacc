@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
@@ -188,6 +189,7 @@ public final class Main {
         }
       }
 
+      Options.setStringOption("PARSER_NAME", JavaCCGlobals.cu_name);
       OtherFilesGen.start();
 
       if ((JavaCCErrors.get_error_count() == 0) && (Options.getBuildParser() || Options.getBuildTokenManager())) {

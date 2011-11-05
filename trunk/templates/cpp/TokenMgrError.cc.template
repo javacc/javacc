@@ -1,11 +1,15 @@
 \#include "TokenMgrError.h"
+
+#if NAMESPACE
+namespace ${NAMESPACE} {
+#fi
   /**
    * Replaces unprintable characters by their escaped (or unicode escaped)
    * equivalents in the given string
    */
-   String _TokenMgrError::addEscapes(String str) {
-    /*StringBuffer retval;
-    char ch;
+   JAVACC_STRING_TYPE TokenMgrError::addEscapes(JAVACC_STRING_TYPE str) {
+    /*JAVACC_STRING_TYPE retval;
+    JAVACC_CHAR_TYPE ch;
     for (int i = 0; i < str.length(); i++) {
       switch (str[i])
       {
@@ -37,7 +41,7 @@
           continue;
         default:
           //if ((ch = str[i]) < 0x20 || ch > 0x7e) {
-            //String s = "0000" + Integer.toString(ch, 16);
+            //JAVACC_STRING_TYPE s = "0000" + Integer.toString(ch, 16);
             //retval.append("\\u" + s.substring(s.length() - 4, s.length()));
           //} else {
             retval.append(ch);
@@ -59,13 +63,13 @@
    *    errorLine   : line number when the error occurred
    *    errorColumn : column number when the error occurred
    *    errorAfter  : prefix that was seen before this error occurred
-   *    curchar     : the offending character
+   *    curJAVACC_CHAR_TYPE     : the offending character
    * Note: You can customize the lexical error message by modifying this method.
    */
-    String _TokenMgrError::LexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {
-    char *s = new char[1024]; // tmp hack
+    JAVACC_STRING_TYPE TokenMgrError::LexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, JAVACC_STRING_TYPE errorAfter, JAVACC_CHAR_TYPE curChar) {
+    JAVACC_CHAR_TYPE *s = new JAVACC_CHAR_TYPE[1024]; // tmp hack
     snprintf(s, 1024, "Lexical error at line %d, column %d.  Encountered: %c ( %d ) after : \"%s\"", errorLine , errorColumn , curChar, (int)curChar, errorAfter.c_str());
-    return (String)s;
+    return (JAVACC_STRING_TYPE)s;
   }
 
   /**
@@ -77,7 +81,7 @@
    *
    * from this method for such cases in the release version of your parser.
    */
-  String _TokenMgrError::getMessage() {
+  JAVACC_STRING_TYPE TokenMgrError::getMessage() {
     return message;
   }
 
@@ -86,16 +90,20 @@
    */
 
   /** No arg constructor. */
-  _TokenMgrError::_TokenMgrError() {
+  TokenMgrError::TokenMgrError() {
   }
 
   /** Constructor with message and reason. */
-  _TokenMgrError::_TokenMgrError(String message, int reason) {
+  TokenMgrError::TokenMgrError(JAVACC_STRING_TYPE message, int reason) {
     errorCode = reason;
   }
 
   /** Full Constructor. */
-  _TokenMgrError::_TokenMgrError(bool EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
+  TokenMgrError::TokenMgrError(bool EOFSeen, int lexState, int errorLine, int errorColumn, JAVACC_STRING_TYPE errorAfter, JAVACC_CHAR_TYPE curChar, int reason) {
     message = LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar);
    errorCode = reason;
   }
+
+#if NAMESPACE
+}
+#fi

@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 /* Copyright (c) 2005-2006, Kees Jan Koster kjkoster@kjkoster.org
  * All rights reserved.
  *
@@ -60,6 +61,7 @@ class JJTreeOptions extends Options {
         Options.optionValues.put("NODE_USES_PARSER", Boolean.FALSE);
         Options.optionValues.put("BUILD_NODE_FILES", Boolean.TRUE);
         Options.optionValues.put("VISITOR", Boolean.FALSE);
+        Options.optionValues.put("VISITOR_METHOD_NAME_INCLUDES_TYPE_NAME", Boolean.FALSE);
         Options.optionValues.put("TRACK_TOKENS", Boolean.FALSE);
 
         Options.optionValues.put("NODE_PREFIX", "AST");
@@ -67,12 +69,14 @@ class JJTreeOptions extends Options {
         Options.optionValues.put("NODE_EXTENDS", "");
         Options.optionValues.put("NODE_CLASS", "");
         Options.optionValues.put("NODE_FACTORY", "");
+        Options.optionValues.put("NODE_INCLUDES", "");
         Options.optionValues.put("OUTPUT_FILE", "");
         Options.optionValues.put("VISITOR_DATA_TYPE", "");
         Options.optionValues.put("VISITOR_RETURN_TYPE", "Object");
         Options.optionValues.put("VISITOR_EXCEPTION", "");
 
         Options.optionValues.put("JJTREE_OUTPUT_DIRECTORY", "");
+        Options.optionValues.put("NAMESPACE", "");
     }
 
     /**

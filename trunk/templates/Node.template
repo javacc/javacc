@@ -30,6 +30,8 @@ interface Node {
 
   /** Return the number of children the node has. */
   public int jjtGetNumChildren();
+
+  public int getId();
 #if VISITOR
 
   /** Accept the visitor. **/

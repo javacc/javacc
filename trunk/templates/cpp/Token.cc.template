@@ -1,4 +1,9 @@
 \#include "Token.h"
+
+#if NAMESPACE
+namespace ${NAMESPACE} {
+#fi
+
 /**
  * Describes the input token stream.
  */
@@ -11,43 +16,43 @@
    * Any subclass of Token that actually wants to return a non-NULL value can
    * override this method as appropriate.
    */
-  Object _Token::getValue() {
+  void * Token::getValue() {
     return NULL;
   }
 
   /**
    * No-argument constructor
    */
-  _Token::_Token() {
-    this->next = null;
-    this->specialToken = null;
+  Token::Token() {
+    this->next = NULL;
+    this->specialToken = NULL;
   }
 
   /**
    * Constructs a new token for the specified Image.
    */
-  _Token::_Token(int kind)
+  Token::Token(int kind)
   {
     this->kind = kind;
-    this->next = null;
-    this->specialToken = null;
+    this->next = NULL;
+    this->specialToken = NULL;
   }
 
   /**
    * Constructs a new token for the specified Image and Kind.
    */
-  _Token::_Token(int kind, String image)
+  Token::Token(int kind, JAVACC_STRING_TYPE image)
   {
     this->kind = kind;
     this->image = image;
-    this->next = null;
-    this->specialToken = null;
+    this->next = NULL;
+    this->specialToken = NULL;
   }
 
   /**
    * Returns the image.
    */
-  String _Token::toString()
+  JAVACC_STRING_TYPE Token::toString()
   {
     return image;
   }
@@ -64,20 +69,23 @@
    * to the following switch statement. Then you can cast matchedToken
    * variable to the appropriate type and use sit in your lexical actions.
    */
-  Token _Token::newToken(int ofKind, String image)
+  Token *Token::newToken(int ofKind, JAVACC_STRING_TYPE image)
   {
     switch(ofKind)
     {
-      default : return new _Token(ofKind, image);
+      default : return new Token(ofKind, image);
     }
   }
 
-  Token _Token::newToken(int ofKind)
+  Token *Token::newToken(int ofKind)
   {
-    return newToken(ofKind, String(""));
+    return newToken(ofKind, JAVACC_STRING_TYPE((JAVACC_CHAR_TYPE*)""));
   }
 
-  _Token::~_Token() {
-    if (next) delete next;
+  Token::~Token() {
     if (specialToken) delete specialToken;
   }
+
+#if NAMESPACE
+}
+#fi

@@ -1,5 +1,9 @@
 \#include "ParseException.h"
 
+
+#if NAMESPACE
+namespace ${NAMESPACE} {
+#fi
 /**
  * This exception is thrown when parse errors are encountered.
  * You can explicitly create objects of this exception type by
@@ -16,9 +20,9 @@
    * a new object of this type with the fields "currentToken",
    * "expectedTokenSequences", and "tokenImage" set.
    */
-  _ParseException::_ParseException(Token currentTokenVal,
+  ParseException::ParseException(Token currentTokenVal,
                         int** expectedTokenSequencesVal,
-                        String* tokenImageVal
+                        JAVACC_STRING_TYPE* tokenImageVal
                        )
   {
     initialise(currentTokenVal, expectedTokenSequencesVal, tokenImageVal);
@@ -37,11 +41,11 @@
    * these constructors.
    */
 
-  _ParseException::_ParseException() {
+  ParseException::ParseException() {
   }
 
   /** Constructor with message. */
-  _ParseException::_ParseException(String message) {
+  ParseException::ParseException(JAVACC_STRING_TYPE message) {
   }
 
 
@@ -64,7 +68,7 @@
    * parser within which the parse error occurred.  This array is
    * defined in the generated ...Constants class.
    */
-  String* tokenImage;
+  JAVACC_STRING_TYPE* tokenImage;
 
   /**
    * It uses "currentToken" and "expectedTokenSequences" to generate a parse
@@ -73,12 +77,12 @@
    * from the parser) the correct error message
    * gets displayed.
    */
-  String _ParseException::initialise(Token currentToken,
+  JAVACC_STRING_TYPE ParseException::initialise(Token currentToken,
                            int** expectedTokenSequences,
-                           String* tokenImage) {
+                           JAVACC_STRING_TYPE* tokenImage) {
 \#if 0
-    //String eol = System.getProperty("line.separator", "\n");
-     expected = new StringBuffer();
+    //JAVACC_STRING_TYPE eol = System.getProperty("line.separator", "\n");
+     expected = new JAVACC_STRING_TYPE();
     int maxSize = 0;
     for (int i = 0; i < expectedTokenSequences.length; i++) {
       if (maxSize < expectedTokenSequences[i].length) {
@@ -88,39 +92,39 @@
         expected.append(tokenImage[expectedTokenSequences[i][j]]).append(' ');
       }
       if (expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0) {
-        expected.append("...");
+        expected.append((JAVACC_CHAR_TYPE*)"...");
       }
       expected.append(eol).append("    ");
     }
-    String retval = "Encountered \"";
+    JAVACC_STRING_TYPE retval = (JAVACC_CHAR_TYPE*)"Encountered \"";
     Token tok = currentToken.next;
     for (int i = 0; i < maxSize; i++) {
-      if (i != 0) retval += " ";
+      if (i != 0) retval += (JAVACC_CHAR_TYPE*)" ";
       if (tok.kind == 0) {
         retval += tokenImage[0];
         break;
       }
-      retval += " " + tokenImage[tok.kind];
-      retval += " \"";
+      retval += (JAVACC_CHAR_TYPE*)" " + tokenImage[tok.kind];
+      retval += (JAVACC_CHAR_TYPE*)" \"";
       retval += add_escapes(tok.image);
-      retval += " \"";
+      retval += (JAVACC_CHAR_TYPE*)" \"";
       tok = tok.next;
     }
-    retval += "\" at line " + currentToken.next.beginLine + ", column " + currentToken.next.beginColumn;
-    retval += "." + eol;
+    retval += (JAVACC_CHAR_TYPE*)"\" at line " + currentToken.next.beginLine + (JAVACC_CHAR_TYPE*)", column " + currentToken.next.beginColumn;
+    retval += (JAVACC_CHAR_TYPE*)"." + eol;
     if (expectedTokenSequences.length == 1) {
-      retval += "Was expecting:" + eol + "    ";
+      retval += (JAVACC_CHAR_TYPE*)"Was expecting:" + eol + (JAVACC_CHAR_TYPE*)"    ";
     } else {
-      retval += "Was expecting one of:" + eol + "    ";
+      retval += (JAVACC_CHAR_TYPE*)"Was expecting one of:" + eol + (JAVACC_CHAR_TYPE*)"    ";
     }
     retval += expected.toString();
     return retval;
 \#endif
-    return "Parse exception";
+    return (JAVACC_CHAR_TYPE*)"Parse exception";
   }
 
   /**
-   * The end of line string for this machine.
+   * The end of line JAVACC_STRING_TYPE for this machine.
    */
 \#define eol "\n"
 
@@ -129,10 +133,10 @@
    * when these raw version cannot be used as part of an ASCII
    * string literal.
    */
-   String _ParseException::add_escapes(String str) {
+   JAVACC_STRING_TYPE ParseException::add_escapes(JAVACC_STRING_TYPE str) {
 /*
-      StringBuffer retval = new StringBuffer();
-      char ch;
+      JAVACC_STRING_TYPE *retval = new JAVACC_STRING_TYPE();
+      JAVACC_CHAR_TYPE ch;
       for (int i = 0; i < str.length(); i++) {
         switch (str.charAt(i))
         {
@@ -164,7 +168,7 @@
               continue;
            default:
               if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
-                 String s = "0000" + Integer.toString(ch, 16);
+                 JAVACC_STRING_TYPE s = "0000" + Integer.toString(ch, 16);
                  retval.append("\\u" + s.substring(s.length() - 4, s.length()));
               } else {
                  retval.append(ch);
@@ -175,3 +179,7 @@
       return retval.toString();
 */ return str;
    }
+
+#if NAMESPACE
+}
+#fi

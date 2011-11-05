@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
@@ -204,7 +205,8 @@ final class NodeFiles {
             continue;
           }
           String nodeType = JJTreeOptions.getNodePrefix() + n;
-          ostr.println("  public " + JJTreeOptions.getVisitorReturnType() + " visit(" + nodeType +
+          ostr.println("  public " + JJTreeOptions.getVisitorReturnType() + " " + getVisitMethodName(nodeType) +
+          "(" + nodeType +
               " node, " + argumentType + " data)" + ve + ";");
         }
       }
@@ -219,6 +221,18 @@ final class NodeFiles {
   static String defaultVisitorClass()
   {
     return JJTreeGlobals.parserName + "DefaultVisitor";
+  }
+
+  private static String getVisitMethodName(String className) {
+    StringBuffer sb = new StringBuffer("visit");
+    if (JJTreeOptions.booleanValue("VISITOR_METHOD_NAME_INCLUDES_TYPE_NAME")) {
+      sb.append(Character.toUpperCase(className.charAt(0)));
+      for (int i = 1; i < className.length(); i++) {
+        sb.append(className.charAt(i));
+      }
+    }
+
+    return sb.toString();
   }
 
   static void generateDefaultVisitor_java()
@@ -265,12 +279,14 @@ final class NodeFiles {
             continue;
           }
           String nodeType = JJTreeOptions.getNodePrefix() + n;
-          ostr.println("  public " + ret + " visit(" + nodeType +
+          ostr.println("  public " + ret + " " + getVisitMethodName(nodeType) +
+          "(" + nodeType +
               " node, " + argumentType + " data)" + ve + "{");
           ostr.println("    " + (ret.trim().equals("void") ? "" : "return ") + "defaultVisit(node, data);");
           ostr.println("  }");
         }
       }
+      ostr.println("}");
       ostr.close();
 
     } catch (IOException e) {

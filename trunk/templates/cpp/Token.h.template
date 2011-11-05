@@ -2,11 +2,15 @@
 \#define TOKEN_H
 \#include "JavaCC.h"
 
+#if NAMESPACE
+namespace ${NAMESPACE} {
+#fi
+
 /**
  * Describes the input token stream.
  */
 
-class _Token {
+class Token {
  public:
 
   /**
@@ -28,7 +32,7 @@ class _Token {
   /**
    * The string image of the token.
    */
-  String image;
+  JAVACC_STRING_TYPE image;
 
   /**
    * A reference to the next regular (non-special) token from the input
@@ -38,7 +42,7 @@ class _Token {
    * token.  Otherwise, see below for a description of the contents of
    * this field.
    */
-  _Token *next;
+  Token *next;
 
   /**
    * This field is used to access special tokens that occur prior to this
@@ -52,7 +56,7 @@ class _Token {
    * immediately follow it (without an intervening regular token).  If there
    * is no such token, this field is NULL.
    */
-  _Token *specialToken;
+  Token *specialToken;
 
   /**
    * An optional attribute value of the Token.
@@ -62,32 +66,32 @@ class _Token {
    * Any subclass of Token that actually wants to return a non-NULL value can
    * override this method as appropriate.
    */
-  Object getValue();
+  void * getValue();
 
   /**
    * No-argument constructor
    */
-  _Token();
+  Token();
 
   /**
    * Constructs a new token for the specified Image.
    */
-  _Token(int kind);
+  Token(int kind);
 
   /**
    * Constructs a new token for the specified Image and Kind.
    */
-  _Token(int kind, String image);
+  Token(int kind, JAVACC_STRING_TYPE image);
 
   /**
    * Returns the image.
    */
-  String toString();
+  JAVACC_STRING_TYPE toString();
 
-  public: virtual ~_Token();
+  public: virtual ~Token();
 
   /**
-   * Returns a new Token object, by default. However, if you want, you
+   * Returns a new Token void *, by default. However, if you want, you
    * can create and return subclass objects based on the value of ofKind.
    * Simply add the cases to the switch for all those special cases.
    * For example, if you have a subclass of Token called IDToken that
@@ -98,10 +102,12 @@ class _Token {
    * to the following switch statement. Then you can cast matchedToken
    * variable to the appropriate type and use sit in your lexical actions.
    */
-  static _Token *newToken(int ofKind, String image);
+  static Token *newToken(int ofKind, JAVACC_STRING_TYPE image);
 
-  static _Token *newToken(int ofKind);
+  static Token *newToken(int ofKind);
 };
 
-typedef _Token *Token;
+#if NAMESPACE
+}
+#fi
 \#endif

@@ -1,34 +1,43 @@
 \#include "CharStream.h"
 
-//class _CharStream
-//{
-  void _CharStream::setTabSize(int i) { tabSize = i; }
-  int _CharStream::getTabSize(int i) { return tabSize == 0 ? 8 : tabSize; }
+#if NAMESPACE
+namespace ${NAMESPACE} {
+#fi
+
+  void CharStream::setTabSize(int i) { tabSize = i; }
+  int CharStream::getTabSize() { return tabSize == 0 ? 8 : tabSize; }
 
 /** @return starting character for token. */
-  char _CharStream::BeginToken() throw(InputStreamException)
+  JAVACC_CHAR_TYPE CharStream::BeginToken()
   {
-    tokenBegin = bufpos + 1;
-    return readChar();
+    assert(!endOfInput());
+    JAVACC_CHAR_TYPE c = readChar();
+    tokenBegin = bufpos;
+    return c;
   }
 
-  char _CharStream::readChar() throw(InputStreamException)
+  JAVACC_CHAR_TYPE CharStream::readChar()
   {
+    assert(!endOfInput());
     if (inBuf > 0)
     {
       --inBuf;
       return buffer[++bufpos];
     }
 
-    if (++bufpos >= bufsize)
-      throw new _InputStreamException();
+    //if (++bufpos >= bufsize) {
+      //--bufpos;
+      //return 0;
+    //}
 
-    char c=buffer[bufpos];
+    JAVACC_CHAR_TYPE c=buffer[++bufpos];
+#if KEEP_LINE_COLUMN
     UpdateLineColumn(c);
+#fi
     return c;
   }
 
-  void _CharStream::UpdateLineColumn(char c)
+  void CharStream::UpdateLineColumn(JAVACC_CHAR_TYPE c)
   {
     column++;
 
@@ -73,7 +82,7 @@
    * @deprecated
    * @see #getEndColumn
    */
-  int _CharStream::getColumn() {
+  int CharStream::getColumn() {
     return bufcolumn[bufpos];
   }
 
@@ -81,43 +90,46 @@
    * @deprecated
    * @see #getEndLine
    */
-  int _CharStream::getLine() {
+  int CharStream::getLine() {
     return bufline[bufpos];
   }
 
 /** Get end column. */
-  int _CharStream::getEndColumn() {
+  int CharStream::getEndColumn() {
     return bufcolumn[bufpos];
   }
 
 /** Get end line. */
-  int _CharStream::getEndLine() {
+  int CharStream::getEndLine() {
     return bufline[bufpos];
   }
 
 /** @return column of token start */
-  int _CharStream::getBeginColumn() {
+  int CharStream::getBeginColumn() {
     return bufcolumn[tokenBegin];
   }
 
 /** @return line number of token start */
-  int _CharStream::getBeginLine() {
+  int CharStream::getBeginLine() {
     return bufline[tokenBegin];
   }
 
 /** Retreat. */
-  void _CharStream::backup(int amount) {
+  void CharStream::backup(int amount) {
     inBuf += amount;
-    if ((bufpos -= amount) < 0)
-      throw new InputStreamException();
+    bufpos -= amount;
   }
 
-  _CharStream::_CharStream(char *buf,int sz, int startline, int startcolumn) {
+  bool CharStream::endOfInput() {
+    return bufpos != -1 && bufpos == bufsize - 1;
+  }
+
+  CharStream::CharStream(const JAVACC_CHAR_TYPE *buf,int sz, int startline, int startcolumn) {
     ReInit(buf, sz, startline, startcolumn);
     tabSize = 8;
   }
 
-  void _CharStream::ReInit(char *buf,int sz, int startline, int startcolumn) {
+  void CharStream::ReInit(const JAVACC_CHAR_TYPE *buf,int sz, int startline, int startcolumn) {
     line = startline;
     column = startcolumn - 1;
 
@@ -130,25 +142,29 @@
     prevCharIsLF = prevCharIsCR = false;
   }
 
-  /** @return token image as String */
-  String _CharStream::GetImage()
+  /** @return token image as string */
+  JAVACC_STRING_TYPE CharStream::GetImage()
   {
-    return String("").append(buffer+tokenBegin, bufpos - tokenBegin + 1);
+    return JAVACC_STRING_TYPE((JAVACC_CHAR_TYPE*)"").append(buffer+tokenBegin, bufpos - tokenBegin + 1);
   }
 
   /** @return suffix */
-  String _CharStream::GetSuffix(int len)
+  JAVACC_STRING_TYPE CharStream::GetSuffix(int len)
   {
-    return String("").append(buffer+ bufpos - len + 1, len);
+    return JAVACC_STRING_TYPE((JAVACC_CHAR_TYPE*)"").append(buffer+ bufpos - len + 1, len);
   }
 
   /** Set buffers back to NULL when finished. */
-  _CharStream::~_CharStream() {
+  CharStream::~CharStream() {
     Done();
   }
 
-  void _CharStream::Done()
+  void CharStream::Done()
   {
     delete[] bufline;
     delete[] bufcolumn;
   }
+
+#if NAMESPACE
+}
+#fi
