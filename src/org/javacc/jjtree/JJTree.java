@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
@@ -180,10 +181,10 @@ public class JJTree {
           JJTreeState.generateTreeState_java();
         } else {
           CPPNodeFiles.generateTreeConstants();
-          CPPNodeFiles.generateVisitor();
-          CPPNodeFiles.generateDefaultVisitor();
+          CPPNodeFiles.generateVisitors();
+          //CPPNodeFiles.generateDefaultVisitor();
           CPPJJTreeState.generateTreeState();
-          CPPNodeFiles.generateJJTreeH();
+          //CPPNodeFiles.generateJJTreeH();
         }
 
         p("Annotated grammar generated successfully in " +

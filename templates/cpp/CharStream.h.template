@@ -2,9 +2,9 @@
 \#define CHARSTREAM_H
 \#include "JavaCC.h"
 
-class _InputStreamException {
-};
-typedef _InputStreamException *InputStreamException;
+#if NAMESPACE
+namespace ${NAMESPACE} {
+#fi
 
 /**
  * This class describes a character stream that maintains line and
@@ -16,19 +16,19 @@ typedef _InputStreamException *InputStreamException;
  * All the methods except backup can be implemented in any fashion. backup
  * needs to be implemented correctly for the correct operation of the lexer.
  * Rest of the methods are all used to get information like line number,
- * column number and the String that constitutes a token and are not used
+ * column number and the string that constitutes a token and are not used
  * by the lexer. Hence their implementation won't affect the generated lexer's
  * operation.
  */
 
 
-class _CharStream {
+class CharStream {
 /** Position in buffer. */
   int bufpos;
   int bufsize;
   int tokenBegin;
 
-  char* buffer;
+  const JAVACC_CHAR_TYPE * buffer;
   int *bufline;
   int *bufcolumn;
 
@@ -43,15 +43,15 @@ class _CharStream {
 
    public:
   void setTabSize(int i);
-  int getTabSize(int i);
-  void UpdateLineColumn(char c);
+  int getTabSize();
+  void UpdateLineColumn(JAVACC_CHAR_TYPE c);
 
   /**
    * Returns the next character from the selected input.  The method
    * of selecting the input is the responsibility of the class
-   * implementing this class.  Can throw any java.io.IOException.
+   * implementing this class.
    */
-  virtual char readChar() throw(InputStreamException);
+  virtual JAVACC_CHAR_TYPE readChar();
 
   /**
    * Returns the column position of the character last read.
@@ -104,15 +104,15 @@ class _CharStream {
    * All characters must remain in the buffer between two successive calls
    * to this method to implement backup correctly.
    */
-  virtual char BeginToken() throw(InputStreamException);
+  virtual JAVACC_CHAR_TYPE BeginToken();
 
   /**
    * Returns a string made up of characters from the marked token beginning
    * to the current buffer position. Implementations have the choice of returning
    * anything that they want to. For example, for efficiency, one might decide
-   * to just return null, which is a valid implementation.
+   * to just return NULL, which is a valid implementation.
    */
-  virtual String GetImage();
+  virtual JAVACC_STRING_TYPE GetImage();
 
   /**
    * Returns an array of characters that make up the suffix of length 'len' for
@@ -121,11 +121,11 @@ class _CharStream {
    * implementation of this is as follows :
    *
    *   {
-   *      String t = GetImage();
+   *      JAVACC_STRING_TYPE t = GetImage();
    *      return t.substring(t.length() - len, t.length()).toCharArray();
    *   }
    */
-  virtual String GetSuffix(int len);
+  virtual JAVACC_STRING_TYPE GetSuffix(int len);
 
   /**
    * The lexer calls this function to indicate that it is done with the stream
@@ -136,14 +136,18 @@ class _CharStream {
   /**
    * pointer tobufer buf will be released on ReInit or delete.
    */
-  _CharStream(char *buf,int sz, int startline, int startcolumn);
+  CharStream(const JAVACC_CHAR_TYPE *buf,int sz, int startline, int startcolumn);
 
   /**
    * pointer tobufer buf will be released on ReInit or delete.
    */
-  public: virtual void ReInit(char *buf,int sz, int startline, int startcolumn);
-  public: virtual ~_CharStream();
+  public: virtual void ReInit(const JAVACC_CHAR_TYPE *buf, int sz, int startline, int startcolumn);
+  public: virtual ~CharStream();
+  public: virtual bool endOfInput();
 
 };
-typedef _CharStream *CharStream;
+
+#if NAMESPACE
+}
+#fi
 \#endif

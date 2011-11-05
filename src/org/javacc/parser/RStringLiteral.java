@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
@@ -127,7 +128,7 @@ public class RStringLiteral extends RegularExpression {
       codeGenerator.genCodeLine("public static final String[] jjstrLiteralImages = {");
     } else {
       codeGenerator.switchToStaticsFile();
-      codeGenerator.genCodeLine("static String jjstrLiteralImages[] = {");
+      codeGenerator.genCodeLine("static const String jjstrLiteralImages[] = {");
     }
 
     if (allImages == null || allImages.length == 0)
@@ -485,17 +486,17 @@ public class RStringLiteral extends RegularExpression {
                  "+ (jjmatchedPos + 1) + \" characters as a \" + tokenImage[jjmatchedKind] + \" token.\");");
        } else {
          codeGenerator.genCodeLine("   fprintf(debugStream, \"   No more string literal token matches are possible.\");");
-         codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\",  (jjmatchedPos + 1),  tokenImage[jjmatchedKind].c_str());");
+         codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\",  (jjmatchedPos + 1),  tokenImage[jjmatchedKind].c_str());");
        }
      }
   
 
      if (Options.getOutputLanguage().equals("java")) {
-     codeGenerator.genCodeLine("   try { curChar = input_stream.readChar(); }");
-     codeGenerator.genCodeLine("   catch(java.io.IOException e) { return pos + 1; }");
+       codeGenerator.genCodeLine("   try { curChar = input_stream.readChar(); }");
+       codeGenerator.genCodeLine("   catch(java.io.IOException e) { return pos + 1; }");
      } else {
-     codeGenerator.genCodeLine("   try { curChar = input_stream->readChar(); }");
-     codeGenerator.genCodeLine("   catch(InputStreamException e) { return pos + 1; }");
+       codeGenerator.genCodeLine("   if (input_stream->endOfInput()) { return pos + 1; }");
+       codeGenerator.genCodeLine("   curChar = input_stream->readChar();");
      }
      if (Options.getDebugTokenManager()) {
        if (codeGenerator.isJavaLanguage()) {
@@ -619,14 +620,14 @@ public class RStringLiteral extends RegularExpression {
                        params.append(", ");
                     else
                        atLeastOne = true;
-                    params.append("long active" + j);
+                    params.append("" + Options.getLongType() + " active" + j);
                  }
 
               if (i <= maxLenForActive[j])
               {
                  if (atLeastOne)
                     params.append(", ");
-                 params.append("long active" + j);
+                 params.append("" + Options.getLongType() + " active" + j);
               }
            }
            else
@@ -638,14 +639,14 @@ public class RStringLiteral extends RegularExpression {
                        params.append(", ");
                     else
                        atLeastOne = true;
-                    params.append("long old" + j + ", long active" + j);
+                    params.append("" + Options.getLongType() + " old" + j + ", " + Options.getLongType() + " active" + j);
                  }
 
               if (i <= maxLenForActive[j] + 1)
               {
                  if (atLeastOne)
                     params.append(", ");
-                 params.append("long old" + j + ", long active" + j);
+                 params.append("" + Options.getLongType() + " old" + j + ", " + Options.getLongType() + " active" + j);
               }
            }
         }
@@ -750,13 +751,13 @@ public class RStringLiteral extends RegularExpression {
               }
            }
 
-     if (Options.getOutputLanguage().equals("java")) {
-           codeGenerator.genCodeLine("   try { curChar = input_stream.readChar(); }");
-           codeGenerator.genCodeLine("   catch(java.io.IOException e) {");
-      } else {
-           codeGenerator.genCodeLine("   try { curChar = input_stream->readChar(); }");
-           codeGenerator.genCodeLine("   catch(InputStreamException e) {");
-      }
+           if (Options.getOutputLanguage().equals("java")) {
+             codeGenerator.genCodeLine("   try { curChar = input_stream.readChar(); }");
+             codeGenerator.genCodeLine("   catch(java.io.IOException e) {");
+           } else {
+             codeGenerator.genCodeLine("   if (input_stream->endOfInput()) {");
+           }
+
            if (!Main.lg.mixed[Main.lg.lexStateIndex] && NfaState.generatedStates != 0)
            {
               codeGenerator.genCode("      jjStopStringLiteralDfa" + Main.lg.lexStateSuffix + "(" + (i - 1) + ", ");
@@ -791,6 +792,9 @@ public class RStringLiteral extends RegularExpression {
               codeGenerator.genCodeLine("      return " + i + ";");
 
            codeGenerator.genCodeLine("   }");
+        }
+        if (i != 0 && !Options.getOutputLanguage().equals("java")) {
+          codeGenerator.genCodeLine("   curChar = input_stream->readChar();");
         }
 
         if (i != 0 && Options.getDebugTokenManager()) {
@@ -983,7 +987,7 @@ public class RStringLiteral extends RegularExpression {
                        else
                           atLeastOne = true;
 
-                       codeGenerator.genCode("0x" + Long.toHexString(info.validKinds[j]) + "L");
+                       codeGenerator.genCode("0x" + Long.toHexString(info.validKinds[j]) + (codeGenerator.isJavaLanguage() ? "L" : "L"));
                     }
 
                  if ((i + 1) <= maxLenForActive[j])
@@ -991,7 +995,7 @@ public class RStringLiteral extends RegularExpression {
                     if (atLeastOne)
                        codeGenerator.genCode(", ");
 
-                    codeGenerator.genCode("0x" + Long.toHexString(info.validKinds[j]) + "L");
+                    codeGenerator.genCode("0x" + Long.toHexString(info.validKinds[j]) + (codeGenerator.isJavaLanguage() ? "L" : "L"));
                  }
                  codeGenerator.genCodeLine(");");
               }
@@ -1012,7 +1016,7 @@ public class RStringLiteral extends RegularExpression {
 
                        if (info.validKinds[j] != 0L)
                           codeGenerator.genCode("active" + j + ", 0x" +
-                                  Long.toHexString(info.validKinds[j]) + "L");
+                                  Long.toHexString(info.validKinds[j]) + (codeGenerator.isJavaLanguage() ? "L" : "L"));
                        else
                           codeGenerator.genCode("active" + j + ", 0L");
                     }
@@ -1023,7 +1027,7 @@ public class RStringLiteral extends RegularExpression {
                        codeGenerator.genCode(", ");
                     if (info.validKinds[j] != 0L)
                        codeGenerator.genCode("active" + j + ", 0x" +
-                                  Long.toHexString(info.validKinds[j]) + "L");
+                                  Long.toHexString(info.validKinds[j]) + (codeGenerator.isJavaLanguage() ? "L" : "L"));
                     else
                        codeGenerator.genCode("active" + j + ", 0L");
                  }
@@ -1279,8 +1283,8 @@ public class RStringLiteral extends RegularExpression {
 
      StringBuffer params = new StringBuffer();
      for (i = 0; i < maxKindsReqd - 1; i++)
-        params.append("long active" + i + ", ");
-     params.append("long active" + i + ")");
+        params.append("" + Options.getLongType() + " active" + i + ", ");
+     params.append("" + Options.getLongType() + " active" + i + ")");
 
      if (Options.getOutputLanguage().equals("java")) {
      codeGenerator.genCode("private" + (Options.getStatic() ? " static" : "") + " final int jjStopStringLiteralDfa" +
@@ -1412,8 +1416,8 @@ public class RStringLiteral extends RegularExpression {
      params.setLength(0);
      params.append("(int pos, ");
      for (i = 0; i < maxKindsReqd - 1; i++)
-        params.append("long active" + i + ", ");
-     params.append("long active" + i + ")");
+        params.append("" + Options.getLongType() + " active" + i + ", ");
+     params.append("" + Options.getLongType() + " active" + i + ")");
 
      if (codeGenerator.isJavaLanguage()) {
        codeGenerator.genCode("private" + (Options.getStatic() ? " static" : "") + " final int jjStartNfa" +

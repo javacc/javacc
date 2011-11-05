@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 package org.javacc.jjtree;
 
 import org.javacc.parser.JavaCCGlobals;
@@ -315,12 +316,16 @@ public class JavaCodeGenerator extends DefaultJJTreeVisitor {
 
   void insertCloseNodeCode(NodeScope ns, IO io, String indent, boolean isFinal)
   {
-    io.println(indent + ns.node_descriptor.closeNode(ns.nodeVar));
+    String closeNode = ns.node_descriptor.closeNode(ns.nodeVar);
+    io.println(indent + closeNode);
     if (ns.usesCloseNodeVar() && !isFinal) {
       io.println(indent + ns.closedVar + " = false;");
     }
     if (JJTreeOptions.getNodeScopeHook()) {
-      io.println(indent + "jjtreeCloseNodeScope(" + ns.nodeVar + ");");
+      int i = closeNode.lastIndexOf(",");
+      io.println(indent + "if (jjtree.nodeCreated()) {");
+      io.println(indent + " jjtreeCloseNodeScope(" + ns.nodeVar + ");");
+      io.println(indent + "}");
     }
 
     if (JJTreeOptions.getTrackTokens()) {

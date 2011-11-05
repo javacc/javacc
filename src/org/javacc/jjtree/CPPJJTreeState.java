@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 package org.javacc.jjtree;
 
 import java.io.File;
@@ -21,7 +22,7 @@ final class CPPJJTreeState
 
   static void generateTreeState() throws IOException
   {
-    Map options = new HashMap();
+    Map options = JJTreeOptions.getOptions();
     options.put("PARSER_NAME", JJTreeGlobals.parserName);
     String filePrefix = new File(JJTreeOptions.getJJTreeOutputDirectory(), "JJT" + JJTreeGlobals.parserName + "State").getAbsolutePath();
 

@@ -5,24 +5,21 @@
 \#include <memory.h>
 \#include <assert.h>
 
-\#define null 0L
-\#define finally 
+//using std::basic_string;
 
-typedef int Integer;
-typedef std::string String;
-typedef std::string StringBuffer;
-typedef void *Object;
-typedef bool boolean;
+\#ifndef JAVACC_CHAR_TYPE
+\#define JAVACC_CHAR_TYPE char
+\#endif
 
-//class Throwable { String message; public: virtual String getMessage() { return message; }; Throwable(String m): message(m) { } Throwable() { } };
+\#ifndef JAVACC_STRING_TYPE
+\#define JAVACC_STRING_TYPE std::basic_string<JAVACC_CHAR_TYPE>
+\#endif
 
-//class Exception:Throwable { } ;
-//class IOException : Exception {};
-//class Error:Throwable { public: Error(String s):Throwable(s) { }  };
-//
-//#include "CharStream.h"
-//#include "Token.h"
-//#include "TokenMgrError.h"
-//#include "ParseException.h"
+typedef bool boolean; // TODO(Sreeni): To be removed at some point after full refactoring
+
+\#define finally  // TODO(Sreeni): Get rid of when we fix jjtree
+
+typedef JAVACC_STRING_TYPE StringBuffer;
+typedef JAVACC_STRING_TYPE String;
 
 \#endif

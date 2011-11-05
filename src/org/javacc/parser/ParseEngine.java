@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
@@ -500,14 +501,16 @@ public class ParseEngine {
     sig.append(")");
     params = sig.toString();
 
-    sig.setLength(0);
-    sig.append("ParseException");
-    for (java.util.Iterator it = p.getThrowsList().iterator(); it.hasNext();) {
-      sig.append(", ");
-      java.util.List name = (java.util.List)it.next();
-      for (java.util.Iterator it2 = name.iterator(); it2.hasNext();) {
-        t = (Token)it2.next();
-        sig.append(codeGenerator.getStringToPrint(t));
+    if (isJavaLanguage) {
+      sig.setLength(0);
+      sig.append("ParseException");
+      for (java.util.Iterator it = p.getThrowsList().iterator(); it.hasNext();) {
+        sig.append(", ");
+        java.util.List name = (java.util.List)it.next();
+        for (java.util.Iterator it2 = name.iterator(); it2.hasNext();) {
+          t = (Token)it2.next();
+          sig.append(codeGenerator.getStringToPrint(t));
+        }
       }
     }
 
@@ -541,7 +544,10 @@ public class ParseEngine {
         }
         codeGenerator.printTrailingComments(t);
       }
-      codeGenerator.genCode(") throws ParseException");
+      codeGenerator.genCode(")");
+      if (isJavaLanguage) { 
+        codeGenerator.genCode(" throws ParseException");
+      }
 
       for (java.util.Iterator it = p.getThrowsList().iterator(); it.hasNext();) {
         codeGenerator.genCode(", ");
@@ -575,7 +581,11 @@ public class ParseEngine {
     dumpFormattedString(code);
     codeGenerator.genCodeLine("");
     if (p.isJumpPatched() && !voidReturn) {
-      codeGenerator.genCodeLine("    throw \"Missing return statement in function\";");
+      if (isJavaLanguage) { 
+        codeGenerator.genCodeLine("    throw new Error(\"Missing return statement in function\");");
+      } else {
+        codeGenerator.genCodeLine("    throw \"Missing return statement in function\";");
+      }
     }
     if (Options.getDebugParser()) {
       if (isJavaLanguage) {
@@ -670,7 +680,8 @@ public class ParseEngine {
       Choice e_nrw = (Choice)e;
       conds = new Lookahead[e_nrw.getChoices().size()];
       actions = new String[e_nrw.getChoices().size() + 1];
-      actions[e_nrw.getChoices().size()] = "\n" + "jj_consume_token(-1);\n" + "throw new ParseException();";
+      actions[e_nrw.getChoices().size()] = "\n" + "jj_consume_token(-1);\n" +
+        (isJavaLanguage ? "throw new ParseException();" : "errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this);");
       // In previous line, the "throw" never throws an exception since the
       // evaluation of jj_consume_token(-1) causes ParseException to be
       // thrown first.
@@ -833,12 +844,18 @@ public class ParseEngine {
     if (isJavaLanguage) {
       codeGenerator.genCodeLine("  " + staticOpt() + "private boolean jj_2" + e.internal_name + "(int xla)");
     } else {
-      codeGenerator.generateMethodDefHeader("boolean ", cu_name, "jj_2" + e.internal_name + "(int xla)");
+      codeGenerator.generateMethodDefHeader("bool ", cu_name, "jj_2" + e.internal_name + "(int xla)");
     }
     codeGenerator.genCodeLine(" {");
     codeGenerator.genCodeLine("    jj_la = xla; jj_lastpos = jj_scanpos = token;");
-    codeGenerator.genCodeLine("    try { return !jj_3" + e.internal_name + "(); }");
-    codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
+    if (isJavaLanguage) {
+      codeGenerator.genCodeLine("    try { return !jj_3" + e.internal_name + "(); }");
+      codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
+    } else { 
+      codeGenerator.genCodeLine("    jj_done = false;");
+      codeGenerator.genCodeLine("    return !jj_3" + e.internal_name + "() || jj_done;");
+      //codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
+    }
     if (Options.getErrorReporting()) {
       codeGenerator.genCodeLine("    finally { jj_save(" + (Integer.parseInt(e.internal_name.substring(1))-1) + ", xla); }");
     }
@@ -964,6 +981,10 @@ public class ParseEngine {
     }
   }
 
+  private String getTypeForToken() {
+    return isJavaLanguage ? "Token" : "Token *";
+  }
+
   private String genjj_3Call(Expansion e)
   {
     if (e.internal_name.startsWith("jj_scan_token"))
@@ -983,10 +1004,13 @@ public class ParseEngine {
       if (isJavaLanguage) {
         codeGenerator.genCodeLine("  " + staticOpt() + "private boolean jj_3" + e.internal_name + "()");
      } else {
-        codeGenerator.generateMethodDefHeader(" boolean", cu_name, "jj_3" + e.internal_name + "()");
+        codeGenerator.generateMethodDefHeader(" bool", cu_name, "jj_3" + e.internal_name + "()");
      }
 
      codeGenerator.genCodeLine(" {");
+      if (!isJavaLanguage) {
+        codeGenerator.genCodeLine("    if (jj_done) return true;");
+      }
       xsp_declared = false;
       if (Options.getDebugLookahead() && e.parent instanceof NormalProduction) {
         codeGenerator.genCode("    ");
@@ -1033,7 +1057,7 @@ public class ParseEngine {
       if (e_nrw.getChoices().size() != 1) {
         if (!xsp_declared) {
           xsp_declared = true;
-          codeGenerator.genCodeLine("    Token xsp;");
+          codeGenerator.genCodeLine("    " + getTypeForToken() + " xsp;");
         }
         codeGenerator.genCodeLine("    xsp = jj_scanpos;");
       }
@@ -1093,7 +1117,7 @@ public class ParseEngine {
     } else if (e instanceof OneOrMore) {
       if (!xsp_declared) {
         xsp_declared = true;
-        codeGenerator.genCodeLine("    Token xsp;");
+        codeGenerator.genCodeLine("    " + getTypeForToken() + " xsp;");
       }
       OneOrMore e_nrw = (OneOrMore)e;
       Expansion nested_e = e_nrw.expansion;
@@ -1109,7 +1133,7 @@ public class ParseEngine {
     } else if (e instanceof ZeroOrMore) {
       if (!xsp_declared) {
         xsp_declared = true;
-        codeGenerator.genCodeLine("    Token xsp;");
+        codeGenerator.genCodeLine("    " + getTypeForToken() + " xsp;");
       }
       ZeroOrMore e_nrw = (ZeroOrMore)e;
       Expansion nested_e = e_nrw.expansion;
@@ -1122,7 +1146,7 @@ public class ParseEngine {
     } else if (e instanceof ZeroOrOne) {
       if (!xsp_declared) {
         xsp_declared = true;
-        codeGenerator.genCodeLine("    Token xsp;");
+        codeGenerator.genCodeLine("    " + getTypeForToken() + " xsp;");
       }
       ZeroOrOne e_nrw = (ZeroOrOne)e;
       Expansion nested_e = e_nrw.expansion;
@@ -1245,7 +1269,10 @@ public class ParseEngine {
           }
           codeGenerator.printTrailingComments(t);
         }
-        codeGenerator.genCode(") throws ParseException");
+        codeGenerator.genCode(")");
+        if (isJavaLanguage) {
+          codeGenerator.genCode(" throws ParseException");
+        }
         for (java.util.Iterator it = jp.getThrowsList().iterator(); it.hasNext();) {
           codeGenerator.genCode(", ");
           java.util.List name = (java.util.List)it.next();

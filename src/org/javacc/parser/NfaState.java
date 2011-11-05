@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
@@ -969,10 +970,10 @@ public class NfaState
 
                if (!AllBitsSet(tmp)) {
                   if (codeGenerator.isJavaLanguage()) {
-                    codeGenerator.genCodeLine("static final long[] jjbitVec" +  lohiByteCnt + " = " + tmp);
+                    codeGenerator.genCodeLine("static final " + Options.getLongType() + "[] jjbitVec" +  lohiByteCnt + " = " + tmp);
                   } else {
                     codeGenerator.switchToStaticsFile();
-                    codeGenerator.genCodeLine("static long jjbitVec" +  lohiByteCnt + "[] = " + tmp);
+                    codeGenerator.genCodeLine("static const " + Options.getLongType() + " jjbitVec" +  lohiByteCnt + "[] = " + tmp);
                   }
                }
                lohiByteTab.put(tmp, ind = new Integer(lohiByteCnt++));
@@ -990,10 +991,10 @@ public class NfaState
 
                if (!AllBitsSet(tmp))
                   if (codeGenerator.isJavaLanguage()) {
-                    codeGenerator.genCodeLine("static final long[] jjbitVec" + lohiByteCnt + " = " + tmp);
+                    codeGenerator.genCodeLine("static final " + Options.getLongType() + "[] jjbitVec" + lohiByteCnt + " = " + tmp);
                   } else {
                     codeGenerator.switchToStaticsFile();
-                    codeGenerator.genCodeLine("static long jjbitVec" + lohiByteCnt + "[] = " + tmp);
+                    codeGenerator.genCodeLine("static const " + Options.getLongType() + " jjbitVec" + lohiByteCnt + "[] = " + tmp);
                     codeGenerator.switchToMainFile();
                   }
                lohiByteTab.put(tmp, ind = new Integer(lohiByteCnt++));
@@ -1039,10 +1040,10 @@ public class NfaState
 
                if (!AllBitsSet(tmp))
                   if (codeGenerator.isJavaLanguage()) {
-                    codeGenerator.genCodeLine("static final long[] jjbitVec" +  lohiByteCnt + " = " + tmp);
+                    codeGenerator.genCodeLine("static final " + Options.getLongType() + "[] jjbitVec" +  lohiByteCnt + " = " + tmp);
                   } else {
                     codeGenerator.switchToStaticsFile();
-                    codeGenerator.genCodeLine("static long jjbitVec" +  lohiByteCnt + "[] = " + tmp);
+                    codeGenerator.genCodeLine("static const " + Options.getLongType() + " jjbitVec" +  lohiByteCnt + "[] = " + tmp);
                   }
                lohiByteTab.put(tmp, ind = new Integer(lohiByteCnt++));
             }
@@ -1258,7 +1259,7 @@ public class NfaState
         codeGenerator.genCode("static final int[] jjnextStates = {");
       } else {
         codeGenerator.switchToStaticsFile();
-        codeGenerator.genCode("static int jjnextStates[] = {");
+        codeGenerator.genCode("static const int jjnextStates[] = {");
       }
       for (int i = 0; i < orderedStateSet.size(); i++)
       {
@@ -1639,22 +1640,26 @@ public class NfaState
 
    private static void DumpHeadForCase(CodeGenerator codeGenerator, int byteNum)
    {
-      if (byteNum == 0)
-         codeGenerator.genCodeLine("         long l = 1L << curChar;");
-      else if (byteNum == 1)
-         codeGenerator.genCodeLine("         long l = 1L << (curChar & 077);");
-
-      else
-      {
+      if (byteNum == 0) {
+         codeGenerator.genCodeLine("         " + Options.getLongType() + " l = 1L << curChar;");
+         if (!codeGenerator.isJavaLanguage()) {
+           codeGenerator.genCodeLine("         if (l == 1);");
+         }
+      } else if (byteNum == 1) {
+         codeGenerator.genCodeLine("         " + Options.getLongType() + " l = 1L << (curChar & 077);");
+         if (!codeGenerator.isJavaLanguage()) {
+           codeGenerator.genCodeLine("         if (l == 1);");
+         }
+      } else {
          if (Options.getJavaUnicodeEscape() || unicodeWarningGiven)
          {
            codeGenerator.genCodeLine("         int hiByte = (curChar >> 8);");
            codeGenerator.genCodeLine("         int i1 = hiByte >> 6;");
-           codeGenerator.genCodeLine("         long l1 = 1L << (hiByte & 077);");
+           codeGenerator.genCodeLine("         " + Options.getLongType() + " l1 = 1L << (hiByte & 077);");
          }
 
          codeGenerator.genCodeLine("         int i2 = (curChar & 0xff) >> 6;");
-         codeGenerator.genCodeLine("         long l2 = 1L << (curChar & 077);");
+         codeGenerator.genCodeLine("         " + Options.getLongType() + " l2 = 1L << (curChar & 077);");
       }
 
       //codeGenerator.genCodeLine("         MatchLoop: do");
@@ -2528,10 +2533,10 @@ public class NfaState
       int j;
       if (codeGenerator.isJavaLanguage()) {
         codeGenerator.genCodeLine("private static final boolean jjCanMove_" + nonAsciiMethod +
-                       "(int hiByte, int i1, int i2, long l1, long l2)");
+                       "(int hiByte, int i1, int i2, " + Options.getLongType() + " l1, " + Options.getLongType() + " l2)");
       } else {
         codeGenerator.generateMethodDefHeader("boolean", Main.lg.tokMgrClassName, "jjCanMove_" + nonAsciiMethod +
-                       "(int hiByte, int i1, int i2, long l1, long l2)");
+                       "(int hiByte, int i1, int i2, " + Options.getLongType() + " l1, " + Options.getLongType() + " l2)");
       }
       codeGenerator.genCodeLine("{");
       codeGenerator.genCodeLine("   switch(hiByte)");
@@ -2848,8 +2853,8 @@ public class NfaState
            codeGenerator.genCodeLine("   catch(java.io.IOException e) { throw new Error(\"Internal Error\"); }");
          } else {
            codeGenerator.genCodeLine("   input_stream->backup(seenUpto = curPos + 1);");
-           codeGenerator.genCodeLine("   try { curChar = input_stream->readChar(); }");
-           codeGenerator.genCodeLine("   catch(InputStreamException e) { throw new Error(\"Internal Error\"); }");
+           codeGenerator.genCodeLine("   assert(!input_stream->endOfInput());");
+           codeGenerator.genCodeLine("   curChar = input_stream->readChar();");
          }
          codeGenerator.genCodeLine("   curPos = 0;");
       }
@@ -2928,12 +2933,17 @@ public class NfaState
         } else {
           codeGenerator.genCodeLine("      if (jjmatchedKind != 0 && jjmatchedKind != 0x" +
                 Integer.toHexString(Integer.MAX_VALUE) + ")");
-          codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\",  (jjmatchedPos + 1),  tokenImage[jjmatchedKind].c_str());");
+          codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\",  (jjmatchedPos + 1),  tokenImage[jjmatchedKind].c_str());");
         }
       }
 
-      codeGenerator.genCodeLine("      if ((i = jjnewStateCnt) == (startsAt = " +
+      if (codeGenerator.isJavaLanguage()) {
+        codeGenerator.genCodeLine("      if ((i = jjnewStateCnt) == (startsAt = " +
                    generatedStates + " - (jjnewStateCnt = startsAt)))");
+      } else {
+        codeGenerator.genCodeLine("      if ((i = jjnewStateCnt), (jjnewStateCnt = startsAt), (i == (startsAt = " +
+                   generatedStates + " - startsAt)))");
+      }
       if (Main.lg.mixed[Main.lg.lexStateIndex])
          codeGenerator.genCodeLine("         break;");
       else
@@ -2951,19 +2961,21 @@ public class NfaState
       if (codeGenerator.isJavaLanguage()) {
         codeGenerator.genCodeLine("      try { curChar = input_stream.readChar(); }");
       } else {
-        codeGenerator.genCodeLine("      try { curChar = input_stream->readChar(); }");
+        if (Main.lg.mixed[Main.lg.lexStateIndex]) {
+          codeGenerator.genCodeLine("      if (input_stream->endOfInput()) { break; }");
+        } else {
+          codeGenerator.genCodeLine("      if (input_stream->endOfInput()) { return curPos; }");
+        }
+        codeGenerator.genCodeLine("      curChar = input_stream->readChar();");
       }
+
       if (Main.lg.mixed[Main.lg.lexStateIndex]) {
         if (codeGenerator.isJavaLanguage()) {
           codeGenerator.genCodeLine("      catch(java.io.IOException e) { break; }");
-        } else {
-          codeGenerator.genCodeLine("      catch(InputStreamException e) { break; }");
         }
       } else {
         if (codeGenerator.isJavaLanguage()) {
           codeGenerator.genCodeLine("      catch(java.io.IOException e) { return curPos; }");
-        } else {
-          codeGenerator.genCodeLine("      catch(InputStreamException e) { return curPos; }");
         }
       }
 
@@ -3003,9 +3015,8 @@ public class NfaState
                  "throw new Error(\"Internal Error : Please send a bug report.\"); }");
          } else {
            codeGenerator.genCodeLine("      for (i = toRet - MIN(curPos, seenUpto); i-- > 0; )");
-         codeGenerator.genCodeLine("         try { curChar = input_stream->readChar(); }");
-         codeGenerator.genCodeLine("         catch(InputStreamException e) { " +
-                 "throw new Error(\"Internal Error : Please send a bug report.\"); }");
+         codeGenerator.genCodeLine("        {  assert(!input_stream->endOfInput());");
+         codeGenerator.genCodeLine("           curChar = input_stream->readChar(); }");
          }
          codeGenerator.genCodeLine("");
          codeGenerator.genCodeLine("   if (jjmatchedPos < strPos)");
@@ -3029,7 +3040,7 @@ public class NfaState
         codeGenerator.genCode("protected static final int[][][] statesForState = ");
       } else {
         codeGenerator.switchToStaticsFile();
-        codeGenerator.genCode("static int statesForState[" + (Main.lg.stateSetSize * 2) + "][" + (Main.lg.stateSetSize * 2) + "][" + (Main.lg.stateSetSize * 2) + "] = {");
+        codeGenerator.genCode("static const int statesForState[" + (Main.lg.stateSetSize * 2) + "][" + (Main.lg.stateSetSize * 2) + "][" + (Main.lg.stateSetSize * 2) + "] = {");
       }
 
       if (statesForState == null) {
@@ -3087,7 +3098,7 @@ public class NfaState
         codeGenerator.genCode("protected static final int[][] kindForState = ");
       } else {
         codeGenerator.switchToStaticsFile();
-        codeGenerator.genCode("static int kindForState[" + Main.lg.stateSetSize + "][" + Main.lg.stateSetSize + "] = ");
+        codeGenerator.genCode("static const int kindForState[" + Main.lg.stateSetSize + "][" + Main.lg.stateSetSize + "] = ");
       }
 
       if (kinds == null)
@@ -3164,5 +3175,4 @@ public class NfaState
       kinds = null;
       statesForState = null;
    }
-
 }

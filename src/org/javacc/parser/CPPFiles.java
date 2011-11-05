@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 
 package org.javacc.parser;
 
@@ -133,29 +134,7 @@ public class CPPFiles extends JavaCCGlobals implements JavaCCParserConstants
     }
   }
 
-  private static String getNamespace() {
-/* Check for namespace at somepoint
-      if (cu_to_insertion_point_1.size() != 0 &&
-          ((Token)cu_to_insertion_point_1.get(0)).kind == PACKAGE
-      ) {
-        for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
-          if (((Token)cu_to_insertion_point_1.get(i)).kind == SEMICOLON) {
-            cline = ((Token)(cu_to_insertion_point_1.get(0))).beginLine;
-            ccol = ((Token)(cu_to_insertion_point_1.get(0))).beginColumn;
-            for (int j = 0; j <= i; j++) {
-              printToken((Token)(cu_to_insertion_point_1.get(j)), ostr);
-            }
-            ostr.println("");
-            ostr.println("");
-            break;
-          }
-        }
-      }*/
-
-    return null;
-  }
-
-  private static void genFile(String name, String namespace, String version) {
+  private static void genFile(String name, String version) {
     final File file = new File(Options.getOutputDirectory(), name);
     try {
       final OutputFile outputFile = new OutputFile(file, version, new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"});
@@ -177,31 +156,35 @@ public class CPPFiles extends JavaCCGlobals implements JavaCCParserConstants
   }
 
   public static void gen_CharStream() {
-    genFile("CharStream.h", null, charStreamVersion);
-    genFile("CharStream.cc", null, charStreamVersion);
+    genFile("CharStream.h", charStreamVersion);
+    genFile("CharStream.cc", charStreamVersion);
   }
 
   public static void gen_ParseException() {
-    genFile("ParseException.h", null, parseExceptionVersion);
-    genFile("ParseException.cc", null, parseExceptionVersion);
+    genFile("ParseException.h", parseExceptionVersion);
+    genFile("ParseException.cc", parseExceptionVersion);
   }
 
   public static void gen_TokenMgrError() {
-    genFile("TokenMgrError.h", null, tokenMgrErrorVersion);
-    genFile("TokenMgrError.cc", null, tokenMgrErrorVersion);
+    genFile("TokenMgrError.h", tokenMgrErrorVersion);
+    genFile("TokenMgrError.cc", tokenMgrErrorVersion);
   }
 
   public static void gen_Token() {
-    genFile("Token.h", null, tokenVersion);
-    genFile("Token.cc", null, tokenVersion);
+    genFile("Token.h", tokenVersion);
+    genFile("Token.cc", tokenVersion);
   }
 
   public static void gen_TokenManager() {
-    genFile("TokenManager.h", null, tokenManagerVersion);
+    genFile("TokenManager.h", tokenManagerVersion);
   }
 
   public static void gen_JavaCCDefs() {
-    genFile("JavaCC.h", null, tokenManagerVersion);
+    genFile("JavaCC.h", tokenManagerVersion);
+  }
+
+  public static void gen_ErrorHandler() {
+    genFile("ErrorHandler.h", parseExceptionVersion);
   }
 
   public static void reInit()

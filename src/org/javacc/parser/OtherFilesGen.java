@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
@@ -68,6 +69,7 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
       CPPFiles.gen_TokenMgrError();
       CPPFiles.gen_ParseException();
       CPPFiles.gen_Token();
+      CPPFiles.gen_ErrorHandler();
     }
 
     try {
@@ -122,6 +124,9 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
       ostr.println("#ifndef " + define);
       ostr.println("#define " + define);
       ostr.println("");
+      if (Options.stringValue("NAMESPACE").length() > 0) {
+        ostr.println("namespace " + Options.stringValue("NAMESPACE") + " {");
+      }
     }
 
     RegularExpression re;
@@ -150,7 +155,11 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
     if (Options.getOutputLanguage().equals("java")) {
       ostr.println("  String[] tokenImage = {");
     } else {
-      ostr.println("  static String tokenImage[] = {");
+      ostr.println("  static JAVACC_STRING_TYPE tokenImage[] = {");
+    }
+
+    if (!Options.getOutputLanguage().equals("java")) {
+      ostr.print("(JAVACC_CHAR_TYPE*) ");
     }
 
     ostr.println("    \"<EOF>\",");
@@ -161,15 +170,20 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
       for (java.util.Iterator it2 = respecs.iterator(); it2.hasNext();) {
         RegExprSpec res = (RegExprSpec)(it2.next());
         re = res.rexp;
+        ostr.print("    ");
+        if (!Options.getOutputLanguage().equals("java")) {
+          ostr.print("(JAVACC_CHAR_TYPE*) ");
+        }
+
         if (re instanceof RStringLiteral) {
-          ostr.println("    \"\\\"" + add_escapes(add_escapes(((RStringLiteral)re).image)) + "\\\"\",");
+          ostr.println("\"\\\"" + add_escapes(add_escapes(((RStringLiteral)re).image)) + "\\\"\",");
         } else if (!re.label.equals("")) {
-          ostr.println("    \"<" + re.label + ">\",");
+          ostr.println("\"<" + re.label + ">\",");
         } else {
           if (re.tpContext.kind == TokenProduction.TOKEN) {
             JavaCCErrors.warning(re, "Consider giving this non-string token a label for better error reporting.");
           }
-          ostr.println("    \"<token of kind " + re.ordinal + ">\",");
+          ostr.println("\"<token of kind " + re.ordinal + ">\",");
         }
 
       }
@@ -179,6 +193,9 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
     if (Options.getOutputLanguage().equals("java")) {
       ostr.println("}");
     } else {
+      if (Options.stringValue("NAMESPACE").length() > 0) {
+        ostr.println(" }");
+      }
       ostr.println("#endif");
     }
 

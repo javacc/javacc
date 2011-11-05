@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
@@ -108,7 +109,6 @@ public class ASTNodeDescriptor extends JJTreeNode {
     }
   }
 
-
   String getNodeType()
   {
     if (JJTreeOptions.getMulti()) {
@@ -131,7 +131,7 @@ public class ASTNodeDescriptor extends JJTreeNode {
   }
 
 
-  private String expression_text()
+  String expression_text()
   {
     if (expression.getFirstToken().image.equals(")") &&
       expression.getLastToken().image.equals("(")) {

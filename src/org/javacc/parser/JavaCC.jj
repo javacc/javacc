@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
@@ -190,11 +191,16 @@ public class JavaCCParser extends JavaCCParserInternals {
      }
    }
 
-   private void eatUptoCloseBrace() {
+   private void eatUptoCloseBrace(List tokens) {
      int b = 1;
-     while(getToken(1).kind != RBRACE || --b != 0) {
-       if (getToken(1).kind == EOF) break;
-       if (getNextToken().kind == LBRACE) b++;
+     Token t;
+     while((t = getToken(1)).kind != RBRACE || --b != 0) {
+       if (tokens != null) {
+         tokens.add(t);
+       }
+       if (t.kind == EOF) break;
+       if (t.kind == LBRACE) b++;
+       getNextToken(); // eat it
      }
    }
 
@@ -813,7 +819,15 @@ void token_manager_decls() :
 	}
 {
   t="TOKEN_MGR_DECLS" ":"
-  ClassOrInterfaceBody(false, decls)
+  {
+    if (!isJavaLanguage) {
+      getNextToken(); // eat {
+      eatUptoCloseBrace(decls);
+      getNextToken(); // eat }
+    }
+  }
+
+  [ ClassOrInterfaceBody(false, decls) ]
 	{
 	  add_token_manager_decls(t, decls);
 	}
@@ -2412,7 +2426,7 @@ void Block(List tokens) :
 	{
 	  first = getToken(1);
           if (!isJavaLanguage) {
-            eatUptoCloseBrace();
+            eatUptoCloseBrace(null);
           }
 	}
   ( BlockStatement() )*

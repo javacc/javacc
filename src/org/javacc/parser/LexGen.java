@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
@@ -146,7 +147,8 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
     }
     //genCodeLine("class " + tokMgrClassName + " implements " +
     		//cu_name + "Constants");
-    genClassStart(null, tokMgrClassName, new String[0], new String[]{cu_name + "Constants"});
+    //String superClass = Options.stringValue("TOKEN_MANAGER_SUPER_CLASS");
+    genClassStart(null, tokMgrClassName, new String[]{}, new String[]{cu_name + "Constants"});
     //genCodeLine("{"); // }
 
     if (token_mgr_decls != null && token_mgr_decls.size() > 0)

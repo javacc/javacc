@@ -3,6 +3,10 @@
 \#include "JavaCC.h"
 
 
+#if NAMESPACE
+namespace ${NAMESPACE} {
+#fi
+
  enum LexerErrors {
   /**
    * Lexical error occurred.
@@ -25,7 +29,7 @@
   LOOP_DETECTED = 3,
   };
 
-class _TokenMgrError
+class TokenMgrError
 {
   public:
   /*
@@ -42,7 +46,7 @@ class _TokenMgrError
    * Replaces unprintable characters by their escaped (or unicode escaped)
    * equivalents in the given string
    */
-   static String addEscapes(String str);
+   static JAVACC_STRING_TYPE addEscapes(JAVACC_STRING_TYPE str);
 
   /**
    * Returns a detailed message for the Error when it is thrown by the
@@ -56,9 +60,9 @@ class _TokenMgrError
    *    curchar     : the offending character
    * Note: You can customize the lexical error message by modifying this method.
    */
-    String LexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar);
+    JAVACC_STRING_TYPE LexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, JAVACC_STRING_TYPE errorAfter, JAVACC_CHAR_TYPE curChar);
 
-  private: String message;
+  private: JAVACC_STRING_TYPE message;
 
   /**
    * You can also modify the body of this method to customize your error messages.
@@ -69,21 +73,23 @@ class _TokenMgrError
    *
    * from this method for such cases in the release version of your parser.
    */
-  String getMessage() ;
+  JAVACC_STRING_TYPE getMessage() ;
 
   /*
    * Constructors of various flavors follow.
    */
 
   /** No arg constructor. */
-  public: _TokenMgrError() ;
+  public: TokenMgrError() ;
 
   /** Constructor with message and reason. */
-  public: _TokenMgrError(String message, int reason) ;
+  public: TokenMgrError(JAVACC_STRING_TYPE message, int reason) ;
 
   /** Full Constructor. */
-  public: _TokenMgrError(bool EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) ;
+  public: TokenMgrError(bool EOFSeen, int lexState, int errorLine, int errorColumn, JAVACC_STRING_TYPE errorAfter, JAVACC_CHAR_TYPE curChar, int reason) ;
 };
 
-typedef _TokenMgrError *TokenMgrError;
+#if NAMESPACE
+}
+#fi
 \#endif

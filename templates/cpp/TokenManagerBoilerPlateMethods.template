@@ -1,11 +1,11 @@
   /** Reinitialise parser. */
-  void ${tokMgrClassName}::ReInit(${charStreamName} stream, int lexState, ${parserClassName} *parserArg) {
+  void ${tokMgrClassName}::ReInit(${charStreamName} *stream, int lexState, ${parserClassName} *parserArg) {
     if (input_stream) delete input_stream;
     jjmatchedPos = jjnewStateCnt = 0;
     curLexState = lexState;
     input_stream = stream;
-    debugStream = stdout;
     ReInitRounds();
+    debugStream = stdout; // init
     SwitchTo(lexState);
     parser = parserArg;
   }
@@ -20,16 +20,15 @@
   /** Switch to specified lex state. */
   void ${tokMgrClassName}::SwitchTo(int lexState) {
     if (lexState >= ${lexStateNameLength} || lexState < 0)
-      throw 1;//new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
+      assert(false);
+      //throw 1;//new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
     else
       curLexState = lexState;
   }
 
   /** Constructor. */
-  ${tokMgrClassName}::${tokMgrClassName} (${charStreamName} stream, int lexState, ${parserClassName} *parserArg){
-    if (sizeof(long) < 8)
-       throw "Size of long should be 8 bytes.";
-    input_stream = null;
+  ${tokMgrClassName}::${tokMgrClassName} (${charStreamName} *stream, int lexState, ${parserClassName} *parserArg){
+    input_stream = NULL;
     ReInit(stream, lexState, parserArg);
   }
 

@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
@@ -55,12 +56,13 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
       genCodeLine("/* " + getIdString(tn, cu_name + ".java") + " */");
 
       boolean implementsExists = false;
+      boolean extendsExists = false;
 
       if (cu_to_insertion_point_1.size() != 0) {
         printTokenSetup((Token)(cu_to_insertion_point_1.get(0))); ccol = 1;
         for (Iterator it = cu_to_insertion_point_1.iterator(); it.hasNext();) {
           t = (Token)it.next();
-          if (t.kind == IMPLEMENTS) {
+           if (t.kind == IMPLEMENTS) {
             implementsExists = true;
           } else if (t.kind == CLASS) {
             implementsExists = false;
@@ -69,6 +71,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
           printToken(t);
         }
       }
+
       if (implementsExists) {
         genCode(", ");
       } else {
@@ -176,7 +179,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
           }
           if (Options.getErrorReporting()) {
             genCodeLine("    jj_gen = 0;");
-            genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+            if (maskindex > 0) {
+              genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+            }
             if (jj2index != 0) {
               genCodeLine("    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();");
             }
@@ -200,7 +205,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
           }
           if (Options.getErrorReporting()) {
             genCodeLine("    jj_gen = 0;");
-            genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+            if (maskindex > 0) {
+              genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+            }
             if (jj2index != 0) {
               genCodeLine("    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();");
             }
@@ -255,7 +262,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
           }
           if (Options.getErrorReporting()) {
             genCodeLine("    jj_gen = 0;");
-            genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+            if (maskindex > 0) {
+              genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+            }
             if (jj2index != 0) {
               genCodeLine("    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();");
             }
@@ -325,7 +334,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
           }
           if (Options.getErrorReporting()) {
             genCodeLine("    jj_gen = 0;");
-            genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+            if (maskindex > 0) {
+              genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+            }
             if (jj2index != 0) {
               genCodeLine("    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();");
             }
@@ -351,7 +362,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
           }
           if (Options.getErrorReporting()) {
             genCodeLine("    jj_gen = 0;");
-            genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+            if (maskindex > 0) {
+              genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+            }
             if (jj2index != 0) {
               genCodeLine("    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();");
             }
@@ -386,7 +399,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
       }
       if (Options.getErrorReporting()) {
         genCodeLine("    jj_gen = 0;");
-        genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+        if (maskindex > 0) {
+          genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+        }
         if (jj2index != 0) {
           genCodeLine("    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();");
         }
@@ -412,7 +427,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
       }
       if (Options.getErrorReporting()) {
         genCodeLine("    jj_gen = 0;");
-        genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+        if (maskindex > 0) {
+          genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+        }
         if (jj2index != 0) {
           genCodeLine("    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();");
         }

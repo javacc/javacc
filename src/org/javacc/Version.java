@@ -1,3 +1,4 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
@@ -70,7 +71,8 @@ public class Version {
     minorVersion = minor;
     patchVersion = patch;
 
-    versionNumber = majorVersion + "." + minorVersion;
+    versionNumber = majorVersion + "." + minorVersion +
+                    (patch.equals("") ? "" : "_" + patch);
   }
 }
 
