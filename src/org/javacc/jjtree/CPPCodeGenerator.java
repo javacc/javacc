@@ -1,4 +1,6 @@
 // Copyright 2011 Google Inc. All Rights Reserved.
+// Author: sreeni@google.com (Sreeni Viswanadha)
+
 package org.javacc.jjtree;
 
 import org.javacc.parser.JavaCCGlobals;

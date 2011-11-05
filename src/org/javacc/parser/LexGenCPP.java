@@ -1,4 +1,6 @@
 // Copyright 2011 Google Inc. All Rights Reserved.
+// Author: sreeni@google.com (Sreeni Viswanadha)
+
 /* Copyright (c) 2006, Sun Microsystems, Inc.
  * All rights reserved.
  *
