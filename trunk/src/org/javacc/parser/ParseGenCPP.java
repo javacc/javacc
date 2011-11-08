@@ -95,7 +95,7 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("  public: Token *jj_nt;");
     genCodeLine("  private: int jj_ntk;");
 
-    genCodeLine("  private: JJCalls jj_2_rtns[" + jj2index + "];");
+    genCodeLine("  private: JJCalls jj_2_rtns[" + (jj2index + 1) + "];");
     genCodeLine("  private: bool jj_rescan;");
     genCodeLine("  private: int jj_gc;");
     genCodeLine("  private: Token *jj_scanpos, *jj_lastpos;");
@@ -105,7 +105,7 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("  private: bool jj_semLA;");
 
     genCodeLine("  private: int jj_gen;");
-    genCodeLine("  private: int jj_la1[" + maskindex + "];");
+    genCodeLine("  private: int jj_la1[" + (maskindex + 1) + "];");
     genCodeLine("  private: ErrorHandler *errorHandler;");
     genCodeLine("  private: bool errorHandlerCreated;");
     genCodeLine("  public: void setErrorHandler(ErrorHandler *eh) {");
