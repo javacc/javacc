@@ -115,7 +115,7 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("  }");
     int tokenMaskSize = (tokenCount-1)/32 + 1;
 
-    if (Options.getErrorReporting()) {
+    if (Options.getErrorReporting() && tokenMaskSize > 0) {
       switchToStaticsFile();
       for (int i = 0; i < tokenMaskSize; i++) {
         genCodeLine("  unsigned int jj_la1_" + i + "[] = {");
