@@ -118,12 +118,14 @@ public class ParseGenCPP extends ParseGen {
     if (Options.getErrorReporting() && tokenMaskSize > 0) {
       switchToStaticsFile();
       for (int i = 0; i < tokenMaskSize; i++) {
-        genCodeLine("  unsigned int jj_la1_" + i + "[] = {");
-        for (Iterator it = maskVals.iterator(); it.hasNext();) {
-          int[] tokenMask = (int[])(it.next());
-          genCode("0x" + Integer.toHexString(tokenMask[i]) + ",");
+        if (maskVals.size() > 0) {
+          genCodeLine("  unsigned int jj_la1_" + i + "[] = {");
+          for (Iterator it = maskVals.iterator(); it.hasNext();) {
+            int[] tokenMask = (int[])(it.next());
+            genCode("0x" + Integer.toHexString(tokenMask[i]) + ",");
+          }
+          genCodeLine("};");
         }
-        genCodeLine("};");
       }
     }
 
