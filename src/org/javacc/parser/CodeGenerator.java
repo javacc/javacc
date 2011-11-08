@@ -63,7 +63,7 @@ public class CodeGenerator {
         i += c1 == '0' ? 2 : 1;
         while (isHexDigit(sb.charAt(i))) i++;
         if (sb.charAt(i) == 'L') {
-          sb.insert(i, "L");
+          sb.insert(i, "UL");
         }
         i++;
       }

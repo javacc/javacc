@@ -1,4 +1,7 @@
 \#include "TokenMgrError.h"
+\#include <sstream>
+
+using std::stringstream;
 
 #if NAMESPACE
 namespace ${NAMESPACE} {
@@ -67,9 +70,12 @@ namespace ${NAMESPACE} {
    * Note: You can customize the lexical error message by modifying this method.
    */
     JAVACC_STRING_TYPE TokenMgrError::LexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, JAVACC_STRING_TYPE errorAfter, JAVACC_CHAR_TYPE curChar) {
-    JAVACC_CHAR_TYPE *s = new JAVACC_CHAR_TYPE[1024]; // tmp hack
-    snprintf(s, 1024, "Lexical error at line %d, column %d.  Encountered: %c ( %d ) after : \"%s\"", errorLine , errorColumn , curChar, (int)curChar, errorAfter.c_str());
-    return (JAVACC_STRING_TYPE)s;
+    JAVACC_STRING_TYPE s;
+    stringstream ss;
+    ss << "Lexical error at line " << errorLine << " column " << errorColumn
+       << ".  Encountered: " << curChar << "(" << (int)curChar
+       << ") after : \"" << errorAfter.c_str() << "\"";
+    return (JAVACC_STRING_TYPE)ss.rdbuf()->str();
   }
 
   /**
