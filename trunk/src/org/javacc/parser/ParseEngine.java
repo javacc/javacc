@@ -844,7 +844,7 @@ public class ParseEngine {
   void buildPhase2Routine(Lookahead la) {
     Expansion e = la.getLaExpansion();
     if (isJavaLanguage) {
-      codeGenerator.genCodeLine("  " + staticOpt() + "private boolean jj_2" + e.internal_name + "(int xla)");
+      codeGenerator.genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " jj_2" + e.internal_name + "(int xla)");
     } else {
       codeGenerator.generateMethodDefHeader("bool ", cu_name, "jj_2" + e.internal_name + "(int xla)");
     }
@@ -1004,7 +1004,7 @@ public class ParseEngine {
 
     if (!recursive_call) {
       if (isJavaLanguage) {
-        codeGenerator.genCodeLine("  " + staticOpt() + "private boolean jj_3" + e.internal_name + "()");
+        codeGenerator.genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " jj_3" + e.internal_name + "()");
      } else {
         codeGenerator.generateMethodDefHeader(" bool", cu_name, "jj_3" + e.internal_name + "()");
      }

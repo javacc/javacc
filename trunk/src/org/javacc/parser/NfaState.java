@@ -2534,10 +2534,10 @@ public class NfaState
    {
       int j;
       if (codeGenerator.isJavaLanguage()) {
-        codeGenerator.genCodeLine("private static final boolean jjCanMove_" + nonAsciiMethod +
+        codeGenerator.genCodeLine("private static final " + Options.getBooleanType() + " jjCanMove_" + nonAsciiMethod +
                        "(int hiByte, int i1, int i2, " + Options.getLongType() + " l1, " + Options.getLongType() + " l2)");
       } else {
-        codeGenerator.generateMethodDefHeader("boolean", Main.lg.tokMgrClassName, "jjCanMove_" + nonAsciiMethod +
+        codeGenerator.generateMethodDefHeader("" + Options.getBooleanType() + "", Main.lg.tokMgrClassName, "jjCanMove_" + nonAsciiMethod +
                        "(int hiByte, int i1, int i2, " + Options.getLongType() + " l1, " + Options.getLongType() + " l2)");
       }
       codeGenerator.genCodeLine("{");

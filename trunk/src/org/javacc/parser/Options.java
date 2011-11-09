@@ -699,4 +699,12 @@ public class Options {
       return "unsigned long long";
     }
   }
+
+  public static String getBooleanType() {
+    if (getOutputLanguage().equalsIgnoreCase("java")) {
+      return "boolean";
+    } else {
+      return "bool";
+    }
+  }
 }

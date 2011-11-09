@@ -94,7 +94,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
       new ParseEngine().build(this);
 
       if (Options.getStatic()) {
-        genCodeLine("  static private boolean jj_initialized_once = false;");
+        genCodeLine("  static private " + Options.getBooleanType() + " jj_initialized_once = false;");
       }
       if (Options.getUserTokenManager()) {
         genCodeLine("  /** User defined Token Manager. */");
@@ -122,8 +122,8 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
         genCodeLine("  " + staticOpt() + "private int jj_la;");
         if (lookaheadNeeded) {
           genCodeLine("  /** Whether we are looking ahead. */");
-          genCodeLine("  " + staticOpt() + "private boolean jj_lookingAhead = false;");
-          genCodeLine("  " + staticOpt() + "private boolean jj_semLA;");
+          genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " jj_lookingAhead = false;");
+          genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " jj_semLA;");
         }
       }
       if (Options.getErrorReporting()) {
@@ -149,7 +149,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
       }
       if (jj2index != 0 && Options.getErrorReporting()) {
         genCodeLine("  " + staticOpt() + "final private JJCalls[] jj_2_rtns = new JJCalls[" + jj2index + "];");
-        genCodeLine("  " + staticOpt() + "private boolean jj_rescan = false;");
+        genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " jj_rescan = false;");
         genCodeLine("  " + staticOpt() + "private int jj_gc = 0;");
       }
       genCodeLine("");
@@ -484,7 +484,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
         genCodeLine("  @SuppressWarnings(\"serial\")");
         genCodeLine("  static private final class LookaheadSuccess extends java.lang.Error { }");
         genCodeLine("  " + staticOpt() + "final private LookaheadSuccess jj_ls = new LookaheadSuccess();");
-        genCodeLine("  " + staticOpt() + "private boolean jj_scan_token(int kind) {");
+        genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " jj_scan_token(int kind) {");
         genCodeLine("    if (jj_scanpos == jj_lastpos) {");
         genCodeLine("      jj_la--;");
         genCodeLine("      if (jj_scanpos.next == null) {");
@@ -601,7 +601,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
         genCodeLine("  /** Generate ParseException. */");
         genCodeLine("  " + staticOpt() + "public ParseException generateParseException() {");
         genCodeLine("    jj_expentries.clear();");
-        genCodeLine("    boolean[] la1tokens = new boolean[" + tokenCount + "];");
+        genCodeLine("    " + Options.getBooleanType() + "[] la1tokens = new " + Options.getBooleanType() + "[" + tokenCount + "];");
         genCodeLine("    if (jj_kind >= 0) {");
         genCodeLine("      la1tokens[jj_kind] = true;");
         genCodeLine("      jj_kind = -1;");
@@ -662,7 +662,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 
       if (Options.getDebugParser()) {
         genCodeLine("  " + staticOpt() + "private int trace_indent = 0;");
-        genCodeLine("  " + staticOpt() + "private boolean trace_enabled = true;");
+        genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " trace_enabled = true;");
         genCodeLine("");
         genCodeLine("/** Enable tracing. */");
         genCodeLine("  " + staticOpt() + "final public void enable_tracing() {");
