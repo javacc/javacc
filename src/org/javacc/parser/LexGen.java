@@ -547,7 +547,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
     {
       genCodeLine(staticString + "int[] jjemptyLineNo = new int[" + maxLexStates + "];");
       genCodeLine(staticString + "int[] jjemptyColNo = new int[" + maxLexStates + "];");
-      genCodeLine(staticString + "boolean[] jjbeenHere = new boolean[" + maxLexStates + "];");
+      genCodeLine(staticString + "" + Options.getBooleanType() + "[] jjbeenHere = new " + Options.getBooleanType() + "[" + maxLexStates + "];");
     }
 
     if (hasSkipActions)
@@ -1185,7 +1185,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       genCodeLine(prefix + "   int error_line = input_stream.getEndLine();");
       genCodeLine(prefix + "   int error_column = input_stream.getEndColumn();");
       genCodeLine(prefix + "   String error_after = null;");
-      genCodeLine(prefix + "   boolean EOFSeen = false;");
+      genCodeLine(prefix + "   " + Options.getBooleanType() + " EOFSeen = false;");
       genCodeLine(prefix + "   try { input_stream.readChar(); input_stream.backup(1); }");
       genCodeLine(prefix + "   catch (java.io.IOException e1) {");
       genCodeLine(prefix + "      EOFSeen = true;");

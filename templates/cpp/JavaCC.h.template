@@ -15,8 +15,6 @@
 \#define JAVACC_STRING_TYPE std::basic_string<JAVACC_CHAR_TYPE>
 \#endif
 
-typedef bool boolean; // TODO(Sreeni): To be removed at some point after full refactoring
-
 \#define finally  // TODO(Sreeni): Get rid of when we fix jjtree
 
 typedef JAVACC_STRING_TYPE StringBuffer;
