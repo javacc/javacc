@@ -69,6 +69,10 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     genCodeLine("#include \"TokenManager.h\"");
     genCodeLine("#include \"" + cu_name + "Constants.h\"");
 
+    if (Options.stringValue("TOKEN_MANAGER_INCLUDES").length() > 0) {
+      genCodeLine("#include \"" + Options.stringValue("TOKEN_MANAGER_INCLUDES") + "\"\n");
+    }
+
     if (Options.stringValue("NAMESPACE").length() > 0) {
       genCodeLine("namespace " + Options.stringValue("NAMESPACE") + " {");
     }
@@ -521,8 +525,8 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     genCodeLine("  public: virtual ~" + tokMgrClassName + "();");
     genCodeLine("  void ReInit(CharStream *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = NULL);");
     genCodeLine("  void SwitchTo(int lexState);");
-    genCodeLine("  const char *jjKindsForBitVector(int i, " + Options.getLongType() + " vec);");
-    genCodeLine("  const char *jjKindsForStateVector(int lexState, int vec[], int start, int end);");
+    genCodeLine("  const JAVACC_CHAR_TYPE *jjKindsForBitVector(int i, " + Options.getLongType() + " vec);");
+    genCodeLine("  const JAVACC_CHAR_TYPE *jjKindsForStateVector(int lexState, int vec[], int start, int end);");
   }
 
   private void DumpStaticVarDeclarations() throws IOException

@@ -1,8 +1,4 @@
-
-#if NAMESPACE
-namespace ${NAMESPACE} {
-#fi
-  const JAVACC_CHAR_TYPE *${tokMgrClassName}::jjKindsForBitVector(int i, long long vec)
+  const JAVACC_CHAR_TYPE *${tokMgrClassName}::jjKindsForBitVector(int i, unsigned long long vec)
   {
     int kindCnt = 0;
     JAVACC_STRING_TYPE retVal = (JAVACC_CHAR_TYPE*)"";
@@ -32,7 +28,7 @@ namespace ${NAMESPACE} {
     {
      if (vec[i] == -1)
        continue;
-     int *stateSet = statesForState[curLexState][vec[i]];
+     const int *stateSet = statesForState[curLexState][vec[i]];
      for (int j = 0; j < ${stateSetSize}; j++)
      {
        int state = stateSet[j];
@@ -53,6 +49,3 @@ namespace ${NAMESPACE} {
        return ("{ " + retVal + " }").c_str();
   }
 
-#if NAMESPACE
-}
-#fi
