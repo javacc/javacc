@@ -148,6 +148,8 @@ public class Options {
     optionValues.put("GRAMMAR_ENCODING", "");
     optionValues.put("OUTPUT_LANGUAGE", "java");
     optionValues.put("NAMESPACE", "");
+    optionValues.put("PARSER_INCLUDES", "");
+    optionValues.put("TOKEN_MANAGER_INCLUDES", "");
   }
 
   /**
