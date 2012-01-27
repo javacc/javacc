@@ -354,8 +354,9 @@ public class ParseEngine {
               }
             }
           }
+          retval += "{";
           retval += actions[index];
-          retval += "\nbreak;";
+          retval += "\nbreak;\n}";
           state = OPENSWITCH;
 
         }
