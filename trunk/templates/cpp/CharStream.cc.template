@@ -121,7 +121,7 @@ namespace ${NAMESPACE} {
   }
 
   bool CharStream::endOfInput() {
-    return bufpos != -1 && bufpos == bufsize - 1;
+    return (bufpos != -1 && bufpos == bufsize - 1) || bufsize == 0;
   }
 
   CharStream::CharStream(const JAVACC_CHAR_TYPE *buf,int sz, int startline, int startcolumn) {
