@@ -83,7 +83,7 @@ namespace ${NAMESPACE} {
    * @see #getEndColumn
    */
   int CharStream::getColumn() {
-    return bufcolumn[bufpos];
+    return bufsize == 0 ? -1 : bufcolumn[bufpos];
   }
 
   /**
@@ -91,27 +91,27 @@ namespace ${NAMESPACE} {
    * @see #getEndLine
    */
   int CharStream::getLine() {
-    return bufline[bufpos];
+    return bufsize == 0 ? -1 : bufline[bufpos];
   }
 
 /** Get end column. */
   int CharStream::getEndColumn() {
-    return bufcolumn[bufpos];
+    return bufsize == 0 ? -1 : bufcolumn[bufpos];
   }
 
 /** Get end line. */
   int CharStream::getEndLine() {
-    return bufline[bufpos];
+    return bufsize == 0 ? -1 : bufline[bufpos];
   }
 
 /** @return column of token start */
   int CharStream::getBeginColumn() {
-    return bufcolumn[tokenBegin];
+    return bufsize == 0 ? -1 : bufcolumn[tokenBegin];
   }
 
 /** @return line number of token start */
   int CharStream::getBeginLine() {
-    return bufline[tokenBegin];
+    return bufsize == 0 ? -1 : bufline[tokenBegin];
   }
 
 /** Retreat. */
