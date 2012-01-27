@@ -739,7 +739,7 @@ public class RStringLiteral extends RegularExpression {
 
                      fmt.append("%s");
                      args.append("         jjKindsForBitVector(" + vecs + ", ");
-                     args.append("active" + vecs + ") ");
+                     args.append("active" + vecs + ").c_str() ");
                    }
                  }
               }

@@ -874,7 +874,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
     genCodeLine("   {");
 
     if (Options.getDebugTokenManager())
-      genCodeLine("      debugStream.println(\"Returning the <EOF> token.\");");
+      genCodeLine("      debugStream.println(\"Returning the <EOF> token.\\n\");");
 
     genCodeLine("      jjmatchedKind = 0;");
     genCodeLine("      jjmatchedPos = -1;");

@@ -525,8 +525,8 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     genCodeLine("  public: virtual ~" + tokMgrClassName + "();");
     genCodeLine("  void ReInit(CharStream *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = NULL);");
     genCodeLine("  void SwitchTo(int lexState);");
-    genCodeLine("  const JAVACC_CHAR_TYPE *jjKindsForBitVector(int i, " + Options.getLongType() + " vec);");
-    genCodeLine("  const JAVACC_CHAR_TYPE *jjKindsForStateVector(int lexState, int vec[], int start, int end);");
+    genCodeLine("  const JAVACC_STRING_TYPE jjKindsForBitVector(int i, " + Options.getLongType() + " vec);");
+    genCodeLine("  const JAVACC_STRING_TYPE jjKindsForStateVector(int lexState, int vec[], int start, int end);");
   }
 
   private void DumpStaticVarDeclarations() throws IOException
@@ -734,7 +734,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     //genCodeLine("     input_stream->backup(1);");
 
     if (Options.getDebugTokenManager())
-      genCodeLine("      fprintf(debugStream, \"Returning the <EOF> token.\");");
+      genCodeLine("      fprintf(debugStream, \"Returning the <EOF> token.\\n\");");
 
     genCodeLine("      jjmatchedKind = 0;");
     genCodeLine("      jjmatchedPos = -1;");
