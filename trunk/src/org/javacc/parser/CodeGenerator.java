@@ -29,18 +29,20 @@ public class CodeGenerator {
       String incfileName = fileName.replace(".cc", ".h");
       includeBuffer.insert(0, "#define " + new File(incfileName).getName().replace('.', '_').toUpperCase() + "\n");
       includeBuffer.insert(0, "#ifndef " + new File(incfileName).getName().replace('.', '_').toUpperCase() + "\n");
+
+      // dump the statics into the main file with the code.
+      mainBuffer.insert(0, staticsBuffer);
+
+      // Finally enclose the whole thing in the namespace, if specified.
       if (Options.stringValue("NAMESPACE").length() > 0) {
-        mainBuffer.insert(0, "namespace " + Options.stringValue("NAMESPACE") + " {");
+        mainBuffer.insert(0, "namespace " + Options.stringValue("NAMESPACE") + " {\n");
         mainBuffer.append("}\n");
         includeBuffer.append("}\n");
       }
 
+      mainBuffer.insert(0, "#include \"" + incfileName + "\"\n");
       includeBuffer.append("#endif\n");
       saveOutput(incfileName, includeBuffer);
-
-      // dump the statics into the main file with the code.
-      mainBuffer.insert(0, staticsBuffer);
-      mainBuffer.insert(0, "#include \"" + incfileName + "\"\n");
     }
 
     mainBuffer.insert(0, "/* " + new File(fileName).getName() + " */\n");
