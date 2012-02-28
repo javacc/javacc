@@ -335,12 +335,15 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("  int *jj_expentry;");
       if (jj2index != 0) {
         switchToStaticsFile();
-        genCodeLine("  int *jj_lasttokens = new int[100];");
-        genCodeLine("  int jj_endpos;");
+        // For now we don't support ERROR_REPORTING in the C++ version.
+        //genCodeLine("  static int *jj_lasttokens = new int[100];");
+        //genCodeLine("  static int jj_endpos;");
         genCodeLine("");
 
         generateMethodDefHeader("void",  cu_name, "jj_add_error_token(int kind, int pos)");
         genCodeLine("  {");
+        // For now we don't support ERROR_REPORTING in the C++ version.
+
         //genCodeLine("    if (pos >= 100) return;");
         //genCodeLine("    if (pos == jj_endpos + 1) {");
         //genCodeLine("      jj_lasttokens[jj_endpos++] = kind;");
