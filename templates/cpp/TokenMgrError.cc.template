@@ -1,62 +1,10 @@
 \#include "TokenMgrError.h"
-\#include <sstream>
-
-using std::stringstream;
 
 #if NAMESPACE
 namespace ${NAMESPACE} {
 #fi
-  /**
-   * Replaces unprintable characters by their escaped (or unicode escaped)
-   * equivalents in the given string
-   */
-   JAVACC_STRING_TYPE TokenMgrError::addEscapes(JAVACC_STRING_TYPE str) {
-    /*JAVACC_STRING_TYPE retval;
-    JAVACC_CHAR_TYPE ch;
-    for (int i = 0; i < str.length(); i++) {
-      switch (str[i])
-      {
-        case 0 :
-          continue;
-        case '\b':
-          retval.append("\\b");
-          continue;
-        case '\t':
-          retval.append("\\t");
-          continue;
-        case '\n':
-          retval.append("\\n");
-          continue;
-        case '\f':
-          retval.append("\\f");
-          continue;
-        case '\r':
-          retval.append("\\r");
-          continue;
-        case '\"':
-          retval.append("\\\"");
-          continue;
-        case '\'':
-          retval.append("\\\'");
-          continue;
-        case '\\':
-          retval.append("\\\\");
-          continue;
-        default:
-          //if ((ch = str[i]) < 0x20 || ch > 0x7e) {
-            //JAVACC_STRING_TYPE s = "0000" + Integer.toString(ch, 16);
-            //retval.append("\\u" + s.substring(s.length() - 4, s.length()));
-          //} else {
-            retval.append(ch);
-          //}
-          continue;
-      }
-    }
-    return retval.toString();
-    */
-    return str;
-  }
 
+  static JAVACC_CHAR_TYPE EMPTY[] = {};
   /**
    * Returns a detailed message for the Error when it is thrown by the
    * token manager to indicate a lexical error.
@@ -70,12 +18,15 @@ namespace ${NAMESPACE} {
    * Note: You can customize the lexical error message by modifying this method.
    */
     JAVACC_STRING_TYPE TokenMgrError::LexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, JAVACC_STRING_TYPE errorAfter, JAVACC_CHAR_TYPE curChar) {
+\#if 0
     JAVACC_STRING_TYPE s;
-    stringstream ss;
+    stringstream<JAVACC_STRING_TYPE> ss;
     ss << "Lexical error at line " << errorLine << " column " << errorColumn
        << ".  Encountered: " << curChar << "(" << (int)curChar
        << ") after : \"" << errorAfter.c_str() << "\"";
     return (JAVACC_STRING_TYPE)ss.rdbuf()->str();
+\#endif
+    return EMPTY;
   }
 
   /**
@@ -113,3 +64,58 @@ namespace ${NAMESPACE} {
 #if NAMESPACE
 }
 #fi
+
+// i < 16 - guaranteed
+static char hexChar(int i) {
+  if (i < 10) {
+    return i - '0';
+  }
+  return 'a' + (i - 10);
+}
+
+/**
+ * Replaces unprintable characters by their escaped (or unicode escaped)
+ * equivalents in the given string
+ */
+JAVACC_SIMPLE_STRING addUnicodeEscapes(JAVACC_STRING_TYPE str) {
+  JAVACC_SIMPLE_STRING retval;
+  for (int i = 0; i < str.size(); i++) {
+    JAVACC_CHAR_TYPE ch = str[i];
+    switch (ch)
+    {
+      case 0 :
+        retval += EMPTY[0];
+        continue;
+      case '\b':
+        retval.append("\\b");
+        continue;
+      case '\t':
+        retval.append("\\t");
+        continue;
+      case '\n':
+        retval.append("\\n");
+        continue;
+      case '\f':
+        retval.append("\\f");
+        continue;
+      case '\r':
+        retval.append("\\r");
+        continue;
+      case '\\':
+        retval.append("\\\\");
+        continue;
+      default:
+        if (ch < 0xff) {
+          retval += ch;
+          continue;
+        }
+        retval.append("\\u");
+        retval += (hexChar(ch >> 12));
+        retval += (hexChar((ch & 0x0f00) >> 8));
+        retval += (hexChar((ch & 0x00f0) >> 4));
+        retval += (hexChar(ch & 0x000f));
+        continue;
+    }
+  }
+  return retval;
+}

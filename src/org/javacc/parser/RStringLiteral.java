@@ -120,18 +120,102 @@ public class RStringLiteral extends RegularExpression {
 
   public static void DumpStrLiteralImages(CodeGenerator codeGenerator)
   {
+    if (Options.getOutputLanguage().equals("java")) {
+      DumpStrLiteralImagesForJava(codeGenerator);
+      return;
+    }
+
+    // For C++
     String image;
     int i;
     charCnt = 0; // Set to zero in reInit() but just to be sure
 
     codeGenerator.genCodeLine("");
     codeGenerator.genCodeLine("/** Token literal values. */");
-    if (Options.getOutputLanguage().equals("java")) {
-      codeGenerator.genCodeLine("public static final String[] jjstrLiteralImages = {");
-    } else {
-      codeGenerator.switchToStaticsFile();
-      codeGenerator.genCodeLine("static const String jjstrLiteralImages[] = {");
+    int literalCount = 0;
+    codeGenerator.switchToStaticsFile();
+
+    if (allImages == null || allImages.length == 0)
+    {
+      codeGenerator.genCodeLine("static const JAVACC_STRING_TYPE jjstrLiteralImages[] = {};");
+      return;
     }
+
+    allImages[0] = "";
+    for (i = 0; i < allImages.length; i++)
+    {
+      if ((image = allImages[i]) == null ||
+          ((Main.lg.toSkip[i / 64] & (1L << (i % 64))) == 0L &&
+           (Main.lg.toMore[i / 64] & (1L << (i % 64))) == 0L &&
+           (Main.lg.toToken[i / 64] & (1L << (i % 64))) == 0L) ||
+          (Main.lg.toSkip[i / 64] & (1L << (i % 64))) != 0L ||
+          (Main.lg.toMore[i / 64] & (1L << (i % 64))) != 0L ||
+          Main.lg.canReachOnMore[Main.lg.lexStates[i]] ||
+          ((Options.getIgnoreCase() || Main.lg.ignoreCase[i]) &&
+           (!image.equals(image.toLowerCase()) ||
+            !image.equals(image.toUpperCase()))))
+      {
+        allImages[i] = null;
+        if ((charCnt += 6) > 80)
+        {
+          codeGenerator.genCodeLine("");
+          charCnt = 0;
+        }
+
+        codeGenerator.genCode("static JAVACC_CHAR_TYPE jjstrLiteralChars_"
+            + literalCount++ + "[] = {0};");
+        continue;
+      }
+
+      String toPrint = "static JAVACC_CHAR_TYPE jjstrLiteralChars_" +
+                           literalCount++ + "[] = {";
+      for (int j = 0; j < image.length(); j++) {
+        String hexVal = Integer.toHexString((int)image.charAt(j));
+        toPrint += "0x" + hexVal + ", ";
+      }
+
+      // Null char
+      toPrint += "0};";
+
+      if ((charCnt += toPrint.length()) >= 80)
+      {
+        codeGenerator.genCodeLine("");
+        charCnt = 0;
+      }
+
+      codeGenerator.genCode(toPrint);
+    }
+
+    while (++i < Main.lg.maxOrdinal)
+    {
+      if ((charCnt += 6) > 80)
+      {
+        codeGenerator.genCodeLine("");
+        charCnt = 0;
+      }
+
+      codeGenerator.genCodeLine("static JAVACC_CHAR_TYPE jjstrLiteralChars_" +
+                                 literalCount++ + "[] = {0};");
+      continue;
+    }
+
+    // Generate the array here.
+    codeGenerator.genCodeLine("static const JAVACC_STRING_TYPE " +
+                              "jjstrLiteralImages[] = {");
+    for (int j = 0; j < literalCount; j++) {
+      codeGenerator.genCodeLine("jjstrLiteralChars_" + j + ", ");
+    }
+    codeGenerator.genCodeLine("};");
+  }
+
+  public static void DumpStrLiteralImagesForJava(CodeGenerator codeGenerator) {
+    String image;
+    int i;
+    charCnt = 0; // Set to zero in reInit() but just to be sure
+
+    codeGenerator.genCodeLine("");
+    codeGenerator.genCodeLine("/** Token literal values. */");
+    codeGenerator.genCodeLine("public static final String[] jjstrLiteralImages = {");
 
     if (allImages == null || allImages.length == 0)
     {
@@ -160,24 +244,18 @@ public class RStringLiteral extends RegularExpression {
           charCnt = 0;
         }
 
-        if (codeGenerator.isJavaLanguage()) {
-          codeGenerator.genCode("null, ");
-        } else {
-          codeGenerator.genCode("\"\", ");
-        }
+        codeGenerator.genCode("null, ");
         continue;
       }
 
       String toPrint = "\"";
-
       for (int j = 0; j < image.length(); j++)
       {
-        if (image.charAt(j) <= 0xff)
+        if (codeGenerator.isJavaLanguage() && image.charAt(j) <= 0xff)
           toPrint += ("\\" + Integer.toOctalString((int)image.charAt(j)));
         else
         {
           String hexVal = Integer.toHexString((int)image.charAt(j));
-
           if (hexVal.length() == 3)
             hexVal = "0" + hexVal;
           toPrint += ("\\u" + hexVal);
@@ -488,7 +566,7 @@ public class RStringLiteral extends RegularExpression {
                  "+ (jjmatchedPos + 1) + \" characters as a \" + tokenImage[jjmatchedKind] + \" token.\");");
        } else {
          codeGenerator.genCodeLine("   fprintf(debugStream, \"   No more string literal token matches are possible.\");");
-         codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\",  (jjmatchedPos + 1),  tokenImage[jjmatchedKind].c_str());");
+         codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\",  (jjmatchedPos + 1),  addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
        }
      }
   
@@ -510,7 +588,7 @@ public class RStringLiteral extends RegularExpression {
        } else {
          codeGenerator.genCodeLine("   fprintf(debugStream, " +
             "\"<%s>Current character : %c(%d) at line %d column %d\\n\","+
-            "lexStateNames[curLexState].c_str(), curChar, (int)curChar, " +
+            "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
             "input_stream->getEndLine(), input_stream->getEndColumn());");
        }
      }
@@ -539,7 +617,7 @@ public class RStringLiteral extends RegularExpression {
                 "\" characters as a \" + tokenImage[jjmatchedKind] + \" token.\");");
        } else {
         codeGenerator.genCodeLine("   fprintf(debugStream, \"   No more string literal token matches are possible.\");");
-        codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\",  (jjmatchedPos + 1),  tokenImage[jjmatchedKind].c_str());");
+        codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\",  (jjmatchedPos + 1),  addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
        }
      }
      
@@ -717,7 +795,7 @@ public class RStringLiteral extends RegularExpression {
                codeGenerator.genCodeLine("   debugStream.println(\"   Possible string literal matches : { \"");
              } else {
                codeGenerator.genCodeLine("   if (jjmatchedKind != 0 && jjmatchedKind != 0x" + Integer.toHexString(Integer.MAX_VALUE) + ")");
-               codeGenerator.genCodeLine("      fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\", (jjmatchedPos + 1), tokenImage[jjmatchedKind].c_str());");
+               codeGenerator.genCodeLine("      fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\", (jjmatchedPos + 1), addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
               codeGenerator.genCodeLine("   fprintf(debugStream, \"   Possible string literal matches : { \");");
              }
 
@@ -781,7 +859,7 @@ public class RStringLiteral extends RegularExpression {
                   codeGenerator.genCodeLine("         debugStream.println(\"   Currently matched the first \" + " + "(jjmatchedPos + 1) + \" characters as a \" + tokenImage[jjmatchedKind] + \" token.\");");
                 } else {
                   codeGenerator.genCodeLine("      if (jjmatchedKind != 0 && jjmatchedKind != 0x" + Integer.toHexString(Integer.MAX_VALUE) + ")");
-                  codeGenerator.genCodeLine("      fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\", (jjmatchedPos + 1),  tokenImage[jjmatchedKind].c_str());");
+                  codeGenerator.genCodeLine("      fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\", (jjmatchedPos + 1),  addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
                 }
               }
 
@@ -809,7 +887,7 @@ public class RStringLiteral extends RegularExpression {
           } else {
             codeGenerator.genCodeLine("   fprintf(debugStream, " +
               "\"<%s>Current character : %c(%d) at line %d column %d\\n\","+
-              "lexStateNames[curLexState].c_str(), curChar, (int)curChar, " +
+              "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
               "input_stream->getEndLine(), input_stream->getEndColumn());");
           }
         }
