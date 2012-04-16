@@ -43,12 +43,6 @@ class TokenMgrError
   int errorCode;
 
   /**
-   * Replaces unprintable characters by their escaped (or unicode escaped)
-   * equivalents in the given string
-   */
-   static JAVACC_STRING_TYPE addEscapes(JAVACC_STRING_TYPE str);
-
-  /**
    * Returns a detailed message for the Error when it is thrown by the
    * token manager to indicate a lexical error.
    * Parameters :

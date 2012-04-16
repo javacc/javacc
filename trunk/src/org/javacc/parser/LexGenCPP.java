@@ -525,8 +525,8 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     genCodeLine("  public: virtual ~" + tokMgrClassName + "();");
     genCodeLine("  void ReInit(CharStream *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = NULL);");
     genCodeLine("  void SwitchTo(int lexState);");
-    genCodeLine("  const JAVACC_STRING_TYPE jjKindsForBitVector(int i, " + Options.getLongType() + " vec);");
-    genCodeLine("  const JAVACC_STRING_TYPE jjKindsForStateVector(int lexState, int vec[], int start, int end);");
+    genCodeLine("  const JAVACC_SIMPLE_STRING jjKindsForBitVector(int i, " + Options.getLongType() + " vec);");
+    genCodeLine("  const JAVACC_SIMPLE_STRING jjKindsForStateVector(int lexState, int vec[], int start, int end);");
   }
 
   private void DumpStaticVarDeclarations() throws IOException
@@ -536,10 +536,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     switchToStaticsFile(); // remaining variables
     genCodeLine("");
     genCodeLine("/** Lexer state names. */");
-    genCodeLine("static const JAVACC_STRING_TYPE lexStateNames[] = {");
-    for (i = 0; i < maxLexStates; i++)
-      genCodeLine("   \"" + lexStateName[i] + "\",");
-    genCodeLine("};");
+    genStringLiteralArrayCPP("lexStateNames", lexStateName);
 
     if (maxLexStates > 1)
     {
@@ -823,7 +820,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
         if (Options.getDebugTokenManager())
         {
           if (maxLexStates > 1) {
-            genCodeLine("      fprintf(debugStream, \"<%s>\" , lexStateNames[curLexState].c_str());");
+            genCodeLine("      fprintf(debugStream, \"<%s>\" , addUnicodeEscapes(lexStateNames[curLexState]).c_str());");
           }
 
           genCodeLine("      fprintf(debugStream, \"Skipping character : %c(%d)\\n\", curChar, (int)curChar);");
@@ -838,7 +835,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       if (initMatch[i] != Integer.MAX_VALUE && initMatch[i] != 0)
       {
         if (Options.getDebugTokenManager())
-          genCodeLine("      fprintf(debugStream, \"   Matched the empty string as %s token.\\n\", tokenImage[" + initMatch[i] + "].c_str());");
+          genCodeLine("      fprintf(debugStream, \"   Matched the empty string as %s token.\\n\", addUnicodeEscapes(tokenImage[" + initMatch[i] + "]).c_str());");
 
         genCodeLine(prefix + "jjmatchedKind = " + initMatch[i] + ";");
         genCodeLine(prefix + "jjmatchedPos = -1;");
@@ -853,7 +850,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       if (Options.getDebugTokenManager()) {
         genCodeLine("   fprintf(debugStream, " +
           "\"<%s>Current character : %c(%d) at line %d column %d\\n\","+
-          "lexStateNames[curLexState].c_str(), curChar, (int)curChar, " +
+          "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
           "input_stream->getEndLine(), input_stream->getEndColumn());");
       }
 
@@ -870,7 +867,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
         genCodeLine(prefix + "{");
 
         if (Options.getDebugTokenManager()) {
-          genCodeLine("           fprintf(debugStream, \"   Current character matched as a %s token.\\n\", tokenImage[" + canMatchAnyChar[i] + "].c_str());");
+          genCodeLine("           fprintf(debugStream, \"   Current character matched as a %s token.\\n\", addUnicodeEscapes(tokenImage[" + canMatchAnyChar[i] + "]).c_str());");
         }
         genCodeLine(prefix + "   jjmatchedKind = " + canMatchAnyChar[i] + ";");
 
@@ -915,7 +912,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       if (Options.getDebugTokenManager())
       {
           genCodeLine("    fprintf(debugStream, " +
-              "\"****** FOUND A %d(%s) MATCH (%s) ******\\n\", jjmatchedKind, tokenImage[jjmatchedKind].c_str(), input_stream->GetSuffix(jjmatchedPos + 1).c_str());");
+              "\"****** FOUND A %d(%s) MATCH (%s) ******\\n\", jjmatchedKind, addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str(), addUnicodeEscapes(input_stream->GetSuffix(jjmatchedPos + 1)).c_str());");
       }
 
       if (hasSkip || hasMore || hasSpecial)
@@ -1021,7 +1018,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
           if (Options.getDebugTokenManager()) {
             genCodeLine("   fprintf(debugStream, " +
              "\"<%s>Current character : %c(%d) at line %d column %d\\n\","+
-             "lexStateNames[curLexState].c_str(), curChar, (int)curChar, " +
+             "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
              "input_stream->getEndLine(), input_stream->getEndColumn());");
           }
           genCodeLine(prefix + "   continue;");
@@ -1036,7 +1033,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       genCodeLine(prefix + "   bool EOFSeen = false;");
       genCodeLine(prefix + "   if (input_stream->endOfInput()) {");
       genCodeLine(prefix + "      EOFSeen = true;");
-      genCodeLine(prefix + "      error_after = curPos <= 1 ? \"\" : input_stream->GetImage();");
+      genCodeLine(prefix + "      error_after = curPos <= 1 ? EMPTY : input_stream->GetImage();");
       genCodeLine(prefix + "      if (curChar == '\\n' || curChar == '\\r') {");
       genCodeLine(prefix + "         error_line++;");
       genCodeLine(prefix + "         error_column = 0;");
@@ -1045,7 +1042,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       genCodeLine(prefix + "         error_column++;");
       genCodeLine(prefix + "   }");
       genCodeLine(prefix + "   if (!EOFSeen) {");
-      genCodeLine(prefix + "      error_after = curPos <= 1 ? \"\" : input_stream->GetImage();");
+      genCodeLine(prefix + "      error_after = curPos <= 1 ? EMPTY : input_stream->GetImage();");
       genCodeLine(prefix + "   }");
       genCodeLine(prefix + "   lexicalError();"); //+
       //"EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);");

@@ -13,6 +13,28 @@ public class CodeGenerator {
   protected StringBuffer staticsBuffer = new StringBuffer();
   protected StringBuffer outputBuffer = mainBuffer;
 
+  public void genStringLiteralArrayCPP(String varName, String[] arr) {
+    // First generate char array vars
+    for (int i = 0; i < arr.length; i++) {
+      genCodeLine("static const JAVACC_CHAR_TYPE " + varName + "_arr_" + i + "[] = ");
+      genStringLiteralInCPP(arr[i]);
+      genCodeLine(";");
+    }
+
+    genCodeLine("static const JAVACC_STRING_TYPE " + varName + "[] = {");
+    for (int i = 0; i < arr.length; i++) {
+      genCodeLine(varName + "_arr_" + i + ", ");
+    }
+    genCodeLine("};");
+  }
+  public void genStringLiteralInCPP(String s) {
+    // String literals in CPP become char arrays
+    outputBuffer.append("{");
+    for (int i = 0; i < s.length(); i++) {
+      outputBuffer.append("0x" + Integer.toHexString((int)s.charAt(i)) + ", ");
+    }
+    outputBuffer.append("0}");
+  }
   public void genCodeLine(Object... code) {
     genCode(code);
     genCode("\n");

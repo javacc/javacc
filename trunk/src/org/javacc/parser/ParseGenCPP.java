@@ -241,7 +241,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("    jj_kind = kind;");
     }
     //genCodeLine("    throw generateParseException();");
-    genCodeLine("    errorHandler->handleUnexpectedToken(kind, (kind > 0 ? tokenImage[kind].substr(1, tokenImage[kind].size() - 2).c_str() : \"EOF\"), getToken(1), this);");
+    genCodeLine("    errorHandler->handleUnexpectedToken(kind, (kind == -1 ? tokenImage[0] : tokenImage[kind].substr(1, tokenImage[kind].size() - 2)).c_str(), getToken(1), this);");
     genCodeLine("    return token;");
     genCodeLine("  }");
     genCodeLine("");
@@ -373,7 +373,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("  /** Generate ParseException. */");
       generateMethodDefHeader("protected: virtual void ",  cu_name, "parseError()");
       genCodeLine("   {");
-      genCodeLine("      fprintf(stderr, \"Parse error at: %d:%d, after token: %s encountered: %s\\n\", token->beginLine, token->beginColumn, token->image.c_str(), getToken(1)->image.c_str());");
+      genCodeLine("      fprintf(stderr, \"Parse error at: %d:%d, after token: %s encountered: %s\\n\", token->beginLine, token->beginColumn, addUnicodeEscapes(token->image).c_str(), addUnicodeEscapes(getToken(1)->image).c_str());");
       genCodeLine("   }");
       /*generateMethodDefHeader("ParseException",  cu_name, "generateParseException()");
       genCodeLine("   {");
@@ -424,7 +424,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("  /** Generate ParseException. */");
       generateMethodDefHeader("protected: virtual void ",  cu_name, "parseError()");
       genCodeLine("   {");
-      genCodeLine("      fprintf(stderr, \"Parse error at: %d:%d, after token: %s encountered: %s\\n\", token->beginLine, token->beginColumn, token->image.c_str(), getToken(1)->image.c_str());");
+      genCodeLine("      fprintf(stderr, \"Parse error at: %d:%d, after token: %s encountered: %s\\n\", token->beginLine, token->beginColumn, addUnicodeEscapes(token->image).c_str(), addUnicodeEscapes(getToken(1)->image).c_str());");
       genCodeLine("   }");
       /*generateMethodDefHeader("ParseException",  cu_name, "generateParseException()");
       genCodeLine("   {");
@@ -463,35 +463,35 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("  }");
       genCodeLine("");
 
-      generateMethodDefHeader("void",  cu_name, "trace_call(JAVACC_STRING_TYPE s)");
+      generateMethodDefHeader("void",  cu_name, "trace_call(const char *s)");
       genCodeLine("  {");
       genCodeLine("    if (trace_enabled) {");
       genCodeLine("      for (int i = 0; i < trace_indent; i++) { printf(\" \"); }");
-      genCodeLine("      printf(\"Call:   %s\\n\", s.c_str());");
+      genCodeLine("      printf(\"Call:   %s\\n\", s);");
       genCodeLine("    }");
       genCodeLine("    trace_indent = trace_indent + 2;");
       genCodeLine("  }");
       genCodeLine("");
 
-      generateMethodDefHeader("void",  cu_name, "trace_return(JAVACC_STRING_TYPE s)");
+      generateMethodDefHeader("void",  cu_name, "trace_return(const char *s)");
       genCodeLine("  {");
       genCodeLine("    trace_indent = trace_indent - 2;");
       genCodeLine("    if (trace_enabled) {");
       genCodeLine("      for (int i = 0; i < trace_indent; i++) { printf(\" \"); }");
-      genCodeLine("      printf(\"Return: %s\\n\", s.c_str());");
+      genCodeLine("      printf(\"Return: %s\\n\", s);");
       genCodeLine("    }");
       genCodeLine("  }");
       genCodeLine("");
 
-      generateMethodDefHeader("void",  cu_name, "trace_token(Token *t, JAVACC_STRING_TYPE where)");
+      generateMethodDefHeader("void",  cu_name, "trace_token(Token *t, const char *where)");
       genCodeLine("  {");
       genCodeLine("    if (trace_enabled) {");
       genCodeLine("      for (int i = 0; i < trace_indent; i++) { printf(\" \"); }");
-      genCodeLine("      printf(\"Consumed token: <kind: %d(%s), \\\"%s\\\"\", t->kind, tokenImage[t->kind].c_str(), t->image.c_str());");
+      genCodeLine("      printf(\"Consumed token: <kind: %d(%s), \\\"%s\\\"\", t->kind, addUnicodeEscapes(tokenImage[t->kind]).c_str(), addUnicodeEscapes(t->image).c_str());");
       //genCodeLine("      if (t->kind != 0 && !tokenImage[t->kind].equals(\"\\\"\" + t->image + \"\\\"\")) {");
       //genCodeLine("        System.out.print(\": \\\"\" + t->image + \"\\\"\");");
       //genCodeLine("      }");
-      genCodeLine("      printf(\" at line %d column %d> %s\\n\", t->beginLine, t->beginColumn, where.c_str());");
+      genCodeLine("      printf(\" at line %d column %d> %s\\n\", t->beginLine, t->beginColumn, where);");
       genCodeLine("    }");
       genCodeLine("  }");
       genCodeLine("");
@@ -500,11 +500,11 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("  {");
       genCodeLine("    if (trace_enabled) {");
       genCodeLine("      for (int i = 0; i < trace_indent; i++) { printf(\" \"); }");
-      genCodeLine("      printf(\"Visited token: <Kind: %d(%s), \\\"%s\\\"\", t1->kind, tokenImage[t1->kind].c_str(), t1->image.c_str());");
+      genCodeLine("      printf(\"Visited token: <Kind: %d(%s), \\\"%s\\\"\", t1->kind, addUnicodeEscapes(tokenImage[t1->kind]).c_str(), addUnicodeEscapes(t1->image).c_str());");
       //genCodeLine("      if (t1->kind != 0 && !tokenImage[t1->kind].equals(\"\\\"\" + t1->image + \"\\\"\")) {");
       //genCodeLine("        System.out.print(\": \\\"\" + t1->image + \"\\\"\");");
       //genCodeLine("      }");
-      genCodeLine("      printf(\" at line %d column %d>; Expected token: %s\\n\", t1->beginLine, t1->beginColumn, tokenImage[t2].c_str());");
+      genCodeLine("      printf(\" at line %d column %d>; Expected token: %s\\n\", t1->beginLine, t1->beginColumn, addUnicodeEscapes(tokenImage[t2]).c_str());");
       genCodeLine("    }");
       genCodeLine("  }");
       genCodeLine("");

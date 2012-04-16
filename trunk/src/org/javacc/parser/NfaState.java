@@ -2874,7 +2874,7 @@ public class NfaState
       if (Options.getDebugTokenManager()) {
         if (codeGenerator.isJavaLanguage()) {
          codeGenerator.genCodeLine("      debugStream.println(\"   Starting NFA to match one of : \" + " +
-                 "jjKindsForStateVector(curLexState, jjstateSet, 0, 1).c_str());");
+                 "jjKindsForStateVector(curLexState, jjstateSet, 0, 1));");
         } else {
           codeGenerator.genCodeLine("      fprintf(debugStream, \"   Starting NFA to match one of : %s\\n\", jjKindsForStateVector(curLexState, jjstateSet, 0, 1).c_str());");
         }
@@ -2890,7 +2890,7 @@ public class NfaState
         } else {
          codeGenerator.genCodeLine("   fprintf(debugStream, " +
             "\"<%s>Current character : %c(%d) at line %d column %d\\n\","+
-            "lexStateNames[curLexState].c_str(), curChar, (int)curChar, " +
+            "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
             "input_stream->getEndLine(), input_stream->getEndColumn());");
         }
       } 
@@ -2940,7 +2940,7 @@ public class NfaState
         } else {
           codeGenerator.genCodeLine("      if (jjmatchedKind != 0 && jjmatchedKind != 0x" +
                 Integer.toHexString(Integer.MAX_VALUE) + ")");
-          codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\",  (jjmatchedPos + 1),  tokenImage[jjmatchedKind].c_str());");
+          codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\",  (jjmatchedPos + 1),  addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
         }
       }
 
@@ -2959,7 +2959,7 @@ public class NfaState
       if (Options.getDebugTokenManager()) {
         if (codeGenerator.isJavaLanguage()) {
           codeGenerator.genCodeLine("      debugStream.println(\"   Possible kinds of longer matches : \" + " +
-                 "jjKindsForStateVector(curLexState, jjstateSet, startsAt, i).c_str());");
+                 "jjKindsForStateVector(curLexState, jjstateSet, startsAt, i));");
         } else {
           codeGenerator.genCodeLine("      fprintf(debugStream, \"   Possible kinds of longer matches : %s\\n\", jjKindsForStateVector(curLexState, jjstateSet, startsAt, i).c_str());");
         }
@@ -2996,7 +2996,7 @@ public class NfaState
         } else {
           codeGenerator.genCodeLine("   fprintf(debugStream, " +
              "\"<%s>Current character : %c(%d) at line %d column %d\\n\","+
-             "lexStateNames[curLexState].c_str(), curChar, (int)curChar, " +
+             "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
              "input_stream->getEndLine(), input_stream->getEndColumn());");
         }
       }

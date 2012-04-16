@@ -1,7 +1,7 @@
-  const JAVACC_STRING_TYPE ${tokMgrClassName}::jjKindsForBitVector(int i, unsigned long long vec)
+  const JAVACC_SIMPLE_STRING ${tokMgrClassName}::jjKindsForBitVector(int i, unsigned long long vec)
   {
     int kindCnt = 0;
-    JAVACC_STRING_TYPE retVal = (JAVACC_CHAR_TYPE*)"";
+    JAVACC_SIMPLE_STRING retVal;
     if (i == 0)
        kindCnt = 0;
     for (int j = 0; j < 64; j++)
@@ -12,17 +12,17 @@
              retVal += ", ";
           if (kindCnt % 5 == 0)
              retVal += "\n     ";
-          retVal += tokenImage[i * 64 + j];
+          retVal += addUnicodeEscapes(tokenImage[i * 64 + j]);
        }
     }
 
     return retVal;
   }
 
-  const JAVACC_STRING_TYPE ${tokMgrClassName}::jjKindsForStateVector(int lexState, int vec[], int start, int end)
+  const JAVACC_SIMPLE_STRING ${tokMgrClassName}::jjKindsForStateVector(int lexState, int vec[], int start, int end)
   {
     bool kindDone[${maxOrdinal}];
-    JAVACC_STRING_TYPE retVal = (JAVACC_CHAR_TYPE*)"";
+    JAVACC_SIMPLE_STRING retVal;
     int cnt = 0;
     for (int i = start; i < end; i++)
     {
@@ -39,7 +39,7 @@
              retVal += ", ";
           if (cnt % 5 == 0)
              retVal += "\n     ";
-          retVal += tokenImage[kindForState[lexState][state]];
+          retVal += addUnicodeEscapes(tokenImage[kindForState[lexState][state]]);
        }
      }
     }

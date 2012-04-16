@@ -182,6 +182,9 @@ public final class Main {
         if (Options.getBuildParser()) {
           new LexGen().start();
         }
+
+        Options.setStringOption("PARSER_NAME", JavaCCGlobals.cu_name);
+        OtherFilesGen.start();
       } else { // C++ for now
         if (Options.getBuildParser()) {
           new ParseGenCPP().start();
@@ -189,10 +192,10 @@ public final class Main {
         if (Options.getBuildParser()) {
           new LexGenCPP().start();
         }
-      }
 
-      Options.setStringOption("PARSER_NAME", JavaCCGlobals.cu_name);
-      OtherFilesGen.start();
+        Options.setStringOption("PARSER_NAME", JavaCCGlobals.cu_name);
+        OtherFilesGenCPP.start();
+      }
 
       if ((JavaCCErrors.get_error_count() == 0) && (Options.getBuildParser() || Options.getBuildTokenManager())) {
         if (JavaCCErrors.get_warning_count() == 0) {

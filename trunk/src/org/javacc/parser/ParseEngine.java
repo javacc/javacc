@@ -568,7 +568,7 @@ public class ParseEngine {
     indentamt = 4;
     if (Options.getDebugParser()) {
       codeGenerator.genCodeLine("");
-      codeGenerator.genCodeLine("    trace_call(\"" + p.getLhs() + "\");");
+      codeGenerator.genCodeLine("    trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
       codeGenerator.genCode("    try {");
       indentamt = 6;
     }
@@ -596,7 +596,7 @@ public class ParseEngine {
       } else {
         codeGenerator.genCodeLine("    } catch(...) { }");
       }
-      codeGenerator.genCodeLine("      trace_return(\"" + p.getLhs() + "\");");
+      codeGenerator.genCodeLine("      trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
       if (isJavaLanguage) {
         codeGenerator.genCodeLine("    }");
       }
@@ -876,7 +876,7 @@ public class ParseEngine {
   String genReturn(boolean value) {
     String retval = (value ? "true" : "false");
     if (Options.getDebugLookahead() && jj3_expansion != null) {
-      String tracecode = "trace_return(\"" + ((NormalProduction)jj3_expansion.parent).getLhs() +
+      String tracecode = "trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(((NormalProduction)jj3_expansion.parent).getLhs()) +
       "(LOOKAHEAD " + (value ? "FAILED" : "SUCCEEDED") + ")\");";
       if (Options.getErrorReporting()) {
         tracecode = "if (!jj_rescan) " + tracecode;
@@ -1020,7 +1020,7 @@ public class ParseEngine {
         if (Options.getErrorReporting()) {
           codeGenerator.genCode("if (!jj_rescan) ");
         }
-        codeGenerator.genCodeLine("trace_call(\"" + ((NormalProduction)e.parent).getLhs() + "(LOOKING AHEAD...)\");");
+        codeGenerator.genCodeLine("trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(((NormalProduction)e.parent).getLhs()) + "(LOOKING AHEAD...)\");");
         jj3_expansion = e;
       } else {
         jj3_expansion = null;
@@ -1287,7 +1287,7 @@ public class ParseEngine {
         codeGenerator.genCode(" {");
         if (Options.getDebugParser()) {
           codeGenerator.genCodeLine("");
-          codeGenerator.genCodeLine("    trace_call(\"" + jp.getLhs() + "\");");
+          codeGenerator.genCodeLine("    trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(jp.getLhs()) + "\");");
           codeGenerator.genCode("    try {");
         }
         if (jp.getCodeTokens().size() != 0) {
@@ -1301,7 +1301,7 @@ public class ParseEngine {
           } else {
             codeGenerator.genCodeLine("    } catch(...) { } finally {");
           }
-          codeGenerator.genCodeLine("      trace_return(\"" + jp.getLhs() + "\");");
+          codeGenerator.genCodeLine("      trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(jp.getLhs()) + "\");");
           codeGenerator.genCodeLine("    }");
         }
         codeGenerator.genCodeLine("  }");

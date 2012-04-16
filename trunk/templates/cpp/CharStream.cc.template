@@ -145,13 +145,13 @@ namespace ${NAMESPACE} {
   /** @return token image as string */
   JAVACC_STRING_TYPE CharStream::GetImage()
   {
-    return JAVACC_STRING_TYPE((JAVACC_CHAR_TYPE*)"").append(buffer+tokenBegin, bufpos - tokenBegin + 1);
+    return JAVACC_STRING_TYPE(buffer+tokenBegin, bufpos - tokenBegin + 1);
   }
 
   /** @return suffix */
   JAVACC_STRING_TYPE CharStream::GetSuffix(int len)
   {
-    return JAVACC_STRING_TYPE((JAVACC_CHAR_TYPE*)"").append(buffer+ bufpos - len + 1, len);
+    return JAVACC_STRING_TYPE(buffer+ bufpos - len + 1, len);
   }
 
   /** Set buffers back to NULL when finished. */
