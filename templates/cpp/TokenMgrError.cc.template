@@ -4,7 +4,6 @@
 namespace ${NAMESPACE} {
 #fi
 
-  static JAVACC_CHAR_TYPE EMPTY[] = {};
   /**
    * Returns a detailed message for the Error when it is thrown by the
    * token manager to indicate a lexical error.
