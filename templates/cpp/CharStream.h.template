@@ -2,6 +2,10 @@
 \#define CHARSTREAM_H
 \#include "JavaCC.h"
 
+\#ifndef INITIAL_BUFFER_SIZE
+\#define INITIAL_BUFFER_SIZE 4096
+\#endif
+
 #if NAMESPACE
 namespace ${NAMESPACE} {
 #fi
@@ -23,28 +27,15 @@ namespace ${NAMESPACE} {
 
 
 class CharStream {
-/** Position in buffer. */
-  int bufpos;
-  int bufsize;
-  int tokenBegin;
-
-  const JAVACC_CHAR_TYPE * buffer;
-  int *bufline;
-  int *bufcolumn;
-
-  int column;
-  int line;
-
-  bool prevCharIsCR ;
-  bool prevCharIsLF ;
-
-  int inBuf ;
-  int tabSize ;
-
-   public:
-  void setTabSize(int i);
-  int getTabSize();
-  void UpdateLineColumn(JAVACC_CHAR_TYPE c);
+ public:
+  void setTabSize(int i) { tabSize = i; }
+  int getTabSize(int i) { return tabSize; }
+  virtual int getColumn() { return bufcolumn[bufpos]; }
+  virtual int getLine() { return bufline[bufpos]; }
+  virtual int getEndColumn() { return bufcolumn[bufpos]; }
+  virtual int getEndLine() { return bufline[bufpos]; }
+  virtual int getBeginColumn() { return bufcolumn[tokenBegin]; }
+  virtual int getBeginLine() { return bufline[tokenBegin]; }
 
   /**
    * Returns the next character from the selected input.  The method
@@ -52,44 +43,6 @@ class CharStream {
    * implementing this class.
    */
   virtual JAVACC_CHAR_TYPE readChar();
-
-  /**
-   * Returns the column position of the character last read.
-   * @deprecated
-   * @see #getEndColumn
-   */
-  virtual int getColumn();
-
-  /**
-   * Returns the line number of the character last read.
-   * @deprecated
-   * @see #getEndLine
-   */
-  virtual int getLine();
-
-  /**
-   * Returns the column number of the last character for current token (being
-   * matched after the last call to BeginTOken).
-   */
-  virtual int getEndColumn();
-
-  /**
-   * Returns the line number of the last character for current token (being
-   * matched after the last call to BeginTOken).
-   */
-  virtual int getEndLine();
-
-  /**
-   * Returns the column number of the first character for current token (being
-   * matched after the last call to BeginTOken).
-   */
-  virtual int getBeginColumn();
-
-  /**
-   * Returns the line number of the first character for current token (being
-   * matched after the last call to BeginTOken).
-   */
-  virtual int getBeginLine();
 
   /**
    * Backs up the input stream by amount steps. Lexer calls this method if it
@@ -106,45 +59,155 @@ class CharStream {
    */
   virtual JAVACC_CHAR_TYPE BeginToken();
 
+  virtual void ExpandBuff(bool wrapAround);
+  virtual void FillBuff();
+
   /**
    * Returns a string made up of characters from the marked token beginning
-   * to the current buffer position. Implementations have the choice of returning
+   * to the current buffer position. Implementations can return
    * anything that they want to. For example, for efficiency, one might decide
    * to just return NULL, which is a valid implementation.
    */
-  virtual JAVACC_STRING_TYPE GetImage();
+  virtual JAVACC_STRING_TYPE GetImage() {
+    if (bufpos >= tokenBegin)
+      return JAVACC_STRING_TYPE(buffer + tokenBegin, bufpos - tokenBegin + 1);
+    else
+      return JAVACC_STRING_TYPE(buffer + tokenBegin, bufsize - tokenBegin)
+             .append(buffer, bufpos + 1);
+  }
 
   /**
    * Returns an array of characters that make up the suffix of length 'len' for
    * the currently matched token. This is used to build up the matched string
    * for use in actions in the case of MORE. A simple and inefficient
    * implementation of this is as follows :
-   *
-   *   {
-   *      JAVACC_STRING_TYPE t = GetImage();
-   *      return t.substring(t.length() - len, t.length()).toCharArray();
-   *   }
    */
-  virtual JAVACC_STRING_TYPE GetSuffix(int len);
+  virtual JAVACC_STRING_TYPE GetSuffix(int len) {
+    if ((bufpos + 1) >= len) {
+      return JAVACC_STRING_TYPE(buffer + bufpos - len + 1, len);
+    }
+    return JAVACC_STRING_TYPE(buffer + bufsize - (len - bufpos - 1), len - bufpos - 1)
+           .append(buffer, bufpos + 1);
+  }
 
   /**
    * The lexer calls this function to indicate that it is done with the stream
    * and hence implementations can free any resources held by this class.
    */
-  virtual void Done();
+  virtual void DeleteBuffers();
 
-  /**
-   * pointer tobufer buf will be released on ReInit or delete.
-   */
-  CharStream(const JAVACC_CHAR_TYPE *buf,int sz, int startline, int startcolumn);
+  virtual ~CharStream() {
+    if (deleteStream) {
+     delete inputStream;
+    }
+    DeleteBuffers();
+  }
 
-  /**
-   * pointer tobufer buf will be released on ReInit or delete.
-   */
-  public: virtual void ReInit(const JAVACC_CHAR_TYPE *buf, int sz, int startline, int startcolumn);
-  public: virtual ~CharStream();
-  public: virtual bool endOfInput();
+  bool endOfInput() {
+    return bufpos + 1 >= maxNextCharInd &&
+           inputStream->endOfInput();
+  }
 
+  CharStream(const JAVACC_CHAR_TYPE *buf, int sz, int startline,
+                      int startcolumn, int buffersize) :
+    bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
+    buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
+    prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
+    inBuf(0) {
+    ReInit(JAVACC_STRING_TYPE(buf, sz), startline, startcolumn, buffersize);
+  }
+
+  CharStream(const JAVACC_CHAR_TYPE *buf, int sz, int startline, int startcolumn) :
+    bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
+    buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
+    prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
+    inBuf(0) {
+    ReInit(JAVACC_STRING_TYPE(buf, sz), startline, startcolumn, INITIAL_BUFFER_SIZE);
+  }
+
+  CharStream(const JAVACC_STRING_TYPE& str, int startline,
+                      int startcolumn, int buffersize) :
+    bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
+    buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
+    prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
+    inBuf(0) {
+    ReInit(str, startline, startcolumn, buffersize);
+  }
+
+  CharStream(const JAVACC_STRING_TYPE& str, int startline, int startcolumn) :
+    bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
+    buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
+    prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
+    inBuf(0) {
+    ReInit(str, startline, startcolumn, INITIAL_BUFFER_SIZE);
+  }
+
+  CharStream(ReaderStream *input_stream, int startline,
+             int startcolumn, int buffersize) :
+    bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
+    buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
+    prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
+    inBuf(0) {
+    ReInit(input_stream, startline, startcolumn, INITIAL_BUFFER_SIZE);
+  }
+
+  CharStream(ReaderStream *input_stream, int startline, int startcolumn) :
+    bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
+    buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
+    prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
+    inBuf(0) {
+    ReInit(input_stream, startline, startcolumn, INITIAL_BUFFER_SIZE);
+  }
+
+  CharStream(ReaderStream *input_stream) :
+    bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
+    buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
+    prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
+    inBuf(0) {
+    ReInit(input_stream, 1, 1, INITIAL_BUFFER_SIZE);
+  }
+
+  virtual void ReInit(ReaderStream *input_stream, int startline, int startcolumn,
+                      int buffersize);
+
+  virtual void ReInit(ReaderStream *input_stream, int startline,
+                      int startcolumn) {
+    ReInit(input_stream, startline, startcolumn, INITIAL_BUFFER_SIZE);
+  }
+
+  virtual void ReInit(ReaderStream *input_stream) {
+    ReInit(input_stream, 1, 1, INITIAL_BUFFER_SIZE);
+  }
+
+  virtual void ReInit(const JAVACC_STRING_TYPE& str, int startline,
+                      int startcolumn, int buffersize);
+
+  virtual void ReInit(const JAVACC_STRING_TYPE& str, int startline,
+                      int startcolumn) {
+    ReInit(str, startline, startcolumn, INITIAL_BUFFER_SIZE);
+  }
+
+  virtual void adjustBeginLineColumn(int newLine, int newCol);
+
+ protected:
+  virtual void UpdateLineColumn(JAVACC_CHAR_TYPE c);
+
+  int *bufline;
+  int *bufcolumn;
+  ReaderStream *inputStream;
+  bool deleteStream;
+  JAVACC_CHAR_TYPE * buffer;
+  int bufpos;
+  int bufsize;
+  int tokenBegin;
+  int column;
+  int line;
+  bool prevCharIsCR ;
+  bool prevCharIsLF ;
+  int available;
+  int maxNextCharInd;
+  int inBuf ;
+  int tabSize ;
 };
 
 #if NAMESPACE
