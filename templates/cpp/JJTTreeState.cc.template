@@ -4,6 +4,12 @@
 namespace ${NAMESPACE} {
 #fi
 
+\#define FIXUP_MARKS \
+  if (marks->size() > 0) {\
+    mk = marks->back();\
+    marks->resize(marks->size()-1);\
+  }
+
   JJT${PARSER_NAME}State::JJT${PARSER_NAME}State() {
     nodes = new std::vector<Node*>();
     marks = new std::vector<int>();
@@ -43,8 +49,7 @@ namespace ${NAMESPACE} {
      stack.  */
   Node *JJT${PARSER_NAME}State::popNode() {
     if (--sp < mk) {
-      mk = marks->back();
-      marks->resize(marks->size()-1);
+      FIXUP_MARKS;
     }
     Node *ret = nodes->back();
     nodes->resize(nodes->size()-1);
@@ -67,8 +72,7 @@ namespace ${NAMESPACE} {
     while (sp > mk) {
       delete popNode();
     }
-    mk = marks->back();
-    marks->resize(marks->size()-1);
+    FIXUP_MARKS;
   }
 
 
@@ -84,8 +88,12 @@ namespace ${NAMESPACE} {
      made the children of the definite node.  Then the definite node
      is pushed on to the stack. */
   void JJT${PARSER_NAME}State::closeNodeScope(Node *n, int num) {
-    mk = marks->back();
-    marks->resize(marks->size()-1);
+    FIXUP_MARKS;
+    if (nodes->size() < num) {
+      node_created = false;
+      delete n;
+      return;
+    }
     while (num-- > 0) {
       Node *c = popNode();
       c->jjtSetParent(n);
@@ -105,8 +113,12 @@ namespace ${NAMESPACE} {
   void JJT${PARSER_NAME}State::closeNodeScope(Node *n, bool condition) {
     if (condition) {
       int a = nodeArity();
-      mk = marks->back();
-      marks->resize(marks->size()-1);
+      FIXUP_MARKS;
+      if (nodes->size() < a) {
+        delete n;
+        node_created = false;
+        return;
+      }
       while (a-- > 0) {
         Node *c = popNode();
         c->jjtSetParent(n);
@@ -116,8 +128,7 @@ namespace ${NAMESPACE} {
       pushNode(n);
       node_created = true;
     } else {
-      mk = marks->back();
-      marks->resize(marks->size()-1);
+      FIXUP_MARKS;
       node_created = false;
       delete n;
     }
