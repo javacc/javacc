@@ -20,6 +20,17 @@
 typedef JAVACC_STRING_TYPE StringBuffer;
 typedef JAVACC_STRING_TYPE String;
 
+// Abstraction on stream classes to read a block of data into a buffer.
+class ReaderStream {
+ public:
+  // Read block of data into a buffer and return the actual number read.
+  virtual size_t read(JAVACC_CHAR_TYPE *bufptr, int offset, size_t len) {
+    return 0;
+  }
+  virtual bool endOfInput() { return true; }
+  virtual ~ReaderStream() {}
+};
+
 const JAVACC_CHAR_TYPE EMPTY[] = { 0 };
 
 JAVACC_SIMPLE_STRING addUnicodeEscapes(JAVACC_STRING_TYPE str);

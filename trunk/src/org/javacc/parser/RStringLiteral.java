@@ -162,7 +162,7 @@ public class RStringLiteral extends RegularExpression {
           charCnt = 0;
         }
 
-        codeGenerator.genCode("static JAVACC_CHAR_TYPE jjstrLiteralChars_"
+        codeGenerator.genCodeLine("static JAVACC_CHAR_TYPE jjstrLiteralChars_"
             + literalCount++ + "[] = {0};");
         continue;
       }
@@ -183,7 +183,7 @@ public class RStringLiteral extends RegularExpression {
         charCnt = 0;
       }
 
-      codeGenerator.genCode(toPrint);
+      codeGenerator.genCodeLine(toPrint);
     }
 
     while (++i < Main.lg.maxOrdinal)

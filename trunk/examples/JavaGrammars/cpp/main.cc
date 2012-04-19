@@ -4,6 +4,7 @@
 #include <string>
 #include <stdlib.h>
 
+#include "gen/JavaCC.h"
 #include "gen/CharStream.h"
 #include "gen/JavaParser.h"
 #include "gen/JavaParserTokenManager.h"
@@ -19,7 +20,7 @@ string ReadFileFully(char *file_name) {
   while (!fp_in.eof()) {
    s += fp_in.get();
   }
-  return s;
+  return s.substr(0, s.length() - 1);
 }
 
 int main(int argc, char **argv) {
@@ -27,9 +28,11 @@ int main(int argc, char **argv) {
     cout << "Usage: javaparser <java inputfile>" << endl;
     exit(1);
   }
+ {
   string s = ReadFileFully(argv[1]);
-  CharStream *stream = new CharStream(s.c_str(), s.size() - 1, 1, 1);
+  CharStream *stream = new CharStream(s, 1, 1, 9);
   JavaParserTokenManager *scanner = new JavaParserTokenManager(stream);
   JavaParser parser(scanner);
   parser.CompilationUnit();
+}
 }
