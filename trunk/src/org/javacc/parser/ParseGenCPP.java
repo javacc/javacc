@@ -241,7 +241,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("    jj_kind = kind;");
     }
     //genCodeLine("    throw generateParseException();");
-    genCodeLine("    errorHandler->handleUnexpectedToken(kind, (kind == -1 ? tokenImage[0] : tokenImage[kind].substr(1, tokenImage[kind].size() - 2)).c_str(), getToken(1), this);");
+    genCodeLine("    errorHandler->handleUnexpectedToken(kind, (kind > 0 ? tokenImage[kind].substr(1, tokenImage[kind].size() - 2).c_str() : \"EOF\"), getToken(1), this);");
     genCodeLine("    return token;");
     genCodeLine("  }");
     genCodeLine("");

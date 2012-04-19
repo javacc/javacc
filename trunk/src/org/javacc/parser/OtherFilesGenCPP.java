@@ -122,7 +122,7 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
     ostr.println("  /** Literal token values. */");
     int cnt = 0;
     ostr.println("  static JAVACC_CHAR_TYPE tokenImage_arr_" + cnt + "[] = ");
-    printCharArray(ostr, "\"<EOF>\"");
+    printCharArray(ostr, "<EOF>");
     ostr.println(";");
 
     for (java.util.Iterator it = rexprlist.iterator(); it.hasNext();) {
