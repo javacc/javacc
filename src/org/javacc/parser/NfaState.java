@@ -2158,7 +2158,7 @@ public class NfaState
       }
 
       if (byteNum != 0 && byteNum != 1) {
-        codeGenerator.genCodeLine("               default : if (i2 == l2) break; else break;");
+        codeGenerator.genCodeLine("               default : if (i1 == 0 || l1 == 0 || i2 == 0 ||  == l2 == 0) break; else break;");
       } else {
         codeGenerator.genCodeLine("               default : break;");
       }
@@ -2515,7 +2515,7 @@ public class NfaState
          temp.DumpNonAsciiMove(codeGenerator, dumped);
       }
 
-      codeGenerator.genCodeLine("               default : if (i2 == l2) break; else break;");
+      codeGenerator.genCodeLine("               default : if (i1 == 0 || l1 == 0 || i2 == 0 || l2 == 0) break; else break;");
       codeGenerator.genCodeLine("            }");
       codeGenerator.genCodeLine("         } while(i != startsAt);");
    }
