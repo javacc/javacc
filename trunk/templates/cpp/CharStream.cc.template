@@ -24,8 +24,8 @@ class StringReaderStream : public ReaderStream {
 
  private:
   const JAVACC_STRING_TYPE str_;
-  int cur_;
-  int max_;
+  size_t cur_;
+  size_t max_;
 };
 }
 
