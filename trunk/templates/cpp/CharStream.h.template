@@ -113,7 +113,7 @@ class CharStream {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0) {
+    inBuf(0),tabSize(8) {
     ReInit(JAVACC_STRING_TYPE(buf, sz), startline, startcolumn, buffersize);
   }
 
@@ -121,7 +121,7 @@ class CharStream {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0) {
+    inBuf(0),tabSize(8) {
     ReInit(JAVACC_STRING_TYPE(buf, sz), startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
@@ -130,7 +130,7 @@ class CharStream {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0) {
+    inBuf(0),tabSize(8) {
     ReInit(str, startline, startcolumn, buffersize);
   }
 
@@ -138,7 +138,7 @@ class CharStream {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0) {
+    inBuf(0) ,tabSize(8){
     ReInit(str, startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
@@ -147,7 +147,7 @@ class CharStream {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0) {
+    inBuf(0),tabSize(8) {
     ReInit(input_stream, startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
@@ -155,7 +155,7 @@ class CharStream {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0) {
+    inBuf(0),tabSize(8) {
     ReInit(input_stream, startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
@@ -163,7 +163,7 @@ class CharStream {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0) {
+    inBuf(0),tabSize(8) {
     ReInit(input_stream, 1, 1, INITIAL_BUFFER_SIZE);
   }
 
