@@ -19,7 +19,7 @@ class StringReaderStream : public ReaderStream {
   }
   virtual ~StringReaderStream() {}
   virtual bool endOfInput() {
-    return cur_ == str_.size();
+    return max_ == 0;
   }
 
  private:
@@ -43,14 +43,16 @@ JAVACC_CHAR_TYPE CharStream::BeginToken() {
 JAVACC_CHAR_TYPE CharStream::readChar() {
   if (inBuf > 0) {
     --inBuf;
-    if (++bufpos == bufsize) {
+    ++bufpos;
+    if (bufpos == bufsize) {
       bufpos = 0;
     }
 
     return buffer[bufpos];
   }
 
-  if (++bufpos >= maxNextCharInd) {
+  ++bufpos;
+  if (bufpos >= maxNextCharInd) {
     FillBuff();
   }
 
@@ -61,7 +63,8 @@ JAVACC_CHAR_TYPE CharStream::readChar() {
 
 void CharStream::backup(int amount) {
   inBuf += amount;
-  if ((bufpos -= amount) < 0) {
+  bufpos -= amount;
+  if (bufpos < 0) {
     bufpos += bufsize;
   }
 }
@@ -155,14 +158,15 @@ void CharStream::ExpandBuff(bool wrapAround) {
     ArrayCopy(bufline, 0, newbufline, bufsize - tokenBegin, bufpos);
     ArrayCopy(bufcolumn, tokenBegin, newbufcolumn, 0, bufsize - tokenBegin);
     ArrayCopy(bufcolumn, 0, newbufcolumn, bufsize - tokenBegin, bufpos);
-    maxNextCharInd = (bufpos += (bufsize - tokenBegin));
+    bufpos += (bufsize - tokenBegin);
   } else {
     ArrayCopy(buffer, tokenBegin, newbuffer, 0, bufsize - tokenBegin);
     ArrayCopy(bufline, tokenBegin, newbufline, 0, bufsize - tokenBegin);
     ArrayCopy(bufcolumn, tokenBegin, newbufcolumn, 0, bufsize - tokenBegin);
-    maxNextCharInd = (bufpos -= tokenBegin);
+    bufpos -= tokenBegin;
   }
 
+  maxNextCharInd = bufpos;
   DeleteBuffers();
   buffer = newbuffer;
   bufline = newbufline;
@@ -208,13 +212,15 @@ void CharStream::UpdateLineColumn(JAVACC_CHAR_TYPE c) {
   column++;
   if (prevCharIsLF) {
     prevCharIsLF = false;
-    line += (column = 1);
+    column = 1;
+    line++;
   } else if (prevCharIsCR) {
     prevCharIsCR = false;
     if (c == '\n') {
       prevCharIsLF = true;
     } else {
-      line += (column = 1);
+      column = 1;
+      line++;
     }
   }
 

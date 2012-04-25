@@ -104,7 +104,7 @@ class CharStream {
   }
 
   bool endOfInput() {
-    return bufpos + 1 >= maxNextCharInd &&
+    return inBuf == 0 && bufpos + 1 >= maxNextCharInd &&
            inputStream->endOfInput();
   }
 
