@@ -226,10 +226,12 @@ public class CodeGenerator {
    * Generate annotation. @XX syntax for java, comments in C++
    */
   public void genAnnotation(String ann) {
-    if (Options.getOutputLanguage().equals("java")) {
+    if (Options.isOutputLanguageImplementedInJava()) {
       genCode("@" + ann);
-    } else { // For now, it's only C++ for now
+    } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) { // For now, it's only C++ for now
       genCode( "/*" + ann + "*/");
+    } else {
+    	throw new RuntimeException("Unknown language : " + Options.getOutputLanguage());
     }
   }
 
@@ -253,11 +255,12 @@ public class CodeGenerator {
    * another array of super interfaes
    */
   public void genClassStart(String mod, String name, String[] superClasses, String[] superInterfaces) {
-    if (isJavaLanguage() && mod != null) {
+    boolean isJavaLanguage = isJavaLanguage();
+	if (isJavaLanguage && mod != null) {
        genModifier(mod);
     }
     genCode("class " + name);
-    if (isJavaLanguage()) {
+    if (isJavaLanguage) {
       if (superClasses.length == 1 && superClasses[0] != null) {
         genCode(" extends " + superClasses[0]);
       }
@@ -274,7 +277,7 @@ public class CodeGenerator {
 
     genCommaSeperatedString(superInterfaces);
     genCodeLine(" {");
-    if (!isJavaLanguage()) {
+    if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
       genCodeLine("   public:");
     }
   }
@@ -290,7 +293,8 @@ public class CodeGenerator {
   }
 
   protected boolean isJavaLanguage() {
-    return Options.getOutputLanguage().equals("java");
+	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+    return Options.isOutputLanguageImplementedInJava();
   }
 
   public void switchToMainFile() {

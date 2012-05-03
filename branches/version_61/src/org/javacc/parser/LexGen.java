@@ -32,8 +32,6 @@
 package org.javacc.parser;
 
 import java.io.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -50,7 +48,10 @@ import static org.javacc.parser.JavaCCGlobals.*;
  */
 public class LexGen extends CodeGenerator implements JavaCCParserConstants
 {
-  public static String staticString;
+  private static final String DUMP_STATIC_VAR_DECLARATIONS_TEMPLATE_RESOURCE_URL = "/templates/DumpStaticVarDeclarations.template";
+private static final String DUMP_DEBUG_METHODS_TEMPLATE_RESOURCE_URL = "/templates/DumpDebugMethods.template";
+private static final String BOILERPLATER_METHOD_RESOURCE_URL = "/templates/TokenManagerBoilerPlateMethods.template";
+public static String staticString;
   public static String tokMgrClassName;
 
   // Hashtable of vectors
@@ -101,7 +102,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
     List tn = new ArrayList(toolNames);
     tn.add(toolName);
-
+     // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
     genCodeLine("/* " + getIdString(tn, tokMgrClassName + getFileExtension(Options.getOutputLanguage())) + " */");
 
     int l = 0, kind;
@@ -251,7 +252,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
   void DumpDebugMethods() throws IOException
   {
-    writeTemplate("/templates/DumpDebugMethods.template");
+    writeTemplate(DUMP_DEBUG_METHODS_TEMPLATE_RESOURCE_URL);
   }
 
   static void BuildLexStatesTable()
@@ -570,12 +571,14 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
         charStreamName = "SimpleCharStream";
     }
 
-    writeTemplate("/templates/TokenManagerBoilerPlateMethods.template",
+    writeTemplate(BOILERPLATER_METHOD_RESOURCE_URL,
       "charStreamName", charStreamName,
       "lexStateNameLength", lexStateName.length);
 
     DumpStaticVarDeclarations(charStreamName);
     genCodeLine(/*{*/ "}");
+    
+    // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
     String fileName = Options.getOutputDirectory() + File.separator +
                       tokMgrClassName +
                       getFileExtension(Options.getOutputLanguage());
@@ -737,7 +740,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       genCodeLine("\n};");
     }
 
-    writeTemplate("/templates/DumpStaticVarDeclarations.template",
+    writeTemplate(DUMP_STATIC_VAR_DECLARATIONS_TEMPLATE_RESOURCE_URL,
       "charStreamName", charStreamName,
       "protected", isJavaLanguage() ? "protected" : "",
       "private", isJavaLanguage() ? "private" : "",

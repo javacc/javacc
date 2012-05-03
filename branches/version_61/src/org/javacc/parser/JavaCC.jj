@@ -544,7 +544,7 @@ void javacc_input() :
 {
   javacc_options()
   {
-    isJavaLanguage = Options.getOutputLanguage().equals("java");
+    isJavaLanguage = Options.isOutputLanguageImplementedInJava();
   }
   "PARSER_BEGIN" "(" id1=identifier()
 	{
@@ -1519,7 +1519,7 @@ void CompilationUnit() :
   ( ImportDeclaration() )*
   ( TypeDeclaration() )*
 	{
-          if (Options.getOutputLanguage().equals("java")) {
+          if (Options.isOutputLanguageImplementedInJava()) {
 	    insertionpointerrors(getToken(1));
           }
 	}

@@ -37,13 +37,20 @@ import java.util.Map;
 import java.util.Set;
 
 
+
 /**
  * A class with static state that stores all option information.
  */
 public class Options {
 
+
+  public static final String OUTPUT_LANGUAGE = "OUTPUT_LANGUAGE";
   
-  /**
+  public static final String OUTPUT_LANGUAGE__GWT = "gwt";
+  public static final String OUTPUT_LANGUAGE__CPP = "c++";
+  public static final String OUTPUT_LANGUAGE__JAVA = "java";
+
+/**
    * Limit subclassing to derived classes.
    */
   protected Options() {
@@ -146,7 +153,7 @@ public class Options {
     optionValues.put("TOKEN_EXTENDS", "");
     optionValues.put("TOKEN_FACTORY", "");
     optionValues.put("GRAMMAR_ENCODING", "");
-    optionValues.put("OUTPUT_LANGUAGE", "java");
+    optionValues.put(OUTPUT_LANGUAGE, OUTPUT_LANGUAGE__JAVA);
     optionValues.put("NAMESPACE", "");
     optionValues.put("PARSER_INCLUDES", "");
     optionValues.put("TOKEN_MANAGER_INCLUDES", "");
@@ -664,29 +671,38 @@ public class Options {
   }
 
   public static String stringBufOrBuild() {
-    if (getOutputLanguage().equals("java") && getGenerateStringBuilder()) {
-      return "StringBuilder";
-    } else {
+	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+    if ( isOutputLanguageImplementedInJava() && getGenerateStringBuilder()) {
+      return getGenerateStringBuilder() ? "StringBuilder" : "StringBuffer";
+    } else if (getOutputLanguage().equals(OUTPUT_LANGUAGE__CPP)){
       return "StringBuffer";
+    } else {
+    	throw new RuntimeException("Output language type not fully implemented : " + getOutputLanguage());
     }
   }
 
   private static final Set<String> supportedLanguages = new HashSet<String>();
   static {
-    supportedLanguages.add("java");
-    supportedLanguages.add("c++");
+    supportedLanguages.add(OUTPUT_LANGUAGE__JAVA);
+    supportedLanguages.add(OUTPUT_LANGUAGE__CPP);
+    supportedLanguages.add(OUTPUT_LANGUAGE__GWT);
   }
+  
+  public static boolean isValidOutputLanguage(String language) {
+	  return language == null ? false : supportedLanguages.contains(language.toLowerCase());
+  }
+  
   /**
    * @return the output language. default java
    */
   public static String getOutputLanguage() {
-     return stringValue("OUTPUT_LANGUAGE");
+     return stringValue(OUTPUT_LANGUAGE);
   }
 
   public static void setOutputLanguage(String lang) {
-     if (supportedLanguages.contains(lang.toLowerCase()))
-        optionValues.put("OUTPUT_LANGUAGE", lang.toUpperCase().toString());
-
+     if (supportedLanguages.contains(lang.toLowerCase())) {
+        optionValues.put(OUTPUT_LANGUAGE, lang.toUpperCase().toString());
+     }
      JavaCCErrors.fatal("Language: " + lang + " is not supported.");
   }
 
@@ -695,18 +711,32 @@ public class Options {
   }
 
   public static String getLongType() {
-    if (getOutputLanguage().equalsIgnoreCase("java")) {
+	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+    if (isOutputLanguageImplementedInJava()) {
       return "long";
-    } else {
+    } else if (getOutputLanguage().equals(OUTPUT_LANGUAGE__CPP)){
       return "unsigned long long";
+    } else {
+    	throw new RuntimeException("Language type not fully supported : " + getOutputLanguage());
     }
   }
 
   public static String getBooleanType() {
-    if (getOutputLanguage().equalsIgnoreCase("java")) {
+	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+    if (isOutputLanguageImplementedInJava()) {
       return "boolean";
-    } else {
+    } else if (getOutputLanguage().equals(OUTPUT_LANGUAGE__CPP)) {
       return "bool";
+    }  else {
+    	throw new RuntimeException("Language type not fully supported : " + getOutputLanguage());
     }
   }
+
+	public static boolean isOutputLanguageImplementedInJava() {
+		// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+			String outputLanguage = getOutputLanguage();
+			boolean b = outputLanguage.equalsIgnoreCase(OUTPUT_LANGUAGE__JAVA) || outputLanguage.equalsIgnoreCase(OUTPUT_LANGUAGE__GWT);
+			return b;
+	}
+
 }

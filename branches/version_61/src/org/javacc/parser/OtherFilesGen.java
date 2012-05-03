@@ -33,30 +33,40 @@ package org.javacc.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.javacc.parser.JavaFiles.JavaResourceTemplateLocations;
+
 /**
  * Generates the Constants file.
  */
 public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstants {
 
-  static public void start() throws MetaParseException {
+  static public void start(boolean isGwt) throws MetaParseException {
 
+	  
+	JavaResourceTemplateLocations templateLoc = isGwt ? JavaFiles.RESOURCES_GWT : JavaFiles.RESOURCES_JAVA;
+	  
     Token t = null;
 
     if (JavaCCErrors.get_error_count() != 0) throw new MetaParseException();
 
-    JavaFiles.gen_TokenMgrError();
-    JavaFiles.gen_ParseException();
-    JavaFiles.gen_Token();
+    
+    if (isGwt) {
+    	JavaFiles.gen_GwtFiles();
+    }
+    
+    JavaFiles.gen_TokenMgrError(templateLoc);
+    JavaFiles.gen_ParseException(templateLoc);
+    JavaFiles.gen_Token(templateLoc);
 
     if (Options.getUserTokenManager()) {
-      JavaFiles.gen_TokenManager();
+      JavaFiles.gen_TokenManager(templateLoc);
     } else if (Options.getUserCharStream()) {
-      JavaFiles.gen_CharStream();
+      JavaFiles.gen_CharStream(templateLoc);
     } else {
       if (Options.getJavaUnicodeEscape()) {
-        JavaFiles.gen_JavaCharStream();
+        JavaFiles.gen_JavaCharStream(templateLoc);
       } else {
-        JavaFiles.gen_SimpleCharStream();
+        JavaFiles.gen_SimpleCharStream(templateLoc);
       }
     }
     try {

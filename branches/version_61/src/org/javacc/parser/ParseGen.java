@@ -35,9 +35,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 
 import static org.javacc.parser.JavaCCGlobals.*;
 
@@ -46,7 +48,10 @@ import static org.javacc.parser.JavaCCGlobals.*;
  */
 public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 
-  public void start() throws MetaParseException {
+	
+  
+	
+  public void start(boolean isGwtMode) throws MetaParseException {
 
     Token t = null;
 
@@ -216,6 +221,8 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
           }
           genCodeLine("  }");
         } else {
+        	
+            if (!isGwtMode) {
           genCodeLine("  /** Constructor with InputStream. */");
           genCodeLine("  public " + cu_name + "(java.io.InputStream stream) {");
           genCodeLine("     this(stream, null);");
@@ -273,105 +280,134 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
           }
           genCodeLine("  }");
           genCodeLine("");
-          genCodeLine("  /** Reinitialise. */");
-          genCodeLine("  " + staticOpt() + "public void ReInit(java.io.InputStream stream) {");
-          genCodeLine("     ReInit(stream, null);");
-          genCodeLine("  }");
-          genCodeLine("  /** Reinitialise. */");
-          genCodeLine("  " + staticOpt() + "public void ReInit(java.io.InputStream stream, String encoding) {");
-          if (!Options.getGenerateChainedException()) {
-            genCodeLine("    try { jj_input_stream.ReInit(stream, encoding, 1, 1); } " +
-                    "catch(java.io.UnsupportedEncodingException e) { " +
-                    "throw new RuntimeException(e.getMessage()); }");
-          } else {
-            genCodeLine("    try { jj_input_stream.ReInit(stream, encoding, 1, 1); } " +
-                    "catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }");
+          
+
+	          genCodeLine("  /** Reinitialise. */");
+	          genCodeLine("  " + staticOpt() + "public void ReInit(java.io.InputStream stream) {");
+	          genCodeLine("     ReInit(stream, null);");
+	          genCodeLine("  }");
+      
+	          genCodeLine("  /** Reinitialise. */");
+	          genCodeLine("  " + staticOpt() + "public void ReInit(java.io.InputStream stream, String encoding) {");
+	          if (!Options.getGenerateChainedException()) {
+	            genCodeLine("    try { jj_input_stream.ReInit(stream, encoding, 1, 1); } " +
+	                    "catch(java.io.UnsupportedEncodingException e) { " +
+	                    "throw new RuntimeException(e.getMessage()); }");
+	          } else {
+	            genCodeLine("    try { jj_input_stream.ReInit(stream, encoding, 1, 1); } " +
+	                    "catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }");
+	          }
+	          genCodeLine("    token_source.ReInit(jj_input_stream);");
+	          genCodeLine("    token = new Token();");
+	          if (Options.getCacheTokens()) {
+	            genCodeLine("    token.next = jj_nt = token_source.getNextToken();");
+	          } else {
+	            genCodeLine("    jj_ntk = -1;");
+	          }
+	          if (jjtreeGenerated) {
+	            genCodeLine("    jjtree.reset();");
+	          }
+	          if (Options.getErrorReporting()) {
+	            genCodeLine("    jj_gen = 0;");
+	            genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+	            if (jj2index != 0) {
+	              genCodeLine("    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();");
+	            }
+	          }
+	          genCodeLine("  }");
+	          genCodeLine("");
+	          
+	          
+	          
+	          
+	          
+	          
           }
-          genCodeLine("    token_source.ReInit(jj_input_stream);");
-          genCodeLine("    token = new Token();");
-          if (Options.getCacheTokens()) {
-            genCodeLine("    token.next = jj_nt = token_source.getNextToken();");
-          } else {
-            genCodeLine("    jj_ntk = -1;");
-          }
-          if (jjtreeGenerated) {
-            genCodeLine("    jjtree.reset();");
-          }
-          if (Options.getErrorReporting()) {
-            genCodeLine("    jj_gen = 0;");
-            genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
-            if (jj2index != 0) {
-              genCodeLine("    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();");
-            }
-          }
-          genCodeLine("  }");
-          genCodeLine("");
-          genCodeLine("  /** Constructor. */");
-          genCodeLine("  public " + cu_name + "(java.io.Reader stream) {");
-          if (Options.getStatic()) {
-            genCodeLine("    if (jj_initialized_once) {");
-            genCodeLine("      System.out.println(\"ERROR: Second call to constructor of static parser. \");");
-            genCodeLine("      System.out.println(\"       You must either use ReInit() or " +
-                    "set the JavaCC option STATIC to false\");");
-            genCodeLine("      System.out.println(\"       during parser generation.\");");
-            genCodeLine("      throw new Error();");
-            genCodeLine("    }");
-            genCodeLine("    jj_initialized_once = true;");
-          }
-          if (Options.getJavaUnicodeEscape()) {
-            genCodeLine("    jj_input_stream = new JavaCharStream(stream, 1, 1);");
-          } else {
-            genCodeLine("    jj_input_stream = new SimpleCharStream(stream, 1, 1);");
-          }
-          if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
-            genCodeLine("    token_source = new " + cu_name + "TokenManager(this, jj_input_stream);");
-          } else {
-            genCodeLine("    token_source = new " + cu_name + "TokenManager(jj_input_stream);");
-          }
-          genCodeLine("    token = new Token();");
-          if (Options.getCacheTokens()) {
-            genCodeLine("    token.next = jj_nt = token_source.getNextToken();");
-          } else {
-            genCodeLine("    jj_ntk = -1;");
-          }
-          if (Options.getErrorReporting()) {
-            genCodeLine("    jj_gen = 0;");
-            if (maskindex > 0) {
-              genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
-            }
-            if (jj2index != 0) {
-              genCodeLine("    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();");
-            }
-          }
-          genCodeLine("  }");
-          genCodeLine("");
-          genCodeLine("  /** Reinitialise. */");
-          genCodeLine("  " + staticOpt() + "public void ReInit(java.io.Reader stream) {");
-          if (Options.getJavaUnicodeEscape()) {
-            genCodeLine("    jj_input_stream.ReInit(stream, 1, 1);");
-          } else {
-            genCodeLine("    jj_input_stream.ReInit(stream, 1, 1);");
-          }
-          genCodeLine("    token_source.ReInit(jj_input_stream);");
-          genCodeLine("    token = new Token();");
-          if (Options.getCacheTokens()) {
-            genCodeLine("    token.next = jj_nt = token_source.getNextToken();");
-          } else {
-            genCodeLine("    jj_ntk = -1;");
-          }
-          if (jjtreeGenerated) {
-            genCodeLine("    jjtree.reset();");
-          }
-          if (Options.getErrorReporting()) {
-            genCodeLine("    jj_gen = 0;");
-            if (maskindex > 0) {
-              genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
-            }
-            if (jj2index != 0) {
-              genCodeLine("    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();");
-            }
-          }
-          genCodeLine("  }");
+          
+          String readerInterfaceName = isGwtMode ? "Provider" : "java.io.Reader";
+          String stringReaderClass = isGwtMode ? "StringProvider" : "java.io.StringReader";
+          
+          //if (!isGwtMode) {
+	          genCodeLine("  /** Constructor. */");
+	          genCodeLine("  public " + cu_name + "("+readerInterfaceName+" stream) {");
+	          if (Options.getStatic()) {
+	            genCodeLine("    if (jj_initialized_once) {");
+	            genCodeLine("      System.out.println(\"ERROR: Second call to constructor of static parser. \");");
+	            genCodeLine("      System.out.println(\"       You must either use ReInit() or " +
+	                    "set the JavaCC option STATIC to false\");");
+	            genCodeLine("      System.out.println(\"       during parser generation.\");");
+	            genCodeLine("      throw new Error();");
+	            genCodeLine("    }");
+	            genCodeLine("    jj_initialized_once = true;");
+	          }
+	          if (Options.getJavaUnicodeEscape()) {
+	            genCodeLine("    jj_input_stream = new JavaCharStream(stream, 1, 1);");
+	          } else {
+	            genCodeLine("    jj_input_stream = new SimpleCharStream(stream, 1, 1);");
+	          }
+	          if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
+	            genCodeLine("    token_source = new " + cu_name + "TokenManager(this, jj_input_stream);");
+	          } else {
+	            genCodeLine("    token_source = new " + cu_name + "TokenManager(jj_input_stream);");
+	          }
+	          genCodeLine("    token = new Token();");
+	          if (Options.getCacheTokens()) {
+	            genCodeLine("    token.next = jj_nt = token_source.getNextToken();");
+	          } else {
+	            genCodeLine("    jj_ntk = -1;");
+	          }
+	          if (Options.getErrorReporting()) {
+	            genCodeLine("    jj_gen = 0;");
+	            if (maskindex > 0) {
+	              genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+	            }
+	            if (jj2index != 0) {
+	              genCodeLine("    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();");
+	            }
+	          }
+	          genCodeLine("  }");
+	          genCodeLine("");
+	 
+	          {
+	        	  genCodeLine("  /** Constructor. */");
+		          genCodeLine("  public " + cu_name + "(String dsl) throws ParseException, TokenMgrError {");
+		          genCodeLine("      this(new "+stringReaderClass+"(dsl));");
+		          genCodeLine("  }");
+		          genCodeLine("");
+	          }
+	      
+        //}
+         // if (!isGwtMode) {
+	          genCodeLine("  /** Reinitialise. */");
+	          genCodeLine("  " + staticOpt() + "public void ReInit("+readerInterfaceName+" stream) {");
+	          if (Options.getJavaUnicodeEscape()) {
+	            genCodeLine("    jj_input_stream.ReInit(stream, 1, 1);");
+	          } else {
+	            genCodeLine("    jj_input_stream.ReInit(stream, 1, 1);");
+	          }
+	          genCodeLine("    token_source.ReInit(jj_input_stream);");
+	          genCodeLine("    token = new Token();");
+	          if (Options.getCacheTokens()) {
+	            genCodeLine("    token.next = jj_nt = token_source.getNextToken();");
+	          } else {
+	            genCodeLine("    jj_ntk = -1;");
+	          }
+	          if (jjtreeGenerated) {
+	            genCodeLine("    jjtree.reset();");
+	          }
+	          if (Options.getErrorReporting()) {
+	            genCodeLine("    jj_gen = 0;");
+	            if (maskindex > 0) {
+	              genCodeLine("    for (int i = 0; i < " + maskindex + "; i++) jj_la1[i] = -1;");
+	            }
+	            if (jj2index != 0) {
+	              genCodeLine("    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();");
+	            }
+	          }
+	          genCodeLine("  }");
+          
+          
+        //}
         }
       }
       genCodeLine("");
