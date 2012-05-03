@@ -1,0 +1,38 @@
+\#ifndef __JAVACC_H
+\#define __JAVACC_H
+\#include <stdio.h>
+\#include <string>
+\#include <memory.h>
+\#include <assert.h>
+
+\#ifndef JAVACC_CHAR_TYPE
+\#define JAVACC_CHAR_TYPE char
+\#endif
+
+\#ifndef JAVACC_STRING_TYPE
+\#define JAVACC_STRING_TYPE std::basic_string<JAVACC_CHAR_TYPE>
+\#endif
+
+\#define JAVACC_SIMPLE_STRING std::basic_string<char>
+
+\#define finally  // TODO(Sreeni): Get rid of when we fix jjtree
+
+typedef JAVACC_STRING_TYPE StringBuffer;
+typedef JAVACC_STRING_TYPE String;
+
+// Abstraction on stream classes to read a block of data into a buffer.
+class ReaderStream {
+ public:
+  // Read block of data into a buffer and return the actual number read.
+  virtual size_t read(JAVACC_CHAR_TYPE *bufptr, int offset, size_t len) {
+    return 0;
+  }
+  virtual bool endOfInput() { return true; }
+  virtual ~ReaderStream() {}
+};
+
+const JAVACC_CHAR_TYPE EMPTY[] = { 0 };
+
+JAVACC_SIMPLE_STRING addUnicodeEscapes(JAVACC_STRING_TYPE str);
+
+\#endif
