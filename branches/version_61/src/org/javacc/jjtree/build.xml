@@ -100,12 +100,6 @@ THE POSSIBILITY OF SUCH DAMAGE.
          <include name="ASTPrimaryExpression.java"/>
          <include name="JJTreeParserTreeConstants.java"/>
          <include name="JJTJJTreeParserState.java"/>
-	 
-	 <!-- Added these, as recommended by Sreenivasa in email on 5th May, 2012 -->
-	 <include name="ASTOptions.java"/>
-	 <include name="JJTreeParserDefaultVisitor.java"/>
-	 <include name="JJTreeParserVisitor.java"/>
-	 
          <include name="JJTree.jj"/>
       </fileset>
     </delete>
