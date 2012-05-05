@@ -149,8 +149,7 @@ public class OutputFile {
       }
     } else {
       // File does not exist
-      System.out.println("File \"" + file.getName()
-          + "\" does not exist.  Will create one.");
+      System.out.println("File \"" + file.getName() + "\" does not exist.  Will create one.");
       needToWrite = true;
     }
   }

@@ -18,7 +18,7 @@ import org.javacc.parser.OutputFile;
 final class CPPJJTreeState
 {
 
-  static final String JJTStateVersion = "6.0";
+  static final String JJTStateVersion = "6.1";
 
   private CPPJJTreeState() {}
 

@@ -50,7 +50,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
   <target name="resources">
     <copy todir="classes/templates">
-      <fileset dir="templates" />
+      <fileset dir="template_src/templates" />
     </copy>
   </target>
 

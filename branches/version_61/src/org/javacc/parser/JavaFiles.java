@@ -48,29 +48,29 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
    * ID of the latest version (of JavaCC) in which one of the CharStream classes
    * or the CharStream interface is modified.
    */
-  static final String charStreamVersion = "6.0";
+  static final String charStreamVersion = "6.1";
 
   /**
    * ID of the latest version (of JavaCC) in which the TokenManager interface is modified.
    */
-  static final String tokenManagerVersion = "6.0";
+  static final String tokenManagerVersion = "6.1";
 
   /**
    * ID of the latest version (of JavaCC) in which the Token class is modified.
    */
-  static final String tokenVersion = "6.0";
+  static final String tokenVersion = "6.1";
 
   /**
    * ID of the latest version (of JavaCC) in which the ParseException class is
    * modified.
    */
-  static final String parseExceptionVersion = "6.0";
+  static final String parseExceptionVersion = "6.1";
 
   /**
    * ID of the latest version (of JavaCC) in which the TokenMgrError class is
    * modified.
    */
-  static final String tokenMgrErrorVersion = "6.0";
+  static final String tokenMgrErrorVersion = "6.1";
 
   
   public interface JavaResourceTemplateLocations {
@@ -86,29 +86,35 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   
   public static class GwtResourceTemplateLocationImpl implements JavaResourceTemplateLocations {
 		public String getTokenMgrErrorTemplateResourceUrl() {
+			// Same as Java
 			return "/templates/TokenMgrError.template";
 		}
 		public String getCharStreamTemplateResourceUrl() {
+			// Same as Java
 			return "/templates/CharStream.template";
 		}
 	  
 	  public String getTokenManagerTemplateResourceUrl() {
+		// Same as Java
 			return "/templates/TokenManager.template";
 		}
 		
 		public String getTokenTemplateResourceUrl() {
-			return "/templates/gwt/Token.template";
+			// Same as Java
+			return "/templates/Token.template";
+		}
+		
+		public String getSimpleCharStreamTemplateResourceUrl() {
+			// TODO :: We need a GWT verison of this
+			// Same as Java
+			return "/templates/SimpleCharStream.template";
 		}
 		
 		
 		public String getJavaCharStreamTemplateResourceUrl() {
 			return "/templates/gwt/JavaCharStream.template";
 		}
-		
-		public String getSimpleCharStreamTemplateResourceUrl() {
-			// TODO :: We need a GWT verison of this
-			return "/templates/SimpleCharStream.template";
-		}
+
 		
 		public String getParseExceptionTemplateResourceUrl() {
 			return "/templates/gwt/ParseException.template";
