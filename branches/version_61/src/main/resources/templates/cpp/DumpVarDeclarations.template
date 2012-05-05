@@ -1,8 +1,0 @@
-    ${charStreamName}  *input_stream;
-    int jjrounds[${stateSetSize}];
-    int jjstateSet[2 * ${stateSetSize}];
-    JAVACC_STRING_TYPE jjimage;
-    JAVACC_STRING_TYPE image;
-    int jjimageLen;
-    int lengthOfMatch;
-    JAVACC_CHAR_TYPE curChar;
