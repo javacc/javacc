@@ -1,0 +1,10 @@
+\#include <vector>
+\#include "JavaCC.h"
+\#include "Token.h"
+\#include "Node.h"
+\#include "${PARSER_NAME}TreeConstants.h"
+
+#if NODE_INCLUDES
+\#include "${NODE_INCLUDES}"
+#fi
+
