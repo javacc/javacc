@@ -71,8 +71,10 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("  };");
     genCodeLine("");
 
-    //String superClass = Options.stringValue("PARSER_SUPER_CLASS");
-    genClassStart("", cu_name, new String[]{}, new String[0]);
+    String superClass = Options.stringValue("PARSER_SUPER_CLASS");
+    genClassStart("", cu_name, new String[]{},
+                  superClass.equals("")  ? new String[0] : new String[] {
+                   "public " + superClass});
     switchToMainFile();
     if (cu_to_insertion_point_2.size() != 0) {
       printTokenSetup((Token)(cu_to_insertion_point_2.get(0)));
@@ -142,6 +144,10 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine(" Token *head; ");
     genCodeLine(" public: ");
     generateMethodDefHeader("", cu_name, cu_name + "(TokenManager *tm)");
+    if (!superClass.equals(""))
+    {
+      genCodeLine(" : " + superClass + "()");
+    }
     genCodeLine("{");
     genCodeLine("    head = NULL;");
     genCodeLine("    ReInit(tm);");

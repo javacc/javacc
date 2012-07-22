@@ -27,7 +27,11 @@
   }
 
   /** Constructor. */
-  ${tokMgrClassName}::${tokMgrClassName} (${charStreamName} *stream, int lexState, ${parserClassName} *parserArg){
+  ${tokMgrClassName}::${tokMgrClassName} (${charStreamName} *stream, int lexState, ${parserClassName} *parserArg)
+#if TOKEN_MANAGER_SUPER_CLASS
+  : ${TOKEN_MANAGER_SUPER_CLASS}()
+#fi
+  {
     input_stream = NULL;
     ReInit(stream, lexState, parserArg);
   }
