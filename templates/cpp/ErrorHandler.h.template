@@ -2,6 +2,7 @@
 \#define ERRORHANDLER_H
 \#include <string>
 \#include "JavaCC.h"
+\#include "Token.h"
 
 #if NAMESPACE
 namespace ${NAMESPACE} {
@@ -14,7 +15,7 @@ class ${PARSER_NAME};
       // Called when the parser encounters a different token when expecting to
       // consume a specific kind of token.
       // expectedKind - token kind that the parser was trying to consume.
-      // extedToken - the image of the token - tokenImages[expectedKind].
+      // expectedToken - the image of the token - tokenImages[expectedKind].
       // actual - the actual token that the parser got instead.
       virtual void handleUnexpectedToken(int expectedKind, JAVACC_STRING_TYPE expectedToken, Token *actual, ${PARSER_NAME} *parser) {
         error_count++;
