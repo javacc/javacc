@@ -783,8 +783,8 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
       if (keepLineCol)
       {
-        genCodeLine("      beginLine = endLine = input_stream.getBeginLine();");
-        genCodeLine("      beginColumn = endColumn = input_stream.getBeginColumn();");
+        genCodeLine("      beginLine = endLine = input_stream.getEndLine();");
+        genCodeLine("      beginColumn = endColumn = input_stream.getEndColumn();");
       }
 
       genCodeLine("   }");
