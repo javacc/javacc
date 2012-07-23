@@ -113,7 +113,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     genCodeLine("");
     genCodeLine("/** Token Manager. */");
     String superClass = Options.stringValue("TOKEN_MANAGER_SUPER_CLASS");
-    genClassStart(null, tokMgrClassName, new String[]{}, new String[]{"public TokenManager" + (superClass.equals("") ? superClass : ", public " + superClass) });
+    genClassStart(null, tokMgrClassName, new String[]{}, new String[]{"public TokenManager" + (superClass == null ? "" : ", public " + superClass) });
 
     if (token_mgr_decls != null && token_mgr_decls.size() > 0)
     {

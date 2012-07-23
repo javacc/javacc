@@ -34,8 +34,8 @@ options {
   OUTPUT_LANGUAGE = "c++";
   NAMESPACE = "java_parser";
   OUTPUT_DIRECTORY = "gen";
-  TOKEN_MANAGER_SUPER_CLASS = "MyTm";
-  TOKEN_MANAGER_INCLUDES = "mytm.h";
+  //TOKEN_MANAGER_SUPER_CLASS = "MyTm";
+  //TOKEN_MANAGER_INCLUDES = "mytm.h";
   PARSER_INCLUDES = "myparser.h";
   PARSER_SUPER_CLASS = "MyParser";
 }
