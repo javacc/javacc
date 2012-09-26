@@ -1,7 +1,7 @@
 
   SimpleNode::SimpleNode(int i)
 #if NODE_EXTENDS
-   : ${NODE_EXTENDS}()
+   : ${NODE_EXTENDS}(), parent(NULL), value(NULL)
 #fi
 {
     id = i;
@@ -11,7 +11,7 @@
 
   SimpleNode::SimpleNode(${PARSER_NAME} *p, int i)
 #if NODE_EXTENDS
-   : ${NODE_EXTENDS}()
+   : ${NODE_EXTENDS}(), parent(NULL), value(NULL)
 #fi
 {
     id = i;
