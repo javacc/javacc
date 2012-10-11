@@ -30,7 +30,7 @@ class StringReaderStream : public ReaderStream {
 }
 
 #if NAMESPACE
-namespace ${NAMESPACE} {
+namespace ${NAMESPACE_OPEN}
 #fi
 
 JAVACC_CHAR_TYPE CharStream::BeginToken() {
@@ -244,5 +244,5 @@ void CharStream::UpdateLineColumn(JAVACC_CHAR_TYPE c) {
 }
 
 #if NAMESPACE
-}
+${NAMESPACE_CLOSE}
 #fi

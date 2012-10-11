@@ -2,7 +2,7 @@
 
 
 #if NAMESPACE
-namespace ${NAMESPACE} {
+namespace ${NAMESPACE_OPEN}
 #fi
 /**
  * This exception is thrown when parse errors are encountered.
@@ -181,5 +181,5 @@ namespace ${NAMESPACE} {
    }
 
 #if NAMESPACE
-}
+${NAMESPACE_CLOSE}
 #fi

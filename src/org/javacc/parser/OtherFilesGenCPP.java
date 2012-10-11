@@ -98,7 +98,7 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
     ostr.println("#define " + define);
     ostr.println("");
     if (Options.stringValue("NAMESPACE").length() > 0) {
-      ostr.println("namespace " + Options.stringValue("NAMESPACE") + " {");
+      ostr.println("namespace " + Options.stringValue("NAMESPACE_OPEN"));
     }
 
     RegularExpression re;
@@ -153,7 +153,7 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
     ostr.println("  };");
     ostr.println("");
     if (Options.stringValue("NAMESPACE").length() > 0) {
-      ostr.println(" }");
+      ostr.println(Options.stringValue("NAMESPACE_CLOSE"));
     }
     ostr.println("#endif");
 

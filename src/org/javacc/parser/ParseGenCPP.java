@@ -58,7 +58,7 @@ public class ParseGenCPP extends ParseGen {
     }
 
     if (Options.stringValue("NAMESPACE").length() > 0) {
-      genCodeLine("namespace " + Options.stringValue("NAMESPACE") + " {");
+      genCodeLine("namespace " + Options.stringValue("NAMESPACE_OPEN"));
     }
 
     genCodeLine("  struct JJCalls {");

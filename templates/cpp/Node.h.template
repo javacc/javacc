@@ -6,7 +6,7 @@
 \#include "Token.h"
 
 #if NAMESPACE
-namespace ${NAMESPACE} {
+namespace ${NAMESPACE_OPEN}
 #fi
 
 /* All AST nodes must implement this interface.  It provides basic
@@ -51,6 +51,6 @@ class Node {
   public: virtual ~Node() { }
 };
 #if NAMESPACE
-}
+${NAMESPACE_CLOSE}
 #fi
 \#endif

@@ -9,7 +9,7 @@
 #include "gen/JavaParser.h"
 #include "gen/JavaParserTokenManager.h"
 
-using namespace java_parser;
+using namespace java::parser;
 using namespace std;
 
 string ReadFileFully(char *file_name) {

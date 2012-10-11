@@ -5,7 +5,7 @@
 
 
 #if NAMESPACE
-namespace ${NAMESPACE} {
+namespace ${NAMESPACE_OPEN}
 #fi
 class JJT${PARSER_NAME}State {
   private: std::vector<Node*> *nodes;
@@ -68,6 +68,6 @@ class JJT${PARSER_NAME}State {
 };
 
 #if NAMESPACE
-}
+${NAMESPACE_CLOSE}
 #fi
 \#endif

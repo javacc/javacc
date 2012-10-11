@@ -1,7 +1,7 @@
 \#include "JJT${PARSER_NAME}State.h"
 
 #if NAMESPACE
-namespace ${NAMESPACE} {
+namespace ${NAMESPACE_OPEN}
 #fi
 
 \#define FIXUP_MARKS \
@@ -140,5 +140,5 @@ namespace ${NAMESPACE} {
   }
 
 #if NAMESPACE
-}
+${NAMESPACE_CLOSE}
 #fi

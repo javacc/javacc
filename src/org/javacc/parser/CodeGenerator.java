@@ -57,9 +57,9 @@ public class CodeGenerator {
 
       // Finally enclose the whole thing in the namespace, if specified.
       if (Options.stringValue("NAMESPACE").length() > 0) {
-        mainBuffer.insert(0, "namespace " + Options.stringValue("NAMESPACE") + " {\n");
-        mainBuffer.append("}\n");
-        includeBuffer.append("}\n");
+        mainBuffer.insert(0, "namespace " + Options.stringValue("NAMESPACE_OPEN") + "\n");
+        mainBuffer.append(Options.stringValue("NAMESPACE_CLOSE") + "\n");
+        includeBuffer.append(Options.stringValue("NAMESPACE_CLOSE") + "\n");
       }
 
       mainBuffer.insert(0, "#include \"" + incfileName + "\"\n");
