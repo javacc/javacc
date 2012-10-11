@@ -35,6 +35,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 
 /**
@@ -81,9 +82,6 @@ public class Options {
   public static Map getOptions()
   {
     HashMap ret = new HashMap(optionValues);
-    if (Options.stringValue("NAMESPACE").length() > 0) {
-      ret.put("HAS_NAMESPACE", Boolean.TRUE);
-    }
     return ret;
   }
 
@@ -250,6 +248,9 @@ public class Options {
 
     optionValues.put(s, value);
     inputFileSetting.add(s);
+    if (s.equalsIgnoreCase("NAMESPACE")) {
+      processCPPNamespaceOption((String)value);
+    }
   }
 
 
@@ -349,6 +350,9 @@ public class Options {
 
     optionValues.put(name, Val);
     cmdLineSetting.add(name);
+    if (name.equalsIgnoreCase("NAMESPACE")) {
+      processCPPNamespaceOption((String)Val);
+    }
   }
 
   public static void normalize() {
@@ -694,6 +698,26 @@ public class Options {
 
   public static void setStringOption(String optionName, String optionValue) {
     optionValues.put(optionName, optionValue);
+    if (optionName.equalsIgnoreCase("NAMESPACE")) {
+      processCPPNamespaceOption(optionValue);
+    }
+  }
+
+  public static void processCPPNamespaceOption(String optionValue) {
+    String ns = optionValue;
+    if (ns.length() > 0) {
+      // We also need to split it.
+      StringTokenizer st = new StringTokenizer(ns, "::");
+      String expanded_ns = st.nextToken() + " {";
+      String ns_close =  "}";
+      while (st.hasMoreTokens()) {
+        expanded_ns = expanded_ns + "\nnamespace " + st.nextToken() + " {";
+        ns_close = ns_close + "\n}";
+      }
+      optionValues.put("NAMESPACE_OPEN", expanded_ns);
+      optionValues.put("HAS_NAMESPACE", Boolean.TRUE);
+      optionValues.put("NAMESPACE_CLOSE", ns_close);
+    }
   }
 
   public static String getLongType() {

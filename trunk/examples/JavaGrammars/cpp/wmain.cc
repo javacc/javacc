@@ -8,7 +8,7 @@
 #include "gen/JavaParser.h"
 #include "gen/JavaParserTokenManager.h"
 
-using namespace java_parser;
+using namespace java::parser;
 using namespace std;
 
 wstring ReadFileFully(char *file_name) {
@@ -31,5 +31,6 @@ int main(int argc, char **argv) {
   CharStream *stream = new CharStream(s.c_str(), s.size() - 1, 1, 1);
   JavaParserTokenManager *scanner = new JavaParserTokenManager(stream);
   JavaParser parser(scanner);
+  parser.setErrorHandler(new MyErrorHandler());
   parser.CompilationUnit();
 }

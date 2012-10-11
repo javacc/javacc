@@ -5,7 +5,7 @@
 \#include "Token.h"
 
 #if NAMESPACE
-namespace ${NAMESPACE} {
+namespace ${NAMESPACE_OPEN}
 #fi
 class ${PARSER_NAME};
   class ErrorHandler {
@@ -36,7 +36,7 @@ class ${PARSER_NAME};
       ErrorHandler() { error_count = 0; }
   };
 #if NAMESPACE
-}
+${NAMESPACE_CLOSE}
 #fi
 
 \#endif

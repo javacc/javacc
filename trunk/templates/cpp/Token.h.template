@@ -3,7 +3,7 @@
 \#include "JavaCC.h"
 
 #if NAMESPACE
-namespace ${NAMESPACE} {
+namespace ${NAMESPACE_OPEN}
 #fi
 
 /**
@@ -108,6 +108,6 @@ class Token {
 };
 
 #if NAMESPACE
-}
+${NAMESPACE_CLOSE}
 #fi
 \#endif

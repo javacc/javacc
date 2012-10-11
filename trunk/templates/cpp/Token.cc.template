@@ -1,7 +1,7 @@
 \#include "Token.h"
 
 #if NAMESPACE
-namespace ${NAMESPACE} {
+namespace ${NAMESPACE_OPEN}
 #fi
 
 /**
@@ -87,5 +87,5 @@ namespace ${NAMESPACE} {
   }
 
 #if NAMESPACE
-}
+${NAMESPACE_CLOSE}
 #fi

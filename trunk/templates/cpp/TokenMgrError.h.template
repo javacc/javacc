@@ -4,7 +4,7 @@
 
 
 #if NAMESPACE
-namespace ${NAMESPACE} {
+namespace ${NAMESPACE_OPEN}
 #fi
 
  enum LexerErrors {
@@ -84,6 +84,6 @@ class TokenMgrError
 };
 
 #if NAMESPACE
-}
+${NAMESPACE_CLOSE}
 #fi
 \#endif

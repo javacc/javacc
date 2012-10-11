@@ -32,7 +32,7 @@
 options {
   JAVA_UNICODE_ESCAPE = true;
   OUTPUT_LANGUAGE = "c++";
-  NAMESPACE = "java_parser";
+  NAMESPACE = "java::parser";
   OUTPUT_DIRECTORY = "gen";
   //TOKEN_MANAGER_SUPER_CLASS = "MyTm";
   //TOKEN_MANAGER_INCLUDES = "mytm.h";

@@ -7,7 +7,7 @@
 \#endif
 
 #if NAMESPACE
-namespace ${NAMESPACE} {
+namespace ${NAMESPACE_OPEN}
 #fi
 
 /**
@@ -211,6 +211,6 @@ class CharStream {
 };
 
 #if NAMESPACE
-}
+${NAMESPACE_CLOSE}
 #fi
 \#endif
