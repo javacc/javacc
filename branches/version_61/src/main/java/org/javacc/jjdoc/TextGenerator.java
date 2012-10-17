@@ -88,19 +88,6 @@ public class TextGenerator implements Generator {
     ostr.print(s);
   }
 
-  /**
-   * {@inheritDoc}
-   * @see org.javacc.jjdoc.Generator#tokenStart(org.javacc.parser.TokenProduction)
-   */
-  public void tokenStart(TokenProduction tp) {
-  }
-
-  /**
-   * {@inheritDoc}
-   * @see org.javacc.jjdoc.Generator#tokenEnd(org.javacc.parser.TokenProduction)
-   */
-  public void tokenEnd(TokenProduction tp) {
-  }
 
   /**
    * {@inheritDoc}
@@ -123,6 +110,14 @@ public class TextGenerator implements Generator {
   public void tokensStart() {
     text("TOKENS\n");
   }
+  
+  @Override
+  public void handleTokenProduction(TokenProduction tp) {
+      String text = JJDoc.getStandardTokenProductionText(tp);
+      text(text);
+  }
+  
+  
   /**
    * {@inheritDoc}
    * @see org.javacc.jjdoc.Generator#tokensEnd()
@@ -211,9 +206,13 @@ public class TextGenerator implements Generator {
                                                                       System.out));
       } else {
         String ext = ".html";
+        
         if (JJDocOptions.getText()) {
           ext = ".txt";
+        } else if (JJDocOptions.getXText()) {
+            ext = ".xtext";
         }
+        
         int i = JJDocGlobals.input_file.lastIndexOf('.');
         if (i == -1) {
           JJDocGlobals.output_file = JJDocGlobals.input_file + ext;
@@ -276,5 +275,9 @@ public class TextGenerator implements Generator {
     System.err.println(message);
   }
 
+  
+  
+  
+  
 
 }

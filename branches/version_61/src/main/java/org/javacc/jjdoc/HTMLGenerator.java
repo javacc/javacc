@@ -121,18 +121,20 @@ public class HTMLGenerator extends TextGenerator implements Generator {
     println(" </TR>");
   }
 
-  public void tokenStart(TokenProduction tp) {
-    println(" <!-- Token -->");
-    println(" <TR>");
-    println("  <TD>");
-    println("   <PRE>");
+  
+  @Override
+  public void handleTokenProduction(TokenProduction tp) {
+      println(" <!-- Token -->");
+      println(" <TR>");
+      println("  <TD>");
+      println("   <PRE>");
+      String text = JJDoc.getStandardTokenProductionText(tp);
+      text(text);
+      println("   </PRE>");
+      println("  </TD>");
+      println(" </TR>");
   }
 
-  public void tokenEnd(TokenProduction tp) {
-    println("   </PRE>");
-    println("  </TD>");
-    println(" </TR>");
-  }
 
   public void nonterminalsStart() {
     println("<H2 ALIGN=CENTER>NON-TERMINALS</H2>");

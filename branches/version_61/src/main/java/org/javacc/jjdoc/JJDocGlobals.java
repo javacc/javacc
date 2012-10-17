@@ -69,6 +69,8 @@ public class JJDocGlobals extends JavaCCGlobals {
         generator = new TextGenerator();
       } else if (JJDocOptions.getBNF()) {
 	    generator = new BNFGenerator();
+	  } else if (JJDocOptions.getXText()){
+	      generator = new XTextGenerator();
 	  } else {
         generator = new HTMLGenerator();
       }
@@ -79,6 +81,8 @@ public class JJDocGlobals extends JavaCCGlobals {
         }
       } else if (JJDocOptions.getBNF()) {
 		generator = new BNFGenerator();
+      } else if (JJDocOptions.getXText()){
+          generator = new XTextGenerator();
 	  } else {
         if(generator instanceof TextGenerator) {
           generator = new HTMLGenerator();
