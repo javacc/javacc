@@ -2884,8 +2884,8 @@ public class NfaState
         if (codeGenerator.isJavaLanguage()) {
          codeGenerator.genCodeLine("      debugStream.println(" + (LexGen.maxLexStates > 1 ?
                  "\"<\" + lexStateNames[curLexState] + \">\" + " :
-                 "") + "\"Current character : \" + " +
-                 "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
+                 "") + "\"Current character : \" + " + Options.getTokenMgrErrorClass() + 
+                 ".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
                  "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
         } else {
          codeGenerator.genCodeLine("   fprintf(debugStream, " +
@@ -2990,8 +2990,8 @@ public class NfaState
         if (codeGenerator.isJavaLanguage()) {
          codeGenerator.genCodeLine("      debugStream.println(" + (LexGen.maxLexStates > 1 ?
                  "\"<\" + lexStateNames[curLexState] + \">\" + " :
-                 "") + "\"Current character : \" + " +
-                 "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
+                 "") + "\"Current character : \" + " +  Options.getTokenMgrErrorClass() + 
+                 ".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
                  "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
         } else {
           codeGenerator.genCodeLine("   fprintf(debugStream, " +
