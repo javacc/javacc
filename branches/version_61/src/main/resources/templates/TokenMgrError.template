@@ -1,5 +1,5 @@
 /** Token Manager Error. */
-${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class TokenMgrError extends Error
+${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class TokenMgrError extends ${LEGACY_EXCEPTION_HANDLING?Error:RuntimeException}
 {
 
   /**

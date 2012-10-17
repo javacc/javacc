@@ -16,7 +16,7 @@
     #else
       if (SimpleCharStream.staticFlag)
     #fi
-            throw new Error("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
+            throw new ${LEGACY_EXCEPTION_HANDLING?Error:RuntimeException}("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
 #fi
 
     input_stream = stream;

@@ -188,7 +188,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 						genCodeLine("      System.out.println(\"       You must either use ReInit() "
 								+ "or set the JavaCC option STATIC to false\");");
 						genCodeLine("      System.out.println(\"       during parser generation.\");");
-						genCodeLine("      throw new Error();");
+						genCodeLine("      throw new "+(Options.isLegacyExceptionHandling() ? "Error" : "RuntimeException")+"();");
 						genCodeLine("    }");
 						genCodeLine("    jj_initialized_once = true;");
 					}
@@ -258,7 +258,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 							genCodeLine("      System.out.println(\"       You must either use ReInit() or "
 									+ "set the JavaCC option STATIC to false\");");
 							genCodeLine("      System.out.println(\"       during parser generation.\");");
-							genCodeLine("      throw new Error();");
+							genCodeLine("      throw new "+(Options.isLegacyExceptionHandling() ? "Error" : "RuntimeException")+"();");
 							genCodeLine("    }");
 							genCodeLine("    jj_initialized_once = true;");
 						}
@@ -362,7 +362,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 						genCodeLine("      System.out.println(\"       You must either use ReInit() or "
 								+ "set the JavaCC option STATIC to false\");");
 						genCodeLine("      System.out.println(\"       during parser generation.\");");
-						genCodeLine("      throw new Error();");
+						genCodeLine("      throw new "+(Options.isLegacyExceptionHandling() ? "Error" : "RuntimeException")+"();");
 						genCodeLine("    }");
 						genCodeLine("    jj_initialized_once = true;");
 					}
@@ -460,7 +460,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 				genCodeLine("      System.out.println(\"       You must either use ReInit() or "
 						+ "set the JavaCC option STATIC to false\");");
 				genCodeLine("      System.out.println(\"       during parser generation.\");");
-				genCodeLine("      throw new Error();");
+				genCodeLine("      throw new "+(Options.isLegacyExceptionHandling() ? "Error" : "RuntimeException")+"();");
 				genCodeLine("    }");
 				genCodeLine("    jj_initialized_once = true;");
 			}

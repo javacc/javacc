@@ -587,7 +587,7 @@ public class ParseEngine {
     codeGenerator.genCodeLine("");
     if (p.isJumpPatched() && !voidReturn) {
       if (isJavaDialect) { 
-        codeGenerator.genCodeLine("    throw new Error(\"Missing return statement in function\");");
+        codeGenerator.genCodeLine("    throw new "+(Options.isLegacyExceptionHandling() ? "Error" : "RuntimeException")+"(\"Missing return statement in function\");");
       } else {
         codeGenerator.genCodeLine("    throw \"Missing return statement in function\";");
       }

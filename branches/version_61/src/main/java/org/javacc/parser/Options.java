@@ -46,6 +46,8 @@ public class Options {
 
   //private static final String BOILERPLATE_PACKAGE = "BOILERPLATE_PACKAGE";
 
+private static final String LEGACY_EXCEPTION_HANDLING = "LEGACY_EXCEPTION_HANDLING";
+
 private static final String GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
 
   public static final String OUTPUT_LANGUAGE = "OUTPUT_LANGUAGE";
@@ -146,6 +148,7 @@ private static final String GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
     optionValues.put("COMMON_TOKEN_ACTION", Boolean.FALSE);
     optionValues.put("CACHE_TOKENS", Boolean.FALSE);
     optionValues.put("KEEP_LINE_COLUMN", Boolean.TRUE);
+    optionValues.put(LEGACY_EXCEPTION_HANDLING, Boolean.FALSE);
     
     optionValues.put("GENERATE_CHAINED_EXCEPTION", Boolean.FALSE);
     optionValues.put("GENERATE_GENERICS", Boolean.FALSE);
@@ -594,7 +597,17 @@ private static final String GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
   public static boolean isGenerateBoilerplateCode() {
 	return booleanValue(GENERATE_BOILERPLATE);
   }
-
+  
+  /**
+   * As of 6.1 JavaCC now throws subclasses of {@link RuntimeException} rather than {@link Error} s (by default), as {@link Error} s typically lead to the closing down of the parent
+   * VM and are only to be used in extreme circumstances (failure of parsing is generally not regarded as such). If this value is set to true, then then {@link Error}s will be thrown
+   * (for compatibility with older .jj files)
+   * @return true if throws errors (legacy), false if use {@link RuntimeException} s (better approach)
+   */
+  public static boolean isLegacyExceptionHandling() {
+	return booleanValue(LEGACY_EXCEPTION_HANDLING);
+  }
+  
   
   /**
    * Should the generated code contain Generics?
