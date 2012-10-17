@@ -194,6 +194,12 @@ private static final String GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
     return sb.toString();
   }
 
+  
+  public static String getTokenMgrErrorClass() {
+	  return isOutputLanguageImplementedInJava() ?
+			  (isLegacyExceptionHandling() ? "TokenMgrError" : "TokenMgrException") :
+				  "TokenMgrError";
+  }
 
   /**
    * Determine if a given command line argument might be an option flag.

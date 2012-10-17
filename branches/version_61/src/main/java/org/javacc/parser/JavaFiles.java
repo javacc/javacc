@@ -478,9 +478,10 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   public static void gen_TokenMgrError(JavaResourceTemplateLocations locations) {
 	  
 
-	  
+	  String filename = Options.isLegacyExceptionHandling() ? "TokenMgrError.java" : "TokenMgrException.java";
     try {
-      final File file = new File(Options.getOutputDirectory(), "TokenMgrError.java");
+      
+	final File file = new File(Options.getOutputDirectory(), filename);
       final OutputFile outputFile = new OutputFile(file, tokenMgrErrorVersion, new String[0]);
 
       if (!outputFile.needToWrite)
@@ -517,8 +518,8 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       
       
     } catch (IOException e) {
-      System.err.println("Failed to create TokenMgrError " + e);
-      JavaCCErrors.semantic_error("Could not open file TokenMgrError.java for writing.");
+      System.err.println("Failed to create "+filename+" " + e);
+      JavaCCErrors.semantic_error("Could not open file "+filename+" for writing.");
       throw new Error();
     }
   }

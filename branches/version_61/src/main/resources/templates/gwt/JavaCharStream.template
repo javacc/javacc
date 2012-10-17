@@ -133,7 +133,7 @@ class JavaCharStream
         bufpos -= tokenBegin;
       }
     }
-    catch (Throwable t)
+    catch (${LEGACY_EXCEPTION_HANDLING?Throwable:Exception} t)
     {
       throw new ${LEGACY_EXCEPTION_HANDLING?Error:RuntimeException}(t.getMessage());
     }

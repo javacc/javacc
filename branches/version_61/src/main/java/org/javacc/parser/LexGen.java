@@ -95,6 +95,7 @@ public static String staticString;
   static boolean hasMore = false;
   public static RegularExpression curRE;
   public static boolean keepLineCol;
+  public static String tokenMgrErrorHandlingClass;
 
   void PrintClassHead()
   {
@@ -345,6 +346,7 @@ public static String staticString;
       return;
 
     keepLineCol = Options.getKeepLineColumn();
+    tokenMgrErrorHandlingClass = Options.getTokenMgrErrorClass();
     List choices = new ArrayList();
     Enumeration e;
     TokenProduction tp;
@@ -968,7 +970,7 @@ public static String staticString;
               (maxLexStates > 1 ?
                   "\"<\" + lexStateNames[curLexState] + \">\" + " : "") +
                   "\"Skipping character : \" + " +
-          "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \")\");");
+          tokenMgrErrorHandlingClass+".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \")\");");
         }
         genCodeLine(prefix + "      curChar = input_stream.BeginToken();");
 
@@ -999,7 +1001,7 @@ public static String staticString;
         genCodeLine("      debugStream.println(" +
             (maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") +
             "\"Current character : \" + " +
-            "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
+            tokenMgrErrorHandlingClass+".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
         "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
 
       genCodeLine(prefix + "curPos = jjMoveStringLiteralDfa0_" + i + "();");
@@ -1063,12 +1065,12 @@ public static String staticString;
             Options.getUserCharStream())
           genCodeLine("    debugStream.println(" +
               "\"****** FOUND A \" + tokenImage[jjmatchedKind] + \" MATCH " +
-              "(\" + TokenMgrError.addEscapes(new String(input_stream.GetSuffix(jjmatchedPos + 1))) + " +
+              "(\" + "+tokenMgrErrorHandlingClass+".addEscapes(new String(input_stream.GetSuffix(jjmatchedPos + 1))) + " +
           "\") ******\\n\");");
         else
           genCodeLine("    debugStream.println(" +
               "\"****** FOUND A \" + tokenImage[jjmatchedKind] + \" MATCH " +
-              "(\" + TokenMgrError.addEscapes(new String(input_stream.GetSuffix(jjmatchedPos + 1))) + " +
+              "(\" + "+tokenMgrErrorHandlingClass+".addEscapes(new String(input_stream.GetSuffix(jjmatchedPos + 1))) + " +
           "\") ******\\n\");");
       }
 
@@ -1176,7 +1178,7 @@ public static String staticString;
             genCodeLine("   debugStream.println(" +
                 (maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") +
                 "\"Current character : \" + " +
-                "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
+                ""+tokenMgrErrorHandlingClass+".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
             "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
           genCodeLine(prefix + "         continue;");
           genCodeLine(prefix + "      }");
@@ -1204,8 +1206,8 @@ public static String staticString;
       genCodeLine(prefix + "      input_stream.backup(1);");
       genCodeLine(prefix + "      error_after = curPos <= 1 ? \"\" : input_stream.GetImage();");
       genCodeLine(prefix + "   }");
-      genCodeLine(prefix + "   throw new TokenMgrError(" +
-      "EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);");
+      genCodeLine(prefix + "   throw new "+tokenMgrErrorHandlingClass+"(" +
+      "EOFSeen, curLexState, error_line, error_column, error_after, curChar, "+tokenMgrErrorHandlingClass+".LEXICAL_ERROR);");
     }
 
     if (hasMore)
@@ -1247,10 +1249,10 @@ public static String staticString;
             genCodeLine("            if (jjbeenHere[" + lexStates[i] + "] &&");
             genCodeLine("                jjemptyLineNo[" + lexStates[i] + "] == input_stream.getBeginLine() &&");
             genCodeLine("                jjemptyColNo[" + lexStates[i] + "] == input_stream.getBeginColumn())");
-            genCodeLine("               throw new TokenMgrError(" +
+            genCodeLine("               throw new "+tokenMgrErrorHandlingClass+"(" +
                 "(\"Error: Bailing out of infinite loop caused by repeated empty string matches " +
                 "at line \" + input_stream.getBeginLine() + \", " +
-            "column \" + input_stream.getBeginColumn() + \".\"), TokenMgrError.LOOP_DETECTED);");
+            "column \" + input_stream.getBeginColumn() + \".\"), "+tokenMgrErrorHandlingClass+".LOOP_DETECTED);");
             genCodeLine("            jjemptyLineNo[" + lexStates[i] + "] = input_stream.getBeginLine();");
             genCodeLine("            jjemptyColNo[" + lexStates[i] + "] = input_stream.getBeginColumn();");
             genCodeLine("            jjbeenHere[" + lexStates[i] + "] = true;");
@@ -1320,10 +1322,10 @@ public static String staticString;
             genCodeLine("            if (jjbeenHere[" + lexStates[i] + "] &&");
             genCodeLine("                jjemptyLineNo[" + lexStates[i] + "] == input_stream.getBeginLine() &&");
             genCodeLine("                jjemptyColNo[" + lexStates[i] + "] == input_stream.getBeginColumn())");
-            genCodeLine("               throw new TokenMgrError(" +
+            genCodeLine("               throw new "+tokenMgrErrorHandlingClass+"(" +
                 "(\"Error: Bailing out of infinite loop caused by repeated empty string matches " +
                 "at line \" + input_stream.getBeginLine() + \", " +
-            "column \" + input_stream.getBeginColumn() + \".\"), TokenMgrError.LOOP_DETECTED);");
+            "column \" + input_stream.getBeginColumn() + \".\"), "+tokenMgrErrorHandlingClass+".LOOP_DETECTED);");
             genCodeLine("            jjemptyLineNo[" + lexStates[i] + "] = input_stream.getBeginLine();");
             genCodeLine("            jjemptyColNo[" + lexStates[i] + "] = input_stream.getBeginColumn();");
             genCodeLine("            jjbeenHere[" + lexStates[i] + "] = true;");
@@ -1396,10 +1398,10 @@ public static String staticString;
             genCodeLine("            if (jjbeenHere[" + lexStates[i] + "] &&");
             genCodeLine("                jjemptyLineNo[" + lexStates[i] + "] == input_stream.getBeginLine() &&");
             genCodeLine("                jjemptyColNo[" + lexStates[i] + "] == input_stream.getBeginColumn())");
-            genCodeLine("               throw new TokenMgrError(" +
+            genCodeLine("               throw new "+tokenMgrErrorHandlingClass+"(" +
                 "(\"Error: Bailing out of infinite loop caused by repeated empty string matches " +
                 "at line \" + input_stream.getBeginLine() + \", " +
-            "column \" + input_stream.getBeginColumn() + \".\"), TokenMgrError.LOOP_DETECTED);");
+            "column \" + input_stream.getBeginColumn() + \".\"), "+tokenMgrErrorHandlingClass+".LOOP_DETECTED);");
             genCodeLine("            jjemptyLineNo[" + lexStates[i] + "] = input_stream.getBeginLine();");
             genCodeLine("            jjemptyColNo[" + lexStates[i] + "] = input_stream.getBeginColumn();");
             genCodeLine("            jjbeenHere[" + lexStates[i] + "] = true;");

@@ -9,7 +9,7 @@
 
 #if STATIC && !USER_CHAR_STREAM
       if (input_stream != null)
-        throw new TokenMgrError("ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.", TokenMgrError.STATIC_LEXER_ERROR);
+        throw new ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}("ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.", ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}.STATIC_LEXER_ERROR);
 #elif !USER_CHAR_STREAM
     #if JAVA_UNICODE_ESCAPE
       if (JavaCharStream.staticFlag)
@@ -63,7 +63,7 @@
   ${STATIC?static :}public void SwitchTo(int lexState)
   {
     if (lexState >= ${lexStateNameLength} || lexState < 0)
-      throw new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
+      throw new ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}.INVALID_LEXICAL_STATE);
     else
       curLexState = lexState;
   }

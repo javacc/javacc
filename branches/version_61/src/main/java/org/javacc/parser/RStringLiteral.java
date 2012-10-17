@@ -591,8 +591,8 @@ public class RStringLiteral extends RegularExpression {
        if (codeGenerator.isJavaLanguage()) {
          codeGenerator.genCodeLine("   debugStream.println(" +
               (LexGen.maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") +
-              "\"Current character : \" + " +
-              "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
+              "\"Current character : \" + " + Options.getTokenMgrErrorClass() +
+              ".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
               "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
        } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
          codeGenerator.genCodeLine("   fprintf(debugStream, " +
@@ -915,8 +915,8 @@ public class RStringLiteral extends RegularExpression {
           if (codeGenerator.isJavaLanguage()) {
             codeGenerator.genCodeLine("   debugStream.println(" +
                    (LexGen.maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") +
-                   "\"Current character : \" + " +
-                   "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
+                   "\"Current character : \" + " + Options.getTokenMgrErrorClass() +
+                   ".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
                    "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
           } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
             codeGenerator.genCodeLine("   fprintf(debugStream, " +

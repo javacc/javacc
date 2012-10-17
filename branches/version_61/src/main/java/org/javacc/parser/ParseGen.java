@@ -400,7 +400,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 					{
 						genCodeLine("  /** Constructor. */");
 						genCodeLine("  public " + cu_name
-								+ "(String dsl) throws ParseException, TokenMgrError {");
+								+ "(String dsl) throws ParseException, "+Options.getTokenMgrErrorClass() +" {");
 						genCodeLine("      this(new " + stringReaderClass + "(dsl));");
 						genCodeLine("  }");
 						genCodeLine("");
