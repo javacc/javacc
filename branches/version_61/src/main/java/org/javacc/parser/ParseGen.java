@@ -67,13 +67,16 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 		if (Options.getBuildParser()) {
 			final List tn = new ArrayList(toolNames);
 			tn.add(toolName);
+			
+			// This is the first line generated -- the the comment line at the top of the generated parser
 			genCodeLine("/* " + getIdString(tn, cu_name + ".java") + " */");
 
 			boolean implementsExists = false;
 			final boolean extendsExists = false;
 
 			if (cu_to_insertion_point_1.size() != 0) {
-				printTokenSetup((Token) (cu_to_insertion_point_1.get(0)));
+				Object firstToken = cu_to_insertion_point_1.get(0);
+				printTokenSetup((Token) firstToken);
 				ccol = 1;
 				for (final Iterator it = cu_to_insertion_point_1.iterator(); it.hasNext();) {
 					t = (Token) it.next();

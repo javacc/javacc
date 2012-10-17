@@ -44,6 +44,10 @@ import java.util.Set;
 public class Options {
 
 
+  //private static final String BOILERPLATE_PACKAGE = "BOILERPLATE_PACKAGE";
+
+private static final String GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
+
   public static final String OUTPUT_LANGUAGE = "OUTPUT_LANGUAGE";
   
   public static final String OUTPUT_LANGUAGE__GWT = "gwt";
@@ -134,6 +138,7 @@ public class Options {
     optionValues.put("USER_TOKEN_MANAGER", Boolean.FALSE);
     optionValues.put("USER_CHAR_STREAM", Boolean.FALSE);
     optionValues.put("BUILD_PARSER", Boolean.TRUE);
+    optionValues.put(GENERATE_BOILERPLATE, Boolean.TRUE);
     optionValues.put("BUILD_TOKEN_MANAGER", Boolean.TRUE);
     optionValues.put("TOKEN_MANAGER_USES_PARSER", Boolean.FALSE);
     optionValues.put("SANITY_CHECK", Boolean.TRUE);
@@ -144,12 +149,15 @@ public class Options {
     
     optionValues.put("GENERATE_CHAINED_EXCEPTION", Boolean.FALSE);
     optionValues.put("GENERATE_GENERICS", Boolean.FALSE);
+    optionValues.put(GENERATE_BOILERPLATE, Boolean.TRUE);
     optionValues.put("GENERATE_STRING_BUILDER", Boolean.FALSE);
     optionValues.put("GENERATE_ANNOTATIONS", Boolean.FALSE);
     optionValues.put("SUPPORT_CLASS_VISIBILITY_PUBLIC", Boolean.TRUE);
 
     optionValues.put("OUTPUT_DIRECTORY", ".");
     optionValues.put("JDK_VERSION", "1.5");
+    
+    //optionValues.put(BOILERPLATE_PACKAGE, "");
     optionValues.put("TOKEN_EXTENDS", "");
     optionValues.put("TOKEN_FACTORY", "");
     optionValues.put("GRAMMAR_ENCODING", "");
@@ -582,6 +590,12 @@ public class Options {
     return booleanValue("GENERATE_CHAINED_EXCEPTION");
   }
 
+
+  public static boolean isGenerateBoilerplateCode() {
+	return booleanValue(GENERATE_BOILERPLATE);
+  }
+
+  
   /**
    * Should the generated code contain Generics?
    * @return
@@ -637,6 +651,13 @@ public class Options {
     return stringValue("TOKEN_EXTENDS");
   }
 
+  
+//  public static String getBoilerplatePackage()
+//  {
+//    return stringValue(BOILERPLATE_PACKAGE);
+//  }
+  
+  
   /**
    * Return the Token's factory class.
    *

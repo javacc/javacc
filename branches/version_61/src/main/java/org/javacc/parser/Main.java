@@ -191,9 +191,11 @@ public final class Main {
 
       Semanticize.start();
       if (isJavaOutput) {
+    	  
         if (Options.getBuildParser()) {
           new ParseGen().start(false);
         }
+        
         if (Options.getBuildParser()) {
           new LexGen().start();
         }

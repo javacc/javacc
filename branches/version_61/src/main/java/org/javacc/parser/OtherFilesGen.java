@@ -40,8 +40,9 @@ import org.javacc.parser.JavaFiles.JavaResourceTemplateLocations;
  */
 public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstants {
 
-  static public void start(boolean isGwt) throws MetaParseException {
+  private static final String CONSTANTS_FILENAME_SUFFIX = "Constants.java";
 
+  static public void start(boolean isGwt) throws MetaParseException {
 	  
 	JavaResourceTemplateLocations templateLoc = isGwt ? JavaFiles.RESOURCES_GWT : JavaFiles.RESOURCES_JAVA;
 	  
@@ -49,31 +50,44 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
 
     if (JavaCCErrors.get_error_count() != 0) throw new MetaParseException();
 
-    
-    if (isGwt) {
-    	JavaFiles.gen_GwtFiles();
-    }
-    
-    JavaFiles.gen_TokenMgrError(templateLoc);
-    JavaFiles.gen_ParseException(templateLoc);
-    JavaFiles.gen_Token(templateLoc);
+	  // Added this if condition -- 2012/10/17 -- cba
+	if ( Options.isGenerateBoilerplateCode()) {
+		
+	    if (isGwt) {
+	    	JavaFiles.gen_GwtFiles();
+	    }
+	    
+	    JavaFiles.gen_TokenMgrError(templateLoc);
+	    JavaFiles.gen_ParseException(templateLoc);
+	    JavaFiles.gen_Token(templateLoc);
+	}
+
 
     if (Options.getUserTokenManager()) {
+    	// CBA -- I think that Token managers are unique so will always be generated
       JavaFiles.gen_TokenManager(templateLoc);
     } else if (Options.getUserCharStream()) {
-      JavaFiles.gen_CharStream(templateLoc);
+  	  // Added this if condition -- 2012/10/17 -- cba
+    	if (Options.isGenerateBoilerplateCode()) {
+    		JavaFiles.gen_CharStream(templateLoc);
+    	}
     } else {
-      if (Options.getJavaUnicodeEscape()) {
-        JavaFiles.gen_JavaCharStream(templateLoc);
-      } else {
-        JavaFiles.gen_SimpleCharStream(templateLoc);
-      }
+  	     // Added this if condition -- 2012/10/17 -- cba
+
+    	if (Options.isGenerateBoilerplateCode()) {
+	      if (Options.getJavaUnicodeEscape()) {
+	        JavaFiles.gen_JavaCharStream(templateLoc);
+	      } else {
+	        JavaFiles.gen_SimpleCharStream(templateLoc);
+	      }
+    	}
     }
+    
     try {
       ostr = new java.io.PrintWriter(
                 new java.io.BufferedWriter(
                    new java.io.FileWriter(
-                     new java.io.File(Options.getOutputDirectory(), cu_name + "Constants.java")
+                     new java.io.File(Options.getOutputDirectory(), cu_name + CONSTANTS_FILENAME_SUFFIX)
                    ),
                    8192
                 )
@@ -85,7 +99,7 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
 
     List tn = new ArrayList(toolNames);
     tn.add(toolName);
-    ostr.println("/* " + getIdString(tn, cu_name + "Constants.java") + " */");
+    ostr.println("/* " + getIdString(tn, cu_name + CONSTANTS_FILENAME_SUFFIX) + " */");
 
     if (cu_to_insertion_point_1.size() != 0 &&
         ((Token)cu_to_insertion_point_1.get(0)).kind == PACKAGE

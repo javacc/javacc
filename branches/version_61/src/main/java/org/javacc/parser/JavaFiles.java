@@ -105,8 +105,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 		}
 		
 		public String getSimpleCharStreamTemplateResourceUrl() {
-			// TODO :: We need a GWT verison of this
-			// Same as Java
+			// TODO :: We need a GWT version of this, same as Java
 			return "/templates/SimpleCharStream.template";
 		}
 		
@@ -477,6 +476,9 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
 
   public static void gen_TokenMgrError(JavaResourceTemplateLocations locations) {
+	  
+
+	  
     try {
       final File file = new File(Options.getOutputDirectory(), "TokenMgrError.java");
       final OutputFile outputFile = new OutputFile(file, tokenMgrErrorVersion, new String[0]);
@@ -505,12 +507,15 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
         }
       }
       
-      JavaFileGenerator generator = new JavaFileGenerator(
-    		  locations.getTokenMgrErrorTemplateResourceUrl(), Options.getOptions());
+      
+      
+      JavaFileGenerator generator = new JavaFileGenerator( locations.getTokenMgrErrorTemplateResourceUrl(), Options.getOptions());
       
       generator.generate(ostr);
 
       ostr.close();
+      
+      
     } catch (IOException e) {
       System.err.println("Failed to create TokenMgrError " + e);
       JavaCCErrors.semantic_error("Could not open file TokenMgrError.java for writing.");

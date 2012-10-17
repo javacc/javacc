@@ -121,10 +121,14 @@ public class CodeGenerator {
   protected int cline, ccol;
 
   protected void printTokenSetup(Token t) {
-    Token tt = t;
-    while (tt.specialToken != null) tt = tt.specialToken;
-    cline = tt.beginLine;
-    ccol = tt.beginColumn;
+		Token tt = t;
+		
+		while (tt.specialToken != null) {
+			tt = tt.specialToken;
+		}
+		
+		cline = tt.beginLine;
+		ccol = tt.beginColumn;
   }
 
   protected void printTokenList(List list) {
