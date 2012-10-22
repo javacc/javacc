@@ -39,6 +39,7 @@
 
 options {
   JAVA_UNICODE_ESCAPE = true;
+  LEGACY_EXCEPTION_HANDLING = true;
   STATIC=false;
 }
 
@@ -2591,7 +2592,7 @@ void ReturnStatement() :
 	  // from being dead code.
 	  // NB: eclipse now detects 'if (true)' as dead code, so use the more complicated
 	  // 'if ("" != null)'
-	  if (inAction) {
+	  if (inAction  && (Options.isLegacyExceptionHandling()) ) {
 	    t.image = "{if (\"\" != null) return";
 	    jumpPatched = true;
 	  }
@@ -2602,7 +2603,7 @@ void ReturnStatement() :
   t=";"
 	{
 	  // Add closing brace for above if statement.
-	  if (inAction) {
+	  if (inAction && (Options.isLegacyExceptionHandling())) {
 	    t.image = ";}";
 	  }
 	}
