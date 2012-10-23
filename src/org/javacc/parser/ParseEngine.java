@@ -478,7 +478,7 @@ public class ParseEngine {
     String ret, params;
 
     codeGenerator.printTokenSetup(t); ccol = 1;
-    sig.append(codeGenerator.getLeadingComments(t));
+    String comment1 = codeGenerator.getLeadingComments(t);
     cline = t.beginLine;
     ccol = t.beginColumn;
     sig.append(t.image);
@@ -488,7 +488,7 @@ public class ParseEngine {
       sig.append(codeGenerator.getStringToPrint(t));
     }
 
-    sig.append(codeGenerator.getTrailingComments(t));
+    String comment2 = codeGenerator.getTrailingComments(t);
     ret = sig.toString();
 
     sig.setLength(0);
@@ -517,6 +517,7 @@ public class ParseEngine {
       }
     }
 
+    // For now, just ignore comments
     codeGenerator.generateMethodDefHeader(ret, cu_name, p.getLhs()+params, sig.toString());
   }
 
@@ -684,7 +685,7 @@ public class ParseEngine {
       conds = new Lookahead[e_nrw.getChoices().size()];
       actions = new String[e_nrw.getChoices().size() + 1];
       actions[e_nrw.getChoices().size()] = "\n" + "jj_consume_token(-1);\n" +
-        (isJavaLanguage ? "throw new ParseException();" : "errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this);");
+        (isJavaLanguage ? "throw new ParseException();" : "errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this), hasError = true;");
       // In previous line, the "throw" never throws an exception since the
       // evaluation of jj_consume_token(-1) causes ParseException to be
       // thrown first.
@@ -700,7 +701,22 @@ public class ParseEngine {
       // We skip the first element in the following iteration since it is the
       // Lookahead object.
       for (int i = 1; i < e_nrw.units.size(); i++) {
+        // For C++, since we are not using exceptions, we will protect all the
+        // expansion choices with if (!error)
+        boolean wrap_in_block = false;
+        if (!JavaCCGlobals.jjtreeGenerated && !isJavaLanguage &&
+            e.parent instanceof BNFProduction) {
+          // for the last one, if it's an action, we will not protect it.
+          Expansion elem = (Expansion)e_nrw.units.get(i);
+          if (!(elem instanceof Action) || i != e_nrw.units.size() - 1) {
+            wrap_in_block = true;
+            retval += "if (" + (isJavaLanguage ? "true" : "!hasError") + ") {\n";
+          }
+        }
         retval += phase1ExpansionGen((Expansion)(e_nrw.units.get(i)));
+        if (wrap_in_block) {
+          retval += "\n}\n";
+        }
       }
     } else if (e instanceof OneOrMore) {
       OneOrMore e_nrw = (OneOrMore)e;
@@ -718,7 +734,7 @@ public class ParseEngine {
       if (isJavaLanguage) {
         retval += "label_" + labelIndex + ":\n";
       }
-      retval += "while (true) {\u0001";
+      retval += "while (" + (isJavaLanguage ? "true" : "!hasError") + ") {\u0001";
       retval += phase1ExpansionGen(nested_e);
       conds = new Lookahead[1];
       conds[0] = la;
@@ -752,7 +768,7 @@ public class ParseEngine {
       if (isJavaLanguage) {
         retval += "label_" + labelIndex + ":\n";
       }
-      retval += "while (true) {\u0001";
+      retval += "while (" + (isJavaLanguage ? "true" : "!hasError") + ") {\u0001";
       conds = new Lookahead[1];
       conds[0] = la;
       actions = new String[2];

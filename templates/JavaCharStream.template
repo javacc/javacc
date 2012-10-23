@@ -83,8 +83,8 @@ class JavaCharStream
   ${PREFIX}protected int inBuf = 0;
   ${PREFIX}protected int tabSize = 8;
 
-  ${PREFIX}protected void setTabSize(int i) { tabSize = i; }
-  ${PREFIX}protected int getTabSize(int i) { return tabSize; }
+  ${PREFIX}public void setTabSize(int i) { tabSize = i; }
+  ${PREFIX}public int getTabSize() { return tabSize; }
 
   ${PREFIX}protected void ExpandBuff(boolean wrapAround)
   {
