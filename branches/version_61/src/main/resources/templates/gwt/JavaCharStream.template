@@ -3,7 +3,6 @@
  * contain only ASCII characters (with java-like unicode escape processing).
  */
  
-import java.io.IOException;
 
 #if SUPPORT_CLASS_VISIBILITY_PUBLIC
 public
