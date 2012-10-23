@@ -115,6 +115,7 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("  private: int jj_la1[" + (maskindex + 1) + "];");
     genCodeLine("  private: ErrorHandler *errorHandler;");
     genCodeLine("  private: bool errorHandlerCreated;");
+    genCodeLine("  protected: bool hasError;");
     genCodeLine("  public: void setErrorHandler(ErrorHandler *eh) {");
     genCodeLine("    if (errorHandlerCreated) delete errorHandler;");
     genCodeLine("    errorHandler = eh;");
@@ -176,6 +177,7 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("    if (head) delete head;");
     genCodeLine("    errorHandler = new ErrorHandler();");
     genCodeLine("    errorHandlerCreated = true;");
+    genCodeLine("    hasError = false;");
     genCodeLine("    token_source = tm;");
     genCodeLine("    head = token = new Token();");
     genCodeLine("    token->kind = 0;");
@@ -248,7 +250,7 @@ public class ParseGenCPP extends ParseGen {
     }
     //genCodeLine("    throw generateParseException();");
     genCodeLine("    JAVACC_STRING_TYPE image = kind >= 0 ? tokenImage[kind] : tokenImage[0];");
-    genCodeLine("    errorHandler->handleUnexpectedToken(kind, image.substr(1, image.size() - 2), getToken(1), this);");
+    genCodeLine("    errorHandler->handleUnexpectedToken(kind, image.substr(1, image.size() - 2), getToken(1), this), hasError = true;");
     genCodeLine("    return token;");
     genCodeLine("  }");
     genCodeLine("");

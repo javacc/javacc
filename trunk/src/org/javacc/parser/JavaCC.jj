@@ -206,6 +206,19 @@ public class JavaCCParser extends JavaCCParserInternals {
      }
    }
 
+   private void eatUptoRParen(List tokens) {
+     int b = 1;
+     Token t;
+     while((t = getToken(1)).kind != RPAREN || --b != 0) {
+       if (tokens != null) {
+         tokens.add(t);
+       }
+       if (t.kind == EOF) break;
+       if (t.kind == LPAREN) b++;
+       getNextToken(); // eat it
+     }
+   }
+
 }
 
 PARSER_END(JavaCCParser)
@@ -2308,6 +2321,9 @@ void Arguments(java.util.List tokens) :
   "("
 	{
 	  first = getToken(1);
+          if (!isJavaLanguage) {
+            eatUptoRParen(null);
+          }
 	}
   [ ArgumentList() ]
 	{
