@@ -704,11 +704,12 @@ public class ParseEngine {
         // For C++, since we are not using exceptions, we will protect all the
         // expansion choices with if (!error)
         boolean wrap_in_block = false;
-        if (!JavaCCGlobals.jjtreeGenerated && !isJavaLanguage &&
-            e.parent instanceof BNFProduction) {
+        if (!JavaCCGlobals.jjtreeGenerated && !isJavaLanguage) {
           // for the last one, if it's an action, we will not protect it.
           Expansion elem = (Expansion)e_nrw.units.get(i);
-          if (!(elem instanceof Action) || i != e_nrw.units.size() - 1) {
+          if (!(elem instanceof Action) ||
+              !(e.parent instanceof BNFProduction) ||
+              i != e_nrw.units.size() - 1) {
             wrap_in_block = true;
             retval += "if (" + (isJavaLanguage ? "true" : "!hasError") + ") {\n";
           }
