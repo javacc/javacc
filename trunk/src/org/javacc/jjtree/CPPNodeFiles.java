@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.javacc.parser.Options;
+import org.javacc.parser.OtherFilesGenCPP;
 import org.javacc.parser.OutputFile;
 import org.javacc.utils.JavaFileGenerator;
 
@@ -142,7 +143,7 @@ final class CPPNodeFiles {
 
       boolean hasNamespace = JJTreeOptions.stringValue("NAMESPACE").length() > 0;
       if (hasNamespace) {
-        ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE") + "{");
+        ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
       }
 
       generateFile(outputFile, "/templates/cpp/SimpleNodeInterface.template", optionMap, false);
@@ -153,7 +154,7 @@ final class CPPNodeFiles {
       }
 
       if (hasNamespace) {
-        ostr.println("}");
+        ostr.println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
       }
       ostr.println("#endif ");
     } catch (IOException e) {
@@ -187,7 +188,7 @@ final class CPPNodeFiles {
 
       boolean hasNamespace = JJTreeOptions.stringValue("NAMESPACE").length() > 0;
       if (hasNamespace) {
-        outputFile.getPrintWriter().println("namespace " + JJTreeOptions.stringValue("NAMESPACE") + "{");
+        outputFile.getPrintWriter().println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
       }
 
       generateFile(outputFile, "/templates/cpp/SimpleNodeImpl.template", optionMap, false);
@@ -198,7 +199,7 @@ final class CPPNodeFiles {
       }
 
       if (hasNamespace) {
-        outputFile.getPrintWriter().println("}");
+        outputFile.getPrintWriter().println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
       }
     } catch (IOException e) {
       throw new Error(e.toString());
@@ -239,7 +240,7 @@ final class CPPNodeFiles {
       ostr.println("\n#include \"JavaCC.h\"");
       boolean hasNamespace = JJTreeOptions.stringValue("NAMESPACE").length() > 0;
       if (hasNamespace) {
-        ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE") + "{");
+        ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
       }
       ostr.println("  enum {");
       for (int i = 0; i < nodeIds.size(); ++i) {
@@ -250,15 +251,21 @@ final class CPPNodeFiles {
       ostr.println("};");
       ostr.println();
 
-      ostr.println("  static JAVACC_STRING_TYPE jjtNodeName[] = {");
       for (int i = 0; i < nodeNames.size(); ++i) {
+        ostr.println("  static JAVACC_CHAR_TYPE jjtNodeName_arr_" + i + "[] = ");
         String n = (String)nodeNames.get(i);
-        ostr.println("    (JAVACC_CHAR_TYPE*)\"" + n + "\",");
+        //ostr.println("    (JAVACC_CHAR_TYPE*)\"" + n + "\",");
+        OtherFilesGenCPP.printCharArray(ostr, n);
+        ostr.println(";");
+      }
+      ostr.println("  static JAVACC_STRING_TYPE jjtNodeName[] = {");
+      for (int i = 0; i < nodeNames.size(); i++) {
+        ostr.println("jjtNodeName_arr_" + i + ", ");
       }
       ostr.println("  };");
 
       if (hasNamespace) {
-        ostr.println("}");
+        ostr.println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
       }
 
       ostr.println("#endif");
@@ -315,14 +322,14 @@ final class CPPNodeFiles {
 
       boolean hasNamespace = JJTreeOptions.stringValue("NAMESPACE").length() > 0;
       if (hasNamespace) {
-        ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE") + "{");
+        ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
       }
 
       generateVisitorInterface(ostr);
       generateDefaultVisitor(ostr);
 
       if (hasNamespace) {
-        ostr.println("}");
+        ostr.println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
       }
 
       ostr.println("#endif");
