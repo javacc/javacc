@@ -35,4 +35,7 @@ const JAVACC_CHAR_TYPE EMPTY[] = { 0 };
 
 JAVACC_SIMPLE_STRING addUnicodeEscapes(JAVACC_STRING_TYPE str);
 
+\#define MAX(a,b) (a>=b?a:b)
+\#define MIN(a,b) (a<=b?a:b)
+
 \#endif
