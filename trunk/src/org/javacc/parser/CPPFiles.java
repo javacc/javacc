@@ -136,10 +136,10 @@ public class CPPFiles extends JavaCCGlobals implements JavaCCParserConstants
     }
   }
 
-  private static void genFile(String name, String version) {
+  private static void genFile(String name, String version, String[] parameters) {
     final File file = new File(Options.getOutputDirectory(), name);
     try {
-      final OutputFile outputFile = new OutputFile(file, version, new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"});
+      final OutputFile outputFile = new OutputFile(file, version, parameters);
 
       if (!outputFile.needToWrite) {
         return;
@@ -158,35 +158,42 @@ public class CPPFiles extends JavaCCGlobals implements JavaCCParserConstants
   }
 
   public static void gen_CharStream() {
-    genFile("CharStream.h", charStreamVersion);
-    genFile("CharStream.cc", charStreamVersion);
+    String[] parameters = new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"};
+    genFile("CharStream.h", charStreamVersion, parameters);
+    genFile("CharStream.cc", charStreamVersion, parameters);
   }
 
   public static void gen_ParseException() {
-    genFile("ParseException.h", parseExceptionVersion);
-    genFile("ParseException.cc", parseExceptionVersion);
+    String[] parameters = new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"};
+    genFile("ParseException.h", parseExceptionVersion, parameters);
+    genFile("ParseException.cc", parseExceptionVersion, parameters);
   }
 
   public static void gen_TokenMgrError() {
-    genFile("TokenMgrError.h", tokenMgrErrorVersion);
-    genFile("TokenMgrError.cc", tokenMgrErrorVersion);
+    String[] parameters = new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"};
+    genFile("TokenMgrError.h", tokenMgrErrorVersion, parameters);
+    genFile("TokenMgrError.cc", tokenMgrErrorVersion, parameters);
   }
 
   public static void gen_Token() {
-    genFile("Token.h", tokenVersion);
-    genFile("Token.cc", tokenVersion);
+    String[] parameters = new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC", "TOKEN_INCLUDES", "TOKEN_EXTENDS"};
+    genFile("Token.h", tokenMgrErrorVersion, parameters);
+    genFile("Token.cc", tokenMgrErrorVersion, parameters);
   }
 
   public static void gen_TokenManager() {
-    genFile("TokenManager.h", tokenManagerVersion);
+    String[] parameters = new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"};
+    genFile("TokenManager.h", tokenManagerVersion, parameters);
   }
 
   public static void gen_JavaCCDefs() {
-    genFile("JavaCC.h", tokenManagerVersion);
+    String[] parameters = new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"};
+    genFile("JavaCC.h", tokenManagerVersion, parameters);
   }
 
   public static void gen_ErrorHandler() {
-    genFile("ErrorHandler.h", parseExceptionVersion);
+    String[] parameters = new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"};
+    genFile("ErrorHandler.h", parseExceptionVersion, parameters);
   }
 
   public static void reInit()
