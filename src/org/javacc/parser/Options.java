@@ -148,6 +148,7 @@ public class Options {
 
     // Some C++-specific options
     optionValues.put("NAMESPACE", "");
+    optionValues.put("TOKEN_INCLUDES", "");
     optionValues.put("PARSER_INCLUDES", "");
     optionValues.put("TOKEN_MANAGER_INCLUDES", "");
   }
