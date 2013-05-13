@@ -51,7 +51,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
   <target name="compile-nojar" depends="generated-files">
     <javac srcdir="${javacc.root}/src/main/java"
            destdir="${javacc.root}/classes"
-           debug="${build.compiler.debug}"
+           debug="true"
            source="1.5"
            classpath="${javacc.root}/classes:${junit.jar}">
     </javac>

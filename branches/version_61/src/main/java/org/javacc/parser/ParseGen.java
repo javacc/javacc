@@ -218,7 +218,14 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 					genCodeLine("");
 					genCodeLine("  /** Reinitialise. */");
 					genCodeLine("  " + staticOpt() + "public void ReInit(CharStream stream) {");
-					genCodeLine("    token_source.ReInit(stream);");
+					
+					if (Options.isTokenManagerRequiresParserAccess()) {
+						genCodeLine("    token_source.ReInit(this,stream);");
+					} else {
+						genCodeLine("    token_source.ReInit(stream);");	
+					}
+					
+
 					genCodeLine("    token = new Token();");
 					if (Options.getCacheTokens()) {
 						genCodeLine("    token.next = jj_nt = token_source.getNextToken();");
@@ -326,7 +333,13 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 							genCodeLine("    try { jj_input_stream.ReInit(stream, encoding, 1, 1); } "
 									+ "catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }");
 						}
-						genCodeLine("    token_source.ReInit(jj_input_stream);");
+						
+						if (Options.isTokenManagerRequiresParserAccess()) {
+							genCodeLine("    token_source.ReInit(this,jj_input_stream);");
+						} else {
+							genCodeLine("    token_source.ReInit(jj_input_stream);");	
+						}
+
 						genCodeLine("    token = new Token();");
 						if (Options.getCacheTokens()) {
 							genCodeLine("    token.next = jj_nt = token_source.getNextToken();");
@@ -421,7 +434,15 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 					} else {
 						genCodeLine("    jj_input_stream.ReInit(stream, 1, 1);");
 					}
-					genCodeLine("    token_source.ReInit(jj_input_stream);");
+					
+					
+					if (Options.isTokenManagerRequiresParserAccess()) {
+						genCodeLine("    token_source.ReInit(this,jj_input_stream);");
+					} else {
+						genCodeLine("    token_source.ReInit(jj_input_stream);");	
+					}
+					
+					
 					genCodeLine("    token = new Token();");
 					if (Options.getCacheTokens()) {
 						genCodeLine("    token.next = jj_nt = token_source.getNextToken();");

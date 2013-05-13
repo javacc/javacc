@@ -1,4 +1,4 @@
-#if TOKEN_MANAGER_USES_PARSER && !STATIC{
+#if TOKEN_MANAGER_USES_PARSER && !STATIC
     /** Constructor with parser. */
     public ${tokMgrClassName} (${cu_name} parserArg, ${charStreamName} stream){
     parser = parserArg;
@@ -36,8 +36,9 @@
 #fi
 
   /** Reinitialise parser. */
-  ${STATIC?static :}public void ReInit(${charStreamName} stream)
+  ${STATIC?static :}public void ReInit(${TOKEN_MANAGER_USES_PARSER?${cu_name} parserArg, :}${charStreamName} stream)
   {
+	${TOKEN_MANAGER_USES_PARSER?this.parser = parserArg; :}
     jjmatchedPos = jjnewStateCnt = 0;
     curLexState = defaultLexState;
     input_stream = stream;
@@ -53,9 +54,10 @@
   }
 
   /** Reinitialise parser. */
-  ${STATIC?static :}public void ReInit(${charStreamName} stream, int lexState)
+  ${STATIC?static :}public void ReInit( ${TOKEN_MANAGER_USES_PARSER?${cu_name} parserArg, :}${charStreamName} stream, int lexState)
   {
-    ReInit(stream);
+  
+    ReInit(${TOKEN_MANAGER_USES_PARSER?parserArg,:} stream);
     SwitchTo(lexState);
   }
 

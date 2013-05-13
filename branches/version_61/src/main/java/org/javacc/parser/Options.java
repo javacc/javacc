@@ -779,4 +779,8 @@ private static final String GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
 			return b;
 	}
 
+	public static boolean isTokenManagerRequiresParserAccess() {
+		return getTokenManagerUsesParser();
+	}
+
 }
