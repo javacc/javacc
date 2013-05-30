@@ -82,6 +82,7 @@ class JavaCharStream
   ${PREFIX}protected int nextCharInd = -1;
   ${PREFIX}protected int inBuf = 0;
   ${PREFIX}protected int tabSize = 8;
+  ${PREFIX}protected boolean trackLineColumn = false;
 
   ${PREFIX}public void setTabSize(int i) { tabSize = i; }
   ${PREFIX}public int getTabSize() { return tabSize; }
@@ -284,7 +285,7 @@ class JavaCharStream
     if ((buffer[bufpos] = c = ReadByte()) == '\\')
     {
 #if KEEP_LINE_COLUMN
-      UpdateLineColumn(c);
+      if (trackLineColumn) { UpdateLineColumn(c); }
 #fi
 
       int backSlashCnt = 1;
@@ -298,7 +299,7 @@ class JavaCharStream
         {
           if ((buffer[bufpos] = c = ReadByte()) != '\\')
           {
-            UpdateLineColumn(c);
+            if (trackLineColumn) { UpdateLineColumn(c); }
             // found a non-backslash char.
             if ((c == 'u') && ((backSlashCnt & 1) == 1))
             {
@@ -322,7 +323,7 @@ class JavaCharStream
         }
 
 #if KEEP_LINE_COLUMN
-        UpdateLineColumn(c);
+        if (trackLineColumn) { UpdateLineColumn(c); }
 #fi
         backSlashCnt++;
       }
@@ -685,6 +686,8 @@ class JavaCharStream
     line = bufline[j];
     column = bufcolumn[j];
   }
+  ${PREFIX}boolean getTrackLineColumn() { return trackLineColumn; }
+  ${PREFIX}void setTrackLineColumn(boolean trackLineColumn) { this.trackLineColumn = trackLineColumn; }
 
 #fi
 }
