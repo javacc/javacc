@@ -30,12 +30,21 @@ class CharStream {
  public:
   void setTabSize(int i) { tabSize = i; }
   int getTabSize(int i) { return tabSize; }
+#if KEEP_LINE_COLUMN
   virtual int getColumn() { return bufcolumn[bufpos]; }
   virtual int getLine() { return bufline[bufpos]; }
   virtual int getEndColumn() { return bufcolumn[bufpos]; }
   virtual int getEndLine() { return bufline[bufpos]; }
   virtual int getBeginColumn() { return bufcolumn[tokenBegin]; }
   virtual int getBeginLine() { return bufline[tokenBegin]; }
+#else
+  virtual int getColumn() { return 0; }
+  virtual int getLine() { return 0; }
+  virtual int getEndColumn() { return 0; }
+  virtual int getEndLine() { return 0; }
+  virtual int getBeginColumn() { return 0; }
+  virtual int getBeginLine() { return 0; }
+#fi
 
   /**
    * Returns the next character from the selected input.  The method

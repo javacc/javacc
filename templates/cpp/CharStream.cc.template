@@ -57,7 +57,11 @@ JAVACC_CHAR_TYPE CharStream::readChar() {
   }
 
   JAVACC_CHAR_TYPE c = buffer[bufpos];
+
+#if KEEP_LINE_COLUMN
   UpdateLineColumn(c);
+#fi
+
   return c;
 }
 
