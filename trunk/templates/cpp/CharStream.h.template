@@ -31,20 +31,23 @@ class CharStream {
   void setTabSize(int i) { tabSize = i; }
   int getTabSize(int i) { return tabSize; }
 #if KEEP_LINE_COLUMN
-  virtual int getColumn() { return bufcolumn[bufpos]; }
-  virtual int getLine() { return bufline[bufpos]; }
-  virtual int getEndColumn() { return bufcolumn[bufpos]; }
-  virtual int getEndLine() { return bufline[bufpos]; }
-  virtual int getBeginColumn() { return bufcolumn[tokenBegin]; }
-  virtual int getBeginLine() { return bufline[tokenBegin]; }
+  virtual int getColumn() { return trackLineColumn ? bufcolumn[bufpos] : -1; }
+  virtual int getLine() { return trackLineColumn ? bufline[bufpos] : -1; }
+  virtual int getEndColumn() { return trackLineColumn ? bufcolumn[bufpos] : -1; }
+  virtual int getEndLine() { return trackLineColumn ? bufline[bufpos] : -1; }
+  virtual int getBeginColumn() { return trackLineColumn ? bufcolumn[tokenBegin] : -1; }
+  virtual int getBeginLine() { return trackLineColumn ? bufline[tokenBegin] : -1; }
 #else
-  virtual int getColumn() { return 0; }
-  virtual int getLine() { return 0; }
-  virtual int getEndColumn() { return 0; }
-  virtual int getEndLine() { return 0; }
-  virtual int getBeginColumn() { return 0; }
-  virtual int getBeginLine() { return 0; }
+  virtual int getColumn() { return -1; }
+  virtual int getLine() { return -1; }
+  virtual int getEndColumn() { return -1; }
+  virtual int getEndLine() { return -1; }
+  virtual int getBeginColumn() { return -1; }
+  virtual int getBeginLine() { return -1; }
 #fi
+
+  virtual bool getTrackLineColumn() { return trackLineColumn; }
+  virtual void setTrackLineColumn(bool val) { trackLineColumn = val; }
 
   /**
    * Returns the next character from the selected input.  The method
@@ -122,7 +125,7 @@ class CharStream {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0),tabSize(8) {
+    inBuf(0),tabSize(8), trackLineColumn(true) {
     ReInit(JAVACC_STRING_TYPE(buf, sz), startline, startcolumn, buffersize);
   }
 
@@ -130,7 +133,7 @@ class CharStream {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0),tabSize(8) {
+    inBuf(0),tabSize(8), trackLineColumn(true) {
     ReInit(JAVACC_STRING_TYPE(buf, sz), startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
@@ -139,7 +142,7 @@ class CharStream {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0),tabSize(8) {
+    inBuf(0),tabSize(8), trackLineColumn(true) {
     ReInit(str, startline, startcolumn, buffersize);
   }
 
@@ -147,7 +150,7 @@ class CharStream {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0) ,tabSize(8){
+    inBuf(0) ,tabSize(8), trackLineColumn(true){
     ReInit(str, startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
@@ -156,7 +159,7 @@ class CharStream {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0),tabSize(8) {
+    inBuf(0),tabSize(8), trackLineColumn(true) {
     ReInit(input_stream, startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
@@ -164,7 +167,7 @@ class CharStream {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0),tabSize(8) {
+    inBuf(0),tabSize(8), trackLineColumn(true) {
     ReInit(input_stream, startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
@@ -172,7 +175,7 @@ class CharStream {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0),tabSize(8) {
+    inBuf(0),tabSize(8), trackLineColumn(true) {
     ReInit(input_stream, 1, 1, INITIAL_BUFFER_SIZE);
   }
 
@@ -217,6 +220,7 @@ class CharStream {
   int maxNextCharInd;
   int inBuf ;
   int tabSize ;
+  bool trackLineColumn;
 };
 
 #if NAMESPACE
