@@ -116,4 +116,6 @@ interface CharStream {
 
   void setTabSize(int i);
   int getTabSize();
+  boolean getTrackLineColumn();
+  void setTrackLineColumn(boolean trackLineColumn);
 }
