@@ -53,6 +53,9 @@ public class JavaFileGenerator {
   public JavaFileGenerator(String templateName, Map options) {
     this.templateName = templateName;
     this.options = options;
+if (templateName.indexOf("JavaCC.h") != -1) {
+System.err.println("*** cp: " + System.getProperty("java.class.path"));
+}
   }
 
   private final String templateName;
@@ -206,6 +209,10 @@ public class JavaFileGenerator {
     {
       text = substitute(text);
     }
+
+    if (text.startsWith("\\#")) { // Hack to escape # for C++
+      text = text.substring(1);
+    }
     
     out.println(text);
   }
@@ -226,9 +233,6 @@ public class JavaFileGenerator {
       else
       {
         String line = getLine(in);
-        if (line.startsWith("\\#")) { // Hack to escape # for C++
-          line = line.substring(1);
-        }
         if (!ignoring) write(out, line);
       }
     }

@@ -263,10 +263,10 @@ public class CPPCodeGenerator extends DefaultJJTreeVisitor {
 
     if (JJTreeOptions.getNodeFactory().equals("*")) {
       // Old-style multiple-implementations.
-      io.println("(" + nodeClass + "*)" + nodeClass + "->jjtCreate(" + parserArg +
+      io.println("(" + nodeClass + "*)" + nodeClass + "::jjtCreate(" + parserArg +
           ns.node_descriptor.getNodeId() +");");
     } else if (JJTreeOptions.getNodeFactory().length() > 0) {
-      io.println("(" + nodeClass + "*)" + JJTreeOptions.getNodeFactory() + "->jjtCreate(" + parserArg +
+      io.println("(" + nodeClass + "*)nodeFactory->jjtCreate(" + parserArg +
        ns.node_descriptor.getNodeId() +");");
     } else {
       io.println("new " + nodeClass + "(" + parserArg + ns.node_descriptor.getNodeId() + ");");

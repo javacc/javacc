@@ -50,6 +50,15 @@ class Node {
 #fi
   public: virtual ~Node() { }
 };
+
+#if NODE_FACTORY
+  class ${NODE_FACTORY};
+  extern ${NODE_FACTORY} *nodeFactory;
+  // Takes ownerhip of the factory
+  void setNodeFactory(${NODE_FACTORY} *factory); 
+  ${NODE_FACTORY} *getNodeFactory(); 
+#fi
+
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi
