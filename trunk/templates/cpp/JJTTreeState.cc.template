@@ -1,9 +1,24 @@
 \#include "JJT${PARSER_NAME}State.h"
+\#include "Node.h"
 
 #if NAMESPACE
 namespace ${NAMESPACE_OPEN}
 #fi
 
+#if NODE_FACTORY
+  ${NODE_FACTORY} *nodeFactory = NULL;
+  // Takes ownerhip of the factory
+  void setNodeFactory(${NODE_FACTORY} *factory) {
+    //if (nodeFactory != NULL) {
+      //delete nodeFactory;
+    //}
+    nodeFactory = factory;
+  }
+
+  ${NODE_FACTORY} *getNodeFactory() {
+    return nodeFactory;
+  }
+#fi
 \#define FIXUP_MARKS \
   if (marks->size() > 0) {\
     mk = marks->back();\
