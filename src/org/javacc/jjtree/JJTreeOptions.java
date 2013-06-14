@@ -79,6 +79,7 @@ class JJTreeOptions extends Options {
 
         Options.optionValues.put("JJTREE_OUTPUT_DIRECTORY", "");
         Options.optionValues.put("NAMESPACE", "");
+        Options.optionValues.put("IGNORE_ACTIONS", Boolean.FALSE);
     }
 
     /**
