@@ -40,6 +40,7 @@ public class ParseGenCPP extends ParseGen {
     //genCodeLine("#include \"TokenMgrError.h\"");
     //genCodeLine("#include \"ParseException.h\"");
     genCodeLine("#include \"TokenManager.h\"");
+    genCodeLine("#include \"" + cu_name + "TokenManager.h\"");
 
     if (Options.stringValue("PARSER_INCLUDES").length() > 0) {
       genCodeLine("#include \"" + Options.stringValue("PARSER_INCLUDES") + "\"\n");
