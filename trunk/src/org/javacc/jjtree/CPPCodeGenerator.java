@@ -19,8 +19,8 @@ public class CPPCodeGenerator extends DefaultJJTreeVisitor {
     io.println("/*@bgen(jjtree) " +
         JavaCCGlobals.getIdString(JJTreeGlobals.toolList,
         new File(io.getOutputFileName()).getName()) +
-         " */");
-    io.print("/*@egen*/");
+         (JJTreeOptions.booleanValue("IGNORE_ACTIONS")  ? "" : " */"));
+    io.print((JJTreeOptions.booleanValue("IGNORE_ACTIONS")  ? "" :"/*") + "@egen*/");
 
     return node.childrenAccept(this, io);
   }
@@ -212,16 +212,16 @@ public class CPPCodeGenerator extends DefaultJJTreeVisitor {
   static void openJJTreeComment(IO io, String arg)
   {
     if (arg != null) {
-      io.print("/*@bgen(jjtree) " + arg + " */");
+      io.print("/*@bgen(jjtree) " + arg + (JJTreeOptions.booleanValue("IGNORE_ACTIONS")  ? "" :" */"));
     } else {
-      io.print("/*@bgen(jjtree)*/");
+      io.print("/*@bgen(jjtree)" + (JJTreeOptions.booleanValue("IGNORE_ACTIONS") ? "" : "*/"));
     }
   }
 
 
   static void closeJJTreeComment(IO io)
   {
-    io.print("/*@egen*/");
+    io.print((JJTreeOptions.booleanValue("IGNORE_ACTIONS") ? "" : "/*") + "@egen*/");
   }
 
 
