@@ -573,7 +573,8 @@ public class ParseEngine {
       codeGenerator.genCode("    try {");
       indentamt = 6;
     }
-    if (p.getDeclarationTokens().size() != 0) {
+    if (!Options.booleanValue("IGNORE_ACTIONS") &&
+        p.getDeclarationTokens().size() != 0) {
       codeGenerator.printTokenSetup((Token)(p.getDeclarationTokens().get(0))); cline--;
       for (Iterator it = p.getDeclarationTokens().iterator(); it.hasNext();) {
         t = (Token)it.next();
@@ -671,7 +672,8 @@ public class ParseEngine {
     } else if (e instanceof Action) {
       Action e_nrw = (Action)e;
       retval += "\u0003\n";
-      if (e_nrw.getActionTokens().size() != 0) {
+      if (!Options.booleanValue("IGNORE_ACTIONS") &&
+          e_nrw.getActionTokens().size() != 0) {
         codeGenerator.printTokenSetup((Token)(e_nrw.getActionTokens().get(0))); ccol = 1;
         for (Iterator it = e_nrw.getActionTokens().iterator(); it.hasNext();) {
           t = (Token)it.next();
@@ -864,7 +866,7 @@ public class ParseEngine {
     if (isJavaLanguage) {
       codeGenerator.genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " jj_2" + e.internal_name + "(int xla)");
     } else {
-      codeGenerator.generateMethodDefHeader("bool ", cu_name, "jj_2" + e.internal_name + "(int xla)");
+      codeGenerator.genCodeLine(" inline bool ", "jj_2" + e.internal_name + "(int xla)");
     }
     codeGenerator.genCodeLine(" {");
     codeGenerator.genCodeLine("    jj_la = xla; jj_lastpos = jj_scanpos = token;");
@@ -1024,7 +1026,7 @@ public class ParseEngine {
       if (isJavaLanguage) {
         codeGenerator.genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " jj_3" + e.internal_name + "()");
      } else {
-        codeGenerator.generateMethodDefHeader(" bool", cu_name, "jj_3" + e.internal_name + "()");
+        codeGenerator.genCodeLine(" inline bool ", "jj_3" + e.internal_name + "()");
      }
 
      codeGenerator.genCodeLine(" {");
@@ -1328,6 +1330,7 @@ public class ParseEngine {
       }
     }
 
+    codeGenerator.switchToIncludeFile();
     for (int phase2index = 0; phase2index < phase2list.size(); phase2index++) {
       buildPhase2Routine((Lookahead)(phase2list.get(phase2index)));
     }
@@ -1344,6 +1347,7 @@ public class ParseEngine {
       buildPhase3Routine((Phase3Data)(enumeration.nextElement()), false);
     }
 
+    codeGenerator.switchToMainFile();
   }
 
   public void reInit()
