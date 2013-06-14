@@ -151,6 +151,7 @@ public class Options {
     optionValues.put("TOKEN_INCLUDES", "");
     optionValues.put("PARSER_INCLUDES", "");
     optionValues.put("TOKEN_MANAGER_INCLUDES", "");
+    optionValues.put("IGNORE_ACTIONS", Boolean.FALSE);
   }
 
   /**
