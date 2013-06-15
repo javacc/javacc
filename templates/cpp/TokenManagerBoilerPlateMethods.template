@@ -1,5 +1,5 @@
   /** Reinitialise parser. */
-  void ${tokMgrClassName}::ReInit(${charStreamName} *stream, int lexState, ${parserClassName} *parserArg) {
+  void ${tokMgrClassName}::ReInit(JAVACC_CHARSTREAM *stream, int lexState, ${parserClassName} *parserArg) {
     if (input_stream) delete input_stream;
     jjmatchedPos = jjnewStateCnt = 0;
     curLexState = lexState;
@@ -27,7 +27,7 @@
   }
 
   /** Constructor. */
-  ${tokMgrClassName}::${tokMgrClassName} (${charStreamName} *stream, int lexState, ${parserClassName} *parserArg)
+  ${tokMgrClassName}::${tokMgrClassName} (JAVACC_CHARSTREAM *stream, int lexState, ${parserClassName} *parserArg)
 #if TOKEN_MANAGER_SUPER_CLASS
   : ${TOKEN_MANAGER_SUPER_CLASS}()
 #fi

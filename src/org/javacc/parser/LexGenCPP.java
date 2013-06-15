@@ -484,7 +484,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
     String charStreamName;
     if (Options.getUserCharStream())
-      charStreamName = "CharStream";
+      charStreamName = "JAVACC_CHARSTREAM";
     else
     {
       if (Options.getJavaUnicodeEscape())
@@ -494,7 +494,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     }
 
     writeTemplate("/templates/cpp/TokenManagerBoilerPlateMethods.template",
-      "charStreamName", "CharStream",
+      "charStreamName", "JAVACC_CHARSTREAM",
       "parserClassName", cu_name,
       "defaultLexState", "defaultLexState",
       "lexStateNameLength", lexStateName.length);
@@ -506,7 +506,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
     switchToIncludeFile(); // remaining variables
     writeTemplate("/templates/cpp/DumpVarDeclarations.template",
-      "charStreamName", "CharStream",
+      "charStreamName", "JAVACC_CHARSTREAM",
       "lexStateNameLength", lexStateName.length);
     genCodeLine(/*{*/ "};");
 
@@ -521,9 +521,9 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     switchToIncludeFile();
     genCodeLine("  private: " + cu_name + "*parser;");
     genCodeLine("  private: void ReInitRounds();");
-    genCodeLine("  public: " + tokMgrClassName + "(CharStream *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = NULL);");
+    genCodeLine("  public: " + tokMgrClassName + "(JAVACC_CHARSTREAM *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = NULL);");
     genCodeLine("  public: virtual ~" + tokMgrClassName + "();");
-    genCodeLine("  void ReInit(CharStream *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = NULL);");
+    genCodeLine("  void ReInit(JAVACC_CHARSTREAM *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = NULL);");
     genCodeLine("  void SwitchTo(int lexState);");
     genCodeLine("  const JAVACC_SIMPLE_STRING jjKindsForBitVector(int i, " + Options.getLongType() + " vec);");
     genCodeLine("  const JAVACC_SIMPLE_STRING jjKindsForStateVector(int lexState, int vec[], int start, int end);");
