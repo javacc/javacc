@@ -49,27 +49,65 @@ class CharStream {
   virtual bool getTrackLineColumn() { return trackLineColumn; }
   virtual void setTrackLineColumn(bool val) { trackLineColumn = val; }
 
-  /**
-   * Returns the next character from the selected input.  The method
-   * of selecting the input is the responsibility of the class
-   * implementing this class.
-   */
-  virtual JAVACC_CHAR_TYPE readChar();
+/**
+ * Backs up the input stream by amount steps. Lexer calls this method if it
+ * had already read some characters, but could not use them to match a
+ * (longer) token. So, they will be used again as the prefix of the next
+ * token and it is the implemetation's responsibility to do this right.
+ */
+virtual inline void backup(int amount) {
+  inBuf += amount;
+  bufpos -= amount;
+  if (bufpos < 0) {
+    bufpos += bufsize;
+  }
+}
 
-  /**
-   * Backs up the input stream by amount steps. Lexer calls this method if it
-   * had already read some characters, but could not use them to match a
-   * (longer) token. So, they will be used again as the prefix of the next
-   * token and it is the implemetation's responsibility to do this right.
-   */
-  virtual void backup(int amount);
+/**
+ * Returns the next character that marks the beginning of the next token.
+ * All characters must remain in the buffer between two successive calls
+ * to this method to implement backup correctly.
+ */
+virtual inline JAVACC_CHAR_TYPE BeginToken() {
+  tokenBegin = -1;
+  JAVACC_CHAR_TYPE c = readChar();
+  tokenBegin = bufpos;
+  return c;
+}
 
-  /**
-   * Returns the next character that marks the beginning of the next token.
-   * All characters must remain in the buffer between two successive calls
-   * to this method to implement backup correctly.
-   */
-  virtual JAVACC_CHAR_TYPE BeginToken();
+
+/**
+ * Returns the next character from the selected input.  The method
+ * of selecting the input is the responsibility of the class
+ * implementing this class.
+ */
+virtual inline JAVACC_CHAR_TYPE readChar() {
+  if (inBuf > 0) {
+    --inBuf;
+    ++bufpos;
+    if (bufpos == bufsize) {
+      bufpos = 0;
+    }
+
+    return buffer[bufpos];
+  }
+
+  ++bufpos;
+  if (bufpos >= maxNextCharInd) {
+    FillBuff();
+  }
+
+  JAVACC_CHAR_TYPE c = buffer[bufpos];
+
+#if KEEP_LINE_COLUMN
+  if (trackLineColumn) {
+    UpdateLineColumn(c);
+  }
+#fi
+
+  return c;
+}
+
 
   virtual void ExpandBuff(bool wrapAround);
   virtual void FillBuff();

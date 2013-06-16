@@ -1,6 +1,3 @@
-\#ifndef JAVACC_CHARSTREAM
-\#define JAVACC_CHARSTREAM ${charStreamName}
-\#endif
     JAVACC_CHARSTREAM  *input_stream;
     int jjrounds[${stateSetSize}];
     int jjstateSet[2 * ${stateSetSize}];
