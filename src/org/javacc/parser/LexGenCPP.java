@@ -480,11 +480,11 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     if (hasTokenActions)
       DumpTokenActions();
 
-    NfaState.PrintBoilerPlate(this);
+    NfaState.PrintBoilerPlateCPP(this);
 
     String charStreamName;
     if (Options.getUserCharStream())
-      charStreamName = "JAVACC_CHARSTREAM";
+      charStreamName = "CharStream";
     else
     {
       if (Options.getJavaUnicodeEscape())
@@ -494,7 +494,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     }
 
     writeTemplate("/templates/cpp/TokenManagerBoilerPlateMethods.template",
-      "charStreamName", "JAVACC_CHARSTREAM",
+      "charStreamName", "CharStream",
       "parserClassName", cu_name,
       "defaultLexState", "defaultLexState",
       "lexStateNameLength", lexStateName.length);
@@ -506,7 +506,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
     switchToIncludeFile(); // remaining variables
     writeTemplate("/templates/cpp/DumpVarDeclarations.template",
-      "charStreamName", "JAVACC_CHARSTREAM",
+      "charStreamName", "CharStream",
       "lexStateNameLength", lexStateName.length);
     genCodeLine(/*{*/ "};");
 
@@ -519,6 +519,10 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
   private void dumpBoilerPlateInHeader() {
     switchToIncludeFile();
+    genCodeLine("#ifndef JAVACC_CHARSTREAM");
+    genCodeLine("#define JAVACC_CHARSTREAM CharStream");
+    genCodeLine("#endif");
+
     genCodeLine("  private: " + cu_name + "*parser;");
     genCodeLine("  private: void ReInitRounds();");
     genCodeLine("  public: " + tokMgrClassName + "(JAVACC_CHARSTREAM *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = NULL);");
