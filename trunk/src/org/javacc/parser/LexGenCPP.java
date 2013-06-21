@@ -639,8 +639,10 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
       if (keepLineCol)
       {
+        genCodeLine("   if (input_stream->getTrackLineColumn()) {");
         genCodeLine("      beginLine = endLine = input_stream->getEndLine();");
         genCodeLine("      beginColumn = endColumn = input_stream->getEndColumn();");
+        genCodeLine("   }");
       }
 
       genCodeLine("   }");
@@ -651,10 +653,12 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
       if (keepLineCol)
       {
+        genCodeLine("   if (input_stream->getTrackLineColumn()) {");
         genCodeLine("      beginLine = input_stream->getBeginLine();");
         genCodeLine("      beginColumn = input_stream->getBeginColumn();");
         genCodeLine("      endLine = input_stream->getEndLine();");
         genCodeLine("      endColumn = input_stream->getEndColumn();");
+        genCodeLine("   }");
       }
 
       genCodeLine("   }");
@@ -665,10 +669,12 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       genCodeLine("   curTokenImage = (im.length() == 0) ? input_stream->GetImage() : im;");
       if (keepLineCol)
       {
-        genCodeLine("   beginLine = input_stream->getBeginLine();");
-        genCodeLine("   beginColumn = input_stream->getBeginColumn();");
-        genCodeLine("   endLine = input_stream->getEndLine();");
-        genCodeLine("   endColumn = input_stream->getEndColumn();");
+        genCodeLine("   if (input_stream->getTrackLineColumn()) {");
+        genCodeLine("     beginLine = input_stream->getBeginLine();");
+        genCodeLine("     beginColumn = input_stream->getBeginColumn();");
+        genCodeLine("     endLine = input_stream->getEndLine();");
+        genCodeLine("     endColumn = input_stream->getEndColumn();");
+        genCodeLine("   }");
       }
     }
 
@@ -689,10 +695,12 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
     if (keepLineCol) {
       genCodeLine("");
-      genCodeLine("   t->beginLine = beginLine;");
-      genCodeLine("   t->endLine = endLine;");
-      genCodeLine("   t->beginColumn = beginColumn;");
-      genCodeLine("   t->endColumn = endColumn;");
+      genCodeLine("   if (input_stream->getTrackLineColumn()) {");
+        genCodeLine("   t->beginLine = beginLine;");
+        genCodeLine("   t->endLine = endLine;");
+        genCodeLine("   t->beginColumn = beginColumn;");
+        genCodeLine("   t->endColumn = endColumn;");
+      genCodeLine("   }");
     }
 
     genCodeLine("");
