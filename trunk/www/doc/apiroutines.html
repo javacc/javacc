@@ -446,6 +446,42 @@ The offending character.
 </li>
 </ul>
 
+<h2>The <strong><code><a name="error-handler">ErrorHandler</a></code></strong> (C++ only) interface</h2>
+
+<p>
+Since the parser doesn't use exceptions in C++, we provide an interface - ErrorHandler that handles the various different errors encountered during the parse.
+</p>
+
+<dl>
+      <dt><strong><code>int error_count;</code></strong></dt>
+
+      <dd>This protected field indicates the number of errors. If you are subclassing this class, it's your responsibility to update this field.
+      </dd>
+
+      <dt><strong><code>void handleUnexpectedToken()</code></strong></dt>
+      <dd>This public function is called when the parser encounters a different token when expecting to consume a specific kind of token. Parameters:
+      <dl>
+       <li>int expectedKind - token kind that the parser was trying to consume.</li>
+       <li>string expectedToken - the image of the token - tokenImages[expectedKind].</li>
+       <li>Token* actual - the actual token that the parser got instead.</li>
+      <dl>
+     </dd>
+
+      <dt><strong><code>void handleParseError()</code></strong></dt>
+      <dd>This public function is called when the parser cannot continue parsing any further. Parameters:
+ 
+       <dl>
+      <li> Token* last - the last token successfully parsed. </li>
+      <li> Token* unexpected - the token at which the error occurs. </li>
+      <li> string production - the name of the production in which this error occurrs. </li>
+      </dl> </dd>
+
+      <dt><strong><code>int  getErrorCount()</code></strong></dt>
+      <dd>This public function returns the number of errors.</dd>
+
+</dl>
+
+
 <hr />
 
 <h1>JavaCC [tm]: JJTree</h1>
