@@ -38,6 +38,8 @@ options {
   TOKEN_MANAGER_INCLUDES = "mytm.h";
   PARSER_INCLUDES = "myparser.h";
   PARSER_SUPER_CLASS = "MyParser";
+  TOKEN_EXTENDS = "TokenBase";
+  TOKEN_INCLUDES = "token_base.h";
 }
 
 PARSER_BEGIN(JavaParser)
