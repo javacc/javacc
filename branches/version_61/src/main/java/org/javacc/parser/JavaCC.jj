@@ -595,7 +595,7 @@ void option_binding() :
 	  Token t = getToken(1);
 	}
 {
-  ( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "static" )
+  ( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "static" | "PARSER_BEGIN" )
 	{
 	  option_name = t.image;
 	}
