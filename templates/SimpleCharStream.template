@@ -35,6 +35,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   ${PREFIX}public int getTabSize() { return tabSize; }
 
 
+
   ${PREFIX}protected void ExpandBuff(boolean wrapAround)
   {
     char[] newbuffer = new char[bufsize + 2048];
@@ -81,7 +82,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
     }
     catch (Throwable t)
     {
-      throw new Error(t.getMessage());
+      throw new ${LEGACY_EXCEPTION_HANDLING?Error:RuntimeException}(t.getMessage());
     }
 
 
@@ -292,7 +293,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   {
 #if STATIC
     if (inputStream != null)
-      throw new Error("\n   ERROR: Second call to the constructor of a static SimpleCharStream.\n" +
+      throw new ${LEGACY_EXCEPTION_HANDLING?Error:RuntimeException}("\n   ERROR: Second call to the constructor of a static SimpleCharStream.\n" +
       "       You must either use ReInit() or set the JavaCC option STATIC to false\n" +
       "       during the generation of this class.");
 #fi
@@ -522,7 +523,6 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
     line = bufline[j];
     column = bufcolumn[j];
   }
-
   ${PREFIX}boolean getTrackLineColumn() { return trackLineColumn; }
   ${PREFIX}void setTrackLineColumn(boolean trackLineColumn) { this.trackLineColumn = trackLineColumn; }
 #fi

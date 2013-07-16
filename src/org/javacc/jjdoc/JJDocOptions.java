@@ -52,6 +52,7 @@ public class JJDocOptions extends Options {
 
         Options.optionValues.put("ONE_TABLE", Boolean.TRUE);
         Options.optionValues.put("TEXT", Boolean.FALSE);
+        Options.optionValues.put("XTEXT", Boolean.FALSE);
         Options.optionValues.put("BNF", Boolean.FALSE);
 
         Options.optionValues.put("OUTPUT_FILE", "");
@@ -83,6 +84,10 @@ public class JJDocOptions extends Options {
      */
     public static boolean getText() {
         return booleanValue("TEXT");
+    }
+    
+    public static boolean getXText() {
+        return booleanValue("XTEXT");
     }
 
     /**

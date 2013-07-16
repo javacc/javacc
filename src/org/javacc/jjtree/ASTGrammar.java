@@ -32,6 +32,7 @@
 package org.javacc.jjtree;
 
 import org.javacc.parser.JavaCCGlobals;
+import org.javacc.parser.Options;
 
 
 public class ASTGrammar extends JJTreeNode {
@@ -40,12 +41,16 @@ public class ASTGrammar extends JJTreeNode {
   }
 
   void generate(IO io) {
-System.out.println("opt:" + JJTreeOptions.getOutputLanguage());
-    if (JJTreeOptions.getOutputLanguage().equals("java")) {
+     System.out.println("opt:" + JJTreeOptions.getOutputLanguage());
+    // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+    if (JJTreeOptions.isOutputLanguageImplementedInJava()) {
       new JavaCodeGenerator().visit(this, io);
-    } else {
+    } else if (JJTreeOptions.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
       new CPPCodeGenerator().visit(this, io);
       CPPNodeFiles.generateTreeClasses();
+    } else {
+    	// Catch all to ensure we don't accidently do nothing
+    	throw new RuntimeException("Language type not supported for JJTree : " + JJTreeOptions.getOutputLanguage());
     }
   }
 

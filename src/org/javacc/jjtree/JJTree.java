@@ -176,17 +176,25 @@ public class JJTree {
         root.generate(io);
         io.getOut().close();
 
-        if (JJTreeOptions.getOutputLanguage().equals("java")) {
+        String outputLanguage = JJTreeOptions.getOutputLanguage();
+        
+        // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+        
+		if (JJTreeOptions.isOutputLanguageImplementedInJava()) {
           NodeFiles.generateTreeConstants_java();
           NodeFiles.generateVisitor_java();
           NodeFiles.generateDefaultVisitor_java();
           JJTreeState.generateTreeState_java();
-        } else {
+        } else if (outputLanguage.equals(Options.OUTPUT_LANGUAGE__CPP)) {
           CPPNodeFiles.generateTreeConstants();
           CPPNodeFiles.generateVisitors();
           //CPPNodeFiles.generateDefaultVisitor();
           CPPJJTreeState.generateTreeState();
           //CPPNodeFiles.generateJJTreeH();
+        } else {
+        	// gwt not supported here (yet)
+        	p("Unsupported JJTree output language : " + outputLanguage);
+        	return 1;
         }
 
         p("Annotated grammar generated successfully in " +

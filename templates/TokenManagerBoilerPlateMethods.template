@@ -1,4 +1,4 @@
-#if TOKEN_MANAGER_USES_PARSER && !STATIC{
+#if TOKEN_MANAGER_USES_PARSER && !STATIC
     /** Constructor with parser. */
     public ${tokMgrClassName} (${cu_name} parserArg, ${charStreamName} stream){
     parser = parserArg;
@@ -9,14 +9,14 @@
 
 #if STATIC && !USER_CHAR_STREAM
       if (input_stream != null)
-        throw new TokenMgrError("ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.", TokenMgrError.STATIC_LEXER_ERROR);
+        throw new ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}("ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.", ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}.STATIC_LEXER_ERROR);
 #elif !USER_CHAR_STREAM
     #if JAVA_UNICODE_ESCAPE
       if (JavaCharStream.staticFlag)
     #else
       if (SimpleCharStream.staticFlag)
     #fi
-            throw new Error("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
+            throw new ${LEGACY_EXCEPTION_HANDLING?Error:RuntimeException}("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
 #fi
 
     input_stream = stream;
@@ -36,8 +36,9 @@
 #fi
 
   /** Reinitialise parser. */
-  ${STATIC?static :}public void ReInit(${charStreamName} stream)
+  ${STATIC?static :}public void ReInit(${TOKEN_MANAGER_USES_PARSER?${cu_name} parserArg, :}${charStreamName} stream)
   {
+	${TOKEN_MANAGER_USES_PARSER?this.parser = parserArg; :}
     jjmatchedPos = jjnewStateCnt = 0;
     curLexState = defaultLexState;
     input_stream = stream;
@@ -53,9 +54,10 @@
   }
 
   /** Reinitialise parser. */
-  ${STATIC?static :}public void ReInit(${charStreamName} stream, int lexState)
+  ${STATIC?static :}public void ReInit( ${TOKEN_MANAGER_USES_PARSER?${cu_name} parserArg, :}${charStreamName} stream, int lexState)
   {
-    ReInit(stream);
+  
+    ReInit(${TOKEN_MANAGER_USES_PARSER?parserArg,:} stream);
     SwitchTo(lexState);
   }
 
@@ -63,7 +65,7 @@
   ${STATIC?static :}public void SwitchTo(int lexState)
   {
     if (lexState >= ${lexStateNameLength} || lexState < 0)
-      throw new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
+      throw new ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}.INVALID_LEXICAL_STATE);
     else
       curLexState = lexState;
   }

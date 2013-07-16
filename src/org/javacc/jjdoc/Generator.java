@@ -72,17 +72,21 @@ public interface Generator {
    */
   void specialTokens(String s);
 
-  /**
-   * Output start of a TokenProduction.
-   * @param tp the TokenProduction being output
-   */
-  void tokenStart(TokenProduction tp);
-
-  /**
-   * Output end of a TokenProduction.
-   * @param tp the TokenProduction being output
-   */
-  void tokenEnd(TokenProduction tp);
+  
+  
+  void handleTokenProduction(TokenProduction tp);
+  
+//  /**
+//   * Output start of a TokenProduction.
+//   * @param tp the TokenProduction being output
+//   */
+//  void tokenStart(TokenProduction tp);
+//
+//  /**
+//   * Output end of a TokenProduction.
+//   * @param tp the TokenProduction being output
+//   */
+//  void tokenEnd(TokenProduction tp);
 
   /**
    * Output start of non-terminal.
