@@ -51,7 +51,7 @@ final class NodeFiles {
    * ID of the latest version (of JJTree) in which one of the Node classes
    * was modified.
    */
-  static final String nodeVersion = "6.0";
+  static final String nodeVersion = "6.1";
 
   static Set nodesGenerated = new HashSet();
 

@@ -33,7 +33,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 <project name="javacc-compile" default="compile" basedir=".">
   <property name="javacc.root"
-            value="../../../..">
+            value="../../../../../..">
   </property>
   <property name="bootstrap.javacc.mainclass"
             value="org.javacc.parser.Main">
@@ -49,9 +49,9 @@ THE POSSIBILITY OF SUCH DAMAGE.
   </target>
 
   <target name="compile-nojar" depends="generated-files">
-    <javac srcdir="${javacc.root}/src"
+    <javac srcdir="${javacc.root}/src/main/java"
            destdir="${javacc.root}/classes"
-           debug="${build.compiler.debug}"
+           debug="true"
            source="1.5"
            target="1.5"
            classpath="${javacc.root}/classes:${junit.jar}">

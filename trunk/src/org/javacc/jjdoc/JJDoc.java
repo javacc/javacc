@@ -116,7 +116,21 @@ public class JJDoc extends JJDocGlobals {
       TokenProduction tp = (TokenProduction)it.next();
       emitTopLevelSpecialTokens(tp.firstToken, gen);
 
-      String token = "";
+      
+      
+      gen.handleTokenProduction(tp);
+      
+//      if (!token.equals("")) {
+//        gen.tokenStart(tp);
+//        String token = getStandardTokenProductionText(tp);
+//          gen.text(token);
+//        gen.tokenEnd(tp);
+//      }
+    }
+    gen.tokensEnd();
+  }
+public static String getStandardTokenProductionText(TokenProduction tp) {
+    String token = "";
       if (tp.isExplicit) {
         if (tp.lexStates == null) {
          token += "<*> ";
@@ -151,14 +165,8 @@ public class JJDoc extends JJDocGlobals {
         }
         token += "}\n\n";
       }
-      if (!token.equals("")) {
-        gen.tokenStart(tp);
-        gen.text(token);
-        gen.tokenEnd(tp);
-      }
-    }
-    gen.tokensEnd();
-  }
+    return token;
+}
 
   private static void emitNormalProductions(Generator gen, List prods) {
     gen.nonterminalsStart();
@@ -289,7 +297,7 @@ public class JJDoc extends JJDocGlobals {
     emitExpansionTree(z.expansion, gen);
     gen.text(" )?");
   }
-  private static String emitRE(RegularExpression re) {
+  public static String emitRE(RegularExpression re) {
     String returnString = "";
     boolean hasLabel = !re.label.equals("");
     boolean justName = re instanceof RJustName;

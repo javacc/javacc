@@ -29,6 +29,7 @@ package org.javacc.jjdoc;
 
 import java.util.*;
 import org.javacc.parser.*;
+
 import java.io.*;
 
 public class BNFGenerator implements Generator {
@@ -105,16 +106,16 @@ public class BNFGenerator implements Generator {
   }
   public void specialTokens(String s) {
   }
-  public void tokenStart(TokenProduction tp) {
-    printing = false;
-  }
-  public void tokenEnd(TokenProduction tp) {
-    printing = true;
-  }
+//  public void tokenStart(TokenProduction tp) {
+//    printing = false;
+//  }
+//  public void tokenEnd(TokenProduction tp) {
+//    printing = true;
+//  }
   public void nonterminalsStart() { }
   public void nonterminalsEnd() { }
-  public void tokensStart() { }
-  public void tokensEnd() { }
+  @Override public void tokensStart() {}
+  @Override public void tokensEnd() {}
   public void javacode(JavaCodeProduction jp) { }
   public void expansionEnd(Expansion e, boolean first) { }
   public void nonTerminalStart(NonTerminal nt) { }
@@ -144,5 +145,15 @@ public class BNFGenerator implements Generator {
   public void info(String message) { System.err.println(message); }
   public void warn(String message) { System.err.println(message); }
   public void error(String message) { System.err.println(message); }
+
+@Override
+public void handleTokenProduction(TokenProduction tp) {
+    printing = false;
+    String text = JJDoc.getStandardTokenProductionText(tp);
+    text(text);
+    printing = true;
+}
+
+
 
 }

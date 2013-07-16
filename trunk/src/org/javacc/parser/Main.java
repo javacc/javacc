@@ -135,11 +135,9 @@ public final class Main {
       Options.setCmdLineOption(args[arg]);
     }
 
-    if (Options.getOutputLanguage().equals("java")) {
-      lg = new LexGen();
-    } else  {
-      lg = new LexGenCPP();
-    }
+
+	
+
     try {
       java.io.File fp = new java.io.File(args[args.length-1]);
       if (!fp.exists()) {
@@ -165,6 +163,23 @@ public final class Main {
       JavaCCGlobals.jjtreeGenerated = JavaCCGlobals.isGeneratedBy("JJTree", args[args.length-1]);
       JavaCCGlobals.toolNames = JavaCCGlobals.getToolNames(args[args.length-1]);
       parser.javacc_input();
+      
+      // 2012/05/02 - Moved this here as cannot evaluate output language
+      // until the cc file has been processed. Was previously setting the 'lg' variable
+      // to a lexer before the configuration override in the cc file had been read.
+      String outputLanguage = Options.getOutputLanguage();
+      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+  	  boolean isJavaOutput = outputLanguage.equals(Options.OUTPUT_LANGUAGE__JAVA);
+  	  boolean isCPPOutput = outputLanguage.equals(Options.OUTPUT_LANGUAGE__CPP);
+  	  boolean isGWTOutput = outputLanguage.equals(Options.OUTPUT_LANGUAGE__GWT);
+  	  if (isJavaOutput || isGWTOutput) {
+        lg = new LexGen();
+      } else if (isCPPOutput) {
+        lg = new LexGenCPP();
+      } else {
+      	return unhandledLanguageExit(outputLanguage);
+      }
+  	
       JavaCCGlobals.createOutputDir(Options.getOutputDirectory());
 
       if (Options.getUnicodeInput())
@@ -175,17 +190,19 @@ public final class Main {
       }
 
       Semanticize.start();
-      if (Options.getOutputLanguage().equals("java")) {
+      if (isJavaOutput) {
+    	  
         if (Options.getBuildParser()) {
-          new ParseGen().start();
+          new ParseGen().start(false);
         }
+        
         if (Options.getBuildParser()) {
           new LexGen().start();
         }
 
         Options.setStringOption("PARSER_NAME", JavaCCGlobals.cu_name);
-        OtherFilesGen.start();
-      } else { // C++ for now
+        OtherFilesGen.start(false);
+      } else if (isCPPOutput) { // C++ for now
         if (Options.getBuildParser()) {
           new ParseGenCPP().start();
         }
@@ -195,6 +212,22 @@ public final class Main {
 
         Options.setStringOption("PARSER_NAME", JavaCCGlobals.cu_name);
         OtherFilesGenCPP.start();
+      } else if (isGWTOutput) {
+    	  
+    	  // 2012/05/02 -- This is not the best way to add-in GWT support, really the code needs to turn supported languages into enumerations
+    	  // and have the enumerations describe the deltas between the outputs. The current approach means that per-langauge configuration is distributed
+    	  // and small changes between targets does not benefit from inheritance.
+          if (Options.getBuildParser()) {
+              new ParseGen().start(true);
+            }
+            if (Options.getBuildParser()) {
+              new LexGen().start();
+            }
+
+            Options.setStringOption("PARSER_NAME", JavaCCGlobals.cu_name);
+            OtherFilesGen.start(true);
+      } else {
+    	  unhandledLanguageExit(outputLanguage);
       }
 
       if ((JavaCCErrors.get_error_count() == 0) && (Options.getBuildParser() || Options.getBuildTokenManager())) {
@@ -221,6 +254,11 @@ public final class Main {
       return 1;
     }
   }
+
+private static int unhandledLanguageExit(String outputLanguage) {
+	System.out.println("Invalid '" + Options.OUTPUT_LANGUAGE+ "' specified : " + outputLanguage);
+	return 1;
+}
 
    public static void reInitAll()
    {

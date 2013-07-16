@@ -385,21 +385,26 @@ public class JavaCCGlobals {
   }
 
   static public String addUnicodeEscapes(String str) {
-    if (!Options.getOutputLanguage().equals("java"))
-       return str;
-
-    String retval = "";
-    char ch;
-    for (int i = 0; i < str.length(); i++) {
-      ch = str.charAt(i);
-      if (ch < 0x20 || ch > 0x7e || ch == '\\') {
-        String s = "0000" + Integer.toString(ch, 16);
-        retval += "\\u" + s.substring(s.length() - 4, s.length());
-      } else {
-        retval += ch;
-      }
-    }
-    return retval;
+	  
+	if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+		return str;
+	} else if (Options.isOutputLanguageImplementedInJava()) {
+	    String retval = "";
+	    char ch;
+	    for (int i = 0; i < str.length(); i++) {
+	      ch = str.charAt(i);
+	      if (ch < 0x20 || ch > 0x7e || ch == '\\') {
+	        String s = "0000" + Integer.toString(ch, 16);
+	        retval += "\\u" + s.substring(s.length() - 4, s.length());
+	      } else {
+	        retval += ch;
+	      }
+	    }
+	    return retval;
+	} else {
+		// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+		throw new RuntimeException("Unhandled Output Language : " + Options.getOutputLanguage());
+	}
   }
 
   static protected int cline, ccol;
@@ -564,10 +569,10 @@ public class JavaCCGlobals {
 
    static String getFileExtension(String language) {
      String lang = Options.getOutputLanguage();
-
-     if (lang.equals("java")) {
+     // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+     if (Options.isOutputLanguageImplementedInJava()) {
        return ".java";
-     } else if (lang.toLowerCase().equals("c++")) {
+     } else if (lang.toLowerCase().equals(Options.OUTPUT_LANGUAGE__CPP)) {
        return ".cc";
      }
 

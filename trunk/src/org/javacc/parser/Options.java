@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.StringTokenizer;
+
 
 
 /**
@@ -43,8 +43,20 @@ import java.util.StringTokenizer;
  */
 public class Options {
 
+
+  //private static final String BOILERPLATE_PACKAGE = "BOILERPLATE_PACKAGE";
+
+private static final String LEGACY_EXCEPTION_HANDLING = "LEGACY_EXCEPTION_HANDLING";
+
+private static final String GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
+
+  public static final String OUTPUT_LANGUAGE = "OUTPUT_LANGUAGE";
   
-  /**
+  public static final String OUTPUT_LANGUAGE__GWT = "gwt";
+  public static final String OUTPUT_LANGUAGE__CPP = "c++";
+  public static final String OUTPUT_LANGUAGE__JAVA = "java";
+
+/**
    * Limit subclassing to derived classes.
    */
   protected Options() {
@@ -132,26 +144,31 @@ public class Options {
     optionValues.put("COMMON_TOKEN_ACTION", Boolean.FALSE);
     optionValues.put("CACHE_TOKENS", Boolean.FALSE);
     optionValues.put("KEEP_LINE_COLUMN", Boolean.TRUE);
+    optionValues.put(LEGACY_EXCEPTION_HANDLING, Boolean.FALSE);
     
     optionValues.put("GENERATE_CHAINED_EXCEPTION", Boolean.FALSE);
     optionValues.put("GENERATE_GENERICS", Boolean.FALSE);
+    optionValues.put(GENERATE_BOILERPLATE, Boolean.TRUE);
     optionValues.put("GENERATE_STRING_BUILDER", Boolean.FALSE);
     optionValues.put("GENERATE_ANNOTATIONS", Boolean.FALSE);
     optionValues.put("SUPPORT_CLASS_VISIBILITY_PUBLIC", Boolean.TRUE);
 
     optionValues.put("OUTPUT_DIRECTORY", ".");
     optionValues.put("JDK_VERSION", "1.5");
+    
+    //optionValues.put(BOILERPLATE_PACKAGE, "");
     optionValues.put("TOKEN_EXTENDS", "");
     optionValues.put("TOKEN_FACTORY", "");
     optionValues.put("GRAMMAR_ENCODING", "");
-    optionValues.put("OUTPUT_LANGUAGE", "java");
+    optionValues.put(OUTPUT_LANGUAGE, OUTPUT_LANGUAGE__JAVA);
 
     // Some C++-specific options
+	
     optionValues.put("NAMESPACE", "");
-    optionValues.put("TOKEN_INCLUDES", "");
+	optionValues.put("TOKEN_INCLUDES", "");
     optionValues.put("PARSER_INCLUDES", "");
     optionValues.put("TOKEN_MANAGER_INCLUDES", "");
-    optionValues.put("IGNORE_ACTIONS", Boolean.FALSE);
+	optionValues.put("IGNORE_ACTIONS", Boolean.FALSE);
   }
 
   /**
@@ -178,6 +195,12 @@ public class Options {
     return sb.toString();
   }
 
+  
+  public static String getTokenMgrErrorClass() {
+	  return isOutputLanguageImplementedInJava() ?
+			  (isLegacyExceptionHandling() ? "TokenMgrError" : "TokenMgrException") :
+				  "TokenMgrError";
+  }
 
   /**
    * Determine if a given command line argument might be an option flag.
@@ -583,6 +606,22 @@ public class Options {
     return booleanValue("GENERATE_CHAINED_EXCEPTION");
   }
 
+
+  public static boolean isGenerateBoilerplateCode() {
+	return booleanValue(GENERATE_BOILERPLATE);
+  }
+  
+  /**
+   * As of 6.1 JavaCC now throws subclasses of {@link RuntimeException} rather than {@link Error} s (by default), as {@link Error} s typically lead to the closing down of the parent
+   * VM and are only to be used in extreme circumstances (failure of parsing is generally not regarded as such). If this value is set to true, then then {@link Error}s will be thrown
+   * (for compatibility with older .jj files)
+   * @return true if throws errors (legacy), false if use {@link RuntimeException} s (better approach)
+   */
+  public static boolean isLegacyExceptionHandling() {
+	return booleanValue(LEGACY_EXCEPTION_HANDLING);
+  }
+  
+  
   /**
    * Should the generated code contain Generics?
    * @return
@@ -638,6 +677,13 @@ public class Options {
     return stringValue("TOKEN_EXTENDS");
   }
 
+  
+//  public static String getBoilerplatePackage()
+//  {
+//    return stringValue(BOILERPLATE_PACKAGE);
+//  }
+  
+  
   /**
    * Return the Token's factory class.
    *
@@ -672,29 +718,38 @@ public class Options {
   }
 
   public static String stringBufOrBuild() {
-    if (getOutputLanguage().equals("java") && getGenerateStringBuilder()) {
-      return "StringBuilder";
-    } else {
+	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+    if ( isOutputLanguageImplementedInJava() && getGenerateStringBuilder()) {
+      return getGenerateStringBuilder() ? "StringBuilder" : "StringBuffer";
+    } else if (getOutputLanguage().equals(OUTPUT_LANGUAGE__CPP)){
       return "StringBuffer";
+    } else {
+    	throw new RuntimeException("Output language type not fully implemented : " + getOutputLanguage());
     }
   }
 
   private static final Set<String> supportedLanguages = new HashSet<String>();
   static {
-    supportedLanguages.add("java");
-    supportedLanguages.add("c++");
+    supportedLanguages.add(OUTPUT_LANGUAGE__JAVA);
+    supportedLanguages.add(OUTPUT_LANGUAGE__CPP);
+    supportedLanguages.add(OUTPUT_LANGUAGE__GWT);
   }
+  
+  public static boolean isValidOutputLanguage(String language) {
+	  return language == null ? false : supportedLanguages.contains(language.toLowerCase());
+  }
+  
   /**
    * @return the output language. default java
    */
   public static String getOutputLanguage() {
-     return stringValue("OUTPUT_LANGUAGE");
+     return stringValue(OUTPUT_LANGUAGE);
   }
 
   public static void setOutputLanguage(String lang) {
-     if (supportedLanguages.contains(lang.toLowerCase()))
-        optionValues.put("OUTPUT_LANGUAGE", lang.toUpperCase().toString());
-
+     if (supportedLanguages.contains(lang.toLowerCase())) {
+        optionValues.put(OUTPUT_LANGUAGE, lang.toUpperCase().toString());
+     }
      JavaCCErrors.fatal("Language: " + lang + " is not supported.");
   }
 
@@ -704,6 +759,7 @@ public class Options {
       processCPPNamespaceOption(optionValue);
     }
   }
+
 
   public static void processCPPNamespaceOption(String optionValue) {
     String ns = optionValue;
@@ -721,20 +777,38 @@ public class Options {
       optionValues.put("NAMESPACE_CLOSE", ns_close);
     }
   }
-
+  
   public static String getLongType() {
-    if (getOutputLanguage().equalsIgnoreCase("java")) {
+	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+    if (isOutputLanguageImplementedInJava()) {
       return "long";
-    } else {
+    } else if (getOutputLanguage().equals(OUTPUT_LANGUAGE__CPP)){
       return "unsigned long long";
+    } else {
+    	throw new RuntimeException("Language type not fully supported : " + getOutputLanguage());
     }
   }
 
   public static String getBooleanType() {
-    if (getOutputLanguage().equalsIgnoreCase("java")) {
+	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+    if (isOutputLanguageImplementedInJava()) {
       return "boolean";
-    } else {
+    } else if (getOutputLanguage().equals(OUTPUT_LANGUAGE__CPP)) {
       return "bool";
+    }  else {
+    	throw new RuntimeException("Language type not fully supported : " + getOutputLanguage());
     }
   }
+
+	public static boolean isOutputLanguageImplementedInJava() {
+		// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+			String outputLanguage = getOutputLanguage();
+			boolean b = outputLanguage.equalsIgnoreCase(OUTPUT_LANGUAGE__JAVA) || outputLanguage.equalsIgnoreCase(OUTPUT_LANGUAGE__GWT);
+			return b;
+	}
+
+	public static boolean isTokenManagerRequiresParserAccess() {
+		return getTokenManagerUsesParser();
+	}
+
 }

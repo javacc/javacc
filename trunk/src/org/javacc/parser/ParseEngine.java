@@ -44,7 +44,9 @@ public class ParseEngine {
   private int indentamt;
   private boolean jj2LA;
   private CodeGenerator codeGenerator;
-  private boolean isJavaLanguage = Options.getOutputLanguage().equals("java");
+  private boolean isJavaDialect = Options.isOutputLanguageImplementedInJava();
+
+
 
   /**
    * These lists are used to maintain expansions for which code generation
@@ -504,7 +506,7 @@ public class ParseEngine {
     sig.append(")");
     params = sig.toString();
 
-    if (isJavaLanguage) {
+    if (isJavaDialect) {
       sig.setLength(0);
       sig.append("ParseException");
       for (java.util.Iterator it = p.getThrowsList().iterator(); it.hasNext();) {
@@ -528,7 +530,7 @@ public class ParseEngine {
     if (t.kind == JavaCCParserConstants.VOID) {
       voidReturn = true;
     }
-    if (isJavaLanguage) {
+    if (isJavaDialect) {
       codeGenerator.printTokenSetup(t); ccol = 1;
       codeGenerator.printLeadingComments(t);
       codeGenerator.genCode("  " + staticOpt() + "final " +(p.getAccessMod() != null ? p.getAccessMod() : "public")+ " ");
@@ -549,7 +551,7 @@ public class ParseEngine {
         codeGenerator.printTrailingComments(t);
       }
       codeGenerator.genCode(")");
-      if (isJavaLanguage) { 
+      if (isJavaDialect) { 
         codeGenerator.genCode(" throws ParseException");
       }
 
@@ -586,24 +588,27 @@ public class ParseEngine {
     dumpFormattedString(code);
     codeGenerator.genCodeLine("");
     if (p.isJumpPatched() && !voidReturn) {
-      if (isJavaLanguage) { 
-        codeGenerator.genCodeLine("    throw new Error(\"Missing return statement in function\");");
+      if (isJavaDialect) { 
+    	// TODO :: I don't think we need to throw an Error/Exception to mark that a return statement is missing as the compiler will flag this error automatically
+    	if (Options.isLegacyExceptionHandling()) {
+    		codeGenerator.genCodeLine("    throw new "+(Options.isLegacyExceptionHandling() ? "Error" : "RuntimeException")+"(\"Missing return statement in function\");");
+    	}
       } else {
         codeGenerator.genCodeLine("    throw \"Missing return statement in function\";");
       }
     }
     if (Options.getDebugParser()) {
-      if (isJavaLanguage) {
+      if (isJavaDialect) {
         codeGenerator.genCodeLine("    } finally {");
       } else {
         codeGenerator.genCodeLine("    } catch(...) { }");
       }
       codeGenerator.genCodeLine("      trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
-      if (isJavaLanguage) {
+      if (isJavaDialect) {
         codeGenerator.genCodeLine("    }");
       }
     }
-    if (!isJavaLanguage && !voidReturn) {
+    if (!isJavaDialect && !voidReturn) {
       codeGenerator.genCodeLine("assert(false);");
     }
 
@@ -636,7 +641,7 @@ public class ParseEngine {
         retval += " = ";
       }
       String tail = e_nrw.rhsToken == null ? ");" :
-                (isJavaLanguage ? ")." : ")->") + e_nrw.rhsToken.image + ";";
+                (isJavaDialect ? ")." : ")->") + e_nrw.rhsToken.image + ";";
       if (e_nrw.label.equals("")) {
         Object label = names_of_tokens.get(new Integer(e_nrw.ordinal));
         if (label != null) {
@@ -687,7 +692,7 @@ public class ParseEngine {
       conds = new Lookahead[e_nrw.getChoices().size()];
       actions = new String[e_nrw.getChoices().size() + 1];
       actions[e_nrw.getChoices().size()] = "\n" + "jj_consume_token(-1);\n" +
-        (isJavaLanguage ? "throw new ParseException();" : "errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this), hasError = true;");
+        (isJavaDialect ? "throw new ParseException();" : "errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this), hasError = true;");
       // In previous line, the "throw" never throws an exception since the
       // evaluation of jj_consume_token(-1) causes ParseException to be
       // thrown first.
@@ -706,14 +711,14 @@ public class ParseEngine {
         // For C++, since we are not using exceptions, we will protect all the
         // expansion choices with if (!error)
         boolean wrap_in_block = false;
-        if (!JavaCCGlobals.jjtreeGenerated && !isJavaLanguage) {
+        if (!JavaCCGlobals.jjtreeGenerated && !isJavaDialect) {
           // for the last one, if it's an action, we will not protect it.
           Expansion elem = (Expansion)e_nrw.units.get(i);
           if (!(elem instanceof Action) ||
               !(e.parent instanceof BNFProduction) ||
               i != e_nrw.units.size() - 1) {
             wrap_in_block = true;
-            retval += "if (" + (isJavaLanguage ? "true" : "!hasError") + ") {\n";
+            retval += "if (" + (isJavaDialect ? "true" : "!hasError") + ") {\n";
           }
         }
         retval += phase1ExpansionGen((Expansion)(e_nrw.units.get(i)));
@@ -734,17 +739,17 @@ public class ParseEngine {
       }
       retval += "\n";
       int labelIndex = ++gensymindex;
-      if (isJavaLanguage) {
+      if (isJavaDialect) {
         retval += "label_" + labelIndex + ":\n";
       }
-      retval += "while (" + (isJavaLanguage ? "true" : "!hasError") + ") {\u0001";
+      retval += "while (" + (isJavaDialect ? "true" : "!hasError") + ") {\u0001";
       retval += phase1ExpansionGen(nested_e);
       conds = new Lookahead[1];
       conds[0] = la;
       actions = new String[2];
       actions[0] = "\n;";
 
-      if (isJavaLanguage) {
+      if (isJavaDialect) {
         actions[1] = "\nbreak label_" + labelIndex + ";";
       } else {
         actions[1] = "\ngoto end_label_" + labelIndex + ";";
@@ -752,7 +757,7 @@ public class ParseEngine {
 
       retval += buildLookaheadChecker(conds, actions);
       retval += "\u0002\n" + "}";
-      if (!isJavaLanguage) {
+      if (!isJavaDialect) {
         retval += "\nend_label_" + labelIndex + ": ;";
       }
     } else if (e instanceof ZeroOrMore) {
@@ -768,15 +773,15 @@ public class ParseEngine {
       }
       retval += "\n";
       int labelIndex = ++gensymindex;
-      if (isJavaLanguage) {
+      if (isJavaDialect) {
         retval += "label_" + labelIndex + ":\n";
       }
-      retval += "while (" + (isJavaLanguage ? "true" : "!hasError") + ") {\u0001";
+      retval += "while (" + (isJavaDialect ? "true" : "!hasError") + ") {\u0001";
       conds = new Lookahead[1];
       conds[0] = la;
       actions = new String[2];
       actions[0] = "\n;";
-      if (isJavaLanguage) {
+      if (isJavaDialect) {
         actions[1] = "\nbreak label_" + labelIndex + ";";
       } else {
         actions[1] = "\ngoto end_label_" + labelIndex + ";";
@@ -784,7 +789,7 @@ public class ParseEngine {
       retval += buildLookaheadChecker(conds, actions);
       retval += phase1ExpansionGen(nested_e);
       retval += "\u0002\n" + "}";
-      if (!isJavaLanguage) {
+      if (!isJavaDialect) {
         retval += "\nend_label_" + labelIndex + ": ;";
       }
     } else if (e instanceof ZeroOrOne) {
@@ -841,7 +846,7 @@ public class ParseEngine {
         retval += "\u0004\n" + "}";
       }
       if (e_nrw.finallyblk != null) {
-        if (isJavaLanguage) {
+        if (isJavaDialect) {
           retval += " finally {\u0003\n";
         } else {
           retval += " finally {\u0003\n";
@@ -863,14 +868,14 @@ public class ParseEngine {
 
   void buildPhase2Routine(Lookahead la) {
     Expansion e = la.getLaExpansion();
-    if (isJavaLanguage) {
+    if (isJavaDialect) {
       codeGenerator.genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " jj_2" + e.internal_name + "(int xla)");
     } else {
       codeGenerator.genCodeLine(" inline bool ", "jj_2" + e.internal_name + "(int xla)");
     }
     codeGenerator.genCodeLine(" {");
     codeGenerator.genCodeLine("    jj_la = xla; jj_lastpos = jj_scanpos = token;");
-    if (isJavaLanguage) {
+    if (isJavaDialect) {
       codeGenerator.genCodeLine("    try { return !jj_3" + e.internal_name + "(); }");
       codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
     } else { 
@@ -1004,7 +1009,7 @@ public class ParseEngine {
   }
 
   private String getTypeForToken() {
-    return isJavaLanguage ? "Token" : "Token *";
+    return isJavaDialect ? "Token" : "Token *";
   }
 
   private String genjj_3Call(Expansion e)
@@ -1023,14 +1028,14 @@ public class ParseEngine {
       return;
 
     if (!recursive_call) {
-      if (isJavaLanguage) {
+      if (isJavaDialect) {
         codeGenerator.genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " jj_3" + e.internal_name + "()");
      } else {
         codeGenerator.genCodeLine(" inline bool ", "jj_3" + e.internal_name + "()");
      }
 
      codeGenerator.genCodeLine(" {");
-      if (!isJavaLanguage) {
+      if (!isJavaDialect) {
         codeGenerator.genCodeLine("    if (jj_done) return true;");
       }
       xsp_declared = false;
@@ -1266,7 +1271,7 @@ public class ParseEngine {
     for (java.util.Iterator prodIterator = bnfproductions.iterator(); prodIterator.hasNext();) {
       p = (NormalProduction)prodIterator.next();
       if (p instanceof JavaCodeProduction) {
-        if (!isJavaLanguage) {
+        if (!isJavaDialect) {
           JavaCCErrors.semantic_error("Cannot use JAVACODE productions with C++ output (yet).");
           continue;
         }
@@ -1292,7 +1297,7 @@ public class ParseEngine {
           codeGenerator.printTrailingComments(t);
         }
         codeGenerator.genCode(")");
-        if (isJavaLanguage) {
+        if (isJavaDialect) {
           codeGenerator.genCode(" throws ParseException");
         }
         for (java.util.Iterator it = jp.getThrowsList().iterator(); it.hasNext();) {
@@ -1315,7 +1320,7 @@ public class ParseEngine {
         }
         codeGenerator.genCodeLine("");
         if (Options.getDebugParser()) {
-          if (isJavaLanguage) {
+          if (isJavaDialect) {
             codeGenerator.genCodeLine("    } finally {");
           } else {
             codeGenerator.genCodeLine("    } catch(...) { } finally {");

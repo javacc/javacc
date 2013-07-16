@@ -32,8 +32,6 @@
 package org.javacc.parser;
 
 import java.io.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -50,7 +48,10 @@ import static org.javacc.parser.JavaCCGlobals.*;
  */
 public class LexGen extends CodeGenerator implements JavaCCParserConstants
 {
-  public static String staticString;
+  private static final String DUMP_STATIC_VAR_DECLARATIONS_TEMPLATE_RESOURCE_URL = "/templates/DumpStaticVarDeclarations.template";
+private static final String DUMP_DEBUG_METHODS_TEMPLATE_RESOURCE_URL = "/templates/DumpDebugMethods.template";
+private static final String BOILERPLATER_METHOD_RESOURCE_URL = "/templates/TokenManagerBoilerPlateMethods.template";
+public static String staticString;
   public static String tokMgrClassName;
 
   // Hashtable of vectors
@@ -94,6 +95,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
   static boolean hasMore = false;
   public static RegularExpression curRE;
   public static boolean keepLineCol;
+  public static String errorHandlingClass;
 
   void PrintClassHead()
   {
@@ -101,7 +103,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
     List tn = new ArrayList(toolNames);
     tn.add(toolName);
-
+     // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
     genCodeLine("/* " + getIdString(tn, tokMgrClassName + getFileExtension(Options.getOutputLanguage())) + " */");
 
     int l = 0, kind;
@@ -251,7 +253,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
   void DumpDebugMethods() throws IOException
   {
-    writeTemplate("/templates/DumpDebugMethods.template");
+    writeTemplate(DUMP_DEBUG_METHODS_TEMPLATE_RESOURCE_URL);
   }
 
   static void BuildLexStatesTable()
@@ -344,6 +346,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       return;
 
     keepLineCol = Options.getKeepLineColumn();
+    errorHandlingClass = Options.getTokenMgrErrorClass();
     List choices = new ArrayList();
     Enumeration e;
     TokenProduction tp;
@@ -570,12 +573,14 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
         charStreamName = "SimpleCharStream";
     }
 
-    writeTemplate("/templates/TokenManagerBoilerPlateMethods.template",
+    writeTemplate(BOILERPLATER_METHOD_RESOURCE_URL,
       "charStreamName", charStreamName,
       "lexStateNameLength", lexStateName.length);
 
     DumpStaticVarDeclarations(charStreamName);
     genCodeLine(/*{*/ "}");
+    
+    // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
     String fileName = Options.getOutputDirectory() + File.separator +
                       tokMgrClassName +
                       getFileExtension(Options.getOutputLanguage());
@@ -737,7 +742,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       genCodeLine("\n};");
     }
 
-    writeTemplate("/templates/DumpStaticVarDeclarations.template",
+    writeTemplate(DUMP_STATIC_VAR_DECLARATIONS_TEMPLATE_RESOURCE_URL,
       "charStreamName", charStreamName,
       "protected", isJavaLanguage() ? "protected" : "",
       "private", isJavaLanguage() ? "private" : "",
@@ -965,7 +970,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
               (maxLexStates > 1 ?
                   "\"<\" + lexStateNames[curLexState] + \">\" + " : "") +
                   "\"Skipping character : \" + " +
-          "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \")\");");
+          errorHandlingClass+".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \")\");");
         }
         genCodeLine(prefix + "      curChar = input_stream.BeginToken();");
 
@@ -996,7 +1001,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
         genCodeLine("      debugStream.println(" +
             (maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") +
             "\"Current character : \" + " +
-            "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
+            errorHandlingClass+".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
         "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
 
       genCodeLine(prefix + "curPos = jjMoveStringLiteralDfa0_" + i + "();");
@@ -1060,12 +1065,12 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
             Options.getUserCharStream())
           genCodeLine("    debugStream.println(" +
               "\"****** FOUND A \" + tokenImage[jjmatchedKind] + \" MATCH " +
-              "(\" + TokenMgrError.addEscapes(new String(input_stream.GetSuffix(jjmatchedPos + 1))) + " +
+              "(\" + "+errorHandlingClass+".addEscapes(new String(input_stream.GetSuffix(jjmatchedPos + 1))) + " +
           "\") ******\\n\");");
         else
           genCodeLine("    debugStream.println(" +
               "\"****** FOUND A \" + tokenImage[jjmatchedKind] + \" MATCH " +
-              "(\" + TokenMgrError.addEscapes(new String(input_stream.GetSuffix(jjmatchedPos + 1))) + " +
+              "(\" + "+errorHandlingClass+".addEscapes(new String(input_stream.GetSuffix(jjmatchedPos + 1))) + " +
           "\") ******\\n\");");
       }
 
@@ -1173,7 +1178,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
             genCodeLine("   debugStream.println(" +
                 (maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") +
                 "\"Current character : \" + " +
-                "TokenMgrError.addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
+                ""+errorHandlingClass+".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
             "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
           genCodeLine(prefix + "         continue;");
           genCodeLine(prefix + "      }");
@@ -1201,8 +1206,8 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       genCodeLine(prefix + "      input_stream.backup(1);");
       genCodeLine(prefix + "      error_after = curPos <= 1 ? \"\" : input_stream.GetImage();");
       genCodeLine(prefix + "   }");
-      genCodeLine(prefix + "   throw new TokenMgrError(" +
-      "EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);");
+      genCodeLine(prefix + "   throw new "+errorHandlingClass+"(" +
+      "EOFSeen, curLexState, error_line, error_column, error_after, curChar, "+errorHandlingClass+".LEXICAL_ERROR);");
     }
 
     if (hasMore)
@@ -1244,10 +1249,10 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
             genCodeLine("            if (jjbeenHere[" + lexStates[i] + "] &&");
             genCodeLine("                jjemptyLineNo[" + lexStates[i] + "] == input_stream.getBeginLine() &&");
             genCodeLine("                jjemptyColNo[" + lexStates[i] + "] == input_stream.getBeginColumn())");
-            genCodeLine("               throw new TokenMgrError(" +
+            genCodeLine("               throw new "+errorHandlingClass+"(" +
                 "(\"Error: Bailing out of infinite loop caused by repeated empty string matches " +
                 "at line \" + input_stream.getBeginLine() + \", " +
-            "column \" + input_stream.getBeginColumn() + \".\"), TokenMgrError.LOOP_DETECTED);");
+            "column \" + input_stream.getBeginColumn() + \".\"), "+errorHandlingClass+".LOOP_DETECTED);");
             genCodeLine("            jjemptyLineNo[" + lexStates[i] + "] = input_stream.getBeginLine();");
             genCodeLine("            jjemptyColNo[" + lexStates[i] + "] = input_stream.getBeginColumn();");
             genCodeLine("            jjbeenHere[" + lexStates[i] + "] = true;");
@@ -1317,10 +1322,10 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
             genCodeLine("            if (jjbeenHere[" + lexStates[i] + "] &&");
             genCodeLine("                jjemptyLineNo[" + lexStates[i] + "] == input_stream.getBeginLine() &&");
             genCodeLine("                jjemptyColNo[" + lexStates[i] + "] == input_stream.getBeginColumn())");
-            genCodeLine("               throw new TokenMgrError(" +
+            genCodeLine("               throw new "+errorHandlingClass+"(" +
                 "(\"Error: Bailing out of infinite loop caused by repeated empty string matches " +
                 "at line \" + input_stream.getBeginLine() + \", " +
-            "column \" + input_stream.getBeginColumn() + \".\"), TokenMgrError.LOOP_DETECTED);");
+            "column \" + input_stream.getBeginColumn() + \".\"), "+errorHandlingClass+".LOOP_DETECTED);");
             genCodeLine("            jjemptyLineNo[" + lexStates[i] + "] = input_stream.getBeginLine();");
             genCodeLine("            jjemptyColNo[" + lexStates[i] + "] = input_stream.getBeginColumn();");
             genCodeLine("            jjbeenHere[" + lexStates[i] + "] = true;");
@@ -1393,10 +1398,10 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
             genCodeLine("            if (jjbeenHere[" + lexStates[i] + "] &&");
             genCodeLine("                jjemptyLineNo[" + lexStates[i] + "] == input_stream.getBeginLine() &&");
             genCodeLine("                jjemptyColNo[" + lexStates[i] + "] == input_stream.getBeginColumn())");
-            genCodeLine("               throw new TokenMgrError(" +
+            genCodeLine("               throw new "+errorHandlingClass+"(" +
                 "(\"Error: Bailing out of infinite loop caused by repeated empty string matches " +
                 "at line \" + input_stream.getBeginLine() + \", " +
-            "column \" + input_stream.getBeginColumn() + \".\"), TokenMgrError.LOOP_DETECTED);");
+            "column \" + input_stream.getBeginColumn() + \".\"), "+errorHandlingClass+".LOOP_DETECTED);");
             genCodeLine("            jjemptyLineNo[" + lexStates[i] + "] = input_stream.getBeginLine();");
             genCodeLine("            jjemptyColNo[" + lexStates[i] + "] = input_stream.getBeginColumn();");
             genCodeLine("            jjbeenHere[" + lexStates[i] + "] = true;");

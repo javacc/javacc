@@ -1,0 +1,38 @@
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
+/**
+ * NOTE : This generated class can be safely deleted if installing in a GWT installation (use StringProvider instead)
+ */
+public class StreamProvider implements Provider {
+
+	Reader _reader;
+
+	public StreamProvider(Reader reader) {
+		_reader = reader;
+	}
+	
+	public StreamProvider(InputStream stream) throws IOException {
+		_reader = new BufferedReader(new InputStreamReader(stream));
+	}
+	
+	public StreamProvider(InputStream stream, String charsetName) throws IOException {
+		_reader = new BufferedReader(new InputStreamReader(stream, charsetName));
+	}
+
+	@Override
+	public int read(char[] buffer, int off, int len) throws IOException {
+		return _reader.read(buffer, off, len);
+	}
+
+	@Override
+	public void close() throws IOException {
+		_reader.close();
+	}
+
+}
+

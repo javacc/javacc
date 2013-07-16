@@ -39,6 +39,7 @@
 
 options {
   JAVA_UNICODE_ESCAPE = true;
+  LEGACY_EXCEPTION_HANDLING = true;
   STATIC=false;
 }
 
@@ -205,6 +206,7 @@ public class JavaCCParser extends JavaCCParserInternals {
        getNextToken(); // eat it
      }
    }
+   
 
    private void eatUptoRParen(List tokens) {
      int b = 1;
@@ -557,7 +559,7 @@ void javacc_input() :
 {
   javacc_options()
   {
-    isJavaLanguage = Options.getOutputLanguage().equals("java");
+    isJavaLanguage = Options.isOutputLanguageImplementedInJava();
   }
   "PARSER_BEGIN" "(" id1=identifier()
 	{
@@ -607,7 +609,7 @@ void option_binding() :
 	  Token t = getToken(1);
 	}
 {
-  ( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "static" )
+  ( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "static" | "PARSER_BEGIN" )
 	{
 	  option_name = t.image;
 	}
@@ -1532,7 +1534,7 @@ void CompilationUnit() :
   ( ImportDeclaration() )*
   ( TypeDeclaration() )*
 	{
-          if (Options.getOutputLanguage().equals("java")) {
+          if (Options.isOutputLanguageImplementedInJava()) {
 	    insertionpointerrors(getToken(1));
           }
 	}
@@ -2321,9 +2323,11 @@ void Arguments(java.util.List tokens) :
   "("
 	{
 	  first = getToken(1);
-          if (!isJavaLanguage) {
-            eatUptoRParen(null);
-          }
+	  // Added by Sreenivas Viswanadha for 6.0
+	  // TODO :: 2013/07/16 -- cba : Think this condition should be if the language IS C++, not if the language ISN'T Java ...
+	  if (!isJavaLanguage) {
+		eatUptoRParen(null);
+	  }
 	}
   [ ArgumentList() ]
 	{
@@ -2607,7 +2611,7 @@ void ReturnStatement() :
 	  // from being dead code.
 	  // NB: eclipse now detects 'if (true)' as dead code, so use the more complicated
 	  // 'if ("" != null)'
-	  if (inAction) {
+	  if (inAction  && (Options.isLegacyExceptionHandling()) ) {
 	    t.image = "{if (\"\" != null) return";
 	    jumpPatched = true;
 	  }
@@ -2618,7 +2622,7 @@ void ReturnStatement() :
   t=";"
 	{
 	  // Add closing brace for above if statement.
-	  if (inAction) {
+	  if (inAction && (Options.isLegacyExceptionHandling())) {
 	    t.image = ";}";
 	  }
 	}
