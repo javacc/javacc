@@ -163,7 +163,7 @@ virtual inline JAVACC_CHAR_TYPE readChar() {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0),tabSize(8), trackLineColumn(true) {
+    inBuf(0),tabSize(1), trackLineColumn(true) {
     ReInit(JAVACC_STRING_TYPE(buf, sz), startline, startcolumn, buffersize);
   }
 
@@ -171,7 +171,7 @@ virtual inline JAVACC_CHAR_TYPE readChar() {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0),tabSize(8), trackLineColumn(true) {
+    inBuf(0),tabSize(1), trackLineColumn(true) {
     ReInit(JAVACC_STRING_TYPE(buf, sz), startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
@@ -180,7 +180,7 @@ virtual inline JAVACC_CHAR_TYPE readChar() {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0),tabSize(8), trackLineColumn(true) {
+    inBuf(0),tabSize(1), trackLineColumn(true) {
     ReInit(str, startline, startcolumn, buffersize);
   }
 
@@ -188,7 +188,7 @@ virtual inline JAVACC_CHAR_TYPE readChar() {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0) ,tabSize(8), trackLineColumn(true){
+    inBuf(0) ,tabSize(1), trackLineColumn(true){
     ReInit(str, startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
@@ -197,7 +197,7 @@ virtual inline JAVACC_CHAR_TYPE readChar() {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0),tabSize(8), trackLineColumn(true) {
+    inBuf(0),tabSize(1), trackLineColumn(true) {
     ReInit(input_stream, startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
@@ -205,7 +205,7 @@ virtual inline JAVACC_CHAR_TYPE readChar() {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0),tabSize(8), trackLineColumn(true) {
+    inBuf(0),tabSize(1), trackLineColumn(true) {
     ReInit(input_stream, startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
@@ -213,7 +213,7 @@ virtual inline JAVACC_CHAR_TYPE readChar() {
     bufline(NULL), bufcolumn(NULL), inputStream(NULL), deleteStream(false),
     buffer(NULL), bufpos(0), bufsize(0), tokenBegin(0), column(0), line(0),
     prevCharIsCR (false), prevCharIsLF (false), available(0), maxNextCharInd(0),
-    inBuf(0),tabSize(8), trackLineColumn(true) {
+    inBuf(0),tabSize(1), trackLineColumn(true) {
     ReInit(input_stream, 1, 1, INITIAL_BUFFER_SIZE);
   }
 

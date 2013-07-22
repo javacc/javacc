@@ -83,7 +83,7 @@ class JavaCharStream
   ${PREFIX}protected int maxNextCharInd = 0;
   ${PREFIX}protected int nextCharInd = -1;
   ${PREFIX}protected int inBuf = 0;
-  ${PREFIX}protected int tabSize = 4;
+  ${PREFIX}protected int tabSize = 1;
   ${PREFIX}protected boolean trackLineColumn = false;
 
   ${PREFIX}public void setTabSize(int i) { tabSize = i; }
