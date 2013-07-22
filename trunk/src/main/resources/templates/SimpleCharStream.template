@@ -28,7 +28,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   ${PREFIX}protected char[] buffer;
   ${PREFIX}protected int maxNextCharInd = 0;
   ${PREFIX}protected int inBuf = 0;
-  ${PREFIX}protected int tabSize = 8;
+  ${PREFIX}protected int tabSize = 4;
   ${PREFIX}protected boolean trackLineColumn = false;
 
   ${PREFIX}public void setTabSize(int i) { tabSize = i; }
