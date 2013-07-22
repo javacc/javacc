@@ -368,7 +368,7 @@ void javacc_input() #Grammar :
   javacc_options()
   {
     // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-    isJavaLanguage = JJTreeOptions.isOutputLanguageImplementedInJava();
+    isJavaLanguage = JJTreeOptions.isOutputLanguageJava();
   }
   (
     "PARSER_BEGIN" "(" t=identifier() ")"

@@ -56,7 +56,7 @@ import java.util.List;
  */
 public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 
-	public void start(boolean isGwtMode) throws MetaParseException {
+	public void start(boolean isJavaModernMode) throws MetaParseException {
 
 		Token t = null;
 
@@ -251,7 +251,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 					genCodeLine("  }");
 				} else {
 
-					if (!isGwtMode) {
+					if (!isJavaModernMode) {
 						genCodeLine("  /** Constructor with InputStream. */");
 						genCodeLine("  public " + cu_name + "(java.io.InputStream stream) {");
 						genCodeLine("     this(stream, null);");
@@ -362,11 +362,11 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 
 					}
 
-					final String readerInterfaceName = isGwtMode ? "Provider" : "java.io.Reader";
-					final String stringReaderClass = isGwtMode ? "StringProvider"
+					final String readerInterfaceName = isJavaModernMode ? "Provider" : "java.io.Reader";
+					final String stringReaderClass = isJavaModernMode ? "StringProvider"
 							: "java.io.StringReader";
 
-					// if (!isGwtMode) {
+
 					genCodeLine("  /** Constructor. */");
 					genCodeLine("  public " + cu_name + "(" + readerInterfaceName + " stream) {");
 					if (Options.getStatic()) {
@@ -424,8 +424,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 
 					}
 
-					// }
-					// if (!isGwtMode) {
+
 					genCodeLine("  /** Reinitialise. */");
 					genCodeLine("  " + staticOpt() + "public void ReInit(" + readerInterfaceName
 							+ " stream) {");
@@ -464,7 +463,6 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 					}
 					genCodeLine("  }");
 
-					// }
 				}
 			}
 			genCodeLine("");

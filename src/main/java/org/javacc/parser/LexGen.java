@@ -151,7 +151,7 @@ public static String staticString;
     }
     //genCodeLine("class " + tokMgrClassName + " implements " +
     		//cu_name + "Constants");
-    //String superClass = Options.stringValue("TOKEN_MANAGER_SUPER_CLASS");
+    //String superClass = Options.stringValue(Options.USEROPTION__TOKEN_MANAGER_SUPER_CLASS);
     genClassStart(null, tokMgrClassName, new String[]{}, new String[]{cu_name + "Constants"});
     //genCodeLine("{"); // }
 

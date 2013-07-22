@@ -4,6 +4,8 @@
 package org.javacc.jjtree;
 
 import org.javacc.parser.JavaCCGlobals;
+import org.javacc.parser.Options;
+
 import java.io.File;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -19,8 +21,8 @@ public class CPPCodeGenerator extends DefaultJJTreeVisitor {
     io.println("/*@bgen(jjtree) " +
         JavaCCGlobals.getIdString(JJTreeGlobals.toolList,
         new File(io.getOutputFileName()).getName()) +
-         (JJTreeOptions.booleanValue("IGNORE_ACTIONS")  ? "" : " */"));
-    io.print((JJTreeOptions.booleanValue("IGNORE_ACTIONS")  ? "" :"/*") + "@egen*/");
+         (JJTreeOptions.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS)  ? "" : " */"));
+    io.print((JJTreeOptions.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS)  ? "" :"/*") + "@egen*/");
 
     return node.childrenAccept(this, io);
   }
@@ -212,16 +214,16 @@ public class CPPCodeGenerator extends DefaultJJTreeVisitor {
   static void openJJTreeComment(IO io, String arg)
   {
     if (arg != null) {
-      io.print("/*@bgen(jjtree) " + arg + (JJTreeOptions.booleanValue("IGNORE_ACTIONS")  ? "" :" */"));
+      io.print("/*@bgen(jjtree) " + arg + (JJTreeOptions.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS)  ? "" :" */"));
     } else {
-      io.print("/*@bgen(jjtree)" + (JJTreeOptions.booleanValue("IGNORE_ACTIONS") ? "" : "*/"));
+      io.print("/*@bgen(jjtree)" + (JJTreeOptions.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) ? "" : "*/"));
     }
   }
 
 
   static void closeJJTreeComment(IO io)
   {
-    io.print((JJTreeOptions.booleanValue("IGNORE_ACTIONS") ? "" : "/*") + "@egen*/");
+    io.print((JJTreeOptions.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) ? "" : "/*") + "@egen*/");
   }
 
 

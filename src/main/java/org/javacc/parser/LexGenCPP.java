@@ -32,8 +32,6 @@
 package org.javacc.parser;
 
 import java.io.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -43,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.javacc.utils.JavaFileGenerator;
+
 import static org.javacc.parser.JavaCCGlobals.*;
 
 /**
@@ -69,11 +68,11 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     genCodeLine("#include \"TokenManager.h\"");
     genCodeLine("#include \"" + cu_name + "Constants.h\"");
 
-    if (Options.stringValue("TOKEN_MANAGER_INCLUDES").length() > 0) {
-      genCodeLine("#include \"" + Options.stringValue("TOKEN_MANAGER_INCLUDES") + "\"\n");
+    if (Options.stringValue(Options.USEROPTION__CPP_TOKEN_MANAGER_INCLUDES).length() > 0) {
+      genCodeLine("#include \"" + Options.stringValue(Options.USEROPTION__CPP_TOKEN_MANAGER_INCLUDES) + "\"\n");
     }
 
-    if (Options.stringValue("NAMESPACE").length() > 0) {
+    if (Options.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0) {
       genCodeLine("namespace " + Options.stringValue("NAMESPACE_OPEN"));
     }
 
@@ -112,7 +111,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
     genCodeLine("");
     genCodeLine("/** Token Manager. */");
-    String superClass = Options.stringValue("TOKEN_MANAGER_SUPER_CLASS");
+    String superClass = Options.stringValue(Options.USEROPTION__TOKEN_MANAGER_SUPER_CLASS);
     genClassStart(null, tokMgrClassName, new String[]{}, new String[]{"public TokenManager" + (superClass == null ? "" : ", public " + superClass) });
 
     if (token_mgr_decls != null && token_mgr_decls.size() > 0)

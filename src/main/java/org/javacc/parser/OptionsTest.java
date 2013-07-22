@@ -85,7 +85,7 @@ public final class OptionsTest extends TestCase {
         Options.setCmdLineOption("LOOKAHEAD=0");
         assertEquals(2, Options.getLookahead());
         assertEquals(0, JavaCCErrors.get_warning_count());
-        Options.setInputFileOption(null, null, "LOOKAHEAD", new Integer(0));
+        Options.setInputFileOption(null, null, Options.USEROPTION__LOOKAHEAD, new Integer(0));
         assertEquals(2, Options.getLookahead());
         assertEquals(1, JavaCCErrors.get_warning_count());
 
@@ -101,14 +101,14 @@ public final class OptionsTest extends TestCase {
         assertEquals("", Options.getTokenExtends());
         Options.setCmdLineOption("-TOKEN_EXTENDS=java.lang.Object");
         assertEquals("java.lang.Object", Options.getTokenExtends());
-        Options.setInputFileOption(null, null, "TOKEN_EXTENDS", "Object");
+        Options.setInputFileOption(null, null, Options.USEROPTION__TOKEN_EXTENDS, "Object");
         // File option does not override cmd line
         assertEquals("java.lang.Object", Options.getTokenExtends());
 
         Options.init();
         JavaCCErrors.reInit();
 
-        Options.setInputFileOption(null, null, "TOKEN_EXTENDS", "Object");
+        Options.setInputFileOption(null, null, Options.USEROPTION__TOKEN_EXTENDS, "Object");
         assertEquals("Object", Options.getTokenExtends());
         Options.setCmdLineOption("-TOKEN_EXTENDS=java.lang.Object");
         assertEquals("java.lang.Object", Options.getTokenExtends());
@@ -119,7 +119,7 @@ public final class OptionsTest extends TestCase {
         JavaCCErrors.reInit();
 
         assertEquals(0, JavaCCErrors.get_warning_count());
-        Options.setInputFileOption(null, null, "OPTION", Boolean.TRUE );
+        Options.setInputFileOption(null, null, "NONEXISTENTOPTION", Boolean.TRUE );
         assertEquals(1, JavaCCErrors.get_warning_count());
 
         assertEquals(0, JavaCCErrors.get_error_count());
@@ -133,7 +133,7 @@ public final class OptionsTest extends TestCase {
 
         assertEquals(0, JavaCCErrors.get_warning_count());
         assertEquals(0, JavaCCErrors.get_error_count());
-        Options.setInputFileOption(null, null, "STATIC", new Integer(8));
+        Options.setInputFileOption(null, null, Options.USEROPTION__STATIC, new Integer(8));
         assertEquals(1, JavaCCErrors.get_warning_count());
 
         assertEquals(0, JavaCCErrors.get_error_count());
@@ -167,8 +167,8 @@ public final class OptionsTest extends TestCase {
       Options.setCmdLineOption("-STATIC=False");
       Options.setCmdLineOption("-IGNORE_CASE=True");
       String[] options = {
-          "STATIC",
-          "IGNORE_CASE"
+    	   Options.USEROPTION__STATIC,
+          Options.USEROPTION__IGNORE_CASE
       };
       String optionString = Options.getOptionsString(options);
       assertEquals("STATIC=false,IGNORE_CASE=true", optionString);

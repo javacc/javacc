@@ -44,7 +44,7 @@ public class ParseEngine {
   private int indentamt;
   private boolean jj2LA;
   private CodeGenerator codeGenerator;
-  private boolean isJavaDialect = Options.isOutputLanguageImplementedInJava();
+  private boolean isJavaDialect = Options.isOutputLanguageJava();
 
 
 
@@ -575,7 +575,7 @@ public class ParseEngine {
       codeGenerator.genCode("    try {");
       indentamt = 6;
     }
-    if (!Options.booleanValue("IGNORE_ACTIONS") &&
+    if (!Options.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) &&
         p.getDeclarationTokens().size() != 0) {
       codeGenerator.printTokenSetup((Token)(p.getDeclarationTokens().get(0))); cline--;
       for (Iterator it = p.getDeclarationTokens().iterator(); it.hasNext();) {
@@ -677,7 +677,7 @@ public class ParseEngine {
     } else if (e instanceof Action) {
       Action e_nrw = (Action)e;
       retval += "\u0003\n";
-      if (!Options.booleanValue("IGNORE_ACTIONS") &&
+      if (!Options.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) &&
           e_nrw.getActionTokens().size() != 0) {
         codeGenerator.printTokenSetup((Token)(e_nrw.getActionTokens().get(0))); ccol = 1;
         for (Iterator it = e_nrw.getActionTokens().iterator(); it.hasNext();) {

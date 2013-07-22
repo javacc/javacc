@@ -31,784 +31,900 @@
 package org.javacc.parser;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
+import org.javacc.utils.OptionInfo;
+import org.javacc.utils.OptionType;
 
 /**
  * A class with static state that stores all option information.
  */
 public class Options {
 
-
-  //private static final String BOILERPLATE_PACKAGE = "BOILERPLATE_PACKAGE";
-
-private static final String LEGACY_EXCEPTION_HANDLING = "LEGACY_EXCEPTION_HANDLING";
-
-private static final String GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
-
-  public static final String OUTPUT_LANGUAGE = "OUTPUT_LANGUAGE";
-  
-  public static final String OUTPUT_LANGUAGE__GWT = "gwt";
-  public static final String OUTPUT_LANGUAGE__CPP = "c++";
-  public static final String OUTPUT_LANGUAGE__JAVA = "java";
-
-/**
-   * Limit subclassing to derived classes.
-   */
-  protected Options() {
-  }
-
-  /**
-   * A mapping of option names (Strings) to values (Integer, Boolean, String).
-   * This table is initialized by the main program. Its contents defines the
-   * set of legal options. Its initial values define the default option
-   * values, and the option types can be determined from these values too.
-   */
-  protected static Map optionValues = null;
-
-  /**
-   * Convenience method to retrieve integer options.
-   */
-  public static int intValue(final String option) {
-    return ((Integer) optionValues.get(option)).intValue();
-  }
-
-  /**
-   * Convenience method to retrieve boolean options.
-   */
-  public static boolean booleanValue(final String option) {
-    return ((Boolean) optionValues.get(option)).booleanValue();
-  }
-
-  /**
-   * Convenience method to retrieve string options.
-   */
-  public static String stringValue(final String option) {
-    return (String) optionValues.get(option);
-  }
-  
-  public static Map getOptions()
-  {
-    HashMap ret = new HashMap(optionValues);
-    return ret;
-  }
-
-  /**
-   * Keep track of what options were set as a command line argument. We use
-   * this to see if the options set from the command line and the ones set in
-   * the input files clash in any way.
-   */
-  private static Set cmdLineSetting = null;
-
-  /**
-   * Keep track of what options were set from the grammar file. We use this to
-   * see if the options set from the command line and the ones set in the
-   * input files clash in any way.
-   */
-  private static Set inputFileSetting = null;
-
-  /**
-   * Initialize for JavaCC
-   */
-  public static void init() {
-    optionValues = new HashMap();
-    cmdLineSetting = new HashSet();
-    inputFileSetting = new HashSet();
-
-    optionValues.put("PARSER_SUPER_CLASS", null);
-    optionValues.put("TOKEN_MANAGER_SUPER_CLASS", null);
-
-    optionValues.put("LOOKAHEAD", new Integer(1));
-    optionValues.put("CHOICE_AMBIGUITY_CHECK", new Integer(2));
-    optionValues.put("OTHER_AMBIGUITY_CHECK", new Integer(1));
-
-    optionValues.put("STATIC", Boolean.TRUE);
-    optionValues.put("DEBUG_PARSER", Boolean.FALSE);
-    optionValues.put("DEBUG_LOOKAHEAD", Boolean.FALSE);
-    optionValues.put("DEBUG_TOKEN_MANAGER", Boolean.FALSE);
-    optionValues.put("ERROR_REPORTING", Boolean.TRUE);
-    optionValues.put("JAVA_UNICODE_ESCAPE", Boolean.FALSE);
-    optionValues.put("UNICODE_INPUT", Boolean.FALSE);
-    optionValues.put("IGNORE_CASE", Boolean.FALSE);
-    optionValues.put("USER_TOKEN_MANAGER", Boolean.FALSE);
-    optionValues.put("USER_CHAR_STREAM", Boolean.FALSE);
-    optionValues.put("BUILD_PARSER", Boolean.TRUE);
-    optionValues.put("BUILD_TOKEN_MANAGER", Boolean.TRUE);
-    optionValues.put("TOKEN_MANAGER_USES_PARSER", Boolean.FALSE);
-    optionValues.put("SANITY_CHECK", Boolean.TRUE);
-    optionValues.put("FORCE_LA_CHECK", Boolean.FALSE);
-    optionValues.put("COMMON_TOKEN_ACTION", Boolean.FALSE);
-    optionValues.put("CACHE_TOKENS", Boolean.FALSE);
-    optionValues.put("KEEP_LINE_COLUMN", Boolean.TRUE);
-    optionValues.put(LEGACY_EXCEPTION_HANDLING, Boolean.FALSE);
-    
-    optionValues.put("GENERATE_CHAINED_EXCEPTION", Boolean.FALSE);
-    optionValues.put("GENERATE_GENERICS", Boolean.FALSE);
-    optionValues.put(GENERATE_BOILERPLATE, Boolean.TRUE);
-    optionValues.put("GENERATE_STRING_BUILDER", Boolean.FALSE);
-    optionValues.put("GENERATE_ANNOTATIONS", Boolean.FALSE);
-    optionValues.put("SUPPORT_CLASS_VISIBILITY_PUBLIC", Boolean.TRUE);
-
-    optionValues.put("OUTPUT_DIRECTORY", ".");
-    optionValues.put("JDK_VERSION", "1.5");
-    
-    //optionValues.put(BOILERPLATE_PACKAGE, "");
-    optionValues.put("TOKEN_EXTENDS", "");
-    optionValues.put("TOKEN_FACTORY", "");
-    optionValues.put("GRAMMAR_ENCODING", "");
-    optionValues.put(OUTPUT_LANGUAGE, OUTPUT_LANGUAGE__JAVA);
-
-    // Some C++-specific options
-	
-    optionValues.put("NAMESPACE", "");
-	optionValues.put("TOKEN_INCLUDES", "");
-    optionValues.put("PARSER_INCLUDES", "");
-    optionValues.put("TOKEN_MANAGER_INCLUDES", "");
-	optionValues.put("IGNORE_ACTIONS", Boolean.FALSE);
-  }
-
-  /**
-   * Returns a string representation of the specified options of interest.
-   * Used when, for example, generating Token.java to record the JavaCC options
-   * that were used to generate the file. All of the options must be
-   * boolean values.
-   * @param interestingOptions the options of interest, eg {"STATIC", "CACHE_TOKENS"}
-   * @return the string representation of the options, eg "STATIC=true,CACHE_TOKENS=false"
-   */
-  public static String getOptionsString(String[] interestingOptions) {
-    StringBuffer sb = new StringBuffer();
-
-    for (int i = 0; i < interestingOptions.length; i++) {
-      String key = interestingOptions[i];
-      sb.append(key);
-      sb.append('=');
-      sb.append(optionValues.get(key));
-      if (i != interestingOptions.length -1) {
-        sb.append(',');
-      }
-    }
-
-    return sb.toString();
-  }
-
-  
-  public static String getTokenMgrErrorClass() {
-	  return isOutputLanguageImplementedInJava() ?
-			  (isLegacyExceptionHandling() ? "TokenMgrError" : "TokenMgrException") :
-				  "TokenMgrError";
-  }
-
-  /**
-   * Determine if a given command line argument might be an option flag.
-   * Command line options start with a dash&nbsp;(-).
-   *
-   * @param opt
-   *            The command line argument to examine.
-   * @return True when the argument looks like an option flag.
-   */
-  public static boolean isOption(final String opt) {
-    return opt != null && opt.length() > 1 && opt.charAt(0) == '-';
-  }
-
-  /**
-   * Help function to handle cases where the meaning of an option has changed
-   * over time. If the user has supplied an option in the old format, it will
-   * be converted to the new format.
-   *
-   * @param name The name of the option being checked.
-   * @param value The option's value.
-   * @return The upgraded value.
-   */
-  public static Object upgradeValue(final String name, Object value) {
-    if (name.equalsIgnoreCase("NODE_FACTORY") && value.getClass() == Boolean.class) {
-      if (((Boolean)value).booleanValue()) {
-        value = "*";
-      } else {
-        value = "";
-      }
-    }
-
-    return value;
-  }
-
-  public static void setInputFileOption(Object nameloc, Object valueloc,
-      String name, Object value) {
-    String s = name.toUpperCase();
-    if (!optionValues.containsKey(s)) {
-      JavaCCErrors.warning(nameloc, "Bad option name \"" + name
-          + "\".  Option setting will be ignored.");
-      return;
-    }
-    final Object existingValue = optionValues.get(s);
-
-    value = upgradeValue(name, value);
-
-    if (existingValue != null) {
-      if ((existingValue.getClass() != value.getClass()) ||
-          (value instanceof Integer && ((Integer)value).intValue() <= 0)) {
-        JavaCCErrors.warning(valueloc, "Bad option value \"" + value
-            + "\" for \"" + name
-            + "\".  Option setting will be ignored.");
-        return;
-      }
-
-      if (inputFileSetting.contains(s)) {
-        JavaCCErrors.warning(nameloc, "Duplicate option setting for \""
-            + name + "\" will be ignored.");
-        return;
-      }
-
-      if (cmdLineSetting.contains(s)) {
-        if (!existingValue.equals(value)) {
-          JavaCCErrors.warning(nameloc, "Command line setting of \""
-              + name + "\" modifies option value in file.");
-        }
-        return;
-      }
-    }
-
-    optionValues.put(s, value);
-    inputFileSetting.add(s);
-    if (s.equalsIgnoreCase("NAMESPACE")) {
-      processCPPNamespaceOption((String)value);
-    }
-  }
-
-
-
-  /**
-   * Process a single command-line option.
-   * The option is parsed and stored in the optionValues map.
-   * @param arg
-   */
-  public static void setCmdLineOption(String arg) {
-    final String s;
-
-    if (arg.charAt(0) == '-') {
-      s = arg.substring(1);
-    } else {
-      s = arg;
-    }
-
-    String name;
-    Object Val;
-
-    // Look for the first ":" or "=", which will separate the option name
-    // from its value (if any).
-    final int index1 = s.indexOf('=');
-    final int index2 = s.indexOf(':');
-    final int index;
-
-    if (index1 < 0)
-      index = index2;
-    else if (index2 < 0)
-      index = index1;
-    else if (index1 < index2)
-      index = index1;
-    else
-      index = index2;
-
-    if (index < 0) {
-      name = s.toUpperCase();
-      if (optionValues.containsKey(name))
-      {
-        Val = Boolean.TRUE;
-      } else if (name.length() > 2 && name.charAt(0) == 'N' && name.charAt(1) == 'O') {
-        Val = Boolean.FALSE;
-        name = name.substring(2);
-      } else {
-        System.out.println("Warning: Bad option \"" + arg
-            + "\" will be ignored.");
-        return;
-      }
-    } else {
-      name = s.substring(0, index).toUpperCase();
-      if (s.substring(index + 1).equalsIgnoreCase("TRUE")) {
-        Val = Boolean.TRUE;
-      } else if (s.substring(index + 1).equalsIgnoreCase("FALSE")) {
-        Val = Boolean.FALSE;
-      } else {
-        try {
-          int i = Integer.parseInt(s.substring(index + 1));
-          if (i <= 0) {
-            System.out.println("Warning: Bad option value in \""
-                + arg + "\" will be ignored.");
-            return;
-          }
-          Val = new Integer(i);
-        } catch (NumberFormatException e) {
-          Val = s.substring(index + 1);
-          if (s.length() > index + 2) {
-            // i.e., there is space for two '"'s in value
-            if (s.charAt(index + 1) == '"'
-              && s.charAt(s.length() - 1) == '"') {
-              // remove the two '"'s.
-              Val = s.substring(index + 2, s.length() - 1);
-            }
-          }
-        }
-      }
-    }
-
-    if (!optionValues.containsKey(name)) {
-      System.out.println("Warning: Bad option \"" + arg
-          + "\" will be ignored.");
-      return;
-    }
-    Object valOrig = optionValues.get(name);
-    if (Val.getClass() != valOrig.getClass()) {
-      System.out.println("Warning: Bad option value in \"" + arg
-          + "\" will be ignored.");
-      return;
-    }
-    if (cmdLineSetting.contains(name)) {
-      System.out.println("Warning: Duplicate option setting \"" + arg
-          + "\" will be ignored.");
-      return;
-    }
-
-    Val = upgradeValue(name, Val);
-
-    optionValues.put(name, Val);
-    cmdLineSetting.add(name);
-    if (name.equalsIgnoreCase("NAMESPACE")) {
-      processCPPNamespaceOption((String)Val);
-    }
-  }
-
-  public static void normalize() {
-    if (getDebugLookahead() && !getDebugParser()) {
-      if (cmdLineSetting.contains("DEBUG_PARSER")
-          || inputFileSetting.contains("DEBUG_PARSER")) {
-        JavaCCErrors
-        .warning("True setting of option DEBUG_LOOKAHEAD overrides " +
-        "false setting of option DEBUG_PARSER.");
-      }
-      optionValues.put("DEBUG_PARSER", Boolean.TRUE);
-    }
-    
-    // Now set the "GENERATE" options from the supplied (or default) JDK version.
-    
-    optionValues.put("GENERATE_CHAINED_EXCEPTION", Boolean.valueOf(jdkVersionAtLeast(1.4)));
-    optionValues.put("GENERATE_GENERICS", Boolean.valueOf(jdkVersionAtLeast(1.5)));
-    optionValues.put("GENERATE_STRING_BUILDER", Boolean.valueOf(jdkVersionAtLeast(1.5)));
-    optionValues.put("GENERATE_ANNOTATIONS", Boolean.valueOf(jdkVersionAtLeast(1.5)));
-  }
-
-  /**
-   * Find the lookahead setting.
-   *
-   * @return The requested lookahead value.
-   */
-  public static int getLookahead() {
-    return intValue("LOOKAHEAD");
-  }
-
-  /**
-   * Find the choice ambiguity check value.
-   *
-   * @return The requested choice ambiguity check value.
-   */
-  public static int getChoiceAmbiguityCheck() {
-    return intValue("CHOICE_AMBIGUITY_CHECK");
-  }
-
-  /**
-   * Find the other ambiguity check value.
-   *
-   * @return The requested other ambiguity check value.
-   */
-  public static int getOtherAmbiguityCheck() {
-    return intValue("OTHER_AMBIGUITY_CHECK");
-  }
-
-  /**
-   * Find the static value.
-   *
-   * @return The requested static value.
-   */
-  public static boolean getStatic() {
-    return booleanValue("STATIC");
-  }
-
-  /**
-   * Find the debug parser value.
-   *
-   * @return The requested debug parser value.
-   */
-  public static boolean getDebugParser() {
-    return booleanValue("DEBUG_PARSER");
-  }
-
-  /**
-   * Find the debug lookahead value.
-   *
-   * @return The requested debug lookahead value.
-   */
-  public static boolean getDebugLookahead() {
-    return booleanValue("DEBUG_LOOKAHEAD");
-  }
-
-  /**
-   * Find the debug tokenmanager value.
-   *
-   * @return The requested debug tokenmanager value.
-   */
-  public static boolean getDebugTokenManager() {
-    return booleanValue("DEBUG_TOKEN_MANAGER");
-  }
-
-  /**
-   * Find the error reporting value.
-   *
-   * @return The requested error reporting value.
-   */
-  public static boolean getErrorReporting() {
-    return booleanValue("ERROR_REPORTING");
-  }
-
-  /**
-   * Find the Java unicode escape value.
-   *
-   * @return The requested Java unicode escape value.
-   */
-  public static boolean getJavaUnicodeEscape() {
-    return booleanValue("JAVA_UNICODE_ESCAPE");
-  }
-
-  /**
-   * Find the unicode input value.
-   *
-   * @return The requested unicode input value.
-   */
-  public static boolean getUnicodeInput() {
-    return booleanValue("UNICODE_INPUT");
-  }
-
-  /**
-   * Find the ignore case value.
-   *
-   * @return The requested ignore case value.
-   */
-  public static boolean getIgnoreCase() {
-    return booleanValue("IGNORE_CASE");
-  }
-
-  /**
-   * Find the user tokenmanager value.
-   *
-   * @return The requested user tokenmanager value.
-   */
-  public static boolean getUserTokenManager() {
-    return booleanValue("USER_TOKEN_MANAGER");
-  }
-
-  /**
-   * Find the user charstream value.
-   *
-   * @return The requested user charstream value.
-   */
-  public static boolean getUserCharStream() {
-    return booleanValue("USER_CHAR_STREAM");
-  }
-
-  /**
-   * Find the build parser value.
-   *
-   * @return The requested build parser value.
-   */
-  public static boolean getBuildParser() {
-    return booleanValue("BUILD_PARSER");
-  }
-
-  /**
-   * Find the build token manager value.
-   *
-   * @return The requested build token manager value.
-   */
-  public static boolean getBuildTokenManager() {
-    return booleanValue("BUILD_TOKEN_MANAGER");
-  }
-
-  /**
-   * Find the token manager uses parser value.
-   *
-   * @return The requested token manager uses parser value;
-   */
-  public static boolean getTokenManagerUsesParser(){
-    return booleanValue("TOKEN_MANAGER_USES_PARSER");
-  }
-
-  /**
-   * Find the sanity check value.
-   *
-   * @return The requested sanity check value.
-   */
-  public static boolean getSanityCheck() {
-    return booleanValue("SANITY_CHECK");
-  }
-
-  /**
-   * Find the force lookahead check value.
-   *
-   * @return The requested force lookahead value.
-   */
-  public static boolean getForceLaCheck() {
-    return booleanValue("FORCE_LA_CHECK");
-  }
-
-  /**
-   * Find the common token action value.
-   *
-   * @return The requested common token action value.
-   */
-
-  public static boolean getCommonTokenAction() {
-    return booleanValue("COMMON_TOKEN_ACTION");
-  }
-
-  /**
-   * Find the cache tokens value.
-   *
-   * @return The requested cache tokens value.
-   */
-  public static boolean getCacheTokens() {
-    return booleanValue("CACHE_TOKENS");
-  }
-
-  /**
-   * Find the keep line column value.
-   *
-   * @return The requested keep line column value.
-   */
-  public static boolean getKeepLineColumn() {
-    return booleanValue("KEEP_LINE_COLUMN");
-  }
-
-  /**
-   * Find the JDK version.
-   *
-   * @return The requested jdk version.
-   */
-  public static String getJdkVersion() {
-    return stringValue("JDK_VERSION");
-  }
-
-  /**
-   * Should the generated code create Exceptions using a constructor taking a nested exception?
-   * @return
-   */
-  public static boolean getGenerateChainedException() {
-    return booleanValue("GENERATE_CHAINED_EXCEPTION");
-  }
-
-
-  public static boolean isGenerateBoilerplateCode() {
-	return booleanValue(GENERATE_BOILERPLATE);
-  }
-  
-  /**
-   * As of 6.1 JavaCC now throws subclasses of {@link RuntimeException} rather than {@link Error} s (by default), as {@link Error} s typically lead to the closing down of the parent
-   * VM and are only to be used in extreme circumstances (failure of parsing is generally not regarded as such). If this value is set to true, then then {@link Error}s will be thrown
-   * (for compatibility with older .jj files)
-   * @return true if throws errors (legacy), false if use {@link RuntimeException} s (better approach)
-   */
-  public static boolean isLegacyExceptionHandling() {
-	return booleanValue(LEGACY_EXCEPTION_HANDLING);
-  }
-  
-  
-  /**
-   * Should the generated code contain Generics?
-   * @return
-   */
-  public static boolean getGenerateGenerics() {
-    return booleanValue("GENERATE_GENERICS");
-  }
-
-  /**
-   * Should the generated code use StringBuilder rather than StringBuffer?
-   * @return
-   */
-  public static boolean getGenerateStringBuilder() {
-    return booleanValue("GENERATE_STRING_BUILDER");
-  }
-
-  /**
-   * Should the generated code contain Annotations?
-   * @return
-   */
-  public static boolean getGenerateAnnotations() {
-    return booleanValue("GENERATE_ANNOTATIONS");
-  }
-  
-  /**
-   * Should the generated code class visibility public?
-   * @return
-   */
-  public static boolean getSupportClassVisibilityPublic() {
-    return booleanValue("SUPPORT_CLASS_VISIBILITY_PUBLIC");
-  }
-
-  /**
-   * Determine if the output language is at least the specified
-   * version.
-   * @param version the version to check against. E.g. <code>1.5</code>
-   * @return true if the output version is at least the specified version.
-   */
-  public static boolean jdkVersionAtLeast(double version) {
-    double jdkVersion = Double.parseDouble(getJdkVersion());
-
-    // Comparing doubles is safe here, as it is two simple assignments.
-    return jdkVersion >= version;
-  }
-
-  /**
-   * Return the Token's superclass.
-   *
-   * @return The required base class for Token.
-   */
-  public static String getTokenExtends()
-  {
-    return stringValue("TOKEN_EXTENDS");
-  }
-
-  
-//  public static String getBoilerplatePackage()
-//  {
-//    return stringValue(BOILERPLATE_PACKAGE);
-//  }
-  
-  
-  /**
-   * Return the Token's factory class.
-   *
-   * @return The required factory class for Token.
-   */
-  public static String getTokenFactory()
-  {
-    return stringValue("TOKEN_FACTORY");
-  }
-
-  /**
-   * Return the file encoding; this will return the file.encoding system property if no value was explicitly set
-   *
-   * @return The file encoding (e.g., UTF-8, ISO_8859-1, MacRoman)
-   */
-  public static String getGrammarEncoding()
-  {
-	if (stringValue("GRAMMAR_ENCODING").equals("")) {
-	    return System.getProperties().getProperty("file.encoding");
-	} else {
-	    return stringValue("GRAMMAR_ENCODING");
+	/**
+	 * Limit subclassing to derived classes.
+	 */
+	protected Options() {
 	}
-  }
 
-  /**
-   * Find the output directory.
-   *
-   * @return The requested output directory.
-   */
-  public static File getOutputDirectory() {
-    return new File(stringValue("OUTPUT_DIRECTORY"));
-  }
+	/**
+	 * These are options that are not settable by the user themselves, and that
+	 * are set indirectly via some configuration of user options
+	 */
+	public static final String NONUSER_OPTION__NAMESPACE_CLOSE = "NAMESPACE_CLOSE";
+	public static final String NONUSER_OPTION__HAS_NAMESPACE = "HAS_NAMESPACE";
+	public static final String NONUSER_OPTION__NAMESPACE_OPEN = "NAMESPACE_OPEN";
+	public static final String NONUSER_OPTION__PARSER_NAME = "PARSER_NAME";
 
-  public static String stringBufOrBuild() {
-	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-    if ( isOutputLanguageImplementedInJava() && getGenerateStringBuilder()) {
-      return getGenerateStringBuilder() ? "StringBuilder" : "StringBuffer";
-    } else if (getOutputLanguage().equals(OUTPUT_LANGUAGE__CPP)){
-      return "StringBuffer";
-    } else {
-    	throw new RuntimeException("Output language type not fully implemented : " + getOutputLanguage());
-    }
-  }
+	/**
+	 * Options that the user can specify from .javacc file
+	 */
+	
+	public static final String USEROPTION__PARSER_SUPER_CLASS = "PARSER_SUPER_CLASS";
+	public static final String USEROPTION__JAVA_TEMPLATE_TYPE = "JAVA_TEMPLATE_TYPE";
+	public static final String USEROPTION__LEGACY_EXCEPTION_HANDLING = "LEGACY_EXCEPTION_HANDLING";
+	public static final String USEROPTION__GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
+	public static final String USEROPTION__OUTPUT_LANGUAGE = "OUTPUT_LANGUAGE";
+	public static final String USEROPTION__STATIC = "STATIC";
+	public static final String USEROPTION__TOKEN_MANAGER_SUPER_CLASS = "TOKEN_MANAGER_SUPER_CLASS";
+	public static final String USEROPTION__LOOKAHEAD = "LOOKAHEAD";
+	public static final String USEROPTION__IGNORE_CASE = "IGNORE_CASE";
+	public static final String USEROPTION__UNICODE_INPUT = "UNICODE_INPUT";
+	public static final String USEROPTION__JAVA_UNICODE_ESCAPE = "JAVA_UNICODE_ESCAPE";
+	public static final String USEROPTION__ERROR_REPORTING = "ERROR_REPORTING";
+	public static final String USEROPTION__DEBUG_TOKEN_MANAGER = "DEBUG_TOKEN_MANAGER";
+	public static final String USEROPTION__DEBUG_LOOKAHEAD = "DEBUG_LOOKAHEAD";
+	public static final String USEROPTION__DEBUG_PARSER = "DEBUG_PARSER";
+	public static final String USEROPTION__OTHER_AMBIGUITY_CHECK = "OTHER_AMBIGUITY_CHECK";
+	public static final String USEROPTION__CHOICE_AMBIGUITY_CHECK = "CHOICE_AMBIGUITY_CHECK";
+	public static final String USEROPTION__CACHE_TOKENS = "CACHE_TOKENS";
+	public static final String USEROPTION__COMMON_TOKEN_ACTION = "COMMON_TOKEN_ACTION";
+	public static final String USEROPTION__FORCE_LA_CHECK = "FORCE_LA_CHECK";
+	public static final String USEROPTION__SANITY_CHECK = "SANITY_CHECK";
+	public static final String USEROPTION__TOKEN_MANAGER_USES_PARSER = "TOKEN_MANAGER_USES_PARSER";
+	public static final String USEROPTION__BUILD_TOKEN_MANAGER = "BUILD_TOKEN_MANAGER";
+	public static final String USEROPTION__BUILD_PARSER = "BUILD_PARSER";
+	public static final String USEROPTION__USER_CHAR_STREAM = "USER_CHAR_STREAM";
+	public static final String USEROPTION__USER_TOKEN_MANAGER = "USER_TOKEN_MANAGER";
+	public static final String USEROPTION__JDK_VERSION = "JDK_VERSION";
+	public static final String USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC = "SUPPORT_CLASS_VISIBILITY_PUBLIC";
+	public static final String USEROPTION__GENERATE_ANNOTATIONS = "GENERATE_ANNOTATIONS";
+	public static final String USEROPTION__GENERATE_STRING_BUILDER = "GENERATE_STRING_BUILDER";
+	public static final String USEROPTION__GENERATE_GENERICS = "GENERATE_GENERICS";
+	public static final String USEROPTION__GENERATE_CHAINED_EXCEPTION = "GENERATE_CHAINED_EXCEPTION";
+	public static final String USEROPTION__OUTPUT_DIRECTORY = "OUTPUT_DIRECTORY";
+	public static final String USEROPTION__KEEP_LINE_COLUMN = "KEEP_LINE_COLUMN";
+	public static final String USEROPTION__GRAMMAR_ENCODING = "GRAMMAR_ENCODING";
+	public static final String USEROPTION__TOKEN_FACTORY = "TOKEN_FACTORY";
+	public static final String USEROPTION__TOKEN_EXTENDS = "TOKEN_EXTENDS";
+	
+	public static final String USEROPTION_CPP_NAMESPACE = "NAMESPACE";
+	public static final String USEROPTION__CPP_TOKEN_INCLUDES = "TOKEN_INCLUDES";
+	public static final String USEROPTION__CPP_PARSER_INCLUDES = "PARSER_INCLUDES";
+	public static final String USEROPTION__CPP_IGNORE_ACTIONS = "IGNORE_ACTIONS";
+	public static final String USEROPTION__CPP_TOKEN_MANAGER_INCLUDES = "TOKEN_MANAGER_INCLUDES";
+	
+	/**
+	 * Various constants relating to possible values for certain options
+	 */
 
-  private static final Set<String> supportedLanguages = new HashSet<String>();
-  static {
-    supportedLanguages.add(OUTPUT_LANGUAGE__JAVA);
-    supportedLanguages.add(OUTPUT_LANGUAGE__CPP);
-    supportedLanguages.add(OUTPUT_LANGUAGE__GWT);
-  }
-  
-  public static boolean isValidOutputLanguage(String language) {
-	  return language == null ? false : supportedLanguages.contains(language.toLowerCase());
-  }
-  
-  /**
-   * @return the output language. default java
-   */
-  public static String getOutputLanguage() {
-     return stringValue(OUTPUT_LANGUAGE);
-  }
-
-  public static void setOutputLanguage(String lang) {
-     if (supportedLanguages.contains(lang.toLowerCase())) {
-        optionValues.put(OUTPUT_LANGUAGE, lang.toUpperCase().toString());
-     }
-     JavaCCErrors.fatal("Language: " + lang + " is not supported.");
-  }
-
-  public static void setStringOption(String optionName, String optionValue) {
-    optionValues.put(optionName, optionValue);
-    if (optionName.equalsIgnoreCase("NAMESPACE")) {
-      processCPPNamespaceOption(optionValue);
-    }
-  }
+	public static final String OUTPUT_LANGUAGE__CPP = "c++";
+	public static final String OUTPUT_LANGUAGE__JAVA = "java";
 
 
-  public static void processCPPNamespaceOption(String optionValue) {
-    String ns = optionValue;
-    if (ns.length() > 0) {
-      // We also need to split it.
-      StringTokenizer st = new StringTokenizer(ns, "::");
-      String expanded_ns = st.nextToken() + " {";
-      String ns_close =  "}";
-      while (st.hasMoreTokens()) {
-        expanded_ns = expanded_ns + "\nnamespace " + st.nextToken() + " {";
-        ns_close = ns_close + "\n}";
-      }
-      optionValues.put("NAMESPACE_OPEN", expanded_ns);
-      optionValues.put("HAS_NAMESPACE", Boolean.TRUE);
-      optionValues.put("NAMESPACE_CLOSE", ns_close);
-    }
-  }
-  
-  public static String getLongType() {
-	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-    if (isOutputLanguageImplementedInJava()) {
-      return "long";
-    } else if (getOutputLanguage().equals(OUTPUT_LANGUAGE__CPP)){
-      return "unsigned long long";
-    } else {
-    	throw new RuntimeException("Language type not fully supported : " + getOutputLanguage());
-    }
-  }
+	/**
+	 * 2013/07/22 -- GWT Compliant Output -- no external dependencies on GWT,
+	 * but generated code adds loose coupling to IO, for 6.1 release, this is
+	 * opt-in, moving forward to 7.0, after thorough testing, this will likely
+	 * become the default option with classic being deprecated
+	 */
+	public static final String JAVA_TEMPLATE_TYPE_MODERN = "modern";
+	
+	/**
+	 * The old style of Java code generation (tight coupling of code to Java IO classes - not GWT compatible)
+	 */
+	public static final String JAVA_TEMPLATE_TYPE_CLASSIC = "classic";
 
-  public static String getBooleanType() {
-	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-    if (isOutputLanguageImplementedInJava()) {
-      return "boolean";
-    } else if (getOutputLanguage().equals(OUTPUT_LANGUAGE__CPP)) {
-      return "bool";
-    }  else {
-    	throw new RuntimeException("Language type not fully supported : " + getOutputLanguage());
-    }
-  }
+	
+	static final Set<OptionInfo> userOptions;
+	
 
-	public static boolean isOutputLanguageImplementedInJava() {
-		// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-			String outputLanguage = getOutputLanguage();
-			boolean b = outputLanguage.equalsIgnoreCase(OUTPUT_LANGUAGE__JAVA) || outputLanguage.equalsIgnoreCase(OUTPUT_LANGUAGE__GWT);
-			return b;
+	static {
+		TreeSet<OptionInfo> temp = new TreeSet<OptionInfo>();
+		
+		temp.add(new OptionInfo(USEROPTION__PARSER_SUPER_CLASS, OptionType.STRING, null));
+		temp.add(new OptionInfo(USEROPTION__TOKEN_MANAGER_SUPER_CLASS, OptionType.STRING, null));
+		temp.add(new OptionInfo(USEROPTION__LEGACY_EXCEPTION_HANDLING, OptionType.BOOLEAN, Boolean.FALSE));
+		temp.add(new OptionInfo(USEROPTION__LOOKAHEAD, OptionType.INTEGER, new Integer(1)));
+
+		temp.add(new OptionInfo(USEROPTION__CHOICE_AMBIGUITY_CHECK, OptionType.INTEGER,new Integer(2)));
+		temp.add(new OptionInfo(USEROPTION__OTHER_AMBIGUITY_CHECK, OptionType.INTEGER, new Integer(1)));
+		temp.add(new OptionInfo(USEROPTION__STATIC, OptionType.BOOLEAN, Boolean.TRUE));
+		temp.add(new OptionInfo(USEROPTION__DEBUG_PARSER, OptionType.BOOLEAN, Boolean.FALSE));
+
+		temp.add(new OptionInfo(USEROPTION__DEBUG_LOOKAHEAD, OptionType.BOOLEAN, Boolean.FALSE));
+		temp.add(new OptionInfo(USEROPTION__DEBUG_TOKEN_MANAGER, OptionType.BOOLEAN, Boolean.FALSE));
+		temp.add(new OptionInfo(USEROPTION__ERROR_REPORTING, OptionType.BOOLEAN, Boolean.TRUE));
+		temp.add(new OptionInfo(USEROPTION__JAVA_UNICODE_ESCAPE, OptionType.BOOLEAN, Boolean.FALSE));
+
+		temp.add(new OptionInfo(USEROPTION__UNICODE_INPUT, OptionType.BOOLEAN, Boolean.FALSE));
+		temp.add(new OptionInfo(USEROPTION__IGNORE_CASE, OptionType.BOOLEAN, Boolean.FALSE));
+		temp.add(new OptionInfo(USEROPTION__USER_TOKEN_MANAGER, OptionType.BOOLEAN, Boolean.FALSE));
+		temp.add(new OptionInfo(USEROPTION__USER_CHAR_STREAM, OptionType.BOOLEAN, Boolean.FALSE));
+
+		temp.add(new OptionInfo(USEROPTION__BUILD_PARSER, OptionType.BOOLEAN, Boolean.TRUE));
+		temp.add(new OptionInfo(USEROPTION__BUILD_TOKEN_MANAGER, OptionType.BOOLEAN, Boolean.TRUE));
+		temp.add(new OptionInfo(USEROPTION__TOKEN_MANAGER_USES_PARSER, OptionType.BOOLEAN, Boolean.FALSE));
+		temp.add(new OptionInfo(USEROPTION__SANITY_CHECK, OptionType.BOOLEAN, Boolean.TRUE));
+
+		temp.add(new OptionInfo(USEROPTION__FORCE_LA_CHECK, OptionType.BOOLEAN, Boolean.FALSE));
+		temp.add(new OptionInfo(USEROPTION__COMMON_TOKEN_ACTION, OptionType.BOOLEAN, Boolean.FALSE));
+		temp.add(new OptionInfo(USEROPTION__CACHE_TOKENS, OptionType.BOOLEAN, Boolean.FALSE));
+		temp.add(new OptionInfo(USEROPTION__KEEP_LINE_COLUMN, OptionType.BOOLEAN, Boolean.TRUE));
+
+		temp.add(new OptionInfo(USEROPTION__GENERATE_CHAINED_EXCEPTION, OptionType.BOOLEAN, Boolean.FALSE));
+		temp.add(new OptionInfo(USEROPTION__GENERATE_GENERICS, OptionType.BOOLEAN, Boolean.FALSE));
+		temp.add(new OptionInfo(USEROPTION__GENERATE_BOILERPLATE, OptionType.BOOLEAN, Boolean.TRUE));
+		temp.add(new OptionInfo(USEROPTION__GENERATE_STRING_BUILDER, OptionType.BOOLEAN, Boolean.FALSE));
+
+		temp.add(new OptionInfo(USEROPTION__GENERATE_ANNOTATIONS, OptionType.BOOLEAN, Boolean.FALSE));
+		temp.add(new OptionInfo(USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC, OptionType.BOOLEAN, Boolean.TRUE));
+		temp.add(new OptionInfo(USEROPTION__OUTPUT_DIRECTORY, OptionType.STRING, "."));
+		temp.add(new OptionInfo(USEROPTION__JDK_VERSION, OptionType.STRING, "1.5"));
+
+		temp.add(new OptionInfo(USEROPTION__TOKEN_EXTENDS, OptionType.STRING, ""));
+		temp.add(new OptionInfo(USEROPTION__TOKEN_FACTORY, OptionType.STRING, ""));
+		temp.add(new OptionInfo(USEROPTION__GRAMMAR_ENCODING, OptionType.STRING, ""));
+		temp.add(new OptionInfo(USEROPTION__OUTPUT_LANGUAGE, OptionType.STRING, OUTPUT_LANGUAGE__JAVA));
+
+		temp.add(new OptionInfo(USEROPTION__JAVA_TEMPLATE_TYPE, OptionType.STRING, JAVA_TEMPLATE_TYPE_CLASSIC));
+		temp.add(new OptionInfo(USEROPTION_CPP_NAMESPACE, OptionType.STRING, ""));
+		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_INCLUDES, OptionType.STRING, ""));
+		temp.add(new OptionInfo(USEROPTION__CPP_PARSER_INCLUDES, OptionType.STRING, ""));
+
+		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_MANAGER_INCLUDES, OptionType.STRING, ""));
+		temp.add(new OptionInfo(USEROPTION__CPP_IGNORE_ACTIONS, OptionType.BOOLEAN, Boolean.FALSE));
+		
+		userOptions = Collections.unmodifiableSet(temp);
+	}
+
+	/**
+	 * A mapping of option names (Strings) to values (Integer, Boolean, String).
+	 * This table is initialized by the main program. Its contents defines the
+	 * set of legal options. Its initial values define the default option
+	 * values, and the option types can be determined from these values too.
+	 */
+	protected static Map<String,Object> optionValues = null;
+
+	/**
+	 * Initialize for JavaCC
+	 */
+	public static void init() {
+		optionValues = new HashMap<String,Object>();
+		cmdLineSetting = new HashSet<String>();
+		inputFileSetting = new HashSet<String>();
+		
+		for (OptionInfo t : userOptions) {
+			optionValues.put(t.getName(), t.getDefault());
+		}
+
+	}
+
+	/**
+	 * Convenience method to retrieve integer options.
+	 */
+	public static int intValue(final String option) {
+		return ((Integer) optionValues.get(option)).intValue();
+	}
+
+	/**
+	 * Convenience method to retrieve boolean options.
+	 */
+	public static boolean booleanValue(final String option) {
+		return ((Boolean) optionValues.get(option)).booleanValue();
+	}
+
+	/**
+	 * Convenience method to retrieve string options.
+	 */
+	public static String stringValue(final String option) {
+		return (String) optionValues.get(option);
+	}
+
+	public static Map<String,Object> getOptions() {
+		HashMap<String,Object> ret = new HashMap<String,Object>(optionValues);
+		return ret;
+	}
+
+	/**
+	 * Keep track of what options were set as a command line argument. We use
+	 * this to see if the options set from the command line and the ones set in
+	 * the input files clash in any way.
+	 */
+	private static Set<String> cmdLineSetting = null;
+
+	/**
+	 * Keep track of what options were set from the grammar file. We use this to
+	 * see if the options set from the command line and the ones set in the
+	 * input files clash in any way.
+	 */
+	private static Set<String> inputFileSetting = null;
+	
+	/**
+	 * Returns a string representation of the specified options of interest.
+	 * Used when, for example, generating Token.java to record the JavaCC
+	 * options that were used to generate the file. All of the options must be
+	 * boolean values.
+	 * 
+	 * @param interestingOptions
+	 *            the options of interest, eg {Options.USEROPTION__STATIC, Options.USEROPTION__CACHE_TOKENS}
+	 * @return the string representation of the options, eg
+	 *         "STATIC=true,CACHE_TOKENS=false"
+	 */
+	public static String getOptionsString(String[] interestingOptions) {
+		StringBuffer sb = new StringBuffer();
+
+		for (int i = 0; i < interestingOptions.length; i++) {
+			String key = interestingOptions[i];
+			sb.append(key);
+			sb.append('=');
+			sb.append(optionValues.get(key));
+			if (i != interestingOptions.length - 1) {
+				sb.append(',');
+			}
+		}
+
+		return sb.toString();
+	}
+
+	public static String getTokenMgrErrorClass() {
+		return isOutputLanguageJava() ? (isLegacyExceptionHandling() ? "TokenMgrError"
+				: "TokenMgrException")
+				: "TokenMgrError";
+	}
+
+	/**
+	 * Determine if a given command line argument might be an option flag.
+	 * Command line options start with a dash&nbsp;(-).
+	 * 
+	 * @param opt
+	 *            The command line argument to examine.
+	 * @return True when the argument looks like an option flag.
+	 */
+	public static boolean isOption(final String opt) {
+		return opt != null && opt.length() > 1 && opt.charAt(0) == '-';
+	}
+
+	/**
+	 * Help function to handle cases where the meaning of an option has changed
+	 * over time. If the user has supplied an option in the old format, it will
+	 * be converted to the new format.
+	 * 
+	 * @param name
+	 *            The name of the option being checked.
+	 * @param value
+	 *            The option's value.
+	 * @return The upgraded value.
+	 */
+	public static Object upgradeValue(final String name, Object value) {
+		if (name.equalsIgnoreCase("NODE_FACTORY")
+				&& value.getClass() == Boolean.class) {
+			if (((Boolean) value).booleanValue()) {
+				value = "*";
+			} else {
+				value = "";
+			}
+		}
+
+		return value;
+	}
+
+	public static void setInputFileOption(Object nameloc, Object valueloc,
+			String name, Object value) {
+		String s = name.toUpperCase();
+		if (!optionValues.containsKey(s)) {
+			JavaCCErrors.warning(nameloc, "Bad option name \"" + name
+					+ "\".  Option setting will be ignored.");
+			return;
+		}
+		final Object existingValue = optionValues.get(s);
+
+		value = upgradeValue(name, value);
+
+		if (existingValue != null) {
+			if ((existingValue.getClass() != value.getClass())
+					|| (value instanceof Integer && ((Integer) value)
+							.intValue() <= 0)) {
+				JavaCCErrors.warning(valueloc, "Bad option value \"" + value
+						+ "\" for \"" + name
+						+ "\".  Option setting will be ignored.");
+				return;
+			}
+
+			if (inputFileSetting.contains(s)) {
+				JavaCCErrors.warning(nameloc, "Duplicate option setting for \""
+						+ name + "\" will be ignored.");
+				return;
+			}
+
+			if (cmdLineSetting.contains(s)) {
+				if (!existingValue.equals(value)) {
+					JavaCCErrors.warning(nameloc, "Command line setting of \""
+							+ name + "\" modifies option value in file.");
+				}
+				return;
+			}
+		}
+
+		optionValues.put(s, value);
+		inputFileSetting.add(s);
+		if (s.equalsIgnoreCase(USEROPTION_CPP_NAMESPACE)) {
+			processCPPNamespaceOption((String) value);
+		}
+	}
+
+	/**
+	 * Process a single command-line option. The option is parsed and stored in
+	 * the optionValues map.
+	 * 
+	 * @param arg
+	 */
+	public static void setCmdLineOption(String arg) {
+		final String s;
+
+		if (arg.charAt(0) == '-') {
+			s = arg.substring(1);
+		} else {
+			s = arg;
+		}
+
+		String name;
+		Object Val;
+
+		// Look for the first ":" or "=", which will separate the option name
+		// from its value (if any).
+		final int index1 = s.indexOf('=');
+		final int index2 = s.indexOf(':');
+		final int index;
+
+		if (index1 < 0)
+			index = index2;
+		else if (index2 < 0)
+			index = index1;
+		else if (index1 < index2)
+			index = index1;
+		else
+			index = index2;
+
+		if (index < 0) {
+			name = s.toUpperCase();
+			if (optionValues.containsKey(name)) {
+				Val = Boolean.TRUE;
+			} else if (name.length() > 2 && name.charAt(0) == 'N'
+					&& name.charAt(1) == 'O') {
+				Val = Boolean.FALSE;
+				name = name.substring(2);
+			} else {
+				System.out.println("Warning: Bad option \"" + arg
+						+ "\" will be ignored.");
+				return;
+			}
+		} else {
+			name = s.substring(0, index).toUpperCase();
+			if (s.substring(index + 1).equalsIgnoreCase("TRUE")) {
+				Val = Boolean.TRUE;
+			} else if (s.substring(index + 1).equalsIgnoreCase("FALSE")) {
+				Val = Boolean.FALSE;
+			} else {
+				try {
+					int i = Integer.parseInt(s.substring(index + 1));
+					if (i <= 0) {
+						System.out.println("Warning: Bad option value in \""
+								+ arg + "\" will be ignored.");
+						return;
+					}
+					Val = new Integer(i);
+				} catch (NumberFormatException e) {
+					Val = s.substring(index + 1);
+					if (s.length() > index + 2) {
+						// i.e., there is space for two '"'s in value
+						if (s.charAt(index + 1) == '"'
+								&& s.charAt(s.length() - 1) == '"') {
+							// remove the two '"'s.
+							Val = s.substring(index + 2, s.length() - 1);
+						}
+					}
+				}
+			}
+		}
+
+		if (!optionValues.containsKey(name)) {
+			System.out.println("Warning: Bad option \"" + arg
+					+ "\" will be ignored.");
+			return;
+		}
+		Object valOrig = optionValues.get(name);
+		if (Val.getClass() != valOrig.getClass()) {
+			System.out.println("Warning: Bad option value in \"" + arg
+					+ "\" will be ignored.");
+			return;
+		}
+		if (cmdLineSetting.contains(name)) {
+			System.out.println("Warning: Duplicate option setting \"" + arg
+					+ "\" will be ignored.");
+			return;
+		}
+
+		Val = upgradeValue(name, Val);
+
+		optionValues.put(name, Val);
+		cmdLineSetting.add(name);
+		if (name.equalsIgnoreCase(USEROPTION_CPP_NAMESPACE)) {
+			processCPPNamespaceOption((String) Val);
+		}
+	}
+
+	public static void normalize() {
+		if (getDebugLookahead() && !getDebugParser()) {
+			if (cmdLineSetting.contains(USEROPTION__DEBUG_PARSER)
+					|| inputFileSetting.contains(USEROPTION__DEBUG_PARSER)) {
+				JavaCCErrors
+						.warning("True setting of option DEBUG_LOOKAHEAD overrides "
+								+ "false setting of option DEBUG_PARSER.");
+			}
+			optionValues.put(USEROPTION__DEBUG_PARSER, Boolean.TRUE);
+		}
+
+		// Now set the "GENERATE" options from the supplied (or default) JDK
+		// version.
+
+		optionValues.put(USEROPTION__GENERATE_CHAINED_EXCEPTION, Boolean.valueOf(jdkVersionAtLeast(1.4)));
+		optionValues.put(USEROPTION__GENERATE_GENERICS, Boolean.valueOf(jdkVersionAtLeast(1.5)));
+		optionValues.put(USEROPTION__GENERATE_STRING_BUILDER, Boolean.valueOf(jdkVersionAtLeast(1.5)));
+		optionValues.put(USEROPTION__GENERATE_ANNOTATIONS, Boolean.valueOf(jdkVersionAtLeast(1.5)));
+	}
+
+	/**
+	 * Find the lookahead setting.
+	 * 
+	 * @return The requested lookahead value.
+	 */
+	public static int getLookahead() {
+		return intValue(USEROPTION__LOOKAHEAD);
+	}
+
+	/**
+	 * Find the choice ambiguity check value.
+	 * 
+	 * @return The requested choice ambiguity check value.
+	 */
+	public static int getChoiceAmbiguityCheck() {
+		return intValue(USEROPTION__CHOICE_AMBIGUITY_CHECK);
+	}
+
+	/**
+	 * Find the other ambiguity check value.
+	 * 
+	 * @return The requested other ambiguity check value.
+	 */
+	public static int getOtherAmbiguityCheck() {
+		return intValue(USEROPTION__OTHER_AMBIGUITY_CHECK);
+	}
+
+	/**
+	 * Find the static value.
+	 * 
+	 * @return The requested static value.
+	 */
+	public static boolean getStatic() {
+		return booleanValue(USEROPTION__STATIC);
+	}
+
+	/**
+	 * Find the debug parser value.
+	 * 
+	 * @return The requested debug parser value.
+	 */
+	public static boolean getDebugParser() {
+		return booleanValue(USEROPTION__DEBUG_PARSER);
+	}
+
+	/**
+	 * Find the debug lookahead value.
+	 * 
+	 * @return The requested debug lookahead value.
+	 */
+	public static boolean getDebugLookahead() {
+		return booleanValue(USEROPTION__DEBUG_LOOKAHEAD);
+	}
+
+	/**
+	 * Find the debug tokenmanager value.
+	 * 
+	 * @return The requested debug tokenmanager value.
+	 */
+	public static boolean getDebugTokenManager() {
+		return booleanValue(USEROPTION__DEBUG_TOKEN_MANAGER);
+	}
+
+	/**
+	 * Find the error reporting value.
+	 * 
+	 * @return The requested error reporting value.
+	 */
+	public static boolean getErrorReporting() {
+		return booleanValue(USEROPTION__ERROR_REPORTING);
+	}
+
+	/**
+	 * Find the Java unicode escape value.
+	 * 
+	 * @return The requested Java unicode escape value.
+	 */
+	public static boolean getJavaUnicodeEscape() {
+		return booleanValue(USEROPTION__JAVA_UNICODE_ESCAPE);
+	}
+
+	/**
+	 * Find the unicode input value.
+	 * 
+	 * @return The requested unicode input value.
+	 */
+	public static boolean getUnicodeInput() {
+		return booleanValue(USEROPTION__UNICODE_INPUT);
+	}
+
+	/**
+	 * Find the ignore case value.
+	 * 
+	 * @return The requested ignore case value.
+	 */
+	public static boolean getIgnoreCase() {
+		return booleanValue(USEROPTION__IGNORE_CASE);
+	}
+
+	/**
+	 * Find the user tokenmanager value.
+	 * 
+	 * @return The requested user tokenmanager value.
+	 */
+	public static boolean getUserTokenManager() {
+		return booleanValue(USEROPTION__USER_TOKEN_MANAGER);
+	}
+
+	/**
+	 * Find the user charstream value.
+	 * 
+	 * @return The requested user charstream value.
+	 */
+	public static boolean getUserCharStream() {
+		return booleanValue(USEROPTION__USER_CHAR_STREAM);
+	}
+
+	/**
+	 * Find the build parser value.
+	 * 
+	 * @return The requested build parser value.
+	 */
+	public static boolean getBuildParser() {
+		return booleanValue(USEROPTION__BUILD_PARSER);
+	}
+
+	/**
+	 * Find the build token manager value.
+	 * 
+	 * @return The requested build token manager value.
+	 */
+	public static boolean getBuildTokenManager() {
+		return booleanValue(USEROPTION__BUILD_TOKEN_MANAGER);
+	}
+
+	/**
+	 * Find the token manager uses parser value.
+	 * 
+	 * @return The requested token manager uses parser value;
+	 */
+	public static boolean getTokenManagerUsesParser() {
+		return booleanValue(USEROPTION__TOKEN_MANAGER_USES_PARSER);
+	}
+
+	/**
+	 * Find the sanity check value.
+	 * 
+	 * @return The requested sanity check value.
+	 */
+	public static boolean getSanityCheck() {
+		return booleanValue(USEROPTION__SANITY_CHECK);
+	}
+
+	/**
+	 * Find the force lookahead check value.
+	 * 
+	 * @return The requested force lookahead value.
+	 */
+	public static boolean getForceLaCheck() {
+		return booleanValue(USEROPTION__FORCE_LA_CHECK);
+	}
+
+	/**
+	 * Find the common token action value.
+	 * 
+	 * @return The requested common token action value.
+	 */
+
+	public static boolean getCommonTokenAction() {
+		return booleanValue(USEROPTION__COMMON_TOKEN_ACTION);
+	}
+
+	/**
+	 * Find the cache tokens value.
+	 * 
+	 * @return The requested cache tokens value.
+	 */
+	public static boolean getCacheTokens() {
+		return booleanValue(USEROPTION__CACHE_TOKENS);
+	}
+
+	/**
+	 * Find the keep line column value.
+	 * 
+	 * @return The requested keep line column value.
+	 */
+	public static boolean getKeepLineColumn() {
+		return booleanValue(USEROPTION__KEEP_LINE_COLUMN);
+	}
+
+	/**
+	 * Find the JDK version.
+	 * 
+	 * @return The requested jdk version.
+	 */
+	public static String getJdkVersion() {
+		return stringValue(USEROPTION__JDK_VERSION);
+	}
+
+	/**
+	 * Should the generated code create Exceptions using a constructor taking a
+	 * nested exception?
+	 * 
+	 * @return
+	 */
+	public static boolean getGenerateChainedException() {
+		return booleanValue(USEROPTION__GENERATE_CHAINED_EXCEPTION);
+	}
+
+	public static boolean isGenerateBoilerplateCode() {
+		return booleanValue(USEROPTION__GENERATE_BOILERPLATE);
+	}
+
+	/**
+	 * As of 6.1 JavaCC now throws subclasses of {@link RuntimeException} rather
+	 * than {@link Error} s (by default), as {@link Error} s typically lead to
+	 * the closing down of the parent VM and are only to be used in extreme
+	 * circumstances (failure of parsing is generally not regarded as such). If
+	 * this value is set to true, then then {@link Error}s will be thrown (for
+	 * compatibility with older .jj files)
+	 * 
+	 * @return true if throws errors (legacy), false if use
+	 *         {@link RuntimeException} s (better approach)
+	 */
+	public static boolean isLegacyExceptionHandling() {
+		return booleanValue(USEROPTION__LEGACY_EXCEPTION_HANDLING);
+	}
+
+	/**
+	 * Should the generated code contain Generics?
+	 * 
+	 * @return
+	 */
+	public static boolean getGenerateGenerics() {
+		return booleanValue(USEROPTION__GENERATE_GENERICS);
+	}
+
+	/**
+	 * Should the generated code use StringBuilder rather than StringBuffer?
+	 * 
+	 * @return
+	 */
+	public static boolean getGenerateStringBuilder() {
+		return booleanValue(USEROPTION__GENERATE_STRING_BUILDER);
+	}
+
+	/**
+	 * Should the generated code contain Annotations?
+	 * 
+	 * @return
+	 */
+	public static boolean getGenerateAnnotations() {
+		return booleanValue(USEROPTION__GENERATE_ANNOTATIONS);
+	}
+
+	/**
+	 * Should the generated code class visibility public?
+	 * 
+	 * @return
+	 */
+	public static boolean getSupportClassVisibilityPublic() {
+		return booleanValue(USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC);
+	}
+
+	/**
+	 * Determine if the output language is at least the specified version.
+	 * 
+	 * @param version
+	 *            the version to check against. E.g. <code>1.5</code>
+	 * @return true if the output version is at least the specified version.
+	 */
+	public static boolean jdkVersionAtLeast(double version) {
+		double jdkVersion = Double.parseDouble(getJdkVersion());
+
+		// Comparing doubles is safe here, as it is two simple assignments.
+		return jdkVersion >= version;
+	}
+
+	/**
+	 * Return the Token's superclass.
+	 * 
+	 * @return The required base class for Token.
+	 */
+	public static String getTokenExtends() {
+		return stringValue(USEROPTION__TOKEN_EXTENDS);
+	}
+
+	// public static String getBoilerplatePackage()
+	// {
+	// return stringValue(BOILERPLATE_PACKAGE);
+	// }
+
+	/**
+	 * Return the Token's factory class.
+	 * 
+	 * @return The required factory class for Token.
+	 */
+	public static String getTokenFactory() {
+		return stringValue(USEROPTION__TOKEN_FACTORY);
+	}
+
+	/**
+	 * Return the file encoding; this will return the file.encoding system
+	 * property if no value was explicitly set
+	 * 
+	 * @return The file encoding (e.g., UTF-8, ISO_8859-1, MacRoman)
+	 */
+	public static String getGrammarEncoding() {
+		if (stringValue(USEROPTION__GRAMMAR_ENCODING).equals("")) {
+			return System.getProperties().getProperty("file.encoding");
+		} else {
+			return stringValue(USEROPTION__GRAMMAR_ENCODING);
+		}
+	}
+
+	/**
+	 * Find the output directory.
+	 * 
+	 * @return The requested output directory.
+	 */
+	public static File getOutputDirectory() {
+		return new File(stringValue(USEROPTION__OUTPUT_DIRECTORY));
+	}
+
+	public static String stringBufOrBuild() {
+		// TODO :: CBA -- Require Unification of output language specific
+		// processing into a single Enum class
+		if (isOutputLanguageJava() && getGenerateStringBuilder()) {
+			return getGenerateStringBuilder() ? "StringBuilder"
+					: "StringBuffer";
+		} else if (getOutputLanguage().equals(OUTPUT_LANGUAGE__CPP)) {
+			return "StringBuffer";
+		} else {
+			throw new RuntimeException(
+					"Output language type not fully implemented : "
+							+ getOutputLanguage());
+		}
+	}
+
+	private static final Set<String> supportedJavaTemplateTypes = new HashSet<String>();
+	static {
+		supportedJavaTemplateTypes.add(JAVA_TEMPLATE_TYPE_CLASSIC);
+		supportedJavaTemplateTypes.add(JAVA_TEMPLATE_TYPE_MODERN);
+	}
+
+	private static final Set<String> supportedLanguages = new HashSet<String>();
+	static {
+		supportedLanguages.add(OUTPUT_LANGUAGE__JAVA);
+		supportedLanguages.add(OUTPUT_LANGUAGE__CPP);
+	}
+
+	public static boolean isValidOutputLanguage(String language) {
+		return language == null ? false : supportedLanguages.contains(language
+				.toLowerCase());
+	}
+
+	/**
+	 * @return the output language. default java
+	 */
+	public static String getOutputLanguage() {
+		return stringValue(USEROPTION__OUTPUT_LANGUAGE);
+	}
+
+	public static String getJavaTemplateType() {
+		return stringValue(USEROPTION__JAVA_TEMPLATE_TYPE);
+	}
+
+	public static void setStringOption(String optionName, String optionValue) {
+		optionValues.put(optionName, optionValue);
+		if (optionName.equalsIgnoreCase(USEROPTION_CPP_NAMESPACE)) {
+			processCPPNamespaceOption(optionValue);
+		}
+	}
+
+	public static void processCPPNamespaceOption(String optionValue) {
+		String ns = optionValue;
+		if (ns.length() > 0) {
+			// We also need to split it.
+			StringTokenizer st = new StringTokenizer(ns, "::");
+			String expanded_ns = st.nextToken() + " {";
+			String ns_close = "}";
+			while (st.hasMoreTokens()) {
+				expanded_ns = expanded_ns + "\nnamespace " + st.nextToken()
+						+ " {";
+				ns_close = ns_close + "\n}";
+			}
+			optionValues.put(NONUSER_OPTION__NAMESPACE_OPEN, expanded_ns);
+			optionValues.put(NONUSER_OPTION__HAS_NAMESPACE, Boolean.TRUE);
+			optionValues.put(NONUSER_OPTION__NAMESPACE_CLOSE, ns_close);
+		}
+	}
+
+	public static String getLongType() {
+		// TODO :: CBA -- Require Unification of output language specific
+		// processing into a single Enum class
+		if (isOutputLanguageJava()) {
+			return "long";
+		} else if (getOutputLanguage().equals(OUTPUT_LANGUAGE__CPP)) {
+			return "unsigned long long";
+		} else {
+			throw new RuntimeException("Language type not fully supported : "
+					+ getOutputLanguage());
+		}
+	}
+
+	public static String getBooleanType() {
+		// TODO :: CBA -- Require Unification of output language specific
+		// processing into a single Enum class
+		if (isOutputLanguageJava()) {
+			return "boolean";
+		} else if (getOutputLanguage().equals(OUTPUT_LANGUAGE__CPP)) {
+			return "bool";
+		} else {
+			throw new RuntimeException("Language type not fully supported : "
+					+ getOutputLanguage());
+		}
+	}
+
+	public static boolean isOutputLanguageJava() {
+		return getOutputLanguage().equalsIgnoreCase(OUTPUT_LANGUAGE__JAVA);
+	}
+
+	public static boolean isOutputLanguageCPP() {
+		return getOutputLanguage().equalsIgnoreCase(OUTPUT_LANGUAGE__CPP);
 	}
 
 	public static boolean isTokenManagerRequiresParserAccess() {
 		return getTokenManagerUsesParser();
 	}
-
+	
+	/**
+	 * Gets all the user options (in order)
+	 * @return 
+	 */
+	public static Set<OptionInfo> getUserOptions() {
+		return userOptions;
+	}
 }
