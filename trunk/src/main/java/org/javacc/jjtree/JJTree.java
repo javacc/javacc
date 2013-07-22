@@ -178,21 +178,20 @@ public class JJTree {
 
         String outputLanguage = JJTreeOptions.getOutputLanguage();
         
-        // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+        // TODO :: Not yet tested this in GWT/Modern mode (disabled by default in 6.1)
         
-		if (JJTreeOptions.isOutputLanguageImplementedInJava()) {
+		if (JJTreeOptions.isOutputLanguageJava()) {
           NodeFiles.generateTreeConstants_java();
           NodeFiles.generateVisitor_java();
           NodeFiles.generateDefaultVisitor_java();
           JJTreeState.generateTreeState_java();
-        } else if (outputLanguage.equals(Options.OUTPUT_LANGUAGE__CPP)) {
+        } else if (JJTreeOptions.isOutputLanguageCPP()) {
           CPPNodeFiles.generateTreeConstants();
           CPPNodeFiles.generateVisitors();
           //CPPNodeFiles.generateDefaultVisitor();
           CPPJJTreeState.generateTreeState();
           //CPPNodeFiles.generateJJTreeH();
         } else {
-        	// gwt not supported here (yet)
         	p("Unsupported JJTree output language : " + outputLanguage);
         	return 1;
         }

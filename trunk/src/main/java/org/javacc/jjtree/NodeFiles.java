@@ -77,7 +77,7 @@ final class NodeFiles {
     }
 
     try {
-      String[] options = new String[] {"MULTI", "NODE_USES_PARSER", "VISITOR", "TRACK_TOKENS", "NODE_PREFIX", "NODE_EXTENDS", "NODE_FACTORY", "SUPPORT_CLASS_VISIBILITY_PUBLIC"};
+      String[] options = new String[] {"MULTI", "NODE_USES_PARSER", "VISITOR", "TRACK_TOKENS", "NODE_PREFIX", "NODE_EXTENDS", "NODE_FACTORY", Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
       OutputFile outputFile = new OutputFile(file, nodeVersion, options);
       outputFile.setToolName("JJTree");
 
@@ -312,7 +312,7 @@ final class NodeFiles {
     generatePrologue(ostr);
     
     Map options = new HashMap(Options.getOptions());
-    options.put("PARSER_NAME", JJTreeGlobals.parserName);
+    options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     
     JavaFileGenerator generator = new JavaFileGenerator(
         "/templates/Node.template", options);
@@ -330,7 +330,7 @@ final class NodeFiles {
     generatePrologue(ostr);
     
     Map options = new HashMap(Options.getOptions());
-    options.put("PARSER_NAME", JJTreeGlobals.parserName);
+    options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     options.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(JJTreeOptions.getVisitorReturnType().equals("void")));
     
     JavaFileGenerator generator = new JavaFileGenerator(
@@ -349,7 +349,7 @@ final class NodeFiles {
     generatePrologue(ostr);
 
     Map options = new HashMap(Options.getOptions());
-    options.put("PARSER_NAME", JJTreeGlobals.parserName);
+    options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     options.put("NODE_TYPE", nodeType);
     options.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(JJTreeOptions.getVisitorReturnType().equals("void")));
     

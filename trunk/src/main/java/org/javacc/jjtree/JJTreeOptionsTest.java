@@ -20,7 +20,7 @@ public final class JJTreeOptionsTest extends TestCase {
         assertEquals(new File("."), JJTreeOptions.getOutputDirectory());
         assertEquals(new File("."), JJTreeOptions.getJJTreeOutputDirectory());
 
-        Options.setInputFileOption(null, null, "OUTPUT_DIRECTORY",
+        Options.setInputFileOption(null, null, Options.USEROPTION__OUTPUT_DIRECTORY,
         "test/output");
         assertEquals(new File("test/output"), JJTreeOptions.getOutputDirectory());
         assertEquals(new File("test/output"), JJTreeOptions.getJJTreeOutputDirectory());

@@ -42,9 +42,9 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
 
   private static final String CONSTANTS_FILENAME_SUFFIX = "Constants.java";
 
-  static public void start(boolean isGwt) throws MetaParseException {
+  static public void start(boolean isJavaModern) throws MetaParseException {
 	  
-	JavaResourceTemplateLocations templateLoc = isGwt ? JavaFiles.RESOURCES_GWT : JavaFiles.RESOURCES_JAVA;
+	JavaResourceTemplateLocations templateLoc = isJavaModern ? JavaFiles.RESOURCES_JAVA_MODERN : JavaFiles.RESOURCES_JAVA_CLASSIC;
 	  
     Token t = null;
 
@@ -53,8 +53,8 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
 	  // Added this if condition -- 2012/10/17 -- cba
 	if ( Options.isGenerateBoilerplateCode()) {
 		
-	    if (isGwt) {
-	    	JavaFiles.gen_GwtFiles();
+	    if (isJavaModern) {
+	    	JavaFiles.gen_JavaModernFiles();
 	    }
 	    
 	    JavaFiles.gen_TokenMgrError(templateLoc);

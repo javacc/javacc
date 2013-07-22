@@ -84,7 +84,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   }
   
   
-  public static class GwtResourceTemplateLocationImpl implements JavaResourceTemplateLocations {
+  public static class JavaModernResourceTemplateLocationImpl implements JavaResourceTemplateLocations {
 		public String getTokenMgrErrorTemplateResourceUrl() {
 			// Same as Java
 			return "/templates/TokenMgrError.template";
@@ -105,7 +105,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 		}
 		
 		public String getSimpleCharStreamTemplateResourceUrl() {
-			// TODO :: We need a GWT version of this, same as Java
+			// TODO :: We need a java Modern version of this, same as Java Classic currently
 			return "/templates/SimpleCharStream.template";
 		}
 		
@@ -149,8 +149,8 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 		
 }
   
-  public static final JavaResourceTemplateLocations RESOURCES_JAVA = new JavaResourceTemplateLocationImpl();
-  public static final JavaResourceTemplateLocations RESOURCES_GWT = new GwtResourceTemplateLocationImpl();
+  public static final JavaResourceTemplateLocations RESOURCES_JAVA_CLASSIC = new JavaResourceTemplateLocationImpl();
+  public static final JavaResourceTemplateLocations RESOURCES_JAVA_MODERN = new JavaModernResourceTemplateLocationImpl();
   
   
   /**
@@ -246,7 +246,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   public static void gen_JavaCharStream(JavaResourceTemplateLocations locations) {
     try {
       final File file = new File(Options.getOutputDirectory(), "JavaCharStream.java");
-      final OutputFile outputFile = new OutputFile(file, charStreamVersion, new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"});
+      final OutputFile outputFile = new OutputFile(file, charStreamVersion, new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC});
 
       if (!outputFile.needToWrite)
       {
@@ -293,7 +293,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   public static void gen_SimpleCharStream(JavaResourceTemplateLocations locations) {
     try {
       final File file = new File(Options.getOutputDirectory(), "SimpleCharStream.java");
-      final OutputFile outputFile = new OutputFile(file, charStreamVersion, new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"});
+      final OutputFile outputFile = new OutputFile(file, charStreamVersion, new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC});
 
       if (!outputFile.needToWrite)
       {
@@ -340,7 +340,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   public static void gen_CharStream(JavaResourceTemplateLocations locations) {
     try {
       final File file = new File(Options.getOutputDirectory(), "CharStream.java");
-      final OutputFile outputFile = new OutputFile(file, charStreamVersion, new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"});
+      final OutputFile outputFile = new OutputFile(file, charStreamVersion, new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC});
 
       if (!outputFile.needToWrite)
       {
@@ -381,7 +381,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 
 
   
-  public static void gen_GwtFiles() {
+  public static void gen_JavaModernFiles() {
 	  genMiscFile("Provider.java","/templates/gwt/Provider.template" );
 	  genMiscFile("StringProvider.java","/templates/gwt/StringProvider.template" );
 	  
@@ -392,7 +392,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   private static void genMiscFile(String fileName, String templatePath) throws Error {
 	try {
 	  final File file = new File(Options.getOutputDirectory(), fileName);
-	  final OutputFile outputFile = new OutputFile(file, parseExceptionVersion, new String[] {"KEEP_LINE_COL"});
+	  final OutputFile outputFile = new OutputFile(file, parseExceptionVersion, new String[] {/* cba -- 2013/07/22 -- previously wired to a typo version of this option -- KEEP_LINE_COL */ Options.USEROPTION__KEEP_LINE_COLUMN});
 
 	  if (!outputFile.needToWrite)
 	  {
@@ -434,7 +434,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   public static void gen_ParseException(JavaResourceTemplateLocations locations) {
     try {
       final File file = new File(Options.getOutputDirectory(), "ParseException.java");
-      final OutputFile outputFile = new OutputFile(file, parseExceptionVersion, new String[] {"KEEP_LINE_COL"});
+      final OutputFile outputFile = new OutputFile(file, parseExceptionVersion, new String[] {/* cba -- 2013/07/22 -- previously wired to a typo version of this option -- KEEP_LINE_COL */ Options.USEROPTION__KEEP_LINE_COLUMN});
 
       if (!outputFile.needToWrite)
       {
@@ -529,7 +529,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   public static void gen_Token(JavaResourceTemplateLocations locations) {
     try {
       final File file = new File(Options.getOutputDirectory(), "Token.java");
-      final OutputFile outputFile = new OutputFile(file, tokenVersion, new String[] {"TOKEN_EXTENDS", "KEEP_LINE_COL", "SUPPORT_CLASS_VISIBILITY_PUBLIC"});
+      final OutputFile outputFile = new OutputFile(file, tokenVersion, new String[] {Options.USEROPTION__TOKEN_EXTENDS, /* cba -- 2013/07/22 -- previously wired to a typo version of this option -- KEEP_LINE_COL */ Options.USEROPTION__KEEP_LINE_COLUMN, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC});
 
       if (!outputFile.needToWrite)
       {
@@ -573,7 +573,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   public static void gen_TokenManager(JavaResourceTemplateLocations locations) {
     try {
       final File file = new File(Options.getOutputDirectory(), "TokenManager.java");
-      final OutputFile outputFile = new OutputFile(file, tokenManagerVersion, new String[] {"SUPPORT_CLASS_VISIBILITY_PUBLIC"});
+      final OutputFile outputFile = new OutputFile(file, tokenManagerVersion, new String[] {Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC});
 
       if (!outputFile.needToWrite)
       {

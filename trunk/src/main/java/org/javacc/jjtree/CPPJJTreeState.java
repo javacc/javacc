@@ -25,7 +25,7 @@ final class CPPJJTreeState
   static void generateTreeState() throws IOException
   {
     Map options = JJTreeOptions.getOptions();
-    options.put("PARSER_NAME", JJTreeGlobals.parserName);
+    options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     String filePrefix = new File(JJTreeOptions.getJJTreeOutputDirectory(), "JJT" + JJTreeGlobals.parserName + "State").getAbsolutePath();
 
     OutputFile outputFile = new OutputFile(new File(filePrefix + ".h"), JJTStateVersion, new String[0]);

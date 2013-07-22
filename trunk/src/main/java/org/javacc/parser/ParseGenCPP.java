@@ -42,8 +42,8 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("#include \"TokenManager.h\"");
     genCodeLine("#include \"" + cu_name + "TokenManager.h\"");
 
-    if (Options.stringValue("PARSER_INCLUDES").length() > 0) {
-      genCodeLine("#include \"" + Options.stringValue("PARSER_INCLUDES") + "\"\n");
+    if (Options.stringValue(Options.USEROPTION__CPP_PARSER_INCLUDES).length() > 0) {
+      genCodeLine("#include \"" + Options.stringValue(Options.USEROPTION__CPP_PARSER_INCLUDES) + "\"\n");
     }
 
     genCodeLine("#include \"" + cu_name + "Constants.h\"");
@@ -58,7 +58,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("#include \"" + cu_name + "Tree.h\"");
     }
 
-    if (Options.stringValue("NAMESPACE").length() > 0) {
+    if (Options.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0) {
       genCodeLine("namespace " + Options.stringValue("NAMESPACE_OPEN"));
     }
 
@@ -72,7 +72,7 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("  };");
     genCodeLine("");
 
-    String superClass = Options.stringValue("PARSER_SUPER_CLASS");
+    String superClass = Options.stringValue(Options.USEROPTION__PARSER_SUPER_CLASS);
     genClassStart("", cu_name, new String[]{},
                   superClass == null  ? new String[0] : new String[] {
                    "public " + superClass});

@@ -4,6 +4,7 @@
 package org.javacc.parser;
 
 import static org.javacc.parser.JavaCCGlobals.addUnicodeEscapes;
+
 import java.io.*;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class CodeGenerator {
       mainBuffer.insert(0, staticsBuffer);
 
       // Finally enclose the whole thing in the namespace, if specified.
-      if (Options.stringValue("NAMESPACE").length() > 0) {
+      if (Options.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0) {
         mainBuffer.insert(0, "namespace " + Options.stringValue("NAMESPACE_OPEN") + "\n");
         mainBuffer.append(Options.stringValue("NAMESPACE_CLOSE") + "\n");
         includeBuffer.append(Options.stringValue("NAMESPACE_CLOSE") + "\n");
@@ -230,7 +231,7 @@ public class CodeGenerator {
    * Generate annotation. @XX syntax for java, comments in C++
    */
   public void genAnnotation(String ann) {
-    if (Options.isOutputLanguageImplementedInJava()) {
+    if (Options.isOutputLanguageJava()) {
       genCode("@" + ann);
     } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) { // For now, it's only C++ for now
       genCode( "/*" + ann + "*/");
@@ -298,7 +299,7 @@ public class CodeGenerator {
 
   protected boolean isJavaLanguage() {
 	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-    return Options.isOutputLanguageImplementedInJava();
+    return Options.isOutputLanguageJava();
   }
 
   public void switchToMainFile() {
