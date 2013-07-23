@@ -31,6 +31,7 @@
 package org.javacc.parser;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -61,6 +62,7 @@ public class Options {
 	public static final String NONUSER_OPTION__HAS_NAMESPACE = "HAS_NAMESPACE";
 	public static final String NONUSER_OPTION__NAMESPACE_OPEN = "NAMESPACE_OPEN";
 	public static final String NONUSER_OPTION__PARSER_NAME = "PARSER_NAME";
+	public static final String NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING = "LEGACY_EXCEPTION_HANDLING";
 
 	/**
 	 * Options that the user can specify from .javacc file
@@ -68,7 +70,6 @@ public class Options {
 	
 	public static final String USEROPTION__PARSER_SUPER_CLASS = "PARSER_SUPER_CLASS";
 	public static final String USEROPTION__JAVA_TEMPLATE_TYPE = "JAVA_TEMPLATE_TYPE";
-	public static final String USEROPTION__LEGACY_EXCEPTION_HANDLING = "LEGACY_EXCEPTION_HANDLING";
 	public static final String USEROPTION__GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
 	public static final String USEROPTION__OUTPUT_LANGUAGE = "OUTPUT_LANGUAGE";
 	public static final String USEROPTION__STATIC = "STATIC";
@@ -140,7 +141,6 @@ public class Options {
 		
 		temp.add(new OptionInfo(USEROPTION__PARSER_SUPER_CLASS, OptionType.STRING, null));
 		temp.add(new OptionInfo(USEROPTION__TOKEN_MANAGER_SUPER_CLASS, OptionType.STRING, null));
-		temp.add(new OptionInfo(USEROPTION__LEGACY_EXCEPTION_HANDLING, OptionType.BOOLEAN, Boolean.FALSE));
 		temp.add(new OptionInfo(USEROPTION__LOOKAHEAD, OptionType.INTEGER, new Integer(1)));
 
 		temp.add(new OptionInfo(USEROPTION__CHOICE_AMBIGUITY_CHECK, OptionType.INTEGER,new Integer(2)));
@@ -212,6 +212,12 @@ public class Options {
 		
 		for (OptionInfo t : userOptions) {
 			optionValues.put(t.getName(), t.getDefault());
+		}
+		
+		{
+			Object object = optionValues.get(USEROPTION__JAVA_TEMPLATE_TYPE);
+			boolean isLegacy = JAVA_TEMPLATE_TYPE_CLASSIC.equals(object);
+			optionValues.put(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING, isLegacy );
 		}
 
 	}
@@ -338,9 +344,12 @@ public class Options {
 		value = upgradeValue(name, value);
 
 		if (existingValue != null) {
-			if ((existingValue.getClass() != value.getClass())
+			
+			boolean isIndirectProperty = s.equalsIgnoreCase(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING);
+			
+			if (isIndirectProperty || ((existingValue.getClass() != value.getClass())
 					|| (value instanceof Integer && ((Integer) value)
-							.intValue() <= 0)) {
+							.intValue() <= 0))) {
 				JavaCCErrors.warning(valueloc, "Bad option value \"" + value
 						+ "\" for \"" + name
 						+ "\".  Option setting will be ignored.");
@@ -355,8 +364,7 @@ public class Options {
 
 			if (cmdLineSetting.contains(s)) {
 				if (!existingValue.equals(value)) {
-					JavaCCErrors.warning(nameloc, "Command line setting of \""
-							+ name + "\" modifies option value in file.");
+					JavaCCErrors.warning(nameloc, "Command line setting of \"" + name + "\" modifies option value in file.");
 				}
 				return;
 			}
@@ -364,11 +372,44 @@ public class Options {
 
 		optionValues.put(s, value);
 		inputFileSetting.add(s);
-		if (s.equalsIgnoreCase(USEROPTION_CPP_NAMESPACE)) {
+		
+		// Special case logic block here for setting indirect flags
+		
+		if (s.equalsIgnoreCase(USEROPTION__JAVA_TEMPLATE_TYPE)) {
+			String templateType = (String)value;
+			if (!isValidJavaTemplateType(templateType)){ 
+				JavaCCErrors.warning(valueloc, "Bad option value \"" + value
+						+ "\" for \"" + name
+						+ "\".  Option setting will be ignored. Valid options : " + getAllValidJavaTemplateTypes() ) ;
+				return;
+			}
+
+			boolean isLegacy = JAVA_TEMPLATE_TYPE_CLASSIC.equals(templateType);
+			optionValues.put(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING, isLegacy);
+		} else if (s.equalsIgnoreCase(USEROPTION__OUTPUT_LANGUAGE)) {
+			String templateType = (String)value;
+			if (!isValidOutputLanguage(templateType)) { 
+				JavaCCErrors.warning(valueloc, "Bad option value \"" + value
+						+ "\" for \"" + name
+						+ "\".  Option setting will be ignored. Valid options : " + getAllValidLanguages() );
+				return;
+			}
+
+		} else if (s.equalsIgnoreCase(USEROPTION_CPP_NAMESPACE)) {
 			processCPPNamespaceOption((String) value);
 		}
 	}
 
+
+	private static String getAllValidJavaTemplateTypes() {
+		return Arrays.toString(supportedJavaTemplateTypes.toArray(new String[supportedJavaTemplateTypes.size()]));
+	}
+
+	private static String getAllValidLanguages() {
+		return Arrays.toString(supportedLanguages.toArray(new String[supportedLanguages.size()]));
+	}
+
+	
 	/**
 	 * Process a single command-line option. The option is parsed and stored in
 	 * the optionValues map.
@@ -715,7 +756,8 @@ public class Options {
 	 *         {@link RuntimeException} s (better approach)
 	 */
 	public static boolean isLegacyExceptionHandling() {
-		return booleanValue(USEROPTION__LEGACY_EXCEPTION_HANDLING);
+		boolean booleanValue = booleanValue(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING);
+		return booleanValue;
 	}
 
 	/**
@@ -842,10 +884,14 @@ public class Options {
 	}
 
 	public static boolean isValidOutputLanguage(String language) {
-		return language == null ? false : supportedLanguages.contains(language
-				.toLowerCase());
+		return language == null ? false : supportedLanguages.contains(language.toLowerCase());
 	}
 
+	
+	public static boolean isValidJavaTemplateType(String type) {
+		return type == null ? false : supportedJavaTemplateTypes.contains(type.toLowerCase());
+	}
+	
 	/**
 	 * @return the output language. default java
 	 */
