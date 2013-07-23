@@ -478,7 +478,8 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   public static void gen_TokenMgrError(JavaResourceTemplateLocations locations) {
 	  
 
-	  String filename = Options.isLegacyExceptionHandling() ? "TokenMgrError.java" : "TokenMgrException.java";
+	  boolean isLegacyExceptionHandling = Options.isLegacyExceptionHandling();
+	String filename = isLegacyExceptionHandling ? "TokenMgrError.java" : "TokenMgrException.java";
     try {
       
 	final File file = new File(Options.getOutputDirectory(), filename);

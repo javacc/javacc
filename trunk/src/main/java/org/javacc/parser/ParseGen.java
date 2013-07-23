@@ -410,7 +410,8 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 					genCodeLine("  }");
 					genCodeLine("");
 
-					{
+					// Add-in a string based constructor because its convenient (modern only to prevent regressions)
+					if (isJavaModernMode) {
 						genCodeLine("  /** Constructor. */");
 						genCodeLine("  public " + cu_name
 								+ "(String dsl) throws ParseException, "+Options.getTokenMgrErrorClass() +" {");
