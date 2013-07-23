@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.javacc.Version;
 import org.javacc.parser.Options;
 import org.javacc.parser.OutputFile;
 
@@ -18,7 +19,7 @@ import org.javacc.parser.OutputFile;
 final class CPPJJTreeState
 {
 
-  static final String JJTStateVersion = "6.1";
+  static final String JJTStateVersion = Version.majorDotMinor;
 
   private CPPJJTreeState() {}
 
