@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.javacc.Version;
 import org.javacc.parser.Options;
 import org.javacc.parser.OutputFile;
 import org.javacc.utils.JavaFileGenerator;
@@ -51,7 +52,7 @@ final class NodeFiles {
    * ID of the latest version (of JJTree) in which one of the Node classes
    * was modified.
    */
-  static final String nodeVersion = "6.1";
+  static final String nodeVersion = Version.majorDotMinor;
 
   static Set nodesGenerated = new HashSet();
 
