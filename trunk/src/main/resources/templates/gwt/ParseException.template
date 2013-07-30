@@ -151,10 +151,10 @@ public class ParseException extends Exception {
     	sb.append(EOL).append("Was expecting"+ (numExpectedTokens == 1 ? ":" : " one of:") + EOL + EOL);
     	sb.append(expected.toString());
     }
-    
-    if (lexicalStateName != null) {
-    	sb.append(EOL).append("** Lexical State : ").append(lexicalStateName).append(EOL).append(EOL);
-    }
+    // 2013/07/30 --> Seems to be inaccurate as represents the readahead state, not the lexical state BEFORE the unknown token
+//    if (lexicalStateName != null) {
+//    	sb.append(EOL).append("** Lexical State : ").append(lexicalStateName).append(EOL).append(EOL);
+//    }
     
     return sb.toString();
   }
