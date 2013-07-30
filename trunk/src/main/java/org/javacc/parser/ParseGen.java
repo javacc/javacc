@@ -742,7 +742,15 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
                     genCodeLine("      exptokseq[i] = jj_expentries.get(i);");
                 }
 				genCodeLine("    }");
-				genCodeLine("    return new ParseException(token, exptokseq, tokenImage);");
+				
+				
+				if (isJavaModernMode) {
+					// Add the lexical state onto the exception message
+					genCodeLine("    return new ParseException(token, exptokseq, tokenImage, token_source == null ? null : " +cu_name+ "TokenManager.lexStateNames[token_source.curLexState]);");
+				} else {
+					genCodeLine("    return new ParseException(token, exptokseq, tokenImage);");
+				}
+				
 				genCodeLine("  }");
 			} else {
 				genCodeLine("  /** Generate ParseException. */");
