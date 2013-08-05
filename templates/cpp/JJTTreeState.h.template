@@ -1,6 +1,7 @@
 \#ifndef JJT${PARSER_NAME}State_H
 \#define JJT${PARSER_NAME}State_H
 \#include <vector>
+\#include "JavaCC.h"
 \#include "Node.h"
 
 

@@ -192,7 +192,7 @@ public class CPPFiles extends JavaCCGlobals implements JavaCCParserConstants
   }
 
   public static void gen_ErrorHandler() {
-    String[] parameters = new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"};
+    String[] parameters = new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC", "BUILD_PARSER", "BUILD_TOKEN_MANAGER"};
     genFile("ErrorHandler.h", parseExceptionVersion, parameters);
   }
 

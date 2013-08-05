@@ -1645,12 +1645,12 @@ public class NfaState
       if (byteNum == 0) {
          codeGenerator.genCodeLine("         " + Options.getLongType() + " l = 1L << curChar;");
          if (!codeGenerator.isJavaLanguage()) {
-           codeGenerator.genCodeLine("         if (l == 1);");
+           codeGenerator.genCodeLine("         (void)l;");
          }
       } else if (byteNum == 1) {
          codeGenerator.genCodeLine("         " + Options.getLongType() + " l = 1L << (curChar & 077);");
          if (!codeGenerator.isJavaLanguage()) {
-           codeGenerator.genCodeLine("         if (l == 1);");
+           codeGenerator.genCodeLine("         (void)l;");
          }
       } else {
          if (Options.getJavaUnicodeEscape() || unicodeWarningGiven)
@@ -2158,7 +2158,7 @@ public class NfaState
       }
 
       if (byteNum != 0 && byteNum != 1) {
-        codeGenerator.genCodeLine("               default : if (i1 == 0 || l1 == 0 || i2 == 0 ||  == l2 == 0) break; else break;");
+        codeGenerator.genCodeLine("               default : if (i1 == 0 || l1 == 0 || i2 == 0 ||  l2 == 0) break; else break;");
       } else {
         codeGenerator.genCodeLine("               default : break;");
       }
@@ -2515,7 +2515,12 @@ public class NfaState
          temp.DumpNonAsciiMove(codeGenerator, dumped);
       }
 
-      codeGenerator.genCodeLine("               default : if (i1 == 0 || l1 == 0 || i2 == 0 || l2 == 0) break; else break;");
+
+      if (Options.getJavaUnicodeEscape() || unicodeWarningGiven) {
+        codeGenerator.genCodeLine("               default : if (i1 == 0 || l1 == 0 || i2 == 0 ||  l2 == 0) break; else break;");
+      } else {
+        codeGenerator.genCodeLine("               default : break;");
+      }
       codeGenerator.genCodeLine("            }");
       codeGenerator.genCodeLine("         } while(i != startsAt);");
    }
