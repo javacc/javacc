@@ -80,14 +80,26 @@ public final class Main {
     System.out.println("    FORCE_LA_CHECK         (default false)");
     System.out.println("    CACHE_TOKENS           (default false)");
     System.out.println("    KEEP_LINE_COLUMN       (default true)");
+    System.out.println("    IGNORE_ACTIONS         (default false)");
     System.out.println("");
     System.out.println("The string valued options are:");
     System.out.println("");
     System.out.println("    OUTPUT_DIRECTORY       (default Current Directory)");
+    System.out.println("    OUTPUT_LANGUAGE        (default Java, C++ is the only other language allowed)");
     System.out.println("    TOKEN_EXTENDS          (default java.lang.Object)");
     System.out.println("    TOKEN_FACTORY          (default none)");
     System.out.println("    JDK_VERSION            (default 1.5)");
     System.out.println("    GRAMMAR_ENCODING       (defaults to platform file encoding)");
+    System.out.println("");
+    System.out.println("C++-specific Options:");
+    System.out.println("");
+    System.out.println("    NAMESPACE              (default empty)");
+    System.out.println("    TOKEN_INCLUDES         (default empty)");
+    System.out.println("    TOKEN_MANAGER_INCLUDES (default empty)");
+    System.out.println("    TOKEN_MANAGER_SUPERCLASS (default empty)");
+    System.out.println("    PARSER_INCLUDES        (default empty)");
+    System.out.println("    PARSER_SUPERCLASS      (default empty)");
+
     System.out.println("");
     System.out.println("EXAMPLE:");
     System.out.println("    javacc -STATIC=false -LOOKAHEAD:2 -debug_parser mygrammar.jj");

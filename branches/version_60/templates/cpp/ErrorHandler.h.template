@@ -7,8 +7,12 @@
 #if NAMESPACE
 namespace ${NAMESPACE_OPEN}
 #fi
-class ${PARSER_NAME};
+
+#if BUILD_PARSER
+  class ${PARSER_NAME};
   class ErrorHandler {
+    friend class ${PARSER_NAME}TokenManager;
+    friend class ${PARSER_NAME};
     protected:
       int error_count;
     public:
@@ -32,9 +36,42 @@ class ${PARSER_NAME};
       virtual int getErrorCount() {
         return error_count;
       }
+      virtual void handleOtherError(JAVACC_STRING_TYPE message, ${PARSER_NAME} *parser) {
+        fprintf(stderr, "Error: %s\n", (char*)message.c_str());
+      }
       virtual ~ErrorHandler() {}
       ErrorHandler() { error_count = 0; }
   };
+#fi
+
+#if BUILD_TOKEN_MANAGER
+  class ${PARSER_NAME}TokenManager;
+  class TokenManagerErrorHandler {
+    friend class ${PARSER_NAME}TokenManager;
+    protected:
+      int error_count;
+    public:
+       // Returns a detailed message for the Error when it is thrown by the
+       // token manager to indicate a lexical error.
+       // Parameters :
+       //    EOFSeen     : indicates if EOF caused the lexical error
+       //    curLexState : lexical state in which this error occurred
+       //    errorLine   : line number when the error occurred
+       //    errorColumn : column number when the error occurred
+       //    errorAfter  : prefix that was seen before this error occurred
+       //    curchar     : the offending character
+       //
+       virtual void lexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, JAVACC_STRING_TYPE errorAfter, JAVACC_CHAR_TYPE curChar, ${PARSER_NAME}TokenManager* token_manager) {
+        // by default, we just print an error message and return.
+        fprintf(stderr, "Lexical error at: %d:%d. Encountered: %c after: %s.\n", errorLine, errorColumn, curChar, (EOFSeen? "EOF" : (const char*)errorAfter.c_str()));
+      }
+       virtual void lexicalError(JAVACC_STRING_TYPE errorMessage, ${PARSER_NAME}TokenManager* token_manager) {
+        fprintf(stderr, "%s\n", (char*)errorMessage.c_str());
+      }
+      virtual ~TokenManagerErrorHandler() {}
+  };
+#fi
+
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi

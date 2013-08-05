@@ -20,7 +20,7 @@ public:
    */
   public: virtual Token *getNextToken() = 0;
   public: virtual ~TokenManager() { }
-  public: virtual void lexicalError() {
+  public: virtual void lexicalError(char c) {
     fprintf(stderr, "Lexical error encountered");
   }
 

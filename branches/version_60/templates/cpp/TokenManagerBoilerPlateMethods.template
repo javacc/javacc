@@ -8,6 +8,8 @@
     debugStream = stdout; // init
     SwitchTo(lexState);
     parser = parserArg;
+    errorHandler = new TokenManagerErrorHandler();
+    errorHandlerCreated = true;
   }
 
   void ${tokMgrClassName}::ReInitRounds() {
@@ -39,4 +41,6 @@
   // Destructor
   ${tokMgrClassName}::~${tokMgrClassName} () {
     if (input_stream) delete input_stream;
+    if (errorHandlerCreated) delete errorHandler;
   }
+

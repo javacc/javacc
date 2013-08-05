@@ -6,3 +6,10 @@
     int jjimageLen;
     int lengthOfMatch;
     JAVACC_CHAR_TYPE curChar;
+    TokenManagerErrorHandler *errorHandler;
+    bool errorHandlerCreated;
+    public: void setErrorHandler(TokenManagerErrorHandler *eh) {
+      if (errorHandlerCreated && errorHandler != NULL) delete errorHandler;
+      errorHandler = eh;
+      errorHandlerCreated = false;
+    }

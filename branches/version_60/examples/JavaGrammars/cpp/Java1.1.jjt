@@ -1677,3 +1677,8 @@ void TryStatement() :
   ( "catch" "(" FormalParameter() ")" Block() )*
   [ "finally" Block() ]
 }
+
+<*>TOKEN:
+{
+  <ILLEGAL_CHAR: ~[]> { int i; i = 10; fprintf(stderr, "error: %d\n", i); }
+}
