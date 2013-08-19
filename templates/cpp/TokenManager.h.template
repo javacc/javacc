@@ -20,8 +20,8 @@ public:
    */
   public: virtual Token *getNextToken() = 0;
   public: virtual ~TokenManager() { }
-  public: virtual void lexicalError(char c) {
-    fprintf(stderr, "Lexical error encountered");
+  public: virtual void lexicalError() {
+    fprintf(stderr, "Lexical error encountered.\n");
   }
 
 };
