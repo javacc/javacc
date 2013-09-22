@@ -879,7 +879,7 @@ public class ParseEngine {
       //codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
     }
     if (Options.getErrorReporting()) {
-      codeGenerator.genCodeLine("    finally { jj_save(" + (Integer.parseInt(e.internal_name.substring(1))-1) + ", xla); }");
+      codeGenerator.genCodeLine((isJavaLanguage ? "    finally " : " ") + "{ jj_save(" + (Integer.parseInt(e.internal_name.substring(1))-1) + ", xla); }");
     }
     codeGenerator.genCodeLine("  }");
     codeGenerator.genCodeLine("");

@@ -15,8 +15,6 @@
 
 \#define JAVACC_SIMPLE_STRING std::basic_string<char>
 
-\#define finally  // TODO(Sreeni): Get rid of when we fix jjtree
-
 typedef JAVACC_STRING_TYPE StringBuffer;
 typedef JAVACC_STRING_TYPE String;
 
