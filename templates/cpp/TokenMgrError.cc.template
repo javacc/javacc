@@ -60,12 +60,8 @@ namespace ${NAMESPACE_OPEN}
    errorCode = reason;
   }
 
-#if NAMESPACE
-${NAMESPACE_CLOSE}
-#fi
-
 // i < 16 - guaranteed
-static char hexChar(int i) {
+char hexChar(int i) {
   if (i < 10) {
     return i - '0';
   }
@@ -118,3 +114,7 @@ JAVACC_SIMPLE_STRING addUnicodeEscapes(JAVACC_STRING_TYPE str) {
   }
   return retval;
 }
+
+#if NAMESPACE
+${NAMESPACE_CLOSE}
+#fi
