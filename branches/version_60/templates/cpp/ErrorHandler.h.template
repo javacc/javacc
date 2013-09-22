@@ -8,6 +8,8 @@
 namespace ${NAMESPACE_OPEN}
 #fi
 
+JAVACC_SIMPLE_STRING addUnicodeEscapes(JAVACC_STRING_TYPE str);
+
 #if BUILD_PARSER
   class ${PARSER_NAME};
   class ErrorHandler {
