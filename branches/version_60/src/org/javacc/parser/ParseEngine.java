@@ -693,7 +693,10 @@ public class ParseEngine {
       conds = new Lookahead[e_nrw.getChoices().size()];
       actions = new String[e_nrw.getChoices().size() + 1];
       actions[e_nrw.getChoices().size()] = "\n" + "jj_consume_token(-1);\n" +
-        (isJavaLanguage ? "throw new ParseException();" : "errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this), hasError = true;");
+        (isJavaLanguage ? "throw new ParseException();"
+                        : ("errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this), hasError = true;" + 
+         (Options.booleanValue("STOP_ON_FIRST_ERROR") ? "return;\n" : "")));
+
       // In previous line, the "throw" never throws an exception since the
       // evaluation of jj_consume_token(-1) causes ParseException to be
       // thrown first.
