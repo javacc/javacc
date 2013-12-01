@@ -152,6 +152,7 @@ public class Options {
     optionValues.put("PARSER_INCLUDES", "");
     optionValues.put("TOKEN_MANAGER_INCLUDES", "");
     optionValues.put("IGNORE_ACTIONS", Boolean.FALSE);
+    optionValues.put("STOP_ON_FIRST_ERROR", Boolean.FALSE);
   }
 
   /**

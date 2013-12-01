@@ -647,6 +647,9 @@ public class ParseEngine {
       } else {
         retval += "jj_consume_token(" + e_nrw.label + tail;
       }
+      if ( !isJavaLanguage && Options.booleanValue("STOP_ON_FIRST_ERROR")) {
+        retval += "\n    { if (hasError) { return; } }\n";
+      }
     } else if (e instanceof NonTerminal) {
       NonTerminal e_nrw = (NonTerminal)e;
       retval += "\n";
@@ -669,6 +672,9 @@ public class ParseEngine {
         retval += codeGenerator.getTrailingComments(t);
       }
       retval += ");";
+      if ( !isJavaLanguage && Options.booleanValue("STOP_ON_FIRST_ERROR")) {
+        retval += "\n    { if (hasError) { return; } }\n";
+      }
     } else if (e instanceof Action) {
       Action e_nrw = (Action)e;
       retval += "\u0003\n";
