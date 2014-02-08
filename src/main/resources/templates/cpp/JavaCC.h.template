@@ -15,8 +15,6 @@
 
 \#define JAVACC_SIMPLE_STRING std::basic_string<char>
 
-\#define finally  // TODO(Sreeni): Get rid of when we fix jjtree
-
 typedef JAVACC_STRING_TYPE StringBuffer;
 typedef JAVACC_STRING_TYPE String;
 
@@ -32,8 +30,6 @@ class ReaderStream {
 };
 
 const JAVACC_CHAR_TYPE EMPTY[] = { 0 };
-
-JAVACC_SIMPLE_STRING addUnicodeEscapes(JAVACC_STRING_TYPE str);
 
 \#ifndef MAX
 \#define MAX(a,b) (a>=b?a:b)

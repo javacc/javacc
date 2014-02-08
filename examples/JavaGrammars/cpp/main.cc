@@ -4,6 +4,7 @@
 #include <string>
 #include <stdlib.h>
 
+#include "gen/JavaParserConstants.h"
 #include "gen/CharStream.h"
 #include "gen/JavaParser.h"
 #include "gen/JavaParserTokenManager.h"

@@ -96,6 +96,7 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
     String define = (cu_name + "Constants_h").toUpperCase();
     ostr.println("#ifndef " + define);
     ostr.println("#define " + define);
+    ostr.println("#include \"JavaCC.h\"");
     ostr.println("");
     if (Options.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0) {
       ostr.println("namespace " + Options.stringValue("NAMESPACE_OPEN"));

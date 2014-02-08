@@ -21,7 +21,7 @@ public:
   public: virtual Token *getNextToken() = 0;
   public: virtual ~TokenManager() { }
   public: virtual void lexicalError() {
-    fprintf(stderr, "Lexical error encountered");
+    fprintf(stderr, "Lexical error encountered.\n");
   }
 
 };

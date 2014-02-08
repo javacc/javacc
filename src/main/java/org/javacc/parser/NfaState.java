@@ -44,7 +44,7 @@ public class NfaState
 {
    public static boolean unicodeWarningGiven = false;
    public static int generatedStates = 0;
-   
+
    private static int idCnt = 0;
    private static int lohiByteCnt;
    private static int dummyStateIndex = -1;
@@ -1645,12 +1645,12 @@ public class NfaState
       if (byteNum == 0) {
          codeGenerator.genCodeLine("         " + Options.getLongType() + " l = 1L << curChar;");
          if (!codeGenerator.isJavaLanguage()) {
-           codeGenerator.genCodeLine("         if (l == 1);");
+           codeGenerator.genCodeLine("         (void)l;");
          }
       } else if (byteNum == 1) {
          codeGenerator.genCodeLine("         " + Options.getLongType() + " l = 1L << (curChar & 077);");
          if (!codeGenerator.isJavaLanguage()) {
-           codeGenerator.genCodeLine("         if (l == 1);");
+           codeGenerator.genCodeLine("         (void)l;");
          }
       } else {
          if (Options.getJavaUnicodeEscape() || unicodeWarningGiven)
@@ -2158,7 +2158,7 @@ public class NfaState
       }
 
       if (byteNum != 0 && byteNum != 1) {
-        codeGenerator.genCodeLine("               default : if (i1 == 0 || l1 == 0 || i2 == 0 ||  == l2 == 0) break; else break;");
+        codeGenerator.genCodeLine("               default : if (i1 == 0 || l1 == 0 || i2 == 0 ||  l2 == 0) break; else break;");
       } else {
         codeGenerator.genCodeLine("               default : break;");
       }
@@ -2515,7 +2515,12 @@ public class NfaState
          temp.DumpNonAsciiMove(codeGenerator, dumped);
       }
 
-      codeGenerator.genCodeLine("               default : if (i1 == 0 || l1 == 0 || i2 == 0 || l2 == 0) break; else break;");
+
+	  if (Options.getJavaUnicodeEscape() || unicodeWarningGiven) {
+	     codeGenerator.genCodeLine("               default : if (i1 == 0 || l1 == 0 || i2 == 0 ||  l2 == 0) break; else break;");
+	  } else {
+	     codeGenerator.genCodeLine("               default : break;");
+      }
       codeGenerator.genCodeLine("            }");
       codeGenerator.genCodeLine("         } while(i != startsAt);");
    }
@@ -2600,7 +2605,7 @@ public class NfaState
    {
       List v = allStates;
       allStates = new ArrayList(Collections.nCopies(generatedStates, null));
-      
+
       if (allStates.size() != generatedStates) throw new Error("What??");
 
       for (int j = 0; j < v.size(); j++)
@@ -2912,7 +2917,7 @@ public class NfaState
         if (codeGenerator.isJavaLanguage()) {
          codeGenerator.genCodeLine("      debugStream.println(" + (LexGen.maxLexStates > 1 ?
                  "\"<\" + lexStateNames[curLexState] + \">\" + " :
-                 "") + "\"Current character : \" + " + Options.getTokenMgrErrorClass() + 
+                 "") + "\"Current character : \" + " + Options.getTokenMgrErrorClass() +
                  ".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +                 "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
         } else {
          codeGenerator.genCodeLine("   fprintf(debugStream, " +
@@ -2920,7 +2925,7 @@ public class NfaState
             "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
             "input_stream->getEndLine(), input_stream->getEndColumn());");
         }
-      } 
+      }
 
       codeGenerator.genCodeLine("   int kind = 0x" + Integer.toHexString(Integer.MAX_VALUE) + ";");
       codeGenerator.genCodeLine("   for (;;)");
@@ -3017,7 +3022,7 @@ public class NfaState
         if (codeGenerator.isJavaLanguage()) {
          codeGenerator.genCodeLine("      debugStream.println(" + (LexGen.maxLexStates > 1 ?
                  "\"<\" + lexStateNames[curLexState] + \">\" + " :
-                 "") + "\"Current character : \" + " +  Options.getTokenMgrErrorClass() + 
+                 "") + "\"Current character : \" + " +  Options.getTokenMgrErrorClass() +
                  ".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
                  "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
         } else {
@@ -3087,7 +3092,7 @@ public class NfaState
        for (int j = 0; j < statesForState[i].length; j++)
        {
          int[] stateSet = statesForState[i][j];
-         
+
          codeGenerator.genCode("const int stateSet_" + i + "_" + j + "[" +
                     Main.lg.stateSetSize + "] = ");
          if (stateSet == null)
@@ -3100,7 +3105,7 @@ public class NfaState
 
          for (int k = 0; k < stateSet.length; k++)
             codeGenerator.genCode(stateSet[k] + ", ");
- 
+
          codeGenerator.genCodeLine("};");
        }
 
@@ -3170,7 +3175,7 @@ public class NfaState
 
          for (int k = 0; k < stateSet.length; k++)
             codeGenerator.genCode(stateSet[k] + ", ");
- 
+
          codeGenerator.genCodeLine("},");
        }
 

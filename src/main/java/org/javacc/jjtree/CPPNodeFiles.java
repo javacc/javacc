@@ -319,6 +319,7 @@ final class CPPNodeFiles {
       generatePrologue(ostr);
       ostr.println("#ifndef " + file.getName().replace('.', '_').toUpperCase().toUpperCase());
       ostr.println("#define " + file.getName().replace('.', '_').toUpperCase().toUpperCase());
+      ostr.println("\n#include \"JavaCC.h\"");
       ostr.println("#include \"" + JJTreeGlobals.parserName + "Tree.h" + "\"");
 
       boolean hasNamespace = JJTreeOptions.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0;
