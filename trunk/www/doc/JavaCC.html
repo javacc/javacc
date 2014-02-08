@@ -355,6 +355,17 @@
    </PRE>
   </TD>
  </TR>
+  <!-- Token -->
+  <TR>
+   <TD>
+    <PRE>
+ &lt;DEFAULT&gt; TOKEN : {
+ &lt;ACT_TOK: ~[]&gt;
+ }
+
+    </PRE>
+   </TD>
+ </TR>
 </TABLE>
 <H2 ALIGN=CENTER>NON-TERMINALS</H2>
 <TABLE>
@@ -425,7 +436,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod12">token_manager_decls</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>"TOKEN_MGR_DECLS" ":" <A HREF="#prod22">ClassOrInterfaceBody</A></TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>"TOKEN_MGR_DECLS" ":" ( <A HREF="#prod22">ClassOrInterfaceBody</A> )?</TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod20">regexpr_kind</A></TD>
@@ -465,7 +476,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod25">local_lookahead</A></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>::=</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod7">IntegerLiteral</A> )? ( "," )? ( <A HREF="#prod19">expansion_choices</A> )? ( "," )? ( "{" <A HREF="#prod27">Expression</A> "}" )?</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>( <A HREF="#prod7">IntegerLiteral</A> )? ( "," )? ( <A HREF="#prod19">expansion_choices</A> )? ( "," )? ( "{" ( <A HREF="#prod27">Expression</A> )? "}" )?</TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE><A NAME="prod26">expansion_unit</A></TD>
@@ -485,7 +496,7 @@
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE></TD>
 <TD ALIGN=CENTER VALIGN=BASELINE>|</TD>
-<TD ALIGN=LEFT VALIGN=BASELINE>"try" "{" <A HREF="#prod19">expansion_choices</A> "}" ( "catch" "(" <A HREF="#prod17">Name</A> &lt;IDENTIFIER&gt; ")" <A HREF="#prod18">Block</A> )* ( "finally" <A HREF="#prod18">Block</A> )?</TD>
+<TD ALIGN=LEFT VALIGN=BASELINE>"try" "{" <A HREF="#prod19">expansion_choices</A> "}" ( "catch" "(" ( <A HREF="#prod17">Name</A> &lt;IDENTIFIER&gt; )? ")" <A HREF="#prod18">Block</A> )* ( "finally" <A HREF="#prod18">Block</A> )?</TD>
 </TR>
 <TR>
 <TD ALIGN=RIGHT VALIGN=BASELINE></TD>

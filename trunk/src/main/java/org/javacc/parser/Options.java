@@ -67,7 +67,7 @@ public class Options {
 	/**
 	 * Options that the user can specify from .javacc file
 	 */
-	
+
 	public static final String USEROPTION__PARSER_SUPER_CLASS = "PARSER_SUPER_CLASS";
 	public static final String USEROPTION__JAVA_TEMPLATE_TYPE = "JAVA_TEMPLATE_TYPE";
 	public static final String USEROPTION__GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
@@ -104,13 +104,15 @@ public class Options {
 	public static final String USEROPTION__GRAMMAR_ENCODING = "GRAMMAR_ENCODING";
 	public static final String USEROPTION__TOKEN_FACTORY = "TOKEN_FACTORY";
 	public static final String USEROPTION__TOKEN_EXTENDS = "TOKEN_EXTENDS";
-	
+
 	public static final String USEROPTION_CPP_NAMESPACE = "NAMESPACE";
 	public static final String USEROPTION__CPP_TOKEN_INCLUDES = "TOKEN_INCLUDES";
 	public static final String USEROPTION__CPP_PARSER_INCLUDES = "PARSER_INCLUDES";
 	public static final String USEROPTION__CPP_IGNORE_ACTIONS = "IGNORE_ACTIONS";
 	public static final String USEROPTION__CPP_TOKEN_MANAGER_INCLUDES = "TOKEN_MANAGER_INCLUDES";
-	
+	public static final String USEROPTION__CPP_TOKEN_MANAGER_SUPERCLASS = "TOKEN_MANAGER_SUPERCLASS";
+	public static final String USEROPTION__CPP_STOP_ON_FIRST_ERROR = "STOP_ON_FIRST_ERROR";
+
 	/**
 	 * Various constants relating to possible values for certain options
 	 */
@@ -126,19 +128,19 @@ public class Options {
 	 * become the default option with classic being deprecated
 	 */
 	public static final String JAVA_TEMPLATE_TYPE_MODERN = "modern";
-	
+
 	/**
 	 * The old style of Java code generation (tight coupling of code to Java IO classes - not GWT compatible)
 	 */
 	public static final String JAVA_TEMPLATE_TYPE_CLASSIC = "classic";
 
-	
+
 	static final Set<OptionInfo> userOptions;
-	
+
 
 	static {
 		TreeSet<OptionInfo> temp = new TreeSet<OptionInfo>();
-		
+
 		temp.add(new OptionInfo(USEROPTION__PARSER_SUPER_CLASS, OptionType.STRING, null));
 		temp.add(new OptionInfo(USEROPTION__TOKEN_MANAGER_SUPER_CLASS, OptionType.STRING, null));
 		temp.add(new OptionInfo(USEROPTION__LOOKAHEAD, OptionType.INTEGER, new Integer(1)));
@@ -190,7 +192,9 @@ public class Options {
 
 		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_MANAGER_INCLUDES, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__CPP_IGNORE_ACTIONS, OptionType.BOOLEAN, Boolean.FALSE));
-		
+		temp.add(new OptionInfo(USEROPTION__CPP_STOP_ON_FIRST_ERROR, OptionType.BOOLEAN, Boolean.FALSE));
+		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_MANAGER_SUPERCLASS, OptionType.STRING, ""));
+
 		userOptions = Collections.unmodifiableSet(temp);
 	}
 
@@ -209,11 +213,11 @@ public class Options {
 		optionValues = new HashMap<String,Object>();
 		cmdLineSetting = new HashSet<String>();
 		inputFileSetting = new HashSet<String>();
-		
+
 		for (OptionInfo t : userOptions) {
 			optionValues.put(t.getName(), t.getDefault());
 		}
-		
+
 		{
 			Object object = optionValues.get(USEROPTION__JAVA_TEMPLATE_TYPE);
 			boolean isLegacy = JAVA_TEMPLATE_TYPE_CLASSIC.equals(object);
@@ -261,13 +265,13 @@ public class Options {
 	 * input files clash in any way.
 	 */
 	private static Set<String> inputFileSetting = null;
-	
+
 	/**
 	 * Returns a string representation of the specified options of interest.
 	 * Used when, for example, generating Token.java to record the JavaCC
 	 * options that were used to generate the file. All of the options must be
 	 * boolean values.
-	 * 
+	 *
 	 * @param interestingOptions
 	 *            the options of interest, eg {Options.USEROPTION__STATIC, Options.USEROPTION__CACHE_TOKENS}
 	 * @return the string representation of the options, eg
@@ -298,7 +302,7 @@ public class Options {
 	/**
 	 * Determine if a given command line argument might be an option flag.
 	 * Command line options start with a dash&nbsp;(-).
-	 * 
+	 *
 	 * @param opt
 	 *            The command line argument to examine.
 	 * @return True when the argument looks like an option flag.
@@ -311,7 +315,7 @@ public class Options {
 	 * Help function to handle cases where the meaning of an option has changed
 	 * over time. If the user has supplied an option in the old format, it will
 	 * be converted to the new format.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the option being checked.
 	 * @param value
@@ -344,9 +348,9 @@ public class Options {
 		value = upgradeValue(name, value);
 
 		if (existingValue != null) {
-			
+
 			boolean isIndirectProperty = s.equalsIgnoreCase(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING);
-			
+
 			if (isIndirectProperty || ((existingValue.getClass() != value.getClass())
 					|| (value instanceof Integer && ((Integer) value)
 							.intValue() <= 0))) {
@@ -372,12 +376,12 @@ public class Options {
 
 		optionValues.put(s, value);
 		inputFileSetting.add(s);
-		
+
 		// Special case logic block here for setting indirect flags
-		
+
 		if (s.equalsIgnoreCase(USEROPTION__JAVA_TEMPLATE_TYPE)) {
 			String templateType = (String)value;
-			if (!isValidJavaTemplateType(templateType)){ 
+			if (!isValidJavaTemplateType(templateType)){
 				JavaCCErrors.warning(valueloc, "Bad option value \"" + value
 						+ "\" for \"" + name
 						+ "\".  Option setting will be ignored. Valid options : " + getAllValidJavaTemplateTypes() ) ;
@@ -388,7 +392,7 @@ public class Options {
 			optionValues.put(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING, isLegacy);
 		} else if (s.equalsIgnoreCase(USEROPTION__OUTPUT_LANGUAGE)) {
 			String templateType = (String)value;
-			if (!isValidOutputLanguage(templateType)) { 
+			if (!isValidOutputLanguage(templateType)) {
 				JavaCCErrors.warning(valueloc, "Bad option value \"" + value
 						+ "\" for \"" + name
 						+ "\".  Option setting will be ignored. Valid options : " + getAllValidLanguages() );
@@ -409,11 +413,11 @@ public class Options {
 		return Arrays.toString(supportedLanguages.toArray(new String[supportedLanguages.size()]));
 	}
 
-	
+
 	/**
 	 * Process a single command-line option. The option is parsed and stored in
 	 * the optionValues map.
-	 * 
+	 *
 	 * @param arg
 	 */
 	public static void setCmdLineOption(String arg) {
@@ -533,7 +537,7 @@ public class Options {
 
 	/**
 	 * Find the lookahead setting.
-	 * 
+	 *
 	 * @return The requested lookahead value.
 	 */
 	public static int getLookahead() {
@@ -542,7 +546,7 @@ public class Options {
 
 	/**
 	 * Find the choice ambiguity check value.
-	 * 
+	 *
 	 * @return The requested choice ambiguity check value.
 	 */
 	public static int getChoiceAmbiguityCheck() {
@@ -551,7 +555,7 @@ public class Options {
 
 	/**
 	 * Find the other ambiguity check value.
-	 * 
+	 *
 	 * @return The requested other ambiguity check value.
 	 */
 	public static int getOtherAmbiguityCheck() {
@@ -560,7 +564,7 @@ public class Options {
 
 	/**
 	 * Find the static value.
-	 * 
+	 *
 	 * @return The requested static value.
 	 */
 	public static boolean getStatic() {
@@ -569,7 +573,7 @@ public class Options {
 
 	/**
 	 * Find the debug parser value.
-	 * 
+	 *
 	 * @return The requested debug parser value.
 	 */
 	public static boolean getDebugParser() {
@@ -578,7 +582,7 @@ public class Options {
 
 	/**
 	 * Find the debug lookahead value.
-	 * 
+	 *
 	 * @return The requested debug lookahead value.
 	 */
 	public static boolean getDebugLookahead() {
@@ -587,7 +591,7 @@ public class Options {
 
 	/**
 	 * Find the debug tokenmanager value.
-	 * 
+	 *
 	 * @return The requested debug tokenmanager value.
 	 */
 	public static boolean getDebugTokenManager() {
@@ -596,7 +600,7 @@ public class Options {
 
 	/**
 	 * Find the error reporting value.
-	 * 
+	 *
 	 * @return The requested error reporting value.
 	 */
 	public static boolean getErrorReporting() {
@@ -605,7 +609,7 @@ public class Options {
 
 	/**
 	 * Find the Java unicode escape value.
-	 * 
+	 *
 	 * @return The requested Java unicode escape value.
 	 */
 	public static boolean getJavaUnicodeEscape() {
@@ -614,7 +618,7 @@ public class Options {
 
 	/**
 	 * Find the unicode input value.
-	 * 
+	 *
 	 * @return The requested unicode input value.
 	 */
 	public static boolean getUnicodeInput() {
@@ -623,7 +627,7 @@ public class Options {
 
 	/**
 	 * Find the ignore case value.
-	 * 
+	 *
 	 * @return The requested ignore case value.
 	 */
 	public static boolean getIgnoreCase() {
@@ -632,7 +636,7 @@ public class Options {
 
 	/**
 	 * Find the user tokenmanager value.
-	 * 
+	 *
 	 * @return The requested user tokenmanager value.
 	 */
 	public static boolean getUserTokenManager() {
@@ -641,7 +645,7 @@ public class Options {
 
 	/**
 	 * Find the user charstream value.
-	 * 
+	 *
 	 * @return The requested user charstream value.
 	 */
 	public static boolean getUserCharStream() {
@@ -650,7 +654,7 @@ public class Options {
 
 	/**
 	 * Find the build parser value.
-	 * 
+	 *
 	 * @return The requested build parser value.
 	 */
 	public static boolean getBuildParser() {
@@ -659,7 +663,7 @@ public class Options {
 
 	/**
 	 * Find the build token manager value.
-	 * 
+	 *
 	 * @return The requested build token manager value.
 	 */
 	public static boolean getBuildTokenManager() {
@@ -668,7 +672,7 @@ public class Options {
 
 	/**
 	 * Find the token manager uses parser value.
-	 * 
+	 *
 	 * @return The requested token manager uses parser value;
 	 */
 	public static boolean getTokenManagerUsesParser() {
@@ -677,7 +681,7 @@ public class Options {
 
 	/**
 	 * Find the sanity check value.
-	 * 
+	 *
 	 * @return The requested sanity check value.
 	 */
 	public static boolean getSanityCheck() {
@@ -686,7 +690,7 @@ public class Options {
 
 	/**
 	 * Find the force lookahead check value.
-	 * 
+	 *
 	 * @return The requested force lookahead value.
 	 */
 	public static boolean getForceLaCheck() {
@@ -695,7 +699,7 @@ public class Options {
 
 	/**
 	 * Find the common token action value.
-	 * 
+	 *
 	 * @return The requested common token action value.
 	 */
 
@@ -705,7 +709,7 @@ public class Options {
 
 	/**
 	 * Find the cache tokens value.
-	 * 
+	 *
 	 * @return The requested cache tokens value.
 	 */
 	public static boolean getCacheTokens() {
@@ -714,7 +718,7 @@ public class Options {
 
 	/**
 	 * Find the keep line column value.
-	 * 
+	 *
 	 * @return The requested keep line column value.
 	 */
 	public static boolean getKeepLineColumn() {
@@ -723,7 +727,7 @@ public class Options {
 
 	/**
 	 * Find the JDK version.
-	 * 
+	 *
 	 * @return The requested jdk version.
 	 */
 	public static String getJdkVersion() {
@@ -733,7 +737,7 @@ public class Options {
 	/**
 	 * Should the generated code create Exceptions using a constructor taking a
 	 * nested exception?
-	 * 
+	 *
 	 * @return
 	 */
 	public static boolean getGenerateChainedException() {
@@ -751,7 +755,7 @@ public class Options {
 	 * circumstances (failure of parsing is generally not regarded as such). If
 	 * this value is set to true, then then {@link Error}s will be thrown (for
 	 * compatibility with older .jj files)
-	 * 
+	 *
 	 * @return true if throws errors (legacy), false if use
 	 *         {@link RuntimeException} s (better approach)
 	 */
@@ -762,7 +766,7 @@ public class Options {
 
 	/**
 	 * Should the generated code contain Generics?
-	 * 
+	 *
 	 * @return
 	 */
 	public static boolean getGenerateGenerics() {
@@ -771,7 +775,7 @@ public class Options {
 
 	/**
 	 * Should the generated code use StringBuilder rather than StringBuffer?
-	 * 
+	 *
 	 * @return
 	 */
 	public static boolean getGenerateStringBuilder() {
@@ -780,7 +784,7 @@ public class Options {
 
 	/**
 	 * Should the generated code contain Annotations?
-	 * 
+	 *
 	 * @return
 	 */
 	public static boolean getGenerateAnnotations() {
@@ -789,7 +793,7 @@ public class Options {
 
 	/**
 	 * Should the generated code class visibility public?
-	 * 
+	 *
 	 * @return
 	 */
 	public static boolean getSupportClassVisibilityPublic() {
@@ -798,7 +802,7 @@ public class Options {
 
 	/**
 	 * Determine if the output language is at least the specified version.
-	 * 
+	 *
 	 * @param version
 	 *            the version to check against. E.g. <code>1.5</code>
 	 * @return true if the output version is at least the specified version.
@@ -812,7 +816,7 @@ public class Options {
 
 	/**
 	 * Return the Token's superclass.
-	 * 
+	 *
 	 * @return The required base class for Token.
 	 */
 	public static String getTokenExtends() {
@@ -826,7 +830,7 @@ public class Options {
 
 	/**
 	 * Return the Token's factory class.
-	 * 
+	 *
 	 * @return The required factory class for Token.
 	 */
 	public static String getTokenFactory() {
@@ -836,7 +840,7 @@ public class Options {
 	/**
 	 * Return the file encoding; this will return the file.encoding system
 	 * property if no value was explicitly set
-	 * 
+	 *
 	 * @return The file encoding (e.g., UTF-8, ISO_8859-1, MacRoman)
 	 */
 	public static String getGrammarEncoding() {
@@ -849,7 +853,7 @@ public class Options {
 
 	/**
 	 * Find the output directory.
-	 * 
+	 *
 	 * @return The requested output directory.
 	 */
 	public static File getOutputDirectory() {
@@ -887,11 +891,11 @@ public class Options {
 		return language == null ? false : supportedLanguages.contains(language.toLowerCase());
 	}
 
-	
+
 	public static boolean isValidJavaTemplateType(String type) {
 		return type == null ? false : supportedJavaTemplateTypes.contains(type.toLowerCase());
 	}
-	
+
 	/**
 	 * @return the output language. default java
 	 */
@@ -965,10 +969,10 @@ public class Options {
 	public static boolean isTokenManagerRequiresParserAccess() {
 		return getTokenManagerUsesParser();
 	}
-	
+
 	/**
 	 * Gets all the user options (in order)
-	 * @return 
+	 * @return
 	 */
 	public static Set<OptionInfo> getUserOptions() {
 		return userOptions;
