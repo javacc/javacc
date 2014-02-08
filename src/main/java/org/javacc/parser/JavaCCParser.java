@@ -161,6 +161,20 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
      }
    }
 
+
+   private void eatUptoRParen(List tokens) {
+     int b = 1;
+     Token t;
+     while((t = getToken(1)).kind != RPAREN || --b != 0) {
+       if (tokens != null) {
+         tokens.add(t);
+       }
+       if (t.kind == EOF) break;
+       if (t.kind == LPAREN) b++;
+       getNextToken(); // eat it
+     }
+   }
+
 /************************************************
  * THE JAVACC GRAMMAR SPECIFICATION STARTS HERE *
  ************************************************/
@@ -168,7 +182,7 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
           String id1, id2;
           initialize();
     javacc_options();
-    isJavaLanguage = Options.isOutputLanguageImplementedInJava();
+    isJavaLanguage = Options.isOutputLanguageJava();
     jj_consume_token(_PARSER_BEGIN);
     jj_consume_token(LPAREN);
     id1 = identifier();
@@ -1482,7 +1496,7 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
       }
       TypeDeclaration();
     }
-          if (Options.isOutputLanguageImplementedInJava()) {
+          if (Options.isOutputLanguageJava()) {
             insertionpointerrors(getToken(1));
           }
   }
@@ -3553,6 +3567,11 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
             tokens = new ArrayList();
     jj_consume_token(LPAREN);
           first = getToken(1);
+          // Added by Sreenivas Viswanadha for 6.0
+          // TODO :: 2013/07/16 -- cba : Think this condition should be if the language IS C++, not if the language ISN'T Java ...
+          if (!isJavaLanguage) {
+                eatUptoRParen(null);
+          }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case _LOOKAHEAD:
     case _IGNORE_CASE:
@@ -5343,11 +5362,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     finally { jj_save(47, xla); }
   }
 
-  private boolean jj_3R_106() {
-    if (jj_scan_token(STRING_LITERAL)) return true;
-    return false;
-  }
-
   private boolean jj_3R_190() {
     if (jj_scan_token(FALSE)) return true;
     return false;
@@ -6211,6 +6225,13 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
+  private boolean jj_3_48() {
+    if (jj_3R_81()) return true;
+    if (jj_scan_token(IDENTIFIER)) return true;
+    if (jj_scan_token(LPAREN)) return true;
+    return false;
+  }
+
   private boolean jj_3R_288() {
     if (jj_3R_102()) return true;
     Token xsp;
@@ -6221,13 +6242,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3_48() {
-    if (jj_3R_81()) return true;
-    if (jj_scan_token(IDENTIFIER)) return true;
-    if (jj_scan_token(LPAREN)) return true;
-    return false;
-  }
-
   private boolean jj_3_5() {
     if (jj_scan_token(LANGLE)) return true;
     Token xsp;
@@ -6235,6 +6249,12 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     if (jj_3R_64()) jj_scanpos = xsp;
     if (jj_3R_65()) return true;
     if (jj_scan_token(RANGLE)) return true;
+    return false;
+  }
+
+  private boolean jj_3_47() {
+    if (jj_scan_token(COMMA)) return true;
+    if (jj_3R_104()) return true;
     return false;
   }
 
@@ -6251,12 +6271,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
       xsp = jj_scanpos;
       if (jj_3_23()) { jj_scanpos = xsp; break; }
     }
-    return false;
-  }
-
-  private boolean jj_3_47() {
-    if (jj_scan_token(COMMA)) return true;
-    if (jj_3R_104()) return true;
     return false;
   }
 
@@ -6286,11 +6300,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_130() {
-    if (jj_3R_81()) return true;
-    return false;
-  }
-
   private boolean jj_3R_134() {
     if (jj_3R_122()) return true;
     return false;
@@ -6301,13 +6310,8 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_97() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(77)) {
-    jj_scanpos = xsp;
-    if (jj_3R_130()) return true;
-    }
+  private boolean jj_3R_130() {
+    if (jj_3R_81()) return true;
     return false;
   }
 
@@ -6329,16 +6333,20 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
+  private boolean jj_3R_97() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(77)) {
+    jj_scanpos = xsp;
+    if (jj_3R_130()) return true;
+    }
+    return false;
+  }
+
   private boolean jj_3R_197() {
     if (jj_scan_token(IDENTIFIER)) return true;
     if (jj_scan_token(ASSIGN)) return true;
     if (jj_3R_104()) return true;
-    return false;
-  }
-
-  private boolean jj_3_2() {
-    if (jj_3R_59()) return true;
-    if (jj_scan_token(ASSIGN)) return true;
     return false;
   }
 
@@ -6353,6 +6361,12 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
+  private boolean jj_3_2() {
+    if (jj_3R_59()) return true;
+    if (jj_scan_token(ASSIGN)) return true;
+    return false;
+  }
+
   private boolean jj_3R_183() {
     if (jj_3R_197()) return true;
     Token xsp;
@@ -6360,6 +6374,15 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
       xsp = jj_scanpos;
       if (jj_3R_198()) { jj_scanpos = xsp; break; }
     }
+    return false;
+  }
+
+  private boolean jj_3R_159() {
+    if (jj_scan_token(139)) return true;
+    if (jj_3R_102()) return true;
+    if (jj_scan_token(LPAREN)) return true;
+    if (jj_3R_104()) return true;
+    if (jj_scan_token(RPAREN)) return true;
     return false;
   }
 
@@ -6374,12 +6397,9 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_159() {
+  private boolean jj_3R_160() {
     if (jj_scan_token(139)) return true;
     if (jj_3R_102()) return true;
-    if (jj_scan_token(LPAREN)) return true;
-    if (jj_3R_104()) return true;
-    if (jj_scan_token(RPAREN)) return true;
     return false;
   }
 
@@ -6416,6 +6436,13 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
+  private boolean jj_3_46() {
+    if (jj_scan_token(139)) return true;
+    if (jj_3R_102()) return true;
+    if (jj_scan_token(LPAREN)) return true;
+    return false;
+  }
+
   private boolean jj_3R_194() {
     if (jj_scan_token(COMMA)) return true;
     if (jj_3R_121()) return true;
@@ -6443,16 +6470,27 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_160() {
-    if (jj_scan_token(139)) return true;
-    if (jj_3R_102()) return true;
-    return false;
-  }
-
-  private boolean jj_3_46() {
+  private boolean jj_3R_158() {
     if (jj_scan_token(139)) return true;
     if (jj_3R_102()) return true;
     if (jj_scan_token(LPAREN)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_170()) jj_scanpos = xsp;
+    if (jj_scan_token(RPAREN)) return true;
+    return false;
+  }
+
+  private boolean jj_3_45() {
+    if (jj_scan_token(139)) return true;
+    if (jj_3R_102()) return true;
+    if (jj_scan_token(LPAREN)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_103()) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(92)) return true;
+    }
     return false;
   }
 
@@ -6465,17 +6503,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
   private boolean jj_3R_250() {
     if (jj_scan_token(SUPER)) return true;
     if (jj_3R_87()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_158() {
-    if (jj_scan_token(139)) return true;
-    if (jj_3R_102()) return true;
-    if (jj_scan_token(LPAREN)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_170()) jj_scanpos = xsp;
-    if (jj_scan_token(RPAREN)) return true;
     return false;
   }
 
@@ -6500,49 +6527,8 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3_45() {
-    if (jj_scan_token(139)) return true;
-    if (jj_3R_102()) return true;
-    if (jj_scan_token(LPAREN)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_103()) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(92)) return true;
-    }
-    return false;
-  }
-
   private boolean jj_3R_144() {
     if (jj_3R_160()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_152() {
-    if (jj_scan_token(HOOK)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_236()) jj_scanpos = xsp;
-    return false;
-  }
-
-  private boolean jj_3_20() {
-    if (jj_3R_88()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_121() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_151()) {
-    jj_scanpos = xsp;
-    if (jj_3R_152()) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3R_151() {
-    if (jj_3R_87()) return true;
     return false;
   }
 
@@ -6551,9 +6537,11 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3_18() {
-    if (jj_scan_token(LBRACKET)) return true;
-    if (jj_scan_token(RBRACKET)) return true;
+  private boolean jj_3R_152() {
+    if (jj_scan_token(HOOK)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_236()) jj_scanpos = xsp;
     return false;
   }
 
@@ -6579,6 +6567,32 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
+  private boolean jj_3_20() {
+    if (jj_3R_88()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_121() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_151()) {
+    jj_scanpos = xsp;
+    if (jj_3R_152()) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3R_151() {
+    if (jj_3R_87()) return true;
+    return false;
+  }
+
+  private boolean jj_3_18() {
+    if (jj_scan_token(LBRACKET)) return true;
+    if (jj_scan_token(RBRACKET)) return true;
+    return false;
+  }
+
   private boolean jj_3R_88() {
     if (jj_scan_token(LANGLE)) return true;
     if (jj_3R_121()) return true;
@@ -6591,16 +6605,27 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
+  private boolean jj_3R_124() {
+    return false;
+  }
+
+  private boolean jj_3R_92() {
+    jj_lookingAhead = true;
+    jj_semLA = getToken(1).kind == GT &&
+                ((Token.GTToken)getToken(1)).realKind == RSIGNEDSHIFT;
+    jj_lookingAhead = false;
+    if (!jj_semLA || jj_3R_123()) return true;
+    if (jj_scan_token(RANGLE)) return true;
+    if (jj_scan_token(RANGLE)) return true;
+    return false;
+  }
+
   private boolean jj_3_21() {
     if (jj_scan_token(DOT)) return true;
     if (jj_scan_token(IDENTIFIER)) return true;
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_22()) jj_scanpos = xsp;
-    return false;
-  }
-
-  private boolean jj_3R_124() {
     return false;
   }
 
@@ -6616,17 +6641,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_92() {
-    jj_lookingAhead = true;
-    jj_semLA = getToken(1).kind == GT &&
-                ((Token.GTToken)getToken(1)).realKind == RSIGNEDSHIFT;
-    jj_lookingAhead = false;
-    if (!jj_semLA || jj_3R_123()) return true;
-    if (jj_scan_token(RANGLE)) return true;
-    if (jj_scan_token(RANGLE)) return true;
-    return false;
-  }
-
   private boolean jj_3R_120() {
     if (jj_3R_150()) return true;
     Token xsp;
@@ -6634,6 +6648,18 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
       xsp = jj_scanpos;
       if (jj_3_19()) { jj_scanpos = xsp; break; }
     }
+    return false;
+  }
+
+  private boolean jj_3R_93() {
+    jj_lookingAhead = true;
+    jj_semLA = getToken(1).kind == GT &&
+                ((Token.GTToken)getToken(1)).realKind == RUNSIGNEDSHIFT;
+    jj_lookingAhead = false;
+    if (!jj_semLA || jj_3R_124()) return true;
+    if (jj_scan_token(RANGLE)) return true;
+    if (jj_scan_token(RANGLE)) return true;
+    if (jj_scan_token(RANGLE)) return true;
     return false;
   }
 
@@ -6664,20 +6690,23 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_93() {
-    jj_lookingAhead = true;
-    jj_semLA = getToken(1).kind == GT &&
-                ((Token.GTToken)getToken(1)).realKind == RUNSIGNEDSHIFT;
-    jj_lookingAhead = false;
-    if (!jj_semLA || jj_3R_124()) return true;
-    if (jj_scan_token(RANGLE)) return true;
-    if (jj_scan_token(RANGLE)) return true;
-    if (jj_scan_token(RANGLE)) return true;
+  private boolean jj_3R_323() {
+    if (jj_scan_token(FINALLY)) return true;
+    if (jj_3R_113()) return true;
     return false;
   }
 
   private boolean jj_3R_112() {
     if (jj_3R_95()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_322() {
+    if (jj_scan_token(CATCH)) return true;
+    if (jj_scan_token(LPAREN)) return true;
+    if (jj_3R_300()) return true;
+    if (jj_scan_token(RPAREN)) return true;
+    if (jj_3R_113()) return true;
     return false;
   }
 
@@ -6693,21 +6722,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     jj_scanpos = xsp;
     if (jj_3R_112()) return true;
     }
-    return false;
-  }
-
-  private boolean jj_3R_323() {
-    if (jj_scan_token(FINALLY)) return true;
-    if (jj_3R_113()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_322() {
-    if (jj_scan_token(CATCH)) return true;
-    if (jj_scan_token(LPAREN)) return true;
-    if (jj_3R_300()) return true;
-    if (jj_scan_token(RPAREN)) return true;
-    if (jj_3R_113()) return true;
     return false;
   }
 
@@ -6739,6 +6753,15 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
+  private boolean jj_3R_230() {
+    if (jj_scan_token(SYNCHRONIZED)) return true;
+    if (jj_scan_token(LPAREN)) return true;
+    if (jj_3R_91()) return true;
+    if (jj_scan_token(RPAREN)) return true;
+    if (jj_3R_113()) return true;
+    return false;
+  }
+
   private boolean jj_3_14() {
     if (jj_3R_85()) return true;
     return false;
@@ -6747,15 +6770,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
   private boolean jj_3_15() {
     if (jj_3R_59()) return true;
     if (jj_scan_token(DOT)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_230() {
-    if (jj_scan_token(SYNCHRONIZED)) return true;
-    if (jj_scan_token(LPAREN)) return true;
-    if (jj_3R_91()) return true;
-    if (jj_scan_token(RPAREN)) return true;
-    if (jj_3R_113()) return true;
     return false;
   }
 
@@ -6820,6 +6834,13 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
+  private boolean jj_3R_229() {
+    if (jj_scan_token(THROW)) return true;
+    if (jj_3R_91()) return true;
+    if (jj_scan_token(SEMICOLON)) return true;
+    return false;
+  }
+
   private boolean jj_3R_301() {
     if (jj_scan_token(COMMA)) return true;
     if (jj_3R_300()) return true;
@@ -6842,13 +6863,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_229() {
-    if (jj_scan_token(THROW)) return true;
-    if (jj_3R_91()) return true;
-    if (jj_scan_token(SEMICOLON)) return true;
-    return false;
-  }
-
   private boolean jj_3R_321() {
     if (jj_3R_91()) return true;
     return false;
@@ -6866,6 +6880,15 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
 
   private boolean jj_3R_329() {
     if (jj_3R_335()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_228() {
+    if (jj_scan_token(RETURN)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_321()) jj_scanpos = xsp;
+    if (jj_scan_token(SEMICOLON)) return true;
     return false;
   }
 
@@ -6890,15 +6913,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_228() {
-    if (jj_scan_token(RETURN)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_321()) jj_scanpos = xsp;
-    if (jj_scan_token(SEMICOLON)) return true;
-    return false;
-  }
-
   private boolean jj_3R_339() {
     if (jj_scan_token(COMMA)) return true;
     if (jj_3R_220()) return true;
@@ -6907,6 +6921,15 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
 
   private boolean jj_3R_227() {
     if (jj_scan_token(CONTINUE)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(140)) jj_scanpos = xsp;
+    if (jj_scan_token(SEMICOLON)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_226() {
+    if (jj_scan_token(BREAK)) return true;
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(140)) jj_scanpos = xsp;
@@ -6930,17 +6953,24 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_226() {
-    if (jj_scan_token(BREAK)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(140)) jj_scanpos = xsp;
-    if (jj_scan_token(SEMICOLON)) return true;
+  private boolean jj_3R_335() {
+    if (jj_3R_338()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_328() {
+    if (jj_3R_91()) return true;
     return false;
   }
 
   private boolean jj_3R_278() {
     if (jj_3R_111()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_318() {
+    if (jj_scan_token(ELSE)) return true;
+    if (jj_3R_186()) return true;
     return false;
   }
 
@@ -6960,8 +6990,10 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_335() {
-    if (jj_3R_338()) return true;
+  private boolean jj_3_44() {
+    if (jj_3R_101()) return true;
+    if (jj_3R_81()) return true;
+    if (jj_scan_token(IDENTIFIER)) return true;
     return false;
   }
 
@@ -6975,8 +7007,13 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_328() {
-    if (jj_3R_91()) return true;
+  private boolean jj_3R_338() {
+    if (jj_3R_220()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_339()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 
@@ -6992,32 +7029,9 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_318() {
-    if (jj_scan_token(ELSE)) return true;
-    if (jj_3R_186()) return true;
-    return false;
-  }
-
-  private boolean jj_3_44() {
-    if (jj_3R_101()) return true;
-    if (jj_3R_81()) return true;
-    if (jj_scan_token(IDENTIFIER)) return true;
-    return false;
-  }
-
   private boolean jj_3R_303() {
     if (jj_scan_token(LBRACKET)) return true;
     if (jj_scan_token(RBRACKET)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_338() {
-    if (jj_3R_220()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_339()) { jj_scanpos = xsp; break; }
-    }
     return false;
   }
 
@@ -7032,19 +7046,14 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_82() {
-    if (jj_scan_token(LBRACKET)) return true;
-    if (jj_scan_token(RBRACKET)) return true;
-    return false;
-  }
-
   private boolean jj_3R_337() {
     if (jj_3R_338()) return true;
     return false;
   }
 
-  private boolean jj_3R_115() {
-    if (jj_3R_91()) return true;
+  private boolean jj_3R_82() {
+    if (jj_scan_token(LBRACKET)) return true;
+    if (jj_scan_token(RBRACKET)) return true;
     return false;
   }
 
@@ -7053,21 +7062,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     if (jj_3R_81()) return true;
     if (jj_scan_token(IDENTIFIER)) return true;
     if (jj_scan_token(COLON)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_114() {
-    if (jj_3R_148()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_84() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_114()) {
-    jj_scanpos = xsp;
-    if (jj_3R_115()) return true;
-    }
     return false;
   }
 
@@ -7086,17 +7080,27 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
+  private boolean jj_3R_115() {
+    if (jj_3R_91()) return true;
+    return false;
+  }
+
   private boolean jj_3R_327() {
     if (jj_3R_334()) return true;
     return false;
   }
 
-  private boolean jj_3R_289() {
-    if (jj_scan_token(IDENTIFIER)) return true;
+  private boolean jj_3R_114() {
+    if (jj_3R_148()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_84() {
     Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_303()) { jj_scanpos = xsp; break; }
+    xsp = jj_scanpos;
+    if (jj_3R_114()) {
+    jj_scanpos = xsp;
+    if (jj_3R_115()) return true;
     }
     return false;
   }
@@ -7120,6 +7124,30 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     if (jj_scan_token(IDENTIFIER)) return true;
     if (jj_scan_token(COLON)) return true;
     if (jj_3R_91()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_289() {
+    if (jj_scan_token(IDENTIFIER)) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_303()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_225() {
+    if (jj_scan_token(FOR)) return true;
+    if (jj_scan_token(LPAREN)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_319()) {
+    jj_scanpos = xsp;
+    if (jj_3R_320()) return true;
+    }
+    if (jj_scan_token(RPAREN)) return true;
+    if (jj_3R_186()) return true;
     return false;
   }
 
@@ -7150,22 +7178,19 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_225() {
-    if (jj_scan_token(FOR)) return true;
-    if (jj_scan_token(LPAREN)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_319()) {
-    jj_scanpos = xsp;
-    if (jj_3R_320()) return true;
-    }
-    if (jj_scan_token(RPAREN)) return true;
-    if (jj_3R_186()) return true;
+  private boolean jj_3R_80() {
+    if (jj_3R_111()) return true;
     return false;
   }
 
-  private boolean jj_3R_80() {
-    if (jj_3R_111()) return true;
+  private boolean jj_3R_224() {
+    if (jj_scan_token(DO)) return true;
+    if (jj_3R_186()) return true;
+    if (jj_scan_token(WHILE)) return true;
+    if (jj_scan_token(LPAREN)) return true;
+    if (jj_3R_91()) return true;
+    if (jj_scan_token(RPAREN)) return true;
+    if (jj_scan_token(SEMICOLON)) return true;
     return false;
   }
 
@@ -7190,14 +7215,12 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_224() {
-    if (jj_scan_token(DO)) return true;
-    if (jj_3R_186()) return true;
+  private boolean jj_3R_223() {
     if (jj_scan_token(WHILE)) return true;
     if (jj_scan_token(LPAREN)) return true;
     if (jj_3R_91()) return true;
     if (jj_scan_token(RPAREN)) return true;
-    if (jj_scan_token(SEMICOLON)) return true;
+    if (jj_3R_186()) return true;
     return false;
   }
 
@@ -7211,12 +7234,20 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_223() {
-    if (jj_scan_token(WHILE)) return true;
+  private boolean jj_3R_326() {
+    if (jj_3R_162()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_222() {
+    if (jj_scan_token(IF)) return true;
     if (jj_scan_token(LPAREN)) return true;
     if (jj_3R_91()) return true;
     if (jj_scan_token(RPAREN)) return true;
     if (jj_3R_186()) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_318()) jj_scanpos = xsp;
     return false;
   }
 
@@ -7230,25 +7261,14 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_326() {
-    if (jj_3R_162()) return true;
-    return false;
-  }
-
   private boolean jj_3R_253() {
     if (jj_3R_187()) return true;
     return false;
   }
 
-  private boolean jj_3R_222() {
-    if (jj_scan_token(IF)) return true;
-    if (jj_scan_token(LPAREN)) return true;
-    if (jj_3R_91()) return true;
-    if (jj_scan_token(RPAREN)) return true;
-    if (jj_3R_186()) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_318()) jj_scanpos = xsp;
+  private boolean jj_3R_333() {
+    if (jj_scan_token(_DEFAULT)) return true;
+    if (jj_scan_token(COLON)) return true;
     return false;
   }
 
@@ -7269,12 +7289,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     }
     }
     }
-    return false;
-  }
-
-  private boolean jj_3R_333() {
-    if (jj_scan_token(_DEFAULT)) return true;
-    if (jj_scan_token(COLON)) return true;
     return false;
   }
 
@@ -7301,6 +7315,16 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
+  private boolean jj_3R_317() {
+    if (jj_3R_325()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_326()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
   private boolean jj_3_12() {
     if (jj_3R_83()) return true;
     return false;
@@ -7319,22 +7343,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_317() {
-    if (jj_3R_325()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_326()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_184() {
-    if (jj_scan_token(BIT_AND)) return true;
-    if (jj_3R_150()) return true;
-    return false;
-  }
-
   private boolean jj_3R_221() {
     if (jj_scan_token(SWITCH)) return true;
     if (jj_scan_token(LPAREN)) return true;
@@ -7350,8 +7358,9 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_307() {
-    if (jj_3R_217()) return true;
+  private boolean jj_3R_184() {
+    if (jj_scan_token(BIT_AND)) return true;
+    if (jj_3R_150()) return true;
     return false;
   }
 
@@ -7374,8 +7383,8 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_235() {
-    if (jj_3R_242()) return true;
+  private boolean jj_3R_307() {
+    if (jj_3R_217()) return true;
     return false;
   }
 
@@ -7410,6 +7419,11 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
+  private boolean jj_3R_235() {
+    if (jj_3R_242()) return true;
+    return false;
+  }
+
   private boolean jj_3R_217() {
     if (jj_scan_token(LBRACE)) return true;
     Token xsp;
@@ -7437,17 +7451,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_171() {
-    if (jj_scan_token(EXTENDS)) return true;
-    if (jj_3R_150()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_184()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
   private boolean jj_3_42() {
     if (jj_3R_101()) return true;
     if (jj_3R_81()) return true;
@@ -7467,17 +7470,14 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_145() {
-    if (jj_scan_token(IDENTIFIER)) return true;
+  private boolean jj_3R_171() {
+    if (jj_scan_token(EXTENDS)) return true;
+    if (jj_3R_150()) return true;
     Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_161()) jj_scanpos = xsp;
-    return false;
-  }
-
-  private boolean jj_3_9() {
-    if (jj_scan_token(COMMA)) return true;
-    if (jj_3R_79()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_184()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 
@@ -7491,15 +7491,17 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_111() {
-    if (jj_scan_token(LANGLE)) return true;
-    if (jj_3R_145()) return true;
+  private boolean jj_3R_145() {
+    if (jj_scan_token(IDENTIFIER)) return true;
     Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_146()) { jj_scanpos = xsp; break; }
-    }
-    if (jj_scan_token(RANGLE)) return true;
+    xsp = jj_scanpos;
+    if (jj_3R_161()) jj_scanpos = xsp;
+    return false;
+  }
+
+  private boolean jj_3_9() {
+    if (jj_scan_token(COMMA)) return true;
+    if (jj_3R_79()) return true;
     return false;
   }
 
@@ -7519,6 +7521,18 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
   private boolean jj_3R_172() {
     if (jj_3R_185()) return true;
     if (jj_scan_token(SEMICOLON)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_111() {
+    if (jj_scan_token(LANGLE)) return true;
+    if (jj_3R_145()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_146()) { jj_scanpos = xsp; break; }
+    }
+    if (jj_scan_token(RANGLE)) return true;
     return false;
   }
 
@@ -7558,6 +7572,17 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
+  private boolean jj_3R_147() {
+    if (jj_3R_162()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_316() {
+    if (jj_scan_token(COLON)) return true;
+    if (jj_3R_91()) return true;
+    return false;
+  }
+
   private boolean jj_3R_270() {
     if (jj_scan_token(LBRACE)) return true;
     Token xsp;
@@ -7571,29 +7596,8 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_147() {
-    if (jj_3R_162()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_316() {
-    if (jj_scan_token(COLON)) return true;
-    if (jj_3R_91()) return true;
-    return false;
-  }
-
   private boolean jj_3R_269() {
     if (jj_3R_284()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_260() {
-    if (jj_scan_token(ENUM)) return true;
-    if (jj_scan_token(IDENTIFIER)) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_269()) jj_scanpos = xsp;
-    if (jj_3R_270()) return true;
     return false;
   }
 
@@ -7605,6 +7609,16 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
       if (jj_3R_147()) { jj_scanpos = xsp; break; }
     }
     if (jj_scan_token(RBRACE)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_260() {
+    if (jj_scan_token(ENUM)) return true;
+    if (jj_scan_token(IDENTIFIER)) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_269()) jj_scanpos = xsp;
+    if (jj_3R_270()) return true;
     return false;
   }
 
@@ -7638,6 +7652,16 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
+  private boolean jj_3R_219() {
+    if (jj_scan_token(ASSERT)) return true;
+    if (jj_3R_91()) return true;
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_316()) jj_scanpos = xsp;
+    if (jj_scan_token(SEMICOLON)) return true;
+    return false;
+  }
+
   private boolean jj_3R_283() {
     if (jj_scan_token(EXTENDS)) return true;
     if (jj_3R_150()) return true;
@@ -7646,16 +7670,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
       xsp = jj_scanpos;
       if (jj_3R_297()) { jj_scanpos = xsp; break; }
     }
-    return false;
-  }
-
-  private boolean jj_3R_219() {
-    if (jj_scan_token(ASSERT)) return true;
-    if (jj_3R_91()) return true;
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_316()) jj_scanpos = xsp;
-    if (jj_scan_token(SEMICOLON)) return true;
     return false;
   }
 
@@ -7680,11 +7694,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_213() {
-    if (jj_scan_token(INTERFACE)) return true;
-    return false;
-  }
-
   private boolean jj_3R_209() {
     if (jj_3R_228()) return true;
     return false;
@@ -7700,23 +7709,13 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_268() {
-    if (jj_3R_284()) return true;
+  private boolean jj_3R_213() {
+    if (jj_scan_token(INTERFACE)) return true;
     return false;
   }
 
   private boolean jj_3R_206() {
     if (jj_3R_225()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_267() {
-    if (jj_3R_283()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_266() {
-    if (jj_3R_111()) return true;
     return false;
   }
 
@@ -7727,6 +7726,37 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
 
   private boolean jj_3R_204() {
     if (jj_3R_223()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_268() {
+    if (jj_3R_284()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_267() {
+    if (jj_3R_283()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_203() {
+    if (jj_3R_222()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_266() {
+    if (jj_3R_111()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_202() {
+    if (jj_3R_221()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_201() {
+    if (jj_3R_220()) return true;
+    if (jj_scan_token(SEMICOLON)) return true;
     return false;
   }
 
@@ -7745,22 +7775,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     xsp = jj_scanpos;
     if (jj_3R_268()) jj_scanpos = xsp;
     if (jj_3R_217()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_203() {
-    if (jj_3R_222()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_202() {
-    if (jj_3R_221()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_201() {
-    if (jj_3R_220()) return true;
-    if (jj_scan_token(SEMICOLON)) return true;
     return false;
   }
 
@@ -7908,16 +7922,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_78() {
-    if (jj_3R_110()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_77() {
-    if (jj_scan_token(STRICTFP)) return true;
-    return false;
-  }
-
   private boolean jj_3R_131() {
     if (jj_scan_token(NEW)) return true;
     if (jj_3R_150()) return true;
@@ -7932,13 +7936,8 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
-  private boolean jj_3R_76() {
-    if (jj_scan_token(VOLATILE)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_75() {
-    if (jj_scan_token(TRANSIENT)) return true;
+  private boolean jj_3R_78() {
+    if (jj_3R_110()) return true;
     return false;
   }
 
@@ -7959,6 +7958,31 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
+  private boolean jj_3R_77() {
+    if (jj_scan_token(STRICTFP)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_76() {
+    if (jj_scan_token(VOLATILE)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_75() {
+    if (jj_scan_token(TRANSIENT)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_149() {
+    if (jj_3R_91()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_163()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
   private boolean jj_3R_74() {
     if (jj_scan_token(NATIVE)) return true;
     return false;
@@ -7971,16 +7995,6 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
 
   private boolean jj_3R_72() {
     if (jj_scan_token(ABSTRACT)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_149() {
-    if (jj_3R_91()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_163()) { jj_scanpos = xsp; break; }
-    }
     return false;
   }
 
@@ -8049,17 +8063,17 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
     return false;
   }
 
+  private boolean jj_3R_118() {
+    if (jj_3R_149()) return true;
+    return false;
+  }
+
   private boolean jj_3R_101() {
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
       if (jj_3_8()) { jj_scanpos = xsp; break; }
     }
-    return false;
-  }
-
-  private boolean jj_3R_118() {
-    if (jj_3R_149()) return true;
     return false;
   }
 
@@ -8090,6 +8104,11 @@ public class JavaCCParser extends JavaCCParserInternals implements JavaCCParserC
       if (jj_3R_66()) { jj_scanpos = xsp; break; }
     }
     if (jj_scan_token(PACKAGE)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_106() {
+    if (jj_scan_token(STRING_LITERAL)) return true;
     return false;
   }
 

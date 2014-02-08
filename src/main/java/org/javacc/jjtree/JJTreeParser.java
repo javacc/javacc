@@ -47,7 +47,7 @@ public class JJTreeParser/*@bgen(jjtree)*/implements JJTreeParserTreeConstants, 
     try {
       javacc_options();
     // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-    isJavaLanguage = JJTreeOptions.isOutputLanguageImplementedInJava();
+    isJavaLanguage = JJTreeOptions.isOutputLanguageJava();
     ASTCompilationUnit jjtn001 = new ASTCompilationUnit(JJTCOMPILATIONUNIT);
     boolean jjtc001 = true;
     jjtree.openNodeScope(jjtn001);
