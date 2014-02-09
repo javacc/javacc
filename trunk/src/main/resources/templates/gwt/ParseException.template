@@ -17,10 +17,11 @@ public class ParseException extends Exception {
   private static final long serialVersionUID = 1L;
 
   private static final String INDENT = "    ";
+  
   /**
-   * The end of line string for this machine.
+   * The end of line string (we do not use System.getProperty("") so that we are compatible with Android/GWT);
    */
-  protected static String EOL = java.lang.System.getProperty("line.separator");
+  protected static String EOL = "\n";
 
   
   public ParseException(Token currentTokenVal,
