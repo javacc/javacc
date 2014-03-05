@@ -258,6 +258,7 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
 			if (isBuildParser) {
 				new LexGen().start();
 			}
+			Options.setStringOption(Options.NONUSER_OPTION__PARSER_NAME, JavaCCGlobals.cu_name);
 			OtherFilesGen.start(isJavaModern);
 		} else if (isCPPOutput) { // C++ for now
 			if (isBuildParser) {
@@ -266,13 +267,13 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
 			if (isBuildParser) {
 				new LexGenCPP().start();
 			}
-
+			Options.setStringOption(Options.NONUSER_OPTION__PARSER_NAME, JavaCCGlobals.cu_name);
 			OtherFilesGenCPP.start();
 		} else {
 			unhandledLanguageExit(outputLanguage);
 		}
 	  
-	  Options.setStringOption(Options.NONUSER_OPTION__PARSER_NAME, JavaCCGlobals.cu_name);
+	  
 
       if ((JavaCCErrors.get_error_count() == 0) && (isBuildParser || Options.getBuildTokenManager())) {
         if (JavaCCErrors.get_warning_count() == 0) {
