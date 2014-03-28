@@ -78,9 +78,6 @@ JAVACC_SIMPLE_STRING addUnicodeEscapes(JAVACC_STRING_TYPE str) {
     JAVACC_CHAR_TYPE ch = str[i];
     switch (ch)
     {
-      case 0 :
-        retval += EMPTY[0];
-        continue;
       case '\b':
         retval.append("\\b");
         continue;
