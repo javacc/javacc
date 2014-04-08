@@ -875,7 +875,7 @@ public static String staticString;
     genCodeLine("   {");
     genCodeLine("      curChar = input_stream.BeginToken();");
     genCodeLine("   }");
-    genCodeLine("   catch(java.io.IOException e)");
+    genCodeLine("   catch(Exception e)");
     genCodeLine("   {");
 
     if (Options.getDebugTokenManager())
