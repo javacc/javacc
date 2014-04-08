@@ -10,4 +10,4 @@
     private ${STATIC?static :}int lengthOfMatch;
 #fi
     
-    ${STATIC?static :}protected char curChar;
+    ${STATIC?static :}protected int curChar;

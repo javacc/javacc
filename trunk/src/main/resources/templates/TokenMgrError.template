@@ -98,11 +98,12 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class ${LEGACY_EXCEPTION_HANDLING?Tok
    *    curchar     : the offending character
    * Note: You can customize the lexical error message by modifying this method.
    */
-  protected static String LexicalError(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar) {
+  protected static String LexicalErr(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, int curChar) {
+    char curChar1 = (char)curChar;
     return("Lexical error at line " +
           errorLine + ", column " +
           errorColumn + ".  Encountered: " +
-          (EOFSeen ? "<EOF> " : ("\"" + addEscapes(String.valueOf(curChar)) + "\"") + " (" + (int)curChar + "), ") +
+          (EOFSeen ? "<EOF> " : ("\"" + addEscapes(String.valueOf(curChar1)) + "\"") + " (" + (int)curChar + "), ") +
           "after : \"" + addEscapes(errorAfter) + "\"");
   }
 
@@ -134,7 +135,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class ${LEGACY_EXCEPTION_HANDLING?Tok
   }
 
   /** Full Constructor. */
-  public ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, char curChar, int reason) {
-    this(LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
+  public ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}(boolean EOFSeen, int lexState, int errorLine, int errorColumn, String errorAfter, int curChar, int reason) {
+    this(LexicalErr(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
   }
 }

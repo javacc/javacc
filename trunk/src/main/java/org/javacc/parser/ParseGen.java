@@ -669,31 +669,46 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 					genCodeLine("");
 					genCodeLine("  " + staticOpt()
 							+ "private void jj_add_error_token(int kind, int pos) {");
-					genCodeLine("    if (pos >= 100) return;");
+					genCodeLine("    if (pos >= 100) {");
+					genCodeLine("       return;");
+					genCodeLine("    }");
+					genCodeLine("");
 					genCodeLine("    if (pos == jj_endpos + 1) {");
 					genCodeLine("      jj_lasttokens[jj_endpos++] = kind;");
 					genCodeLine("    } else if (jj_endpos != 0) {");
 					genCodeLine("      jj_expentry = new int[jj_endpos];");
+					genCodeLine("");
 					genCodeLine("      for (int i = 0; i < jj_endpos; i++) {");
 					genCodeLine("        jj_expentry[i] = jj_lasttokens[i];");
 					genCodeLine("      }");
+					genCodeLine("");
 					if (!Options.getGenerateGenerics()) {
-                        genCodeLine("      jj_entries_loop: for (java.util.Iterator it = jj_expentries.iterator(); it.hasNext();) {");
+                        genCodeLine("      for (java.util.Iterator it = jj_expentries.iterator(); it.hasNext();) {");
+                        genCodeLine("        int[] oldentry = (int[])(it.next());");
                     } else {
-                        genCodeLine("      jj_entries_loop: for (java.util.Iterator<?> it = jj_expentries.iterator(); it.hasNext();) {");
+                        genCodeLine("      for (int[] oldentry : jj_expentries) {");
                     }
-					genCodeLine("        int[] oldentry = (int[])(it.next());");
+					
 					genCodeLine("        if (oldentry.length == jj_expentry.length) {");
+					genCodeLine("          boolean isMatched = true;");
+					genCodeLine("");
 					genCodeLine("          for (int i = 0; i < jj_expentry.length; i++) {");
 					genCodeLine("            if (oldentry[i] != jj_expentry[i]) {");
-					genCodeLine("              continue jj_entries_loop;");
+					genCodeLine("              isMatched = false;");
+					genCodeLine("              break;");
 					genCodeLine("            }");
+					genCodeLine("");
 					genCodeLine("          }");
-					genCodeLine("          jj_expentries.add(jj_expentry);");
-					genCodeLine("          break jj_entries_loop;");
+					genCodeLine("          if (isMatched) {");
+					genCodeLine("            jj_expentries.add(jj_expentry);");
+					genCodeLine("            break;");
+					genCodeLine("          }");
 					genCodeLine("        }");
 					genCodeLine("      }");
-					genCodeLine("      if (pos != 0) jj_lasttokens[(jj_endpos = pos) - 1] = kind;");
+					genCodeLine("");
+					genCodeLine("      if (pos != 0) {");
+					genCodeLine("        jj_lasttokens[(jj_endpos = pos) - 1] = kind;");
+					genCodeLine("      }");
 					genCodeLine("    }");
 					genCodeLine("  }");
 				}
@@ -843,20 +858,22 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 				genCodeLine("  " + staticOpt() + "private void jj_rescan_token() {");
 				genCodeLine("    jj_rescan = true;");
 				genCodeLine("    for (int i = 0; i < " + jj2index + "; i++) {");
-				genCodeLine("    try {");
-				genCodeLine("      JJCalls p = jj_2_rtns[i];");
-				genCodeLine("      do {");
-				genCodeLine("        if (p.gen > jj_gen) {");
-				genCodeLine("          jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;");
-				genCodeLine("          switch (i) {");
+				genCodeLine("      try {");
+				genCodeLine("        JJCalls p = jj_2_rtns[i];");
+				genCodeLine("");
+				genCodeLine("        do {");
+				genCodeLine("          if (p.gen > jj_gen) {");
+				genCodeLine("            jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;");
+				genCodeLine("            switch (i) {");
 				for (int i = 0; i < jj2index; i++) {
-					genCodeLine("            case " + i + ": jj_3_" + (i + 1) + "(); break;");
+					genCodeLine("              case " + i + ": jj_3_" + (i + 1) + "(); break;");
 				}
+				genCodeLine("            }");
 				genCodeLine("          }");
-				genCodeLine("        }");
-				genCodeLine("        p = p.next;");
-				genCodeLine("      } while (p != null);");
-				genCodeLine("      } catch(LookaheadSuccess ls) { }");
+				genCodeLine("          p = p.next;");
+				genCodeLine("        } while (p != null);");
+				genCodeLine("");
+				genCodeLine("        } catch(LookaheadSuccess ls) { }");
 				genCodeLine("    }");
 				genCodeLine("    jj_rescan = false;");
 				genCodeLine("  }");
@@ -867,7 +884,10 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 				genCodeLine("      if (p.next == null) { p = p.next = new JJCalls(); break; }");
 				genCodeLine("      p = p.next;");
 				genCodeLine("    }");
-				genCodeLine("    p.gen = jj_gen + xla - jj_la; p.first = token; p.arg = xla;");
+				genCodeLine("");
+				genCodeLine("    p.gen = jj_gen + xla - jj_la; ");
+				genCodeLine("    p.first = token;");
+				genCodeLine("    p.arg = xla;");
 				genCodeLine("  }");
 				genCodeLine("");
 			}
