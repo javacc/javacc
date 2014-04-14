@@ -2,7 +2,7 @@
 
 
 #if NAMESPACE
-namespace ${NAMESPACE_OPEN}
+namespace ${NAMESPACE} {
 #fi
 /**
  * This exception is thrown when parse errors are encountered.
@@ -140,6 +140,8 @@ namespace ${NAMESPACE_OPEN}
       for (int i = 0; i < str.length(); i++) {
         switch (str.charAt(i))
         {
+           case 0 :
+              continue;
            case '\b':
               retval.append("\\b");
               continue;
@@ -179,5 +181,5 @@ namespace ${NAMESPACE_OPEN}
    }
 
 #if NAMESPACE
-${NAMESPACE_CLOSE}
+}
 #fi

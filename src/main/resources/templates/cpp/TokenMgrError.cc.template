@@ -1,7 +1,7 @@
 \#include "TokenMgrError.h"
 
 #if NAMESPACE
-namespace ${NAMESPACE_OPEN}
+namespace ${NAMESPACE} {
 #fi
 
   /**
@@ -60,8 +60,12 @@ namespace ${NAMESPACE_OPEN}
    errorCode = reason;
   }
 
+#if NAMESPACE
+}
+#fi
+
 // i < 16 - guaranteed
-char hexChar(int i) {
+static char hexChar(int i) {
   if (i < 10) {
     return i - '0';
   }
@@ -78,6 +82,9 @@ JAVACC_SIMPLE_STRING addUnicodeEscapes(JAVACC_STRING_TYPE str) {
     JAVACC_CHAR_TYPE ch = str[i];
     switch (ch)
     {
+      case 0 :
+        retval += EMPTY[0];
+        continue;
       case '\b':
         retval.append("\\b");
         continue;
@@ -111,7 +118,3 @@ JAVACC_SIMPLE_STRING addUnicodeEscapes(JAVACC_STRING_TYPE str) {
   }
   return retval;
 }
-
-#if NAMESPACE
-${NAMESPACE_CLOSE}
-#fi

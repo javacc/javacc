@@ -30,8 +30,45 @@ class StringReaderStream : public ReaderStream {
 }
 
 #if NAMESPACE
-namespace ${NAMESPACE_OPEN}
+namespace ${NAMESPACE} {
 #fi
+
+JAVACC_CHAR_TYPE CharStream::BeginToken() {
+  tokenBegin = -1;
+  JAVACC_CHAR_TYPE c = readChar();
+  tokenBegin = bufpos;
+  return c;
+}
+
+JAVACC_CHAR_TYPE CharStream::readChar() {
+  if (inBuf > 0) {
+    --inBuf;
+    ++bufpos;
+    if (bufpos == bufsize) {
+      bufpos = 0;
+    }
+
+    return buffer[bufpos];
+  }
+
+  ++bufpos;
+  if (bufpos >= maxNextCharInd) {
+    FillBuff();
+  }
+
+  JAVACC_CHAR_TYPE c = buffer[bufpos];
+  UpdateLineColumn(c);
+  return c;
+}
+
+void CharStream::backup(int amount) {
+  inBuf += amount;
+  bufpos -= amount;
+  if (bufpos < 0) {
+    bufpos += bufsize;
+  }
+}
+
 void CharStream::ReInit(const JAVACC_STRING_TYPE& str, int startline,
                         int startcolumn, int buffersize) {
   StringReaderStream *stream = new StringReaderStream(str);
@@ -207,5 +244,5 @@ void CharStream::UpdateLineColumn(JAVACC_CHAR_TYPE c) {
 }
 
 #if NAMESPACE
-${NAMESPACE_CLOSE}
+}
 #fi

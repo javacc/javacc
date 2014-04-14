@@ -1,24 +1,9 @@
 \#include "JJT${PARSER_NAME}State.h"
-\#include "Node.h"
 
 #if NAMESPACE
-namespace ${NAMESPACE_OPEN}
+namespace ${NAMESPACE} {
 #fi
 
-#if NODE_FACTORY
-  ${NODE_FACTORY} *nodeFactory = NULL;
-  // Takes ownerhip of the factory
-  void setNodeFactory(${NODE_FACTORY} *factory) {
-    //if (nodeFactory != NULL) {
-      //delete nodeFactory;
-    //}
-    nodeFactory = factory;
-  }
-
-  ${NODE_FACTORY} *getNodeFactory() {
-    return nodeFactory;
-  }
-#fi
 \#define FIXUP_MARKS \
   if (marks->size() > 0) {\
     mk = marks->back();\
@@ -28,7 +13,6 @@ namespace ${NAMESPACE_OPEN}
   JJT${PARSER_NAME}State::JJT${PARSER_NAME}State() {
     nodes = new std::vector<Node*>();
     marks = new std::vector<int>();
-    open_nodes = new std::set<Node*>();
     sp = 0;
     mk = 0;
   }
@@ -96,7 +80,6 @@ namespace ${NAMESPACE_OPEN}
     marks->push_back(mk);
     mk = sp;
     n->jjtOpen();
-    open_nodes->insert(n);
   }
 
 
@@ -105,7 +88,6 @@ namespace ${NAMESPACE_OPEN}
      made the children of the definite node.  Then the definite node
      is pushed on to the stack. */
   void JJT${PARSER_NAME}State::closeNodeScope(Node *n, int num) {
-    open_nodes->erase(n);
     FIXUP_MARKS;
     if (nodes->size() < num) {
       node_created = false;
@@ -129,7 +111,6 @@ namespace ${NAMESPACE_OPEN}
      on to the stack.  If the condition is false the node is not
      constructed and they are left on the stack. */
   void JJT${PARSER_NAME}State::closeNodeScope(Node *n, bool condition) {
-    open_nodes->erase(n);
     if (condition) {
       int a = nodeArity();
       FIXUP_MARKS;
@@ -154,20 +135,10 @@ namespace ${NAMESPACE_OPEN}
   }
 
   JJT${PARSER_NAME}State::~JJT${PARSER_NAME}State() {
-    for (size_t i = 0; i < nodes->size(); i++) {
-      Node* node = nodes->at(i);
-      open_nodes->erase(node);
-      delete node;
-    }
-    for (std::set<Node*>::iterator it = open_nodes->begin();
-         it != open_nodes->end(); it++) 
-      delete (*it);
-
-    delete open_nodes;
-    delete nodes;
     delete marks;
+    delete nodes;
   }
 
 #if NAMESPACE
-${NAMESPACE_CLOSE}
+}
 #fi

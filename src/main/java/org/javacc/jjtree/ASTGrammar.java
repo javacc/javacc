@@ -43,7 +43,7 @@ public class ASTGrammar extends JJTreeNode {
   void generate(IO io) {
      System.out.println("opt:" + JJTreeOptions.getOutputLanguage());
     // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-    if (JJTreeOptions.isOutputLanguageJava()) {
+    if (JJTreeOptions.isOutputLanguageImplementedInJava()) {
       new JavaCodeGenerator().visit(this, io);
     } else if (JJTreeOptions.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
       new CPPCodeGenerator().visit(this, io);

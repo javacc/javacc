@@ -44,7 +44,7 @@ public class NfaState
 {
    public static boolean unicodeWarningGiven = false;
    public static int generatedStates = 0;
-
+   
    private static int idCnt = 0;
    private static int lohiByteCnt;
    private static int dummyStateIndex = -1;
@@ -1645,12 +1645,12 @@ public class NfaState
       if (byteNum == 0) {
          codeGenerator.genCodeLine("         " + Options.getLongType() + " l = 1L << curChar;");
          if (!codeGenerator.isJavaLanguage()) {
-           codeGenerator.genCodeLine("         (void)l;");
+           codeGenerator.genCodeLine("         if (l == 1);");
          }
       } else if (byteNum == 1) {
          codeGenerator.genCodeLine("         " + Options.getLongType() + " l = 1L << (curChar & 077);");
          if (!codeGenerator.isJavaLanguage()) {
-           codeGenerator.genCodeLine("         (void)l;");
+           codeGenerator.genCodeLine("         if (l == 1);");
          }
       } else {
          if (Options.getJavaUnicodeEscape() || unicodeWarningGiven)
@@ -1922,14 +1922,14 @@ public class NfaState
             int name = stateNames[0];
 
             if (nextIntersects)
-               codeGenerator.genCodeLine(prefix + "                  { jjCheckNAdd(" + name + "); }");
+               codeGenerator.genCodeLine(prefix + "                  jjCheckNAdd(" + name + ");");
             else
                codeGenerator.genCodeLine(prefix + "                  jjstateSet[jjnewStateCnt++] = " + name + ";");
          }
          else if (next.usefulEpsilonMoves == 2 && nextIntersects)
          {
-            codeGenerator.genCodeLine(prefix + "                  { jjCheckNAddTwoStates(" +
-               stateNames[0] + ", " + stateNames[1] + "); }");
+            codeGenerator.genCodeLine(prefix + "                  jjCheckNAddTwoStates(" +
+               stateNames[0] + ", " + stateNames[1] + ");");
          }
          else
          {
@@ -1937,17 +1937,17 @@ public class NfaState
             boolean notTwo = (indices[0] + 1 != indices[1]);
 
             if (nextIntersects) {
-              codeGenerator.genCode(prefix + "                  { jjCheckNAddStates(" + indices[0]);
+              codeGenerator.genCode(prefix + "                  jjCheckNAddStates(" + indices[0]);
               if (notTwo) {
                 jjCheckNAddStatesDualNeeded = true;
                 codeGenerator.genCode(", " + indices[1]);
               } else {
                 jjCheckNAddStatesUnaryNeeded = true;
               }
-              codeGenerator.genCodeLine("); }");
+              codeGenerator.genCodeLine(");");
             } else
-               codeGenerator.genCodeLine(prefix + "                  { jjAddStates(" +
-                                     indices[0] + ", " + indices[1] + "); }");
+               codeGenerator.genCodeLine(prefix + "                  jjAddStates(" +
+                                     indices[0] + ", " + indices[1] + ");");
          }
       }
 
@@ -2071,14 +2071,14 @@ public class NfaState
          {
             int name = stateNames[0];
             if (nextIntersects)
-               codeGenerator.genCodeLine(prefix + "                  { jjCheckNAdd(" + name + "); }");
+               codeGenerator.genCodeLine(prefix + "                  jjCheckNAdd(" + name + ");");
             else
                codeGenerator.genCodeLine(prefix + "                  jjstateSet[jjnewStateCnt++] = " + name + ";");
          }
          else if (next.usefulEpsilonMoves == 2 && nextIntersects)
          {
-            codeGenerator.genCodeLine(prefix + "                  { jjCheckNAddTwoStates(" +
-               stateNames[0] + ", " + stateNames[1] + "); }");
+            codeGenerator.genCodeLine(prefix + "                  jjCheckNAddTwoStates(" +
+               stateNames[0] + ", " + stateNames[1] + ");");
          }
          else
          {
@@ -2086,17 +2086,17 @@ public class NfaState
             boolean notTwo = (indices[0] + 1 != indices[1]);
 
             if (nextIntersects) {
-              codeGenerator.genCode(prefix + "                  { jjCheckNAddStates(" + indices[0]);
+              codeGenerator.genCode(prefix + "                  jjCheckNAddStates(" + indices[0]);
               if (notTwo) {
                 jjCheckNAddStatesDualNeeded = true;
                 codeGenerator.genCode(", " + indices[1]);
               } else {
                 jjCheckNAddStatesUnaryNeeded = true;
               }
-              codeGenerator.genCodeLine("); }");
+              codeGenerator.genCodeLine(");");
             } else
-               codeGenerator.genCodeLine(prefix + "                  { jjAddStates(" +
-                                     indices[0] + ", " + indices[1] + "); }");
+               codeGenerator.genCodeLine(prefix + "                  jjAddStates(" +
+                                     indices[0] + ", " + indices[1] + ");");
          }
       }
 
@@ -2158,7 +2158,7 @@ public class NfaState
       }
 
       if (byteNum != 0 && byteNum != 1) {
-        codeGenerator.genCodeLine("               default : if (i1 == 0 || l1 == 0 || i2 == 0 ||  l2 == 0) break; else break;");
+        codeGenerator.genCodeLine("               default : if (i1 == 0 || l1 == 0 || i2 == 0 ||  == l2 == 0) break; else break;");
       } else {
         codeGenerator.genCodeLine("               default : break;");
       }
@@ -2305,14 +2305,14 @@ public class NfaState
          {
             int name = stateNames[0];
             if (nextIntersects)
-               codeGenerator.genCodeLine("                     { jjCheckNAdd(" + name + "); }");
+               codeGenerator.genCodeLine("                     jjCheckNAdd(" + name + ");");
             else
                codeGenerator.genCodeLine("                     jjstateSet[jjnewStateCnt++] = " + name + ";");
          }
          else if (next.usefulEpsilonMoves == 2 && nextIntersects)
          {
-            codeGenerator.genCodeLine("                     { jjCheckNAddTwoStates(" +
-               stateNames[0] + ", " + stateNames[1] + "); }");
+            codeGenerator.genCodeLine("                     jjCheckNAddTwoStates(" +
+               stateNames[0] + ", " + stateNames[1] + ");");
          }
          else
          {
@@ -2320,16 +2320,16 @@ public class NfaState
             boolean notTwo = (indices[0] + 1 != indices[1]);
 
             if (nextIntersects) {
-              codeGenerator.genCode("                     { jjCheckNAddStates(" + indices[0]);
+              codeGenerator.genCode("                     jjCheckNAddStates(" + indices[0]);
               if (notTwo) {
                 jjCheckNAddStatesDualNeeded = true;
                 codeGenerator.genCode(", " + indices[1]);
               } else {
                 jjCheckNAddStatesUnaryNeeded = true;
               }
-              codeGenerator.genCodeLine("); }");
+              codeGenerator.genCodeLine(");");
             } else
-              codeGenerator.genCodeLine("                     { jjAddStates(" + indices[0] + ", " + indices[1] + "); }");
+              codeGenerator.genCodeLine("                     jjAddStates(" + indices[0] + ", " + indices[1] + ");");
          }
       }
 
@@ -2432,14 +2432,14 @@ public class NfaState
          {
             int name = stateNames[0];
             if (nextIntersects)
-               codeGenerator.genCodeLine(prefix + "                  { jjCheckNAdd(" + name + "); }");
+               codeGenerator.genCodeLine(prefix + "                  jjCheckNAdd(" + name + ");");
             else
                codeGenerator.genCodeLine(prefix + "                  jjstateSet[jjnewStateCnt++] = " + name + ";");
          }
          else if (next.usefulEpsilonMoves == 2 && nextIntersects)
          {
-            codeGenerator.genCodeLine(prefix + "                  { jjCheckNAddTwoStates(" +
-               stateNames[0] + ", " + stateNames[1] + "); }");
+            codeGenerator.genCodeLine(prefix + "                  jjCheckNAddTwoStates(" +
+               stateNames[0] + ", " + stateNames[1] + ");");
          }
          else
          {
@@ -2447,16 +2447,16 @@ public class NfaState
             boolean notTwo = (indices[0] + 1 != indices[1]);
 
             if (nextIntersects) {
-              codeGenerator.genCode(prefix + "                  { jjCheckNAddStates(" + indices[0]);
+              codeGenerator.genCode(prefix + "                  jjCheckNAddStates(" + indices[0]);
               if (notTwo) {
                 jjCheckNAddStatesDualNeeded = true;
                 codeGenerator.genCode(", " + indices[1]);
               } else {
                 jjCheckNAddStatesUnaryNeeded = true;
               }
-              codeGenerator.genCodeLine("); }");
+              codeGenerator.genCodeLine(");");
             } else
-              codeGenerator.genCodeLine(prefix + "                  { jjAddStates(" + indices[0] + ", " + indices[1] + "); }");
+              codeGenerator.genCodeLine(prefix + "                  jjAddStates(" + indices[0] + ", " + indices[1] + ");");
          }
       }
 
@@ -2515,12 +2515,7 @@ public class NfaState
          temp.DumpNonAsciiMove(codeGenerator, dumped);
       }
 
-
-	  if (Options.getJavaUnicodeEscape() || unicodeWarningGiven) {
-	     codeGenerator.genCodeLine("               default : if (i1 == 0 || l1 == 0 || i2 == 0 ||  l2 == 0) break; else break;");
-	  } else {
-	     codeGenerator.genCodeLine("               default : break;");
-      }
+      codeGenerator.genCodeLine("               default : if (i1 == 0 || l1 == 0 || i2 == 0 || l2 == 0) break; else break;");
       codeGenerator.genCodeLine("            }");
       codeGenerator.genCodeLine("         } while(i != startsAt);");
    }
@@ -2605,7 +2600,7 @@ public class NfaState
    {
       List v = allStates;
       allStates = new ArrayList(Collections.nCopies(generatedStates, null));
-
+      
       if (allStates.size() != generatedStates) throw new Error("What??");
 
       for (int j = 0; j < v.size(); j++)
@@ -2619,8 +2614,12 @@ public class NfaState
    //private static boolean boilerPlateDumped = false;
    static void PrintBoilerPlate(CodeGenerator codeGenerator)
    {
-      codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private void " +
-                   "jjCheckNAdd(int state)");
+      if (codeGenerator.isJavaLanguage()) {
+        codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private void " +
+                    "jjCheckNAdd(int state)");
+      } else {
+        codeGenerator.generateMethodDefHeader("void",  Main.lg.tokMgrClassName, "jjCheckNAdd(int state)");
+      }
       codeGenerator.genCodeLine("{");
       codeGenerator.genCodeLine("   if (jjrounds[state] != jjround)");
       codeGenerator.genCodeLine("   {");
@@ -2629,90 +2628,58 @@ public class NfaState
       codeGenerator.genCodeLine("   }");
       codeGenerator.genCodeLine("}");
 
-      codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private void " +
+      if (codeGenerator.isJavaLanguage()) {
+        codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private void " +
                     "jjAddStates(int start, int end)");
+      } else {
+        codeGenerator.generateMethodDefHeader("void",  Main.lg.tokMgrClassName, "jjAddStates(int start, int end)");
+      }
       codeGenerator.genCodeLine("{");
       codeGenerator.genCodeLine("   do {");
       codeGenerator.genCodeLine("      jjstateSet[jjnewStateCnt++] = jjnextStates[start];");
       codeGenerator.genCodeLine("   } while (start++ != end);");
       codeGenerator.genCodeLine("}");
 
-      codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private void " +
+      if (codeGenerator.isJavaLanguage()) {
+        codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private void " +
                     "jjCheckNAddTwoStates(int state1, int state2)");
+      } else {
+        codeGenerator.generateMethodDefHeader("void",  Main.lg.tokMgrClassName, "jjCheckNAddTwoStates(int state1, int state2)");
+
+      }
       codeGenerator.genCodeLine("{");
       codeGenerator.genCodeLine("   jjCheckNAdd(state1);");
       codeGenerator.genCodeLine("   jjCheckNAdd(state2);");
       codeGenerator.genCodeLine("}");
       codeGenerator.genCodeLine("");
-
       if(jjCheckNAddStatesDualNeeded) {
-        codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private void " +
-                     "jjCheckNAddStates(int start, int end)");
-        codeGenerator.genCodeLine("{");
-        codeGenerator.genCodeLine("   do {");
-        codeGenerator.genCodeLine("      jjCheckNAdd(jjnextStates[start]);");
-        codeGenerator.genCodeLine("   } while (start++ != end);");
-        codeGenerator.genCodeLine("}");
-        codeGenerator.genCodeLine("");
+        if (codeGenerator.isJavaLanguage()) {
+          codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private void " +
+                       "jjCheckNAddStates(int start, int end)");
+        } else {
+          codeGenerator.generateMethodDefHeader("void",  Main.lg.tokMgrClassName, "jjCheckNAddStates(int start, int end)");
+        }
+         codeGenerator.genCodeLine("{");
+         codeGenerator.genCodeLine("   do {");
+         codeGenerator.genCodeLine("      jjCheckNAdd(jjnextStates[start]);");
+         codeGenerator.genCodeLine("   } while (start++ != end);");
+         codeGenerator.genCodeLine("}");
+         codeGenerator.genCodeLine("");
       }
 
       if(jjCheckNAddStatesUnaryNeeded) {
-        codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private void " +
-                  "jjCheckNAddStates(int start)");
+        if (codeGenerator.isJavaLanguage()) {
+          codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private void " +
+                    "jjCheckNAddStates(int start)");
+        } else {
+          codeGenerator.generateMethodDefHeader("void",  Main.lg.tokMgrClassName, "jjCheckNAddStates(int start)");
+        }
         codeGenerator.genCodeLine("{");
         codeGenerator.genCodeLine("   jjCheckNAdd(jjnextStates[start]);");
         codeGenerator.genCodeLine("   jjCheckNAdd(jjnextStates[start + 1]);");
         codeGenerator.genCodeLine("}");
         codeGenerator.genCodeLine("");
       }
-   }
-
-   //private static boolean boilerPlateDumped = false;
-   static void PrintBoilerPlateCPP(CodeGenerator codeGenerator)
-   {
-      codeGenerator.switchToIncludeFile();
-      codeGenerator.genCodeLine("#define jjCheckNAdd(state)\\");
-      codeGenerator.genCodeLine("{\\");
-      codeGenerator.genCodeLine("   if (jjrounds[state] != jjround)\\");
-      codeGenerator.genCodeLine("   {\\");
-      codeGenerator.genCodeLine("      jjstateSet[jjnewStateCnt++] = state;\\");
-      codeGenerator.genCodeLine("      jjrounds[state] = jjround;\\");
-      codeGenerator.genCodeLine("   }\\");
-      codeGenerator.genCodeLine("}");
-
-      codeGenerator.genCodeLine("#define jjAddStates(start, end)\\");
-      codeGenerator.genCodeLine("{\\");
-      codeGenerator.genCodeLine("   for (int x = start; x <= end; x++) {\\");
-      codeGenerator.genCodeLine("      jjstateSet[jjnewStateCnt++] = jjnextStates[x];\\");
-      codeGenerator.genCodeLine("   } /*while (start++ != end);*/\\");
-      codeGenerator.genCodeLine("}");
-
-      codeGenerator.genCodeLine("#define jjCheckNAddTwoStates(state1, state2)\\");
-      codeGenerator.genCodeLine("{\\");
-      codeGenerator.genCodeLine("   jjCheckNAdd(state1);\\");
-      codeGenerator.genCodeLine("   jjCheckNAdd(state2);\\");
-      codeGenerator.genCodeLine("}");
-      codeGenerator.genCodeLine("");
-
-      if(jjCheckNAddStatesDualNeeded) {
-        codeGenerator.genCodeLine("#define jjCheckNAddStates(start, end)\\");
-        codeGenerator.genCodeLine("{\\");
-        codeGenerator.genCodeLine("   for (int x = start; x <= end; x++) {\\");
-        codeGenerator.genCodeLine("      jjCheckNAdd(jjnextStates[x]);\\");
-        codeGenerator.genCodeLine("   } /*while (start++ != end);*/\\");
-        codeGenerator.genCodeLine("}");
-        codeGenerator.genCodeLine("");
-      }
-
-      if(jjCheckNAddStatesUnaryNeeded) {
-        codeGenerator.genCodeLine("#define jjCheckNAddStates(start)\\");
-        codeGenerator.genCodeLine("{\\");
-        codeGenerator.genCodeLine("   jjCheckNAdd(jjnextStates[start]);\\");
-        codeGenerator.genCodeLine("   jjCheckNAdd(jjnextStates[start + 1]);\\");
-        codeGenerator.genCodeLine("}");
-        codeGenerator.genCodeLine("");
-      }
-      codeGenerator.switchToMainFile();
    }
 
    private static void FindStatesWithNoBreak()
@@ -2917,15 +2884,16 @@ public class NfaState
         if (codeGenerator.isJavaLanguage()) {
          codeGenerator.genCodeLine("      debugStream.println(" + (LexGen.maxLexStates > 1 ?
                  "\"<\" + lexStateNames[curLexState] + \">\" + " :
-                 "") + "\"Current character : \" + " + Options.getTokenMgrErrorClass() +
-                 ".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +                 "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
+                 "") + "\"Current character : \" + " + Options.getTokenMgrErrorClass() + 
+                 ".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
+                 "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
         } else {
          codeGenerator.genCodeLine("   fprintf(debugStream, " +
             "\"<%s>Current character : %c(%d) at line %d column %d\\n\","+
             "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
             "input_stream->getEndLine(), input_stream->getEndColumn());");
         }
-      }
+      } 
 
       codeGenerator.genCodeLine("   int kind = 0x" + Integer.toHexString(Integer.MAX_VALUE) + ";");
       codeGenerator.genCodeLine("   for (;;)");
@@ -3022,7 +2990,7 @@ public class NfaState
         if (codeGenerator.isJavaLanguage()) {
          codeGenerator.genCodeLine("      debugStream.println(" + (LexGen.maxLexStates > 1 ?
                  "\"<\" + lexStateNames[curLexState] + \">\" + " :
-                 "") + "\"Current character : \" + " +  Options.getTokenMgrErrorClass() +
+                 "") + "\"Current character : \" + " +  Options.getTokenMgrErrorClass() + 
                  ".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
                  "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
         } else {
@@ -3092,7 +3060,7 @@ public class NfaState
        for (int j = 0; j < statesForState[i].length; j++)
        {
          int[] stateSet = statesForState[i][j];
-
+         
          codeGenerator.genCode("const int stateSet_" + i + "_" + j + "[" +
                     Main.lg.stateSetSize + "] = ");
          if (stateSet == null)
@@ -3105,7 +3073,7 @@ public class NfaState
 
          for (int k = 0; k < stateSet.length; k++)
             codeGenerator.genCode(stateSet[k] + ", ");
-
+ 
          codeGenerator.genCodeLine("};");
        }
 
@@ -3175,7 +3143,7 @@ public class NfaState
 
          for (int k = 0; k < stateSet.length; k++)
             codeGenerator.genCode(stateSet[k] + ", ");
-
+ 
          codeGenerator.genCodeLine("},");
        }
 

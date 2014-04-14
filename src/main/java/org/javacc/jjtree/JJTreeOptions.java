@@ -56,8 +56,7 @@ class JJTreeOptions extends Options {
     public static void init() {
         Options.init();
 
-
-        
+        Options.optionValues.put("JDK_VERSION", "1.5");
         Options.optionValues.put("MULTI", Boolean.FALSE);
         Options.optionValues.put("NODE_DEFAULT_VOID", Boolean.FALSE);
         Options.optionValues.put("NODE_SCOPE_HOOK", Boolean.FALSE);
@@ -79,16 +78,7 @@ class JJTreeOptions extends Options {
         Options.optionValues.put("VISITOR_EXCEPTION", "");
 
         Options.optionValues.put("JJTREE_OUTPUT_DIRECTORY", "");
-        
-        
-        // TODO :: 2013/07/23 -- This appears to be a duplicate from the parent class
-        Options.optionValues.put(Options.USEROPTION__JDK_VERSION, "1.5");
-        
-        // Also appears to be a duplicate
-        Options.optionValues.put(Options.USEROPTION_CPP_NAMESPACE, "");
-
-        // Also appears to be a duplicate
-        Options.optionValues.put(Options.USEROPTION__CPP_IGNORE_ACTIONS, Boolean.FALSE);
+        Options.optionValues.put("NAMESPACE", "");
     }
 
     /**
@@ -108,6 +98,15 @@ class JJTreeOptions extends Options {
       }
     }
 
+
+    /**
+     * Find the JDK version.
+     *
+     * @return The specified JDK version.
+     */
+    public static String getJdkVersion() {
+        return stringValue("JDK_VERSION");
+    }
 
     /**
      * Find the multi value.

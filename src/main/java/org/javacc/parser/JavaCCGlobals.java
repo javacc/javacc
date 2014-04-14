@@ -388,12 +388,12 @@ public class JavaCCGlobals {
 	  
 	if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
 		return str;
-	} else if (Options.isOutputLanguageJava()) {
+	} else if (Options.isOutputLanguageImplementedInJava()) {
 	    String retval = "";
 	    char ch;
 	    for (int i = 0; i < str.length(); i++) {
 	      ch = str.charAt(i);
-	      if (ch < 0x20 || ch > 0x7e /*|| ch == '\\' -- cba commented out 20140305*/ ) {
+	      if (ch < 0x20 || ch > 0x7e || ch == '\\') {
 	        String s = "0000" + Integer.toString(ch, 16);
 	        retval += "\\u" + s.substring(s.length() - 4, s.length());
 	      } else {
@@ -570,7 +570,7 @@ public class JavaCCGlobals {
    static String getFileExtension(String language) {
      String lang = Options.getOutputLanguage();
      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-     if (Options.isOutputLanguageJava()) {
+     if (Options.isOutputLanguageImplementedInJava()) {
        return ".java";
      } else if (lang.toLowerCase().equals(Options.OUTPUT_LANGUAGE__CPP)) {
        return ".cc";

@@ -204,14 +204,9 @@ public class JavaFileGenerator {
   {
     while ( text.indexOf("${") != -1)
     {
-		text = substitute(text);
+      text = substitute(text);
     }
     
-	// TODO :: Added by Sreenivas on 12 June 2013 for 6.0 release, merged in to 6.1 release for sake of compatibility by cainsley ... This needs to be removed urgently!!!
-	if (text.startsWith("\\#")) { // Hack to escape # for C++
-	  text = text.substring(1);
-	}
-	
     out.println(text);
   }
   
@@ -231,6 +226,9 @@ public class JavaFileGenerator {
       else
       {
         String line = getLine(in);
+        if (line.startsWith("\\#")) { // Hack to escape # for C++
+          line = line.substring(1);
+        }
         if (!ignoring) write(out, line);
       }
     }

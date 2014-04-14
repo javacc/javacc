@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.javacc.Version;
 import org.javacc.utils.JavaFileGenerator;
@@ -18,33 +20,33 @@ import org.javacc.utils.JavaFileGenerator;
  */
 public class CPPFiles extends JavaCCGlobals implements JavaCCParserConstants
 {
-   /**
+  /**
    * ID of the latest version (of JavaCC) in which one of the CharStream classes
    * or the CharStream interface is modified.
    */
-  static final String charStreamVersion = Version.majorDotMinor;
+  static final String charStreamVersion = "6.1";
 
   /**
    * ID of the latest version (of JavaCC) in which the TokenManager interface is modified.
    */
-  static final String tokenManagerVersion = Version.majorDotMinor;
+  static final String tokenManagerVersion = "6.1";
 
   /**
    * ID of the latest version (of JavaCC) in which the Token class is modified.
    */
-  static final String tokenVersion = Version.majorDotMinor;
+  static final String tokenVersion = "6.1";
 
   /**
    * ID of the latest version (of JavaCC) in which the ParseException class is
    * modified.
    */
-  static final String parseExceptionVersion = Version.majorDotMinor;
+  static final String parseExceptionVersion = "6.1";
 
   /**
    * ID of the latest version (of JavaCC) in which the TokenMgrError class is
    * modified.
    */
-  static final String tokenMgrErrorVersion = Version.majorDotMinor;
+  static final String tokenMgrErrorVersion = "6.1";
 
   /**
    * Replaces all backslahes with double backslashes.
@@ -134,10 +136,10 @@ public class CPPFiles extends JavaCCGlobals implements JavaCCParserConstants
     }
   }
 
-  private static void genFile(String name, String version, String[] parameters) {
+  private static void genFile(String name, String version) {
     final File file = new File(Options.getOutputDirectory(), name);
     try {
-      final OutputFile outputFile = new OutputFile(file, version, parameters);
+      final OutputFile outputFile = new OutputFile(file, version, new String[] {"STATIC", "SUPPORT_CLASS_VISIBILITY_PUBLIC"});
 
       if (!outputFile.needToWrite) {
         return;
@@ -156,42 +158,35 @@ public class CPPFiles extends JavaCCGlobals implements JavaCCParserConstants
   }
 
   public static void gen_CharStream() {
-    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
-    genFile("CharStream.h", charStreamVersion, parameters);
-    genFile("CharStream.cc", charStreamVersion, parameters);
+    genFile("CharStream.h", charStreamVersion);
+    genFile("CharStream.cc", charStreamVersion);
   }
 
   public static void gen_ParseException() {
-    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
-    genFile("ParseException.h", parseExceptionVersion, parameters);
-    genFile("ParseException.cc", parseExceptionVersion, parameters);
+    genFile("ParseException.h", parseExceptionVersion);
+    genFile("ParseException.cc", parseExceptionVersion);
   }
 
   public static void gen_TokenMgrError() {
-    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
-    genFile("TokenMgrError.h", tokenMgrErrorVersion, parameters);
-    genFile("TokenMgrError.cc", tokenMgrErrorVersion, parameters);
+    genFile("TokenMgrError.h", tokenMgrErrorVersion);
+    genFile("TokenMgrError.cc", tokenMgrErrorVersion);
   }
 
   public static void gen_Token() {
-    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC, Options.USEROPTION__CPP_TOKEN_INCLUDES, Options.USEROPTION__TOKEN_EXTENDS};
-    genFile("Token.h", tokenMgrErrorVersion, parameters);
-    genFile("Token.cc", tokenMgrErrorVersion, parameters);
+    genFile("Token.h", tokenVersion);
+    genFile("Token.cc", tokenVersion);
   }
 
   public static void gen_TokenManager() {
-    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
-    genFile("TokenManager.h", tokenManagerVersion, parameters);
+    genFile("TokenManager.h", tokenManagerVersion);
   }
 
   public static void gen_JavaCCDefs() {
-    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
-    genFile("JavaCC.h", tokenManagerVersion, parameters);
+    genFile("JavaCC.h", tokenManagerVersion);
   }
 
   public static void gen_ErrorHandler() {
-    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC, Options.USEROPTION__BUILD_PARSER, Options.USEROPTION__BUILD_TOKEN_MANAGER};
-    genFile("ErrorHandler.h", parseExceptionVersion, parameters);
+    genFile("ErrorHandler.h", parseExceptionVersion);
   }
 
   public static void reInit()

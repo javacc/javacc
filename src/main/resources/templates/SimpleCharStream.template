@@ -28,16 +28,10 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   ${PREFIX}protected char[] buffer;
   ${PREFIX}protected int maxNextCharInd = 0;
   ${PREFIX}protected int inBuf = 0;
-  ${PREFIX}protected int tabSize = 1;
-#if KEEP_LINE_COLUMN
-  ${PREFIX}protected boolean trackLineColumn = true;
-#else
-  ${PREFIX}protected boolean trackLineColumn = false;
-#fi
+  ${PREFIX}protected int tabSize = 8;
 
-  ${PREFIX}public void setTabSize(int i) { tabSize = i; }
-  ${PREFIX}public int getTabSize() { return tabSize; }
-
+  ${PREFIX}protected void setTabSize(int i) { tabSize = i; }
+  ${PREFIX}protected int getTabSize(int i) { return tabSize; }
 
 
   ${PREFIX}protected void ExpandBuff(boolean wrapAround)
@@ -527,7 +521,6 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
     line = bufline[j];
     column = bufcolumn[j];
   }
-  ${PREFIX}boolean getTrackLineColumn() { return trackLineColumn; }
-  ${PREFIX}void setTrackLineColumn(boolean tlc) { trackLineColumn = tlc; }
+
 #fi
 }

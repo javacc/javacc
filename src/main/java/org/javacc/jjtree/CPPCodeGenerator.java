@@ -4,8 +4,6 @@
 package org.javacc.jjtree;
 
 import org.javacc.parser.JavaCCGlobals;
-import org.javacc.parser.Options;
-
 import java.io.File;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -21,8 +19,8 @@ public class CPPCodeGenerator extends DefaultJJTreeVisitor {
     io.println("/*@bgen(jjtree) " +
         JavaCCGlobals.getIdString(JJTreeGlobals.toolList,
         new File(io.getOutputFileName()).getName()) +
-         (JJTreeOptions.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS)  ? "" : " */"));
-    io.print((JJTreeOptions.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS)  ? "" :"/*") + "@egen*/");
+         " */");
+    io.print("/*@egen*/");
 
     return node.childrenAccept(this, io);
   }
@@ -214,16 +212,16 @@ public class CPPCodeGenerator extends DefaultJJTreeVisitor {
   static void openJJTreeComment(IO io, String arg)
   {
     if (arg != null) {
-      io.print("/*@bgen(jjtree) " + arg + (JJTreeOptions.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS)  ? "" :" */"));
+      io.print("/*@bgen(jjtree) " + arg + " */");
     } else {
-      io.print("/*@bgen(jjtree)" + (JJTreeOptions.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) ? "" : "*/"));
+      io.print("/*@bgen(jjtree)*/");
     }
   }
 
 
   static void closeJJTreeComment(IO io)
   {
-    io.print((JJTreeOptions.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) ? "" : "/*") + "@egen*/");
+    io.print("/*@egen*/");
   }
 
 
@@ -265,10 +263,10 @@ public class CPPCodeGenerator extends DefaultJJTreeVisitor {
 
     if (JJTreeOptions.getNodeFactory().equals("*")) {
       // Old-style multiple-implementations.
-      io.println("(" + nodeClass + "*)" + nodeClass + "::jjtCreate(" + parserArg +
+      io.println("(" + nodeClass + "*)" + nodeClass + "->jjtCreate(" + parserArg +
           ns.node_descriptor.getNodeId() +");");
     } else if (JJTreeOptions.getNodeFactory().length() > 0) {
-      io.println("(" + nodeClass + "*)nodeFactory->jjtCreate(" + parserArg +
+      io.println("(" + nodeClass + "*)" + JJTreeOptions.getNodeFactory() + "->jjtCreate(" + parserArg +
        ns.node_descriptor.getNodeId() +");");
     } else {
       io.println("new " + nodeClass + "(" + parserArg + ns.node_descriptor.getNodeId() + ");");

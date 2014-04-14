@@ -151,7 +151,7 @@ public static String staticString;
     }
     //genCodeLine("class " + tokMgrClassName + " implements " +
     		//cu_name + "Constants");
-    //String superClass = Options.stringValue(Options.USEROPTION__TOKEN_MANAGER_SUPER_CLASS);
+    //String superClass = Options.stringValue("TOKEN_MANAGER_SUPER_CLASS");
     genClassStart(null, tokMgrClassName, new String[]{}, new String[]{cu_name + "Constants"});
     //genCodeLine("{"); // }
 
@@ -788,8 +788,8 @@ public static String staticString;
 
       if (keepLineCol)
       {
-        genCodeLine("      beginLine = endLine = input_stream.getEndLine();");
-        genCodeLine("      beginColumn = endColumn = input_stream.getEndColumn();");
+        genCodeLine("      beginLine = endLine = input_stream.getBeginLine();");
+        genCodeLine("      beginColumn = endColumn = input_stream.getBeginColumn();");
       }
 
       genCodeLine("   }");
@@ -875,7 +875,7 @@ public static String staticString;
     genCodeLine("   {");
     genCodeLine("      curChar = input_stream.BeginToken();");
     genCodeLine("   }");
-    genCodeLine("   catch(Exception e)");
+    genCodeLine("   catch(java.io.IOException e)");
     genCodeLine("   {");
 
     if (Options.getDebugTokenManager())

@@ -42,9 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.javacc.Version;
 import org.javacc.parser.Options;
-import org.javacc.parser.OtherFilesGenCPP;
 import org.javacc.parser.OutputFile;
 import org.javacc.utils.JavaFileGenerator;
 
@@ -56,7 +54,7 @@ final class CPPNodeFiles {
    * ID of the latest version (of JJTree) in which one of the Node classes
    * was modified.
    */
-  static final String nodeVersion = Version.majorDotMinor;
+  static final String nodeVersion = "6.1";
 
   static Set nodesToGenerate = new HashSet();
 
@@ -95,7 +93,7 @@ final class CPPNodeFiles {
     OutputFile outputFile = null;
 
     try {
-      String[] options = new String[] {"MULTI", "NODE_USES_PARSER", "VISITOR", "TRACK_TOKENS", "NODE_PREFIX", "NODE_EXTENDS", "NODE_FACTORY", Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
+      String[] options = new String[] {"MULTI", "NODE_USES_PARSER", "VISITOR", "TRACK_TOKENS", "NODE_PREFIX", "NODE_EXTENDS", "NODE_FACTORY", "SUPPORT_CLASS_VISIBILITY_PUBLIC"};
       outputFile = new OutputFile(file, nodeVersion, options);
       outputFile.setToolName("JJTree");
 
@@ -104,7 +102,7 @@ final class CPPNodeFiles {
       }
 
       Map optionMap = new HashMap(Options.getOptions());
-      optionMap.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
+      optionMap.put("PARSER_NAME", JJTreeGlobals.parserName);
       optionMap.put("VISITOR_RETURN_TYPE", getVisitorReturnType());
       optionMap.put("VISITOR_DATA_TYPE", getVisitorArgumentType());
       optionMap.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(getVisitorReturnType().equals("void")));
@@ -123,7 +121,7 @@ final class CPPNodeFiles {
     OutputFile outputFile = null;
 
     try {
-      String[] options = new String[] {"MULTI", "NODE_USES_PARSER", "VISITOR", "TRACK_TOKENS", "NODE_PREFIX", "NODE_EXTENDS", "NODE_FACTORY", Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
+      String[] options = new String[] {"MULTI", "NODE_USES_PARSER", "VISITOR", "TRACK_TOKENS", "NODE_PREFIX", "NODE_EXTENDS", "NODE_FACTORY", "SUPPORT_CLASS_VISIBILITY_PUBLIC"};
       outputFile = new OutputFile(file, nodeVersion, options);
       outputFile.setToolName("JJTree");
 
@@ -132,7 +130,7 @@ final class CPPNodeFiles {
       }
 
       Map optionMap = new HashMap(Options.getOptions());
-      optionMap.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
+      optionMap.put("PARSER_NAME", JJTreeGlobals.parserName);
       optionMap.put("VISITOR_RETURN_TYPE", getVisitorReturnType());
       optionMap.put("VISITOR_DATA_TYPE", getVisitorArgumentType());
       optionMap.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(getVisitorReturnType().equals("void")));
@@ -142,9 +140,9 @@ final class CPPNodeFiles {
       ostr.println("#define " + file.getName().replace('.', '_').toUpperCase());
       generateFile(outputFile, "/templates/cpp/TreeIncludeHeader.template", optionMap, false);
 
-      boolean hasNamespace = JJTreeOptions.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0;
+      boolean hasNamespace = JJTreeOptions.stringValue("NAMESPACE").length() > 0;
       if (hasNamespace) {
-        ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
+        ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE") + "{");
       }
 
       generateFile(outputFile, "/templates/cpp/SimpleNodeInterface.template", optionMap, false);
@@ -155,7 +153,7 @@ final class CPPNodeFiles {
       }
 
       if (hasNamespace) {
-        ostr.println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
+        ostr.println("}");
       }
       ostr.println("#endif ");
     } catch (IOException e) {
@@ -172,7 +170,7 @@ final class CPPNodeFiles {
     OutputFile outputFile = null;
 
     try {
-      String[] options = new String[] {"MULTI", "NODE_USES_PARSER", "VISITOR", "TRACK_TOKENS", "NODE_PREFIX", "NODE_EXTENDS", "NODE_FACTORY", Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
+      String[] options = new String[] {"MULTI", "NODE_USES_PARSER", "VISITOR", "TRACK_TOKENS", "NODE_PREFIX", "NODE_EXTENDS", "NODE_FACTORY", "SUPPORT_CLASS_VISIBILITY_PUBLIC"};
       outputFile = new OutputFile(file, nodeVersion, options);
       outputFile.setToolName("JJTree");
 
@@ -181,15 +179,15 @@ final class CPPNodeFiles {
       }
 
       Map optionMap = new HashMap(Options.getOptions());
-      optionMap.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
+      optionMap.put("PARSER_NAME", JJTreeGlobals.parserName);
       optionMap.put("VISITOR_RETURN_TYPE", getVisitorReturnType());
       optionMap.put("VISITOR_DATA_TYPE", getVisitorArgumentType());
       optionMap.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(getVisitorReturnType().equals("void")));
       generateFile(outputFile, "/templates/cpp/TreeImplHeader.template", optionMap, false);
 
-      boolean hasNamespace = JJTreeOptions.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0;
+      boolean hasNamespace = JJTreeOptions.stringValue("NAMESPACE").length() > 0;
       if (hasNamespace) {
-        outputFile.getPrintWriter().println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
+        outputFile.getPrintWriter().println("namespace " + JJTreeOptions.stringValue("NAMESPACE") + "{");
       }
 
       generateFile(outputFile, "/templates/cpp/SimpleNodeImpl.template", optionMap, false);
@@ -200,7 +198,7 @@ final class CPPNodeFiles {
       }
 
       if (hasNamespace) {
-        outputFile.getPrintWriter().println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
+        outputFile.getPrintWriter().println("}");
       }
     } catch (IOException e) {
       throw new Error(e.toString());
@@ -239,9 +237,9 @@ final class CPPNodeFiles {
       ostr.println("#define " + file.getName().replace('.', '_').toUpperCase());
 
       ostr.println("\n#include \"JavaCC.h\"");
-      boolean hasNamespace = JJTreeOptions.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0;
+      boolean hasNamespace = JJTreeOptions.stringValue("NAMESPACE").length() > 0;
       if (hasNamespace) {
-        ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
+        ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE") + "{");
       }
       ostr.println("  enum {");
       for (int i = 0; i < nodeIds.size(); ++i) {
@@ -252,21 +250,15 @@ final class CPPNodeFiles {
       ostr.println("};");
       ostr.println();
 
-      for (int i = 0; i < nodeNames.size(); ++i) {
-        ostr.println("  static JAVACC_CHAR_TYPE jjtNodeName_arr_" + i + "[] = ");
-        String n = (String)nodeNames.get(i);
-        //ostr.println("    (JAVACC_CHAR_TYPE*)\"" + n + "\",");
-        OtherFilesGenCPP.printCharArray(ostr, n);
-        ostr.println(";");
-      }
       ostr.println("  static JAVACC_STRING_TYPE jjtNodeName[] = {");
-      for (int i = 0; i < nodeNames.size(); i++) {
-        ostr.println("jjtNodeName_arr_" + i + ", ");
+      for (int i = 0; i < nodeNames.size(); ++i) {
+        String n = (String)nodeNames.get(i);
+        ostr.println("    (JAVACC_CHAR_TYPE*)\"" + n + "\",");
       }
       ostr.println("  };");
 
       if (hasNamespace) {
-        ostr.println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
+        ostr.println("}");
       }
 
       ostr.println("#endif");
@@ -319,19 +311,18 @@ final class CPPNodeFiles {
       generatePrologue(ostr);
       ostr.println("#ifndef " + file.getName().replace('.', '_').toUpperCase().toUpperCase());
       ostr.println("#define " + file.getName().replace('.', '_').toUpperCase().toUpperCase());
-      ostr.println("\n#include \"JavaCC.h\"");
       ostr.println("#include \"" + JJTreeGlobals.parserName + "Tree.h" + "\"");
 
-      boolean hasNamespace = JJTreeOptions.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0;
+      boolean hasNamespace = JJTreeOptions.stringValue("NAMESPACE").length() > 0;
       if (hasNamespace) {
-        ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
+        ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE") + "{");
       }
 
       generateVisitorInterface(ostr);
       generateDefaultVisitor(ostr);
 
       if (hasNamespace) {
-        ostr.println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
+        ostr.println("}");
       }
 
       ostr.println("#endif");

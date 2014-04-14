@@ -45,11 +45,11 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
 
     CPPFiles.gen_JavaCCDefs();
     CPPFiles.gen_CharStream();
-    CPPFiles.gen_Token();  // TODO(theov): issued twice??
+    CPPFiles.gen_Token();
     CPPFiles.gen_TokenManager();
     CPPFiles.gen_TokenMgrError();
     CPPFiles.gen_ParseException();
-    CPPFiles.gen_Token();  // TODO(theov): issued twice??
+    CPPFiles.gen_Token();
     CPPFiles.gen_ErrorHandler();
 
     try {
@@ -96,10 +96,9 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
     String define = (cu_name + "Constants_h").toUpperCase();
     ostr.println("#ifndef " + define);
     ostr.println("#define " + define);
-    ostr.println("#include \"JavaCC.h\"");
     ostr.println("");
-    if (Options.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0) {
-      ostr.println("namespace " + Options.stringValue("NAMESPACE_OPEN"));
+    if (Options.stringValue("NAMESPACE").length() > 0) {
+      ostr.println("namespace " + Options.stringValue("NAMESPACE") + " {");
     }
 
     RegularExpression re;
@@ -153,8 +152,8 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
     }
     ostr.println("  };");
     ostr.println("");
-    if (Options.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0) {
-      ostr.println(Options.stringValue("NAMESPACE_CLOSE"));
+    if (Options.stringValue("NAMESPACE").length() > 0) {
+      ostr.println(" }");
     }
     ostr.println("#endif");
 

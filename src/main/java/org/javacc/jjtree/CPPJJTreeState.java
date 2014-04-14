@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.javacc.Version;
 import org.javacc.parser.Options;
 import org.javacc.parser.OutputFile;
 
@@ -19,14 +18,14 @@ import org.javacc.parser.OutputFile;
 final class CPPJJTreeState
 {
 
-  static final String JJTStateVersion = Version.majorDotMinor;
+  static final String JJTStateVersion = "6.1";
 
   private CPPJJTreeState() {}
 
   static void generateTreeState() throws IOException
   {
     Map options = JJTreeOptions.getOptions();
-    options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
+    options.put("PARSER_NAME", JJTreeGlobals.parserName);
     String filePrefix = new File(JJTreeOptions.getJJTreeOutputDirectory(), "JJT" + JJTreeGlobals.parserName + "State").getAbsolutePath();
 
     OutputFile outputFile = new OutputFile(new File(filePrefix + ".h"), JJTStateVersion, new String[0]);

@@ -1,0 +1,505 @@
+#include "CharStream.h"
+#include <iostream>
+
+static void arraycopy(char buffer[], int tokenBegin, char newbuffer[], int newBeg, int newsz) {
+  memcpy(newbuffer + newBeg + newsz, buffer + tokenBegin, newsz * sizeof(char));
+  delete[] buffer;
+}
+
+static void arraycopy(int buffer[], int tokenBegin, int newbuffer[], int newBeg, int newsz) {
+  memcpy(newbuffer + newBeg + newsz, buffer + tokenBegin, newsz * sizeof(int));
+  delete[] buffer;
+}
+
+class PlxCharStream : _CharStream
+{
+  public:
+
+/** Position in buffer. */
+  int bufpos;
+  int bufsize;
+  int available;
+  int tokenBegin;
+  int *bufline;
+  int *bufcolumn;
+
+  int column;
+  int line;
+
+  bool prevCharIsCR ;
+  bool prevCharIsLF ;
+
+  std::istream inputStream;
+
+  char* nextCharBuf;
+  char* buffer;
+  int maxNextCharInd;
+  int nextCharInd;
+  int inBuf ;
+  int tabSize ;
+
+  void setTabSize(int i) { tabSize = i; }
+  int getTabSize(int i) { return tabSize == 0 ? 8 : tabSize; }
+
+  void ExpandBuff(bool wrapAround)
+  {
+    char* newbuffer = new char[bufsize + 2048];
+    int *newbufline = new int[bufsize + 2048];
+    int *newbufcolumn = new int[bufsize + 2048];
+
+    try
+    {
+      if (wrapAround)
+      {
+        arraycopy(buffer, tokenBegin, newbuffer, 0, bufsize - tokenBegin);
+        arraycopy(buffer, 0, newbuffer, bufsize - tokenBegin, bufpos);
+        buffer = newbuffer;
+
+        arraycopy(bufline, tokenBegin, newbufline, 0, bufsize - tokenBegin);
+        arraycopy(bufline, 0, newbufline, bufsize - tokenBegin, bufpos);
+        bufline = newbufline;
+
+        arraycopy(bufcolumn, tokenBegin, newbufcolumn, 0, bufsize - tokenBegin);
+        arraycopy(bufcolumn, 0, newbufcolumn, bufsize - tokenBegin, bufpos);
+        bufcolumn = newbufcolumn;
+
+        bufpos += (bufsize - tokenBegin);
+    }
+    else
+    {
+        arraycopy(buffer, tokenBegin, newbuffer, 0, bufsize - tokenBegin);
+        buffer = newbuffer;
+
+        arraycopy(bufline, tokenBegin, newbufline, 0, bufsize - tokenBegin);
+        bufline = newbufline;
+
+        arraycopy(bufcolumn, tokenBegin, newbufcolumn, 0, bufsize - tokenBegin);
+        bufcolumn = newbufcolumn;
+
+        bufpos -= tokenBegin;
+      }
+    }
+    catch (...)
+    {
+      throw new InputStreamException();
+    }
+
+    available = (bufsize += 2048);
+    tokenBegin = 0;
+  }
+
+  void FillBuff() throw()
+  {
+    int i;
+    if (maxNextCharInd == 4096)
+      maxNextCharInd = nextCharInd = 0;
+
+    try {
+      if ((i = inputStream.read(nextCharBuf, maxNextCharInd,
+                                          4096 - maxNextCharInd)) == -1)
+      {
+        inputStream.close();
+        throw new IOException();
+      }
+      else
+         maxNextCharInd += i;
+      return;
+    }
+    catch(IOException e) {
+      if (bufpos != 0)
+      {
+        --bufpos;
+        backup(0);
+      }
+      else
+      {
+        bufline[bufpos] = line;
+        bufcolumn[bufpos] = column;
+      }
+      throw e;
+    }
+  }
+
+  char ReadByte() throw()
+  {
+    if (++nextCharInd >= maxNextCharInd)
+      FillBuff();
+
+    return nextCharBuf[nextCharInd];
+  }
+
+/** @return starting character for token. */
+  char BeginToken() throw()
+  {
+    if (inBuf > 0)
+    {
+      --inBuf;
+
+      if (++bufpos == bufsize)
+        bufpos = 0;
+
+      tokenBegin = bufpos;
+      return buffer[bufpos];
+    }
+
+    tokenBegin = 0;
+    bufpos = -1;
+
+    return readChar();
+  }
+
+  void AdjustBuffSize()
+  {
+    if (available == bufsize)
+    {
+      if (tokenBegin > 2048)
+      {
+        bufpos = 0;
+        available = tokenBegin;
+      }
+      else
+        ExpandBuff(false);
+    }
+    else if (available > tokenBegin)
+      available = bufsize;
+    else if ((tokenBegin - available) < 2048)
+      ExpandBuff(true);
+    else
+      available = tokenBegin;
+  }
+
+  void UpdateLineColumn(char c)
+  {
+    column++;
+
+    if (prevCharIsLF)
+    {
+      prevCharIsLF = false;
+      line += (column = 1);
+    }
+    else if (prevCharIsCR)
+    {
+      prevCharIsCR = false;
+      if (c == '\n')
+      {
+        prevCharIsLF = true;
+      }
+      else
+        line += (column = 1);
+    }
+
+    switch (c)
+    {
+      case '\r' :
+        prevCharIsCR = true;
+        break;
+      case '\n' :
+        prevCharIsLF = true;
+        break;
+      case '\t' :
+        column--;
+        column += (tabSize - (column % tabSize));
+        break;
+      default :
+        break;
+    }
+
+    bufline[bufpos] = line;
+    bufcolumn[bufpos] = column;
+  }
+
+/** Read a character. */
+  String getEnvVar() throw()
+  {
+    char c;
+    StringBuffer sb = new StringBuffer();
+    while ((c = ReadByte()) != '}') { // read until close brace.
+      sb.append(c);
+      UpdateLineColumn(c);
+    }
+
+    // for now, just return the value.
+    String subst = String(getenv(sb.c_str()));
+    //fprintf(stderr, "Substituting env var: " + sb.toString() + "; val: " + subst);
+    return subst == NULL ? sb.c_str() : subst; // temp hack
+  }
+
+  char readChar() throw()
+  {
+    if (inBuf > 0)
+    {
+      --inBuf;
+
+      if (++bufpos == bufsize)
+        bufpos = 0;
+
+      return buffer[bufpos];
+    }
+
+    char c;
+    if (++bufpos == available)
+      AdjustBuffSize();
+
+    buffer[bufpos] = c = ReadByte();
+    UpdateLineColumn(c);
+
+    if (c != '$')
+      return c;
+
+    if (++bufpos == available)
+      AdjustBuffSize();
+
+    int fl = line;
+    int fc = column;
+    if ((buffer[bufpos] = c = ReadByte()) == '{') { // }
+      // found ${ // }
+      UpdateLineColumn(c);
+      bufpos -= 2; //reset to the position of $ for substitution
+      String subst = getEnvVar();
+      int substLen = subst.length();
+      for (int i = 0; i < substLen; i++) {
+        char s = subst.charAt(i);
+        if (++bufpos == available) {
+          AdjustBuffSize();
+        }
+
+        buffer[bufpos] = s;
+        if (i == 0 && substLen > 1) {
+          // begin position set to that of $ if subst is longer than 1 char
+          bufline[bufpos] = fl;
+          bufcolumn[bufpos] = fc;
+        } else {
+          // set the position to be the one of the end (close brace) of env var ref.
+          bufline[bufpos] = line;
+          bufcolumn[bufpos] = column;
+        }
+      }
+
+      backup(subst.length()); // don't preprocess this anymore
+    } else {
+      backup(2);
+    }
+
+    return readChar();
+  }
+
+  /**
+   * @deprecated
+   * @see #getEndColumn
+   */
+  int getColumn() {
+    return bufcolumn[bufpos];
+  }
+
+  /**
+   * @deprecated
+   * @see #getEndLine
+   */
+  int getLine() {
+    return bufline[bufpos];
+  }
+
+/** Get end column. */
+  int getEndColumn() {
+    return bufcolumn[bufpos];
+  }
+
+/** Get end line. */
+  int getEndLine() {
+    return bufline[bufpos];
+  }
+
+/** @return column of token start */
+  int getBeginColumn() {
+    return bufcolumn[tokenBegin];
+  }
+
+/** @return line number of token start */
+  int getBeginLine() {
+    return bufline[tokenBegin];
+  }
+
+/** Retreat. */
+  void backup(int amount) {
+
+    inBuf += amount;
+    if ((bufpos -= amount) < 0)
+      bufpos += bufsize;
+  }
+
+/** Constructor. */
+  PlxCharStream(std::istream dstream,
+                 int startline, int startcolumn, int buffersize)
+  {
+    inputStream = dstream;
+    line = startline;
+    column = startcolumn - 1;
+
+    available = bufsize = buffersize;
+    buffer = new char[buffersize];
+    bufline = new int[buffersize];
+    bufcolumn = new int[buffersize];
+    nextCharBuf = new char[4096];
+  }
+
+/** Constructor. */
+  PlxCharStream(std::istream dstream,
+                                        int startline, int startcolumn)
+  {
+    ReInit(dstream, startline, startcolumn, 4096);
+  }
+
+/** Constructor. */
+  PlxCharStream(std::istream dstream)
+  {
+    ReInit(dstream, 1, 1, 4096);
+  }
+/** Reinitialise. */
+  void ReInit(std::istream dstream,
+                 int startline, int startcolumn, int buffersize)
+  {
+    inputStream = dstream;
+    line = startline;
+    column = startcolumn - 1;
+
+    if (buffer == NULL || buffersize != buffer.length)
+    {
+      available = bufsize = buffersize;
+      buffer = new char[buffersize];
+      bufline = new int[buffersize];
+      bufcolumn = new int[buffersize];
+      nextCharBuf = new char[4096];
+    }
+    prevCharIsLF = prevCharIsCR = false;
+    tokenBegin = inBuf = maxNextCharInd = 0;
+    nextCharInd = bufpos = -1;
+  }
+
+/** Reinitialise. */
+  void ReInit(std::istream dstream,
+                                        int startline, int startcolumn)
+  {
+    ReInit(dstream, startline, startcolumn, 4096);
+  }
+
+/** Reinitialise. */
+  void ReInit(std::istream dstream)
+  {
+    ReInit(dstream, 1, 1, 4096);
+  }
+/** Constructor. */
+  PlxCharStream(std::istream dstream, String encoding, int startline,
+  int startcolumn, int buffersize) throw()
+  {
+    ReInit(encoding == NULL ? new std::istream(dstream) : new std::istream(dstream, encoding), startline, startcolumn, buffersize);
+  }
+
+/** Constructor. */
+  PlxCharStream(std::istream dstream, String encoding) throw()
+  {
+    ReInit(dstream, encoding, 1, 1, 4096);
+  }
+
+/** Reinitialise. */
+  void ReInit(std::istream dstream, String encoding, int startline,
+  int startcolumn, int buffersize) throw()
+  {
+    ReInit(encoding.length() == 0 ? new std::istream(dstream) : new std::istream(dstream, encoding), startline, startcolumn, buffersize);
+  }
+
+/** Reinitialise. */
+  void ReInit(std::istream dstream, String encoding, int startline,
+                     int startcolumn) throw()
+  {
+    ReInit(dstream, encoding, startline, startcolumn, 4096);
+  }
+/** Reinitialise. */
+  void ReInit(std::istream dstream, String encoding) throw()
+  {
+    ReInit(dstream, encoding, 1, 1, 4096);
+  }
+
+  /** @return token image as String */
+  String GetImage()
+  {
+    if (bufpos >= tokenBegin)
+      return *new String(buffer, tokenBegin, bufpos - tokenBegin + 1);
+    else
+      return *new String(buffer, tokenBegin, bufsize - tokenBegin) +
+                              new String(buffer, 0, bufpos + 1);
+  }
+
+  /** @return suffix */
+  char* GetSuffix(int len)
+  {
+    char* ret = new char[len];
+
+    if ((bufpos + 1) >= len)
+      arraycopy(buffer, bufpos - len + 1, ret, 0, len);
+    else
+    {
+      arraycopy(buffer, bufsize - (len - bufpos - 1), ret, 0,
+                                                        len - bufpos - 1);
+      arraycopy(buffer, 0, ret, len - bufpos - 1, bufpos + 1);
+    }
+
+    return ret;
+  }
+
+  /** Set buffers back to NULL when finished. */
+  void Done()
+  {
+    nextCharBuf = NULL;
+    buffer = NULL;
+    bufline = NULL;
+    bufcolumn = NULL;
+  }
+
+  /**
+   * Method to adjust line and column numbers for the start of a token.
+   */
+  void adjustBeginLineColumn(int newLine, int newCol)
+  {
+    int start = tokenBegin;
+    int len;
+
+    if (bufpos >= tokenBegin)
+    {
+      len = bufpos - tokenBegin + inBuf + 1;
+    }
+    else
+    {
+      len = bufsize - tokenBegin + bufpos + 1 + inBuf;
+    }
+
+    int i = 0, j = 0, k = 0;
+    int nextColDiff = 0, columnDiff = 0;
+
+    while (i < len && bufline[j = start % bufsize] == bufline[k = ++start % bufsize])
+    {
+      bufline[j] = newLine;
+      nextColDiff = columnDiff + bufcolumn[k] - bufcolumn[j];
+      bufcolumn[j] = newCol + columnDiff;
+      columnDiff = nextColDiff;
+      i++;
+    }
+
+    if (i < len)
+    {
+      bufline[j] = newLine++;
+      bufcolumn[j] = newCol + columnDiff;
+
+      while (i++ < len)
+      {
+        if (bufline[j = start % bufsize] != bufline[++start % bufsize])
+          bufline[j] = newLine++;
+        else
+          bufline[j] = newLine;
+      }
+    }
+
+    line = bufline[j];
+    column = bufcolumn[j];
+  }
+
+};

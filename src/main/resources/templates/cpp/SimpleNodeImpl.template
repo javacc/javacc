@@ -1,7 +1,7 @@
 
   SimpleNode::SimpleNode(int i)
 #if NODE_EXTENDS
-   : ${NODE_EXTENDS}(), parent(NULL), value(NULL)
+   : ${NODE_EXTENDS}()
 #fi
 {
     id = i;
@@ -11,7 +11,7 @@
 
   SimpleNode::SimpleNode(${PARSER_NAME} *p, int i)
 #if NODE_EXTENDS
-   : ${NODE_EXTENDS}(), parent(NULL), value(NULL)
+   : ${NODE_EXTENDS}()
 #fi
 {
     id = i;
@@ -82,11 +82,6 @@
   JAVACC_STRING_TYPE SimpleNode::toString() const { return jjtNodeName[id]; }
   JAVACC_STRING_TYPE SimpleNode::toString(JAVACC_STRING_TYPE prefix) const { return prefix + toString(); }
 
-  static JAVACC_CHAR_TYPE space_char_arr_[] = { ' ', '\0' };
-  static JAVACC_CHAR_TYPE newline_char_arr_[] = { '\n', '\0' };
-  static JAVACC_STRING_TYPE space = space_char_arr_;
-  static JAVACC_STRING_TYPE newline = newline_char_arr_;
-
   /* Override this method if you want to customize how the node dumps
      out its children. */
 
@@ -96,17 +91,15 @@
     for (int i = 0; i < children.size(); ++i) {
       SimpleNode *n = (SimpleNode*)children[i];
       if (n != NULL) {
-        n->dumpToBuffer(prefix + space, separator, buffer);
+        n->dumpToBuffer(prefix + " ", separator, buffer);
       }
     }
   }
-  
+
   void SimpleNode::dump(JAVACC_STRING_TYPE prefix) const {
     JAVACC_STRING_TYPE *buffer = new JAVACC_STRING_TYPE();
-    dumpToBuffer(prefix, newline, buffer);
-    for (int i = 0; i < buffer->size(); i++) {
-      printf("%c", (*buffer)[i]);
-    }
+    dumpToBuffer(prefix, "\n", buffer);
+    printf("%s", buffer->c_str());
     delete buffer;
   }
 

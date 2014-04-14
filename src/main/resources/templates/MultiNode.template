@@ -27,15 +27,10 @@ class ${NODE_TYPE} extends ${NODE_CLASS:-SimpleNode} {
 #else
   public ${VISITOR_RETURN_TYPE} jjtAccept(${PARSER_NAME}Visitor visitor, ${VISITOR_DATA_TYPE:-Object} data) {
 #fi
-
 #if VISITOR_RETURN_TYPE_VOID
-#else
-    return
-#fi
-#if VISITOR_METHOD_NAME_INCLUDES_TYPE_NAME
     visitor.visit${NODE_TYPE}(this, data);
 #else
-    visitor.visit(this, data);
+    return visitor.visit${NODE_TYPE}(this, data);
 #fi
   }
 #fi

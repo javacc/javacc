@@ -2,23 +2,15 @@
 \#define TOKEN_H
 \#include "JavaCC.h"
 
-#if TOKEN_INCLUDES
-\#include "${TOKEN_INCLUDES}"
-#fi
-
 #if NAMESPACE
-namespace ${NAMESPACE_OPEN}
+namespace ${NAMESPACE} {
 #fi
 
 /**
  * Describes the input token stream.
  */
 
-class Token
-#if TOKEN_EXTENDS
- : public ${TOKEN_EXTENDS}
-#fi
-{
+class Token {
  public:
 
   /**
@@ -116,6 +108,6 @@ class Token
 };
 
 #if NAMESPACE
-${NAMESPACE_CLOSE}
+}
 #fi
 \#endif

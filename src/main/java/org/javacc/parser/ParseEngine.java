@@ -44,7 +44,7 @@ public class ParseEngine {
   private int indentamt;
   private boolean jj2LA;
   private CodeGenerator codeGenerator;
-  private boolean isJavaDialect = Options.isOutputLanguageJava();
+  private boolean isJavaDialect = Options.isOutputLanguageImplementedInJava();
 
 
 
@@ -475,31 +475,22 @@ public class ParseEngine {
     }
   }
 
- // Print method header and return the ERROR_RETURN string.
-  private String generateCPPMethodheader(BNFProduction p, Token t) {
+  private void generateCPPMethodheader(BNFProduction p, Token t) {
     StringBuffer sig = new StringBuffer();
     String ret, params;
 
-    String method_name = p.getLhs();
-    boolean void_ret = false;
-    boolean ptr_ret = false;
-
     codeGenerator.printTokenSetup(t); ccol = 1;
-    String comment1 = codeGenerator.getLeadingComments(t);
+    sig.append(codeGenerator.getLeadingComments(t));
     cline = t.beginLine;
     ccol = t.beginColumn;
     sig.append(t.image);
-    if (t.image.equals("void")) void_ret = true;
-    if (t.image.equals("*")) ptr_ret = true;
 
     for (int i = 1; i < p.getReturnTypeTokens().size(); i++) {
       t = (Token)(p.getReturnTypeTokens().get(i));
       sig.append(codeGenerator.getStringToPrint(t));
-      if (t.equals("void")) void_ret = true;
-      if (t.equals("*")) ptr_ret = true;
     }
 
-    String comment2 = codeGenerator.getTrailingComments(t);
+    sig.append(codeGenerator.getTrailingComments(t));
     ret = sig.toString();
 
     sig.setLength(0);
@@ -515,25 +506,21 @@ public class ParseEngine {
     sig.append(")");
     params = sig.toString();
 
-    // For now, just ignore comments
+    if (isJavaDialect) {
+      sig.setLength(0);
+      sig.append("ParseException");
+      for (java.util.Iterator it = p.getThrowsList().iterator(); it.hasNext();) {
+        sig.append(", ");
+        java.util.List name = (java.util.List)it.next();
+        for (java.util.Iterator it2 = name.iterator(); it2.hasNext();) {
+          t = (Token)it2.next();
+          sig.append(codeGenerator.getStringToPrint(t));
+        }
+      }
+    }
+
     codeGenerator.generateMethodDefHeader(ret, cu_name, p.getLhs()+params, sig.toString());
-
-    // Generate a default value for error return.
-    String default_return;
-    if (ptr_ret) default_return = "NULL";
-    else if (void_ret) default_return = "";
-    else default_return = "0";  // 0 converts to most (all?) basic types.
-
-    StringBuffer ret_val =
-        new StringBuffer("\n#if !defined ERROR_RET_" + method_name + "\n");
-    ret_val.append("#define ERROR_RET_" + method_name + " " +
-                   default_return + "\n");
-    ret_val.append("#endif\n");
-    ret_val.append("#define __ERROR_RET__ ERROR_RET_" + method_name + "\n");
-
-    return ret_val.toString();
   }
-
 
   void buildPhase1Routine(BNFProduction p) {
     Token t;
@@ -542,7 +529,6 @@ public class ParseEngine {
     if (t.kind == JavaCCParserConstants.VOID) {
       voidReturn = true;
     }
-    String error_ret = null;
     if (isJavaDialect) {
       codeGenerator.printTokenSetup(t); ccol = 1;
       codeGenerator.printLeadingComments(t);
@@ -564,7 +550,7 @@ public class ParseEngine {
         codeGenerator.printTrailingComments(t);
       }
       codeGenerator.genCode(")");
-      if (isJavaDialect) {
+      if (isJavaDialect) { 
         codeGenerator.genCode(" throws ParseException");
       }
 
@@ -577,15 +563,10 @@ public class ParseEngine {
         }
       }
     } else {
-      error_ret = generateCPPMethodheader(p, t);
+      generateCPPMethodheader(p, t);
     }
 
     codeGenerator.genCode(" {");
-
-    if (Options.booleanValue(Options.USEROPTION__CPP_STOP_ON_FIRST_ERROR) && error_ret != null) {
-	      codeGenerator.genCode(error_ret);
-    }
-
     indentamt = 4;
     if (Options.getDebugParser()) {
       codeGenerator.genCodeLine("");
@@ -593,8 +574,7 @@ public class ParseEngine {
       codeGenerator.genCode("    try {");
       indentamt = 6;
     }
-    if (!Options.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) &&
-        p.getDeclarationTokens().size() != 0) {
+    if (p.getDeclarationTokens().size() != 0) {
       codeGenerator.printTokenSetup((Token)(p.getDeclarationTokens().get(0))); cline--;
       for (Iterator it = p.getDeclarationTokens().iterator(); it.hasNext();) {
         t = (Token)it.next();
@@ -607,7 +587,8 @@ public class ParseEngine {
     codeGenerator.genCodeLine("");
     if (p.isJumpPatched() && !voidReturn) {
       if (isJavaDialect) {
-    	// TODO :: I don't think we need to throw an Error/Exception to mark that a return statement is missing as the compiler will flag this error automatically
+    	  
+    	// I don't think we need to throw an Error/Exception to mark that a return statement is missing as the compiler will flag this error automatically
     	if (Options.isLegacyExceptionHandling()) {
     		codeGenerator.genCodeLine("    throw new "+(Options.isLegacyExceptionHandling() ? "Error" : "RuntimeException")+"(\"Missing return statement in function\");");
     	}
@@ -630,10 +611,6 @@ public class ParseEngine {
       codeGenerator.genCodeLine("assert(false);");
     }
 
-
-    if (Options.booleanValue(Options.USEROPTION__CPP_STOP_ON_FIRST_ERROR)) {
-      codeGenerator.genCodeLine("\n#undef __ERROR_RET__\n");
-    }
     codeGenerator.genCodeLine("  }");
     codeGenerator.genCodeLine("");
   }
@@ -674,11 +651,6 @@ public class ParseEngine {
       } else {
         retval += "jj_consume_token(" + e_nrw.label + tail;
       }
-
-      if ( !isJavaDialect && Options.booleanValue(Options.USEROPTION__CPP_STOP_ON_FIRST_ERROR)) {
-	          retval += "\n    { if (hasError) { return __ERROR_RET__; } }\n";
-      }
-
     } else if (e instanceof NonTerminal) {
       NonTerminal e_nrw = (NonTerminal)e;
       retval += "\n";
@@ -701,14 +673,10 @@ public class ParseEngine {
         retval += codeGenerator.getTrailingComments(t);
       }
       retval += ");";
-      if ( !isJavaDialect && Options.booleanValue(Options.USEROPTION__CPP_STOP_ON_FIRST_ERROR)) {
-	          retval += "\n    { if (hasError) { return __ERROR_RET__; } }\n";
-      }
     } else if (e instanceof Action) {
       Action e_nrw = (Action)e;
       retval += "\u0003\n";
-      if (!Options.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) &&
-          e_nrw.getActionTokens().size() != 0) {
+      if (e_nrw.getActionTokens().size() != 0) {
         codeGenerator.printTokenSetup((Token)(e_nrw.getActionTokens().get(0))); ccol = 1;
         for (Iterator it = e_nrw.getActionTokens().iterator(); it.hasNext();) {
           t = (Token)it.next();
@@ -722,10 +690,7 @@ public class ParseEngine {
       conds = new Lookahead[e_nrw.getChoices().size()];
       actions = new String[e_nrw.getChoices().size() + 1];
       actions[e_nrw.getChoices().size()] = "\n" + "jj_consume_token(-1);\n" +
-                (isJavaDialect ? "throw new ParseException();"
-		                        : ("errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this), hasError = true;" +
-		         (Options.booleanValue(Options.USEROPTION__CPP_STOP_ON_FIRST_ERROR) ? "return __ERROR_RET__;\n" : "")));
-
+        (isJavaDialect ? "throw new ParseException();" : "errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this);");
       // In previous line, the "throw" never throws an exception since the
       // evaluation of jj_consume_token(-1) causes ParseException to be
       // thrown first.
@@ -741,23 +706,7 @@ public class ParseEngine {
       // We skip the first element in the following iteration since it is the
       // Lookahead object.
       for (int i = 1; i < e_nrw.units.size(); i++) {
-        // For C++, since we are not using exceptions, we will protect all the
-        // expansion choices with if (!error)
-        boolean wrap_in_block = false;
-        if (!JavaCCGlobals.jjtreeGenerated && !isJavaDialect) {
-          // for the last one, if it's an action, we will not protect it.
-          Expansion elem = (Expansion)e_nrw.units.get(i);
-          if (!(elem instanceof Action) ||
-              !(e.parent instanceof BNFProduction) ||
-              i != e_nrw.units.size() - 1) {
-            wrap_in_block = true;
-            retval += "if (" + (isJavaDialect ? "true" : "!hasError") + ") {\n";
-          }
-        }
         retval += phase1ExpansionGen((Expansion)(e_nrw.units.get(i)));
-        if (wrap_in_block) {
-          retval += "\n}\n";
-        }
       }
     } else if (e instanceof OneOrMore) {
       OneOrMore e_nrw = (OneOrMore)e;
@@ -775,7 +724,7 @@ public class ParseEngine {
       if (isJavaDialect) {
         retval += "label_" + labelIndex + ":\n";
       }
-      retval += "while (" + (isJavaDialect ? "true" : "!hasError") + ") {\u0001";
+      retval += "while (true) {\u0001";
       retval += phase1ExpansionGen(nested_e);
       conds = new Lookahead[1];
       conds[0] = la;
@@ -809,7 +758,7 @@ public class ParseEngine {
       if (isJavaDialect) {
         retval += "label_" + labelIndex + ":\n";
       }
-      retval += "while (" + (isJavaDialect ? "true" : "!hasError") + ") {\u0001";
+      retval += "while (true) {\u0001";
       conds = new Lookahead[1];
       conds[0] = la;
       actions = new String[2];
@@ -904,20 +853,20 @@ public class ParseEngine {
     if (isJavaDialect) {
       codeGenerator.genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " jj_2" + e.internal_name + "(int xla)");
     } else {
-      codeGenerator.genCodeLine(" inline bool ", "jj_2" + e.internal_name + "(int xla)");
+      codeGenerator.generateMethodDefHeader("bool ", cu_name, "jj_2" + e.internal_name + "(int xla)");
     }
     codeGenerator.genCodeLine(" {");
     codeGenerator.genCodeLine("    jj_la = xla; jj_lastpos = jj_scanpos = token;");
     if (isJavaDialect) {
       codeGenerator.genCodeLine("    try { return !jj_3" + e.internal_name + "(); }");
       codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
-    } else {
+    } else { 
       codeGenerator.genCodeLine("    jj_done = false;");
       codeGenerator.genCodeLine("    return !jj_3" + e.internal_name + "() || jj_done;");
       //codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
     }
     if (Options.getErrorReporting()) {
-      codeGenerator.genCodeLine((isJavaDialect ? "    finally " : " ") + "{ jj_save(" + (Integer.parseInt(e.internal_name.substring(1))-1) + ", xla); }");
+      codeGenerator.genCodeLine("    finally { jj_save(" + (Integer.parseInt(e.internal_name.substring(1))-1) + ", xla); }");
     }
     codeGenerator.genCodeLine("  }");
     codeGenerator.genCodeLine("");
@@ -1064,7 +1013,7 @@ public class ParseEngine {
       if (isJavaDialect) {
         codeGenerator.genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " jj_3" + e.internal_name + "()");
      } else {
-        codeGenerator.genCodeLine(" inline bool ", "jj_3" + e.internal_name + "()");
+        codeGenerator.generateMethodDefHeader(" bool", cu_name, "jj_3" + e.internal_name + "()");
      }
 
      codeGenerator.genCodeLine(" {");
@@ -1368,7 +1317,6 @@ public class ParseEngine {
       }
     }
 
-    codeGenerator.switchToIncludeFile();
     for (int phase2index = 0; phase2index < phase2list.size(); phase2index++) {
       buildPhase2Routine((Lookahead)(phase2list.get(phase2index)));
     }
@@ -1385,7 +1333,6 @@ public class ParseEngine {
       buildPhase3Routine((Phase3Data)(enumeration.nextElement()), false);
     }
 
-    codeGenerator.switchToMainFile();
   }
 
   public void reInit()

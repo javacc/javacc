@@ -40,10 +40,9 @@ public class ParseGenCPP extends ParseGen {
     //genCodeLine("#include \"TokenMgrError.h\"");
     //genCodeLine("#include \"ParseException.h\"");
     genCodeLine("#include \"TokenManager.h\"");
-    genCodeLine("#include \"" + cu_name + "TokenManager.h\"");
 
-    if (Options.stringValue(Options.USEROPTION__CPP_PARSER_INCLUDES).length() > 0) {
-      genCodeLine("#include \"" + Options.stringValue(Options.USEROPTION__CPP_PARSER_INCLUDES) + "\"\n");
+    if (Options.stringValue("PARSER_INCLUDES").length() > 0) {
+      genCodeLine("#include \"" + Options.stringValue("PARSER_INCLUDES") + "\"\n");
     }
 
     genCodeLine("#include \"" + cu_name + "Constants.h\"");
@@ -58,8 +57,8 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("#include \"" + cu_name + "Tree.h\"");
     }
 
-    if (Options.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0) {
-      genCodeLine("namespace " + Options.stringValue("NAMESPACE_OPEN"));
+    if (Options.stringValue("NAMESPACE").length() > 0) {
+      genCodeLine("namespace " + Options.stringValue("NAMESPACE") + " {");
     }
 
     genCodeLine("  struct JJCalls {");
@@ -72,10 +71,8 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("  };");
     genCodeLine("");
 
-    String superClass = Options.stringValue(Options.USEROPTION__PARSER_SUPER_CLASS);
-    genClassStart("", cu_name, new String[]{},
-                  superClass == null  ? new String[0] : new String[] {
-                   "public " + superClass});
+    //String superClass = Options.stringValue("PARSER_SUPER_CLASS");
+    genClassStart("", cu_name, new String[]{}, new String[0]);
     switchToMainFile();
     if (cu_to_insertion_point_2.size() != 0) {
       printTokenSetup((Token)(cu_to_insertion_point_2.get(0)));
@@ -116,7 +113,6 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("  private: int jj_la1[" + (maskindex + 1) + "];");
     genCodeLine("  private: ErrorHandler *errorHandler;");
     genCodeLine("  private: bool errorHandlerCreated;");
-    genCodeLine("  protected: bool hasError;");
     genCodeLine("  public: void setErrorHandler(ErrorHandler *eh) {");
     genCodeLine("    if (errorHandlerCreated) delete errorHandler;");
     genCodeLine("    errorHandler = eh;");
@@ -146,10 +142,6 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine(" Token *head; ");
     genCodeLine(" public: ");
     generateMethodDefHeader("", cu_name, cu_name + "(TokenManager *tm)");
-    if (superClass != null)
-    {
-      genCodeLine(" : " + superClass + "()");
-    }
     genCodeLine("{");
     genCodeLine("    head = NULL;");
     genCodeLine("    ReInit(tm);");
@@ -178,7 +170,6 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("    if (head) delete head;");
     genCodeLine("    errorHandler = new ErrorHandler();");
     genCodeLine("    errorHandlerCreated = true;");
-    genCodeLine("    hasError = false;");
     genCodeLine("    token_source = tm;");
     genCodeLine("    head = token = new Token();");
     genCodeLine("    token->kind = 0;");
@@ -251,7 +242,7 @@ public class ParseGenCPP extends ParseGen {
     }
     //genCodeLine("    throw generateParseException();");
     genCodeLine("    JAVACC_STRING_TYPE image = kind >= 0 ? tokenImage[kind] : tokenImage[0];");
-    genCodeLine("    errorHandler->handleUnexpectedToken(kind, image.substr(1, image.size() - 2), getToken(1), this), hasError = true;");
+    genCodeLine("    errorHandler->handleUnexpectedToken(kind, image.substr(1, image.size() - 2), getToken(1), this);");
     genCodeLine("    return token;");
     genCodeLine("  }");
     genCodeLine("");
