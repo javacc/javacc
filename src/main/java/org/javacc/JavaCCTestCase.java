@@ -41,7 +41,7 @@ public abstract class JavaCCTestCase extends TestCase {
    * @return the directory name String relative to the root
    */
   public String getJJInputDirectory() {
-    return "src/org/javacc/parser/";
-    //return "src/main/javacc/org/javacc/parser/";
+//    return "src/org/javacc/parser/";
+    return "src/main/java/org/javacc/parser/";
   }
 }
