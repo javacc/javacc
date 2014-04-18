@@ -34,42 +34,121 @@ THE POSSIBILITY OF SUCH DAMAGE.
 <project name="javacc" default="jar" basedir=".">
 
   <property file="version.properties" />
-  <property name="version" value="${version.major}.${version.minor}" />
+  <property name="version" value="${version.major}.${version.minor}.${version.patch}" />
    <property name="java-src" value="src/main/java" />
-   <property name="resource-src" value="src/main/resources" />
+   <property name="test-src" value="src/test/java" />
+   <property name="resources-src" value="src/main/resources" />
+   <property name="generated-sources-src" value="src/main/generated-sources" />
    <property name="test-tmp" value="test.tmp" />
-   <property name="javacc-jar" value="bin/lib/javacc.jar" />
+   <property name="target-folder" value="target" />
+   <property name="javacc-jarname" value="javacc-${version.major}.${version.minor}.${version.patch}.jar" />
+   <property name="javacc-jar" value="${target-folder}/${javacc-jarname}" />
+   <property name="bootstrap-jar" value="bootstrap/javacc.jar" />
+   <property name="jjtree-bootstrap-class" value="org.javacc.jjtree.Main" />
+   <property name="javacc-bootstrap-class" value="org.javacc.parser.Main" />
+
+  <target name="clean">
+    <delete dir="classes" />
+    <delete dir="${target-folder}" />
+    <delete dir="test.tmp" />
+    <delete dir="dist" />
+    
+  </target>
+
+
+  <target name="clean_generated_sources">
+	<delete dir="${generated-sources-src}" />
+  </target>
+
    
+  <target name="compile" depends="clean, clean_generated_sources">
+  
+    <!-- Create the folders we need in the generated sources folder -->
+    
+    <mkdir dir="${generated-sources-src}"/>
+    <mkdir dir="${generated-sources-src}/org/javacc/parser"/>
+    <mkdir dir="${generated-sources-src}/org/javacc/utils"/>
+    <mkdir dir="${generated-sources-src}/org/javacc/jjtree"/>
+  
+    <!-- Generate the Java CC Main Parser -->
 
-  <target name="compile" depends="generated-files,resources,classes,javacc-compile,jjtree-compile,jjdoc-compile" />
-
-  <target name="generated-files">
-    <ant antfile="build.xml" target="parser-files" dir="${java-src}/org/javacc/parser" />
-    <ant antfile="build.xml" target="tree-files" dir="${java-src}/org/javacc/jjtree" />
-    <ant antfile="build.xml" target="utils-files" dir="${java-src}/org/javacc/utils" />
-  </target>
-
-  <target name="classes">
+     <java classname="${javacc-bootstrap-class}"
+           classpath="${bootstrap-jar}"
+           dir="${generated-sources-src}/org/javacc/parser"
+           fork="true">
+           <arg file="src/main/javacc/JavaCC.jj"/>
+     </java>
+     
+     <!-- This class is overrriden -->
+     <delete file="${generated-sources-src}/org/javacc/parser/Token.java" />
+     
+     <!-- Generate the JJTree Parser Definition (from the tree definition) -->
+     
+     <java classname="${jjtree-bootstrap-class}"
+           classpath="${bootstrap-jar}"
+           dir="${generated-sources-src}/org/javacc/jjtree"
+           fork="true">
+           <arg file="src/main/jjtree/JJTree.jjt"/>
+     </java>
+     
+     <!-- Generate the JJTree Parser  -->
+     
+     <java classname="${javacc-bootstrap-class}"
+           classpath="${bootstrap-jar}"
+           dir="${generated-sources-src}/org/javacc/jjtree"
+           fork="true">
+           <arg file="${generated-sources-src}/org/javacc/jjtree/JJTree.jj"/>
+     </java>
+     
+     <!-- Delete the .jj file created by the jjtree program and the classes that were override and already added into the main source path -->
+     
+     <delete file="${generated-sources-src}/org/javacc/jjtree/JJTree.jj" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/ASTBNF.java" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/ASTBNFAction.java" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/ASTBNFDeclaration.java" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/ASTBNFNodeScope.java" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/ASTCompilationUnit.java" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/ASTExpansionNodeScope.java" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/ASTGrammar.java" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/ASTJavacode.java" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/ASTJavacodebody.java" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/ASTNodeDescriptor.java" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/ASTNodeDescriptorExpression.java" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/ASTOptionBinding.java" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/ASTOptions.java" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/JJTreeParserVisitor.java" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/JJTreeParserDefaultVisitor.java" />
+     <delete file="${generated-sources-src}/org/javacc/jjtree/Token.java" />
+     
+     <!-- Generate the Condition Parser -->
+     
+     <java classname="${javacc-bootstrap-class}"
+                classpath="${bootstrap-jar}"
+                dir="${generated-sources-src}/org/javacc/utils"
+                fork="true">
+                <arg file="src/main/javacc/ConditionParser.jj"/>
+     </java>
+    
     <mkdir dir="classes"/>
-  </target>
-
-  <target name="resources">
+    
     <copy todir="classes/templates">
-      <fileset dir="${resource-src}/templates" />
+      <fileset dir="${resources-src}/templates" />
     </copy>
-  </target>
-
-  <target name="javacc-compile">
-    <ant antfile="build.xml" target="compile-nojar" dir="${java-src}/org/javacc/parser" />
+    
     <copy file="version.properties" todir="classes" />
-  </target>
-
-  <target name="jjdoc-compile">
-    <ant antfile="build.xml" target="compile-nojar" dir="${java-src}/org/javacc/jjdoc" />
-  </target>
-
-  <target name="jjtree-compile">
-    <ant antfile="build.xml" target="compile-nojar" dir="${java-src}/org/javacc/jjtree" />
+    
+    <javac srcdir="${java-src}"
+           destdir="classes"
+           debug="true"
+           source="1.5"
+           target="1.5"
+           classpath="">
+           
+           <src path="${java-src}"/>  
+           <src path="${generated-sources-src}"/>  
+           <src path="${resources-src}"/>  
+    </javac>
+  
   </target>
 
   <target name="jar" depends="compile" description="Create ${javacc-jar}">
@@ -78,8 +157,8 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
   <!-- Be careful not to include the test files in the distribution. -->
   <target name="jar-nocompile" depends="jar-check" unless="jar.uptodate">
-    <mkdir dir="bin/lib" />
-    <jar jarfile="${javacc-jar}" basedir="classes" compress="true" excludes="**/*Test.class" />
+    <mkdir dir="${target-folder}" />
+    <jar jarfile="${javacc-jar}" basedir="classes" compress="true" />
   </target>
 
   <target name="jar-check">
@@ -88,32 +167,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     </uptodate>
   </target>
 
-  <target name="update-bootstrap" depends="jar" description="Copy an updated ${javacc-jar} into the bootstrap directory">
-    <copy todir="bootstrap">
-      <fileset dir="bin/lib">
-        <include name="javacc.jar" />
-      </fileset>
-    </copy>
-  </target>
-
-  <target name="clean">
-    <ant antfile="build.xml" target="clean" dir="${java-src}/org/javacc/utils" />
-    <ant antfile="build.xml" target="clean" dir="${java-src}/org/javacc/parser" />
-    <ant antfile="build.xml" target="clean" dir="${java-src}/org/javacc/jjtree" />
-
-    <delete dir="classes" />
-    <delete dir="bin/lib" />
-    <delete dir="test.tmp" />
-    <ant antfile="build.xml" target="clean" dir="test" />
-  	
-  	<delete dir="dist" />
-  </target>
-
-  <target name="realclean" depends="clean">
-    <!-- No longer used - realclean and clean are synonymous. Target kept for compability -->
-  </target>
-
-  <target name="binary-distribution" depends="realclean,jar">
+  <target name="binary-distribution" depends="clean,jar">
     <property name="install-name" value="javacc-${version}" />
   	
   	<delete dir="dist" />
@@ -175,10 +229,12 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <mkdir dir="test.tmp" />
 
     <junit printsummary="yes" haltonfailure="yes">
+    
       <classpath>
        <pathelement path="classes" />
        <pathelement path="lib/junit3.8.1/junit.jar"/>
       </classpath>
+      
       <batchtest fork="no" todir=".">
         <fileset dir="classes">
           <include name="**/*Test.*" />
@@ -190,7 +246,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <delete file="JavaCCParserTokenManager.java" />
   </target>
 
-  <target name="test" depends="realclean,jar,unittest" description="run functional test cases">
+  <target name="test" depends="clean,clean_generated_sources, jar,unittest" description="run functional test cases">
 
     <delete dir="test.tmp" />
     <mkdir dir="test.tmp" />
@@ -283,8 +339,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
           classname="SPL" 
           classpath="${test-tmp}/Interpreter/"
           inputstring="3"
-          outputproperty="spl.out1"
-    >
+          outputproperty="spl.out1" >
       <arg line="${test-tmp}/Interpreter/fact.spl" />
     </java>
     <echo>${spl.out1}</echo>
@@ -299,8 +354,8 @@ THE POSSIBILITY OF SUCH DAMAGE.
           classname="SPL" 
           classpath="${test-tmp}/Interpreter/"
           inputstring="3"
-          outputproperty="spl.out2"
-    >
+          outputproperty="spl.out2" >
+          
       <arg line="${test-tmp}/Interpreter/odd.spl" />
     </java>
     <echo>${spl.out2}</echo>
@@ -315,8 +370,8 @@ THE POSSIBILITY OF SUCH DAMAGE.
           classname="SPL" 
           classpath="${test-tmp}/Interpreter/"
           inputstring="9"
-          outputproperty="spl.out3"
-    >
+          outputproperty="spl.out3" >
+          
       <arg line="${test-tmp}/Interpreter/sqrt.spl" />
     </java>
     <echo>${spl.out3}</echo>
@@ -380,8 +435,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
           classname="Eg2" 
           classpath="${test-tmp}/JJTreeExamples.eg2/"
           inputstring="(a + b) * (c + 1);"
-          outputproperty="jjtree.eg2.out"
-    >
+          outputproperty="jjtree.eg2.out" >
     </java>
     <echo>${jjtree.eg2.out}</echo>
     <fail message="JJTree eg2 parse failed">
@@ -415,8 +469,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
           classname="Eg3" 
           classpath="${test-tmp}/JJTreeExamples.eg3/"
           inputstring="(a + b) * (c + 1);"
-          outputproperty="jjtree.eg3.out"
-    >
+          outputproperty="jjtree.eg3.out" >
     </java>
     <echo>${jjtree.eg3.out}</echo>
     <fail message="JJTree eg3 parse failed">
@@ -427,7 +480,6 @@ THE POSSIBILITY OF SUCH DAMAGE.
      </condition>
     </fail>
 
-    
     <echo />
 
     <copy todir="${test-tmp}/JJTreeExamples.eg4">
@@ -450,8 +502,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
           classname="Eg4" 
           classpath="${test-tmp}/JJTreeExamples.eg4/"
           inputstring="(a + b) * (c + 1);"
-          outputproperty="jjtree.eg4.out"
-    >
+          outputproperty="jjtree.eg4.out" >
     </java>
     <echo>${jjtree.eg4.out}</echo>
     <fail message="JJTree eg4 parse failed">
