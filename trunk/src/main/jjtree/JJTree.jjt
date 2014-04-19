@@ -34,6 +34,7 @@ options {
   STATIC = false;
   NODE_CLASS = "JJTreeNode";
   VISITOR = true;
+  JJTREE_OUTPUT_DIRECTORY="../java/org/javacc/jjtree";
 }
 
 PARSER_BEGIN(JJTreeParser)
