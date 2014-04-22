@@ -1,0 +1,840 @@
+<?xml version="1.0"?>
+<project>
+  <modelVersion>5.0.0</modelVersion>
+  <groupId>net.java.dev.javacc</groupId>
+  <artifactId>javacc</artifactId>
+  <packaging>jar</packaging>
+  <name>JavaCC</name>
+  <version>4.2</version>
+
+  <description>
+JavaCC is a parser/scanner generator for java.
+  </description>
+  <url>https://javacc.dev.java.net/</url>
+  <issueManagement>
+   <system>java.dev</system>
+    <url>       
+https://javacc.dev.java.net/servlets/ProjectIssues
+    </url>
+  </issueManagement>
+  <inceptionYear>1996</inceptionYear>
+  <organization>
+    <name>java.net</name>
+    <url>http://www.java.net/</url>
+  </organization>
+  <scm>
+    <connection>
+      scm:cvs:pserver:user@cvs.dev.java.net:/cvs:javacc
+    </connection>
+    <developerConnection>
+     scm:cvs:ext:user@cvs.dev.java.net:/cvs:javacc
+    </developerConnection>
+    <url>
+      https://javacc.dev.java.net/source/browse/javacc/
+    </url>
+  </scm>
+  <mailingLists>
+    <mailingList>
+      <name>Announce</name>
+      <archive>
+https://javacc.dev.java.net/servlets/SummarizeList?listName=announce
+      </archive>
+    </mailingList>
+    <mailingList>
+      <name>Users</name>
+      <archive>
+https://javacc.dev.java.net/servlets/SummarizeList?listName=users
+      </archive>
+    </mailingList>
+    <mailingList>
+      <name>Developers</name>
+      <archive>
+https://javacc.dev.java.net/servlets/SummarizeList?listName=dev
+      </archive>
+    </mailingList>
+    <mailingList>
+      <name>CVS</name>
+      <archive>
+https://javacc.dev.java.net/servlets/SummarizeList?listName=cvs
+      </archive>
+    </mailingList>
+    <mailingList>
+      <name>Issues</name>
+      <archive>
+https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
+      </archive>
+    </mailingList>
+  </mailingLists>
+  <developers>
+    <developer>
+      <name>Sreenivasa Viswanadha</name>
+      <id>sreeni</id>
+      <email>sreeni At dev.java.net</email>
+      <roles>
+        <role>Owner</role>
+      </roles>
+      <timezone>0</timezone>
+      <organization>java.net</organization>
+      <organizationUrl>http://www.java.net/</organizationUrl>
+    </developer>
+    <developer>
+      <name>Tim Pizey</name>
+      <id>timp</id>
+      <email>timp AT paneris.org</email>
+      <roles>
+        <role>Maven maven</role>
+        <role>Developer</role>
+      </roles>
+      <timezone>0</timezone>
+      <url>http://paneris.org/~timp</url>
+      <organization>Context Computing</organization>
+      <organizationUrl>http://www.context-computing.co.uk/</organizationUrl>
+    </developer>
+  </developers>
+  <licenses>
+   <license>
+    <name>Berkeley Software Distribution (BSD) License</name>
+     <url>http://www.opensource.org/licenses/bsd-license.html</url>
+     <distribution>repo</distribution>
+   </license>
+  </licenses>
+  
+  
+  <build>
+   <sourceDirectory>src</sourceDirectory>
+   <testSourceDirectory>src</testSourceDirectory>
+  
+  <!-- Uncomment to include grammar sources in jar -->
+   <!--resources>
+    <resource>
+     <directory>src</directory>
+      <includes>
+       <include>**/*.jj</include>
+       <include>**/*.jjt</include>
+      </includes>
+    </resource>
+   </resources-->
+  
+  <!-- NOTE sourceDirectory paths currently configured for Windows due to 
+       http://jira.codehaus.org/browse/MJAVACC-29 
+   --> 
+  <plugins>
+    <plugin>
+     <groupId>org.codehaus.mojo</groupId>
+     <artifactId>javacc-maven-plugin</artifactId>
+     <executions>
+      <execution>
+        <id>jcc</id>
+       <phase>generate-sources</phase>
+       <goals>
+        <goal>javacc</goal>
+       </goals>
+       <configuration>
+        <packageName>org.javacc.parser</packageName>
+        <sourceDirectory>src\org\javacc\parser</sourceDirectory>
+       </configuration>
+      </execution>
+      <execution>
+        <id>jjt</id>
+       <phase>generate-sources</phase>
+       <goals>
+        <goal>jjtree</goal>
+       </goals>
+       <configuration>
+        <excludes>
+         <exclude>**/parser/**</exclude>
+        </excludes>
+        <packageName>org.javacc.jjtree</packageName>
+        <sourceDirectory>src\org\javacc\jjtree</sourceDirectory>
+       </configuration>
+      </execution>
+      <execution>
+        <id>jjt-jcc</id>
+       <phase>generate-sources</phase>
+       <goals>
+        <goal>javacc</goal>
+       </goals>
+       <configuration>
+        <packageName>org.javacc.jjtree</packageName>
+        <sourceDirectory>target\generated-sources\jjtree</sourceDirectory>
+       </configuration>
+      </execution>
+     </executions>
+    </plugin>
+    <plugin>
+     <groupId>org.apache.maven.plugins</groupId>
+     <artifactId>maven-compiler-plugin</artifactId>
+     <configuration>
+      <source>5</source>
+      <target>5</target>
+      <excludes>
+       <exclude>**/*Test.java</exclude>
+      </excludes>
+     </configuration>
+    </plugin>
+    <plugin>
+     <groupId>org.apache.maven.plugins</groupId>
+     <artifactId>maven-surefire-plugin</artifactId>
+     <configuration>
+      <redirectTestOutputToFile>true</redirectTestOutputToFile>
+      <forkMode>once</forkMode>
+      <includes>
+       <include>**/*Test.java</include>
+      </includes>
+      <excludes>
+      </excludes>
+     </configuration>
+    </plugin>
+    <plugin>
+     <artifactId>maven-antrun-plugin</artifactId>
+     <executions>      
+      <execution>
+       <id>overwrite</id>
+       <phase>process-sources</phase>
+        <configuration>
+         <tasks>
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTBNF.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTBNFAction.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTBNFDeclaration.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTBNFNodeScope.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTCompilationUnit.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTExpansionNodeScope.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTGrammar.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTJavacode.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTJavacodeBody.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTLHS.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTNodeDescriptor.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTNodeDescriptorExpression.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTOptionBinding.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTOptions.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/ASTProduction.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/IO.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/JJTree.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/JJTreeGlobals.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/JJTreeIOException.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/JJTreeOptions.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/JJTreeOptionsTest.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/JJTreeState.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/Main.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/NodeFiles.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/NodeScope.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/SimpleNode.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/Token.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/org/javacc/jjtree/TokenUtils.java" />
+
+    <delete file="${project.build.directory}/generated-sources/jjtree/ASTBNF.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/ASTBNFAction.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/ASTBNFDeclaration.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/ASTBNFNodeScope.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/ASTCompilationUnit.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/ASTExpansionNodeScope.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/ASTGrammar.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/ASTJavacode.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/ASTJavacodeBody.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/ASTLHS.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/ASTNodeDescriptor.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/ASTNodeDescriptorExpression.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/ASTOptionBinding.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/ASTOptions.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/ASTProduction.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/IO.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/JJTree.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/JJTreeGlobals.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/JJTreeIOException.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/JJTreeOptions.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/JJTreeOptionsTest.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/JJTreeState.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/Main.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/NodeFiles.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/NodeScope.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/SimpleNode.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/Token.java" />
+    <delete file="${project.build.directory}/generated-sources/jjtree/TokenUtils.java" />
+
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/jjtree/Token.java" />
+
+
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Action.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/BNFProduction.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/CharacterRange.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Choice.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Container.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Expansion.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/ExpansionTest.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/ExpansionTreeWalker.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/JavaCCErrors.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/JavaCCGlobals.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/JavaCCParserInternals.java" />
+
+<!-- 
+JavaCCParser.java
+JavaCCParserConstants.java
+JavaCCParserTokenManager.java
+JavaCharStream.java
+ParseException.java
+-->
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/JavaCodeProduction.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/JavaFiles.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/LexGen.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Lookahead.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/LookaheadCalc.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/LookaheadWalk.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Main.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/MatchInfo.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/MetaParseException.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Nfa.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/NfaState.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/NonTerminal.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/NormalProduction.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/OneOrMore.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Options.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/OptionsTest.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/OtherFilesGen.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/ParseEngine.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/ParseGen.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RCharacterList.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RChoice.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/REndOfFile.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RJustName.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/ROneOrMore.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RRepetitionRange.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RSequence.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RStringLiteral.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RZeroOrMore.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RZeroOrOne.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RegExprSpec.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/RegularExpression.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Semanticize.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Sequence.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/SingleCharacter.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/Token.java" />
+    <!-- 
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/TokenMgrError.java" />
+    -->
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/TokenProduction.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/TreeWalkerOp.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/TryBlock.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/ZeroOrMore.java" />
+    <delete file="${project.build.directory}/generated-sources/javacc/org/javacc/parser/ZeroOrOne.java" />
+    
+         </tasks>
+       </configuration>
+       <goals>
+        <goal>run</goal>
+       </goals>
+      </execution>
+      <execution>
+       <id>tests</id>
+       <phase>test</phase>
+        <configuration>
+         <tasks>
+
+                <!--
+                  Place any ant task here. You can add anything
+                  you can add between <target> and </target> in a
+                  build.xml.
+                -->
+
+
+
+    <mkdir dir="test.tmp" />
+
+    <echo />
+    
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/CORBA-IDL examples/CORBA-IDL/IDL.jj" />
+    </java>
+
+    <javac fork="true" srcdir="test.tmp/CORBA-IDL" />
+
+    <copy todir="test.tmp/CORBA-IDL/">
+      <fileset dir="examples/CORBA-IDL">
+        <include name="*.idl" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="IDLParser" classpath="test.tmp/CORBA-IDL/" outputproperty="test.corba.out">
+      <arg line="test.tmp/CORBA-IDL/Hello.idl" />
+    </java>
+
+    <echo>${test.corba.out}</echo>
+
+    <fail message="CORBA failed">
+     <condition>
+      <not>
+       <contains string="${test.corba.out}" substring="IDL file parsed successfully" />
+      </not>
+     </condition>
+    </fail>
+
+    <echo />
+    
+    <copy todir="test.tmp/GUIParsing/ParserVersion">
+      <fileset dir="examples/GUIParsing/ParserVersion">
+        <include name="*.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/ParserVersion examples/GUIParsing/ParserVersion/CalcInput.jj" />
+    </java>
+
+    <javac fork="true" srcdir="test.tmp/GUIParsing/ParserVersion" />
+
+    <echo />
+    
+    <copy todir="test.tmp/GUIParsing/TokenMgrVersion">
+      <fileset dir="examples/GUIParsing/TokenMgrVersion">
+        <include name="*.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion examples/GUIParsing/TokenMgrVersion/CalcInput.jj" />
+    </java>
+    
+    <javac fork="true" srcdir="test.tmp/GUIParsing/TokenMgrVersion" />
+
+    <echo />
+    
+    <copy todir="test.tmp/Interpreter">
+      <fileset dir="examples/Interpreter">
+        <include name="*.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter examples/Interpreter/SPL.jjt" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter test.tmp/Interpreter/SPL.jj" />
+    </java>
+
+    <javac fork="true"  srcdir="test.tmp/Interpreter" />
+
+    <copy todir="test.tmp/Interpreter/">
+      <fileset dir="examples/Interpreter/">
+        <include name="*.spl" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" 
+          classname="SPL" 
+          classpath="test.tmp/Interpreter/"
+          inputstring="3"
+          outputproperty="spl.out1"
+    >
+      <arg line="test.tmp/Interpreter/fact.spl" />
+    </java>
+    <echo>${spl.out1}</echo>
+    <fail message="SPL fact parse failed">
+     <condition>
+      <not>
+       <contains string="${spl.out1}" substring="Value of fact : 6" />
+      </not>
+     </condition>
+    </fail>
+    <java failonerror="true" fork="true" 
+          classname="SPL" 
+          classpath="test.tmp/Interpreter/"
+          inputstring="3"
+          outputproperty="spl.out2"
+    >
+      <arg line="test.tmp/Interpreter/odd.spl" />
+    </java>
+    <echo>${spl.out2}</echo>
+    <fail message="SPL odd parse failed">
+     <condition>
+      <not>
+       <contains string="${spl.out2}" substring="Value of odd : true" />
+      </not>
+     </condition>
+    </fail>
+    <java failonerror="true" fork="true" 
+          classname="SPL" 
+          classpath="test.tmp/Interpreter/"
+          inputstring="9"
+          outputproperty="spl.out3"
+    >
+      <arg line="test.tmp/Interpreter/sqrt.spl" />
+    </java>
+    <echo>${spl.out3}</echo>
+    <fail message="SPL sqrt parse failed">
+     <condition>
+      <not>
+       <contains string="${spl.out3}" substring="Value of sqrt : 3" />
+      </not>
+     </condition>
+    </fail>
+
+    <echo />
+    
+    <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1 examples/JJTreeExamples/eg1.jjt" />
+    </java>
+
+    <java fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1 test.tmp/JJTreeExamples.eg1/eg1.jj" />
+    </java>
+
+    <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg1" />
+
+    <java failonerror="true" fork="true" 
+          classname="Eg1" 
+          classpath="test.tmp/JJTreeExamples.eg1/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg1.out"
+    >
+    </java>
+    <echo>${jjtree.eg1.out}</echo>
+    <fail message="JJTree eg1 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg1.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
+ 
+    <echo />
+    
+    <copy todir="test.tmp/JJTreeExamples.eg2">
+      <fileset dir="examples/JJTreeExamples">
+        <include name="*.java" />
+        <exclude name="Eg4DumpVisitor.java" />
+        <exclude name="ASTMyOtherID.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2 examples/JJTreeExamples/eg2.jjt" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2 test.tmp/JJTreeExamples.eg2/eg2.jj" />
+    </java>
+
+    <javac  fork="true" srcdir="test.tmp/JJTreeExamples.eg2" />
+    
+    <java failonerror="true" fork="true" 
+          classname="Eg2" 
+          classpath="test.tmp/JJTreeExamples.eg2/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg2.out"
+    >
+    </java>
+    <echo>${jjtree.eg2.out}</echo>
+    <fail message="JJTree eg2 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg2.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
+    <echo />
+
+    <copy todir="test.tmp/JJTreeExamples.eg3">
+      <fileset dir="examples/JJTreeExamples">
+        <include name="*.java" />
+        <exclude name="Eg4DumpVisitor.java" />
+        <exclude name="ASTMyOtherID.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3 examples/JJTreeExamples/eg3.jjt" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3 test.tmp/JJTreeExamples.eg3/eg3.jj" />
+    </java>
+    
+    <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg3" />
+
+    <java failonerror="true" fork="true" 
+          classname="Eg3" 
+          classpath="test.tmp/JJTreeExamples.eg3/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg3.out"
+    >
+    </java>
+    <echo>${jjtree.eg3.out}</echo>
+    <fail message="JJTree eg3 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg3.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
+
+    
+    <echo />
+
+    <copy todir="test.tmp/JJTreeExamples.eg4">
+      <fileset dir="examples/JJTreeExamples">
+        <include name="*.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4 examples/JJTreeExamples/eg4.jjt" />
+    </java>
+    
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4 test.tmp/JJTreeExamples.eg4/eg4.jj" />
+    </java>
+
+    <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg4" />
+
+    <java failonerror="true" fork="true" 
+          classname="Eg4" 
+          classpath="test.tmp/JJTreeExamples.eg4/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg4.out"
+    >
+    </java>
+    <echo>${jjtree.eg4.out}</echo>
+    <fail message="JJTree eg4 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg4.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
+
+    <echo />
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JavaCCGrammar examples/JavaCCGrammar/JavaCC.jj" />
+    </java>
+
+    <javac  fork="true" srcdir="test.tmp/JavaCCGrammar" />
+
+    <!-- TODO, test cases for JavaGrammars -->
+
+    <echo />
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg1 examples/Lookahead/Example1.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg2 examples/Lookahead/Example2.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg3 examples/Lookahead/Example3.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg4 examples/Lookahead/Example4.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg5 examples/Lookahead/Example5.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg6 examples/Lookahead/Example6.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg7 examples/Lookahead/Example7.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg8 examples/Lookahead/Example8.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg9 examples/Lookahead/Example9.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg10 examples/Lookahead/Example10.jj" />
+    </java>
+
+    <echo />
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing examples/MailProcessing/Digest.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing examples/MailProcessing/Faq.jj" />
+    </java>
+
+    <javac  fork="true" srcdir="test.tmp/MailProcessing" />
+
+    <echo />
+
+    <copy todir="test.tmp/Obfuscator">
+      <fileset dir="examples/Obfuscator">
+        <include name="*.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator examples/Obfuscator/Java1.1.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator examples/Obfuscator/IdsFile.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator examples/Obfuscator/MapFile.jj" />
+    </java>
+
+    <javac  fork="true" srcdir="test.tmp/Obfuscator" />
+
+    <!-- TODO, test cases for SimpleExamples -->
+    
+    <echo />
+
+    <copy todir="test.tmp/Transformer">
+      <fileset dir="examples/Transformer">
+        <include name="*.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer examples/Transformer/ToyJava.jjt" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer test.tmp/Transformer/ToyJava.jj" />
+    </java>
+
+    <javac  fork="true" srcdir="test.tmp/Transformer" />
+
+    <echo />
+
+    <copy todir="test.tmp/VTransformer">
+      <fileset dir="examples/VTransformer">
+        <include name="*.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer examples/VTransformer/Java1.1.jjt" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer test.tmp/VTransformer/Java1.1.jj" />
+    </java>
+    <javac  fork="true" srcdir="test.tmp/VTransformer" />
+
+         </tasks>
+       </configuration>
+       <goals>
+        <goal>run</goal>
+       </goals>
+      </execution>
+     </executions>
+    </plugin>
+    <plugin>
+     <groupId>org.codehaus.mojo</groupId>
+     <artifactId>cobertura-maven-plugin</artifactId>
+     <version>2.0</version>
+     <executions>
+      <execution>
+       <goals>
+        <goal>clean</goal>
+       </goals>
+      </execution>
+     </executions>
+    </plugin>
+   </plugins>
+  </build>
+  <reporting>
+     <plugins>
+      <plugin>
+        <groupId>net.java.dev.javacc</groupId>
+        <artifactId>javacc-maven-plugin</artifactId>
+        <configuration>
+          <sourceDirectory>src/org/javacc/parser</sourceDirectory>
+          <packageName>org.javacc.parser</packageName>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <configuration>
+          <rulesets>
+            <ruleset>/rulesets/basic.xml</ruleset>
+          </rulesets>
+          <minmemory>128m</minmemory>
+          <maxmemory>256</maxmemory>
+          <format>xml</format>
+          <linkXref>true</linkXref>
+          <sourceEncoding>utf-8</sourceEncoding>
+          <minimumTokens>100</minimumTokens>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jdepend-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>taglist-maven-plugin</artifactId>
+        <configuration>
+         <tags>
+          <tag>@todo</tag>
+          <tag>FIXME</tag>
+          <tag>@deprecated</tag>
+          <tag>HACK</tag>
+          <tag>NOTE</tag>
+         </tags>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+      </plugin>
+      <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <minmemory>128m</minmemory>
+          <maxmemory>512</maxmemory>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.0</version >
+      </plugin>
+      <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-surefire-report-plugin</artifactId>
+      </plugin>
+      <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-site-plugin</artifactId>
+       <configuration>
+       <siteDirectory>www</siteDirectory>
+        <locales>en</locales>
+       </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+  <repositories>
+   <repository>
+    <id>maven2-repository.dev.java.net</id>
+    <name>Java.net Repository for Maven</name>
+    <url>https://maven2-repository.dev.java.net/nonav/repository</url>
+    <layout>default</layout>	  
+   </repository>
+  </repositories>
+</project>
+
