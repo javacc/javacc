@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <project>
-  <modelVersion>5.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
   <groupId>net.java.dev.javacc</groupId>
   <artifactId>javacc</artifactId>
   <packaging>jar</packaging>
   <name>JavaCC</name>
-  <version>4.2</version>
+  <version>6.1.0</version>
 
   <description>
 JavaCC is a parser/scanner generator for java.
@@ -77,6 +77,19 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       <organization>java.net</organization>
       <organizationUrl>http://www.java.net/</organizationUrl>
     </developer>
+    
+    <developer>
+      <name>Chris Ainsley</name>
+      <id>ainsleyc</id>
+      <email>ainsleyc At dev.java.net</email>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <timezone>0</timezone>
+      <organization>java.net</organization>
+      <organizationUrl>http://www.java.net/</organizationUrl>
+    </developer>
+    
     <developer>
       <name>Tim Pizey</name>
       <id>timp</id>
@@ -131,7 +144,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
        </goals>
        <configuration>
         <packageName>org.javacc.parser</packageName>
-        <sourceDirectory>src\org\javacc\parser</sourceDirectory>
+        <sourceDirectory>src/main/java/org/javacc/parser</sourceDirectory>
        </configuration>
       </execution>
       <execution>
@@ -145,7 +158,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
          <exclude>**/parser/**</exclude>
         </excludes>
         <packageName>org.javacc.jjtree</packageName>
-        <sourceDirectory>src\org\javacc\jjtree</sourceDirectory>
+        <sourceDirectory>src/main/java/org/javacc/jjtree</sourceDirectory>
        </configuration>
       </execution>
       <execution>
@@ -156,7 +169,7 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
        </goals>
        <configuration>
         <packageName>org.javacc.jjtree</packageName>
-        <sourceDirectory>target\generated-sources\jjtree</sourceDirectory>
+        <sourceDirectory>target/generated-sources/jjtree</sourceDirectory>
        </configuration>
       </execution>
      </executions>
@@ -339,6 +352,7 @@ ParseException.java
 
     <mkdir dir="test.tmp" />
 
+     <!--
     <echo />
     
     <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
@@ -601,7 +615,7 @@ ParseException.java
       </not>
      </condition>
     </fail>
-
+     -->
     <echo />
 
     <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
@@ -611,7 +625,7 @@ ParseException.java
     <javac  fork="true" srcdir="test.tmp/JavaCCGrammar" />
 
     <!-- TODO, test cases for JavaGrammars -->
-
+<!--
     <echo />
 
     <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
@@ -687,9 +701,9 @@ ParseException.java
     </java>
 
     <javac  fork="true" srcdir="test.tmp/Obfuscator" />
-
+-->
     <!-- TODO, test cases for SimpleExamples -->
-    
+    <!--
     <echo />
 
     <copy todir="test.tmp/Transformer">
@@ -724,6 +738,7 @@ ParseException.java
       <arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer test.tmp/VTransformer/Java1.1.jj" />
     </java>
     <javac  fork="true" srcdir="test.tmp/VTransformer" />
+  -->
 
          </tasks>
        </configuration>
@@ -753,7 +768,7 @@ ParseException.java
         <groupId>net.java.dev.javacc</groupId>
         <artifactId>javacc-maven-plugin</artifactId>
         <configuration>
-          <sourceDirectory>src/org/javacc/parser</sourceDirectory>
+          <sourceDirectory>src/main/java/org/javacc/parser</sourceDirectory>
           <packageName>org.javacc.parser</packageName>
         </configuration>
       </plugin>
@@ -765,7 +780,7 @@ ParseException.java
             <ruleset>/rulesets/basic.xml</ruleset>
           </rulesets>
           <minmemory>128m</minmemory>
-          <maxmemory>256</maxmemory>
+          <maxmemory>256m</maxmemory>
           <format>xml</format>
           <linkXref>true</linkXref>
           <sourceEncoding>utf-8</sourceEncoding>
@@ -798,7 +813,7 @@ ParseException.java
        <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <minmemory>128m</minmemory>
-          <maxmemory>512</maxmemory>
+          <maxmemory>512m</maxmemory>
         </configuration>
       </plugin>
       <plugin>
