@@ -5,6 +5,10 @@
 \#include "JavaCC.h"
 \#include "Token.h"
 
+#if NODE_INCLUDES
+\#include "${NODE_INCLUDES}"
+#fi
+
 #if NAMESPACE
 namespace ${NAMESPACE_OPEN}
 #fi
