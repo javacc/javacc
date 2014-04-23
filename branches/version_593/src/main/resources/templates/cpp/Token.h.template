@@ -91,12 +91,13 @@ class Token
    */
   Token(int kind, JAVACC_STRING_TYPE image);
 
+  virtual ~Token();
+
   /**
    * Returns the image.
    */
   JAVACC_STRING_TYPE toString();
 
-  public: virtual ~Token();
 
   /**
    * Returns a new Token void *, by default. However, if you want, you

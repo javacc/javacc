@@ -7,7 +7,7 @@
 namespace ${NAMESPACE_OPEN}
 #fi
 
- enum LexerErrors {
+enum LexerErrors {
   /**
    * Lexical error occurred.
    */
@@ -27,11 +27,10 @@ namespace ${NAMESPACE_OPEN}
    * Detected (and bailed out of) an infinite loop in the token manager.
    */
   LOOP_DETECTED = 3,
-  };
+};
 
-class TokenMgrError
-{
-  public:
+class TokenMgrError {
+public:
   /*
    * Ordinals for various reasons why an Error of this type can be thrown.
    */
@@ -56,7 +55,8 @@ class TokenMgrError
    */
     JAVACC_STRING_TYPE LexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, JAVACC_STRING_TYPE errorAfter, JAVACC_CHAR_TYPE curChar);
 
-  private: JAVACC_STRING_TYPE message;
+private:
+   JAVACC_STRING_TYPE message;
 
   /**
    * You can also modify the body of this method to customize your error messages.
@@ -67,6 +67,7 @@ class TokenMgrError
    *
    * from this method for such cases in the release version of your parser.
    */
+public:
   JAVACC_STRING_TYPE getMessage() ;
 
   /*
@@ -74,13 +75,13 @@ class TokenMgrError
    */
 
   /** No arg constructor. */
-  public: TokenMgrError() ;
+  TokenMgrError() ;
 
   /** Constructor with message and reason. */
-  public: TokenMgrError(JAVACC_STRING_TYPE message, int reason) ;
+  TokenMgrError(JAVACC_STRING_TYPE message, int reason) ;
 
   /** Full Constructor. */
-  public: TokenMgrError(bool EOFSeen, int lexState, int errorLine, int errorColumn, JAVACC_STRING_TYPE errorAfter, JAVACC_CHAR_TYPE curChar, int reason) ;
+  TokenMgrError(bool EOFSeen, int lexState, int errorLine, int errorColumn, JAVACC_STRING_TYPE errorAfter, JAVACC_CHAR_TYPE curChar, int reason) ;
 };
 
 #if NAMESPACE
