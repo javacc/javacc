@@ -1,6 +1,5 @@
-\#ifndef __JAVACC_H
-\#define __JAVACC_H
-\#include <stdio.h>
+\#ifndef JAVACC_H
+\#define JAVACC_H
 \#include <string>
 \#include <memory.h>
 \#include <assert.h>
@@ -20,12 +19,10 @@ typedef JAVACC_STRING_TYPE String;
 
 // Abstraction on stream classes to read a block of data into a buffer.
 class ReaderStream {
- public:
+public:
   // Read block of data into a buffer and return the actual number read.
-  virtual size_t read(JAVACC_CHAR_TYPE *bufptr, int offset, size_t len) {
-    return 0;
-  }
-  virtual bool endOfInput() { return true; }
+  virtual size_t read(JAVACC_CHAR_TYPE *bufptr, int offset, size_t len) { return 0; }
+  virtual bool   endOfInput() { return true; }
   virtual ~ReaderStream() {}
 };
 
@@ -34,7 +31,7 @@ const JAVACC_CHAR_TYPE EMPTY[] = { 0 };
 \#ifndef MAX
 \#define MAX(a,b) (a>=b?a:b)
 \#endif
-\#ifndef MAX
+\#ifndef MIN
 \#define MIN(a,b) (a<=b?a:b)
 \#endif
 

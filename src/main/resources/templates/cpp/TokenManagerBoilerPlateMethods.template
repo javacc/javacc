@@ -21,10 +21,17 @@
 
   /** Switch to specified lex state. */
   void ${tokMgrClassName}::SwitchTo(int lexState) {
-    if (lexState >= ${lexStateNameLength} || lexState < 0)
-      assert(false);
-      //throw 1;//new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
-    else
+    if (lexState >= ${lexStateNameLength} || lexState < 0) {
+      JAVACC_STRING_TYPE message;
+\#ifdef WIDE_CHAR
+      message += L"Error: Ignoring invalid lexical state : ";
+      message += lexState; message += L". State unchanged.";
+\#else
+      message += "Error: Ignoring invalid lexical state : ";
+      message += lexState; message += ". State unchanged.";
+\#endif
+      throw new TokenMgrError(message, INVALID_LEXICAL_STATE);
+    } else
       curLexState = lexState;
   }
 
