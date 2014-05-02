@@ -1360,9 +1360,9 @@ void ResultType() :
 {}
 {
 (
-  "void"
+  "void" [ "*" ]
 |
-  Type()
+  [ "const" ] Type() [ "*" | "&" ]
 )
 }
 
