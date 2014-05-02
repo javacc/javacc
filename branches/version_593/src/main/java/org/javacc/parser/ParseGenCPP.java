@@ -3,16 +3,23 @@
 
 package org.javacc.parser;
 
-import java.io.BufferedWriter;
+import static org.javacc.parser.JavaCCGlobals.cu_from_insertion_point_2;
+import static org.javacc.parser.JavaCCGlobals.cu_name;
+import static org.javacc.parser.JavaCCGlobals.cu_to_insertion_point_2;
+import static org.javacc.parser.JavaCCGlobals.getFileExtension;
+import static org.javacc.parser.JavaCCGlobals.jj2index;
+import static org.javacc.parser.JavaCCGlobals.jjtreeGenerated;
+import static org.javacc.parser.JavaCCGlobals.lookaheadNeeded;
+import static org.javacc.parser.JavaCCGlobals.maskVals;
+import static org.javacc.parser.JavaCCGlobals.maskindex;
+import static org.javacc.parser.JavaCCGlobals.tokenCount;
+import static org.javacc.parser.JavaCCGlobals.toolName;
+import static org.javacc.parser.JavaCCGlobals.toolNames;
+
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import static org.javacc.parser.JavaCCGlobals.*;
 
 /**
  * Generate the parser.
@@ -72,6 +79,7 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("  };");
     genCodeLine("");
 
+   
     String superClass = Options.stringValue(Options.USEROPTION__PARSER_SUPER_CLASS);
     genClassStart("", cu_name, new String[]{},
                   superClass == null  ? new String[0] : new String[] {

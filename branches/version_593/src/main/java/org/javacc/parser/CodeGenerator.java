@@ -64,6 +64,8 @@ public class CodeGenerator {
         includeBuffer.append(Options.stringValue("NAMESPACE_CLOSE") + "\n");
       }
 
+      mainBuffer.insert(0, "#include \"SimpleNode.h\"\n");
+      mainBuffer.insert(0, "#include \"TokenMgrError.h\"\n");
       mainBuffer.insert(0, "#include \"" + incfileName + "\"\n");
       includeBuffer.append("#endif\n");
       saveOutput(incfilePath, includeBuffer);
