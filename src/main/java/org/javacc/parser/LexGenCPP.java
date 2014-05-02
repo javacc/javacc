@@ -61,6 +61,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
     //standard includes
     switchToIncludeFile();
+    genCodeLine("#include \"stdio.h\"");
     genCodeLine("#include \"JavaCC.h\"");
     genCodeLine("#include \"CharStream.h\"");
     genCodeLine("#include \"Token.h\"");
