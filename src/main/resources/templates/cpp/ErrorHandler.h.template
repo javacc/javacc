@@ -1,5 +1,6 @@
 \#ifndef ERRORHANDLER_H
 \#define ERRORHANDLER_H
+\#include <stdio.h>
 \#include <string>
 \#include "JavaCC.h"
 \#include "Token.h"
