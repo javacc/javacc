@@ -1992,7 +1992,7 @@ void ResultType(List tokens) :
 	       if (t == last) break;
 	       t = t.next;
 	    } else {
-           throw new ParseException(t.image + " is not accepted as token");
+           throw new ParseException(t.image + " is invalid in this context");
 	    } 
 	  }
 	}
