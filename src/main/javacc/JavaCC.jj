@@ -109,6 +109,13 @@ public class JavaCCParser extends JavaCCParserInternals {
     return true;
   }
 
+  private boolean isAllowed(Token t)  {
+    if (isJavaLanguage && (t.kind == STAR || t.kind == BIT_AND || t.kind == CONST))
+       return false;
+    else
+       return true;
+  }    
+
    /**
     * Class to hold modifiers.
     */
@@ -1971,17 +1978,22 @@ void ResultType(List tokens) :
 	}
 {
 (
-  "void"
+  "void" [ "*" ]
 |
-  Type()
+  [ "const" ] Type() [ "*" | "&" ]
 )
 	{
 	  Token last = getToken(0);
 	  Token t = first;
 	  while (true) {
-	    tokens.add(t);
-	    if (t == last) break;
-	    t = t.next;
+	    String i = t.image;
+	    if (isAllowed(t))  {
+	       tokens.add(t);
+	       if (t == last) break;
+	       t = t.next;
+	    } else {
+           throw new ParseException(t.image + " is invalid in this context");
+	    } 
 	  }
 	}
 }
