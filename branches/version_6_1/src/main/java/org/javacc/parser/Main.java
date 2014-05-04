@@ -319,6 +319,7 @@ private static int unhandledLanguageExit(String outputLanguage) {
       org.javacc.parser.LookaheadWalk.reInit();
       org.javacc.parser.Semanticize.reInit();
       org.javacc.parser.OtherFilesGen.reInit();
+      org.javacc.parser.LexGen.reInit();
    }
 
 }
