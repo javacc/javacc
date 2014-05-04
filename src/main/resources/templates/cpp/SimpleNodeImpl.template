@@ -48,10 +48,10 @@
   void * SimpleNode::jjtGetValue() const { return value; }
 
 #if TRACK_TOKENS
-  Token* SimpleNode::jjtGetFirstToken() const { return firstToken; }
-  void SimpleNode::jjtSetFirstToken(Token* token) { this->firstToken = token; }
-  Token* SimpleNode::jjtGetLastToken() const { return lastToken; }
-  void SimpleNode::jjtSetLastToken(Token* token) { this->lastToken = token; }
+  Token SimpleNode::jjtGetFirstToken() const { return firstToken; }
+  void SimpleNode::jjtSetFirstToken(Token token) { this->firstToken = token; }
+  Token SimpleNode::jjtGetLastToken() const { return lastToken; }
+  void SimpleNode::jjtSetLastToken(Token token) { this->lastToken = token; }
 
 #fi
 #if VISITOR

@@ -68,8 +68,6 @@ class JJT${PARSER_NAME}State {
      constructed and they are left on the stack. */
   public: virtual void closeNodeScope(Node *n, bool condition);
   public: virtual ~JJT${PARSER_NAME}State();
-  /* Remove nodes */
-  public: void clear();
 };
 
 #if NAMESPACE
