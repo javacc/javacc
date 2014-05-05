@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+
 /**
  * Generate the parser.
  */
@@ -430,18 +431,29 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 					genCodeLine("  " + staticOpt() + "public void ReInit(" + readerInterfaceName
 							+ " stream) {");
 					if (Options.getJavaUnicodeEscape()) {
-						genCodeLine("    jj_input_stream.ReInit(stream, 1, 1);");
+						genCodeLine("	if (jj_input_stream == null) {");
+	                    genCodeLine("      jj_input_stream = new JavaCharStream(stream, 1, 1);");
+	                    genCodeLine("   } else {");
+						genCodeLine("      jj_input_stream.ReInit(stream, 1, 1);");
+						genCodeLine("   }");
 					} else {
-						genCodeLine("    jj_input_stream.ReInit(stream, 1, 1);");
+						genCodeLine("	if (jj_input_stream == null) {");
+	                    genCodeLine("      jj_input_stream = new SimpleCharStream(stream, 1, 1);");
+	                    genCodeLine("   } else {");
+						genCodeLine("      jj_input_stream.ReInit(stream, 1, 1);");
+						genCodeLine("   }");
 					}
 					
+					genCodeLine("   if (token_source == null) {");
+					genCodeLine("      token_source = new " + cu_name + "TokenManager(jj_input_stream);");
+					genCodeLine("   }");
+					genCodeLine("");
 					
 					if (Options.isTokenManagerRequiresParserAccess()) {
 						genCodeLine("    token_source.ReInit(this,jj_input_stream);");
 					} else {
 						genCodeLine("    token_source.ReInit(jj_input_stream);");	
 					}
-					
 					
 					genCodeLine("    token = new Token();");
 					if (Options.getCacheTokens()) {
