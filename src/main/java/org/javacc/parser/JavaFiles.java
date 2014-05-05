@@ -105,8 +105,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 		}
 		
 		public String getSimpleCharStreamTemplateResourceUrl() {
-			// TODO :: We need a java Modern version of this, same as Java Classic currently
-			return "/templates/SimpleCharStream.template";
+			return "/templates/gwt/SimpleCharStream.template";
 		}
 		
 		
