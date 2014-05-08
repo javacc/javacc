@@ -35,9 +35,9 @@ class SimpleNode : public Node {
 
 #if TRACK_TOKENS
   public: virtual Token *jjtGetFirstToken() const;
-  public: virtual void jjtSetFirstToken(Token* token);
+  public: virtual void jjtSetFirstToken(Token token);
   public: virtual Token *jjtGetLastToken() const;
-  public: virtual void jjtSetLastToken(Token* token);
+  public: virtual void jjtSetLastToken(Token token);
 
 #fi
 #if VISITOR

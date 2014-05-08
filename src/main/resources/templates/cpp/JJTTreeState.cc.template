@@ -43,7 +43,6 @@ namespace ${NAMESPACE_OPEN}
   /* Call this to reinitialize the node stack.  It is called
      automatically by the parser's ReInit() method. */
   void JJT${PARSER_NAME}State::reset() {
-    clear();
     nodes->resize(0);
     marks->resize(0);
     sp = 0;
@@ -155,13 +154,6 @@ namespace ${NAMESPACE_OPEN}
   }
 
   JJT${PARSER_NAME}State::~JJT${PARSER_NAME}State() {
-    clear();
-    delete open_nodes;
-    delete nodes;
-    delete marks;
-  }
-
-  void JJT${PARSER_NAME}State::clear() {
     for (size_t i = 0; i < nodes->size(); i++) {
       Node* node = nodes->at(i);
       open_nodes->erase(node);
@@ -169,7 +161,11 @@ namespace ${NAMESPACE_OPEN}
     }
     for (std::set<Node*>::iterator it = open_nodes->begin();
          it != open_nodes->end(); it++) 
-      delete (*it);  
+      delete (*it);
+
+    delete open_nodes;
+    delete nodes;
+    delete marks;
   }
 
 #if NAMESPACE
