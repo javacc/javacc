@@ -501,6 +501,7 @@ TOKEN :
 | < TILDE: "~" >
 | < HOOK: "?" >
 | < COLON: ":" >
+| < DOUBLECOLON: "::" >
 | < EQ: "==" >
 | < LE: "<=" >
 | < GE: ">=" >
@@ -1923,7 +1924,7 @@ void ClassOrInterfaceType():
 {}
 {
   <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments() ]
-  ( LOOKAHEAD(2) "." <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments() ] )*
+  ( LOOKAHEAD(2) ( "." | "::" ) <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments() ] )*
 }
 
 void TypeArguments():
