@@ -303,6 +303,7 @@ TOKEN :
 | < TILDE: "~" >
 | < HOOK: "?" >
 | < COLON: ":" >
+| < DOUBLECOLON: "::" >
 | < EQ: "==" >
 | < LE: "<=" >
 | < GE: ">=" >
@@ -1309,7 +1310,7 @@ void ClassOrInterfaceType():
 {}
 {
   JavaIdentifier() [ LOOKAHEAD(2) TypeArguments() ]
-  ( LOOKAHEAD(2) "." JavaIdentifier() [ LOOKAHEAD(2) TypeArguments() ] )*
+  ( LOOKAHEAD(2) ( "." | "::" ) JavaIdentifier() [ LOOKAHEAD(2) TypeArguments() ] )*
 }
 
 void TypeArguments():
@@ -1360,9 +1361,9 @@ void ResultType() :
 {}
 {
 (
-  "void"
+  "void" [ "*" ]
 |
-  Type()
+  [ "const" ] Type() [ "*" | "&" ]
 )
 }
 
