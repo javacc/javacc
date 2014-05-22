@@ -76,7 +76,7 @@ public class Version {
     patchVersion = patch;
     majorDotMinor = majorVersion + "." + minorVersion;
     versionNumber = majorVersion + "." + minorVersion +
-                    (patch.equals("") ? "" : "_" + patch);
+                    (patch.equals("") ? "" : "." + patch);
   }
   
   
