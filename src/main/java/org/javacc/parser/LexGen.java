@@ -584,7 +584,10 @@ public static String staticString;
     String fileName = Options.getOutputDirectory() + File.separator +
                       tokMgrClassName +
                       getFileExtension(Options.getOutputLanguage());
-    saveOutput(fileName);
+    
+    if (Options.getBuildParser()) {
+    	saveOutput(fileName);
+    }
   }
 
   static void CheckEmptyStringMatch()
