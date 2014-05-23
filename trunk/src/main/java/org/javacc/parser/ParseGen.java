@@ -445,7 +445,13 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 					}
 					
 					genCodeLine("   if (token_source == null) {");
-					genCodeLine("      token_source = new " + cu_name + "TokenManager(jj_input_stream);");
+					
+					if (Options.getTokenManagerUsesParser() && !Options.getStatic()) {
+						genCodeLine(" token_source = new " + cu_name + "TokenManager(this, jj_input_stream);");
+					} else {
+						genCodeLine(" token_source = new " + cu_name + "TokenManager(jj_input_stream);");
+					}
+
 					genCodeLine("   }");
 					genCodeLine("");
 					

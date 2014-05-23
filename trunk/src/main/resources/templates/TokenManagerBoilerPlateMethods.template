@@ -36,9 +36,19 @@
 #fi
 
   /** Reinitialise parser. */
-  ${STATIC?static :}public void ReInit(${TOKEN_MANAGER_USES_PARSER?${cu_name} parserArg, :}${charStreamName} stream)
+  
+#if TOKEN_MANAGER_USES_PARSER && !STATIC
+  public void ReInit(${cu_name} parserArg, ${charStreamName} stream)
+#else
+  ${STATIC?static :}public void ReInit(${charStreamName} stream)
+#fi
   {
-	${TOKEN_MANAGER_USES_PARSER?this.parser = parserArg; :}
+#if TOKEN_MANAGER_USES_PARSER && !STATIC
+	this.parser = parserArg;
+#else
+
+#fi
+
     jjmatchedPos = jjnewStateCnt = 0;
     curLexState = defaultLexState;
     input_stream = stream;
@@ -54,10 +64,18 @@
   }
 
   /** Reinitialise parser. */
-  ${STATIC?static :}public void ReInit( ${TOKEN_MANAGER_USES_PARSER?${cu_name} parserArg, :}${charStreamName} stream, int lexState)
-  {
+#if TOKEN_MANAGER_USES_PARSER && !STATIC
+  public void ReInit( ${cu_name} parserArg, ${charStreamName} stream, int lexState)
+#else
+  ${STATIC?static :}public void ReInit(${charStreamName} stream, int lexState)
+#fi
   
-    ReInit(${TOKEN_MANAGER_USES_PARSER?parserArg,:} stream);
+  {
+#if TOKEN_MANAGER_USES_PARSER && !STATIC
+    ReInit(parserArg, stream);
+#else
+    ReInit(stream);
+#fi
     SwitchTo(lexState);
   }
 

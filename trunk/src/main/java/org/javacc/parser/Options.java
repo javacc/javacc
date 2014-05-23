@@ -676,7 +676,7 @@ public class Options {
 	 * @return The requested token manager uses parser value;
 	 */
 	public static boolean getTokenManagerUsesParser() {
-		return booleanValue(USEROPTION__TOKEN_MANAGER_USES_PARSER);
+		return booleanValue(USEROPTION__TOKEN_MANAGER_USES_PARSER) && !Options.getStatic();
 	}
 
 	/**
@@ -967,7 +967,7 @@ public class Options {
 	}
 
 	public static boolean isTokenManagerRequiresParserAccess() {
-		return getTokenManagerUsesParser();
+		return getTokenManagerUsesParser() && (!getStatic());
 	}
 
 	/**
