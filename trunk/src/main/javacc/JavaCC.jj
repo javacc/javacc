@@ -411,6 +411,14 @@ TOKEN :
 | < WHILE: "while" >
 }
 
+/* C++ RESERVED WORDS AND LITERALS */
+
+TOKEN :
+{
+  < TEMPLATE: "template" >
+| < TYPENAME: "typename" >
+}
+
 /* JAVA LITERALS */
 
 TOKEN :
@@ -1917,7 +1925,22 @@ void ReferenceType():
 {
    PrimitiveType() ( LOOKAHEAD(2) "[" "]" )+
   |
-   ( ClassOrInterfaceType() ) ( LOOKAHEAD(2) "[" "]" )*
+   ( [ Template() ] ClassOrInterfaceType() ) ( LOOKAHEAD(2) "[" "]" )*
+}
+
+void Template():
+{}
+{	"template" "<" TemplateBase() ( "," TemplateBase() )* ">" 
+}
+
+void TemplateBase():
+{}
+{	TemplatePack() ["..."] <IDENTIFIER> 
+}
+
+void TemplatePack():
+{}
+{	( "class" | "typename" )
 }
 
 void ClassOrInterfaceType():
@@ -1930,7 +1953,7 @@ void ClassOrInterfaceType():
 void TypeArguments():
 {}
 {
-   "<" TypeArgument() ( "," TypeArgument() )* ">"
+   "<" TypeArgument() ( "," TypeArgument() [ "..." ] )* ">"
 }
 
 void TypeArgument():
