@@ -489,14 +489,14 @@ public class ParseEngine {
     cline = t.beginLine;
     ccol = t.beginColumn;
     sig.append(t.image);
-    if (t.image.equals("void")) void_ret = true;
-    if (t.image.equals("*")) ptr_ret = true;
+    if (t.kind == JavaCCParserConstants.VOID) void_ret = true;
+    if (t.kind == JavaCCParserConstants.STAR) ptr_ret = true;
 
     for (int i = 1; i < p.getReturnTypeTokens().size(); i++) {
       t = (Token)(p.getReturnTypeTokens().get(i));
       sig.append(codeGenerator.getStringToPrint(t));
-      if (t.equals("void")) void_ret = true;
-      if (t.equals("*")) ptr_ret = true;
+      if (t.kind == JavaCCParserConstants.VOID) void_ret = true;
+      if (t.kind == JavaCCParserConstants.STAR) ptr_ret = true;
     }
 
     String comment2 = codeGenerator.getTrailingComments(t);
