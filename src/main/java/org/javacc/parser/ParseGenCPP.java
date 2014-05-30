@@ -25,7 +25,7 @@ public class ParseGenCPP extends ParseGen {
 
     if (JavaCCErrors.get_error_count() != 0) throw new MetaParseException();
 
-    List tn = new ArrayList(toolNames);
+    List<String> tn = new ArrayList<String>(toolNames);
     tn.add(toolName);
     switchToStaticsFile();
 
@@ -79,7 +79,7 @@ public class ParseGenCPP extends ParseGen {
     switchToMainFile();
     if (cu_to_insertion_point_2.size() != 0) {
       printTokenSetup((Token)(cu_to_insertion_point_2.get(0)));
-      for (Iterator it = cu_to_insertion_point_2.iterator(); it.hasNext();) {
+      for (Iterator<?> it = cu_to_insertion_point_2.iterator(); it.hasNext();) {
         t = (Token)it.next();
         printToken(t);
       }
@@ -129,7 +129,7 @@ public class ParseGenCPP extends ParseGen {
       for (int i = 0; i < tokenMaskSize; i++) {
         if (maskVals.size() > 0) {
           genCodeLine("  unsigned int jj_la1_" + i + "[] = {");
-          for (Iterator it = maskVals.iterator(); it.hasNext();) {
+          for (Iterator<?> it = maskVals.iterator(); it.hasNext();) {
             int[] tokenMask = (int[])(it.next());
             genCode("0x" + Integer.toHexString(tokenMask[i]) + ",");
           }
@@ -580,7 +580,7 @@ public class ParseGenCPP extends ParseGen {
 
     if (cu_from_insertion_point_2.size() != 0) {
       printTokenSetup((Token)(cu_from_insertion_point_2.get(0))); ccol = 1;
-      for (Iterator it = cu_from_insertion_point_2.iterator(); it.hasNext();) {
+      for (Iterator<?> it = cu_from_insertion_point_2.iterator(); it.hasNext();) {
         t = (Token)it.next();
         printToken(t);
       }
