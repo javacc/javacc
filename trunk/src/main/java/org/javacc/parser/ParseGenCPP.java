@@ -63,12 +63,12 @@ public class ParseGenCPP extends ParseGen {
     }
 
     genCodeLine("  struct JJCalls {");
-    genCodeLine("    int gen;");
-    genCodeLine("    Token *first;");
-    genCodeLine("    int arg;");
-    genCodeLine("    JJCalls *next;");
+    genCodeLine("    int        gen;");
+    genCodeLine("    int        arg;");
+    genCodeLine("    Token*     first;");
+    genCodeLine("    JJCalls*   next;");
     genCodeLine("    ~JJCalls() { if (next) delete next; }");
-    genCodeLine("    JJCalls() { next = NULL; arg = 0; gen = -1; first = NULL; }");
+    genCodeLine("     JJCalls() { next = NULL; arg = 0; gen = -1; first = NULL; }");
     genCodeLine("  };");
     genCodeLine("");
 
@@ -598,9 +598,10 @@ public class ParseGenCPP extends ParseGen {
       printToken(t1);
       t1 = t1.next;
     }
-
+    genCodeLine("\n");
     if (jjtreeGenerated) {
       genCodeLine("JJT" + cu_name + "State jjtree;");
+      genCodeLine("\n");
     }
     genCodeLine("private: bool jj_done;");
 
