@@ -140,8 +140,8 @@ public class ParseGenCPP extends ParseGen {
       for (int i = 0; i < tokenMaskSize; i++) {
         if (maskVals.size() > 0) {
           genCodeLine("  unsigned int jj_la1_" + i + "[] = {");
-          for (Iterator<?> it = maskVals.iterator(); it.hasNext();) {
-            Integer[] tokenMask = (Integer[])(it.next());
+          for (Iterator it = maskVals.iterator(); it.hasNext();) {
+            int[] tokenMask = (int[])(it.next());
             genCode("0x" + Integer.toHexString(tokenMask[i]) + ",");
           }
           genCodeLine("};");
@@ -498,6 +498,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("  }");
       genCodeLine("");
 
+      switchToIncludeFile();
       generateMethodDefHeader("void",  cu_name, "trace_call(const char *s)");
       genCodeLine("  {");
       genCodeLine("    if (trace_enabled) {");
@@ -508,6 +509,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("  }");
       genCodeLine("");
 
+      switchToIncludeFile();
       generateMethodDefHeader("void",  cu_name, "trace_return(const char *s)");
       genCodeLine("  {");
       genCodeLine("    trace_indent = trace_indent - 2;");
@@ -518,6 +520,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("  }");
       genCodeLine("");
 
+      switchToIncludeFile();
       generateMethodDefHeader("void",  cu_name, "trace_token(Token *t, const char *where)");
       genCodeLine("  {");
       genCodeLine("    if (trace_enabled) {");
@@ -531,6 +534,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("  }");
       genCodeLine("");
 
+      switchToIncludeFile();
       generateMethodDefHeader("void",  cu_name, "trace_scan(Token *t1, int t2)");
       genCodeLine("  {");
       genCodeLine("    if (trace_enabled) {");
