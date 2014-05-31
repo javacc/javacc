@@ -41,6 +41,10 @@ public class SimpleNode implements Node {
     id = i;
   }
 
+  public int getId() {
+	  return id;
+  }
+  
   public void jjtOpen() {
   }
 
