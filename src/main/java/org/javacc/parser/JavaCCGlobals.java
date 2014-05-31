@@ -65,7 +65,7 @@ public class JavaCCGlobals {
    * The list of tools that have participated in generating the
    * input grammar file.
    */
-  static public List toolNames;
+  static public List<String> toolNames;
 
   /**
    * This prints the banner line when the various tools are invoked.  This
