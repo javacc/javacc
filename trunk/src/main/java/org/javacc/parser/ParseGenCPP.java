@@ -3,16 +3,23 @@
 
 package org.javacc.parser;
 
-import java.io.BufferedWriter;
+import static org.javacc.parser.JavaCCGlobals.cu_from_insertion_point_2;
+import static org.javacc.parser.JavaCCGlobals.cu_name;
+import static org.javacc.parser.JavaCCGlobals.cu_to_insertion_point_2;
+import static org.javacc.parser.JavaCCGlobals.getFileExtension;
+import static org.javacc.parser.JavaCCGlobals.jj2index;
+import static org.javacc.parser.JavaCCGlobals.jjtreeGenerated;
+import static org.javacc.parser.JavaCCGlobals.lookaheadNeeded;
+import static org.javacc.parser.JavaCCGlobals.maskVals;
+import static org.javacc.parser.JavaCCGlobals.maskindex;
+import static org.javacc.parser.JavaCCGlobals.tokenCount;
+import static org.javacc.parser.JavaCCGlobals.toolName;
+import static org.javacc.parser.JavaCCGlobals.toolNames;
+
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import static org.javacc.parser.JavaCCGlobals.*;
 
 /**
  * Generate the parser.
@@ -28,8 +35,6 @@ public class ParseGenCPP extends ParseGen {
     List<String> tn = new ArrayList<String>(toolNames);
     tn.add(toolName);
     switchToStaticsFile();
-
-    boolean implementsExists = false;
 
     switchToIncludeFile();
 
@@ -72,6 +77,7 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("  };");
     genCodeLine("");
 
+   
     String superClass = Options.stringValue(Options.USEROPTION__PARSER_SUPER_CLASS);
     genClassStart("", cu_name, new String[]{},
                   superClass == null  ? new String[0] : new String[] {
@@ -135,7 +141,7 @@ public class ParseGenCPP extends ParseGen {
         if (maskVals.size() > 0) {
           genCodeLine("  unsigned int jj_la1_" + i + "[] = {");
           for (Iterator<?> it = maskVals.iterator(); it.hasNext();) {
-            int[] tokenMask = (int[])(it.next());
+            Integer[] tokenMask = (Integer[])(it.next());
             genCode("0x" + Integer.toHexString(tokenMask[i]) + ",");
           }
           genCodeLine("};");
@@ -396,9 +402,10 @@ public class ParseGenCPP extends ParseGen {
       }
       genCodeLine("");
 
-      genCodeLine("  /** Generate ParseException. */");
+      switchToIncludeFile();
       genCodeLine("protected:");
-      generateMethodDefHeader("virtual void ",  cu_name, "parseError()");
+      genCodeLine("  /** Generate ParseException. */");
+      generateMethodDefHeader("  virtual void ",  cu_name, "parseError()");
       genCodeLine("   {");
       genCodeLine("      fprintf(stderr, \"Parse error at: %d:%d, after token: %s encountered: %s\\n\", token->beginLine, token->beginColumn, addUnicodeEscapes(token->image).c_str(), addUnicodeEscapes(getToken(1)->image).c_str());");
       genCodeLine("   }");
@@ -447,9 +454,8 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("    return new _ParseException();");//token, NULL, tokenImage);");
       genCodeLine("  }"); */
     } else {
-
-      genCodeLine("  /** Generate ParseException. */");
       genCodeLine("protected:");
+      genCodeLine("  /** Generate ParseException. */");
       generateMethodDefHeader("virtual void ",  cu_name, "parseError()");
       genCodeLine("   {");
       genCodeLine("      fprintf(stderr, \"Parse error at: %d:%d, after token: %s encountered: %s\\n\", token->beginLine, token->beginColumn, addUnicodeEscapes(token->image).c_str(), addUnicodeEscapes(getToken(1)->image).c_str());");
@@ -477,7 +483,7 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("  bool trace_enabled;");
     genCodeLine("");
     if (Options.getDebugParser()) {
-      genCodeLine("/** Enable tracing. */");
+      switchToIncludeFile();
       genCodeLine("public:");
       generateMethodDefHeader("virtual void",  cu_name, "enable_tracing()");
       genCodeLine("  {");
@@ -485,7 +491,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("  }");
       genCodeLine("");
 
-      genCodeLine("/** Disable tracing. */");
+      switchToIncludeFile();
       generateMethodDefHeader("virtual void",  cu_name, "disable_tracing()");
       genCodeLine("  {");
       genCodeLine("    trace_enabled = false;");
@@ -538,12 +544,12 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("  }");
       genCodeLine("");
     } else {
-      genCodeLine("  /** Enable tracing. */");
+      switchToIncludeFile();
       genCodeLine("public:");
       generateMethodDefHeader("  void",  cu_name, "enable_tracing()");
       genCodeLine("  {");
       genCodeLine("  }");
-      genCodeLine("  /** Disable tracing. */");
+      switchToIncludeFile();
       generateMethodDefHeader("  void",  cu_name, "disable_tracing()");
       genCodeLine("  {");
       genCodeLine("  }");
