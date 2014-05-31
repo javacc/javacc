@@ -72,7 +72,8 @@ public class JJDocMainTest extends JavaCCTestCase {
    * Test method for {@link org.javacc.jjdoc.JJDocMain#mainProgram(java.lang.String[])}.
    */
   public void testMainProgramHTML() throws Exception {
-    assertEquals(0, JJDocMain.mainProgram(new String[] {"-OUTPUT_FILE:" + getJJDocOutputDirectory() + "JavaCC.html", getJJInputDirectory() + "JavaCC.jj"}));
+	  int result = JJDocMain.mainProgram(new String[] {"-OUTPUT_FILE:" + getJJDocOutputDirectory() + "JavaCC.html", getJJInputDirectory() + "JavaCC.jj"});
+    assertEquals(0, result);
   }
 
   /**
