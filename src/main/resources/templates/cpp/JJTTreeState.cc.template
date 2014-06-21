@@ -105,7 +105,7 @@ namespace ${NAMESPACE_OPEN}
      children.  That number of nodes are popped from the stack and
      made the children of the definite node.  Then the definite node
      is pushed on to the stack. */
-  void JJT${PARSER_NAME}State::closeNodeScope(Node *n, int num) {
+  void JJT${PARSER_NAME}State::closeNodeScope(Node *n, unsigned int num) {
     open_nodes->erase(n);
     FIXUP_MARKS;
     if (nodes->size() < num) {
@@ -132,7 +132,7 @@ namespace ${NAMESPACE_OPEN}
   void JJT${PARSER_NAME}State::closeNodeScope(Node *n, bool condition) {
     open_nodes->erase(n);
     if (condition) {
-      int a = nodeArity();
+      unsigned int a = nodeArity();
       FIXUP_MARKS;
       if (nodes->size() < a) {
         delete n;
