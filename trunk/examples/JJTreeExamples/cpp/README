@@ -74,28 +74,29 @@ complete.  It uses JJTree simple mode.
 
 The input file is eg1.jjt.
 
-$ ant -lib ../../../lib
-Buildfile: Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\build.xml
+$ ant -lib ../../../lib eg1
+Buildfile: Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\build.xml
 
 eg1:
-   [delete] Deleting directory Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1
-    [mkdir] Created dir: Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1
-     [copy] Copying 1 file to Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1
-     [copy] Copying 1 file to Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1
-   [jjtree] Java Compiler Compiler Version 6.2_0 (Tree Builder)
+   [delete] Deleting directory Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1
+    [mkdir] Created dir: Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1
+     [copy] Copying 1 file to Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1
+     [copy] Copying 1 file to Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1
+   [jjtree] Java Compiler Compiler Version 6.2_1 (Tree Builder)
    [jjtree] (type "jjtree" with no arguments for help)
-   [jjtree] Reading from file Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1.jjt . . .
+   [jjtree] Reading from file Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1.jjt . . .
    [jjtree] opt:c++
    [jjtree] File "Node.h" does not exist.  Will create one.
+   [jjtree] File "SimpleNode.h" does not exist.  Will create one.
+   [jjtree] File "SimpleNode.cc" does not exist.  Will create one.
    [jjtree] File "ParserTree.h" does not exist.  Will create one.
-   [jjtree] File "ParserTree.cc" does not exist.  Will create one.
    [jjtree] File "ParserTreeConstants.h" does not exist.  Will create one.
    [jjtree] File "JJTParserState.h" does not exist.  Will create one.
    [jjtree] File "JJTParserState.cc" does not exist.  Will create one.
-   [jjtree] Annotated grammar generated successfully in Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\eg1.jj
-   [javacc] Java Compiler Compiler Version 6.2_0 (Parser Generator)
+   [jjtree] Annotated grammar generated successfully in Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1\eg1.jj
+   [javacc] Java Compiler Compiler Version 6.2_1 (Parser Generator)
    [javacc] (type "javacc" with no arguments for help)
-   [javacc] Reading from file Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\eg1.jj . . .
+   [javacc] Reading from file Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1\eg1.jj . . .
    [javacc] File "JavaCC.h" does not exist.  Will create one.
    [javacc] File "CharStream.h" does not exist.  Will create one.
    [javacc] File "CharStream.cc" does not exist.  Will create one.
@@ -111,51 +112,28 @@ eg1:
    [javacc] File "ErrorHandler.h" does not exist.  Will create one.
    [javacc] Parser generated successfully.
 [cpptasks:cc] 9 total files to be compiled.
-[cpptasks:cc] cygwin warning:
-[cpptasks:cc]   MS-DOS style path detected: Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTree.cc
-[cpptasks:cc]   Preferred POSIX equivalent is: /cygdrive/z/dev/llvm/x64/javacc~svn/examples/JJTreeExamples/cpp/eg1/ParserTree.cc
-[cpptasks:cc]   CYGWIN environment variable option "nodosfilewarning" turns off this warning.
-[cpptasks:cc]   Consult the user's guide for more details about POSIX paths:
-[cpptasks:cc]     http://cygwin.com/cygwin-ug-net/using.html#using-pathnames
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTree.cc: In member function 'virtual void EG1::SimpleNode::jjtAddChild(EG1::Node*, int)':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTree.cc:30:28: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-[cpptasks:cc]      if (i >= children.size()) {
-[cpptasks:cc]                             ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTree.cc: In member function 'virtual EG1::Node* EG1::SimpleNode::jjtGetChild(int) const':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTree.cc:38:30: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-[cpptasks:cc]      return i < children.size() ? children[i] : NULL;
-[cpptasks:cc]                               ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTree.cc: In member function 'virtual void EG1::SimpleNode::dumpToBuffer(std::basic_string<char>, std::basic_string<char>, std::basic_string<char>*) const':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTree.cc:68:39: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-[cpptasks:cc]      for (int i = 0; i < children.size(); ++i) {
-[cpptasks:cc]                                        ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTree.cc: In member function 'virtual void EG1::SimpleNode::dump(std::basic_string<char>) const':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTree.cc:79:38: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-[cpptasks:cc]      for (int i = 0; i < buffer->size(); i++) {
-[cpptasks:cc]                                       ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTree.cc: In destructor 'virtual EG1::SimpleNode::~SimpleNode()':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTree.cc:86:39: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-[cpptasks:cc]      for (int i = 0; i < children.size(); ++i) {
-[cpptasks:cc]                                        ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\JJTParserState.cc: In member function 'virtual void EG1::JJTParserState::closeNodeScope(EG1::Node*, int)':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\JJTParserState.cc:97:25: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-[cpptasks:cc]      if (nodes->size() < num) {
-[cpptasks:cc]                          ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\JJTParserState.cc: In member function 'virtual void EG1::JJTParserState::closeNodeScope(EG1::Node*, bool)':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\JJTParserState.cc:123:27: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-[cpptasks:cc]        if (nodes->size() < a) {
-[cpptasks:cc]                            ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTokenManager.cc: In member function 'EG1::Token* EG1::ParserTokenManager::jjFillToken()':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTokenManager.cc:359:28: warning: 'endColumn' may be used uninitialized in this function [-Wmaybe-uninitialized]
+[cpptasks:cc] In file included from Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1\SimpleNode.cc:4:0:
+[cpptasks:cc] Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1\SimpleNode.h: In constructor ‘EG1::SimpleNode::SimpleNode(EG1::Parser*, int)’:
+[cpptasks:cc] Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1\SimpleNode.h:20:14: attention : ‘EG1::SimpleNode::parser’ will be initialized after [-Wreorder]
+[cpptasks:cc]    Parser *   parser;
+[cpptasks:cc]               ^
+[cpptasks:cc] Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1\SimpleNode.h:19:22: attention :   ‘int EG1::SimpleNode::id’ [-Wreorder]
+[cpptasks:cc]    int                id;
+[cpptasks:cc]                       ^
+[cpptasks:cc] Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1\SimpleNode.cc:14:1: attention :   lorsqu'initialisé ici [-Wreorder]
+[cpptasks:cc]  SimpleNode::SimpleNode(Parser *parser, int id) :
+[cpptasks:cc]  ^
+[cpptasks:cc] Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1\ParserTokenManager.cc: In member function ‘EG1::Token* EG1::ParserTokenManager::jjFillToken()’:
+[cpptasks:cc] Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1\ParserTokenManager.cc:361:28: attention : ‘endColumn’ may be used uninitialized in this function [-Wmaybe-uninitialized]
 [cpptasks:cc]     t->endColumn = endColumn;
 [cpptasks:cc]                             ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTokenManager.cc:358:32: warning: 'beginColumn' may be used uninitialized in this function [-Wmaybe-uninitialized]
+[cpptasks:cc] Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1\ParserTokenManager.cc:360:32: attention : ‘beginColumn’ may be used uninitialized in this function [-Wmaybe-uninitialized]
 [cpptasks:cc]     t->beginColumn = beginColumn;
 [cpptasks:cc]                                 ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTokenManager.cc:357:24: warning: 'endLine' may be used uninitialized in this function [-Wmaybe-uninitialized]
+[cpptasks:cc] Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1\ParserTokenManager.cc:359:24: attention : ‘endLine’ may be used uninitialized in this function [-Wmaybe-uninitialized]
 [cpptasks:cc]     t->endLine = endLine;
 [cpptasks:cc]                         ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg1\ParserTokenManager.cc:356:28: warning: 'beginLine' may be used uninitialized in this function [-Wmaybe-uninitialized]
+[cpptasks:cc] Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg1\ParserTokenManager.cc:358:28: attention : ‘beginLine’ may be used uninitialized in this function [-Wmaybe-uninitialized]
 [cpptasks:cc]     t->beginLine = beginLine;
 [cpptasks:cc]                             ^
 [cpptasks:cc] Starting link
@@ -191,30 +169,43 @@ eg2.jjt
 -------
 
 This is a modification of the first example to illustrate how the
-parse tree can be customized: But the current generated code for JavaCC 6.2.1 fails 
-to customize ASTMyID and so eg2 does not work.
+parse tree can be customized:
 
 $ ant -lib ../../../lib eg2
-Buildfile: Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\build.xml
+Buildfile: Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\build.xml
 
 eg2:
-    [mkdir] Created dir: Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2
-     [copy] Copying 1 file to Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2
-     [copy] Copying 1 file to Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2
-   [jjtree] Java Compiler Compiler Version 6.2_0 (Tree Builder)
+   [delete] Deleting directory Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg2
+    [mkdir] Created dir: Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg2
+     [copy] Copying 1 file to Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg2
+     [copy] Copying 1 file to Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg2
+   [jjtree] Java Compiler Compiler Version 6.2_1 (Tree Builder)
    [jjtree] (type "jjtree" with no arguments for help)
-   [jjtree] Reading from file Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2.jjt . . .
+   [jjtree] Reading from file Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg2.jjt . . .
    [jjtree] opt:c++
    [jjtree] File "Node.h" does not exist.  Will create one.
+   [jjtree] File "SimpleNode.h" does not exist.  Will create one.
+   [jjtree] File "SimpleNode.cc" does not exist.  Will create one.
+   [jjtree] File "ASTUnaryExpression.h" does not exist.  Will create one.
+   [jjtree] File "ASTAdd.h" does not exist.  Will create one.
+   [jjtree] File "ASTStart.h" does not exist.  Will create one.
+   [jjtree] File "ASTMyID.h" does not exist.  Will create one.
+   [jjtree] File "ASTInteger.h" does not exist.  Will create one.
+   [jjtree] File "ASTMult.h" does not exist.  Will create one.
+   [jjtree] File "ASTUnaryExpression.cc" does not exist.  Will create one.
+   [jjtree] File "ASTAdd.cc" does not exist.  Will create one.
+   [jjtree] File "ASTStart.cc" does not exist.  Will create one.
+   [jjtree] File "ASTMyID.cc" does not exist.  Will create one.
+   [jjtree] File "ASTInteger.cc" does not exist.  Will create one.
+   [jjtree] File "ASTMult.cc" does not exist.  Will create one.
    [jjtree] File "ParserTree.h" does not exist.  Will create one.
-   [jjtree] File "ParserTree.cc" does not exist.  Will create one.
    [jjtree] File "ParserTreeConstants.h" does not exist.  Will create one.
    [jjtree] File "JJTParserState.h" does not exist.  Will create one.
    [jjtree] File "JJTParserState.cc" does not exist.  Will create one.
-   [jjtree] Annotated grammar generated successfully in Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\eg2.jj
-   [javacc] Java Compiler Compiler Version 6.2_0 (Parser Generator)
+   [jjtree] Annotated grammar generated successfully in Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg2\eg2.jj
+   [javacc] Java Compiler Compiler Version 6.2_1 (Parser Generator)
    [javacc] (type "javacc" with no arguments for help)
-   [javacc] Reading from file Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\eg2.jj . . .
+   [javacc] Reading from file Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg2\eg2.jj . . .
    [javacc] File "JavaCC.h" does not exist.  Will create one.
    [javacc] File "CharStream.h" does not exist.  Will create one.
    [javacc] File "CharStream.cc" does not exist.  Will create one.
@@ -229,61 +220,39 @@ eg2:
    [javacc] File "Token.cc" is being rebuilt.
    [javacc] File "ErrorHandler.h" does not exist.  Will create one.
    [javacc] Parser generated successfully.
-     [copy] Copying 1 file to Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2
-     [copy] Copying 1 file to Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2
-[cpptasks:cc] 10 total files to be compiled.
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ParserTree.cc: In member function 'virtual void EG2::SimpleNode::jjtAddChild(EG2::Node*, int)':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ParserTree.cc:30:28: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-[cpptasks:cc]      if (i >= children.size()) {
-[cpptasks:cc]                             ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ParserTree.cc: In member function 'virtual EG2::Node* EG2::SimpleNode::jjtGetChild(int) const':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ParserTree.cc:38:30: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-[cpptasks:cc]      return i < children.size() ? children[i] : NULL;
-[cpptasks:cc]                               ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ParserTree.cc: In member function 'virtual void EG2::SimpleNode::dumpToBuffer(std::basic_string<char>, std::basic_string<char>, std::basic_string<char>*) const':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ParserTree.cc:68:39: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-[cpptasks:cc]      for (int i = 0; i < children.size(); ++i) {
-[cpptasks:cc]                                        ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ParserTree.cc: In member function 'virtual void EG2::SimpleNode::dump(std::basic_string<char>) const':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ParserTree.cc:79:38: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-[cpptasks:cc]      for (int i = 0; i < buffer->size(); i++) {
-[cpptasks:cc]                                       ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ParserTree.cc: In destructor 'virtual EG2::SimpleNode::~SimpleNode()':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ParserTree.cc:86:39: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-[cpptasks:cc]      for (int i = 0; i < children.size(); ++i) {
-[cpptasks:cc]                                        ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\JJTParserState.cc: In member function 'virtual void EG2::JJTParserState::closeNodeScope(EG2::Node*, int)':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\JJTParserState.cc:97:25: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-[cpptasks:cc]      if (nodes->size() < num) {
-[cpptasks:cc]                          ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\JJTParserState.cc: In member function 'virtual void EG2::JJTParserState::closeNodeScope(EG2::Node*, bool)':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\JJTParserState.cc:123:27: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
-[cpptasks:cc]        if (nodes->size() < a) {
-[cpptasks:cc]                            ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\Parser.cc: In member function 'void EG2::Parser::MyID()':
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\Parser.cc:189:10: error: 'class EG2::ASTMyID' has no member named 'setName'
-[cpptasks:cc]  jjtn000->setName(t->image);
-[cpptasks:cc]           ^
-[cpptasks:cc] In file included from Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ASTMyID.cc:8:0:
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ASTMyID.h:14:7: error: redefinition of 'class EG2::ASTMyID'
-[cpptasks:cc]  class ASTMyID : public SimpleNode {
-[cpptasks:cc]        ^
-[cpptasks:cc] In file included from Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ASTMyID.h:10:0,
-[cpptasks:cc]                  from Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ASTMyID.cc:8:
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ParserTree.h:75:7: error: previous definition of 'class EG2::ASTMyID'
-[cpptasks:cc]  class ASTMyID : public SimpleNode {
-[cpptasks:cc]        ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ASTMyID.cc:18:42: error: no 'void EG2::ASTMyID::setName(std::basic_string<char>)' member function declared in class 'EG2::ASTMyID'
-[cpptasks:cc]  ASTMyID::setName(JAVACC_STRING_TYPE image) {
-[cpptasks:cc]                                           ^
-[cpptasks:cc] Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\eg2\ASTMyID.cc:25:40: error: no 'std::basic_string<char> EG2::ASTMyID::toString() const' member function declared in class 'EG2::ASTMyID'
-[cpptasks:cc]  JAVACC_STRING_TYPE ASTMyID::toString() const {
-[cpptasks:cc]                                         ^
+     [copy] Copying 1 file to Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg2
+     [copy] Copying 1 file to Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg2
+[cpptasks:cc] 15 total files to be compiled.
+[cpptasks:cc] In file included from Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg2\SimpleNode.cc:4:0:
+[cpptasks:cc] Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg2\SimpleNode.h: In constructor ‘EG2::SimpleNode::SimpleNode(EG2::Parser*, int)’:
+[cpptasks:cc] Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg2\SimpleNode.h:20:14: attention : ‘EG2::SimpleNode::parser’ will be initialized after [-Wreorder]
+[cpptasks:cc]    Parser *   parser;
+[cpptasks:cc]               ^
+[cpptasks:cc] Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg2\SimpleNode.h:19:22: attention :   ‘int EG2::SimpleNode::id’ [-Wreorder]
+[cpptasks:cc]    int                id;
+[cpptasks:cc]                       ^
+[cpptasks:cc] Z:\dev\llvm\x64\javacc_version_593\examples\JJTreeExamples\cpp\eg2\SimpleNode.cc:14:1: attention :   lorsqu'initialisé ici [-Wreorder]
+[cpptasks:cc]  SimpleNode::SimpleNode(Parser *parser, int id) :
+[cpptasks:cc]  ^
+[cpptasks:cc] Starting link
+     [exec] Reading from standard input...
+     [exec] Start
+     [exec]  Add
+     [exec]   UnaryExpression
+     [exec]    Integer
+     [exec]   Mult
+     [exec]    UnaryExpression
+     [exec]     Integer
+     [exec]    UnaryExpression
+     [exec]     Add
+     [exec]      UnaryExpression
+     [exec]       Identifier: a
+     [exec]      UnaryExpression
+     [exec]       Identifier: b
+     [exec] thank you.
 
-BUILD FAILED
-Z:\dev\llvm\x64\javacc~svn\examples\JJTreeExamples\cpp\build.xml:56: g++ failed with return code 1
-
-Total time: 3 seconds
+BUILD SUCCESSFUL
+Total time: 5 seconds
 
 Look at eg2.jjt to see how node annotations can be used to restructure
 the parse tree, and at ASTMyID.java to see how you can write your own
@@ -292,11 +261,9 @@ node classes that maintain more information from the input stream.
 eg3.jjt
 -------
 
-This example can be run in the same manner as you ran eg2.jjt.But the current generated code for JavaCC 6.2.1 fails 
-to customize ASTMyID and so eg3 does not work.
+This example can be run in the same manner as you ran eg2.jjt.
 
 eg4.jjt
 -------
 
-This example again can be run in the same manner as you ran eg2.jjt.But the current generated code for JavaCC 6.2.1 fails 
-to customize ASTMyID and ASTMyOtherID and so eg4 does not work.
+This example again can be run in the same manner as you ran eg2.jjt.

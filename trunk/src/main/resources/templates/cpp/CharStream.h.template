@@ -27,26 +27,26 @@ namespace ${NAMESPACE_OPEN}
 
 
 class CharStream {
- public:
-  void setTabSize(int i) { tabSize = i; }
-  int getTabSize(int i) { return tabSize; }
+public:
+          void setTabSize(int i) { tabSize = i; }
+          int  getTabSize(int i) { return tabSize; }
 #if KEEP_LINE_COLUMN
-  virtual int getColumn() { return trackLineColumn ? bufcolumn[bufpos] : -1; }
-  virtual int getLine() { return trackLineColumn ? bufline[bufpos] : -1; }
-  virtual int getEndColumn() { return trackLineColumn ? bufcolumn[bufpos] : -1; }
-  virtual int getEndLine() { return trackLineColumn ? bufline[bufpos] : -1; }
-  virtual int getBeginColumn() { return trackLineColumn ? bufcolumn[tokenBegin] : -1; }
-  virtual int getBeginLine() { return trackLineColumn ? bufline[tokenBegin] : -1; }
+  virtual int  getColumn()       { return trackLineColumn ? bufcolumn[bufpos] : -1; }
+  virtual int  getLine()         { return trackLineColumn ? bufline[bufpos] : -1; }
+  virtual int  getEndColumn()    { return trackLineColumn ? bufcolumn[bufpos] : -1; }
+  virtual int  getEndLine()      { return trackLineColumn ? bufline[bufpos] : -1; }
+  virtual int  getBeginColumn()  { return trackLineColumn ? bufcolumn[tokenBegin] : -1; }
+  virtual int  getBeginLine()    { return trackLineColumn ? bufline[tokenBegin] : -1; }
 #else
-  virtual int getColumn() { return -1; }
-  virtual int getLine() { return -1; }
-  virtual int getEndColumn() { return -1; }
-  virtual int getEndLine() { return -1; }
-  virtual int getBeginColumn() { return -1; }
-  virtual int getBeginLine() { return -1; }
+  virtual int  getColumn()       { return -1; }
+  virtual int  getLine()         { return -1; }
+  virtual int  getEndColumn()    { return -1; }
+  virtual int  getEndLine()      { return -1; }
+  virtual int  getBeginColumn()  { return -1; }
+  virtual int  getBeginLine()    { return -1; }
 #fi
 
-  virtual bool getTrackLineColumn() { return trackLineColumn; }
+  virtual bool getTrackLineColumn()         { return trackLineColumn; }
   virtual void setTrackLineColumn(bool val) { trackLineColumn = val; }
 
 /**
@@ -55,25 +55,25 @@ class CharStream {
  * (longer) token. So, they will be used again as the prefix of the next
  * token and it is the implemetation's responsibility to do this right.
  */
-virtual inline void backup(int amount) {
-  inBuf += amount;
-  bufpos -= amount;
-  if (bufpos < 0) {
-    bufpos += bufsize;
+  virtual inline void backup(int amount) {
+    inBuf += amount;
+    bufpos -= amount;
+    if (bufpos < 0) {
+      bufpos += bufsize;
+    }
   }
-}
 
 /**
  * Returns the next character that marks the beginning of the next token.
  * All characters must remain in the buffer between two successive calls
  * to this method to implement backup correctly.
  */
-virtual inline JAVACC_CHAR_TYPE BeginToken() {
-  tokenBegin = -1;
-  JAVACC_CHAR_TYPE c = readChar();
-  tokenBegin = bufpos;
-  return c;
-}
+  virtual inline JAVACC_CHAR_TYPE BeginToken() {
+    tokenBegin = -1;
+    JAVACC_CHAR_TYPE c = readChar();
+    tokenBegin = bufpos;
+    return c;
+  }
 
 
 /**
@@ -81,32 +81,31 @@ virtual inline JAVACC_CHAR_TYPE BeginToken() {
  * of selecting the input is the responsibility of the class
  * implementing this class.
  */
-virtual inline JAVACC_CHAR_TYPE readChar() {
-  if (inBuf > 0) {
-    --inBuf;
-    ++bufpos;
-    if (bufpos == bufsize) {
-      bufpos = 0;
+  virtual inline JAVACC_CHAR_TYPE readChar() {
+    if (inBuf > 0) {
+      --inBuf;
+      ++bufpos;
+      if (bufpos == bufsize) {
+        bufpos = 0;
+      }
+      return buffer[bufpos];
     }
 
-    return buffer[bufpos];
-  }
+    ++bufpos;
+    if (bufpos >= maxNextCharInd) {
+      FillBuff();
+    }
 
-  ++bufpos;
-  if (bufpos >= maxNextCharInd) {
-    FillBuff();
-  }
-
-  JAVACC_CHAR_TYPE c = buffer[bufpos];
+    JAVACC_CHAR_TYPE c = buffer[bufpos];
 
 #if KEEP_LINE_COLUMN
-  if (trackLineColumn) {
-    UpdateLineColumn(c);
-  }
+    if (trackLineColumn) {
+      UpdateLineColumn(c);
+    }
 #fi
 
-  return c;
-}
+    return c;
+  }
 
 
   virtual void ExpandBuff(bool wrapAround);
@@ -242,23 +241,23 @@ virtual inline JAVACC_CHAR_TYPE readChar() {
  protected:
   virtual void UpdateLineColumn(JAVACC_CHAR_TYPE c);
 
-  int *bufline;
-  int *bufcolumn;
-  ReaderStream *inputStream;
-  bool deleteStream;
-  JAVACC_CHAR_TYPE * buffer;
-  int bufpos;
-  int bufsize;
-  int tokenBegin;
-  int column;
-  int line;
-  bool prevCharIsCR ;
-  bool prevCharIsLF ;
-  int available;
-  int maxNextCharInd;
-  int inBuf ;
-  int tabSize ;
-  bool trackLineColumn;
+  int*               bufline;
+  int*               bufcolumn;
+  ReaderStream*      inputStream;
+  bool               deleteStream;
+  JAVACC_CHAR_TYPE*  buffer;
+  int                bufpos;
+  int                bufsize;
+  int                tokenBegin;
+  int                column;
+  int                line;
+  bool               prevCharIsCR;
+  bool               prevCharIsLF;
+  int                available;
+  int                maxNextCharInd;
+  int                inBuf;
+  int                tabSize;
+  bool               trackLineColumn;
 };
 
 #if NAMESPACE

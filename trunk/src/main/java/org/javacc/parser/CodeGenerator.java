@@ -3,7 +3,7 @@
 
 package org.javacc.parser;
 
-import static org.javacc.parser.JavaCCGlobals.addUnicodeEscapes;
+import static org.javacc.parser.JavaCCGlobals.*;
 
 import java.io.*;
 import java.util.List;
@@ -64,6 +64,10 @@ public class CodeGenerator {
         includeBuffer.append(Options.stringValue("NAMESPACE_CLOSE") + "\n");
       }
 
+      if (jjtreeGenerated) {
+    	  mainBuffer.insert(0, "#include \"SimpleNode.h\"\n");
+      }
+      mainBuffer.insert(0, "#include \"TokenMgrError.h\"\n");
       mainBuffer.insert(0, "#include \"" + incfileName + "\"\n");
       includeBuffer.append("#endif\n");
       saveOutput(incfilePath, includeBuffer);
