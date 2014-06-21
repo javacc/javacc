@@ -1303,8 +1303,29 @@ void ReferenceType():
 {
    PrimitiveType() ( LOOKAHEAD(2) "[" "]" )+
   |
-   ( ClassOrInterfaceType() ) ( LOOKAHEAD(2) "[" "]" )*
+   ( [ Template() ] ClassOrInterfaceType() ) ( LOOKAHEAD(2) "[" "]" )*
 }
+
+void Template():
+{}
+{
+	"template" "<"
+		TemplatePack() ( "," TemplatePack() )*  
+	">" 
+}
+
+void TemplatePack():
+{}
+{
+	TemplateBase() ["..."] <IDENTIFIER> 
+}
+
+void TemplateBase():
+{}
+{
+	("class" | "typename")
+}
+
 
 void ClassOrInterfaceType():
 {}
@@ -1316,7 +1337,7 @@ void ClassOrInterfaceType():
 void TypeArguments():
 {}
 {
-   "<" TypeArgument() ( "," TypeArgument() )* ">"
+   "<" TypeArgument() ( "," TypeArgument() [ "..." ] )* ">"
 }
 
 void TypeArgument():
