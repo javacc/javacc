@@ -32,23 +32,24 @@ public:
 
   /** This pair of methods are used to inform the node of its parent. */
   virtual void    jjtSetParent(Node *n) = 0;
-  virtual Node *  jjtGetParent() const = 0;
+  virtual Node*   jjtGetParent() const = 0;
 
   /** This method tells the node to add its argument to the node's list of children.  */
-  virtual void    jjtAddChild(Node *n, unsigned int i) = 0;
+  virtual void    jjtAddChild(Node *n, size_t i) = 0;
 
   /** This method returns a child node.  The children are numbered
      from zero, left to right. */
-  virtual Node *  jjtGetChild(unsigned int i) const = 0;
+  virtual Node*   jjtGetChild(size_t i) const = 0;
 
   /** Return the number of children the node has. */
-  virtual unsigned int jjtGetNumChildren() const = 0;
-  virtual int getId() const = 0;
-#if VISITOR
+  virtual size_t  jjtGetNumChildren() const = 0;
+  virtual int     getId() const = 0;
 
+#if VISITOR
   /** Accept the visitor. **/
   virtual ${VISITOR_RETURN_TYPE:-void} jjtAccept(${PARSER_NAME}Visitor *visitor, ${VISITOR_DATA_TYPE:-void *} data) const = 0;
 #fi
+           Node() { }
   virtual ~Node() { }
 };
 
