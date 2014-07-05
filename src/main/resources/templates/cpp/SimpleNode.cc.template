@@ -38,18 +38,18 @@ Node *SimpleNode::jjtGetParent() const {
     return parent; 
 }
 
-void SimpleNode::jjtAddChild(Node *n, unsigned int i) {
+void SimpleNode::jjtAddChild(Node *n, size_t i) {
     if (i >= children.size()) {
       children.resize(i + 1, NULL);
     }
     children[i] = n;
 }
 
-Node *SimpleNode::jjtGetChild(unsigned int i) const {
+Node *SimpleNode::jjtGetChild(size_t i) const {
     return i < children.size() ? children[i] : NULL;
 }
 
-unsigned int SimpleNode::jjtGetNumChildren() const {
+size_t SimpleNode::jjtGetNumChildren() const {
     return children.size();
  }
 
@@ -80,7 +80,7 @@ void   SimpleNode::jjtSetLastToken(Token token)  { this->lastToken = token; }
 
   /** Accept the visitor. **/
 void SimpleNode::childrenAccept(${PARSER_NAME}Visitor *visitor, ${VISITOR_DATA_TYPE:-void *} data) const {
-    for (int i = 0; i < children.size(); ++i) {
+    for (size_t i = 0; i < children.size(); ++i) {
       children[i]->jjtAccept(visitor, data);
     }
 }
@@ -106,7 +106,7 @@ static JAVACC_STRING_TYPE newline = newline_char_arr_;
 void SimpleNode::dumpToBuffer(JAVACC_STRING_TYPE prefix, JAVACC_STRING_TYPE separator, JAVACC_STRING_TYPE *buffer) const {
     buffer->append(toString(prefix));
     buffer->append(separator);
-    for (unsigned int i = 0; i < children.size(); ++i) {
+    for (size_t i = 0; i < children.size(); ++i) {
       SimpleNode *n = (SimpleNode*)children[i];
       if (n != NULL) {
         n->dumpToBuffer(prefix + space, separator, buffer);
@@ -117,14 +117,14 @@ void SimpleNode::dumpToBuffer(JAVACC_STRING_TYPE prefix, JAVACC_STRING_TYPE sepa
 void SimpleNode::dump(JAVACC_STRING_TYPE prefix) const {
     JAVACC_STRING_TYPE *buffer = new JAVACC_STRING_TYPE();
     dumpToBuffer(prefix, newline, buffer);
-    for (unsigned int i = 0; i < buffer->size(); i++) {
+    for (size_t i = 0; i < buffer->size(); i++) {
       printf("%c", (*buffer)[i]);
     }
     delete buffer;
 }
 
 SimpleNode::~SimpleNode() {
-    for (unsigned int i = 0; i < children.size(); ++i) {
+    for (size_t i = 0; i < children.size(); ++i) {
       delete children[i];
     }
 }
