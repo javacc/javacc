@@ -121,8 +121,7 @@ public:
     if (bufpos >= tokenBegin)
       return JAVACC_STRING_TYPE(buffer + tokenBegin, bufpos - tokenBegin + 1);
     else
-      return JAVACC_STRING_TYPE(buffer + tokenBegin, bufsize - tokenBegin)
-             .append(buffer, bufpos + 1);
+      return JAVACC_STRING_TYPE(buffer + tokenBegin, bufsize - tokenBegin).append(buffer, bufpos + 1);
   }
 
   /**
@@ -135,8 +134,7 @@ public:
     if ((bufpos + 1) >= len) {
       return JAVACC_STRING_TYPE(buffer + bufpos - len + 1, len);
     }
-    return JAVACC_STRING_TYPE(buffer + bufsize - (len - bufpos - 1), len - bufpos - 1)
-           .append(buffer, bufpos + 1);
+    return JAVACC_STRING_TYPE(buffer + bufsize - (len - bufpos - 1), len - bufpos - 1).append(buffer, bufpos + 1);
   }
 
   /**
@@ -153,8 +151,7 @@ public:
   }
 
   bool endOfInput() {
-    return inBuf == 0 && bufpos + 1 >= maxNextCharInd &&
-           inputStream->endOfInput();
+    return inBuf == 0 && bufpos + 1 >= maxNextCharInd && inputStream->endOfInput();
   }
 
   CharStream(const JAVACC_CHAR_TYPE *buf, int sz, int startline,
@@ -216,11 +213,9 @@ public:
     ReInit(input_stream, 1, 1, INITIAL_BUFFER_SIZE);
   }
 
-  virtual void ReInit(ReaderStream *input_stream, int startline, int startcolumn,
-                      int buffersize);
+  virtual void ReInit(ReaderStream *input_stream, int startline, int startcolumn, int buffersize);
 
-  virtual void ReInit(ReaderStream *input_stream, int startline,
-                      int startcolumn) {
+  virtual void ReInit(ReaderStream *input_stream, int startline, int startcolumn) {
     ReInit(input_stream, startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
@@ -244,7 +239,6 @@ public:
   int*               bufline;
   int*               bufcolumn;
   ReaderStream*      inputStream;
-  bool               deleteStream;
   JAVACC_CHAR_TYPE*  buffer;
   int                bufpos;
   int                bufsize;
@@ -258,6 +252,7 @@ public:
   int                inBuf;
   int                tabSize;
   bool               trackLineColumn;
+  bool               deleteStream;
 };
 
 #if NAMESPACE
