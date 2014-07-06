@@ -54,6 +54,7 @@ public class NonTerminal extends Expansion {
    */
   private List argument_tokens = new ArrayList();
 
+  private List<Token> parametrized_type__tokens = new ArrayList<Token>();
   /**
    * The production this non-terminal corresponds to.
    */
@@ -95,8 +96,22 @@ public String getName() {
 /**
  * @param argument_tokens the argument_tokens to set
  */
-public void setArgumentTokens(List argument_tokens) {
+public void setParametrizedTypeTokens(List argument_tokens) {
 	this.argument_tokens = argument_tokens;
+}
+
+/**
+ * @return the argument_tokens
+ */
+public List<Token> getParametrizedTypeTokens() {
+	return parametrized_type__tokens;
+}
+
+/**
+ * @param argument_tokens the argument_tokens to set
+ */
+public void setArgumentTokens(List<Token> parametrized_type__tokens) {
+	this.parametrized_type__tokens = parametrized_type__tokens;
 }
 
 /**
