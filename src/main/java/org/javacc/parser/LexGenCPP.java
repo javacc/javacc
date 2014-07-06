@@ -627,10 +627,10 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     genCodeLine("   JAVACC_STRING_TYPE curTokenImage;");
     if (keepLineCol)
     {
-      genCodeLine("   int beginLine;");
-      genCodeLine("   int endLine;");
-      genCodeLine("   int beginColumn;");
-      genCodeLine("   int endColumn;");
+      genCodeLine("   int beginLine   = -1;");
+      genCodeLine("   int endLine     = -1;");
+      genCodeLine("   int beginColumn = -1;");
+      genCodeLine("   int endColumn   = -1;");
     }
 
     if (hasEmptyMatch)
