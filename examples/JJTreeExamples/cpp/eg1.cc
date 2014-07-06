@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
 		Parser parser(scanner);
 		SimpleNode* n = parser.Start();
 		n->dump("");
-		cout << "thank you." << endl;
+		cout << "Thank you." << endl;
 	} catch (const ParseException& e) {
 
 	}

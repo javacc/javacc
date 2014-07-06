@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 		ASTStart* n = parser.Start();
 		EG4DumpVisitor eg4dv;
 		eg4dv.visit(n, NULL);
-		cout << "thank you." << endl;
+		cout << "Thank you." << endl;
 	} catch (const ParseException& e) {
 
 	}
