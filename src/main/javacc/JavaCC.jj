@@ -39,7 +39,7 @@
 
 options {
   JAVA_UNICODE_ESCAPE = true;
-  OUTPUT_DIRECTORY = "../generated-sources/org/javacc/parser";
+  OUTPUT_DIRECTORY = "../java/org/javacc/parser";
   STATIC=false;
 }
 
@@ -109,6 +109,10 @@ public class JavaCCParser extends JavaCCParserInternals {
     return true;
   }
 
+  /*
+   * return true if the token is allowed in a ResultType. Used to  mark a c++
+   * result type as an error for a java grammar
+   */
   private boolean isAllowed(Token t)  {
     if (isJavaLanguage && (t.kind == STAR || t.kind == BIT_AND || t.kind == CONST))
        return false;
@@ -1218,15 +1222,15 @@ void expansion_unit(Container c) :
 	}
   ]
   (
-	LOOKAHEAD( identifier() "(")
+	LOOKAHEAD( identifier() [ TypeArguments(null) ] "(")
 	{
-	  nt = new NonTerminal();
 	  t = getToken(1);
+	  nt = new NonTerminal();
 	  nt.setLine(t.beginLine);
 	  nt.setColumn(t.beginColumn);
 	  nt.setLhsTokens(lhsTokens);
 	}
-   name=identifier() Arguments(nt.getArgumentTokens())
+   name=identifier() [ TypeArguments(nt.getParametrizedTypeTokens()) ] Arguments(nt.getArgumentTokens())
 	{
 	  nt.setName(name);
 	  c.member = nt;
@@ -1930,30 +1934,55 @@ void ReferenceType():
 
 void Template():
 {}
-{	"template" "<" TemplateBase() ( "," TemplateBase() )* ">" 
+{
+	"template" "<" TemplateBase() ( "," TemplateBase() )* ">" 
 }
 
 void TemplateBase():
 {}
-{	TemplatePack() ["..."] <IDENTIFIER> 
+{
+	TemplatePack() ["..."] <IDENTIFIER> 
 }
 
 void TemplatePack():
 {}
-{	( "class" | "typename" )
+{
+	( "class" | "typename" )
 }
 
 void ClassOrInterfaceType():
 {}
 {
-  <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments() ]
-  ( LOOKAHEAD(2) ( "." | "::" ) <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments() ] )*
+  <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments(null) ]
+  ( LOOKAHEAD(2) ( "." | "::" ) <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments(null) ] )*
 }
 
-void TypeArguments():
-{}
+void TypeArguments(java.util.List tokens):
+/*
+ * Parsing this fills "tokens" with all tokens of the arguments
+ * excluding the parentheses at each end.
+ */
 {
-   "<" TypeArgument() ( "," TypeArgument() [ "..." ] )* ">"
+  Token first, last;
+  if (tokens == null)
+	 tokens = new ArrayList();
+}
+{
+   "<"   { first = getToken(0); }
+   TypeArgument() ( "," TypeArgument() [ "..." ] )*
+   ">"
+   {
+     last = getToken(0);
+	  if (last.next != first) { // i.e., this is not an empty sequence
+	    Token t = first;
+	    while (true) {
+	      tokens.add(t);
+	      if (t == last) break;
+	      t = t.next;
+	    }
+	  }
+     
+   }
 }
 
 void TypeArgument():
@@ -2244,7 +2273,7 @@ void PrimaryExpression():
 void MemberSelector():
 {}
 {
-  "." TypeArguments() <IDENTIFIER>
+  "." TypeArguments(null) <IDENTIFIER>
 }
 
 void PrimaryPrefix():
@@ -2394,7 +2423,7 @@ void AllocationExpression():
   LOOKAHEAD(2)
   "new" PrimitiveType() ArrayDimsAndInits()
 |
-  "new" ClassOrInterfaceType() [ TypeArguments() ]
+  "new" ClassOrInterfaceType() [ TypeArguments(null) ]
     (
       ArrayDimsAndInits()
     |
