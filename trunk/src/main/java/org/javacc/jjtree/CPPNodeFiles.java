@@ -329,7 +329,7 @@ final class CPPNodeFiles {
       optionMap.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(getVisitorReturnType().equals("void")));
       generateFile(outputFile, "/templates/cpp/TreeImplHeader.template", optionMap, false);
 
-      boolean hasNamespace = JJTreeOptions.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0;
+      boolean hasNamespace = JJTreeOptions.stringValue(Options.USEROPTION__CPP_NAMESPACE).length() > 0;
       if (hasNamespace) {
         outputFile.getPrintWriter().println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
       }
@@ -380,7 +380,7 @@ final class CPPNodeFiles {
       ostr.println("#define " + file.getName().replace('.', '_').toUpperCase());
 
       ostr.println("\n#include \"JavaCC.h\"");
-      boolean hasNamespace = JJTreeOptions.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0;
+      boolean hasNamespace = JJTreeOptions.stringValue(Options.USEROPTION__CPP_NAMESPACE).length() > 0;
       if (hasNamespace) {
         ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
       }
@@ -463,7 +463,7 @@ final class CPPNodeFiles {
       ostr.println("\n#include \"JavaCC.h\"");
       ostr.println("#include \"" + JJTreeGlobals.parserName + "Tree.h" + "\"");
 
-      boolean hasNamespace = JJTreeOptions.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0;
+      boolean hasNamespace = JJTreeOptions.stringValue(Options.USEROPTION__CPP_NAMESPACE).length() > 0;
       if (hasNamespace) {
         ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
       }
