@@ -52,6 +52,8 @@ PARSER_BEGIN(JavaCCParser)
 
 package org.javacc.parser;
 
+import static org.javacc.parser.Options.*;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -95,8 +97,14 @@ public class JavaCCParser extends JavaCCParserInternals {
    */
   boolean jumpPatched = false;
 
-  protected boolean isJavaLanguage = true;
-
+  protected static boolean isJavaLanguage()
+  {
+    return language == Language.java;
+  }
+  protected static boolean isCppLanguage()
+  {
+    return language == Language.cpp;
+  }
 
   /*
    * Returns true if the next token is not in the FOLLOW list of "expansion".
@@ -114,7 +122,7 @@ public class JavaCCParser extends JavaCCParserInternals {
    * result type as an error for a java grammar
    */
   private boolean isAllowed(Token t)  {
-    if (isJavaLanguage && (t.kind == STAR || t.kind == BIT_AND || t.kind == CONST))
+    if (isJavaLanguage() && (t.kind == STAR || t.kind == BIT_AND || t.kind == CONST))
        return false;
     else
        return true;
@@ -289,6 +297,13 @@ TOKEN :
 | < _SKIP: "SKIP" >
 | < _TOKEN_MGR_DECLS: "TOKEN_MGR_DECLS" >
 | < _EOF: "EOF" >
+// c++ generation blocks
+| < _DCL_PARSER_BEGIN: "DCL_PARSER_BEGIN" >
+| < _DCL_PARSER_END: "DCL_PARSER_END" >
+| < _INC_PARSER_BEGIN: "INC_PARSER_BEGIN" >
+| < _INC_PARSER_END: "INC_PARSER_END" >
+| < _DEF_PARSER_BEGIN: "DEF_PARSER_BEGIN" >
+| < _DEF_PARSER_END: "DEF_PARSER_END" >
 }
 
 /*
@@ -579,9 +594,8 @@ void javacc_input() :
 {
   javacc_options()
   {
-    isJavaLanguage = Options.isOutputLanguageJava();
   }
-  "PARSER_BEGIN" "(" id1=identifier()
+    "PARSER_BEGIN" "(" id1=identifier()
 	{
 	  addcuname(id1);
 	}
@@ -590,7 +604,7 @@ void javacc_input() :
 	  processing_cu = true;
 	  parser_class_name = id1;
 
-          if (!isJavaLanguage) {
+          if (!isJavaLanguage()) {
             JavaCCGlobals.otherLanguageDeclTokenBeg = getToken(1);
             while(getToken(1).kind != _PARSER_END) {
               getNextToken();
@@ -598,15 +612,15 @@ void javacc_input() :
             JavaCCGlobals.otherLanguageDeclTokenEnd = getToken(1);
           }
 	}
-  CompilationUnit()
+    CompilationUnit()
 	{
 	  processing_cu = false;
 	}
-  "PARSER_END" "(" id2=identifier()
+    "PARSER_END" "(" id2=identifier()
 	{
 	  compare(getToken(0), id1, id2);
 	}
-               ")"
+    ")"
   ( production() )+
   <EOF>
 }
@@ -857,7 +871,7 @@ void token_manager_decls() :
 {
   t="TOKEN_MGR_DECLS" ":"
   {
-    if (!isJavaLanguage) {
+    if (!isJavaLanguage()) {
       getNextToken(); // eat {
       eatUptoCloseBrace(decls);
       getNextToken(); // eat }
@@ -1059,7 +1073,7 @@ Lookahead local_lookahead() :
   [ LOOKAHEAD(0, { emptyLA || commaAtEnd } )
     "{"
         {
-          if (!isJavaLanguage) {
+          if (!isJavaLanguage()) {
             int b = 0;
             while(getToken(1).kind != RBRACE || --b > 0) {
               t = getNextToken();
@@ -1157,14 +1171,14 @@ void expansion_unit(Container c) :
   t0="try" "{" expansion_choices(expch) "}"
   ("catch" "("
     {
-      if (!isJavaLanguage) {
+      if (!isJavaLanguage()) {
         while (getToken(1).kind != RPAREN) getNextToken();
       }
       t = getToken(0);
       t.kind = IDENTIFIER;
       t.image = "...";
     }
-    [ LOOKAHEAD({isJavaLanguage}) Name(vec) t=<IDENTIFIER> ]
+    [ LOOKAHEAD({isJavaLanguage()}) Name(vec) t=<IDENTIFIER> ]
    ")"
 	{
 	  types.add(vec);
@@ -1529,6 +1543,14 @@ Token JavaIdentifier() :
 | "SKIP"
 | "TOKEN_MGR_DECLS"
 | "EOF"
+// c++ generation blocks
+| "DCL_PARSER_BEGIN"
+| "DCL_PARSER_END"
+| "INC_PARSER_BEGIN"
+| "INC_PARSER_END"
+| "DEF_PARSER_BEGIN"
+| "DEF_PARSER_END"
+
 )
 	{
 	  Token retval = getToken(0);
@@ -2390,7 +2412,7 @@ void Arguments(java.util.List tokens) :
 	  first = getToken(1);
 	  // Added by Sreenivas Viswanadha for 6.0
 	  // TODO :: 2013/07/16 -- cba : Think this condition should be if the language IS C++, not if the language ISN'T Java ...
-	  if (!isJavaLanguage) {
+	  if (!isJavaLanguage()) {
 		eatUptoRParen(null);
 	  }
 	}
@@ -2512,7 +2534,7 @@ void Block(List tokens) :
   "{"
 	{
 	  first = getToken(1);
-          if (!isJavaLanguage) {
+          if (!isJavaLanguage()) {
             eatUptoCloseBrace(null);
           }
 	}

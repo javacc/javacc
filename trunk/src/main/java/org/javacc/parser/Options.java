@@ -119,6 +119,12 @@ public class Options {
 
 	public static final String OUTPUT_LANGUAGE__CPP = "c++";
 	public static final String OUTPUT_LANGUAGE__JAVA = "java";
+	
+	public static enum Language {
+		java, cpp;
+	}
+	
+	public static Language language = Language.java;
 
 
 	/**
@@ -184,7 +190,8 @@ public class Options {
 		temp.add(new OptionInfo(USEROPTION__TOKEN_FACTORY, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__GRAMMAR_ENCODING, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__OUTPUT_LANGUAGE, OptionType.STRING, OUTPUT_LANGUAGE__JAVA));
-
+		language = Language.java;
+		
 		temp.add(new OptionInfo(USEROPTION__JAVA_TEMPLATE_TYPE, OptionType.STRING, JAVA_TEMPLATE_TYPE_CLASSIC));
 		temp.add(new OptionInfo(USEROPTION__CPP_NAMESPACE, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_INCLUDES, OptionType.STRING, ""));
@@ -337,19 +344,19 @@ public class Options {
 
 	public static void setInputFileOption(Object nameloc, Object valueloc,
 			String name, Object value) {
-		String s = name.toUpperCase();
-		if (!optionValues.containsKey(s)) {
+		String nameUpperCase = name.toUpperCase();
+		if (!optionValues.containsKey(nameUpperCase)) {
 			JavaCCErrors.warning(nameloc, "Bad option name \"" + name
 					+ "\".  Option setting will be ignored.");
 			return;
 		}
-		final Object existingValue = optionValues.get(s);
+		final Object existingValue = optionValues.get(nameUpperCase);
 
 		value = upgradeValue(name, value);
 
 		if (existingValue != null) {
 
-			boolean isIndirectProperty = s.equalsIgnoreCase(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING);
+			boolean isIndirectProperty = nameUpperCase.equalsIgnoreCase(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING);
 
 			if (isIndirectProperty || ((existingValue.getClass() != value.getClass())
 					|| (value instanceof Integer && ((Integer) value)
@@ -360,13 +367,13 @@ public class Options {
 				return;
 			}
 
-			if (inputFileSetting.contains(s)) {
+			if (inputFileSetting.contains(nameUpperCase)) {
 				JavaCCErrors.warning(nameloc, "Duplicate option setting for \""
 						+ name + "\" will be ignored.");
 				return;
 			}
 
-			if (cmdLineSetting.contains(s)) {
+			if (cmdLineSetting.contains(nameUpperCase)) {
 				if (!existingValue.equals(value)) {
 					JavaCCErrors.warning(nameloc, "Command line setting of \"" + name + "\" modifies option value in file.");
 				}
@@ -374,12 +381,12 @@ public class Options {
 			}
 		}
 
-		optionValues.put(s, value);
-		inputFileSetting.add(s);
+		optionValues.put(nameUpperCase, value);
+		inputFileSetting.add(nameUpperCase);
 
 		// Special case logic block here for setting indirect flags
 
-		if (s.equalsIgnoreCase(USEROPTION__JAVA_TEMPLATE_TYPE)) {
+		if (nameUpperCase.equalsIgnoreCase(USEROPTION__JAVA_TEMPLATE_TYPE)) {
 			String templateType = (String)value;
 			if (!isValidJavaTemplateType(templateType)){
 				JavaCCErrors.warning(valueloc, "Bad option value \"" + value
@@ -390,16 +397,19 @@ public class Options {
 
 			boolean isLegacy = JAVA_TEMPLATE_TYPE_CLASSIC.equals(templateType);
 			optionValues.put(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING, isLegacy);
-		} else if (s.equalsIgnoreCase(USEROPTION__OUTPUT_LANGUAGE)) {
-			String templateType = (String)value;
-			if (!isValidOutputLanguage(templateType)) {
+		} else if (nameUpperCase.equalsIgnoreCase(USEROPTION__OUTPUT_LANGUAGE)) {
+			String outputLanguage = (String)value;
+			if (!isValidOutputLanguage(outputLanguage)) {
 				JavaCCErrors.warning(valueloc, "Bad option value \"" + value
 						+ "\" for \"" + name
 						+ "\".  Option setting will be ignored. Valid options : " + getAllValidLanguages() );
 				return;
 			}
-
-		} else if (s.equalsIgnoreCase(USEROPTION__CPP_NAMESPACE)) {
+			if (isOutputLanguageJava())
+				language = Language.java;
+			else if (isOutputLanguageCpp())
+				language = Language.cpp;
+		} else if (nameUpperCase.equalsIgnoreCase(USEROPTION__CPP_NAMESPACE)) {
 			processCPPNamespaceOption((String) value);
 		}
 	}
@@ -962,7 +972,7 @@ public class Options {
 		return getOutputLanguage().equalsIgnoreCase(OUTPUT_LANGUAGE__JAVA);
 	}
 
-	public static boolean isOutputLanguageCPP() {
+	public static boolean isOutputLanguageCpp() {
 		return getOutputLanguage().equalsIgnoreCase(OUTPUT_LANGUAGE__CPP);
 	}
 
