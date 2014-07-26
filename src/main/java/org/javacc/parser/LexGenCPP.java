@@ -73,7 +73,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       genCodeLine("#include \"" + Options.stringValue(Options.USEROPTION__CPP_TOKEN_MANAGER_INCLUDES) + "\"\n");
     }
 
-    if (Options.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0) {
+    if (Options.stringValue(Options.USEROPTION__CPP_NAMESPACE).length() > 0) {
       genCodeLine("namespace " + Options.stringValue("NAMESPACE_OPEN"));
     }
 

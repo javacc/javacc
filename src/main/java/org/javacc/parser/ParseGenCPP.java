@@ -63,7 +63,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("#include \"" + cu_name + "Tree.h\"");
     }
 
-    if (Options.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0) {
+    if (Options.stringValue(Options.USEROPTION__CPP_NAMESPACE).length() > 0) {
       genCodeLine("namespace " + Options.stringValue("NAMESPACE_OPEN"));
     }
 

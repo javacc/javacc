@@ -105,7 +105,7 @@ public class Options {
 	public static final String USEROPTION__TOKEN_FACTORY = "TOKEN_FACTORY";
 	public static final String USEROPTION__TOKEN_EXTENDS = "TOKEN_EXTENDS";
 
-	public static final String USEROPTION_CPP_NAMESPACE = "NAMESPACE";
+	public static final String USEROPTION__CPP_NAMESPACE = "NAMESPACE";
 	public static final String USEROPTION__CPP_TOKEN_INCLUDES = "TOKEN_INCLUDES";
 	public static final String USEROPTION__CPP_PARSER_INCLUDES = "PARSER_INCLUDES";
 	public static final String USEROPTION__CPP_IGNORE_ACTIONS = "IGNORE_ACTIONS";
@@ -186,7 +186,7 @@ public class Options {
 		temp.add(new OptionInfo(USEROPTION__OUTPUT_LANGUAGE, OptionType.STRING, OUTPUT_LANGUAGE__JAVA));
 
 		temp.add(new OptionInfo(USEROPTION__JAVA_TEMPLATE_TYPE, OptionType.STRING, JAVA_TEMPLATE_TYPE_CLASSIC));
-		temp.add(new OptionInfo(USEROPTION_CPP_NAMESPACE, OptionType.STRING, ""));
+		temp.add(new OptionInfo(USEROPTION__CPP_NAMESPACE, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_INCLUDES, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__CPP_PARSER_INCLUDES, OptionType.STRING, ""));
 
@@ -399,7 +399,7 @@ public class Options {
 				return;
 			}
 
-		} else if (s.equalsIgnoreCase(USEROPTION_CPP_NAMESPACE)) {
+		} else if (s.equalsIgnoreCase(USEROPTION__CPP_NAMESPACE)) {
 			processCPPNamespaceOption((String) value);
 		}
 	}
@@ -510,7 +510,7 @@ public class Options {
 
 		optionValues.put(name, Val);
 		cmdLineSetting.add(name);
-		if (name.equalsIgnoreCase(USEROPTION_CPP_NAMESPACE)) {
+		if (name.equalsIgnoreCase(USEROPTION__CPP_NAMESPACE)) {
 			processCPPNamespaceOption((String) Val);
 		}
 	}
@@ -909,7 +909,7 @@ public class Options {
 
 	public static void setStringOption(String optionName, String optionValue) {
 		optionValues.put(optionName, optionValue);
-		if (optionName.equalsIgnoreCase(USEROPTION_CPP_NAMESPACE)) {
+		if (optionName.equalsIgnoreCase(USEROPTION__CPP_NAMESPACE)) {
 			processCPPNamespaceOption(optionValue);
 		}
 	}
