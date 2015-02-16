@@ -104,6 +104,7 @@ public class Options {
 	public static final String USEROPTION__GRAMMAR_ENCODING = "GRAMMAR_ENCODING";
 	public static final String USEROPTION__TOKEN_FACTORY = "TOKEN_FACTORY";
 	public static final String USEROPTION__TOKEN_EXTENDS = "TOKEN_EXTENDS";
+	public static final String USEROPTION__DEPTH_LIMIT = "DEPTH_LIMIT";
 
 	public static final String USEROPTION__CPP_NAMESPACE = "NAMESPACE";
 	public static final String USEROPTION__CPP_TOKEN_INCLUDES = "TOKEN_INCLUDES";
@@ -112,6 +113,7 @@ public class Options {
 	public static final String USEROPTION__CPP_TOKEN_MANAGER_INCLUDES = "TOKEN_MANAGER_INCLUDES";
 	public static final String USEROPTION__CPP_TOKEN_MANAGER_SUPERCLASS = "TOKEN_MANAGER_SUPERCLASS";
 	public static final String USEROPTION__CPP_STOP_ON_FIRST_ERROR = "STOP_ON_FIRST_ERROR";
+	public static final String USEROPTION__CPP_STACK_LIMIT = "STACK_LIMIT";
 
 	/**
 	 * Various constants relating to possible values for certain options
@@ -201,6 +203,9 @@ public class Options {
 		temp.add(new OptionInfo(USEROPTION__CPP_IGNORE_ACTIONS, OptionType.BOOLEAN, Boolean.FALSE));
 		temp.add(new OptionInfo(USEROPTION__CPP_STOP_ON_FIRST_ERROR, OptionType.BOOLEAN, Boolean.FALSE));
 		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_MANAGER_SUPERCLASS, OptionType.STRING, ""));
+
+		temp.add(new OptionInfo(USEROPTION__DEPTH_LIMIT, OptionType.INTEGER, new Integer(0)));
+		temp.add(new OptionInfo(USEROPTION__CPP_STACK_LIMIT, OptionType.INTEGER, new Integer(0)));
 
 		userOptions = Collections.unmodifiableSet(temp);
 	}
@@ -978,6 +983,24 @@ public class Options {
 
 	public static boolean isTokenManagerRequiresParserAccess() {
 		return getTokenManagerUsesParser() && (!getStatic());
+	}
+
+	/**
+	 * Get defined parser recursion depth limit.
+	 *
+	 * @return The requested recursion limit.
+	 */
+	public static int getDepthLimit() {
+		return intValue(USEROPTION__DEPTH_LIMIT);
+	}
+
+	/**
+	 * Get defined parser stack usage limit.
+	 *
+	 * @return The requested stack usage limit.
+	 */
+	public static int getStackLimit() {
+		return intValue(USEROPTION__CPP_STACK_LIMIT);
 	}
 
 	/**

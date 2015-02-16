@@ -49,6 +49,17 @@ public:
   /** Accept the visitor. **/
   virtual ${VISITOR_RETURN_TYPE:-void} jjtAccept(${PARSER_NAME}Visitor *visitor, ${VISITOR_DATA_TYPE:-void *} data) const = 0;
 #fi
+
+  /** Clear list of children, and return children that we have before.
+      Used in destructor to do linear destruction of tree.
+      Since some parsers has subclassed Node, we can't use pure virtual
+      function, that would break backward compatibility. */
+  private: virtual std::vector<Node *> jjtExtractChildrenForDestruction() {
+    std::vector<Node *> x;
+    return x;
+  }
+  friend class SimpleNode;
+
            Node() { }
   virtual ~Node() { }
 };
@@ -57,8 +68,8 @@ public:
   class ${NODE_FACTORY};
   extern ${NODE_FACTORY} *nodeFactory;
   // Takes ownerhip of the factory
-  void setNodeFactory(${NODE_FACTORY} *factory); 
-  ${NODE_FACTORY} *getNodeFactory(); 
+  void setNodeFactory(${NODE_FACTORY} *factory);
+  ${NODE_FACTORY} *getNodeFactory();
 #fi
 
 #if NAMESPACE
