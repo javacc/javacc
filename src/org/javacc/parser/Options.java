@@ -113,6 +113,7 @@ public class Options {
     optionValues.put("LOOKAHEAD", new Integer(1));
     optionValues.put("CHOICE_AMBIGUITY_CHECK", new Integer(2));
     optionValues.put("OTHER_AMBIGUITY_CHECK", new Integer(1));
+    optionValues.put("DEPTH_LIMIT", new Integer(0)); // Maximum recursion depth
 
     optionValues.put("STATIC", Boolean.TRUE);
     optionValues.put("DEBUG_PARSER", Boolean.FALSE);
@@ -153,6 +154,7 @@ public class Options {
     optionValues.put("TOKEN_MANAGER_INCLUDES", "");
     optionValues.put("IGNORE_ACTIONS", Boolean.FALSE);
     optionValues.put("STOP_ON_FIRST_ERROR", Boolean.FALSE);
+    optionValues.put("STACK_LIMIT", new Integer(0)); // Maximum allowed stack usage size
   }
 
   /**
@@ -384,6 +386,24 @@ public class Options {
    */
   public static int getLookahead() {
     return intValue("LOOKAHEAD");
+  }
+
+  /**
+   * Get maximum recursion depth limit.
+   *
+   * @return The requested maximum recursion depth limit.
+   */
+  public static int getDepthLimit() {
+    return intValue("DEPTH_LIMIT");
+  }
+
+  /**
+   * Get maximum stack usage limit.
+   *
+   * @return The requested maximum stack usage limit.
+   */
+  public static int getStackLimit() {
+    return intValue("STACK_LIMIT");
   }
 
   /**

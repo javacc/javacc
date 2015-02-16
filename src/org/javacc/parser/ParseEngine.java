@@ -532,6 +532,42 @@ public class ParseEngine {
     return ret_val.toString();
   }
 
+  void genStackCheck(boolean voidReturn) {
+    if (Options.getDepthLimit() > 0) {
+      if (isJavaLanguage) {
+        codeGenerator.genCodeLine("if(++jj_depth > " + Options.getDepthLimit() + ") {");
+        codeGenerator.genCodeLine("  jj_consume_token(-1);");
+        codeGenerator.genCodeLine("  throw new ParseException();");
+        codeGenerator.genCodeLine("} else { try {");
+      } else {
+        if (!voidReturn) {
+          codeGenerator.genCodeLine("if(jj_depth_error){ return __ERROR_RET__; }");
+        } else {
+          codeGenerator.genCodeLine("if(jj_depth_error){ return; }");
+        }
+        codeGenerator.genCodeLine("__jj_depth_inc __jj_depth_counter(this);");
+        codeGenerator.genCodeLine("if(jj_depth > " + Options.getDepthLimit() + ") {");
+        codeGenerator.genCodeLine("  jj_depth_error = true;");
+        codeGenerator.genCodeLine("  jj_consume_token(-1);");
+        codeGenerator.genCodeLine("  errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this), hasError = true;");
+        if (!voidReturn) {
+          codeGenerator.genCodeLine("  return __ERROR_RET__;");  // Non-recoverable error
+        }
+        codeGenerator.genCodeLine("}");
+      }
+    }
+  }
+
+  void genStackCheckEnd() {
+    if (Options.getDepthLimit() > 0) {
+      if (isJavaLanguage) {
+        codeGenerator.genCodeLine(" } finally {");
+        codeGenerator.genCodeLine("   --jj_depth;");
+        codeGenerator.genCodeLine(" }");
+      }
+    }
+  }
+
   void buildPhase1Routine(BNFProduction p) {
     Token t;
     t = (Token)(p.getReturnTypeTokens().get(0));
@@ -561,7 +597,7 @@ public class ParseEngine {
         codeGenerator.printTrailingComments(t);
       }
       codeGenerator.genCode(")");
-      if (isJavaLanguage) { 
+      if (isJavaLanguage) {
         codeGenerator.genCode(" throws ParseException");
       }
 
@@ -578,10 +614,15 @@ public class ParseEngine {
     }
 
     codeGenerator.genCode(" {");
- 
-    if (Options.booleanValue("STOP_ON_FIRST_ERROR") && error_ret != null) { 
+
+    if ((Options.booleanValue("STOP_ON_FIRST_ERROR") && error_ret != null)
+        || (Options.getDepthLimit() > 0 && !voidReturn && !isJavaLanguage)) {
       codeGenerator.genCode(error_ret);
+    } else {
+      error_ret = "";
     }
+
+    genStackCheck(voidReturn);
 
     indentamt = 4;
     if (Options.getDebugParser()) {
@@ -603,7 +644,7 @@ public class ParseEngine {
     dumpFormattedString(code);
     codeGenerator.genCodeLine("");
     if (p.isJumpPatched() && !voidReturn) {
-      if (isJavaLanguage) { 
+      if (isJavaLanguage) {
         codeGenerator.genCodeLine("    throw new Error(\"Missing return statement in function\");");
       } else {
         codeGenerator.genCodeLine("    throw \"Missing return statement in function\";");
@@ -624,10 +665,11 @@ public class ParseEngine {
       codeGenerator.genCodeLine("assert(false);");
     }
 
-    if (Options.booleanValue("STOP_ON_FIRST_ERROR")) { 
+    if (error_ret != "") {
       codeGenerator.genCodeLine("\n#undef __ERROR_RET__\n");
     }
-    codeGenerator.genCodeLine("  }");
+    genStackCheckEnd();
+    codeGenerator.genCodeLine("}");
     codeGenerator.genCodeLine("");
   }
 
@@ -714,7 +756,7 @@ public class ParseEngine {
       actions = new String[e_nrw.getChoices().size() + 1];
       actions[e_nrw.getChoices().size()] = "\n" + "jj_consume_token(-1);\n" +
         (isJavaLanguage ? "throw new ParseException();"
-                        : ("errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this), hasError = true;" + 
+                        : ("errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this), hasError = true;" +
          (Options.booleanValue("STOP_ON_FIRST_ERROR") ? "return __ERROR_RET__;\n" : "")));
 
       // In previous line, the "throw" never throws an exception since the
@@ -899,12 +941,18 @@ public class ParseEngine {
     }
     codeGenerator.genCodeLine(" {");
     codeGenerator.genCodeLine("    jj_la = xla; jj_lastpos = jj_scanpos = token;");
+
+    String ret_suffix = "";
+    if (Options.getDepthLimit() > 0) {
+      ret_suffix = " && !jj_depth_error";
+    }
+
     if (isJavaLanguage) {
-      codeGenerator.genCodeLine("    try { return !jj_3" + e.internal_name + "(); }");
+      codeGenerator.genCodeLine("    try { return (!jj_3" + e.internal_name + "())" + ret_suffix + "; }");
       codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
-    } else { 
+    } else {
       codeGenerator.genCodeLine("    jj_done = false;");
-      codeGenerator.genCodeLine("    return !jj_3" + e.internal_name + "() || jj_done;");
+      codeGenerator.genCodeLine("    return (!jj_3" + e.internal_name + "() || jj_done)" + ret_suffix + ";");
       //codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
     }
     if (Options.getErrorReporting()) {
@@ -1054,14 +1102,17 @@ public class ParseEngine {
     if (!recursive_call) {
       if (isJavaLanguage) {
         codeGenerator.genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " jj_3" + e.internal_name + "()");
-     } else {
+      } else {
         codeGenerator.genCodeLine(" inline bool ", "jj_3" + e.internal_name + "()");
-     }
+        // To break lookahead we should return true
+        codeGenerator.genCodeLine("#define __ERROR_RET__ true");
+      }
 
-     codeGenerator.genCodeLine(" {");
+      codeGenerator.genCodeLine(" {");
       if (!isJavaLanguage) {
         codeGenerator.genCodeLine("    if (jj_done) return true;");
       }
+      genStackCheck(false);
       xsp_declared = false;
       if (Options.getDebugLookahead() && e.parent instanceof NormalProduction) {
         codeGenerator.genCode("    ");
@@ -1208,6 +1259,10 @@ public class ParseEngine {
     }
     if (!recursive_call) {
       codeGenerator.genCodeLine("    " + genReturn(false));
+      genStackCheckEnd();
+      if (!isJavaLanguage) {
+        codeGenerator.genCodeLine("#undef __ERROR_RET__");
+      }
       codeGenerator.genCodeLine("  }");
       codeGenerator.genCodeLine("");
     }
