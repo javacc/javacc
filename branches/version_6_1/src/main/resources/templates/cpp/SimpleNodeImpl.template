@@ -100,7 +100,7 @@
       }
     }
   }
-  
+
   void SimpleNode::dump(JAVACC_STRING_TYPE prefix) const {
     JAVACC_STRING_TYPE *buffer = new JAVACC_STRING_TYPE();
     dumpToBuffer(prefix, newline, buffer);
@@ -110,8 +110,31 @@
     delete buffer;
   }
 
+  // Clear list of children, and return children that we have before.
+  // Used in destructor to do linear destruction of tree.
+  std::vector<Node *> SimpleNode::jjtExtractChildrenForDestruction() {
+    std::vector<Node*> ret;
+    ret.swap(children);
+    return ret;
+  }
+
+  // When tree generated, it deepness can be high, so trying to destruct it
+  // with simple recursive destruction can cause stack overflow. Thus we get
+  // each node's children, put them into destruction queue and destruct node.
+  // That is linear, non-recursive process, unsing memory instead of stack.
   SimpleNode::~SimpleNode() {
-    for (int i = 0; i < children.size(); ++i) {
-      delete children[i];
+    std::vector<Node*> tree = children;
+    std::vector<Node*> nodes;
+    for (int i = 0; i < tree.size(); ++i) {
+      if (tree[i]) {
+        nodes = tree[i]->jjtExtractChildrenForDestruction();
+        for (Node* child : nodes) {
+          tree.push_back(child);
+        }
+      }
+    }
+
+    for (Node* node : tree) {
+      delete node;
     }
   }

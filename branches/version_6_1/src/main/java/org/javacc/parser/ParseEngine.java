@@ -535,6 +535,45 @@ public class ParseEngine {
   }
 
 
+  void genStackCheck(boolean voidReturn) {
+    if (Options.getDepthLimit() > 0) {
+      if (isJavaDialect) {
+        codeGenerator.genCodeLine("if(++jj_depth > " + Options.getDepthLimit() + ") {");
+        codeGenerator.genCodeLine("  jj_consume_token(-1);");
+        codeGenerator.genCodeLine("  throw new ParseException();");
+        codeGenerator.genCodeLine("}");
+        codeGenerator.genCodeLine("try {");
+      } else {
+        if (!voidReturn) {
+          codeGenerator.genCodeLine("if(jj_depth_error){ return __ERROR_RET__; }");
+        } else {
+          codeGenerator.genCodeLine("if(jj_depth_error){ return; }");
+        }
+        codeGenerator.genCodeLine("__jj_depth_inc __jj_depth_counter(this);");
+        codeGenerator.genCodeLine("if(jj_depth > " + Options.getDepthLimit() + ") {");
+        codeGenerator.genCodeLine("  jj_depth_error = true;");
+        codeGenerator.genCodeLine("  jj_consume_token(-1);");
+        codeGenerator.genCodeLine("  errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this), hasError = true;");
+        if (!voidReturn) {
+          codeGenerator.genCodeLine("  return __ERROR_RET__;");  // Non-recoverable error
+        } else {
+          codeGenerator.genCodeLine("  return;");  // Non-recoverable error
+        }
+        codeGenerator.genCodeLine("}");
+      }
+    }
+  }
+
+  void genStackCheckEnd() {
+    if (Options.getDepthLimit() > 0) {
+      if (isJavaDialect) {
+        codeGenerator.genCodeLine(" } finally {");
+        codeGenerator.genCodeLine("   --jj_depth;");
+        codeGenerator.genCodeLine(" }");
+      }
+    }
+  }
+
   void buildPhase1Routine(BNFProduction p) {
     Token t;
     t = (Token)(p.getReturnTypeTokens().get(0));
@@ -564,9 +603,7 @@ public class ParseEngine {
         codeGenerator.printTrailingComments(t);
       }
       codeGenerator.genCode(")");
-      if (isJavaDialect) {
-        codeGenerator.genCode(" throws ParseException");
-      }
+      codeGenerator.genCode(" throws ParseException");
 
       for (java.util.Iterator it = p.getThrowsList().iterator(); it.hasNext();) {
         codeGenerator.genCode(", ");
@@ -582,9 +619,14 @@ public class ParseEngine {
 
     codeGenerator.genCode(" {");
 
-    if (Options.booleanValue(Options.USEROPTION__CPP_STOP_ON_FIRST_ERROR) && error_ret != null) {
+    if ((Options.booleanValue(Options.USEROPTION__CPP_STOP_ON_FIRST_ERROR) && error_ret != null)
+        || (Options.getDepthLimit() > 0 && !voidReturn && !isJavaDialect)) {
 	      codeGenerator.genCode(error_ret);
+    } else {
+      error_ret = null;
     }
+
+    genStackCheck(voidReturn);
 
     indentamt = 4;
     if (Options.getDebugParser()) {
@@ -631,10 +673,11 @@ public class ParseEngine {
     }
 
 
-    if (Options.booleanValue(Options.USEROPTION__CPP_STOP_ON_FIRST_ERROR)) {
+    if (error_ret != null) {
       codeGenerator.genCodeLine("\n#undef __ERROR_RET__\n");
     }
-    codeGenerator.genCodeLine("  }");
+    genStackCheckEnd();
+    codeGenerator.genCodeLine("}");
     codeGenerator.genCodeLine("");
   }
 
@@ -908,13 +951,18 @@ public class ParseEngine {
     }
     codeGenerator.genCodeLine(" {");
     codeGenerator.genCodeLine("    jj_la = xla; jj_lastpos = jj_scanpos = token;");
+
+    String ret_suffix = "";
+    if (Options.getDepthLimit() > 0) {
+      ret_suffix = " && !jj_depth_error";
+    }
+
     if (isJavaDialect) {
-      codeGenerator.genCodeLine("    try { return !jj_3" + e.internal_name + "(); }");
+      codeGenerator.genCodeLine("    try { return (!jj_3" + e.internal_name + "())" + ret_suffix + "); }");
       codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
     } else {
       codeGenerator.genCodeLine("    jj_done = false;");
-      codeGenerator.genCodeLine("    return !jj_3" + e.internal_name + "() || jj_done;");
-      //codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
+      codeGenerator.genCodeLine("    return (!jj_3" + e.internal_name + "() || jj_done)" + ret_suffix + ";");
     }
     if (Options.getErrorReporting()) {
       codeGenerator.genCodeLine((isJavaDialect ? "    finally " : " ") + "{ jj_save(" + (Integer.parseInt(e.internal_name.substring(1))-1) + ", xla); }");
@@ -1063,14 +1111,15 @@ public class ParseEngine {
     if (!recursive_call) {
       if (isJavaDialect) {
         codeGenerator.genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " jj_3" + e.internal_name + "()");
-     } else {
+      } else {
         codeGenerator.genCodeLine(" inline bool ", "jj_3" + e.internal_name + "()");
-     }
+      }
 
-     codeGenerator.genCodeLine(" {");
+      codeGenerator.genCodeLine(" {");
       if (!isJavaDialect) {
         codeGenerator.genCodeLine("    if (jj_done) return true;");
       }
+      genStackCheck(false);
       xsp_declared = false;
       if (Options.getDebugLookahead() && e.parent instanceof NormalProduction) {
         codeGenerator.genCode("    ");
@@ -1217,6 +1266,10 @@ public class ParseEngine {
     }
     if (!recursive_call) {
       codeGenerator.genCodeLine("    " + genReturn(false));
+      genStackCheckEnd();
+      if (!isJavaDialect) {
+        codeGenerator.genCodeLine("#undef __ERROR_RET__");
+      }
       codeGenerator.genCodeLine("  }");
       codeGenerator.genCodeLine("");
     }
