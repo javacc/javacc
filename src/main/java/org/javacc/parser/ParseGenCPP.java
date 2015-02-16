@@ -149,6 +149,22 @@ public class ParseGenCPP extends ParseGen {
       }
     }
 
+    if (Options.getDepthLimit() > 0) {
+      genCodeLine("  private: int jj_depth;");
+      genCodeLine("  private: bool jj_depth_error;");
+      genCodeLine("  friend class __jj_depth_inc;");
+      genCodeLine("  class __jj_depth_inc {public:");
+      genCodeLine("    " + cu_name + "* parent;");
+      genCodeLine("    __jj_depth_inc(" + cu_name + "* p): parent(p) { parent->jj_depth++; };");
+      genCodeLine("    ~__jj_depth_inc(){ parent->jj_depth--; }");
+      genCodeLine("  };");
+    }
+    if (Options.getStackLimit() > 0) {
+      genCodeLine("  public: size_t jj_stack_limit;");
+      genCodeLine("  private: void* jj_stack_base;");
+      genCodeLine("  private: bool jj_stack_error;");
+    }
+
     genCodeLine("");
 
     genCodeLine("  /** Constructor with user supplied TokenManager. */");
@@ -192,6 +208,10 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("    jj_kind = -1;");
     genCodeLine("    trace_indent = 0;");
     genCodeLine("    trace_enabled = " + Options.getDebugParser() + ";");
+    if (Options.getStackLimit() > 0) {
+      genCodeLine("    jj_stack_limit = "+Options.getStackLimit()+";");
+      genCodeLine("    jj_stack_error = jj_stack_check(true);");
+    }
 
     if (Options.getCacheTokens()) {
       genCodeLine("    token->next = jj_nt = token_source->getNextToken();");
@@ -200,6 +220,10 @@ public class ParseGenCPP extends ParseGen {
     }
     if (jjtreeGenerated) {
       genCodeLine("    jjtree.reset();");
+    }
+    if (Options.getDepthLimit() > 0) {
+      genCodeLine("    jj_depth = 0;");
+      genCodeLine("    jj_depth_error = false;");
     }
     if (Options.getErrorReporting()) {
       genCodeLine("    jj_gen = 0;");
@@ -227,11 +251,45 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("  if (errorHandlerCreated) {");
     genCodeLine("    delete errorHandler;");
     genCodeLine("  }");
-    genCodeLine("}");    
+    if (Options.getDepthLimit() > 0) {
+      genCodeLine("  assert(jj_depth==0);");
+    }
+    genCodeLine("}");
     genCodeLine("");
+
+    if (Options.getStackLimit() > 0) {
+      genCodeLine("");                                                          
+      switchToIncludeFile();                                                    
+      genCodeLine(" virtual");                                                  
+      switchToMainFile();                                                       
+      generateMethodDefHeader("bool ", cu_name, "jj_stack_check(bool init)");   
+      genCodeLine("  {");                                                       
+      genCodeLine("     if(init) {");                                           
+      genCodeLine("       jj_stack_base = nullptr;");                           
+      genCodeLine("       return false;");                                      
+      genCodeLine("     } else {");                                             
+      genCodeLine("       volatile int q = 0;");                                
+      genCodeLine("       if(!jj_stack_base) {");                               
+      genCodeLine("         jj_stack_base = (void*)&q;");                       
+      genCodeLine("         return false;");                                    
+      genCodeLine("       } else {");                                           
+      genCodeLine("         // Stack can grow in both directions, depending on arch");
+      genCodeLine("         std::ptrdiff_t used = (char*)jj_stack_base-(char*)&q;");
+      genCodeLine("         return (std::abs(used) > jj_stack_limit);");        
+      genCodeLine("       }");                                                  
+      genCodeLine("     }");                                                    
+      genCodeLine("  }");                                                       
+    }                                                                           
+                                                                                
     
     generateMethodDefHeader("Token *", cu_name, "jj_consume_token(int kind)", "ParseException");
     genCodeLine("  {");
+    if (Options.getStackLimit() > 0) {
+      genCodeLine("    if(kind != -1 && (jj_stack_error || jj_stack_check(false))) {");
+      genCodeLine("      jj_stack_error=true;");
+      genCodeLine("      return jj_consume_token(-1);");
+      genCodeLine("    }");
+    }
     if (Options.getCacheTokens()) {
       genCodeLine("    Token *oldToken = token;");
       genCodeLine("    if ((token = jj_nt)->next != NULL) jj_nt = jj_nt->next;");
@@ -281,6 +339,12 @@ public class ParseGenCPP extends ParseGen {
       switchToMainFile();
       generateMethodDefHeader("bool ", cu_name, "jj_scan_token(int kind)");
       genCodeLine("{");
+      if (Options.getStackLimit() > 0) {
+        genCodeLine("    if(kind != -1 && (jj_stack_error || jj_stack_check(false))) {");
+        genCodeLine("      jj_stack_error=true;");
+        genCodeLine("      return jj_consume_token(-1);");
+        genCodeLine("    }");
+      }
       genCodeLine("    if (jj_scanpos == jj_lastpos) {");
       genCodeLine("      jj_la--;");
       genCodeLine("      if (jj_scanpos->next == NULL) {");
@@ -407,7 +471,9 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("  /** Generate ParseException. */");
       generateMethodDefHeader("  virtual void ",  cu_name, "parseError()");
       genCodeLine("   {");
-      genCodeLine("      fprintf(stderr, \"Parse error at: %d:%d, after token: %s encountered: %s\\n\", token->beginLine, token->beginColumn, addUnicodeEscapes(token->image).c_str(), addUnicodeEscapes(getToken(1)->image).c_str());");
+      if (Options.getErrorReporting()) {
+        genCodeLine("      fprintf(stderr, \"Parse error at: %d:%d, after token: %s encountered: %s\\n\", token->beginLine, token->beginColumn, addUnicodeEscapes(token->image).c_str(), addUnicodeEscapes(getToken(1)->image).c_str());");
+      }
       genCodeLine("   }");
       /*generateMethodDefHeader("ParseException",  cu_name, "generateParseException()");
       genCodeLine("   {");
@@ -458,7 +524,9 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("  /** Generate ParseException. */");
       generateMethodDefHeader("virtual void ",  cu_name, "parseError()");
       genCodeLine("   {");
-      genCodeLine("      fprintf(stderr, \"Parse error at: %d:%d, after token: %s encountered: %s\\n\", token->beginLine, token->beginColumn, addUnicodeEscapes(token->image).c_str(), addUnicodeEscapes(getToken(1)->image).c_str());");
+      if (Options.getErrorReporting()) {
+        genCodeLine("      fprintf(stderr, \"Parse error at: %d:%d, after token: %s encountered: %s\\n\", token->beginLine, token->beginColumn, addUnicodeEscapes(token->image).c_str(), addUnicodeEscapes(getToken(1)->image).c_str());");
+      }
       genCodeLine("   }");
       /*generateMethodDefHeader("ParseException",  cu_name, "generateParseException()");
       genCodeLine("   {");
