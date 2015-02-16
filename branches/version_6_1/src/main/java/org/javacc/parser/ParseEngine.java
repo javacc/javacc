@@ -1118,6 +1118,9 @@ public class ParseEngine {
       codeGenerator.genCodeLine(" {");
       if (!isJavaDialect) {
         codeGenerator.genCodeLine("    if (jj_done) return true;");
+        if (Options.getDepthLimit() > 0) {
+          codeGenerator.genCodeLine("#define __ERROR_RET__ true");
+        }
       }
       genStackCheck(false);
       xsp_declared = false;
@@ -1267,7 +1270,7 @@ public class ParseEngine {
     if (!recursive_call) {
       codeGenerator.genCodeLine("    " + genReturn(false));
       genStackCheckEnd();
-      if (!isJavaDialect) {
+      if (!isJavaDialect && Options.getDepthLimit() > 0) {
         codeGenerator.genCodeLine("#undef __ERROR_RET__");
       }
       codeGenerator.genCodeLine("  }");
