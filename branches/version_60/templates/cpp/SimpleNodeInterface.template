@@ -61,6 +61,7 @@ class SimpleNode : public Node {
 
   public: virtual void dump(JAVACC_STRING_TYPE prefix) const;
   public: virtual void dumpToBuffer(JAVACC_STRING_TYPE prefix, JAVACC_STRING_TYPE separator, JAVACC_STRING_TYPE *sb) const;
+  private: virtual std::vector<Node *> jjtExtractChildrenForDestruction() override;
   public: virtual ~SimpleNode();
   public: virtual int getId() const {
     return id;

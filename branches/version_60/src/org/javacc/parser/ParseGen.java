@@ -117,6 +117,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
       if (!Options.getCacheTokens()) {
         genCodeLine("  " + staticOpt() + "private int jj_ntk;");
       }
+      if (Options.getDepthLimit() > 0) {
+        genCodeLine("  " + staticOpt() + "private int jj_depth;");
+      }
       if (jj2index != 0) {
         genCodeLine("  " + staticOpt() + "private Token jj_scanpos, jj_lastpos;");
         genCodeLine("  " + staticOpt() + "private int jj_la;");
@@ -179,6 +182,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
           } else {
             genCodeLine("    jj_ntk = -1;");
           }
+          if (Options.getDepthLimit() > 0) {
+            genCodeLine("    jj_depth = -1;");
+          }
           if (Options.getErrorReporting()) {
             genCodeLine("    jj_gen = 0;");
             if (maskindex > 0) {
@@ -198,6 +204,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
             genCodeLine("    token.next = jj_nt = token_source.getNextToken();");
           } else {
             genCodeLine("    jj_ntk = -1;");
+          }
+          if (Options.getDepthLimit() > 0) {
+            genCodeLine("    jj_depth = -1;");
           }
           if (lookaheadNeeded) {
             genCodeLine("    jj_lookingAhead = false;");
@@ -262,6 +271,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
           } else {
             genCodeLine("    jj_ntk = -1;");
           }
+          if (Options.getDepthLimit() > 0) {
+            genCodeLine("    jj_depth = -1;");
+          }
           if (Options.getErrorReporting()) {
             genCodeLine("    jj_gen = 0;");
             if (maskindex > 0) {
@@ -293,6 +305,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
             genCodeLine("    token.next = jj_nt = token_source.getNextToken();");
           } else {
             genCodeLine("    jj_ntk = -1;");
+          }
+          if (Options.getDepthLimit() > 0) {
+            genCodeLine("    jj_depth = -1;");
           }
           if (jjtreeGenerated) {
             genCodeLine("    jjtree.reset();");
@@ -334,6 +349,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
           } else {
             genCodeLine("    jj_ntk = -1;");
           }
+          if (Options.getDepthLimit() > 0) {
+            genCodeLine("    jj_depth = -1;");
+          }
           if (Options.getErrorReporting()) {
             genCodeLine("    jj_gen = 0;");
             if (maskindex > 0) {
@@ -358,6 +376,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
             genCodeLine("    token.next = jj_nt = token_source.getNextToken();");
           } else {
             genCodeLine("    jj_ntk = -1;");
+          }
+          if (Options.getDepthLimit() > 0) {
+            genCodeLine("    jj_depth = -1;");
           }
           if (jjtreeGenerated) {
             genCodeLine("    jjtree.reset();");
@@ -399,6 +420,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
       } else {
         genCodeLine("    jj_ntk = -1;");
       }
+      if (Options.getDepthLimit() > 0) {
+        genCodeLine("    jj_depth = -1;");
+      }
       if (Options.getErrorReporting()) {
         genCodeLine("    jj_gen = 0;");
         if (maskindex > 0) {
@@ -423,6 +447,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
         genCodeLine("    token.next = jj_nt = token_source.getNextToken();");
       } else {
         genCodeLine("    jj_ntk = -1;");
+      }
+      if (Options.getDepthLimit() > 0) {
+        genCodeLine("    jj_depth = -1;");
       }
       if (jjtreeGenerated) {
         genCodeLine("    jjtree.reset();");
