@@ -958,7 +958,7 @@ public class ParseEngine {
     }
 
     if (isJavaDialect) {
-      codeGenerator.genCodeLine("    try { return (!jj_3" + e.internal_name + "())" + ret_suffix + "); }");
+      codeGenerator.genCodeLine("    try { return (!jj_3" + e.internal_name + "())" + ret_suffix + "; }");
       codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
     } else {
       codeGenerator.genCodeLine("    jj_done = false;");
