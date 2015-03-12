@@ -154,7 +154,7 @@ public class Options {
     optionValues.put("TOKEN_MANAGER_INCLUDES", "");
     optionValues.put("IGNORE_ACTIONS", Boolean.FALSE);
     optionValues.put("STOP_ON_FIRST_ERROR", Boolean.FALSE);
-    optionValues.put("STACK_LIMIT", new Integer(0)); // Maximum allowed stack usage size
+    optionValues.put("STACK_LIMIT", ""); // Maximum allowed stack usage size initializer
   }
 
   /**
@@ -402,8 +402,13 @@ public class Options {
    *
    * @return The requested maximum stack usage limit.
    */
-  public static int getStackLimit() {
-    return intValue("STACK_LIMIT");
+  public static String getStackLimit() {
+    String limit = stringValue("STACK_LIMIT");
+    if (limit.equals("0")) {
+      return "";
+    } else {
+      return limit;
+    }
   }
 
   /**

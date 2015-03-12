@@ -159,7 +159,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("    ~__jj_depth_inc(){ parent->jj_depth--; }");
       genCodeLine("  };");
     }
-    if (Options.getStackLimit() > 0) {
+    if (!Options.getStackLimit().equals("")) {
       genCodeLine("  public: size_t jj_stack_limit;");
       genCodeLine("  private: void* jj_stack_base;");
       genCodeLine("  private: bool jj_stack_error;");
@@ -208,7 +208,7 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("    jj_kind = -1;");
     genCodeLine("    trace_indent = 0;");
     genCodeLine("    trace_enabled = " + Options.getDebugParser() + ";");
-    if (Options.getStackLimit() > 0) {
+    if (!Options.getStackLimit().equals("")) {
       genCodeLine("    jj_stack_limit = "+Options.getStackLimit()+";");
       genCodeLine("    jj_stack_error = jj_stack_check(true);");
     }
@@ -257,7 +257,7 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("}");
     genCodeLine("");
 
-    if (Options.getStackLimit() > 0) {
+    if (!Options.getStackLimit().equals("")) {
       genCodeLine("");                                                          
       switchToIncludeFile();                                                    
       genCodeLine(" virtual");                                                  
@@ -284,7 +284,7 @@ public class ParseGenCPP extends ParseGen {
     
     generateMethodDefHeader("Token *", cu_name, "jj_consume_token(int kind)", "ParseException");
     genCodeLine("  {");
-    if (Options.getStackLimit() > 0) {
+    if (!Options.getStackLimit().equals("")) {
       genCodeLine("    if(kind != -1 && (jj_stack_error || jj_stack_check(false))) {");
       genCodeLine("      jj_stack_error=true;");
       genCodeLine("      return jj_consume_token(-1);");
@@ -339,7 +339,7 @@ public class ParseGenCPP extends ParseGen {
       switchToMainFile();
       generateMethodDefHeader("bool ", cu_name, "jj_scan_token(int kind)");
       genCodeLine("{");
-      if (Options.getStackLimit() > 0) {
+      if (!Options.getStackLimit().equals("")) {
         genCodeLine("    if(kind != -1 && (jj_stack_error || jj_stack_check(false))) {");
         genCodeLine("      jj_stack_error=true;");
         genCodeLine("      return jj_consume_token(-1);");

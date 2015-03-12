@@ -205,7 +205,7 @@ public class Options {
 		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_MANAGER_SUPERCLASS, OptionType.STRING, ""));
 
 		temp.add(new OptionInfo(USEROPTION__DEPTH_LIMIT, OptionType.INTEGER, new Integer(0)));
-		temp.add(new OptionInfo(USEROPTION__CPP_STACK_LIMIT, OptionType.INTEGER, new Integer(0)));
+		temp.add(new OptionInfo(USEROPTION__CPP_STACK_LIMIT, OptionType.STRING, ""));
 
 		userOptions = Collections.unmodifiableSet(temp);
 	}
@@ -999,8 +999,13 @@ public class Options {
 	 *
 	 * @return The requested stack usage limit.
 	 */
-	public static int getStackLimit() {
-		return intValue(USEROPTION__CPP_STACK_LIMIT);
+	public static String getStackLimit() {
+		String limit = stringValue(USEROPTION__CPP_STACK_LIMIT);
+		if (limit.equals("0")) {
+			return "";
+		} else {
+			return limit;
+		}
 	}
 
 	/**
