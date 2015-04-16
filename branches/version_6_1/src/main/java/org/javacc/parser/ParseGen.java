@@ -621,8 +621,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 			if (jj2index != 0) {
 				genCodeLine("  @SuppressWarnings(\"serial\")");
 				genCodeLine("  static private final class LookaheadSuccess extends "+(Options.isLegacyExceptionHandling() ? "java.lang.Error" : "java.lang.RuntimeException")+" { }");
-				genCodeLine("  " + staticOpt()
-						+ "final private LookaheadSuccess jj_ls = new LookaheadSuccess();");
+				genCodeLine("  static final private LookaheadSuccess jj_ls = new LookaheadSuccess();");
 				genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType()
 						+ " jj_scan_token(int kind) {");
 				genCodeLine("	 if (jj_scanpos == jj_lastpos) {");
