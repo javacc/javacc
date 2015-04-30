@@ -286,7 +286,10 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("  {");
     if (!Options.getStackLimit().equals("")) {
       genCodeLine("    if(kind != -1 && (jj_stack_error || jj_stack_check(false))) {");
-      genCodeLine("      jj_stack_error=true;");
+      genCodeLine("      if (!jj_stack_error) {");
+      genCodeLine("        errorHandler->handleOtherError(\"Stack overflow while trying to parse\", this);");
+      genCodeLine("        jj_stack_error=true;");
+      genCodeLine("      }");
       genCodeLine("      return jj_consume_token(-1);");
       genCodeLine("    }");
     }
@@ -329,8 +332,15 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("    jj_kind = kind;");
     }
     //genCodeLine("    throw generateParseException();");
+    if (!Options.getStackLimit().equals("")) {
+      genCodeLine("    if (!jj_stack_error) {");
+    }
     genCodeLine("    JAVACC_STRING_TYPE image = kind >= 0 ? tokenImage[kind] : tokenImage[0];");
-    genCodeLine("    errorHandler->handleUnexpectedToken(kind, image.substr(1, image.size() - 2), getToken(1), this), hasError = true;");
+    genCodeLine("    errorHandler->handleUnexpectedToken(kind, image.substr(1, image.size() - 2), getToken(1), this);");
+    if (!Options.getStackLimit().equals("")) {
+      genCodeLine("    }");
+    }
+    genCodeLine("    hasError = true;");
     genCodeLine("    return token;");
     genCodeLine("  }");
     genCodeLine("");
@@ -341,7 +351,10 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("{");
       if (!Options.getStackLimit().equals("")) {
         genCodeLine("    if(kind != -1 && (jj_stack_error || jj_stack_check(false))) {");
-        genCodeLine("      jj_stack_error=true;");
+        genCodeLine("      if (!jj_stack_error) {");
+        genCodeLine("        errorHandler->handleOtherError(\"Stack overflow while trying to parse\", this);");
+        genCodeLine("        jj_stack_error=true;");
+        genCodeLine("      }");
         genCodeLine("      return jj_consume_token(-1);");
         genCodeLine("    }");
       }
