@@ -110,7 +110,9 @@ namespace ${NAMESPACE_OPEN}
       retval += (JAVACC_CHAR_TYPE*)" \"";
       tok = tok.next;
     }
-    retval += (JAVACC_CHAR_TYPE*)"\" at line " + currentToken.next.beginLine + (JAVACC_CHAR_TYPE*)", column " + currentToken.next.beginColumn;
+	if (currentToken.next != NULL) {
+		retval += (JAVACC_CHAR_TYPE*)"\" at line " + currentToken.next.beginLine + (JAVACC_CHAR_TYPE*)", column " + currentToken.next.beginColumn;
+	}
     retval += (JAVACC_CHAR_TYPE*)"." + eol;
     if (expectedTokenSequences.length == 1) {
       retval += (JAVACC_CHAR_TYPE*)"Was expecting:" + eol + (JAVACC_CHAR_TYPE*)"    ";
