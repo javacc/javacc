@@ -197,7 +197,7 @@ public class NfaState
             break;
 
       if (!unicodeWarningGiven && c > 0xff &&
-          !Options.getJavaUnicodeEscape() &&
+          !Options.isUnicodeEnabled() &&
           !Options.getUserCharStream())
       {
          unicodeWarningGiven = true;
@@ -241,7 +241,7 @@ public class NfaState
       }
 
       if (!unicodeWarningGiven && (left > 0xff || right > 0xff) &&
-          !Options.getJavaUnicodeEscape() &&
+          !Options.isUnicodeEnabled() &&
           !Options.getUserCharStream())
       {
          unicodeWarningGiven = true;
@@ -1653,7 +1653,7 @@ public class NfaState
            codeGenerator.genCodeLine("         (void)l;");
          }
       } else {
-         if (Options.getJavaUnicodeEscape() || unicodeWarningGiven)
+         if (Options.isUnicodeEnabled() || unicodeWarningGiven)
          {
            codeGenerator.genCodeLine("         int hiByte = (curChar >> 8);");
            codeGenerator.genCodeLine("         int i1 = hiByte >> 6;");
@@ -2277,7 +2277,7 @@ public class NfaState
          }
       }
 
-      if (!Options.getJavaUnicodeEscape() && !unicodeWarningGiven)
+      if (!Options.isUnicodeEnabled() && !unicodeWarningGiven)
       {
          if (loByteVec != null && loByteVec.size() > 1)
             codeGenerator.genCodeLine("                  if ((jjbitVec" +
@@ -2370,7 +2370,7 @@ public class NfaState
       {
          String kindCheck = " && kind > " + kindToPrint;
 
-         if (!Options.getJavaUnicodeEscape() && !unicodeWarningGiven)
+         if (!Options.isUnicodeEnabled() && !unicodeWarningGiven)
          {
             if (loByteVec != null && loByteVec.size() > 1)
                codeGenerator.genCodeLine("                  if ((jjbitVec" +
@@ -2390,7 +2390,7 @@ public class NfaState
       String prefix = "   ";
       if (kindToPrint != Integer.MAX_VALUE)
       {
-         if (!Options.getJavaUnicodeEscape() && !unicodeWarningGiven)
+         if (!Options.isUnicodeEnabled() && !unicodeWarningGiven)
          {
             if (loByteVec != null && loByteVec.size() > 1)
             {
@@ -2411,7 +2411,7 @@ public class NfaState
          codeGenerator.genCodeLine("                     kind = " + kindToPrint + ";");
          prefix = "";
       }
-      else if (!Options.getJavaUnicodeEscape() && !unicodeWarningGiven)
+      else if (!Options.isUnicodeEnabled() && !unicodeWarningGiven)
       {
          if (loByteVec != null && loByteVec.size() > 1)
             codeGenerator.genCodeLine("                  if ((jjbitVec" +
@@ -2516,7 +2516,7 @@ public class NfaState
       }
 
 
-	  if (Options.getJavaUnicodeEscape() || unicodeWarningGiven) {
+	  if (Options.isUnicodeEnabled() || unicodeWarningGiven) {
 	     codeGenerator.genCodeLine("               default : if (i1 == 0 || l1 == 0 || i2 == 0 ||  l2 == 0) break; else break;");
 	  } else {
 	     codeGenerator.genCodeLine("               default : break;");
@@ -2527,7 +2527,7 @@ public class NfaState
 
    public static void DumpNonAsciiMoveMethods(CodeGenerator codeGenerator)
    {
-      if (!Options.getJavaUnicodeEscape() && !unicodeWarningGiven)
+      if (!Options.isUnicodeEnabled() && !unicodeWarningGiven)
          return;
 
       if (nonAsciiTableForMethod.size() <= 0)

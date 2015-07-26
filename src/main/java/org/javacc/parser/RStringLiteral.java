@@ -317,7 +317,7 @@ public class RStringLiteral extends RegularExpression {
            s = "" + (c = image.charAt(i));
 
         if (!NfaState.unicodeWarningGiven && c > 0xff &&
-            !Options.getJavaUnicodeEscape() &&
+            !Options.isUnicodeEnabled() &&
             !Options.getUserCharStream())
         {
            NfaState.unicodeWarningGiven = true;

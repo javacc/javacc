@@ -612,6 +612,18 @@ public class Options {
 		return booleanValue(USEROPTION__ERROR_REPORTING);
 	}
 
+	
+	/**
+	 * The go-to method to determine if non-ascii values are supported
+	 * via the character stream... This is the result of {@link #getJavaUnicodeEscape()} OR'd with
+	 * {@link #getUnicodeInput()}
+	 * @return true if Unicode is enabled, false otherwise
+	 */
+	public static boolean isUnicodeEnabled() {
+		return getJavaUnicodeEscape() || getUnicodeInput();
+	}
+	
+	
 	/**
 	 * Find the Java unicode escape value.
 	 *
@@ -620,6 +632,8 @@ public class Options {
 	public static boolean getJavaUnicodeEscape() {
 		return booleanValue(USEROPTION__JAVA_UNICODE_ESCAPE);
 	}
+	
+
 
 	/**
 	 * Find the unicode input value.

@@ -565,7 +565,7 @@ static final char[] diffUpperCaseRanges = {
      }
 
      //System.out.println("lastRem : " + (int)lastRemoved);
-     if (NfaState.unicodeWarningGiven || Options.getJavaUnicodeEscape())
+     if (NfaState.unicodeWarningGiven || Options.isUnicodeEnabled())
      {
         if (lastRemoved < (char)0xffff)
            newDescriptors.add(new CharacterRange((char)(lastRemoved + 1),
