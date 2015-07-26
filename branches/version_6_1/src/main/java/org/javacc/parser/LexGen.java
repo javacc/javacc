@@ -1064,7 +1064,7 @@ public static String staticString;
 
       if (Options.getDebugTokenManager())
       {
-        if (Options.getJavaUnicodeEscape() ||
+        if (Options.isUnicodeEnabled() ||
             Options.getUserCharStream())
           genCodeLine("    debugStream.println(" +
               "\"****** FOUND A \" + tokenImage[jjmatchedKind] + \" MATCH " +
