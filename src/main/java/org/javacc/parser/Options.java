@@ -68,7 +68,9 @@ public class Options {
 	 * Options that the user can specify from .javacc file
 	 */
 
-	public static final String USEROPTION__PARSER_SUPER_CLASS = "PARSER_SUPER_CLASS";
+	public static final String USEROPTION__PARSER_SUPER_CLASS     = "PARSER_SUPER_CLASS";
+	public static final String USEROPTION__PARSER_CONSTRUCTOR_VISIBILITY = "PARSER_CONSTRUCTOR_VISIBILITY";
+	public static final String USEROPTION__PARSER_REINIT_VISIBILITY      = "PARSER_REINIT_VISIBILITY";
 	public static final String USEROPTION__JAVA_TEMPLATE_TYPE = "JAVA_TEMPLATE_TYPE";
 	public static final String USEROPTION__GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
 	public static final String USEROPTION__OUTPUT_LANGUAGE = "OUTPUT_LANGUAGE";
@@ -135,7 +137,11 @@ public class Options {
 	 * The old style of Java code generation (tight coupling of code to Java IO classes - not GWT compatible)
 	 */
 	public static final String JAVA_TEMPLATE_TYPE_CLASSIC = "classic";
-
+	
+	
+	public static final String PUBLIC    = "public";
+	public static final String PRIVATE    = "private";
+	public static final String PROTECTED = "protected";
 
 	static final Set<OptionInfo> userOptions;
 
@@ -186,6 +192,8 @@ public class Options {
 		temp.add(new OptionInfo(USEROPTION__TOKEN_FACTORY, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__GRAMMAR_ENCODING, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__OUTPUT_LANGUAGE, OptionType.STRING, OUTPUT_LANGUAGE__JAVA));
+		temp.add(new OptionInfo(USEROPTION__PARSER_CONSTRUCTOR_VISIBILITY, OptionType.STRING, ""));
+		temp.add(new OptionInfo(USEROPTION__PARSER_REINIT_VISIBILITY, OptionType.STRING, ""));
 
 		temp.add(new OptionInfo(USEROPTION__JAVA_TEMPLATE_TYPE, OptionType.STRING, JAVA_TEMPLATE_TYPE_CLASSIC));
 		temp.add(new OptionInfo(USEROPTION_CPP_NAMESPACE, OptionType.STRING, ""));
@@ -951,6 +959,50 @@ public class Options {
 		}
 	}
 
+	/**
+	 * Gets the default visibility of the constructor. This corresponds to java visibility
+	 * keywords, and may need trivial adapting if later utilized in C++ code generation. Currently
+	 * not utilized by C++ code generation. Remove this comment when this changes.
+	 * @return Returns explicit (non-null) visibility for parser constructor methods, either 'public' or 'private' or 'protected'
+	 * @throws Throws exception is 'public' or 'protected' or 'private' or blank string not provided.
+	 */
+	public static String getConstructorVisibility() {
+		String visibility = stringValue(USEROPTION__PARSER_CONSTRUCTOR_VISIBILITY);
+		if (PUBLIC.equals(visibility)) {
+			return PUBLIC;
+		} else if (PROTECTED.equals(visibility)) {
+			return PROTECTED;
+		} else if (PRIVATE.equals(visibility)) {
+			return PRIVATE;
+		} else if ("".equals(visibility)) {
+			return PUBLIC;
+		} else {
+			throw new RuntimeException("Constructor visibility must be either '"+PUBLIC+"' or '"+PROTECTED+"' or '"+PRIVATE+"', supplied value was '" + visibility + "'.");
+		}
+	}
+	
+	/**
+	 * Gets the default visibility of the reinit methods. This corresponds to java visibility
+	 * keywords, and may need trivial adapting if later utilized in C++ code generation. Currently
+	 * not utilized by C++ code generation. Remove this comment when this changes.
+	 * @return Returns explicit (non-null) visibility for reInit method, either 'public' or 'private' or 'protected'
+	 * @throws Throws exception is 'public' or 'protected' or 'private' or blank string not provided.
+	 */
+	public static String getReinitVisibility() {
+		String visibility = stringValue(USEROPTION__PARSER_REINIT_VISIBILITY);
+		if (PUBLIC.equals(visibility)) {
+			return PUBLIC;
+		} else if (PROTECTED.equals(visibility)) {
+			return PROTECTED;
+		} else if (PRIVATE.equals(visibility)) {
+			return PRIVATE;
+		} else if ("".equals(visibility)) {
+			return getConstructorVisibility(); 
+		} else {
+			throw new RuntimeException("Constructor visibility must be either '"+PUBLIC+"' or '"+PROTECTED+"' or '"+PRIVATE+"', supplied value was '" + visibility + "'.");
+		}
+	}
+	
 	public static String getLongType() {
 		// TODO :: CBA -- Require Unification of output language specific
 		// processing into a single Enum class
@@ -1019,4 +1071,5 @@ public class Options {
 	public static Set<OptionInfo> getUserOptions() {
 		return userOptions;
 	}
+
 }

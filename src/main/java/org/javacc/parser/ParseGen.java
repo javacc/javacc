@@ -60,6 +60,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 	public void start(boolean isJavaModernMode) throws MetaParseException {
 
 		Token t = null;
+		
+		String constructorVisibility = Options.getConstructorVisibility();
+		String reinitVisibility      = Options.getReinitVisibility();
 
 		if (JavaCCErrors.get_error_count() != 0) {
 			throw new MetaParseException();
@@ -185,7 +188,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 			if (!Options.getUserTokenManager()) {
 				if (Options.getUserCharStream()) {
 					genCodeLine("  /** Constructor with user supplied CharStream. */");
-					genCodeLine("  public " + cu_name + "(CharStream stream) {");
+					genCodeLine("  "+constructorVisibility+" " + cu_name + "(CharStream stream) {");
 					if (Options.getStatic()) {
 						genCodeLine("	 if (jj_initialized_once) {");
 						genCodeLine("	   System.out.println(\"ERROR: Second call to constructor of static parser.  \");");
@@ -224,7 +227,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 					genCodeLine("  }");
 					genCodeLine("");
 					genCodeLine("  /** Reinitialise. */");
-					genCodeLine("  " + staticOpt() + "public void ReInit(CharStream stream) {");
+					genCodeLine("  " + staticOpt() + reinitVisibility + " void ReInit(CharStream stream) {");
 					
 					if (Options.isTokenManagerRequiresParserAccess()) {
 						genCodeLine("	 token_source.ReInit(this,stream);");
@@ -263,11 +266,11 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 
 					if (!isJavaModernMode) {
 						genCodeLine("  /** Constructor with InputStream. */");
-						genCodeLine("  public " + cu_name + "(java.io.InputStream stream) {");
+						genCodeLine("  "+constructorVisibility+" " + cu_name + "(java.io.InputStream stream) {");
 						genCodeLine("	  this(stream, null);");
 						genCodeLine("  }");
 						genCodeLine("  /** Constructor with InputStream and supplied encoding */");
-						genCodeLine("  public " + cu_name
+						genCodeLine("  "+constructorVisibility+" " + cu_name
 								+ "(java.io.InputStream stream, String encoding) {");
 						if (Options.getStatic()) {
 							genCodeLine("	 if (jj_initialized_once) {");
@@ -330,14 +333,14 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 
 						genCodeLine("  /** Reinitialise. */");
 						genCodeLine("  " + staticOpt()
-								+ "public void ReInit(java.io.InputStream stream) {");
+								+ reinitVisibility + " void ReInit(java.io.InputStream stream) {");
 						genCodeLine("	  ReInit(stream, null);");
 						genCodeLine("  }");
 
 						genCodeLine("  /** Reinitialise. */");
 						genCodeLine("  "
 								+ staticOpt()
-								+ "public void ReInit(java.io.InputStream stream, String encoding) {");
+								+ reinitVisibility + " void ReInit(java.io.InputStream stream, String encoding) {");
 						if (!Options.getGenerateChainedException()) {
 							genCodeLine("	 try { jj_input_stream.ReInit(stream, encoding, 1, 1); } "
 									+ "catch(java.io.UnsupportedEncodingException e) { "
@@ -384,7 +387,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 
 
 					genCodeLine("  /** Constructor. */");
-					genCodeLine("  public " + cu_name + "(" + readerInterfaceName + " stream) {");
+					genCodeLine("  "+constructorVisibility+" " + cu_name + "(" + readerInterfaceName + " stream) {");
 					if (Options.getStatic()) {
 						genCodeLine("	 if (jj_initialized_once) {");
 						genCodeLine("	   System.out.println(\"ERROR: Second call to constructor of static parser. \");");
@@ -432,13 +435,13 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 					// Add-in a string based constructor because its convenient (modern only to prevent regressions)
 					if (isJavaModernMode) {
 						genCodeLine("  /** Constructor. */");
-						genCodeLine("  public " + cu_name
+						genCodeLine("  "+constructorVisibility+" " + cu_name
 								+ "(String dsl) throws ParseException, "+Options.getTokenMgrErrorClass() +" {");
 						genCodeLine("	   this(new " + stringReaderClass + "(dsl));");
 						genCodeLine("  }");
 						genCodeLine("");
 
-						genCodeLine("  public void ReInit(String s) {");
+						genCodeLine("  "+reinitVisibility+" void ReInit(String s) {");
 						genCodeLine("	  ReInit(new " + stringReaderClass + "(s));");
 						genCodeLine("  }");
 
@@ -446,7 +449,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 
 
 					genCodeLine("  /** Reinitialise. */");
-					genCodeLine("  " + staticOpt() + "public void ReInit(" + readerInterfaceName
+					genCodeLine("  " + staticOpt() + reinitVisibility + " void ReInit(" + readerInterfaceName
 							+ " stream) {");
 					if (Options.getJavaUnicodeEscape()) {
 						genCodeLine("	if (jj_input_stream == null) {");
@@ -508,10 +511,10 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 			genCodeLine("");
 			if (Options.getUserTokenManager()) {
 				genCodeLine("  /** Constructor with user supplied Token Manager. */");
-				genCodeLine("  public " + cu_name + "(TokenManager tm) {");
+				genCodeLine("  "+constructorVisibility+" " + cu_name + "(TokenManager tm) {");
 			} else {
 				genCodeLine("  /** Constructor with generated Token Manager. */");
-				genCodeLine("  public " + cu_name + "(" + cu_name + "TokenManager tm) {");
+				genCodeLine("  "+constructorVisibility+" " + cu_name + "(" + cu_name + "TokenManager tm) {");
 			}
 			if (Options.getStatic()) {
 				genCodeLine("	 if (jj_initialized_once) {");
@@ -546,10 +549,10 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 			genCodeLine("");
 			if (Options.getUserTokenManager()) {
 				genCodeLine("  /** Reinitialise. */");
-				genCodeLine("  public void ReInit(TokenManager tm) {");
+				genCodeLine("  "+reinitVisibility+" void ReInit(TokenManager tm) {");
 			} else {
 				genCodeLine("  /** Reinitialise. */");
-				genCodeLine("  public void ReInit(" + cu_name + "TokenManager tm) {");
+				genCodeLine("  "+reinitVisibility+" void ReInit(" + cu_name + "TokenManager tm) {");
 			}
 			genCodeLine("	 token_source = tm;");
 			genCodeLine("	 token = new Token();");
