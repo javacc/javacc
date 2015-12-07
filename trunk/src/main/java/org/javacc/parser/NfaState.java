@@ -31,10 +31,13 @@
 package org.javacc.parser;
 
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 /**
@@ -2867,6 +2870,9 @@ public class NfaState
 
       kinds[Main.lg.lexStateIndex] = kindsForStates;
 
+      if (Options.getTableDriven() && Main.lg.lexStateIndex == 0) {
+        GenerateNfaTables(codeGenerator);
+      }
       if (codeGenerator.isJavaLanguage()) {
         codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private int " +
                     "jjMoveNfa" + Main.lg.lexStateSuffix + "(int startState, int curPos)");
@@ -2874,6 +2880,13 @@ public class NfaState
         codeGenerator.generateMethodDefHeader("int", Main.lg.tokMgrClassName, "jjMoveNfa" + Main.lg.lexStateSuffix + "(int startState, int curPos)");
       }
       codeGenerator.genCodeLine("{");
+      if (Options.getTableDriven()) {
+        codeGenerator.genCodeLine("  if (true) return jjMoveNfa(startState, curPos);");
+        codeGenerator.genCodeLine("  assert(false);");
+        codeGenerator.genCodeLine("  return curPos;");
+        codeGenerator.genCodeLine("}");
+        return;
+      }
 
       if (generatedStates == 0)
       {
@@ -3275,5 +3288,108 @@ public class NfaState
       jjCheckNAddStatesDualNeeded = false;
       kinds = null;
       statesForState = null;
+   }
+
+   static void GenerateNfaTables(CodeGenerator codeGenerator) {
+     final List<NfaState> nfaStateSet = new ArrayList<NfaState>();
+     final List<Set<Integer>> setOfSets = new ArrayList<Set<Integer>>();
+
+     // Cleanup the state set.
+     final Set<Integer> done = new HashSet<Integer>();
+     NfaState[] cleanStates = new NfaState[generatedStates];
+     for (int i = 0; i < allStates.size(); i++) {
+       NfaState tmp = (NfaState)allStates.get(i);
+       if (tmp.stateName == -1) continue;
+       if (done.contains(tmp.stateName)) continue;
+       cleanStates[tmp.stateName] = tmp;
+     }
+
+     final BitSet negated = new BitSet(generatedStates);
+     codeGenerator.genCodeLine("private static final char[][] jjRanges = {");
+     for (int i = 0; i < cleanStates.length; i++) {
+       NfaState tmp = (NfaState)cleanStates[i];
+       if (i > 0) codeGenerator.genCodeLine(",");
+       codeGenerator.genCode("{");
+       int cnt = 0;
+       List<Character> ranges = new ArrayList<Character>();
+       Outer:
+       for (char c = 0; c <= Character.MAX_VALUE; c++) {
+         char beg = c;
+         while (tmp.CanMoveUsingChar(c)) {
+           if (c == Character.MAX_VALUE) {
+             ranges.add(beg);
+             ranges.add(c);
+             break Outer;
+           }
+           c++;
+         }
+         if (beg != c) {
+           ranges.add(beg);
+           c--;
+           ranges.add(c);
+         }
+         if (c == Character.MAX_VALUE) break;
+       }
+       for (int k = 0; k < ranges.size(); k += 2) {
+         if (k > 0) codeGenerator.genCode(", ");
+         codeGenerator.genCode("(char)" + (int)ranges.get(k) + ", ");
+         codeGenerator.genCode("(char)" + (int)ranges.get(k + 1));
+       }
+       codeGenerator.genCode("}");
+     }
+     codeGenerator.genCodeLine("};");
+
+     codeGenerator.genCodeLine("private static final int[][] jjcompositeState = {");
+     for (int i = 0; i < cleanStates.length; i++) {
+       NfaState tmp = (NfaState)cleanStates[i];
+       if (i > 0) codeGenerator.genCodeLine(", ");
+       codeGenerator.genCode("{");
+       if (tmp.isComposite) {
+         int k = 0;
+         for (int st : tmp.compositeStates) {
+           if (k++ > 0) codeGenerator.genCode(", ");
+           codeGenerator.genCode(st);
+         }
+       }
+       codeGenerator.genCode("}");
+     }
+     codeGenerator.genCodeLine("};");
+
+     codeGenerator.genCodeLine("private static final int[] jjmatchKinds = {");
+     for (int i = 0; i < cleanStates.length; i++) {
+       NfaState tmp = (NfaState)cleanStates[i];
+       if (i > 0) codeGenerator.genCodeLine(", ");
+       codeGenerator.genCode(tmp.kindToPrint);
+     }
+     codeGenerator.genCodeLine("};");
+
+     codeGenerator.genCodeLine("private static final int[][]  jjnextStateSet = {");
+     for (int i = 0; i < cleanStates.length; i++) {
+       NfaState tmp = (NfaState)cleanStates[i];
+       if (i > 0) codeGenerator.genCodeLine(", ");
+       NfaState[] states = tmp.next.epsilonMoveArray;
+       int k = 0;
+       codeGenerator.genCode("{");
+       for (NfaState s : states) {
+         if (k++ > 0) codeGenerator.genCode(", ");
+         codeGenerator.genCode(s.stateName);
+       }
+       codeGenerator.genCode("}");
+     }
+     codeGenerator.genCodeLine("};");
+     codeGenerator.genCodeLine(
+         "private static final java.util.BitSet[] jjChars = new java.util.BitSet[" +
+                               generatedStates + "];");
+     codeGenerator.genCodeLine("static {");
+     codeGenerator.genCodeLine(
+         "for (int i = 0; i < " + generatedStates + "; i++) {\n" +
+         "  jjChars[i] = new java.util.BitSet(Character.MAX_VALUE);\n" +
+         "  for (int j = 0; j < jjRanges[i].length; j += 2) {\n" +
+         "    for (int c = jjRanges[i][j]; c <= jjRanges[i][j + 1]; c++) {\n" +
+         "      jjChars[i].set(c);\n" +
+         "    }\n" +
+         "  }\n" +
+         "}\n" +
+         "}\n");
    }
 }

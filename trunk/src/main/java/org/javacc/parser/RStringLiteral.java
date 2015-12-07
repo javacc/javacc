@@ -33,6 +33,7 @@ package org.javacc.parser;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Set;
@@ -43,6 +44,8 @@ final class KindInfo
    long[] finalKinds;
    int    validKindCnt = 0;
    int    finalKindCnt = 0;
+   Set<Integer> finalKindSet = new HashSet<Integer>();
+   Set<Integer> validKindSet = new HashSet<Integer>();
 
    KindInfo(int maxKind)
    {
@@ -54,12 +57,14 @@ final class KindInfo
    {
       validKinds[kind / 64] |= (1L << (kind % 64));
       validKindCnt++;
+      validKindSet.add(kind);
    }
 
    public void InsertFinalKind(int kind)
    {
       finalKinds[kind / 64] |= (1L << (kind % 64));
       finalKindCnt++;
+      finalKindSet.add(kind);
    }
 };
 
@@ -576,7 +581,7 @@ public class RStringLiteral extends RegularExpression {
          codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\",  (jjmatchedPos + 1),  addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
        }
      }
-  
+
      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
      if (Options.isOutputLanguageJava()) {
        codeGenerator.genCodeLine("   try { curChar = input_stream.readChar(); }");
@@ -637,7 +642,7 @@ public class RStringLiteral extends RegularExpression {
     	   throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
        }
      }
-     
+
      codeGenerator.genCodeLine("   return pos + 1;");
      codeGenerator.genCodeLine("}");
   }
@@ -676,6 +681,12 @@ public class RStringLiteral extends RegularExpression {
      int i, j, k;
      boolean ifGenerated;
      Main.lg.maxLongsReqd[Main.lg.lexStateIndex] = maxLongsReqd;
+
+     if (Options.getTableDriven() && Main.lg.lexStateIndex == 0) {
+       DumpDfaTable(codeGenerator);
+       DumpStartWithStates(codeGenerator);
+       return;
+     }
 
      if (maxLen == 0)
      {
@@ -750,7 +761,7 @@ public class RStringLiteral extends RegularExpression {
            }
         }
         params.append(")");
-        
+
      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
      if (Options.isOutputLanguageJava()) {
         codeGenerator.genCode((Options.getStatic() ? "static " : "") + "private int " +
@@ -854,7 +865,7 @@ public class RStringLiteral extends RegularExpression {
             	  throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
               }
            }
-           
+
            // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
            if (Options.isOutputLanguageJava()) {
              codeGenerator.genCodeLine("   try { curChar = input_stream.readChar(); }");
@@ -868,16 +879,18 @@ public class RStringLiteral extends RegularExpression {
            if (!Main.lg.mixed[Main.lg.lexStateIndex] && NfaState.generatedStates != 0)
            {
               codeGenerator.genCode("      jjStopStringLiteralDfa" + Main.lg.lexStateSuffix + "(" + (i - 1) + ", ");
-              for (k = 0; k < maxLongsReqd - 1; k++)
+              for (k = 0; k < maxLongsReqd - 1; k++) {
                  if (i <= maxLenForActive[k])
                     codeGenerator.genCode("active" + k + ", ");
                  else
                     codeGenerator.genCode("0L, ");
 
-              if (i <= maxLenForActive[k])
+              if (i <= maxLenForActive[k]) {
                  codeGenerator.genCodeLine("active" + k + ");");
-              else
+              } else {
                  codeGenerator.genCodeLine("0L);");
+              }
+              }
 
 
               if (i != 0 && Options.getDebugTokenManager()) {
@@ -898,12 +911,12 @@ public class RStringLiteral extends RegularExpression {
            } else {
               codeGenerator.genCodeLine("      return " + i + ";");
            }
-           
+
            codeGenerator.genCodeLine("   }");
         }
-        
-        
-        
+
+
+
      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
         if (i != 0 && Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP) ) {
           codeGenerator.genCodeLine("   curChar = input_stream->readChar();");
@@ -1217,6 +1230,9 @@ public class RStringLiteral extends RegularExpression {
                  upto and including this position for the matched string. */
 
               codeGenerator.genCode("   return jjStartNfa" + Main.lg.lexStateSuffix + "(" + (i - 1) + ", ");
+              if (Options.getTableDriven()) {
+                 codeGenerator.genCode("jjcurActive);");
+              } else {
               for (k = 0; k < maxLongsReqd - 1; k++)
                  if (i <= maxLenForActive[k])
                     codeGenerator.genCode("active" + k + ", ");
@@ -1226,6 +1242,7 @@ public class RStringLiteral extends RegularExpression {
                  codeGenerator.genCodeLine("active" + k + ");");
               else
                  codeGenerator.genCodeLine("0L);");
+              }
            }
            else if (NfaState.generatedStates != 0)
               codeGenerator.genCodeLine("   return jjMoveNfa" + Main.lg.lexStateSuffix +
@@ -1398,10 +1415,14 @@ public class RStringLiteral extends RegularExpression {
      int ind = 0;
 
      StringBuffer params = new StringBuffer();
+     if (Options.getTableDriven()) {
+       params.append("" + Options.getLongType() + "[] active)");
+     } else {
      for (i = 0; i < maxKindsReqd - 1; i++)
         params.append("" + Options.getLongType() + " active" + i + ", ");
      params.append("" + Options.getLongType() + " active" + i + ")");
-     
+     }
+
   // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
      if (Options.isOutputLanguageJava()) {
      codeGenerator.genCode("private" + (Options.getStatic() ? " static" : "") + " final int jjStopStringLiteralDfa" +
@@ -1453,8 +1474,9 @@ public class RStringLiteral extends RegularExpression {
 
               condGenerated = true;
 
-              codeGenerator.genCode("(active" + j + " & 0x" +
-                          Long.toHexString(actives[j]) + "L) != 0L");
+              codeGenerator.genCode("(active" +
+                  (Options.getTableDriven() ? ("[" + j + "]") : j) + " & 0x" +
+                  Long.toHexString(actives[j]) + "L) != 0L");
            }
 
            if (condGenerated)
@@ -1537,9 +1559,13 @@ public class RStringLiteral extends RegularExpression {
 
      params.setLength(0);
      params.append("(int pos, ");
+     if (Options.getTableDriven()) {
+       params.append("" + Options.getLongType() + "[] active)");
+     } else {
      for (i = 0; i < maxKindsReqd - 1; i++)
         params.append("" + Options.getLongType() + " active" + i + ", ");
      params.append("" + Options.getLongType() + " active" + i + ")");
+     }
 
      if (codeGenerator.isJavaLanguage()) {
        codeGenerator.genCode("private" + (Options.getStatic() ? " static" : "") + " final int jjStartNfa" +
@@ -1563,9 +1589,13 @@ public class RStringLiteral extends RegularExpression {
 
      codeGenerator.genCode("   return jjMoveNfa" + Main.lg.lexStateSuffix + "(" +
                "jjStopStringLiteralDfa" + Main.lg.lexStateSuffix + "(pos, ");
+     if (Options.getTableDriven()) {
+       codeGenerator.genCodeLine("active)");
+     } else {
      for (i = 0; i < maxKindsReqd - 1; i++)
         codeGenerator.genCode("active" + i + ", ");
      codeGenerator.genCode("active" + i + ")");
+     }
      codeGenerator.genCodeLine(", pos + 1);");
      codeGenerator.genCodeLine("}");
   }
@@ -1588,5 +1618,100 @@ public class RStringLiteral extends RegularExpression {
 
   public String toString() {
     return super.toString() + " - " + image;
+  }
+
+  static void DumpDfaTable(CodeGenerator codeGenerator) {
+     Hashtable tab;
+     String key;
+     KindInfo info;
+     List<String> finalStatesList;
+     List<String> validKindList;
+     List<String> continueDfaList;
+     List<String> nfaStateList;
+     codeGenerator.genCodeLine(
+         "private static final java.util.Map<Character, int[]>[] nfaStates;");
+     codeGenerator.genCodeLine(
+         "private static final java.util.Map<Character, int[]>[] validKinds;");
+     codeGenerator.genCodeLine(
+         "private static final java.util.Map<Character, int[]>[] finalStates;");
+     codeGenerator.genCodeLine("static {");
+     for (int i = 0; i < maxLen; i++) {
+        String finalStates = "finalStates_" + i;
+        String validKinds = "validKinds_" + i;
+        String continueDfa = "continueDfa_" + i;
+        String nfaStates = "nfaStates_" + i;
+
+        tab = (Hashtable)charPosKind.get(i);
+        String[] keys = ReArrange(tab);
+        if (Options.getIgnoreCase()) {
+          for (String s : keys) {
+            char c = s.charAt(0); 
+            tab.put(Character.toLowerCase(c), tab.get(c));
+            tab.put(Character.toUpperCase(c), tab.get(c));
+          }
+        }
+        codeGenerator.genCodeLine(
+            "java.util.Map<Character, int[]> " + finalStates +
+            " = new java.util.HashMap<Character, int[]>();");
+        codeGenerator.genCodeLine(
+            "java.util.Map<Character, int[]> " + validKinds +
+            " = new java.util.HashMap<Character, int[]>();");
+        codeGenerator.genCodeLine(
+            "java.util.Map<Character, int[]> " + nfaStates +
+            " = new java.util.HashMap<Character, int[]>();");
+        for (int q = 0; q < keys.length; q++) {
+           key = keys[q];
+           info = (KindInfo)tab.get(key);
+           char c = key.charAt(0);
+           Set<Character> chars = new HashSet<Character>();
+           codeGenerator.genCodeLine(
+               "final int[] " + finalStates + "_" + q + " = {");
+           int j = 0;
+           for (int kind : info.finalKindSet) {
+             if (j++ > 0) codeGenerator.genCode(",");
+             codeGenerator.genCode(kind);
+             codeGenerator.genCode(",");
+             codeGenerator.genCodeLine(
+                 subString[kind] ? -1 : GetStateSetForKind(i, kind));
+           }
+           codeGenerator.genCodeLine("};");
+           codeGenerator.genCodeLine(
+               finalStates + ".put((char)" + (int)c + "," +
+               finalStates + "_" + q + ");");
+           j = 0;
+           codeGenerator.genCodeLine(
+               "final int[] " + validKinds + "_" + q + " = {");
+           for (int kind : info.validKindSet) {
+             if (j++ > 0) codeGenerator.genCode(",");
+             codeGenerator.genCode(kind);
+           }
+           codeGenerator.genCodeLine("};");
+           codeGenerator.genCodeLine(
+               validKinds + ".put((char)" + (int)c + "," +
+               validKinds + "_" + q + ");");
+        }
+     }
+     // Generate the final arrays.
+     codeGenerator.genCodeLine("finalStates = new java.util.Map[] {");
+     for (int i = 0; i < maxLen; i++) {
+       if (i > 0) codeGenerator.genCode(",");
+       codeGenerator.genCodeLine("finalStates_" + i);
+     }
+     codeGenerator.genCodeLine("};");
+
+     codeGenerator.genCodeLine("validKinds = new java.util.Map[] {");
+     for (int i = 0; i < maxLen; i++) {
+       if (i > 0) codeGenerator.genCode(",");
+       codeGenerator.genCodeLine("validKinds_" + i);
+     }
+     codeGenerator.genCodeLine("};");
+
+     codeGenerator.genCodeLine("nfaStates = new java.util.Map[] {");
+     for (int i = 0; i < maxLen; i++) {
+       if (i > 0) codeGenerator.genCode(",");
+       codeGenerator.genCodeLine("nfaStates_" + i);
+     }
+     codeGenerator.genCodeLine("};");
+     codeGenerator.genCodeLine("}");
   }
 }

@@ -72,6 +72,7 @@ public class Options {
 	public static final String USEROPTION__JAVA_TEMPLATE_TYPE = "JAVA_TEMPLATE_TYPE";
 	public static final String USEROPTION__GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
 	public static final String USEROPTION__OUTPUT_LANGUAGE = "OUTPUT_LANGUAGE";
+	public static final String USEROPTION__TABLE_DRIVEN = "TABLE_DRIVEN";
 	public static final String USEROPTION__STATIC = "STATIC";
 	public static final String USEROPTION__TOKEN_MANAGER_SUPER_CLASS = "TOKEN_MANAGER_SUPER_CLASS";
 	public static final String USEROPTION__LOOKAHEAD = "LOOKAHEAD";
@@ -156,6 +157,7 @@ public class Options {
 		temp.add(new OptionInfo(USEROPTION__CHOICE_AMBIGUITY_CHECK, OptionType.INTEGER,new Integer(2)));
 		temp.add(new OptionInfo(USEROPTION__OTHER_AMBIGUITY_CHECK, OptionType.INTEGER, new Integer(1)));
 		temp.add(new OptionInfo(USEROPTION__STATIC, OptionType.BOOLEAN, Boolean.TRUE));
+		temp.add(new OptionInfo(USEROPTION__TABLE_DRIVEN, OptionType.BOOLEAN, Boolean.FALSE));
 		temp.add(new OptionInfo(USEROPTION__DEBUG_PARSER, OptionType.BOOLEAN, Boolean.FALSE));
 
 		temp.add(new OptionInfo(USEROPTION__DEBUG_LOOKAHEAD, OptionType.BOOLEAN, Boolean.FALSE));
@@ -584,6 +586,9 @@ public class Options {
 	 */
 	public static boolean getStatic() {
 		return booleanValue(USEROPTION__STATIC);
+	}
+	public static boolean getTableDriven() {
+		return booleanValue(USEROPTION__TABLE_DRIVEN);
 	}
 
 	/**
