@@ -146,11 +146,11 @@ public static String staticString;
     //genCodeLine("@SuppressWarnings(\"unused\")");
     genAnnotation("SuppressWarnings(\"unused\")");
     if(Options.getSupportClassVisibilityPublic()) {
-    	//genModifier("public ");
-    	genModifier("public ");
+      //genModifier("public ");
+      genModifier("public ");
     }
     //genCodeLine("class " + tokMgrClassName + " implements " +
-    		//cu_name + "Constants");
+        //cu_name + "Constants");
     //String superClass = Options.stringValue(Options.USEROPTION__TOKEN_MANAGER_SUPER_CLASS);
     genClassStart(null, tokMgrClassName, new String[]{}, new String[]{cu_name + "Constants"});
     //genCodeLine("{"); // }
@@ -221,6 +221,9 @@ public static String staticString;
     options.put("stateSetSize", stateSetSize);
     options.put("hasActions", hasMoreActions || hasSkipActions || hasTokenActions);
     options.put("tokMgrClassName", tokMgrClassName);
+    int x = 0;
+    for (int l : maxLongsReqd) x = Math.max(x, l);
+    options.put("maxLongs", x);
     options.put("cu_name", cu_name);
 
     // options.put("", .valueOf(maxOrdinal));
@@ -410,8 +413,9 @@ public static String staticString;
               !((RStringLiteral)curRE).image.equals(""))
           {
             ((RStringLiteral)curRE).GenerateDfa(this, curRE.ordinal);
-            if (i != 0 && !mixed[lexStateIndex] && ignoring != ignore)
+            if (i != 0 && !mixed[lexStateIndex] && ignoring != ignore) {
               mixed[lexStateIndex] = true;
+            }
           }
           else if (curRE.CanMatchAnyChar())
           {
@@ -586,7 +590,7 @@ public static String staticString;
                       getFileExtension(Options.getOutputLanguage());
     
     if (Options.getBuildParser()) {
-    	saveOutput(fileName);
+      saveOutput(fileName);
     }
   }
 
@@ -1007,7 +1011,16 @@ public static String staticString;
             errorHandlingClass+".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
         "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
 
-      genCodeLine(prefix + "curPos = jjMoveStringLiteralDfa0_" + i + "();");
+      if (Options.getTableDriven()) {
+System.err.println("*** HERE: " + maxLexStates + "; lsi: " + lexStateIndex);
+        if (maxLexStates > 1) {
+          JavaCCErrors.semantic_error("Table driven code generation cannot (yet) be used with lexical states");
+        }
+        JavaCCErrors.warning("Table driven code generation is experimental.");
+        genCodeLine(prefix + "curPos = jjRunDfa();");
+      } else {
+        genCodeLine(prefix + "curPos = jjMoveStringLiteralDfa0_" + i + "();");
+      }
 
       if (canMatchAnyChar[i] != -1)
       {
@@ -1452,49 +1465,49 @@ public static String staticString;
 
   public static void reInit()
   {
-		actions = null;
-		allTpsForState = new Hashtable();
-		canLoop = null;
-		canMatchAnyChar = null;
-		canReachOnMore = null;
-		curKind = 0;
-		curRE = null;
-		defaultLexState = 0;
-		errorHandlingClass = null;
-		hasEmptyMatch = false;
-		hasLoop = false;
-		hasMore = false;
-		hasMoreActions = false;
-		hasNfa = null;
-		hasSkip = false;
-		hasSkipActions = false;
-		hasSpecial = false;
-		hasTokenActions = false;
-		ignoreCase = null;
-		initMatch = null;
-		initStates = new Hashtable();
-		initialState = null;
-		keepLineCol = false;
-		kinds = null;
-		lexStateIndex = 0;
-		lexStateName = null;
-		lexStateSuffix = null;
-		lexStates = null;
-		maxLexStates = 0;
-		maxLongsReqd = null;
-		maxOrdinal = 1;
-		mixed = null;
-		newLexState = null;
-		rexprs = null;
-		singlesToSkip = null;
-		stateHasActions = null;
-		stateSetSize = 0;
-		staticString = null;
-		toMore = null;
-		toSkip = null;
-		toSpecial = null;
-		toToken = null;
-		tokMgrClassName = null;
+    actions = null;
+    allTpsForState = new Hashtable();
+    canLoop = null;
+    canMatchAnyChar = null;
+    canReachOnMore = null;
+    curKind = 0;
+    curRE = null;
+    defaultLexState = 0;
+    errorHandlingClass = null;
+    hasEmptyMatch = false;
+    hasLoop = false;
+    hasMore = false;
+    hasMoreActions = false;
+    hasNfa = null;
+    hasSkip = false;
+    hasSkipActions = false;
+    hasSpecial = false;
+    hasTokenActions = false;
+    ignoreCase = null;
+    initMatch = null;
+    initStates = new Hashtable();
+    initialState = null;
+    keepLineCol = false;
+    kinds = null;
+    lexStateIndex = 0;
+    lexStateName = null;
+    lexStateSuffix = null;
+    lexStates = null;
+    maxLexStates = 0;
+    maxLongsReqd = null;
+    maxOrdinal = 1;
+    mixed = null;
+    newLexState = null;
+    rexprs = null;
+    singlesToSkip = null;
+    stateHasActions = null;
+    stateSetSize = 0;
+    staticString = null;
+    toMore = null;
+    toSkip = null;
+    toSpecial = null;
+    toToken = null;
+    tokMgrClassName = null;
   }
 
 }
