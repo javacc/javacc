@@ -1629,15 +1629,10 @@ public class RStringLiteral extends RegularExpression {
      List<String> continueDfaList;
      List<String> nfaStateList;
      codeGenerator.genCodeLine(
-         "private static final java.util.Map<Character, int[]>[] validKinds;");
-     codeGenerator.genCodeLine(
-         "private static final java.util.Map<Character, int[]>[] finalStates;");
-     codeGenerator.genCodeLine("static {");
+         "private static final int[] charPosTransitions = {");
      for (int i = 0; i < maxLen; i++) {
-        String finalStates = "finalStates_" + i;
-        String validKinds = "validKinds_" + i;
-        String continueDfa = "continueDfa_" + i;
-
+        if (i > 0) codeGenerator.genCode(", ");
+        codeGenerator.genCodeLine(i);
         tab = (Hashtable)charPosKind.get(i);
         String[] keys = ReArrange(tab);
         if (Options.getIgnoreCase()) {
@@ -1647,58 +1642,32 @@ public class RStringLiteral extends RegularExpression {
             tab.put(Character.toUpperCase(c), tab.get(c));
           }
         }
-        codeGenerator.genCodeLine(
-            "java.util.Map<Character, int[]> " + finalStates +
-            " = new java.util.HashMap<Character, int[]>();");
-        codeGenerator.genCodeLine(
-            "java.util.Map<Character, int[]> " + validKinds +
-            " = new java.util.HashMap<Character, int[]>();");
+        codeGenerator.genCode(",");
+        codeGenerator.genCodeLine(keys.length);
         for (int q = 0; q < keys.length; q++) {
            key = keys[q];
            info = (KindInfo)tab.get(key);
            char c = key.charAt(0);
-           Set<Character> chars = new HashSet<Character>();
-           codeGenerator.genCodeLine(
-               "final int[] " + finalStates + "_" + q + " = {");
-           int j = 0;
+           codeGenerator.genCode(",");
+           codeGenerator.genCodeLine((int)c);
+           codeGenerator.genCode(",");
+           codeGenerator.genCode(info.finalKindSet.size());
            for (int kind : info.finalKindSet) {
-             if (j++ > 0) codeGenerator.genCode(",");
+             codeGenerator.genCode(",");
              codeGenerator.genCode(kind);
              codeGenerator.genCode(",");
              codeGenerator.genCodeLine(
                  subString[kind] ? -1 : GetStateSetForKind(i, kind));
            }
-           codeGenerator.genCodeLine("};");
-           codeGenerator.genCodeLine(
-               finalStates + ".put((char)" + (int)c + "," +
-               finalStates + "_" + q + ");");
-           j = 0;
-           codeGenerator.genCodeLine(
-               "final int[] " + validKinds + "_" + q + " = {");
+           codeGenerator.genCode(",");
+           codeGenerator.genCode(info.validKindSet.size());
            for (int kind : info.validKindSet) {
-             if (j++ > 0) codeGenerator.genCode(",");
+             codeGenerator.genCode(",");
              codeGenerator.genCode(kind);
            }
-           codeGenerator.genCodeLine("};");
-           codeGenerator.genCodeLine(
-               validKinds + ".put((char)" + (int)c + "," +
-               validKinds + "_" + q + ");");
+           codeGenerator.genCodeLine("");
         }
      }
-     // Generate the final arrays.
-     codeGenerator.genCodeLine("finalStates = new java.util.Map[] {");
-     for (int i = 0; i < maxLen; i++) {
-       if (i > 0) codeGenerator.genCode(",");
-       codeGenerator.genCodeLine("finalStates_" + i);
-     }
      codeGenerator.genCodeLine("};");
-
-     codeGenerator.genCodeLine("validKinds = new java.util.Map[] {");
-     for (int i = 0; i < maxLen; i++) {
-       if (i > 0) codeGenerator.genCode(",");
-       codeGenerator.genCodeLine("validKinds_" + i);
-     }
-     codeGenerator.genCodeLine("};");
-     codeGenerator.genCodeLine("}");
   }
 }
