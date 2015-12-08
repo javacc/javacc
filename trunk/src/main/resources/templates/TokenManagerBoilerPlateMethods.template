@@ -89,19 +89,6 @@
   }
 
 #if TABLE_DRIVEN
-private static final long[][] jjChars = new long[${generatedStates}][];
-static {
-  // Initialize the allowed chars table.
-  for (int i = 0; i < ${generatedStates}; i++) {
-    jjChars[i] = new long[Character.MAX_VALUE];
-    for (int j = 0; j < jjRanges[i].length; j += 2) {
-      for (int c = jjRanges[i][j]; c <= jjRanges[i][j + 1]; c++) {
-        jjChars[i][c/64] |= (1L << c % 64);
-      }
-    }
-  }
-}
-
 // Bit vector to track possible kinds. maxLongs = MAX(kind) / 64 + 1;
 private static final long[] jjcurActive = new long[2];
 private static final long[] jjnewActive = new long[2];
@@ -113,11 +100,11 @@ private static final int jjRunDfa() {
     // possible and in the end, start the NFA if the string literal token
     // match can also be a prefix of non-string literal token.
 
-    if (finalStates[curPos].containsKey((char)curChar)) {
+    final int[] kindAndNext = finalStates[curPos].get((char)curChar);
+    if (kindAndNext != null) {
       // The current input character at the current position marks the end
       // of a literal token match e.g., pos == 2 and curChar == 'r' can
       // potentially mark the token "for" in Java grammar.
-      final int[] kindAndNext= finalStates[curPos].get((char)curChar);
       for (int i = 0; i < kindAndNext.length; i += 2) {
         int kind = kindAndNext[i];
         // See if this kind is feasible based on the prefix. So for examaple,
@@ -142,8 +129,8 @@ private static final int jjRunDfa() {
     // So for example in Java grammar, curChar == 't' and and
     // curPos == '2', then this could end up begin the "interface" token.
     boolean continueDfa = false;
-    if (validKinds[curPos].containsKey((char)curChar)) {
-      int[] validKind = validKinds[curPos].get((char)curChar);
+    int[] validKind = validKinds[curPos].get((char)curChar);
+    if (validKind != null) {
       for (final int kind : validKind) {
         if ((jjcurActive[kind >> 6] & (1L << (kind % 64))) != 0L) {
           continueDfa = true;
@@ -186,6 +173,20 @@ private static final int jjRunDfa() {
     }
     curPos++;
   } while(true);
+}
+
+// NFA related data, initialization and code.
+private static final long[][] jjChars =
+    new long[${generatedStates}][Character.MAX_VALUE/64 + 1];
+static {
+  for (int i = 0; i < ${generatedStates}; i++) {
+    int ind = 0;
+    for (int j = 0; j < jjCharData[i].length; j += 2) {
+      for (int k = 0; k < (int)jjCharData[i][j]; k++) {
+        jjChars[i][ind++] = jjCharData[i][j + 1];
+      }
+    }
+  }
 }
 
 private static  int[] stateSet = new int[${generatedStates}];
