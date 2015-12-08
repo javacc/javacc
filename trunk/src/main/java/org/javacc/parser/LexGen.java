@@ -1013,7 +1013,6 @@ public static String staticString;
         "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
 
       if (Options.getTableDriven()) {
-System.err.println("*** HERE: " + maxLexStates + "; lsi: " + lexStateIndex);
         if (maxLexStates > 1) {
           JavaCCErrors.semantic_error("Table driven code generation cannot (yet) be used with lexical states");
         }
