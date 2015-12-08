@@ -3305,41 +3305,36 @@ public class NfaState
      }
 
      final BitSet negated = new BitSet(generatedStates);
-     codeGenerator.genCodeLine("private static final char[][] jjRanges = {");
+     codeGenerator.genCodeLine("private static final long[][] jjCharData = {");
      for (int i = 0; i < cleanStates.length; i++) {
        NfaState tmp = (NfaState)cleanStates[i];
        if (i > 0) codeGenerator.genCodeLine(",");
        codeGenerator.genCode("{");
        int cnt = 0;
        List<Character> ranges = new ArrayList<Character>();
+       BitSet bits = new BitSet();
        Outer:
-       for (char c = 0; c <= Character.MAX_VALUE; c++) {
-         char beg = c;
-         while (tmp.CanMoveUsingChar(c)) {
-           if (c == Character.MAX_VALUE) {
-             ranges.add(beg);
-             ranges.add(c);
-             break Outer;
-           }
-           c++;
+       for (int c = 0; c <= Character.MAX_VALUE; c++) {
+         if (tmp.CanMoveUsingChar((char)c)) {
+           bits.set(c);
          }
-         if (beg != c) {
-           ranges.add(beg);
-           c--;
-           ranges.add(c);
-         }
-         if (c == Character.MAX_VALUE) break;
        }
-       for (int k = 0; k < ranges.size(); k += 2) {
+       long[] longs = bits.toLongArray();
+       long prev = longs[0];
+       for (int k = 0; k < longs.length; k++) {
+         int rep = 1;
+         while (k + rep < longs.length && longs[k + rep] == longs[k]) rep++;
          if (k > 0) codeGenerator.genCode(", ");
-         codeGenerator.genCode("(char)" + (int)ranges.get(k) + ", ");
-         codeGenerator.genCode("(char)" + (int)ranges.get(k + 1));
+         codeGenerator.genCode(rep + ", ");
+         codeGenerator.genCode("0x" + Long.toHexString(longs[k]) + "L");
+         k += rep - 1;
        }
        codeGenerator.genCode("}");
      }
      codeGenerator.genCodeLine("};");
 
-     codeGenerator.genCodeLine("private static final int[][] jjcompositeState = {");
+     codeGenerator.genCodeLine(
+         "private static final int[][] jjcompositeState = {");
      for (int i = 0; i < cleanStates.length; i++) {
        NfaState tmp = (NfaState)cleanStates[i];
        if (i > 0) codeGenerator.genCodeLine(", ");
