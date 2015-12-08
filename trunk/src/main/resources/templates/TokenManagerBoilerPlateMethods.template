@@ -89,24 +89,25 @@
   }
 
 #if TABLE_DRIVEN
+private static final long[][] jjChars = new long[${generatedStates}][];
 static {
   // Initialize the allowed chars table.
-  for (int i = 0; i < 67; i++) {
-    jjChars[i] = new java.util.BitSet(Character.MAX_VALUE);
+  for (int i = 0; i < ${generatedStates}; i++) {
+    jjChars[i] = new long[Character.MAX_VALUE];
     for (int j = 0; j < jjRanges[i].length; j += 2) {
       for (int c = jjRanges[i][j]; c <= jjRanges[i][j + 1]; c++) {
-        jjChars[i].set(c);
+        jjChars[i][c/64] |= (1L << c % 64);
       }
     }
   }
 }
 
 // Bit vector to track possible kinds. maxLongs = MAX(kind) / 64 + 1;
-private ${STATIC?static :}final long[] jjcurActive = new long[${maxLongs}];
-private ${STATIC?static :}final long[] jjnewActive = new long[${maxLongs}];
-private ${STATIC?static :}final int jjRunDfa() {
+private static final long[] jjcurActive = new long[2];
+private static final long[] jjnewActive = new long[2];
+private static final int jjRunDfa() {
   int curPos = 0;
-  for (int i = 0; i < ${maxLongs}; i++) jjcurActive[i] = 0xffffffffffffffffL;
+  for (int i = 0; i < 2; i++) jjcurActive[i] = 0xffffffffffffffffL;
   do {
     // Algorithm: Keep trying to match a DFA as long as there is one
     // possible and in the end, start the NFA if the string literal token
@@ -151,11 +152,11 @@ private ${STATIC?static :}final int jjRunDfa() {
       }
 
       if (continueDfa) {
-        for (int i = 0; i < ${maxLongs}; i++) jjnewActive[i] = 0L;
+        for (int i = 0; i < 2; i++) jjnewActive[i] = 0L;
         for (final int kind : validKind) {
           jjnewActive[kind >> 6] |= 1L << (kind % 64);
         }
-        for (int i = 0; i < ${maxLongs}; i++) jjcurActive[i] &= jjnewActive[i];
+        for (int i = 0; i < 2; i++) jjcurActive[i] &= jjnewActive[i];
       }
     }
 
@@ -165,10 +166,10 @@ private ${STATIC?static :}final int jjRunDfa() {
     }
 
     int i = 0;
-    for (; i < ${maxLongs}; i++) {
+    for (; i < 2; i++) {
       if (jjcurActive[i] != 0L) break;
     }
-    if (i == ${maxLongs}) {
+    if (i == 2) {
       // No more NFA or DFS possible so just return. For example, in Java
       // grammar, when curPos == 1 and curChar == "|" it will return a
       // "||" token as it is not a prefix of any other token.
@@ -187,37 +188,52 @@ private ${STATIC?static :}final int jjRunDfa() {
   } while(true);
 }
 
-private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
-  if (startState<0) {
+private static  int[] stateSet = new int[${generatedStates}];
+private static  int[] newStateSet = new int[${generatedStates}];
+private static  final long[] moved = new long[${generatedStates}];
+private static long moveIndex = 0L;
+
+private static final int jjMoveNfa(int startState, int curPos) {
+
+  if (startState < 0) {
     return curPos + 1;
   }
 
-  java.util.Stack<Integer> stateSet = new java.util.Stack<Integer>();
-  java.util.Stack<Integer> newStateSet = new java.util.Stack<Integer>();
-  final java.util.BitSet added = new java.util.BitSet(67);
-  final java.util.BitSet done = new java.util.BitSet(67);
+  if (++moveIndex == Long.MAX_VALUE) {
+    for (int i = 0; i < ${generatedStates}; i++) moved[i] = 0L;
+    moveIndex = 1L;
+  }
   int kind = 0x7fffffff;
-  stateSet.push(startState);
+  stateSet[0] = startState;
+  moved[startState] = moveIndex;
+  int cnt = 1;
+  for (int s : jjcompositeState[startState]) { 
+    if (moved[s] != moveIndex) {
+      stateSet[cnt++] = s;
+      moved[s] = moveIndex;
+    }
+  }
   do {
-    added.clear();
-    done.clear();
+    int newCnt = 0;
+    if (++moveIndex == Long.MAX_VALUE) {
+      for (int i = 0; i < ${generatedStates}; i++) moved[i] = 0L;
+      moveIndex = 1L;
+    }
+    final int vectorIndex = curChar / 64;
+    final long bitpattern = (1L << (curChar % 64));
     do {
-      final int state = stateSet.pop();
-      done.set(state);
-      for (int s : jjcompositeState[state]) { 
-        if (!done.get(s)) stateSet.push(s);
-        done.set(s);
-      }
-      if (jjChars[state].get(curChar)) {
+      final int state = stateSet[--cnt];
+      if ((jjChars[state][vectorIndex] & bitpattern) != 0L) {
         for (int newState : jjnextStateSet[state]) {
-          if (added.get(newState)) continue;
-          added.set(newState);
-          newStateSet.push(newState);
+          if (moved[newState] != moveIndex) {
+            newStateSet[newCnt++] = newState;
+            moved[newState] = moveIndex;
+          }
         }
         final int newKind = jjmatchKinds[state];
         if (kind > newKind) kind = newKind;
       }
-    } while (!stateSet.empty());
+    } while (cnt > 0);
 
     if (kind != 0x7fffffff) {
        if (jjmatchedPos != curPos || jjmatchedKind > kind) {
@@ -226,23 +242,25 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
        jjmatchedPos = curPos;
        kind = 0x7fffffff;
     }
-    ++curPos;
-    if (newStateSet.empty()) {
-      return curPos;
-    }
 
-    java.util.Stack<Integer> tmp = stateSet;
+    int[] tmp = stateSet;
     stateSet = newStateSet;
     newStateSet = tmp;
+    cnt = newCnt;
+    ++curPos;
+    if (newCnt == 0) {
+      return curPos;
+    }
     try {
       curChar = input_stream.readChar();
     } catch(java.io.IOException e) {
       return curPos;
     }
-  } while (!stateSet.empty());
+  } while (cnt > 0);
 
   assert(false) :
       "Interal error. Please submit a bug at: http://javacc.java.net.";
   return curPos;
 }
+
 #fi

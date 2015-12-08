@@ -3368,28 +3368,21 @@ public class NfaState
        NfaState tmp = (NfaState)cleanStates[i];
        if (i > 0) codeGenerator.genCodeLine(", ");
        NfaState[] states = tmp.next.epsilonMoveArray;
+       Set<Integer> nextStates = new HashSet<Integer>();
+       for (NfaState s : states) {
+         nextStates.add(s.stateName);
+         if (s.isComposite) {
+           for (int c : s.compositeStates) nextStates.add(c);
+         }
+       }
        int k = 0;
        codeGenerator.genCode("{");
-       for (NfaState s : states) {
+       for (int s : nextStates) {
          if (k++ > 0) codeGenerator.genCode(", ");
-         codeGenerator.genCode(s.stateName);
+         codeGenerator.genCode(s);
        }
        codeGenerator.genCode("}");
      }
      codeGenerator.genCodeLine("};");
-     codeGenerator.genCodeLine(
-         "private static final java.util.BitSet[] jjChars = new java.util.BitSet[" +
-                               generatedStates + "];");
-     codeGenerator.genCodeLine("static {");
-     codeGenerator.genCodeLine(
-         "for (int i = 0; i < " + generatedStates + "; i++) {\n" +
-         "  jjChars[i] = new java.util.BitSet(Character.MAX_VALUE);\n" +
-         "  for (int j = 0; j < jjRanges[i].length; j += 2) {\n" +
-         "    for (int c = jjRanges[i][j]; c <= jjRanges[i][j + 1]; c++) {\n" +
-         "      jjChars[i].set(c);\n" +
-         "    }\n" +
-         "  }\n" +
-         "}\n" +
-         "}\n");
    }
 }
