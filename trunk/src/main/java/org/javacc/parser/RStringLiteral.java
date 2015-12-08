@@ -1629,8 +1629,6 @@ public class RStringLiteral extends RegularExpression {
      List<String> continueDfaList;
      List<String> nfaStateList;
      codeGenerator.genCodeLine(
-         "private static final java.util.Map<Character, int[]>[] nfaStates;");
-     codeGenerator.genCodeLine(
          "private static final java.util.Map<Character, int[]>[] validKinds;");
      codeGenerator.genCodeLine(
          "private static final java.util.Map<Character, int[]>[] finalStates;");
@@ -1639,7 +1637,6 @@ public class RStringLiteral extends RegularExpression {
         String finalStates = "finalStates_" + i;
         String validKinds = "validKinds_" + i;
         String continueDfa = "continueDfa_" + i;
-        String nfaStates = "nfaStates_" + i;
 
         tab = (Hashtable)charPosKind.get(i);
         String[] keys = ReArrange(tab);
@@ -1655,9 +1652,6 @@ public class RStringLiteral extends RegularExpression {
             " = new java.util.HashMap<Character, int[]>();");
         codeGenerator.genCodeLine(
             "java.util.Map<Character, int[]> " + validKinds +
-            " = new java.util.HashMap<Character, int[]>();");
-        codeGenerator.genCodeLine(
-            "java.util.Map<Character, int[]> " + nfaStates +
             " = new java.util.HashMap<Character, int[]>();");
         for (int q = 0; q < keys.length; q++) {
            key = keys[q];
@@ -1703,13 +1697,6 @@ public class RStringLiteral extends RegularExpression {
      for (int i = 0; i < maxLen; i++) {
        if (i > 0) codeGenerator.genCode(",");
        codeGenerator.genCodeLine("validKinds_" + i);
-     }
-     codeGenerator.genCodeLine("};");
-
-     codeGenerator.genCodeLine("nfaStates = new java.util.Map[] {");
-     for (int i = 0; i < maxLen; i++) {
-       if (i > 0) codeGenerator.genCode(",");
-       codeGenerator.genCodeLine("nfaStates_" + i);
      }
      codeGenerator.genCodeLine("};");
      codeGenerator.genCodeLine("}");
