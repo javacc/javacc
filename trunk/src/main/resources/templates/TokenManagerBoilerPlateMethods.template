@@ -89,6 +89,42 @@
   }
 
 #if TABLE_DRIVEN
+
+private static final java.util.Map<Long, int[]> finalStates =
+    new java.util.HashMap<Long, int[]>();
+private static final java.util.Map<Long, int[]> validKinds =
+    new java.util.HashMap<Long, int[]>();
+static {
+  int i = 0;
+  while (i < charPosTransitions.length) {
+    int pos = charPosTransitions[i++];
+    int numChars = charPosTransitions[i++];
+    for (int j = 0; j < numChars; j++) {
+      char c = (char)charPosTransitions[i++];
+      long key = (long)c << 32 | pos;
+
+      int numFinalStates = charPosTransitions[i++];
+      if (numFinalStates > 0) {
+        int[] arr = new int[numFinalStates * 2];
+        for (int k = 0; k < arr.length; k += 2) {
+          arr[k] = charPosTransitions[i++];
+          arr[k + 1] = charPosTransitions[i++];
+        }
+        finalStates.put(key, arr);
+      }
+
+      int numValidKinds = charPosTransitions[i++];
+      if (numValidKinds > 0) {
+        int[] arr = new int[numValidKinds];
+        for (int k = 0; k < numValidKinds; k++) {
+          arr[k] = charPosTransitions[i++];
+        }
+        validKinds.put(key, arr);
+      }
+    }
+  }
+}
+
 // Bit vector to track possible kinds. maxLongs = MAX(kind) / 64 + 1;
 private static final long[] jjcurActive = new long[2];
 private static final long[] jjnewActive = new long[2];
@@ -96,11 +132,12 @@ private static final int jjRunDfa() {
   int curPos = 0;
   for (int i = 0; i < 2; i++) jjcurActive[i] = 0xffffffffffffffffL;
   do {
+    final long key = (long)curChar << 32 | curPos;
     // Algorithm: Keep trying to match a DFA as long as there is one
     // possible and in the end, start the NFA if the string literal token
     // match can also be a prefix of non-string literal token.
 
-    final int[] kindAndNext = finalStates[curPos].get((char)curChar);
+    final int[] kindAndNext = finalStates.get(key);
     if (kindAndNext != null) {
       // The current input character at the current position marks the end
       // of a literal token match e.g., pos == 2 and curChar == 'r' can
@@ -129,7 +166,7 @@ private static final int jjRunDfa() {
     // So for example in Java grammar, curChar == 't' and and
     // curPos == '2', then this could end up begin the "interface" token.
     boolean continueDfa = false;
-    int[] validKind = validKinds[curPos].get((char)curChar);
+    int[] validKind = validKinds.get(key);
     if (validKind != null) {
       for (final int kind : validKind) {
         if ((jjcurActive[kind >> 6] & (1L << (kind % 64))) != 0L) {
