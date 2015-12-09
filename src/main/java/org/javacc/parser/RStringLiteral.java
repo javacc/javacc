@@ -684,7 +684,6 @@ public class RStringLiteral extends RegularExpression {
 
      if (Options.getTableDriven() && Main.lg.lexStateIndex == 0) {
        DumpDfaTable(codeGenerator);
-       DumpStartWithStates(codeGenerator);
        return;
      }
 
@@ -1400,7 +1399,9 @@ public class RStringLiteral extends RegularExpression {
         }
      }
 
-     DumpNfaStartStatesCode(statesForPos, codeGenerator);
+     if (!Options.getTableDriven()) {
+       DumpNfaStartStatesCode(statesForPos, codeGenerator);
+     }
   }
 
   static void DumpNfaStartStatesCode(Hashtable[] statesForPos,
@@ -1642,31 +1643,74 @@ public class RStringLiteral extends RegularExpression {
             tab.put(Character.toUpperCase(c), tab.get(c));
           }
         }
-        codeGenerator.genCode(",");
+        codeGenerator.genCode(", ");
         codeGenerator.genCodeLine(keys.length);
         for (int q = 0; q < keys.length; q++) {
            key = keys[q];
            info = (KindInfo)tab.get(key);
            char c = key.charAt(0);
-           codeGenerator.genCode(",");
+           codeGenerator.genCode(", ");
            codeGenerator.genCodeLine((int)c);
-           codeGenerator.genCode(",");
+           codeGenerator.genCode(", ");
            codeGenerator.genCode(info.finalKindSet.size());
            for (int kind : info.finalKindSet) {
-             codeGenerator.genCode(",");
+             codeGenerator.genCode(", ");
              codeGenerator.genCode(kind);
-             codeGenerator.genCode(",");
+             codeGenerator.genCode(", ");
              codeGenerator.genCodeLine(
                  subString[kind] ? -1 : GetStateSetForKind(i, kind));
            }
-           codeGenerator.genCode(",");
+           codeGenerator.genCode(", ");
            codeGenerator.genCode(info.validKindSet.size());
            for (int kind : info.validKindSet) {
-             codeGenerator.genCode(",");
+             codeGenerator.genCode(", ");
              codeGenerator.genCode(kind);
            }
            codeGenerator.genCodeLine("");
         }
+     }
+     codeGenerator.genCodeLine("};");
+     codeGenerator.genCodeLine(
+         "private static final long[][] dfaStopData = {");
+     for (int i = 0; i < maxLen; i++) {
+        if (i > 0) codeGenerator.genCode(", ");
+        if (statesForPos[i] == null) {
+           codeGenerator.genCode("{}");
+           continue;
+        }
+        codeGenerator.genCode("{");
+        Enumeration e = statesForPos[i].keys();
+        int k = 0;
+        while (e.hasMoreElements())
+        {
+           if (k++ > 0) codeGenerator.genCode(", ");
+           String stateSetString = (String)e.nextElement();
+           long[] actives = (long[])statesForPos[i].get(stateSetString);
+           int ind = stateSetString.indexOf(", ");
+           String kindStr = stateSetString.substring(0, ind);
+           String afterKind = stateSetString.substring(ind + 2);
+           stateSetString = afterKind.substring(afterKind.indexOf(", ") + 2);
+
+           int maxKindsReqd = maxStrKind / 64 + 1;
+           for (int j = 0; j < maxKindsReqd; j++) {
+             if (j > 0) codeGenerator.genCode(", ");
+             codeGenerator.genCode("0x" + Long.toHexString(actives[j]) + "L");
+           }
+           // Pos
+           codeGenerator.genCode(
+               ", " + afterKind.substring(0, afterKind.indexOf(", ")));
+           // Kind
+           codeGenerator.genCode(", " + kindStr);
+
+           // State
+           if (stateSetString.equals("null;")) {
+              codeGenerator.genCodeLine(", -1");
+           } else {
+              codeGenerator.genCodeLine(
+                  ", " + NfaState.AddStartStateSet(stateSetString));
+           }
+        }
+        codeGenerator.genCode("}");
      }
      codeGenerator.genCodeLine("};");
   }

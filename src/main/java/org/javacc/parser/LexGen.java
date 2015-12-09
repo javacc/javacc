@@ -537,9 +537,9 @@ public static String staticString;
     for (i = 0; i < choices.size(); i++)
       ((RChoice)choices.get(i)).CheckUnmatchability();
 
-    NfaState.DumpStateSets(this);
+    if (!Options.getTableDriven()) NfaState.DumpStateSets(this);
     CheckEmptyStringMatch();
-    NfaState.DumpNonAsciiMoveMethods(this);
+    if (!Options.getTableDriven()) NfaState.DumpNonAsciiMoveMethods(this);
     RStringLiteral.DumpStrLiteralImages(this);
     DumpFillToken();
     DumpGetNextToken();
@@ -564,7 +564,7 @@ public static String staticString;
     if (hasTokenActions)
       DumpTokenActions();
 
-    NfaState.PrintBoilerPlate(this);
+    if (!Options.getTableDriven()) NfaState.PrintBoilerPlate(this);
 
     String charStreamName;
     if (Options.getUserCharStream())
@@ -862,8 +862,10 @@ public static String staticString;
     genCodeLine("");
     genCodeLine(staticString + "int curLexState = " + defaultLexState + ";");
     genCodeLine(staticString + "int defaultLexState = " + defaultLexState + ";");
-    genCodeLine(staticString + "int jjnewStateCnt;");
-    genCodeLine(staticString + "int jjround;");
+    if (!Options.getTableDriven()) {
+      genCodeLine(staticString + "int jjnewStateCnt;");
+      genCodeLine(staticString + "int jjround;");
+    }
     genCodeLine(staticString + "int jjmatchedPos;");
     genCodeLine(staticString + "int jjmatchedKind;");
     genCodeLine("");
