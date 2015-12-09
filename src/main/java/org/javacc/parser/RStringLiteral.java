@@ -883,12 +883,12 @@ public class RStringLiteral extends RegularExpression {
                     codeGenerator.genCode("active" + k + ", ");
                  else
                     codeGenerator.genCode("0L, ");
+              }
 
               if (i <= maxLenForActive[k]) {
                  codeGenerator.genCodeLine("active" + k + ");");
               } else {
                  codeGenerator.genCodeLine("0L);");
-              }
               }
 
 
@@ -1229,9 +1229,6 @@ public class RStringLiteral extends RegularExpression {
                  upto and including this position for the matched string. */
 
               codeGenerator.genCode("   return jjStartNfa" + Main.lg.lexStateSuffix + "(" + (i - 1) + ", ");
-              if (Options.getTableDriven()) {
-                 codeGenerator.genCode("jjcurActive);");
-              } else {
               for (k = 0; k < maxLongsReqd - 1; k++)
                  if (i <= maxLenForActive[k])
                     codeGenerator.genCode("active" + k + ", ");
@@ -1241,7 +1238,6 @@ public class RStringLiteral extends RegularExpression {
                  codeGenerator.genCodeLine("active" + k + ");");
               else
                  codeGenerator.genCodeLine("0L);");
-              }
            }
            else if (NfaState.generatedStates != 0)
               codeGenerator.genCodeLine("   return jjMoveNfa" + Main.lg.lexStateSuffix +
@@ -1416,13 +1412,9 @@ public class RStringLiteral extends RegularExpression {
      int ind = 0;
 
      StringBuffer params = new StringBuffer();
-     if (Options.getTableDriven()) {
-       params.append("" + Options.getLongType() + "[] active)");
-     } else {
      for (i = 0; i < maxKindsReqd - 1; i++)
         params.append("" + Options.getLongType() + " active" + i + ", ");
      params.append("" + Options.getLongType() + " active" + i + ")");
-     }
 
   // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
      if (Options.isOutputLanguageJava()) {
@@ -1475,8 +1467,7 @@ public class RStringLiteral extends RegularExpression {
 
               condGenerated = true;
 
-              codeGenerator.genCode("(active" +
-                  (Options.getTableDriven() ? ("[" + j + "]") : j) + " & 0x" +
+              codeGenerator.genCode("(active" + j + " & 0x" +
                   Long.toHexString(actives[j]) + "L) != 0L");
            }
 
@@ -1560,13 +1551,9 @@ public class RStringLiteral extends RegularExpression {
 
      params.setLength(0);
      params.append("(int pos, ");
-     if (Options.getTableDriven()) {
-       params.append("" + Options.getLongType() + "[] active)");
-     } else {
      for (i = 0; i < maxKindsReqd - 1; i++)
         params.append("" + Options.getLongType() + " active" + i + ", ");
      params.append("" + Options.getLongType() + " active" + i + ")");
-     }
 
      if (codeGenerator.isJavaLanguage()) {
        codeGenerator.genCode("private" + (Options.getStatic() ? " static" : "") + " final int jjStartNfa" +
@@ -1590,13 +1577,9 @@ public class RStringLiteral extends RegularExpression {
 
      codeGenerator.genCode("   return jjMoveNfa" + Main.lg.lexStateSuffix + "(" +
                "jjStopStringLiteralDfa" + Main.lg.lexStateSuffix + "(pos, ");
-     if (Options.getTableDriven()) {
-       codeGenerator.genCodeLine("active)");
-     } else {
      for (i = 0; i < maxKindsReqd - 1; i++)
         codeGenerator.genCode("active" + i + ", ");
      codeGenerator.genCode("active" + i + ")");
-     }
      codeGenerator.genCodeLine(", pos + 1);");
      codeGenerator.genCodeLine("}");
   }
