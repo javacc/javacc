@@ -49,7 +49,11 @@
 
 #fi
 
-    jjmatchedPos = jjnewStateCnt = 0;
+    jjmatchedPos =
+#if !TABLE_DRIVEN
+    jjnewStateCnt =
+#fi
+    0;
     curLexState = defaultLexState;
     input_stream = stream;
     ReInitRounds();
@@ -58,7 +62,9 @@
   ${STATIC?static :}private void ReInitRounds()
   {
     int i;
+#if !TABLE_DRIVEN
     jjround = 0x80000001;
+#fi
     for (i = ${stateSetSize}; i-- > 0;)
       jjrounds[i] = 0x80000000;
   }
@@ -126,11 +132,11 @@ static {
 }
 
 // Bit vector to track possible kinds. maxLongs = MAX(kind) / 64 + 1;
-private static final long[] jjcurActive = new long[2];
-private static final long[] jjnewActive = new long[2];
+private static final long[] jjcurActive = new long[${maxLongs}];
+private static final long[] jjnewActive = new long[${maxLongs}];
 private static final int jjRunDfa() {
   int curPos = 0;
-  for (int i = 0; i < 2; i++) jjcurActive[i] = 0xffffffffffffffffL;
+  for (int i = 0; i < ${maxLongs}; i++) jjcurActive[i] = 0xffffffffffffffffL;
   do {
     final long key = (long)curChar << 32 | curPos;
     // Algorithm: Keep trying to match a DFA as long as there is one
@@ -156,7 +162,11 @@ private static final int jjRunDfa() {
           jjmatchedKind = kind;
           int nfaState = kindAndNext[i + 1];
           if (nfaState != -1) {
-            return jjStartNfaWithStates_0(curPos, kind, nfaState);
+            jjmatchedKind = kind;
+            jjmatchedPos = curPos;
+            try { curChar = input_stream.readChar(); }
+            catch(java.io.IOException e) { return curPos + 1; }
+            return jjMoveNfa(nfaState, curPos + 1);
           }
         }
       }
@@ -176,24 +186,25 @@ private static final int jjRunDfa() {
       }
 
       if (continueDfa) {
-        for (int i = 0; i < 2; i++) jjnewActive[i] = 0L;
+        for (int i = 0; i < ${maxLongs}; i++) jjnewActive[i] = 0L;
         for (final int kind : validKind) {
           jjnewActive[kind >> 6] |= 1L << (kind % 64);
         }
-        for (int i = 0; i < 2; i++) jjcurActive[i] &= jjnewActive[i];
+        for (int i = 0; i < ${maxLongs}; i++) jjcurActive[i] &= jjnewActive[i];
       }
     }
 
     if (!continueDfa) {
       if (curPos == 0) return jjMoveNfa(0, 0);
-      return jjStartNfa_0(curPos - 1, jjcurActive);
+      return jjMoveNfa(jjStopStringLiteralDfa_0(curPos - 1, jjcurActive),
+                       curPos);
     }
 
     int i = 0;
-    for (; i < 2; i++) {
+    for (; i < ${maxLongs}; i++) {
       if (jjcurActive[i] != 0L) break;
     }
-    if (i == 2) {
+    if (i == ${maxLongs}) {
       // No more NFA or DFS possible so just return. For example, in Java
       // grammar, when curPos == 1 and curChar == "|" it will return a
       // "||" token as it is not a prefix of any other token.
@@ -210,6 +221,26 @@ private static final int jjRunDfa() {
     }
     curPos++;
   } while(true);
+}
+
+private static final int jjStopStringLiteralDfa_0(int pos, long[] active) {
+  final long[] data = dfaStopData[pos];
+  int sz = data.length;
+  if (sz == 0) return -1;
+  // Last two elements are kind and state.
+  for (int i = 0; i < sz; i += active.length + 3) {
+    for (int j = 0; j < active.length; j++) {
+      if ((active[j] & data[i + j]) != 0L) {
+        if (jjmatchedPos < (int)data[i + active.length] ||
+            (int)data[i + active.length + 1] < jjmatchedKind) {
+          jjmatchedKind = (int)data[i + active.length + 1];
+          jjmatchedPos = pos;
+        }
+        return (int)data[i + active.length + 2];
+      }
+    }
+  }
+  return -1;
 }
 
 // NFA related data, initialization and code.

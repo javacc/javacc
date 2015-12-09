@@ -2818,6 +2818,11 @@ public class NfaState
    static int[][][] statesForState;
    public static void DumpMoveNfa(CodeGenerator codeGenerator)
    {
+      if (Options.getTableDriven() && Main.lg.lexStateIndex == 0) {
+        GenerateNfaTables(codeGenerator);
+        return;
+      }
+
       //if (!boilerPlateDumped)
       //   PrintBoilerPlate(codeGenerator);
 
@@ -2870,9 +2875,6 @@ public class NfaState
 
       kinds[Main.lg.lexStateIndex] = kindsForStates;
 
-      if (Options.getTableDriven() && Main.lg.lexStateIndex == 0) {
-        GenerateNfaTables(codeGenerator);
-      }
       if (codeGenerator.isJavaLanguage()) {
         codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private int " +
                     "jjMoveNfa" + Main.lg.lexStateSuffix + "(int startState, int curPos)");
@@ -2880,14 +2882,6 @@ public class NfaState
         codeGenerator.generateMethodDefHeader("int", Main.lg.tokMgrClassName, "jjMoveNfa" + Main.lg.lexStateSuffix + "(int startState, int curPos)");
       }
       codeGenerator.genCodeLine("{");
-      if (Options.getTableDriven()) {
-        codeGenerator.genCodeLine("  if (true) return jjMoveNfa(startState, curPos);");
-        codeGenerator.genCodeLine("  assert(false);");
-        codeGenerator.genCodeLine("  return curPos;");
-        codeGenerator.genCodeLine("}");
-        return;
-      }
-
       if (generatedStates == 0)
       {
          codeGenerator.genCodeLine("   return curPos;");
