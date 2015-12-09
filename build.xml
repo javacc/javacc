@@ -495,6 +495,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <echo />
 
+    <mkdir dir="${test-tmp}/JavaCCGrammar" />
     <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
       <arg line="-OUTPUT_DIRECTORY=${test-tmp}/JavaCCGrammar examples/JavaCCGrammar/JavaCC.jj" />
     </java>
