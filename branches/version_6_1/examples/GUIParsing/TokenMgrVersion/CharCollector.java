@@ -165,6 +165,22 @@ public class CharCollector implements CharStream {
       return 0;
   }
 
+  public void setTrackLineColumn(boolean unused) {
+      return;
+  }
+
+  public final boolean getTrackLineColumn() {
+      return false;
+  }
+
+  public final int getTabSize() {
+      return 8;
+  }
+
+  public final void setTabSize(int unused) {
+      return;
+  }
+
   public final void backup(int amount) {
 
     inBuf += amount;

@@ -585,7 +585,7 @@ public static String staticString;
                       tokMgrClassName +
                       getFileExtension(Options.getOutputLanguage());
     
-    if (Options.getBuildParser()) {
+    if (Options.getBuildParser() || Options.getBuildTokenManager()) {
     	saveOutput(fileName);
     }
   }
