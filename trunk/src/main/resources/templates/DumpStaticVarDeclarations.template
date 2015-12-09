@@ -1,7 +1,9 @@
     ${STATIC?static :}protected ${charStreamName}  input_stream;
 
+#if !TABLE_DRIVEN
     ${STATIC?static :}private final int[] jjrounds = new int[${stateSetSize}];
     ${STATIC?static :}private final int[] jjstateSet = new int[2 * ${stateSetSize}];
+#fi
 
 #if hasActions
     private ${STATIC?static :}final StringBuilder jjimage = new StringBuilder();

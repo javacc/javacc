@@ -56,18 +56,20 @@
     0;
     curLexState = defaultLexState;
     input_stream = stream;
+#if !TABLE_DRIVEN
     ReInitRounds();
+#fi
   }
 
+#if !TABLE_DRIVEN
   ${STATIC?static :}private void ReInitRounds()
   {
     int i;
-#if !TABLE_DRIVEN
     jjround = 0x80000001;
-#fi
     for (i = ${stateSetSize}; i-- > 0;)
       jjrounds[i] = 0x80000000;
   }
+#fi
 
   /** Reinitialise parser. */
 #if TOKEN_MANAGER_USES_PARSER && !STATIC
@@ -86,7 +88,7 @@
   }
 
   /** Switch to specified lex state. */
-  ${STATIC?static :}public void SwitchTo(int lexState)
+  public ${STATIC?static :}void SwitchTo(int lexState)
   {
     if (lexState >= ${lexStateNameLength} || lexState < 0)
       throw new ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}.INVALID_LEXICAL_STATE);
@@ -330,6 +332,85 @@ private static final int jjMoveNfa(int startState, int curPos) {
   assert(false) :
       "Interal error. Please submit a bug at: http://javacc.java.net.";
   return curPos;
+}
+
+${STATIC?static :} int curLexState = 0;
+${STATIC?static :} int defaultLexState = 0;
+${STATIC?static :} int jjmatchedPos;
+${STATIC?static :} int jjmatchedKind;
+
+/** Get the next Token. */
+public ${STATIC?static :} Token getNextToken() {
+  Token specialToken = null;
+  Token matchedToken;
+  int curPos = 0;
+
+  EOFLoop :
+  for (;;)
+  {
+   try
+   {
+      curChar = input_stream.BeginToken();
+   }
+   catch(Exception e)
+   {
+      jjmatchedKind = 0;
+      jjmatchedPos = -1;
+      matchedToken = jjFillToken();
+      matchedToken.specialToken = specialToken;
+      return matchedToken;
+   }
+
+   jjmatchedKind = 0x7fffffff;
+   jjmatchedPos = 0;
+   curPos = jjRunDfa();
+   if (jjmatchedKind != 0x7fffffff)
+   {
+      if (jjmatchedPos + 1 < curPos)
+         input_stream.backup(curPos - jjmatchedPos - 1);
+      if ((jjtoToken[jjmatchedKind >> 6] & (1L << (jjmatchedKind & 077))) != 0L)
+      {
+         matchedToken = jjFillToken();
+         matchedToken.specialToken = specialToken;
+         return matchedToken;
+      }
+      else
+      {
+         if ((jjtoSpecial[jjmatchedKind >> 6] & (1L << (jjmatchedKind & 077))) != 0L)
+         {
+            matchedToken = jjFillToken();
+            if (specialToken == null)
+               specialToken = matchedToken;
+            else
+            {
+               matchedToken.specialToken = specialToken;
+               specialToken = (specialToken.next = matchedToken);
+            }
+         }
+         continue EOFLoop;
+      }
+   }
+   int error_line = input_stream.getEndLine();
+   int error_column = input_stream.getEndColumn();
+   String error_after = null;
+   boolean EOFSeen = false;
+   try { input_stream.readChar(); input_stream.backup(1); }
+   catch (java.io.IOException e1) {
+      EOFSeen = true;
+      error_after = curPos <= 1 ? "" : input_stream.GetImage();
+      if (curChar == '\n' || curChar == '\r') {
+         error_line++;
+         error_column = 0;
+      }
+      else
+         error_column++;
+   }
+   if (!EOFSeen) {
+      input_stream.backup(1);
+      error_after = curPos <= 1 ? "" : input_stream.GetImage();
+   }
+   throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column, error_after, curChar, TokenMgrError.LEXICAL_ERROR);
+  }
 }
 
 #fi

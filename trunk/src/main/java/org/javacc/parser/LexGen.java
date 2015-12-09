@@ -542,7 +542,7 @@ public static String staticString;
     if (!Options.getTableDriven()) NfaState.DumpNonAsciiMoveMethods(this);
     RStringLiteral.DumpStrLiteralImages(this);
     DumpFillToken();
-    DumpGetNextToken();
+    if (!Options.getTableDriven()) DumpGetNextToken();
 
     if (Options.getDebugTokenManager())
     {
@@ -862,10 +862,8 @@ public static String staticString;
     genCodeLine("");
     genCodeLine(staticString + "int curLexState = " + defaultLexState + ";");
     genCodeLine(staticString + "int defaultLexState = " + defaultLexState + ";");
-    if (!Options.getTableDriven()) {
-      genCodeLine(staticString + "int jjnewStateCnt;");
-      genCodeLine(staticString + "int jjround;");
-    }
+    genCodeLine(staticString + "int jjnewStateCnt;");
+    genCodeLine(staticString + "int jjround;");
     genCodeLine(staticString + "int jjmatchedPos;");
     genCodeLine(staticString + "int jjmatchedKind;");
     genCodeLine("");
@@ -1014,16 +1012,7 @@ public static String staticString;
             errorHandlingClass+".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
         "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
 
-      if (Options.getTableDriven()) {
-        if (maxLexStates > 1) {
-          JavaCCErrors.semantic_error("Table driven code generation cannot (yet) be used with lexical states");
-        }
-        JavaCCErrors.warning("Table driven code generation is experimental.");
-        genCodeLine(prefix + "curPos = jjRunDfa();");
-      } else {
-        genCodeLine(prefix + "curPos = jjMoveStringLiteralDfa0_" + i + "();");
-      }
-
+      genCodeLine(prefix + "curPos = jjMoveStringLiteralDfa0_" + i + "();");
       if (canMatchAnyChar[i] != -1)
       {
         if (initMatch[i] != Integer.MAX_VALUE && initMatch[i] != 0)
