@@ -143,8 +143,6 @@ public static String staticString;
 
     genCodeLine("");
     genCodeLine("/** Token Manager. */");
-    //genCodeLine("@SuppressWarnings(\"unused\")");
-    genAnnotation("SuppressWarnings(\"unused\")");
     if(Options.getSupportClassVisibilityPublic()) {
       //genModifier("public ");
       genModifier("public ");
@@ -557,12 +555,9 @@ public static String staticString;
       genCodeLine(staticString + "" + Options.getBooleanType() + "[] jjbeenHere = new " + Options.getBooleanType() + "[" + maxLexStates + "];");
     }
 
-    if (hasSkipActions)
-      DumpSkipActions();
-    if (hasMoreActions)
-      DumpMoreActions();
-    if (hasTokenActions)
-      DumpTokenActions();
+    DumpSkipActions();
+    DumpMoreActions();
+    DumpTokenActions();
 
     if (!Options.getTableDriven()) NfaState.PrintBoilerPlate(this);
 
@@ -680,7 +675,6 @@ public static String staticString;
       genCodeLine("   \"" + lexStateName[i] + "\",");
     genCodeLine("};");
 
-    if (maxLexStates > 1)
     {
       genCodeLine("");
       genCodeLine("/** Lex State array. */");
@@ -699,7 +693,6 @@ public static String staticString;
       genCodeLine("\n};");
     }
 
-    if (hasSkip || hasMore || hasSpecial)
     {
       // Bit vector for TOKEN
       genCode("static final long[] jjtoToken = {");
@@ -712,7 +705,6 @@ public static String staticString;
       genCodeLine("\n};");
     }
 
-    if (hasSkip || hasSpecial)
     {
       // Bit vector for SKIP
       genCode("static final long[] jjtoSkip = {");
@@ -725,7 +717,6 @@ public static String staticString;
       genCodeLine("\n};");
     }
 
-    if (hasSpecial)
     {
       // Bit vector for SPECIAL
       genCode("static final long[] jjtoSpecial = {");
@@ -738,7 +729,6 @@ public static String staticString;
       genCodeLine("\n};");
     }
 
-    if (hasMore)
     {
       // Bit vector for MORE
       genCode("static final long[] jjtoMore = {");
