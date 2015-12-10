@@ -136,8 +136,9 @@ static {
 // Bit vector to track possible kinds. maxLongs = MAX(kind) / 64 + 1;
 private static final long[] jjcurActive = new long[${maxLongs}];
 private static final long[] jjnewActive = new long[${maxLongs}];
-private static final int jjRunDfa() {
+private ${STATIC?static :}final int jjRunDfa() {
   int curPos = 0;
+  int nfaState = Integer.MAX_VALUE;
   for (int i = 0; i < ${maxLongs}; i++) jjcurActive[i] = 0xffffffffffffffffL;
   do {
     final long key = (long)curChar << 32 | curPos;
@@ -162,10 +163,8 @@ private static final int jjRunDfa() {
           // Store the kind matched so far.
           jjmatchedPos = curPos;
           jjmatchedKind = kind;
-          int nfaState = kindAndNext[i + 1];
-          if (nfaState != -1) {
-            jjmatchedKind = kind;
-            jjmatchedPos = curPos;
+          nfaState = kindAndNext[i + 1];
+          if (nfaState > 0) {
             try { curChar = input_stream.readChar(); }
             catch(java.io.IOException e) { return curPos + 1; }
             return jjMoveNfa(nfaState, curPos + 1);
@@ -197,9 +196,14 @@ private static final int jjRunDfa() {
     }
 
     if (!continueDfa) {
-      if (curPos == 0) return jjMoveNfa(0, 0);
-      return jjMoveNfa(jjStopStringLiteralDfa_0(curPos - 1, jjcurActive),
-                       curPos);
+      if (nfaState != Integer.MAX_VALUE) {
+        input_stream.backup(curPos - jjmatchedPos);
+        try { curChar = input_stream.readChar(); }
+        catch(java.io.IOException e) { return jjmatchedPos + 1; }
+        return jjMoveNfa(-nfaState, jjmatchedPos + 1);
+      }
+      input_stream.backup(curPos);
+      return jjMoveNfa(0,0);
     }
 
     int i = 0;
@@ -218,31 +222,17 @@ private static final int jjRunDfa() {
       // We cannot update curChar unless we can actually advance the stream.
       curChar = input_stream.readChar();
     } catch(java.io.IOException e) {
-      // No more input so curPos and curChar are used to start the NFA.
-      return jjStopStringLiteralDfa_0(curPos, jjcurActive);
+      if (nfaState != Integer.MAX_VALUE) {
+        input_stream.backup(curPos - jjmatchedPos);
+        try { curChar = input_stream.readChar(); }
+        catch(java.io.IOException e2) { return jjmatchedPos + 1; }
+        return jjMoveNfa(-nfaState, jjmatchedPos + 1);
+      }
+      input_stream.backup(curPos);
+      return jjMoveNfa(0,0);
     }
     curPos++;
   } while(true);
-}
-
-private static final int jjStopStringLiteralDfa_0(int pos, long[] active) {
-  final long[] data = dfaStopData[pos];
-  int sz = data.length;
-  if (sz == 0) return -1;
-  // Last two elements are kind and state.
-  for (int i = 0; i < sz; i += active.length + 3) {
-    for (int j = 0; j < active.length; j++) {
-      if ((active[j] & data[i + j]) != 0L) {
-        if (jjmatchedPos < (int)data[i + active.length] ||
-            (int)data[i + active.length + 1] < jjmatchedKind) {
-          jjmatchedKind = (int)data[i + active.length + 1];
-          jjmatchedPos = pos;
-        }
-        return (int)data[i + active.length + 2];
-      }
-    }
-  }
-  return -1;
 }
 
 // NFA related data, initialization and code.
@@ -264,7 +254,7 @@ private static  int[] newStateSet = new int[${generatedStates}];
 private static  final long[] moved = new long[${generatedStates}];
 private static long moveIndex = 0L;
 
-private static final int jjMoveNfa(int startState, int curPos) {
+private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
 
   if (startState < 0) {
     return curPos + 1;
@@ -334,8 +324,8 @@ private static final int jjMoveNfa(int startState, int curPos) {
   return curPos;
 }
 
-${STATIC?static :} int curLexState = 0;
-${STATIC?static :} int defaultLexState = 0;
+${STATIC?static :} int defaultLexState = ${defaultLexState};
+${STATIC?static :} int curLexState = ${defaultLexState};
 ${STATIC?static :} int jjmatchedPos;
 ${STATIC?static :} int jjmatchedKind;
 

@@ -580,6 +580,7 @@ public static String staticString;
     writeTemplate(BOILERPLATER_METHOD_RESOURCE_URL,
       "charStreamName", charStreamName,
       "lexStateNameLength", lexStateName.length,
+      "defaultLexState", defaultLexState,
       "generatedStates", NfaState.generatedStates);
 
     DumpStaticVarDeclarations(charStreamName);
