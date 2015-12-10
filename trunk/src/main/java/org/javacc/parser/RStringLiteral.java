@@ -1699,8 +1699,7 @@ public class RStringLiteral extends RegularExpression {
              codeGenerator.genCode(", ");
              codeGenerator.genCode(kind);
              codeGenerator.genCode(", ");
-             codeGenerator.genCodeLine(
-                 (subString[kind] ? -1 : 1) * GetStateSetForKind(i, kind));
+             codeGenerator.genCodeLine(GetStateSetForKind(i, kind));
            }
            codeGenerator.genCode(", ");
            codeGenerator.genCode(info.validKindSet.size());
