@@ -98,6 +98,7 @@
 
 #if TABLE_DRIVEN
 
+#if !NO_DFA
 private static final java.util.Map<Long, int[]> finalStates =
     new java.util.HashMap<Long, int[]>();
 private static final java.util.Map<Long, int[]> validKinds =
@@ -133,7 +134,7 @@ static {
   }
 }
 
-// Bit vector to track possible kinds. maxLongs = MAX(kind) / 64 + 1;
+// Bit vector to track possible kinds. maxLongs = (MAX(kind) >> 6) + 1;
 private static final long[] jjcurActive = new long[${maxLongs}];
 private static final long[] jjnewActive = new long[${maxLongs}];
 private ${STATIC?static :}final int jjRunStringLiteralMatch() {
@@ -231,10 +232,11 @@ private ${STATIC?static :} final int backTrackToNfa(int nfaState, int curPos) {
   catch(java.io.IOException e) { assert(false); }
   return jjMoveNfa(0, 0);
 }
+#fi
 
 // NFA related data, initialization and code.
 private static final long[][] jjChars =
-    new long[${generatedStates}][Character.MAX_VALUE/64 + 1];
+    new long[${generatedStates}][(Character.MAX_VALUE >> 6) + 1];
 static {
   for (int i = 0; i < ${generatedStates}; i++) {
     int ind = 0;
@@ -277,7 +279,7 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
       for (int i = 0; i < ${generatedStates}; i++) moved[i] = 0L;
       moveIndex = 1L;
     }
-    final int vectorIndex = curChar / 64;
+    final int vectorIndex = curChar >> 6;
     final long bitpattern = (1L << (curChar & 077));
     do {
       final int state = stateSet[--cnt];
@@ -366,7 +368,11 @@ public ${STATIC?static :} Token getNextToken() {
     // i.e., smallest kind value matched should be used.
     jjmatchedKind = Integer.MAX_VALUE;
     jjmatchedPos = 0;
+#if !NO_DFA
     lastReadPosition = jjRunStringLiteralMatch();
+#else
+    lastReadPosition = jjMoveNfa(0, 0);
+#fi
     if (jjmatchedKind != Integer.MAX_VALUE) {
       // We have a match!
 
