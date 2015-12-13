@@ -407,7 +407,7 @@ public static String staticString;
             continue;
           }
 
-          if (curRE instanceof RStringLiteral &&
+          if (!Options.getNoDfa() && curRE instanceof RStringLiteral &&
               !((RStringLiteral)curRE).image.equals(""))
           {
             ((RStringLiteral)curRE).GenerateDfa(this, curRE.ordinal);
@@ -576,6 +576,7 @@ public static String staticString;
       "charStreamName", charStreamName,
       "lexStateNameLength", lexStateName.length,
       "defaultLexState", defaultLexState,
+      "noDfa", Options.getNoDfa(),
       "generatedStates", NfaState.generatedStates);
 
     DumpStaticVarDeclarations(charStreamName);
