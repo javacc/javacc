@@ -1678,6 +1678,14 @@ public class RStringLiteral extends RegularExpression {
       if (allImages[kind] == null || allImages[kind].equals("")) continue;
       String s = allImages[kind];
       kindMap.put(s, kind);
+      if (intermediateKinds[kind][s.length() - 1] != Integer.MAX_VALUE &&
+          intermediateKinds[kind][s.length() - 1] < kind) {
+        JavaCCErrors.warning("Token: " + s + " will not be matched as " +
+                             "specified. It will be matched as token: " +
+                             intermediateKinds[kind][s.length() - 1] +
+                             " instead.");
+        kindMap.put(s, intermediateKinds[kind][s.length() - 1]);
+      }
       char c = s.charAt(0);
       int key = (int)Main.lg.lexStateIndex << 16 | (int)c;
       List<String> l = longestFirst.get(key);
