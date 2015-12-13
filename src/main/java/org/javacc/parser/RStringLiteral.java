@@ -33,9 +33,11 @@ package org.javacc.parser;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 final class KindInfo
@@ -1624,8 +1626,8 @@ public class RStringLiteral extends RegularExpression {
            info = (KindInfo)tab.get(key);
            char c = key.charAt(0);
            for (int kind : info.finalKindSet) {
-             tokenizerData.addDfaFinalKindAndState(i, c, kind,
-                 subString[kind] ? -1 : GetStateSetForKind(i, kind));
+             tokenizerData.addDfaFinalKindAndState(
+                 i, c, kind, GetStateSetForKind(i, kind));
            }
            for (int kind : info.validKindSet) {
              tokenizerData.addDfaValidKind(i, c, kind);
@@ -1668,48 +1670,59 @@ public class RStringLiteral extends RegularExpression {
 */
 
   static void DumpDfaTable(CodeGenerator codeGenerator) {
-     Hashtable tab;
-     String key;
-     KindInfo info;
-     codeGenerator.genCodeLine(
-         "private static final int[] charPosTransitions = {");
-     for (int i = 0; i < maxLen; i++) {
-        if (i > 0) codeGenerator.genCode(", ");
-        codeGenerator.genCodeLine(i);
-        tab = (Hashtable)charPosKind.get(i);
-        String[] keys = ReArrange(tab);
-        if (Options.getIgnoreCase()) {
-          for (String s : keys) {
-            char c = s.charAt(0); 
-            tab.put(Character.toLowerCase(c), tab.get(c));
-            tab.put(Character.toUpperCase(c), tab.get(c));
-          }
+    int stateIndex = 0;
+    Map<Integer, List<String>> longestFirst =
+        new HashMap<Integer, List<String>>();
+    Map<String, Integer> kindMap = new HashMap<String, Integer>();
+    for (int kind = 0; kind < allImages.length; kind++) {
+      if (allImages[kind] == null || allImages[kind].equals("")) continue;
+      String s = allImages[kind];
+      kindMap.put(s, kind);
+      char c = s.charAt(0);
+      int key = (int)Main.lg.lexStateIndex << 16 | (int)c;
+      List<String> l = longestFirst.get(key);
+      int j = 0;
+      if (l == null) longestFirst.put(key, l = new ArrayList<String>());
+      while (j < l.size() && l.get(j).length() > s.length()) j++;
+      l.add(j, s);
+    }
+
+    Map<Integer, int[]> startAndSize = new HashMap<Integer, int[]>();
+    int i = 0;
+    codeGenerator.genCodeLine(
+        "private static final int[] stringLiterals = {");
+    for (int key : longestFirst.keySet()) {
+      int[] arr = new int[2];
+      List<String> l = longestFirst.get(key);
+      arr[0] = i;
+      arr[1] = l.size();
+      int j = 0;
+      if (i > 0) codeGenerator.genCodeLine(", ");
+      for (String s : l) {
+        if (j++ > 0) codeGenerator.genCodeLine(", ");
+        codeGenerator.genCode(s.length());
+        for (int k = 0; k < s.length(); k++) {
+          codeGenerator.genCode(", ");
+          codeGenerator.genCode((int)s.charAt(k));
+          i++;
         }
-        codeGenerator.genCode(", ");
-        codeGenerator.genCodeLine(keys.length);
-        for (int q = 0; q < keys.length; q++) {
-           key = keys[q];
-           info = (KindInfo)tab.get(key);
-           char c = key.charAt(0);
-           codeGenerator.genCode(", ");
-           codeGenerator.genCodeLine((int)c);
-           codeGenerator.genCode(", ");
-           codeGenerator.genCode(info.finalKindSet.size());
-           for (int kind : info.finalKindSet) {
-             codeGenerator.genCode(", ");
-             codeGenerator.genCode(kind);
-             codeGenerator.genCode(", ");
-             codeGenerator.genCodeLine(GetStateSetForKind(i, kind));
-           }
-           codeGenerator.genCode(", ");
-           codeGenerator.genCode(info.validKindSet.size());
-           for (int kind : info.validKindSet) {
-             codeGenerator.genCode(", ");
-             codeGenerator.genCode(kind);
-           }
-           codeGenerator.genCodeLine("");
-        }
-     }
-     codeGenerator.genCodeLine("};");
+        int kind = kindMap.get(s);
+        codeGenerator.genCode(", " + kind);
+        codeGenerator.genCode(", " + GetStateSetForKind(s.length() - 1, kind));
+        i += 3;
+      }
+      startAndSize.put(key, arr);
+    }
+    codeGenerator.genCodeLine("};");
+    codeGenerator.genCodeLine(
+        "private static final java.util.Map<Integer, int[]> startAndSize =\n" +
+        "    new java.util.HashMap<Integer, int[]>();");
+    codeGenerator.genCodeLine("static {");
+    for (int key : longestFirst.keySet()) {
+      int[] arr = startAndSize.get(key);
+      codeGenerator.genCodeLine("startAndSize.put(" + key + ", new int[]{" +
+                                 arr[0] + ", " + arr[1] + "});");
+    }
+    codeGenerator.genCodeLine("}");
   }
 }
