@@ -684,11 +684,6 @@ public class RStringLiteral extends RegularExpression {
      boolean ifGenerated;
      Main.lg.maxLongsReqd[Main.lg.lexStateIndex] = maxLongsReqd;
 
-     if (Options.getTableDriven() && Main.lg.lexStateIndex == 0) {
-       DumpDfaTable(codeGenerator);
-       return;
-     }
-
      if (maxLen == 0)
      {
     	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
@@ -1669,55 +1664,85 @@ public class RStringLiteral extends RegularExpression {
   }
 */
 
-  static void DumpDfaTable(CodeGenerator codeGenerator) {
-    int stateIndex = 0;
-    Map<Integer, List<String>> longestFirst =
-        new HashMap<Integer, List<String>>();
-    Map<String, Integer> kindMap = new HashMap<String, Integer>();
+  private static final Map<Integer, List<String>> literalsByLength =
+      new HashMap<Integer, List<String>>();
+  private static final Map<Integer, List<Integer>> literalKinds =
+      new HashMap<Integer, List<Integer>>();
+  private static final Map<Integer, Integer> kindToLexicalState =
+      new HashMap<Integer, Integer>();
+  private static final Map<Integer, Integer> nfaStateOffset =
+      new HashMap<Integer, Integer>();
+  private static final Map<Integer, Integer> nfaStateMap =
+      new HashMap<Integer, Integer>();
+  public static void UpdateStringLiteralData(
+      int generatedNfaStates, int lexStateIndex) {
+    nfaStateOffset.put(lexStateIndex, generatedNfaStates);
     for (int kind = 0; kind < allImages.length; kind++) {
-      if (allImages[kind] == null || allImages[kind].equals("")) continue;
+      if (allImages[kind] == null || allImages[kind].equals("") ||
+          Main.lg.lexStates[kind] != lexStateIndex) {
+        continue;
+      }
       String s = allImages[kind];
-      kindMap.put(s, kind);
-      if (intermediateKinds[kind][s.length() - 1] != Integer.MAX_VALUE &&
+      int actualKind;
+      if (intermediateKinds != null &&
+          intermediateKinds[kind][s.length() - 1] != Integer.MAX_VALUE &&
           intermediateKinds[kind][s.length() - 1] < kind) {
         JavaCCErrors.warning("Token: " + s + " will not be matched as " +
-                             "specified. It will be matched as token: " +
+                             "specified. It will be matched as token " +
+                             "of kind: " +
                              intermediateKinds[kind][s.length() - 1] +
                              " instead.");
-        kindMap.put(s, intermediateKinds[kind][s.length() - 1]);
+        actualKind = intermediateKinds[kind][s.length() - 1];
+      } else {
+        actualKind = kind;
       }
+      kindToLexicalState.put(actualKind, lexStateIndex);
       char c = s.charAt(0);
       int key = (int)Main.lg.lexStateIndex << 16 | (int)c;
-      List<String> l = longestFirst.get(key);
+      List<String> l = literalsByLength.get(key);
+      List<Integer> kinds = literalKinds.get(key);
       int j = 0;
-      if (l == null) longestFirst.put(key, l = new ArrayList<String>());
+      if (l == null) {
+        literalsByLength.put(key, l = new ArrayList<String>());
+        assert(kinds == null);
+        kinds = new ArrayList<Integer>();
+        literalKinds.put(key, kinds = new ArrayList<Integer>());
+      }
       while (j < l.size() && l.get(j).length() > s.length()) j++;
       l.add(j, s);
+      kinds.add(j, actualKind);
+      nfaStateMap.put(actualKind, GetStateSetForKind(s.length() - 1, kind));
     }
+  }
 
+  static void DumpDfaTables(CodeGenerator codeGenerator) {
     Map<Integer, int[]> startAndSize = new HashMap<Integer, int[]>();
     int i = 0;
     codeGenerator.genCodeLine(
         "private static final int[] stringLiterals = {");
-    for (int key : longestFirst.keySet()) {
+    for (int key : literalsByLength.keySet()) {
       int[] arr = new int[2];
-      List<String> l = longestFirst.get(key);
+      List<String> l = literalsByLength.get(key);
+      List<Integer> kinds = literalKinds.get(key);
       arr[0] = i;
       arr[1] = l.size();
       int j = 0;
       if (i > 0) codeGenerator.genCodeLine(", ");
       for (String s : l) {
-        if (j++ > 0) codeGenerator.genCodeLine(", ");
+        if (j > 0) codeGenerator.genCodeLine(", ");
         codeGenerator.genCode(s.length());
         for (int k = 0; k < s.length(); k++) {
           codeGenerator.genCode(", ");
           codeGenerator.genCode((int)s.charAt(k));
           i++;
         }
-        int kind = kindMap.get(s);
+        int kind = kinds.get(j);
         codeGenerator.genCode(", " + kind);
-        codeGenerator.genCode(", " + GetStateSetForKind(s.length() - 1, kind));
+        codeGenerator.genCode(
+            ", " + (nfaStateMap.get(kind) +
+            nfaStateOffset.get(kindToLexicalState.get(kind))));
         i += 3;
+        j++;
       }
       startAndSize.put(key, arr);
     }
@@ -1726,7 +1751,7 @@ public class RStringLiteral extends RegularExpression {
         "private static final java.util.Map<Integer, int[]> startAndSize =\n" +
         "    new java.util.HashMap<Integer, int[]>();");
     codeGenerator.genCodeLine("static {");
-    for (int key : longestFirst.keySet()) {
+    for (int key : literalsByLength.keySet()) {
       int[] arr = startAndSize.get(key);
       codeGenerator.genCodeLine("startAndSize.put(" + key + ", new int[]{" +
                                  arr[0] + ", " + arr[1] + "});");

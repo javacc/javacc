@@ -34,9 +34,11 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -1224,14 +1226,14 @@ public class NfaState
       return -1;
    }
 
-   public void GenerateInitMoves(CodeGenerator codeGenerator)
+   public int GenerateInitMoves(CodeGenerator codeGenerator)
    {
       GetEpsilonMovesString();
 
       if (epsilonMovesString == null)
          epsilonMovesString = "null;";
 
-      AddStartStateSet(epsilonMovesString);
+      return AddStartStateSet(epsilonMovesString);
    }
 
    static Hashtable tableToDump = new Hashtable();
@@ -2818,11 +2820,6 @@ public class NfaState
    static int[][][] statesForState;
    public static void DumpMoveNfa(CodeGenerator codeGenerator)
    {
-      if (Options.getTableDriven() && Main.lg.lexStateIndex == 0) {
-        GenerateNfaTables(codeGenerator);
-        return;
-      }
-
       //if (!boilerPlateDumped)
       //   PrintBoilerPlate(codeGenerator);
 
@@ -3284,26 +3281,68 @@ public class NfaState
       statesForState = null;
    }
 
-   static void GenerateNfaTables(CodeGenerator codeGenerator) {
-     final List<NfaState> nfaStateSet = new ArrayList<NfaState>();
-     final List<Set<Integer>> setOfSets = new ArrayList<Set<Integer>>();
-
+   private static final Map<Integer, NfaState> initialStates =
+       new HashMap<Integer, NfaState>();
+   private static final Map<Integer, List<NfaState>> statesForLexicalState =
+       new HashMap<Integer, List<NfaState>>();
+   private static final Map<Integer, Integer> nfaStateOffset =
+       new HashMap<Integer, Integer>();
+   private static final Map<Integer, Integer> matchAnyChar =
+       new HashMap<Integer, Integer>();
+   static void UpdateNfaData(
+       int maxState, int startStateName, int lexicalStateIndex,
+       int matchAnyCharKind) {
      // Cleanup the state set.
      final Set<Integer> done = new HashSet<Integer>();
-     NfaState[] cleanStates = new NfaState[generatedStates];
+     List<NfaState> cleanStates = new ArrayList<NfaState>();
+     NfaState startState = null;
      for (int i = 0; i < allStates.size(); i++) {
        NfaState tmp = (NfaState)allStates.get(i);
        if (tmp.stateName == -1) continue;
        if (done.contains(tmp.stateName)) continue;
-       cleanStates[tmp.stateName] = tmp;
+       done.add(tmp.stateName);
+       cleanStates.add(tmp);
+       if (tmp.stateName == startStateName) {
+         startState = tmp;
+       }
      }
 
-     final BitSet negated = new BitSet(generatedStates);
+     initialStates.put(lexicalStateIndex, startState);
+     statesForLexicalState.put(lexicalStateIndex, cleanStates);
+     nfaStateOffset.put(lexicalStateIndex, maxState);
+     if (matchAnyCharKind > 0) {
+       matchAnyChar.put(lexicalStateIndex, matchAnyCharKind);
+     } else {
+       matchAnyChar.put(lexicalStateIndex, Integer.MAX_VALUE);
+     }
+   }
+
+   public static void DumpNfaTables(CodeGenerator codeGenerator) {
+     List<NfaState> cleanStateList = new ArrayList<NfaState>();
+     for (int l : statesForLexicalState.keySet()) {
+       List<NfaState> states = statesForLexicalState.get(l);
+       int offset = nfaStateOffset.get(l);
+       for (int i = 0; i < states.size(); i++) {
+         NfaState state = states.get(i);
+         if (state.stateName == -1) continue;
+         states.get(i).stateName += offset;
+       }
+       cleanStateList.addAll(states);
+     }
+     NfaState[] cleanStates = new NfaState[cleanStateList.size()];
+     for (NfaState s : cleanStateList) {
+       assert(cleanStates[s.stateName] == null);
+       cleanStates[s.stateName] = s;
+     }
      codeGenerator.genCodeLine("private static final long[][] jjCharData = {");
      for (int i = 0; i < cleanStates.length; i++) {
-       NfaState tmp = (NfaState)cleanStates[i];
+       NfaState tmp = cleanStates[i];
        if (i > 0) codeGenerator.genCodeLine(",");
        codeGenerator.genCode("{");
+       if (tmp == null) {
+         codeGenerator.genCode("}");
+         continue;
+       }
        int cnt = 0;
        List<Character> ranges = new ArrayList<Character>();
        BitSet bits = new BitSet();
@@ -3330,10 +3369,10 @@ public class NfaState
      codeGenerator.genCodeLine(
          "private static final int[][] jjcompositeState = {");
      for (int i = 0; i < cleanStates.length; i++) {
-       NfaState tmp = (NfaState)cleanStates[i];
+       NfaState tmp = cleanStates[i];
        if (i > 0) codeGenerator.genCodeLine(", ");
        codeGenerator.genCode("{");
-       if (tmp.isComposite) {
+       if (tmp != null && tmp.isComposite) {
          int k = 0;
          for (int st : tmp.compositeStates) {
            if (k++ > 0) codeGenerator.genCode(", ");
@@ -3346,16 +3385,25 @@ public class NfaState
 
      codeGenerator.genCodeLine("private static final int[] jjmatchKinds = {");
      for (int i = 0; i < cleanStates.length; i++) {
-       NfaState tmp = (NfaState)cleanStates[i];
+       NfaState tmp = cleanStates[i];
        if (i > 0) codeGenerator.genCodeLine(", ");
+       if (tmp == null) {
+         codeGenerator.genCode(Integer.MAX_VALUE);
+         continue;
+       }
        codeGenerator.genCode(tmp.kindToPrint);
      }
      codeGenerator.genCodeLine("};");
 
-     codeGenerator.genCodeLine("private static final int[][]  jjnextStateSet = {");
+     codeGenerator.genCodeLine(
+         "private static final int[][]  jjnextStateSet = {");
      for (int i = 0; i < cleanStates.length; i++) {
-       NfaState tmp = (NfaState)cleanStates[i];
+       NfaState tmp = cleanStates[i];
        if (i > 0) codeGenerator.genCodeLine(", ");
+       if (tmp == null) {
+         codeGenerator.genCode("{}");
+         continue;
+       }
        NfaState[] states = tmp.next.epsilonMoveArray;
        Set<Integer> nextStates = new HashSet<Integer>();
        for (NfaState s : states) {
@@ -3371,6 +3419,32 @@ public class NfaState
          codeGenerator.genCode(s);
        }
        codeGenerator.genCode("}");
+     }
+     codeGenerator.genCodeLine("};");
+     codeGenerator.genCodeLine(
+         "private static final int[] jjInitStates  = {");
+     NfaState[] initStateArr = new NfaState[initialStates.size()];
+     for (int l : initialStates.keySet()) {
+       initStateArr[l] = initialStates.get(l);
+     }
+     for (int k = 0; k < initStateArr.length; k++) {
+       if (k > 0) codeGenerator.genCode(", ");
+       if (initStateArr[k] == null) {
+         codeGenerator.genCode("-1");
+       } else {
+         codeGenerator.genCode(initStateArr[k].stateName);
+       }
+     }
+     int[] anyCharKind = new int[matchAnyChar.size()];
+     for (int i : matchAnyChar.keySet()) {
+       anyCharKind[i] = matchAnyChar.get(i);
+     }
+     codeGenerator.genCodeLine("};");
+     codeGenerator.genCodeLine(
+         "private static final int[] canMatchAnyChar = {");
+     for (int k = 0; k < anyCharKind.length; k++) {
+       if (k > 0) codeGenerator.genCode(", ");
+       codeGenerator.genCode(anyCharKind[k]);
      }
      codeGenerator.genCodeLine("};");
    }

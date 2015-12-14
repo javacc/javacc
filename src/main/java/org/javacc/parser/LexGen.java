@@ -66,6 +66,7 @@ public static String staticString;
   public static Action[] actions;
   public static Hashtable initStates = new Hashtable();
   public static int stateSetSize;
+  public static int totalNumStates;
   public static int maxLexStates;
   public static String[] lexStateName;
   static NfaState[] singlesToSkip;
@@ -365,6 +366,7 @@ public static String staticString;
 
     while (e.hasMoreElements())
     {
+      int startState = -1;
       NfaState.ReInit();
       RStringLiteral.ReInit();
 
@@ -495,7 +497,7 @@ public static String staticString;
       if (hasNfa[lexStateIndex] = (NfaState.generatedStates != 0))
       {
         initialState.GenerateCode();
-        initialState.GenerateInitMoves(this);
+        startState = initialState.GenerateInitMoves(this);
       }
 
       if (initialState.kind != Integer.MAX_VALUE && initialState.kind != 0)
@@ -523,11 +525,17 @@ public static String staticString;
       if (hasNfa[lexStateIndex] && !mixed[lexStateIndex])
         RStringLiteral.GenerateNfaStartStates(this, initialState);
 
-      RStringLiteral.DumpDfaCode(this);
-
-      if (hasNfa[lexStateIndex])
-        NfaState.DumpMoveNfa(this);
-
+      if (Options.getTableDriven()) {
+        RStringLiteral.UpdateStringLiteralData(stateSetSize, lexStateIndex);
+        NfaState.UpdateNfaData(stateSetSize, startState, lexStateIndex,
+                               canMatchAnyChar[lexStateIndex]);
+      } else {
+        RStringLiteral.DumpDfaCode(this);
+        if (hasNfa[lexStateIndex]) {
+          NfaState.DumpMoveNfa(this);
+        }
+      }
+      totalNumStates += NfaState.generatedStates;
       if (stateSetSize < NfaState.generatedStates)
         stateSetSize = NfaState.generatedStates;
     }
@@ -535,12 +543,18 @@ public static String staticString;
     for (i = 0; i < choices.size(); i++)
       ((RChoice)choices.get(i)).CheckUnmatchability();
 
-    if (!Options.getTableDriven()) NfaState.DumpStateSets(this);
     CheckEmptyStringMatch();
-    if (!Options.getTableDriven()) NfaState.DumpNonAsciiMoveMethods(this);
     RStringLiteral.DumpStrLiteralImages(this);
-    DumpFillToken();
-    if (!Options.getTableDriven()) DumpGetNextToken();
+
+    if (Options.getTableDriven()) {
+      RStringLiteral.DumpDfaTables(this);
+      NfaState.DumpNfaTables(this);
+    } else {
+      DumpFillToken();
+      NfaState.DumpStateSets(this);
+      NfaState.DumpNonAsciiMoveMethods(this);
+      DumpGetNextToken();
+    }
 
     if (Options.getDebugTokenManager())
     {
@@ -577,7 +591,7 @@ public static String staticString;
       "lexStateNameLength", lexStateName.length,
       "defaultLexState", defaultLexState,
       "noDfa", Options.getNoDfa(),
-      "generatedStates", NfaState.generatedStates);
+      "generatedStates", totalNumStates);
 
     DumpStaticVarDeclarations(charStreamName);
     genCodeLine(/*{*/ "}");
