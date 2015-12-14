@@ -103,12 +103,21 @@ private ${STATIC?static :}final int jjRunStringLiteralMatch() {
   int curPos = 0;
   final int key = (int)curLexState << 16 | curChar;
   final int[] arr = startAndSize.get(key);
-  int startState = 0;
+  int startState = jjInitStates[curLexState];
   if (arr != null) {
     int index = arr[0];
     for (int i = 0; i < arr[1]; i++) {
       final int len = stringLiterals[index++];
+#if DEBUG_TOKEN_MANAGER
+      System.err.println(
+          "Looking for string literal match of kind: " +
+          stringLiterals[index + len] +
+          "; token image: " + tokenImage[stringLiterals[index + len]]);
+#fi
       do {
+#if DEBUG_TOKEN_MANAGER
+      System.err.println("Cur char: '" + (char)curChar + "'");
+#fi
         if (curChar != stringLiterals[index + curPos]) break;
         if (++curPos == len) break;
         try {
@@ -122,6 +131,12 @@ private ${STATIC?static :}final int jjRunStringLiteralMatch() {
         jjmatchedKind = stringLiterals[index + len];
         jjmatchedPos = curPos;
         startState = stringLiterals[index + len + 1];
+#if DEBUG_TOKEN_MANAGER
+        System.err.println(
+            "Currently matched the first: " + jjmatchedPos +
+            " chars as kind: " + stringLiterals[index + len] +
+            "; with image: " + tokenImage[jjmatchedKind]);
+#fi
         try {
           curChar = input_stream.readChar();
         } catch(java.io.IOException e) {
@@ -140,6 +155,11 @@ private ${STATIC?static :}final int jjRunStringLiteralMatch() {
         }
       }
     }
+  } else {
+#if DEBUG_TOKEN_MANAGER
+      System.err.println(
+          "No string literal start with char: '" + (char)curChar + "'");
+#fi
   }
   return jjMoveNfa(startState, curPos);
 }
@@ -167,6 +187,9 @@ private static long moveIndex = 0L;
 private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
 
   if (startState < 0) {
+#if DEBUG_TOKEN_MANAGER
+  System.err.println("No NFA state at pos: " + curPos);
+#fi
     return curPos;
   }
 
@@ -184,7 +207,13 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
       moved[s] = moveIndex;
     }
   }
+#if DEBUG_TOKEN_MANAGER
+  System.err.println("Starting NFA with start state: " + startState);
+#fi
   do {
+#if DEBUG_TOKEN_MANAGER
+    System.err.println("Cur char: '" + (char)curChar + "'");
+#fi
     int newCnt = 0;
     if (++moveIndex == Long.MAX_VALUE) {
       for (int i = 0; i < ${generatedStates}; i++) moved[i] = 0L;
@@ -194,6 +223,12 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
     final long bitpattern = (1L << (curChar & 077));
     do {
       final int state = stateSet[--cnt];
+#if DEBUG_TOKEN_MANAGER
+      System.err.println(
+         "Looking to move from state: " + state + "; for: " +
+         (jjmatchKinds[state] != Integer.MAX_VALUE
+              ? tokenImage[jjmatchKinds[state]] : " <UNKNOWN>"));
+#fi
       if ((jjChars[state][vectorIndex] & bitpattern) != 0L) {
         for (int newState : jjnextStateSet[state]) {
           if (moved[newState] != moveIndex) {
@@ -202,7 +237,15 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
           }
         }
         final int newKind = jjmatchKinds[state];
-        if (kind > newKind) kind = newKind;
+        if (kind > newKind) {
+          kind = newKind;
+#if DEBUG_TOKEN_MANAGER
+          System.err.println(
+              "Found a match of kind: " + kind + "; kind: " +
+              tokenImage[kind] + " using the first: " + curPos +
+              " characters.");
+#fi
+        }
       }
     } while (cnt > 0);
 
@@ -217,11 +260,17 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
     newStateSet = tmp;
     cnt = newCnt;
     if (newCnt == 0) {
+#if DEBUG_TOKEN_MANAGER
+      System.err.println("Done with NFA at pos: " + curPos);
+#fi
       return curPos;
     }
     try {
       curChar = input_stream.readChar();
     } catch(java.io.IOException e) {
+#if DEBUG_TOKEN_MANAGER
+      System.err.println("Reached EOF here at pos: " + curPos);
+#fi
       return curPos;
     }
     ++curPos;
@@ -236,8 +285,9 @@ private ${STATIC?static :} int defaultLexState = ${defaultLexState};
 private ${STATIC?static :} int curLexState = ${defaultLexState};
 private ${STATIC?static :} int jjmatchedPos;
 private ${STATIC?static :} int jjmatchedKind;
-private ${STATIC?static :} int jjimageLen;
-private ${STATIC?static :} int lengthOfMatch;;
+// private ${STATIC?static :} int lengthOfMatch;;
+// private ${STATIC?static :} String image;
+// private ${STATIC?static :} int jjimageLen;
 
 public static final boolean isToken(int kind) {
   return (jjtoToken[kind >> 6] & (1L << (kind & 077))) != 0L;
@@ -255,6 +305,56 @@ public static final boolean isMore(int kind) {
   return (jjtoMore[kind >> 6] & (1L << (kind & 077))) != 0L;
 }
 
+protected ${STATIC?static :} Token jjFillToken() {
+  final Token t;
+  final String curTokenImage;
+#if KEEP_LINE_COLUMN
+  final int beginLine;
+  final int endLine;
+  final int beginColumn;
+  final int endColumn;
+#fi
+  if (jjmatchedPos < 0) {
+    if (image == null) {
+      curTokenImage = "";
+    } else {
+      curTokenImage = image.toString();
+    }
+#if KEEP_LINE_COLUMN
+    beginLine = endLine = input_stream.getEndLine();
+    beginColumn = endColumn = input_stream.getEndColumn();
+#fi
+  } else {
+    String im = jjstrLiteralImages[jjmatchedKind];
+    curTokenImage = (im == null) ? input_stream.GetImage() : im;
+#if KEEP_LINE_COLUMN
+    beginLine = input_stream.getBeginLine();
+    beginColumn = input_stream.getBeginColumn();
+    endLine = input_stream.getEndLine();
+    endColumn = input_stream.getEndColumn();
+#fi
+  }
+
+#if TOKEN_FACTORY
+    t = ${TOKEN_FACTORY}.newToken(jjmatchedKind, curTokenImage);
+#elif BINARY_NEW_TOKEN
+    t = Token.newToken(jjmatchedKind, curTokenImage);
+#else
+   t = Token.newToken(jjmatchedKind);
+   t.kind = jjmatchedKind;
+   t.image = curTokenImage;
+#fi
+
+#if KEEP_LINE_COLUMN
+   t.beginLine = beginLine;
+   t.endLine = endLine;
+   t.beginColumn = beginColumn;
+   t.endColumn = endColumn;
+#fi
+
+   return t;
+}
+
 /** Get the next Token. */
 public ${STATIC?static :} Token getNextToken() {
   Token specialToken = null;
@@ -267,6 +367,14 @@ public ${STATIC?static :} Token getNextToken() {
     try {
       curChar = input_stream.BeginToken();
     } catch(Exception e) {
+#if DEBUG_TOKEN_MANAGER
+    if (lexStateNames.length > 1) {
+      System.err.print("<" + lexStateNames[curLexState] + "> ");
+    }
+    System.err.println("Reached EOF at " +
+                       input_stream.getBeginLine() + ":" +
+                       input_stream.getBeginColumn());
+#fi
       // No input. So return EOF token.
       jjmatchedKind = EOF;
       jjmatchedPos = -1;
@@ -274,64 +382,105 @@ public ${STATIC?static :} Token getNextToken() {
       matchedToken.specialToken = specialToken;
       return matchedToken;
     }
+#if DEBUG_TOKEN_MANAGER
+    if (lexStateNames.length > 1) {
+      System.err.print("<" + lexStateNames[curLexState] + "> ");
+    }
+    System.err.println("Current input char: '" + (char)curChar + "' at " +
+                       input_stream.getBeginLine() + ":" +
+                       input_stream.getBeginColumn());
+#fi
 
     // Set matched kind to a MAX VALUE to implement largest, first occuring rule
     // i.e., smallest kind value matched should be used.
-    jjmatchedKind = Integer.MAX_VALUE;
-    jjmatchedPos = 0;
-#if !NO_DFA
-    lastReadPosition = jjRunStringLiteralMatch();
-#else
-    lastReadPosition = jjMoveNfa(0, 0);
-#fi
-    if (jjmatchedKind != Integer.MAX_VALUE) {
-      // We have a match!
+    image = jjimage;
+    image.setLength(0);
+    jjimageLen = 0;
 
-      // Put back any characters looked ahead.
-      input_stream.backup(lastReadPosition - jjmatchedPos);
-      if (isToken(jjmatchedKind)) {
-        // Matched kind is a real TOKEN.
-        matchedToken = jjFillToken();
-        matchedToken.specialToken = specialToken;
-        TokenLexicalActions(matchedToken);
-        if (jjnewLexState[jjmatchedKind] != -1) {
-          curLexState = jjnewLexState[jjmatchedKind];
-        }
-        return matchedToken;
-      } else if (isSkip(jjmatchedKind)) {
-        // Matched kind is a SKIP or SPECIAL_TOKEN.
-        if (isSpecial(jjmatchedKind)) {
-          matchedToken = jjFillToken();
-          if (specialToken == null) {
-            specialToken = matchedToken;
-          } else {
-            matchedToken.specialToken = specialToken;
-            specialToken = (specialToken.next = matchedToken);
-          }
-          SkipLexicalActions(matchedToken);
-        } else {
-          SkipLexicalActions(null);
-        }
-        if (jjnewLexState[jjmatchedKind] != -1) {
-          curLexState = jjnewLexState[jjmatchedKind];
-        }
-        continue EOFLoop;
-      }
-      // Here it's a MORE.
-      MoreLexicalActions();
-      if (jjnewLexState[jjmatchedKind] != -1) {
-        curLexState = jjnewLexState[jjmatchedKind];
-      }
-      lastReadPosition = 0;
-      jjmatchedKind = 0x7fffffff;
-      try {
-        curChar = input_stream.readChar();
-        continue;
-      }
-      catch (java.io.IOException e1) { }
+    MoreLoop: for (;;) {
+      jjmatchedKind = Integer.MAX_VALUE;
+      jjmatchedPos = 0;
+#if DEBUG_TOKEN_MANAGER
+    if (lexStateNames.length > 1) {
+      System.err.print("<" + lexStateNames[curLexState] + "> ");
     }
-    reportError(lastReadPosition);
-    return null;  // Should never come here.
+    System.err.println("Current input char: '" + (char)curChar + "' at " +
+                       input_stream.getBeginLine() + ":" +
+                       input_stream.getBeginColumn());
+#fi
+#if !NO_DFA
+      lastReadPosition = jjRunStringLiteralMatch();
+#else
+      lastReadPosition = jjMoveNfa(0, 0);
+#fi
+      if (jjmatchedPos == 0 && jjmatchedKind > canMatchAnyChar[curLexState]) {
+        jjmatchedKind = canMatchAnyChar[curLexState];
+#if DEBUG_TOKEN_MANAGER
+        System.err.println(
+            "Matched current char: '" + (char)curChar +
+            "' as a wildcard kind: " + jjmatchedKind);
+#fi
+      }
+      if (jjmatchedKind != Integer.MAX_VALUE) {
+        // We have a match!
+  
+        // Put back any characters looked ahead.
+        input_stream.backup(lastReadPosition - jjmatchedPos);
+        if (isToken(jjmatchedKind)) {
+#if DEBUG_TOKEN_MANAGER
+          System.err.println("Returning token.");
+#fi
+          // Matched kind is a real TOKEN.
+          matchedToken = jjFillToken();
+          matchedToken.specialToken = specialToken;
+          TokenLexicalActions(matchedToken);
+          if (jjnewLexState[jjmatchedKind] != -1) {
+            curLexState = jjnewLexState[jjmatchedKind];
+          }
+#if COMMON_TOKEN_ACTION
+          CommonTokenAction(matchedToken);
+#fi
+          return matchedToken;
+        } else if (isSkip(jjmatchedKind)) {
+#if DEBUG_TOKEN_MANAGER
+          System.err.println("Found a SKIP match.");
+#fi
+          // Matched kind is a SKIP or SPECIAL_TOKEN.
+          if (isSpecial(jjmatchedKind)) {
+            matchedToken = jjFillToken();
+            if (specialToken == null) {
+              specialToken = matchedToken;
+            } else {
+              matchedToken.specialToken = specialToken;
+              specialToken = (specialToken.next = matchedToken);
+            }
+            SkipLexicalActions(matchedToken);
+          } else {
+            SkipLexicalActions(null);
+          }
+          if (jjnewLexState[jjmatchedKind] != -1) {
+            curLexState = jjnewLexState[jjmatchedKind];
+          }
+          continue EOFLoop;
+        }
+#if DEBUG_TOKEN_MANAGER
+        System.err.println("Found a MORE match.");
+#fi
+        // Here it's a MORE.
+        MoreLexicalActions();
+        if (jjnewLexState[jjmatchedKind] != -1) {
+          curLexState = jjnewLexState[jjmatchedKind];
+        }
+        lastReadPosition = 0;
+        jjmatchedKind = 0x7fffffff;
+        try {
+          curChar = input_stream.readChar();
+          continue;
+        }
+        catch (java.io.IOException e1) { }
+      }
+      reportError(lastReadPosition);
+    }
   }
 }
 
