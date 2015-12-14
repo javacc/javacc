@@ -193,20 +193,32 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
     return curPos;
   }
 
+  // We have a long array indexed by the NFA state number to roughly indicate
+  // the input position so when the input reaches part Long.MAX_VALUE (which
+  // should be extremely rare), we need to reset them all back to zero.
   if (++moveIndex == Long.MAX_VALUE) {
     for (int i = 0; i < ${generatedStates}; i++) moved[i] = 0L;
     moveIndex = 1L;
   }
+
+  // We initialize the kind to MAX value so that when a match is found, we can
+  // simply check if it's less than the current match and store it in that
+  // case. This helps implement the 'first occurring' rule properly.
   int kind = Integer.MAX_VALUE;
   stateSet[0] = startState;
   moved[startState] = moveIndex;
   int cnt = 1;
+ 
+  // Some NFA states have epsilon transitions (move on empty string). So we
+  // just start with all of them. Note that the nextStates array already adds
+  // the epsilon closure. Only the initial state needs to do this explicitly.
   for (int s : jjcompositeState[startState]) { 
     if (moved[s] != moveIndex) {
       stateSet[cnt++] = s;
       moved[s] = moveIndex;
     }
   }
+
 #if DEBUG_TOKEN_MANAGER
   System.err.println("Starting NFA with start state: " + startState);
 #fi
@@ -230,14 +242,19 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
               ? tokenImage[jjmatchKinds[state]] : " <UNKNOWN>"));
 #fi
       if ((jjChars[state][vectorIndex] & bitpattern) != 0L) {
+        // Current input character can move this NFA state. So add all the
+        // next states of the current states for use with the next input char.
         for (int newState : jjnextStateSet[state]) {
           if (moved[newState] != moveIndex) {
+            // We add each state only once.
             newStateSet[newCnt++] = newState;
             moved[newState] = moveIndex;
           }
         }
         final int newKind = jjmatchKinds[state];
         if (kind > newKind) {
+          // It's a final state so store the matched kind if it's smaller than
+          // what's already matched.
           kind = newKind;
 #if DEBUG_TOKEN_MANAGER
           System.err.println(
@@ -250,24 +267,33 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
     } while (cnt > 0);
 
     if (kind != Integer.MAX_VALUE) {
-       jjmatchedKind = kind;
-       jjmatchedPos = curPos;
-       kind = Integer.MAX_VALUE;
+      // We found a match. So remember the kind and position of the match.
+      jjmatchedKind = kind;
+      jjmatchedPos = curPos;
+      // Reset the kind to max value so we can contine looking for a longer
+      // match.
+      kind = Integer.MAX_VALUE;
     }
 
+    // Swap the current and next state sets.
     int[] tmp = stateSet;
     stateSet = newStateSet;
     newStateSet = tmp;
+    // Reset the number of states.
     cnt = newCnt;
     if (newCnt == 0) {
+      // There were no transitions from any of the current states on the
+      // current input. So we are done.
 #if DEBUG_TOKEN_MANAGER
       System.err.println("Done with NFA at pos: " + curPos);
 #fi
       return curPos;
     }
+    // Read the next character and try to continue running the NFA.
     try {
       curChar = input_stream.readChar();
     } catch(java.io.IOException e) {
+      // EOF reached!
 #if DEBUG_TOKEN_MANAGER
       System.err.println("Reached EOF here at pos: " + curPos);
 #fi
