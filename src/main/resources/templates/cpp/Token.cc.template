@@ -41,7 +41,7 @@ namespace ${NAMESPACE_OPEN}
   /**
    * Constructs a new token for the specified Image and Kind.
    */
-  Token::Token(int kind, JAVACC_STRING_TYPE image)
+  Token::Token(int kind, const JAVACC_STRING_TYPE& image)
   {
     this->kind = kind;
     this->image = image;
@@ -69,7 +69,7 @@ namespace ${NAMESPACE_OPEN}
    * to the following switch statement. Then you can cast matchedToken
    * variable to the appropriate type and use sit in your lexical actions.
    */
-  Token *Token::newToken(int ofKind, JAVACC_STRING_TYPE image)
+  Token *Token::newToken(int ofKind, const JAVACC_STRING_TYPE& image)
   {
     switch(ofKind)
     {
@@ -79,7 +79,7 @@ namespace ${NAMESPACE_OPEN}
 
   Token *Token::newToken(int ofKind)
   {
-    return newToken(ofKind, JAVACC_STRING_TYPE((JAVACC_CHAR_TYPE*)""));
+    return newToken(ofKind, JAVACC_STRING_TYPE());
   }
 
   Token::~Token() {

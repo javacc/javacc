@@ -89,7 +89,7 @@ class Token
   /**
    * Constructs a new token for the specified Image and Kind.
    */
-  Token(int kind, JAVACC_STRING_TYPE image);
+  Token(int kind, const JAVACC_STRING_TYPE& image);
 
   /**
    * Returns the image.
@@ -110,7 +110,7 @@ class Token
    * to the following switch statement. Then you can cast matchedToken
    * variable to the appropriate type and use sit in your lexical actions.
    */
-  static Token *newToken(int ofKind, JAVACC_STRING_TYPE image);
+  static Token *newToken(int ofKind, const JAVACC_STRING_TYPE& image);
 
   static Token *newToken(int ofKind);
 };

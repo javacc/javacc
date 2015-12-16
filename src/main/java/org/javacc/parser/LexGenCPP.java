@@ -635,7 +635,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     {
       genCodeLine("   if (jjmatchedPos < 0)");
       genCodeLine("   {");
-      genCodeLine("       curTokenImage = image.c_str();");
+      genCodeLine("       curTokenImage = image;");
 
       if (keepLineCol)
       {
@@ -648,7 +648,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       genCodeLine("   }");
       genCodeLine("   else");
       genCodeLine("   {");
-      genCodeLine("      JAVACC_STRING_TYPE im = jjstrLiteralImages[jjmatchedKind];");
+      genCodeLine("      const JAVACC_STRING_TYPE& im = jjstrLiteralImages[jjmatchedKind];");
       genCodeLine("      curTokenImage = (im.length() == 0) ? input_stream->GetImage() : im;");
 
       if (keepLineCol)
@@ -665,7 +665,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     }
     else
     {
-      genCodeLine("   JAVACC_STRING_TYPE im = jjstrLiteralImages[jjmatchedKind];");
+      genCodeLine("   const JAVACC_STRING_TYPE& im = jjstrLiteralImages[jjmatchedKind];");
       genCodeLine("   curTokenImage = (im.length() == 0) ? input_stream->GetImage() : im;");
       if (keepLineCol)
       {
@@ -1030,7 +1030,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
           if (Options.getDebugTokenManager()) {
             genCodeLine("   fprintf(debugStream, " +
              "\"<%s>Current character : %c(%d) at line %d column %d\\n\","+
-             "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
+             "addUnicodeEscapes(lexStateNames[curLexState]), curChar, (int)curChar, " +
              "input_stream->getEndLine(), input_stream->getEndColumn());");
           }
           genCodeLine(prefix + "   continue;");
