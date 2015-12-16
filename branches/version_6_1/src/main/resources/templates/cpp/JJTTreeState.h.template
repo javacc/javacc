@@ -10,9 +10,9 @@
 namespace ${NAMESPACE_OPEN}
 #fi
 class JJT${PARSER_NAME}State {
-  private: std::vector<Node*> *nodes;
-  private: std::vector<int> *marks;
-  private: std::set<Node*> *open_nodes;
+  private: std::vector<Node*> nodes;
+  private: std::vector<int> marks;
+  private: std::vector<Node*> open_nodes;
 
   private: int sp;        // number of nodes on stack
   private: int mk;        // current mark
@@ -68,6 +68,16 @@ class JJT${PARSER_NAME}State {
      constructed and they are left on the stack. */
   public: virtual void closeNodeScope(Node *n, bool condition);
   public: virtual ~JJT${PARSER_NAME}State();
+
+  private:
+    void EraseOpenNode(Node* n) {
+      for (int i = open_nodes.size() - 1; i >= 0; --i) {
+        if (open_nodes[i] == n) {
+          open_nodes.erase(open_nodes.begin() + i);
+          return;
+        }
+      }
+    }
 };
 
 #if NAMESPACE

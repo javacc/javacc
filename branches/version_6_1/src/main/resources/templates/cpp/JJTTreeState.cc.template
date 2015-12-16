@@ -20,15 +20,12 @@ namespace ${NAMESPACE_OPEN}
   }
 #fi
 \#define FIXUP_MARKS \
-  if (marks->size() > 0) {\
-    mk = marks->back();\
-    marks->resize(marks->size()-1);\
+  if (marks.size() > 0) {\
+    mk = marks.back();\
+    marks.resize(marks.size()-1);\
   }
 
   JJT${PARSER_NAME}State::JJT${PARSER_NAME}State() {
-    nodes = new std::vector<Node*>();
-    marks = new std::vector<int>();
-    open_nodes = new std::set<Node*>();
     sp = 0;
     mk = 0;
   }
@@ -43,8 +40,8 @@ namespace ${NAMESPACE_OPEN}
   /* Call this to reinitialize the node stack.  It is called
      automatically by the parser's ReInit() method. */
   void JJT${PARSER_NAME}State::reset() {
-    nodes->resize(0);
-    marks->resize(0);
+    nodes.resize(0);
+    marks.resize(0);
     sp = 0;
     mk = 0;
   }
@@ -52,12 +49,12 @@ namespace ${NAMESPACE_OPEN}
   /* Returns the root node of the AST.  It only makes sense to call
      this after a successful parse. */
   Node *JJT${PARSER_NAME}State::rootNode() {
-    return nodes->at(0);
+    return nodes.at(0);
   }
 
   /* Pushes a node on to the stack. */
   void JJT${PARSER_NAME}State::pushNode(Node *n) {
-    nodes->push_back(n);
+    nodes.push_back(n);
     ++sp;
   }
 
@@ -67,14 +64,14 @@ namespace ${NAMESPACE_OPEN}
     if (--sp < mk) {
       FIXUP_MARKS;
     }
-    Node *ret = nodes->back();
-    nodes->resize(nodes->size()-1);
+    Node *ret = nodes.back();
+    nodes.resize(nodes.size()-1);
     return ret;
   }
 
   /* Returns the node currently on the top of the stack. */
   Node *JJT${PARSER_NAME}State::peekNode() {
-    return nodes->size() == 0 ? NULL : nodes->back();
+    return nodes.size() == 0 ? NULL : nodes.back();
   }
 
   /* Returns the number of children on the stack in the current node
@@ -93,10 +90,10 @@ namespace ${NAMESPACE_OPEN}
 
 
   void JJT${PARSER_NAME}State::openNodeScope(Node *n) {
-    marks->push_back(mk);
+    marks.push_back(mk);
     mk = sp;
     n->jjtOpen();
-    open_nodes->insert(n);
+    open_nodes.push_back(n);
   }
 
 
@@ -105,9 +102,9 @@ namespace ${NAMESPACE_OPEN}
      made the children of the definite node.  Then the definite node
      is pushed on to the stack. */
   void JJT${PARSER_NAME}State::closeNodeScope(Node *n, int num) {
-    open_nodes->erase(n);
+    EraseOpenNode(n);
     FIXUP_MARKS;
-    if (nodes->size() < num) {
+    if (nodes.size() < num) {
       node_created = false;
       delete n;
       return;
@@ -129,11 +126,11 @@ namespace ${NAMESPACE_OPEN}
      on to the stack.  If the condition is false the node is not
      constructed and they are left on the stack. */
   void JJT${PARSER_NAME}State::closeNodeScope(Node *n, bool condition) {
-    open_nodes->erase(n);
+    EraseOpenNode(n);
     if (condition) {
       int a = nodeArity();
       FIXUP_MARKS;
-      if (nodes->size() < a) {
+      if (nodes.size() < a) {
         delete n;
         node_created = false;
         return;
@@ -154,18 +151,14 @@ namespace ${NAMESPACE_OPEN}
   }
 
   JJT${PARSER_NAME}State::~JJT${PARSER_NAME}State() {
-    for (size_t i = 0; i < nodes->size(); i++) {
-      Node* node = nodes->at(i);
-      open_nodes->erase(node);
+    for (size_t i = 0; i < nodes.size(); i++) {
+      Node* node = nodes.at(i);
+      EraseOpenNode(node);
       delete node;
     }
-    for (std::set<Node*>::iterator it = open_nodes->begin();
-         it != open_nodes->end(); it++) 
+    for (std::vector<Node*>::iterator it = open_nodes.begin();
+         it != open_nodes.end(); it++) 
       delete (*it);
-
-    delete open_nodes;
-    delete nodes;
-    delete marks;
   }
 
 #if NAMESPACE
