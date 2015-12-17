@@ -35,6 +35,7 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
 
 import static org.javacc.parser.JavaCCGlobals.*;
 
@@ -396,6 +397,7 @@ public class ParseEngine {
         jj2index++;
         // At this point, la.la_expansion.internal_name must be "".
         la.getLaExpansion().internal_name = "_" + jj2index;
+        la.getLaExpansion().internal_index = jj2index;
         phase2list.add(la);
         retval += "jj_2" + la.getLaExpansion().internal_name + "(" + la.getAmount() + ")";
         if (la.getActionTokens().size() != 0) {
@@ -1033,6 +1035,7 @@ public class ParseEngine {
 //    System.out.println(" ***** seq: " + seq.internal_name + "; size: " + ((Sequence)seq).units.size());
 //    }
       e.internal_name = "R_" + gensymindex;
+      e.internal_index = gensymindex;
     }
     Phase3Data p3d = (Phase3Data)(phase3table.get(e));
     if (p3d == null || p3d.count < inf.count) {
@@ -1440,6 +1443,12 @@ public class ParseEngine {
     for (java.util.Enumeration enumeration = phase3table.elements(); enumeration.hasMoreElements();) {
       buildPhase3Routine((Phase3Data)(enumeration.nextElement()), false);
     }
+    // for (java.util.Enumeration enumeration = phase3table.elements(); enumeration.hasMoreElements();) {
+      // Phase3Data inf = (Phase3Data)(enumeration.nextElement());
+      // System.err.println("**** Table for: " + inf.exp.internal_name);
+      // buildPhase3Table(inf);
+      // System.err.println("**** END TABLE *********");
+    // }
 
     codeGenerator.switchToMainFile();
   }
@@ -1457,6 +1466,83 @@ public class ParseEngine {
     jj3_expansion = null;
   }
 
+  // Table driven.
+  void buildPhase3Table(Phase3Data inf) {
+    Expansion e = inf.exp;
+    Token t = null;
+    if (e instanceof RegularExpression) {
+      RegularExpression e_nrw = (RegularExpression)e;
+      System.err.println("TOKEN, " + e_nrw.ordinal);
+    } else if (e instanceof NonTerminal) {
+      NonTerminal e_nrw = (NonTerminal)e;
+      NormalProduction ntprod =
+          (NormalProduction)(production_table.get(e_nrw.getName()));
+      if (ntprod instanceof JavaCodeProduction) {
+        // javacode, true - always (warn?)
+        System.err.println("JAVACODE_PROD, true");
+      } else {
+        Expansion ntexp = ntprod.getExpansion();
+        // nt exp's table.
+        System.err.println("PRODUCTION, " + ntexp.internal_index);
+        //buildPhase3Table(new Phase3Data(ntexp, inf.count));
+      }
+    } else if (e instanceof Choice) {
+      Sequence nested_seq;
+      Choice e_nrw = (Choice)e;
+      System.err.print("CHOICE, ");
+      for (int i = 0; i < e_nrw.getChoices().size(); i++) {
+        if (i > 0) System.err.print("\n|");
+        nested_seq = (Sequence)(e_nrw.getChoices().get(i));
+        Lookahead la = (Lookahead)(nested_seq.units.get(0));
+        if (la.getActionTokens().size() != 0) {
+          System.err.print("SEMANTIC,");
+        } else {
+          buildPhase3Table(new Phase3Data(nested_seq, inf.count));
+        }
+      }
+      System.err.println();
+    } else if (e instanceof Sequence) {
+      Sequence e_nrw = (Sequence)e;
+      int cnt = inf.count;
+      if (e_nrw.units.size() > 2) {
+        System.err.println("SEQ, " + cnt);
+        for (int i = 1; i < e_nrw.units.size(); i++) {
+          System.err.print("   ");
+          Expansion eseq = (Expansion)(e_nrw.units.get(i));
+          buildPhase3Table(new Phase3Data(eseq, cnt));
+          cnt -= minimumSize(eseq);
+          if (cnt <= 0) break;
+        }
+      } else {
+        Expansion tmp = (Expansion)e_nrw.units.get(1);
+        while (tmp instanceof NonTerminal) {
+          NormalProduction ntprod =
+              (NormalProduction)(
+                  production_table.get(((NonTerminal)tmp).getName()));
+          if (ntprod instanceof JavaCodeProduction) break;
+          tmp = ntprod.getExpansion();
+        }
+        buildPhase3Table(new Phase3Data(tmp, cnt));
+      }
+      System.err.println();
+    } else if (e instanceof TryBlock) {
+      TryBlock e_nrw = (TryBlock)e;
+      buildPhase3Table(new Phase3Data(e_nrw.exp, inf.count));
+    } else if (e instanceof OneOrMore) {
+      OneOrMore e_nrw = (OneOrMore)e;
+      System.err.println("SEQ PROD " + e_nrw.expansion.internal_index);
+      System.err.println("ZEROORMORE " + e_nrw.expansion.internal_index);
+    } else if (e instanceof ZeroOrMore) {
+      ZeroOrMore e_nrw = (ZeroOrMore)e;
+      System.err.print("ZEROORMORE, " + e_nrw.expansion.internal_index);
+    } else if (e instanceof ZeroOrOne) {
+      ZeroOrOne e_nrw = (ZeroOrOne)e;
+      System.err.println("ZERORONE, " + e_nrw.expansion.internal_index);
+    } else {
+      assert(false);
+      // table for nested_e - optional
+    }
+  }
 }
 
 /**
@@ -1479,5 +1565,4 @@ class Phase3Data {
     exp = e;
     count = c;
   }
-
 }

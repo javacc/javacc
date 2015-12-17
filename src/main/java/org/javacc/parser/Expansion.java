@@ -60,6 +60,7 @@ public class Expansion {
    * routines.
    */
   String internal_name = "";
+  int internal_index = -1;
 
   /**
    * The parser routines are generated in three phases.  The generation

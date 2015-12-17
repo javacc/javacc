@@ -357,7 +357,7 @@ public static String staticString;
     staticString = (Options.getStatic() ? "static " : "");
     tokMgrClassName = cu_name + "TokenManager";
 
-    PrintClassHead();
+    if (!Options.getTableDriven()) PrintClassHead();
     BuildLexStatesTable();
 
     e = allTpsForState.keys();
@@ -544,17 +544,54 @@ public static String staticString;
       ((RChoice)choices.get(i)).CheckUnmatchability();
 
     CheckEmptyStringMatch();
-    RStringLiteral.DumpStrLiteralImages(this);
 
     if (Options.getTableDriven()) {
-      RStringLiteral.DumpDfaTables(this);
-      NfaState.DumpNfaTables(this);
-    } else {
-      DumpFillToken();
-      NfaState.DumpStateSets(this);
-      NfaState.DumpNonAsciiMoveMethods(this);
-      DumpGetNextToken();
+      TokenizerData tokenizerData = new TokenizerData();
+      tokenizerData.setParserName(cu_name);
+      RStringLiteral.BuildTokenizerData(tokenizerData);
+      NfaState.BuildTokenizerData(tokenizerData);
+      int[] newLexStateIndices = new int[maxOrdinal];
+      StringBuilder tokenMgrDecls = new StringBuilder();
+      if (token_mgr_decls != null && token_mgr_decls.size() > 0) {
+        Token t = (Token)token_mgr_decls.get(0);
+        for (j = 0; j < token_mgr_decls.size(); j++) {
+          tokenMgrDecls.append(((Token)token_mgr_decls.get(j)).image + " ");
+        }
+      }
+      tokenizerData.setDecls(tokenMgrDecls.toString());
+      Map<Integer, String> actionStrings = new HashMap<Integer, String>();
+      for (i = 0; i < maxOrdinal; i++) {
+        if (newLexState[i] == null) {
+          newLexStateIndices[i] = -1;
+        } else {
+          newLexStateIndices[i] = GetIndex(newLexState[i]);
+        }
+        // For java, we have this but for other languages, eventually we will
+        // simply have a string.
+        Action act = actions[i];
+        if (act == null) continue;
+        StringBuilder sb = new StringBuilder();
+        for (int k = 0; k < act.getActionTokens().size(); k++) {
+          sb.append(((Token)act.getActionTokens().get(k)).image);
+          sb.append(" ");
+        }
+        actionStrings.put(i, sb.toString());
+      }
+      tokenizerData.setDefaultLexState(defaultLexState);
+      tokenizerData.updateMatchInfo(
+          actionStrings, newLexStateIndices,
+          toSkip, toSpecial, toMore, toToken);
+      TableDrivenJavaCodeGenerator gen = new TableDrivenJavaCodeGenerator();
+      gen.generateCode(this, tokenizerData);
+      gen.finish(this, tokenizerData);
+      return;
     }
+
+    RStringLiteral.DumpStrLiteralImages(this);
+    DumpFillToken();
+    NfaState.DumpStateSets(this);
+    NfaState.DumpNonAsciiMoveMethods(this);
+    DumpGetNextToken();
 
     if (Options.getDebugTokenManager())
     {

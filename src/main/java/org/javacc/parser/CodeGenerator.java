@@ -360,4 +360,18 @@ public class CodeGenerator {
   protected String getClassQualifier(String className) {
     return className == null ? "" : className + "::";
   }
+
+  public static String getCharStreamName() {
+    if (Options.getUserCharStream()) {
+      return "CharStream";
+    } else {
+      return Options.getJavaUnicodeEscape() ? "JavaCharStream"
+                                            : "SimpleCharStream";
+    }
+  }
+  @SuppressWarnings("unchecked")
+  protected void writeTemplate(
+      String name, Object... additionalOptions) throws IOException {
+    throw new UnsupportedOperationException();
+  }
 }
