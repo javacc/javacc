@@ -1715,6 +1715,16 @@ public class RStringLiteral extends RegularExpression {
     }
   }
 
+  public static void BuildTokenizerData(TokenizerData tokenizerData) {
+    for (int kind : nfaStateMap.keySet()) {
+      nfaStateMap.put(kind, nfaStateMap.get(kind) +
+                            nfaStateOffset.get(kindToLexicalState.get(kind)));
+    }
+    tokenizerData.setLiteralSequence(literalsByLength);
+    tokenizerData.setLiteralKinds(literalKinds);
+    tokenizerData.setKindToNfaStartState(nfaStateMap);
+  }
+
   static void DumpDfaTables(CodeGenerator codeGenerator) {
     Map<Integer, int[]> startAndSize = new HashMap<Integer, int[]>();
     int i = 0;

@@ -40,6 +40,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.Vector;
 
 /**
@@ -3317,7 +3318,8 @@ public class NfaState
      }
    }
 
-   public static void DumpNfaTables(CodeGenerator codeGenerator) {
+   public static void BuildTokenizerData(TokenizerData tokenizerData) {
+     NfaState[] cleanStates;
      List<NfaState> cleanStateList = new ArrayList<NfaState>();
      for (int l : statesForLexicalState.keySet()) {
        List<NfaState> states = statesForLexicalState.get(l);
@@ -3329,123 +3331,39 @@ public class NfaState
        }
        cleanStateList.addAll(states);
      }
-     NfaState[] cleanStates = new NfaState[cleanStateList.size()];
+     cleanStates = new NfaState[cleanStateList.size()];
      for (NfaState s : cleanStateList) {
        assert(cleanStates[s.stateName] == null);
        cleanStates[s.stateName] = s;
-     }
-     codeGenerator.genCodeLine("private static final long[][] jjCharData = {");
-     for (int i = 0; i < cleanStates.length; i++) {
-       NfaState tmp = cleanStates[i];
-       if (i > 0) codeGenerator.genCodeLine(",");
-       codeGenerator.genCode("{");
-       if (tmp == null) {
-         codeGenerator.genCode("}");
-         continue;
-       }
-       int cnt = 0;
-       List<Character> ranges = new ArrayList<Character>();
-       BitSet bits = new BitSet();
-       Outer:
+       Set<Character> chars = new TreeSet<Character>();
        for (int c = 0; c <= Character.MAX_VALUE; c++) {
-         if (tmp.CanMoveUsingChar((char)c)) {
-           bits.set(c);
+         if (s.CanMoveUsingChar((char)c)) {
+           chars.add((char)c);
          }
        }
-       long[] longs = bits.toLongArray();
-       long prev = longs[0];
-       for (int k = 0; k < longs.length; k++) {
-         int rep = 1;
-         while (k + rep < longs.length && longs[k + rep] == longs[k]) rep++;
-         if (k > 0) codeGenerator.genCode(", ");
-         codeGenerator.genCode(rep + ", ");
-         codeGenerator.genCode("0x" + Long.toHexString(longs[k]) + "L");
-         k += rep - 1;
-       }
-       codeGenerator.genCode("}");
-     }
-     codeGenerator.genCodeLine("};");
-
-     codeGenerator.genCodeLine(
-         "private static final int[][] jjcompositeState = {");
-     for (int i = 0; i < cleanStates.length; i++) {
-       NfaState tmp = cleanStates[i];
-       if (i > 0) codeGenerator.genCodeLine(", ");
-       codeGenerator.genCode("{");
-       if (tmp != null && tmp.isComposite) {
-         int k = 0;
-         for (int st : tmp.compositeStates) {
-           if (k++ > 0) codeGenerator.genCode(", ");
-           codeGenerator.genCode(st);
-         }
-       }
-       codeGenerator.genCode("}");
-     }
-     codeGenerator.genCodeLine("};");
-
-     codeGenerator.genCodeLine("private static final int[] jjmatchKinds = {");
-     for (int i = 0; i < cleanStates.length; i++) {
-       NfaState tmp = cleanStates[i];
-       if (i > 0) codeGenerator.genCodeLine(", ");
-       if (tmp == null) {
-         codeGenerator.genCode(Integer.MAX_VALUE);
-         continue;
-       }
-       codeGenerator.genCode(tmp.kindToPrint);
-     }
-     codeGenerator.genCodeLine("};");
-
-     codeGenerator.genCodeLine(
-         "private static final int[][]  jjnextStateSet = {");
-     for (int i = 0; i < cleanStates.length; i++) {
-       NfaState tmp = cleanStates[i];
-       if (i > 0) codeGenerator.genCodeLine(", ");
-       if (tmp == null) {
-         codeGenerator.genCode("{}");
-         continue;
-       }
-       NfaState[] states = tmp.next.epsilonMoveArray;
-       Set<Integer> nextStates = new HashSet<Integer>();
-       for (NfaState s : states) {
-         nextStates.add(s.stateName);
-         if (s.isComposite) {
+       Set<Integer> nextStates = new TreeSet<Integer>();
+       for (NfaState next : s.next.epsilonMoveArray) {
+         nextStates.add(next.stateName);
+         if (next.isComposite) {
            for (int c : s.compositeStates) nextStates.add(c);
          }
        }
-       int k = 0;
-       codeGenerator.genCode("{");
-       for (int s : nextStates) {
-         if (k++ > 0) codeGenerator.genCode(", ");
-         codeGenerator.genCode(s);
+       Set<Integer> composite = new TreeSet<Integer>();
+       if (s.isComposite) {
+         for (int c : s.compositeStates) composite.add(c);
        }
-       codeGenerator.genCode("}");
+       tokenizerData.addNfaState(
+           s.stateName, chars, nextStates, composite, s.kindToPrint);
      }
-     codeGenerator.genCodeLine("};");
-     codeGenerator.genCodeLine(
-         "private static final int[] jjInitStates  = {");
-     NfaState[] initStateArr = new NfaState[initialStates.size()];
+     Map<Integer, Integer> initStates = new HashMap<Integer, Integer>();
      for (int l : initialStates.keySet()) {
-       initStateArr[l] = initialStates.get(l);
-     }
-     for (int k = 0; k < initStateArr.length; k++) {
-       if (k > 0) codeGenerator.genCode(", ");
-       if (initStateArr[k] == null) {
-         codeGenerator.genCode("-1");
+       if (initialStates.get(l) == null) {
+         initStates.put(l, -1);
        } else {
-         codeGenerator.genCode(initStateArr[k].stateName);
+         initStates.put(l, initialStates.get(l).stateName);
        }
      }
-     int[] anyCharKind = new int[matchAnyChar.size()];
-     for (int i : matchAnyChar.keySet()) {
-       anyCharKind[i] = matchAnyChar.get(i);
-     }
-     codeGenerator.genCodeLine("};");
-     codeGenerator.genCodeLine(
-         "private static final int[] canMatchAnyChar = {");
-     for (int k = 0; k < anyCharKind.length; k++) {
-       if (k > 0) codeGenerator.genCode(", ");
-       codeGenerator.genCode(anyCharKind[k]);
-     }
-     codeGenerator.genCodeLine("};");
+     tokenizerData.setInitialStates(initStates);
+     tokenizerData.setWildcardKind(matchAnyChar);
    }
 }
