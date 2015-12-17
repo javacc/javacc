@@ -347,6 +347,7 @@ public static String staticString;
         JavaCCErrors.get_error_count() > 0)
       return;
 
+    final String codeGeneratorClass = Options.getTokenManagerCodeGenerator();
     keepLineCol = Options.getKeepLineColumn();
     errorHandlingClass = Options.getTokenMgrErrorClass();
     List choices = new ArrayList();
@@ -357,7 +358,7 @@ public static String staticString;
     staticString = (Options.getStatic() ? "static " : "");
     tokMgrClassName = cu_name + "TokenManager";
 
-    if (!Options.getTableDriven()) PrintClassHead();
+    if (codeGeneratorClass == null) PrintClassHead();
     BuildLexStatesTable();
 
     e = allTpsForState.keys();
@@ -525,7 +526,7 @@ public static String staticString;
       if (hasNfa[lexStateIndex] && !mixed[lexStateIndex])
         RStringLiteral.GenerateNfaStartStates(this, initialState);
 
-      if (Options.getTableDriven()) {
+      if (codeGeneratorClass != null) {
         RStringLiteral.UpdateStringLiteralData(stateSetSize, lexStateIndex);
         NfaState.UpdateNfaData(stateSetSize, startState, lexStateIndex,
                                canMatchAnyChar[lexStateIndex]);
@@ -545,7 +546,7 @@ public static String staticString;
 
     CheckEmptyStringMatch();
 
-    if (Options.getTableDriven()) {
+    if (codeGeneratorClass != null) {
       TokenizerData tokenizerData = new TokenizerData();
       tokenizerData.setParserName(cu_name);
       RStringLiteral.BuildTokenizerData(tokenizerData);
@@ -581,7 +582,18 @@ public static String staticString;
       tokenizerData.updateMatchInfo(
           actionStrings, newLexStateIndices,
           toSkip, toSpecial, toMore, toToken);
-      TableDrivenJavaCodeGenerator gen = new TableDrivenJavaCodeGenerator();
+      // TableDrivenJavaCodeGenerator gen = new TableDrivenJavaCodeGenerator();
+      Class<TokenManagerCodeGenerator> codeGenClazz;
+      TokenManagerCodeGenerator gen;
+      try {
+        codeGenClazz = (Class<TokenManagerCodeGenerator>)Class.forName(codeGeneratorClass);
+        gen = codeGenClazz.newInstance();
+      } catch(Exception ee) {
+        JavaCCErrors.semantic_error(
+            "Cound not load the token manager code generator class: " +
+            codeGeneratorClass + "\nError: " + ee.getMessage());
+        return;
+      }
       gen.generateCode(this, tokenizerData);
       gen.finish(this, tokenizerData);
       return;
@@ -610,7 +622,7 @@ public static String staticString;
     DumpMoreActions();
     DumpTokenActions();
 
-    if (!Options.getTableDriven()) NfaState.PrintBoilerPlate(this);
+    NfaState.PrintBoilerPlate(this);
 
     String charStreamName;
     if (Options.getUserCharStream())
