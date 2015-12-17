@@ -418,7 +418,7 @@ public static String staticString;
               mixed[lexStateIndex] = true;
             }
           }
-          else if (curRE.CanMatchAnyChar())
+          else if (codeGeneratorClass == null && curRE.CanMatchAnyChar())
           {
             if (canMatchAnyChar[lexStateIndex] == -1 ||
                 canMatchAnyChar[lexStateIndex] > curRE.ordinal)

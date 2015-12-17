@@ -99,9 +99,6 @@ public class TokenizerData {
   // Initial nfa states indexed by lexical state.
   public Map<Integer, Integer> initialStates;
 
-  // Kind of the wildcard match (~[]) indexed by lexical state.
-  public Map<Integer, Integer> wildcardKind;
-
   // DEFULAT lexical state index.
   public int defaultLexState;
 
@@ -136,10 +133,6 @@ public class TokenizerData {
 
   public void setInitialStates(Map<Integer, Integer> initialStates) {
     this.initialStates = initialStates;
-  }
-
-  public void setWildcardKind(Map<Integer, Integer> wildcardKind) {
-    this.wildcardKind = wildcardKind;
   }
 
   public void setDefaultLexState(int defaultLexState) {

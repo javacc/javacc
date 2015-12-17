@@ -223,15 +223,6 @@ public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
       codeGenerator.genCode(tokenizerData.initialStates.get(i));
     }
     codeGenerator.genCodeLine("};");
-
-    codeGenerator.genCodeLine(
-        "private static final int[] canMatchAnyChar = {");
-    k = 0;
-    for (int i = 0; i < tokenizerData.wildcardKind.size(); i++) {
-      if (k++ > 0) codeGenerator.genCode(", ");
-      codeGenerator.genCode(tokenizerData.wildcardKind.get(i));
-    }
-    codeGenerator.genCodeLine("};");
   }
 
   private void dumpMatchInfo(

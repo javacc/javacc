@@ -412,14 +412,7 @@ public ${STATIC?static :} Token getNextToken() {
 #else
       lastReadPosition = jjMoveNfa(0, 0);
 #fi
-      if (jjmatchedPos == 0 && jjmatchedKind > canMatchAnyChar[curLexState]) {
-        jjmatchedKind = canMatchAnyChar[curLexState];
-#if DEBUG_TOKEN_MANAGER
-        System.err.println(
-            "Matched current char: '" + (char)curChar +
-            "' as a wildcard kind: " + jjmatchedKind);
-#fi
-      }
+
       if (jjmatchedKind != Integer.MAX_VALUE) {
         // We have a match!
   
