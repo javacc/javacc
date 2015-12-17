@@ -1392,7 +1392,8 @@ public class RStringLiteral extends RegularExpression {
         }
      }
 
-     if (!Options.getTableDriven()) {
+     // TODO(Sreeni) : Fix this mess.
+     if (Options.getTokenManagerCodeGenerator() == null) {
        DumpNfaStartStatesCode(statesForPos, codeGenerator);
      }
   }
