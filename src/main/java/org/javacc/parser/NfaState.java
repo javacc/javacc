@@ -58,7 +58,7 @@ public class NfaState
    private static boolean mark[];
    private static boolean stateDone[];
 
-   private static List allStates = new ArrayList();
+   private static List<NfaState> allStates = new ArrayList<NfaState>();
    private static List indexedAllStates = new ArrayList();
    private static List nonAsciiTableForMethod = new ArrayList();
    private static Hashtable equivStatesTable = new Hashtable();
@@ -1154,8 +1154,7 @@ public class NfaState
          stateBlockTable.put(stateSetString, stateSetString);
 
       if (nameSet == null)
-         throw new Error("JavaCC Bug: Please send mail to sankar@cs.stanford.edu; nameSet null for : " +
-                          stateSetString);
+         throw new Error("JavaCC Bug: Please file a bug at: http://javacc.java.net");
 
       if (nameSet.length == 1)
       {
@@ -1202,6 +1201,14 @@ public class NfaState
             tmp = dummyStateIndex = generatedStates;
          else
             tmp = ++dummyStateIndex;
+
+        // TODO(sreeni) : Fix this
+        if (Options.getTokenManagerCodeGenerator() != null) {
+          NfaState dummyState = new NfaState();
+          dummyState.isComposite = true;
+          dummyState.compositeStates = nameSet;
+          dummyState.stateName = tmp;
+        }
       }
       else
          tmp = nameSet[toRet];
@@ -3322,8 +3329,8 @@ public class NfaState
      NfaState[] cleanStates;
      List<NfaState> cleanStateList = new ArrayList<NfaState>();
      for (int l : statesForLexicalState.keySet()) {
-       List<NfaState> states = statesForLexicalState.get(l);
        int offset = nfaStateOffset.get(l);
+       List<NfaState> states = statesForLexicalState.get(l);
        for (int i = 0; i < states.size(); i++) {
          NfaState state = states.get(i);
          if (state.stateName == -1) continue;
@@ -3342,10 +3349,9 @@ public class NfaState
          }
        }
        Set<Integer> nextStates = new TreeSet<Integer>();
-       for (NfaState next : s.next.epsilonMoveArray) {
-         nextStates.add(next.stateName);
-         if (next.isComposite) {
-           for (int c : s.compositeStates) nextStates.add(c);
+       if (s.next != null) {
+         for (NfaState next : s.next.epsilonMoveArray) {
+           nextStates.add(next.stateName);
          }
        }
        Set<Integer> composite = new TreeSet<Integer>();
@@ -3365,5 +3371,14 @@ public class NfaState
      }
      tokenizerData.setInitialStates(initStates);
      tokenizerData.setWildcardKind(matchAnyChar);
+   }
+
+   static NfaState getNfaState(int index) {
+     if (index == -1) return null;
+     for (NfaState s : allStates) {
+       if (s.stateName == index) return s;
+     }
+     assert(false);
+     return null;
    }
 }
