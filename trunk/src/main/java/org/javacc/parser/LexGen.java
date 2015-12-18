@@ -418,7 +418,7 @@ public static String staticString;
               mixed[lexStateIndex] = true;
             }
           }
-          else if (codeGeneratorClass == null && curRE.CanMatchAnyChar())
+          else if (curRE.CanMatchAnyChar())
           {
             if (canMatchAnyChar[lexStateIndex] == -1 ||
                 canMatchAnyChar[lexStateIndex] > curRE.ordinal)
@@ -527,8 +527,8 @@ public static String staticString;
         RStringLiteral.GenerateNfaStartStates(this, initialState);
 
       if (codeGeneratorClass != null) {
-        RStringLiteral.UpdateStringLiteralData(stateSetSize, lexStateIndex);
-        NfaState.UpdateNfaData(stateSetSize, startState, lexStateIndex,
+        RStringLiteral.UpdateStringLiteralData(totalNumStates, lexStateIndex);
+        NfaState.UpdateNfaData(totalNumStates, startState, lexStateIndex,
                                canMatchAnyChar[lexStateIndex]);
       } else {
         RStringLiteral.DumpDfaCode(this);
@@ -549,8 +549,8 @@ public static String staticString;
     if (codeGeneratorClass != null) {
       TokenizerData tokenizerData = new TokenizerData();
       tokenizerData.setParserName(cu_name);
-      RStringLiteral.BuildTokenizerData(tokenizerData);
       NfaState.BuildTokenizerData(tokenizerData);
+      RStringLiteral.BuildTokenizerData(tokenizerData);
       int[] newLexStateIndices = new int[maxOrdinal];
       StringBuilder tokenMgrDecls = new StringBuilder();
       if (token_mgr_decls != null && token_mgr_decls.size() > 0) {
@@ -579,10 +579,11 @@ public static String staticString;
         actionStrings.put(i, sb.toString());
       }
       tokenizerData.setDefaultLexState(defaultLexState);
+      tokenizerData.setLexStateNames(lexStateName);
       tokenizerData.updateMatchInfo(
           actionStrings, newLexStateIndices,
           toSkip, toSpecial, toMore, toToken);
-      // TableDrivenJavaCodeGenerator gen = new TableDrivenJavaCodeGenerator();
+
       Class<TokenManagerCodeGenerator> codeGenClazz;
       TokenManagerCodeGenerator gen;
       try {

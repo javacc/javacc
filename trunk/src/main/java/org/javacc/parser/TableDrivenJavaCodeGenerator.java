@@ -218,9 +218,18 @@ public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
     codeGenerator.genCodeLine(
         "private static final int[] jjInitStates  = {");
     int k = 0;
-    for (int i = 0; i < tokenizerData.initialStates.size(); i++) {
+    for (int i : tokenizerData.initialStates.keySet()) {
       if (k++ > 0) codeGenerator.genCode(", ");
       codeGenerator.genCode(tokenizerData.initialStates.get(i));
+    }
+    codeGenerator.genCodeLine("};");
+
+    codeGenerator.genCodeLine(
+        "private static final int[] canMatchAnyChar = {");
+    k = 0;
+    for (int i = 0; i < tokenizerData.wildcardKind.size(); i++) {
+      if (k++ > 0) codeGenerator.genCode(", ");
+      codeGenerator.genCode(tokenizerData.wildcardKind.get(i));
     }
     codeGenerator.genCodeLine("};");
   }
@@ -317,6 +326,13 @@ public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
     dumpLexicalActions(allMatches, TokenizerData.MatchType.MORE,
                        "jjmatchedKind", codeGenerator);
     codeGenerator.genCodeLine("}");
+
+    codeGenerator.genCodeLine("public String[] lexStateNames = {");
+    for (int i = 0; i < tokenizerData.lexStateNames.length; i++) {
+      if (i > 0) codeGenerator.genCode(", ");
+      codeGenerator.genCode("\"" + tokenizerData.lexStateNames[i] + "\"");
+    }
+    codeGenerator.genCodeLine("};");
   }
 
   private void dumpLexicalActions(

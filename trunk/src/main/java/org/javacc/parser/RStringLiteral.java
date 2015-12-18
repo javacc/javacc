@@ -1665,19 +1665,16 @@ public class RStringLiteral extends RegularExpression {
   }
 */
 
-  private static final Map<Integer, List<String>> literalsByLength =
+  static final Map<Integer, List<String>> literalsByLength =
       new HashMap<Integer, List<String>>();
-  private static final Map<Integer, List<Integer>> literalKinds =
+  static final Map<Integer, List<Integer>> literalKinds =
       new HashMap<Integer, List<Integer>>();
-  private static final Map<Integer, Integer> kindToLexicalState =
+  static final Map<Integer, Integer> kindToLexicalState =
       new HashMap<Integer, Integer>();
-  private static final Map<Integer, Integer> nfaStateOffset =
-      new HashMap<Integer, Integer>();
-  private static final Map<Integer, Integer> nfaStateMap =
-      new HashMap<Integer, Integer>();
+  static final Map<Integer, NfaState> nfaStateMap =
+      new HashMap<Integer, NfaState>();
   public static void UpdateStringLiteralData(
       int generatedNfaStates, int lexStateIndex) {
-    nfaStateOffset.put(lexStateIndex, generatedNfaStates);
     for (int kind = 0; kind < allImages.length; kind++) {
       if (allImages[kind] == null || allImages[kind].equals("") ||
           Main.lg.lexStates[kind] != lexStateIndex) {
@@ -1698,6 +1695,9 @@ public class RStringLiteral extends RegularExpression {
         actualKind = kind;
       }
       kindToLexicalState.put(actualKind, lexStateIndex);
+      if (Options.getIgnoreCase()) {
+        s = s.toLowerCase();
+      }
       char c = s.charAt(0);
       int key = (int)Main.lg.lexStateIndex << 16 | (int)c;
       List<String> l = literalsByLength.get(key);
@@ -1712,61 +1712,26 @@ public class RStringLiteral extends RegularExpression {
       while (j < l.size() && l.get(j).length() > s.length()) j++;
       l.add(j, s);
       kinds.add(j, actualKind);
-      nfaStateMap.put(actualKind, GetStateSetForKind(s.length() - 1, kind));
+      int stateIndex = GetStateSetForKind(s.length() - 1, kind);
+      if (stateIndex != -1) {
+        nfaStateMap.put(actualKind, NfaState.getNfaState(stateIndex));
+      } else {
+        nfaStateMap.put(actualKind, null);
+      }
     }
   }
 
   public static void BuildTokenizerData(TokenizerData tokenizerData) {
+    Map<Integer, Integer> nfaStateIndices = new HashMap<Integer, Integer>();
     for (int kind : nfaStateMap.keySet()) {
-      nfaStateMap.put(kind, nfaStateMap.get(kind) +
-                            nfaStateOffset.get(kindToLexicalState.get(kind)));
+      if (nfaStateMap.get(kind) != null) {
+        nfaStateIndices.put(kind, nfaStateMap.get(kind).stateName);
+      } else {
+        nfaStateIndices.put(kind, -1);
+      }
     }
     tokenizerData.setLiteralSequence(literalsByLength);
     tokenizerData.setLiteralKinds(literalKinds);
-    tokenizerData.setKindToNfaStartState(nfaStateMap);
-  }
-
-  static void DumpDfaTables(CodeGenerator codeGenerator) {
-    Map<Integer, int[]> startAndSize = new HashMap<Integer, int[]>();
-    int i = 0;
-    codeGenerator.genCodeLine(
-        "private static final int[] stringLiterals = {");
-    for (int key : literalsByLength.keySet()) {
-      int[] arr = new int[2];
-      List<String> l = literalsByLength.get(key);
-      List<Integer> kinds = literalKinds.get(key);
-      arr[0] = i;
-      arr[1] = l.size();
-      int j = 0;
-      if (i > 0) codeGenerator.genCodeLine(", ");
-      for (String s : l) {
-        if (j > 0) codeGenerator.genCodeLine(", ");
-        codeGenerator.genCode(s.length());
-        for (int k = 0; k < s.length(); k++) {
-          codeGenerator.genCode(", ");
-          codeGenerator.genCode((int)s.charAt(k));
-          i++;
-        }
-        int kind = kinds.get(j);
-        codeGenerator.genCode(", " + kind);
-        codeGenerator.genCode(
-            ", " + (nfaStateMap.get(kind) +
-            nfaStateOffset.get(kindToLexicalState.get(kind))));
-        i += 3;
-        j++;
-      }
-      startAndSize.put(key, arr);
-    }
-    codeGenerator.genCodeLine("};");
-    codeGenerator.genCodeLine(
-        "private static final java.util.Map<Integer, int[]> startAndSize =\n" +
-        "    new java.util.HashMap<Integer, int[]>();");
-    codeGenerator.genCodeLine("static {");
-    for (int key : literalsByLength.keySet()) {
-      int[] arr = startAndSize.get(key);
-      codeGenerator.genCodeLine("startAndSize.put(" + key + ", new int[]{" +
-                                 arr[0] + ", " + arr[1] + "});");
-    }
-    codeGenerator.genCodeLine("}");
+    tokenizerData.setKindToNfaStartState(nfaStateIndices);
   }
 }

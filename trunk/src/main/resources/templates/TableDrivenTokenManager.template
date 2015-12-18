@@ -1,5 +1,17 @@
 public class ${parserName}TokenManager ${superClass} implements ${parserName}Constants {
 
+protected ${STATIC?static :}boolean moveToNextChar() {
+  try {
+    curChar = input_stream.readChar();
+#if IGNORE_CASE
+    curChar = (int)Character.toLowerCase((char)curChar);
+#fi
+  } catch(java.io.IOException e) {
+    return false;
+  }
+  return true;
+}
+
 ${decls}
 
 #if TOKEN_MANAGER_USES_PARSER && !STATIC
@@ -104,9 +116,7 @@ private ${STATIC?static :}final int jjRunStringLiteralMatch() {
 #fi
         if (curChar != stringLiterals[index + curPos]) break;
         if (++curPos == len) break;
-        try {
-          curChar = input_stream.readChar();
-        } catch(java.io.IOException e) {
+        if (!moveToNextChar()) {
           --curPos;
           break;
         }
@@ -121,9 +131,7 @@ private ${STATIC?static :}final int jjRunStringLiteralMatch() {
             " chars as kind: " + stringLiterals[index + len] +
             "; with image: " + tokenImage[jjmatchedKind]);
 #fi
-        try {
-          curChar = input_stream.readChar();
-        } catch(java.io.IOException e) {
+        if (!moveToNextChar()) {
           return curPos;
         }
         curPos++;
@@ -132,9 +140,7 @@ private ${STATIC?static :}final int jjRunStringLiteralMatch() {
         index += len + 2;
         input_stream.backup(curPos + 1);
         curPos = 0;
-        try {
-          curChar = input_stream.readChar();
-          } catch(java.io.IOException e) {
+        if (!moveToNextChar()) {
           assert(false);
         }
       }
@@ -175,9 +181,11 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
   // simply check if it's less than the current match and store it in that
   // case. This helps implement the 'first occurring' rule properly.
   int kind = Integer.MAX_VALUE;
-  stateSet[0] = startState;
-  moved[startState] = moveIndex;
-  int cnt = 1;
+  int cnt = 0;
+   {
+    stateSet[cnt++] = startState;
+    moved[startState] = moveIndex;
+  }
  
   // Some NFA states have epsilon transitions (move on empty string). So we
   // just start with all of them. Note that the nextStates array already adds
@@ -260,9 +268,7 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
       return curPos;
     }
     // Read the next character and try to continue running the NFA.
-    try {
-      curChar = input_stream.readChar();
-    } catch(java.io.IOException e) {
+    if (!moveToNextChar()) {
       // EOF reached!
 #if DEBUG_TOKEN_MANAGER
       System.err.println("Reached EOF here at pos: " + curPos);
@@ -365,6 +371,9 @@ public ${STATIC?static :} Token getNextToken() {
     // First see if we have any input at all.
     try {
       curChar = input_stream.BeginToken();
+#if IGNORE_CASE
+      curChar = Character.toLowerCase(curChar);
+#fi
     } catch(Exception e) {
 #if DEBUG_TOKEN_MANAGER
     if (lexStateNames.length > 1) {
@@ -412,6 +421,14 @@ public ${STATIC?static :} Token getNextToken() {
 #else
       lastReadPosition = jjMoveNfa(0, 0);
 #fi
+      if (jjmatchedPos == 0 && jjmatchedKind > canMatchAnyChar[curLexState]) {
+        jjmatchedKind = canMatchAnyChar[curLexState];
+#if DEBUG_TOKEN_MANAGER
+        System.err.println(
+            "Matched current char: '" + (char)curChar +
+            "' as a wildcard kind: " + jjmatchedKind);
+#fi
+      }
 
       if (jjmatchedKind != Integer.MAX_VALUE) {
         // We have a match!
