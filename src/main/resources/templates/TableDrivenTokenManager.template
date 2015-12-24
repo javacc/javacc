@@ -214,6 +214,7 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
     do {
       final int state = stateSet[--cnt];
 #if DEBUG_TOKEN_MANAGER
+      // TODO(sreeni) : Fix it to give better error message instead of UNKNOWN.
       System.err.println(
          "Looking to move from state: " + state + "; for: " +
          (jjmatchKinds[state] != Integer.MAX_VALUE

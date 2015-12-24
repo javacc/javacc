@@ -39,8 +39,8 @@ import org.javacc.utils.OptionType;
 /**
  * Entry point.
  */
-public final class Main {
-  private Main() {}
+public class Main {
+  protected Main() {}
 
   public static LexGen lg;
   static void help_message() {
