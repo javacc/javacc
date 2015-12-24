@@ -98,11 +98,6 @@ public class JavaCCInterpreter extends Main {
           }
           litIndex++;
         }
-        if (litIndex == literals.size()) {
-          // We went all the way without matching! So reset the input to the
-          // beginning so the NFA can do it's work.
-          curPos = beg;
-        }
       }
 
       if (nfaStartState != -1) {
