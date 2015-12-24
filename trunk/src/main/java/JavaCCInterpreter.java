@@ -150,6 +150,10 @@ public class JavaCCInterpreter extends Main {
           curLexState = matchInfo.newLexState;
         }
         curPos = matchedPos + 1;
+      } else {
+        System.err.println("Encountered token error at char: " +
+                           input.charAt(curPos));
+        System.exit(1);
       }
     }
     System.err.println("Matched EOF");
