@@ -97,6 +97,8 @@ public static String staticString;
   public static RegularExpression curRE;
   public static boolean keepLineCol;
   public static String errorHandlingClass;
+  public static TokenizerData tokenizerData;
+  public static boolean generateDataOnly;
 
   void PrintClassHead()
   {
@@ -358,7 +360,7 @@ public static String staticString;
     staticString = (Options.getStatic() ? "static " : "");
     tokMgrClassName = cu_name + "TokenManager";
 
-    if (codeGeneratorClass == null) PrintClassHead();
+    if (!generateDataOnly && codeGeneratorClass == null) PrintClassHead();
     BuildLexStatesTable();
 
     e = allTpsForState.keys();
@@ -526,7 +528,7 @@ public static String staticString;
       if (hasNfa[lexStateIndex] && !mixed[lexStateIndex])
         RStringLiteral.GenerateNfaStartStates(this, initialState);
 
-      if (codeGeneratorClass != null) {
+      if (generateDataOnly || codeGeneratorClass != null) {
         RStringLiteral.UpdateStringLiteralData(totalNumStates, lexStateIndex);
         NfaState.UpdateNfaData(totalNumStates, startState, lexStateIndex,
                                canMatchAnyChar[lexStateIndex]);
@@ -546,8 +548,7 @@ public static String staticString;
 
     CheckEmptyStringMatch();
 
-    if (codeGeneratorClass != null) {
-      TokenizerData tokenizerData = new TokenizerData();
+    if (generateDataOnly || codeGeneratorClass != null) {
       tokenizerData.setParserName(cu_name);
       NfaState.BuildTokenizerData(tokenizerData);
       RStringLiteral.BuildTokenizerData(tokenizerData);
@@ -583,7 +584,7 @@ public static String staticString;
       tokenizerData.updateMatchInfo(
           actionStrings, newLexStateIndices,
           toSkip, toSpecial, toMore, toToken);
-
+      if (generateDataOnly) return;
       Class<TokenManagerCodeGenerator> codeGenClazz;
       TokenManagerCodeGenerator gen;
       try {
@@ -1555,6 +1556,8 @@ public static String staticString;
     toSpecial = null;
     toToken = null;
     tokMgrClassName = null;
+    tokenizerData = new TokenizerData();
+    generateDataOnly = false;
   }
 
 }

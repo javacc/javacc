@@ -36,7 +36,7 @@ public class TokenizerData {
   public Map<Integer, Integer> kindToNfaStartState;
 
   // Class representing NFA state.
-  static class NfaState {
+  public static class NfaState {
     // Index of the state.
     public int index;
     // Set of allowed characters.
@@ -46,7 +46,7 @@ public class TokenizerData {
     // Initial state needs to transition to multiple states so the NFA will try
     // all possibilities.
     // TODO(sreeni) : Try and get rid of it at some point.
-    Set<Integer> compositeStates;
+    public Set<Integer> compositeStates;
     // match kind if any. Integer.MAX_VALUE if this is not a final state.
     public int kind;
 
@@ -63,7 +63,7 @@ public class TokenizerData {
   // The main nfa.
   public final Map<Integer, NfaState> nfa = new HashMap<Integer, NfaState>();
 
-  enum MatchType {
+  public static enum MatchType {
     SKIP,
     SPECIAL_TOKEN,
     MORE,
@@ -71,7 +71,7 @@ public class TokenizerData {
   }
 
   // Match info.
-  static class MatchInfo {
+  public static class MatchInfo {
     // String literal image in case this string literal token, null otherwise.
     public String image;
     // Kind index.
