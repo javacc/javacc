@@ -40,7 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.javacc.utils.JavaFileGenerator;
+import org.javacc.utils.OutputFileGenerator;
 
 import static org.javacc.parser.JavaCCGlobals.*;
 
