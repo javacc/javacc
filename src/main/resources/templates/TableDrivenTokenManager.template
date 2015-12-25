@@ -19,11 +19,11 @@ ${decls}
 /* Declarations from the TOKEN_MGR_DECLS section */
 
     /** Constructor with parser. */
-    public ${tokMgrClassName} (${cu_name} parserArg, ${charStreamName} stream){
+    public ${parserName}TokenManager (${parserName} parserArg, ${charStreamName} stream){
     parser = parserArg;
 #else
     /** Constructor. */
-    public ${tokMgrClassName}(${charStreamName} stream){
+    public ${parserName}TokenManager(${charStreamName} stream){
 #fi
 
 #if STATIC && !USER_CHAR_STREAM
@@ -33,7 +33,7 @@ ${decls}
     #if JAVA_UNICODE_ESCAPE
       if (JavaCharStream.staticFlag)
     #else
-      if (SimpleCharStream.staticFlag)
+      if (${charStreamName}.staticFlag)
     #fi
             throw new ${LEGACY_EXCEPTION_HANDLING?Error:RuntimeException}("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
 #fi
@@ -43,12 +43,12 @@ ${decls}
 
 #if TOKEN_MANAGER_USES_PARSER && !STATIC
   /** Constructor with parser. */
-  public ${tokMgrClassName} (${cu_name} parserArg, ${charStreamName} stream, int lexState){
+  public ${parserName}TokenManager (${parserName} parserArg, ${charStreamName} stream, int lexState){
     ReInit(parserArg, stream);
   }
 #else
   /** Constructor. */
-  public ${tokMgrClassName} (${charStreamName} stream, int lexState){
+  public ${parserName}TokenManager (${charStreamName} stream, int lexState){
     ReInit(stream);
     SwitchTo(lexState);
   }
@@ -57,7 +57,7 @@ ${decls}
   /** Reinitialise parser. */
   
 #if TOKEN_MANAGER_USES_PARSER && !STATIC
-  public void ReInit(${cu_name} parserArg, ${charStreamName} stream)
+  public void ReInit(${parserName} parserArg, ${charStreamName} stream)
 #else
   ${STATIC?static :}public void ReInit(${charStreamName} stream)
 #fi
@@ -75,7 +75,7 @@ ${decls}
 
   /** Reinitialise parser. */
 #if TOKEN_MANAGER_USES_PARSER && !STATIC
-  public void ReInit( ${cu_name} parserArg, ${charStreamName} stream, int lexState)
+  public void ReInit( ${parserName} parserArg, ${charStreamName} stream, int lexState)
 #else
   ${STATIC?static :}public void ReInit(${charStreamName} stream, int lexState)
 #fi
