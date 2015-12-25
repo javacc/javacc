@@ -3,10 +3,10 @@ import java.io.*;
 import java.util.*;
 import org.javacc.parser.*;
 
-public class JavaCCInterpreter extends Main {
+public class JavaCCInterpreter {
   public static void main(String[] args) throws Exception {
     // Initialize all static state
-    reInitAll();
+    Main.reInitAll();
     JavaCCParser parser = null;
     for (int arg = 0; arg < args.length - 2; arg++) {
       if (!Options.isOption(args[arg])) {
@@ -16,22 +16,35 @@ public class JavaCCInterpreter extends Main {
       Options.setCmdLineOption(args[arg]);
     }
 
+    String input = "";
+    String grammar = "";
     try {
       File fp = new File(args[args.length-2]);
-      parser =
-          new JavaCCParser(
-              new BufferedReader(
-                  new InputStreamReader(
-                      new FileInputStream(fp), Options.getGrammarEncoding())));
+      byte[] buf = new byte[(int)fp.length()];
+      new DataInputStream(
+          new BufferedInputStream(
+              new FileInputStream(fp))).readFully(buf);
+      grammar = new String(buf);
+      File inputFile = new File(args[args.length - 1]);
+      buf = new byte[(int)inputFile.length()];
+      new DataInputStream(
+          new BufferedInputStream(
+              new FileInputStream(inputFile))).readFully(buf);
+      input = new String(buf);
     } catch (FileNotFoundException e) {
-      System.out.println("File " + args[args.length - 2] + " not found.");
+      e.printStackTrace();
       System.exit(1);
     } catch (Throwable t) {
       System.exit(1);
     }
+    long l = System.currentTimeMillis();
+    new JavaCCInterpreter().runTokenizer(grammar, input);
+    System.err.println("Tokenized in: " + (System.currentTimeMillis()-l));
+  }
 
+  public void runTokenizer(String grammar, String input) {
     try {
-      JavaCCGlobals.fileName = JavaCCGlobals.origFileName = args[args.length-2];
+      JavaCCParser parser = new JavaCCParser(new StringReader(grammar));
       parser.javacc_input();
       Semanticize.start();
       LexGen lg = new LexGen();
@@ -39,20 +52,14 @@ public class JavaCCInterpreter extends Main {
       lg.start();
       TokenizerData td = LexGen.tokenizerData;
       if (JavaCCErrors.get_error_count() == 0) {
-        File input = new File(args[args.length - 1]);
-        byte[] buf = new byte[(int)input.length()];
-        new DataInputStream(new BufferedInputStream(new FileInputStream(input))).readFully(buf);
-        String s = new String(buf);
-        long l = System.currentTimeMillis();
-        tokenize(td, s);
-        System.err.println("Tokenized in: " + (System.currentTimeMillis()-l));
+        tokenize(td, input);
       }
     } catch (MetaParseException e) {
       System.out.println("Detected " + JavaCCErrors.get_error_count() +
                          " errors and "
                          + JavaCCErrors.get_warning_count() + " warnings.");
       System.exit(1);
-    } catch (ParseException e) {
+    } catch (Exception e) {
       System.out.println(e.toString());
       System.out.println("Detected " + (JavaCCErrors.get_error_count()+1) +
                          " errors and "
