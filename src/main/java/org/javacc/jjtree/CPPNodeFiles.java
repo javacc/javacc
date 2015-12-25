@@ -46,7 +46,7 @@ import org.javacc.Version;
 import org.javacc.parser.Options;
 import org.javacc.parser.OtherFilesGenCPP;
 import org.javacc.parser.OutputFile;
-import org.javacc.utils.JavaFileGenerator;
+import org.javacc.utils.OutputFileGenerator;
 
 final class CPPNodeFiles {
   private CPPNodeFiles() {}
@@ -562,8 +562,8 @@ final class CPPNodeFiles {
   {
     PrintWriter ostr = outputFile.getPrintWriter();
     generatePrologue(ostr);
-    JavaFileGenerator generator;
-    generator = new JavaFileGenerator(template, options);
+    OutputFileGenerator generator;
+    generator = new OutputFileGenerator(template, options);
     generator.generate(ostr);
     if (close) ostr.close();
   }

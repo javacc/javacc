@@ -4,7 +4,7 @@
 package org.javacc.parser;
 
 import static org.javacc.parser.JavaCCGlobals.*;
-import org.javacc.utils.JavaFileGenerator;
+import org.javacc.utils.OutputFileGenerator;
 
 import java.io.*;
 import java.util.*;
@@ -395,7 +395,7 @@ public class CodeGenerator {
       }
     }
     
-    JavaFileGenerator gen = new JavaFileGenerator(name, options);
+    OutputFileGenerator gen = new OutputFileGenerator(name, options);
     StringWriter sw = new StringWriter();
     gen.generate(new PrintWriter(sw));
     sw.close();

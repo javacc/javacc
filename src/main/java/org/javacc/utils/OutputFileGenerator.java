@@ -25,12 +25,7 @@
 
 package org.javacc.utils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.StringReader;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +37,7 @@ import java.util.Map;
  * @author paulcager
  * @since 4.2
  */
-public class JavaFileGenerator {
+public class OutputFileGenerator {
 
   /**
    * @param templateName the name of the template. E.g. 
@@ -50,7 +45,7 @@ public class JavaFileGenerator {
    * @param options the processing options in force, such
    *        as "STATIC=yes" 
    */
-  public JavaFileGenerator(String templateName, Map options) {
+  public OutputFileGenerator(String templateName, Map options) {
     this.templateName = templateName;
     this.options = options;
   }
@@ -204,19 +199,18 @@ public class JavaFileGenerator {
   {
     while ( text.indexOf("${") != -1)
     {
-		text = substitute(text);
+    text = substitute(text);
     }
     
-	// TODO :: Added by Sreenivas on 12 June 2013 for 6.0 release, merged in to 6.1 release for sake of compatibility by cainsley ... This needs to be removed urgently!!!
-	if (text.startsWith("\\#")) { // Hack to escape # for C++
-	  text = text.substring(1);
-	}
-	
+  // TODO :: Added by Sreenivas on 12 June 2013 for 6.0 release, merged in to 6.1 release for sake of compatibility by cainsley ... This needs to be removed urgently!!!
+    if (text.startsWith("\\#")) { // Hack to escape # for C++
+      text = text.substring(1);
+    }
     out.println(text);
   }
   
-  private void process(BufferedReader in, PrintWriter out, boolean ignoring)  throws IOException
-  {
+  private void process(BufferedReader in, PrintWriter out, boolean ignoring)
+      throws IOException {
     //    out.println("*** process ignore=" + ignoring + " : " + peekLine(in));
     while ( peekLine(in) != null)
     {
@@ -279,6 +273,31 @@ public class JavaFileGenerator {
     map.put("trueArg", Boolean.TRUE);
     map.put("stringValue", "someString");
     
-    new JavaFileGenerator(args[0], map).generate(new PrintWriter(args[1]));
+    new OutputFileGenerator(args[0], map).generate(new PrintWriter(args[1]));
+  }
+
+  public static void generateFromTemplate(
+      String template, Map<String, Object> options,
+      String outputFileName) throws IOException {
+    OutputFileGenerator gen = new OutputFileGenerator(template, options);
+    StringWriter sw = new StringWriter();
+    gen.generate(new PrintWriter(sw));
+    sw.close();
+    PrintWriter fw = null;
+    try {
+      File tmp = new File(outputFileName);
+      fw = new PrintWriter(
+              new BufferedWriter(
+              new FileWriter(tmp),
+              8092
+          )
+      );
+
+      fw.print(sw.toString());
+    } finally {
+      if (fw != null) {
+        fw.close();
+      }
+    }
   }
 }

@@ -40,7 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.javacc.utils.JavaFileGenerator;
+import org.javacc.utils.OutputFileGenerator;
 import static org.javacc.parser.JavaCCGlobals.*;
 
 /**
@@ -248,7 +248,7 @@ public static String staticString;
       }
     }
     
-    JavaFileGenerator gen = new JavaFileGenerator(name, options);
+    OutputFileGenerator gen = new OutputFileGenerator(name, options);
     StringWriter sw = new StringWriter();
     gen.generate(new PrintWriter(sw));
     sw.close();

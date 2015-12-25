@@ -15,32 +15,30 @@ import java.util.TreeSet;
  * java.
  */
 public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
-  private static final String BOILERPLATER_METHOD_RESOURCE_URL =
+  private static final String TokenManagerTemplate =
       "/templates/TableDrivenTokenManager.template";
   private final CodeGenerator codeGenerator = new CodeGenerator();
 
   @Override
   public void generateCode(TokenizerData tokenizerData) {
+    String superClass = (String)Options.getOptions().get(
+                             Options.USEROPTION__TOKEN_MANAGER_SUPER_CLASS);
     Map<String, Object> options = Options.getOptions();
     options.put("maxOrdinal", tokenizerData.allMatches.size());
     options.put("maxLexStates", tokenizerData.lexStateNames.length);
     options.put("stateSetSize", tokenizerData.nfa.size());
     options.put("parserName", tokenizerData.parserName);
     options.put("maxLongs", tokenizerData.allMatches.size()/64 + 1);
+    options.put("parserName", tokenizerData.parserName);
+    options.put("charStreamName", codeGenerator.getCharStreamName());
+    options.put("defaultLexState", tokenizerData.defaultLexState);
+    options.put("decls", tokenizerData.decls);
+    options.put("superClass", (superClass == null || superClass.equals(""))
+                      ? "" : "extends " + superClass);
+    options.put("noDfa", Options.getNoDfa());
+    options.put("generatedStates", tokenizerData.nfa.size());
     try {
-      String superClass = (String)Options.getOptions().get(
-                               Options.USEROPTION__TOKEN_MANAGER_SUPER_CLASS);
-      codeGenerator.writeTemplate(
-        BOILERPLATER_METHOD_RESOURCE_URL, options,
-        "parserName", tokenizerData.parserName,
-        // TODo(sreeni) : Fix this.
-        "charStreamName", codeGenerator.getCharStreamName(),
-        "defaultLexState", tokenizerData.defaultLexState,
-        "decls", tokenizerData.decls,
-        "superClass", (superClass == null || superClass.equals(""))
-                          ? "" : "extends " + superClass,
-        "noDfa", Options.getNoDfa(),
-        "generatedStates", tokenizerData.nfa.size());
+      codeGenerator.writeTemplate(TokenManagerTemplate, options);
       dumpDfaTables(codeGenerator, tokenizerData);
       dumpNfaTables(codeGenerator, tokenizerData);
       dumpMatchInfo(codeGenerator, tokenizerData);

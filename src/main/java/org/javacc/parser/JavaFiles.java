@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.javacc.Version;
-import org.javacc.utils.JavaFileGenerator;
+import org.javacc.utils.OutputFileGenerator;
 
 /**
  * Generate CharStream, TokenManager and Exceptions.
@@ -274,7 +274,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       Map options = new HashMap(Options.getOptions());
       options.put("PREFIX", prefix);
       
-      JavaFileGenerator generator = new JavaFileGenerator(
+      OutputFileGenerator generator = new OutputFileGenerator(
     		  locations.getJavaCharStreamTemplateResourceUrl(), options);
       
       generator.generate(ostr);
@@ -321,7 +321,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       Map options = new HashMap(Options.getOptions());
       options.put("PREFIX", prefix);
       
-      JavaFileGenerator generator = new JavaFileGenerator(
+      OutputFileGenerator generator = new OutputFileGenerator(
     		  locations.getSimpleCharStreamTemplateResourceUrl(), options);
       
       generator.generate(ostr);
@@ -365,7 +365,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
         }
       }
       
-      JavaFileGenerator generator = new JavaFileGenerator(
+      OutputFileGenerator generator = new OutputFileGenerator(
     		  locations.getCharStreamTemplateResourceUrl(), Options.getOptions());
       
       generator.generate(ostr);
@@ -417,7 +417,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 	    }
 	  }
 	  
-	  JavaFileGenerator generator = new JavaFileGenerator( templatePath, Options.getOptions());
+	  OutputFileGenerator generator = new OutputFileGenerator( templatePath, Options.getOptions());
 	  
 	  generator.generate(ostr);
 
@@ -459,7 +459,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
         }
       }
       
-      JavaFileGenerator generator = new JavaFileGenerator(
+      OutputFileGenerator generator = new OutputFileGenerator(
     		  locations.getParseExceptionTemplateResourceUrl(), Options.getOptions());
       
       generator.generate(ostr);
@@ -510,7 +510,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       
       
       
-      JavaFileGenerator generator = new JavaFileGenerator( locations.getTokenMgrErrorTemplateResourceUrl(), Options.getOptions());
+      OutputFileGenerator generator = new OutputFileGenerator( locations.getTokenMgrErrorTemplateResourceUrl(), Options.getOptions());
       
       generator.generate(ostr);
 
@@ -555,7 +555,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
         }
       }
       
-      JavaFileGenerator generator = new JavaFileGenerator(
+      OutputFileGenerator generator = new OutputFileGenerator(
     		  locations.getTokenTemplateResourceUrl(), Options.getOptions());
       
       generator.generate(ostr);
@@ -599,7 +599,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
         }
       }
 
-      JavaFileGenerator generator = new JavaFileGenerator(
+      OutputFileGenerator generator = new OutputFileGenerator(
     		  locations.getTokenManagerTemplateResourceUrl(), Options.getOptions());
       
       generator.generate(ostr);
