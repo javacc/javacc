@@ -4,9 +4,10 @@
 package org.javacc.parser;
 
 import static org.javacc.parser.JavaCCGlobals.*;
+import org.javacc.utils.JavaFileGenerator;
 
 import java.io.*;
-import java.util.List;
+import java.util.*;
 
 public class CodeGenerator {
   protected StringBuffer mainBuffer = new StringBuffer();
@@ -370,8 +371,34 @@ public class CodeGenerator {
     }
   }
   @SuppressWarnings("unchecked")
-  protected void writeTemplate(
-      String name, Object... additionalOptions) throws IOException {
-    throw new UnsupportedOperationException();
+  protected void writeTemplate(String name, Map<String, Object> options, Object... additionalOptions) throws IOException
+  {
+
+    // options.put("", .valueOf(maxOrdinal));
+    
+    
+    for (int i = 0; i < additionalOptions.length; i++)
+    {
+      Object o = additionalOptions[i];
+    
+      if (o instanceof Map<?,?>)
+      {
+        options.putAll((Map<String,Object>) o);
+      }
+      else
+      {
+        if (i == additionalOptions.length - 1)
+          throw new IllegalArgumentException("Must supply pairs of [name value] args");
+        
+        options.put((String) o, additionalOptions[i+1]);
+        i++;
+      }
+    }
+    
+    JavaFileGenerator gen = new JavaFileGenerator(name, options);
+    StringWriter sw = new StringWriter();
+    gen.generate(new PrintWriter(sw));
+    sw.close();
+    genCode(sw.toString());
   }
 }

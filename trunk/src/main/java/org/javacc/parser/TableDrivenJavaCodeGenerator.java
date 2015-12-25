@@ -15,18 +15,23 @@ import java.util.TreeSet;
  * java.
  */
 public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
-  private final String staticString = Options.getStatic() ? "static " : "";
   private static final String BOILERPLATER_METHOD_RESOURCE_URL =
       "/templates/TableDrivenTokenManager.template";
+  private final CodeGenerator codeGenerator = new CodeGenerator();
 
   @Override
-  public void generateCode(
-      CodeGenerator codeGenerator, TokenizerData tokenizerData) {
+  public void generateCode(TokenizerData tokenizerData) {
+    Map<String, Object> options = Options.getOptions();
+    options.put("maxOrdinal", tokenizerData.allMatches.size());
+    options.put("maxLexStates", tokenizerData.lexStateNames.length);
+    options.put("stateSetSize", tokenizerData.nfa.size());
+    options.put("parserName", tokenizerData.parserName);
+    options.put("maxLongs", tokenizerData.allMatches.size()/64 + 1);
     try {
       String superClass = (String)Options.getOptions().get(
                                Options.USEROPTION__TOKEN_MANAGER_SUPER_CLASS);
       codeGenerator.writeTemplate(
-        BOILERPLATER_METHOD_RESOURCE_URL,
+        BOILERPLATER_METHOD_RESOURCE_URL, options,
         "parserName", tokenizerData.parserName,
         // TODo(sreeni) : Fix this.
         "charStreamName", codeGenerator.getCharStreamName(),
@@ -45,7 +50,7 @@ public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
   }
 
   @Override
-  public void finish(CodeGenerator codeGenerator, TokenizerData tokenizerData) {
+  public void finish(TokenizerData tokenizerData) {
     // TODO(sreeni) : Fix this mess.
     codeGenerator.genCodeLine("\n}");
     if (!Options.getBuildParser()) return;
@@ -301,6 +306,7 @@ public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
 
     // Action functions.
 
+    final String staticString = Options.getStatic() ? "static " : "";
     // Token actions.
     codeGenerator.genCodeLine(
         staticString + "void TokenLexicalActions(Token matchedToken) {");
@@ -310,6 +316,8 @@ public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
 
     // Skip actions.
     // TODO(sreeni) : Streamline this mess.
+System.err.println("*** statiuc: " + staticString);
+
     codeGenerator.genCodeLine(
         staticString + "void SkipLexicalActions(Token matchedToken) {");
     dumpLexicalActions(allMatches, TokenizerData.MatchType.SKIP,

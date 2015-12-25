@@ -72,6 +72,7 @@ public class Options {
 	public static final String USEROPTION__JAVA_TEMPLATE_TYPE = "JAVA_TEMPLATE_TYPE";
 	public static final String USEROPTION__GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
 	public static final String USEROPTION__OUTPUT_LANGUAGE = "OUTPUT_LANGUAGE";
+	public static final String USEROPTION__PARSER_CODE_GENERATOR = "PARSER_CODE_GENERATOR";
 	public static final String USEROPTION__TOKEN_MANAGER_CODE_GENERATOR = "TOKEN_MANAGER_CODE_GENERATOR";
 	public static final String USEROPTION__NO_DFA = "NO_DFA";
 	public static final String USEROPTION__STATIC = "STATIC";
@@ -158,6 +159,7 @@ public class Options {
 		temp.add(new OptionInfo(USEROPTION__CHOICE_AMBIGUITY_CHECK, OptionType.INTEGER,new Integer(2)));
 		temp.add(new OptionInfo(USEROPTION__OTHER_AMBIGUITY_CHECK, OptionType.INTEGER, new Integer(1)));
 		temp.add(new OptionInfo(USEROPTION__STATIC, OptionType.BOOLEAN, Boolean.TRUE));
+		temp.add(new OptionInfo(USEROPTION__PARSER_CODE_GENERATOR, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__TOKEN_MANAGER_CODE_GENERATOR, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__NO_DFA, OptionType.BOOLEAN, Boolean.FALSE));
 		temp.add(new OptionInfo(USEROPTION__DEBUG_PARSER, OptionType.BOOLEAN, Boolean.FALSE));
@@ -588,6 +590,10 @@ public class Options {
 	 */
 	public static boolean getStatic() {
 		return booleanValue(USEROPTION__STATIC);
+	}
+	public static String getParserCodeGenerator() {
+	  String retVal = stringValue(USEROPTION__PARSER_CODE_GENERATOR);
+          return retVal.equals("") ? null : retVal;
 	}
 	public static String getTokenManagerCodeGenerator() {
 	  String retVal = stringValue(USEROPTION__TOKEN_MANAGER_CODE_GENERATOR);

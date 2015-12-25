@@ -41,9 +41,11 @@ public class JavaCCInterpreter extends Main {
       if (JavaCCErrors.get_error_count() == 0) {
         File input = new File(args[args.length - 1]);
         byte[] buf = new byte[(int)input.length()];
-        new DataInputStream(new FileInputStream(input)).readFully(buf);
+        new DataInputStream(new BufferedInputStream(new FileInputStream(input))).readFully(buf);
         String s = new String(buf);
+        long l = System.currentTimeMillis();
         tokenize(td, s);
+        System.err.println("Tokenized in: " + (System.currentTimeMillis()-l));
       }
     } catch (MetaParseException e) {
       System.out.println("Detected " + JavaCCErrors.get_error_count() +
@@ -138,8 +140,8 @@ public class JavaCCInterpreter extends Main {
               "Actions not implemented (yet) in intererpreted mode");
         }
         if (matchInfo.matchType == TokenizerData.MatchType.TOKEN) {
-          System.err.println("Token: " + matchedKind + "; image: \"" +
-                             input.substring(beg, matchedPos + 1) + "\"");
+          //System.err.println("Token: " + matchedKind + "; image: \"" +
+                             //input.substring(beg, matchedPos + 1) + "\"");
         }
         if (matchInfo.newLexState != -1) {
           curLexState = matchInfo.newLexState;

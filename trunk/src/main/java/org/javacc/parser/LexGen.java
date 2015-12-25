@@ -596,8 +596,8 @@ public static String staticString;
             codeGeneratorClass + "\nError: " + ee.getMessage());
         return;
       }
-      gen.generateCode(this, tokenizerData);
-      gen.finish(this, tokenizerData);
+      gen.generateCode(tokenizerData);
+      gen.finish(tokenizerData);
       return;
     }
 
