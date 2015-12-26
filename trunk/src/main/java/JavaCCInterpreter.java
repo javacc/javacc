@@ -147,8 +147,8 @@ public class JavaCCInterpreter {
               "Actions not implemented (yet) in intererpreted mode");
         }
         if (matchInfo.matchType == TokenizerData.MatchType.TOKEN) {
-          //System.err.println("Token: " + matchedKind + "; image: \"" +
-                             //input.substring(beg, matchedPos + 1) + "\"");
+          System.err.println("Token: " + matchedKind + "; image: \"" +
+                             input.substring(beg, matchedPos + 1) + "\"");
         }
         if (matchInfo.newLexState != -1) {
           curLexState = matchInfo.newLexState;

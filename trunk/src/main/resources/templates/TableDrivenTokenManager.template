@@ -155,10 +155,10 @@ private ${STATIC?static :}final int jjRunStringLiteralMatch() {
 }
 #fi
 
-private static  int[] stateSet = new int[${generatedStates}];
-private static  int[] newStateSet = new int[${generatedStates}];
-private static  final long[] moved = new long[${generatedStates}];
-private static long moveIndex = 0L;
+private ${STATIC?static :}  int[] stateSet = new int[${generatedStates}];
+private ${STATIC?static :}  int[] newStateSet = new int[${generatedStates}];
+private ${STATIC?static :}  final long[] moved = new long[${generatedStates}];
+private ${STATIC?static :} long moveIndex = 1L;
 
 private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
 
@@ -182,10 +182,8 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
   // case. This helps implement the 'first occurring' rule properly.
   int kind = Integer.MAX_VALUE;
   int cnt = 0;
-   {
-    stateSet[cnt++] = startState;
-    moved[startState] = moveIndex;
-  }
+  stateSet[cnt++] = startState;
+  moved[startState] = moveIndex;
  
   // Some NFA states have epsilon transitions (move on empty string). So we
   // just start with all of them. Note that the nextStates array already adds
@@ -209,6 +207,7 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
       for (int i = 0; i < ${generatedStates}; i++) moved[i] = 0L;
       moveIndex = 1L;
     }
+
     final int vectorIndex = curChar >> 6;
     final long bitpattern = (1L << (curChar & 077));
     do {
