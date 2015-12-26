@@ -314,7 +314,6 @@ public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
 
     // Skip actions.
     // TODO(sreeni) : Streamline this mess.
-System.err.println("*** statiuc: " + staticString);
 
     codeGenerator.genCodeLine(
         staticString + "void SkipLexicalActions(Token matchedToken) {");
