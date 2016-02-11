@@ -23,42 +23,55 @@ class JJT${PARSER_NAME}State {
   /* Determines whether the current node was actually closed and
      pushed.  This should only be called in the final user action of a
      node scope.  */
-  public: virtual bool nodeCreated();
+  public: bool nodeCreated() {
+    return node_created;
+  }
 
   /* Call this to reinitialize the node stack.  It is called
      automatically by the parser's ReInit() method. */
-  public: virtual void reset();
+  public: void reset();
 
   /* Returns the root node of the AST.  It only makes sense to call
      this after a successful parse. */
-  public: virtual Node *rootNode();
+  public: Node *rootNode();
 
   /* Pushes a node on to the stack. */
-  public: virtual void pushNode(Node *n);
+  public: void pushNode(Node *n) {
+    nodes.push_back(n);
+    ++sp;
+  }
 
   /* Returns the node on the top of the stack, and remove it from the
      stack.  */
-  public: virtual Node *popNode();
+  public: Node *popNode();
 
   /* Returns the node currently on the top of the stack. */
-  public: virtual Node *peekNode();
+  public: Node *peekNode() {
+    return nodes.size() == 0 ? NULL : nodes.back();
+  }
 
   /* Returns the number of children on the stack in the current node
      scope. */
-  public: virtual int nodeArity();
+  public: int nodeArity() {
+    return sp - mk;
+  }
+
+  public: void clearNodeScope(Node *n);
 
 
-  public: virtual void clearNodeScope(Node *n);
-
-
-  public: virtual void openNodeScope(Node *n);
+  public: void openNodeScope(Node *n) {
+    marks.push_back(mk);
+    mk = sp;
+    n->jjtOpen();
+    open_nodes.push_back(n);
+  }
 
 
   /* A definite node is constructed from a specified number of
      children.  That number of nodes are popped from the stack and
      made the children of the definite node.  Then the definite node
      is pushed on to the stack. */
-  public: virtual void closeNodeScope(Node *n, int num);
+  public: void closeNodeScope(Node *n, int num);
 
 
   /* A conditional node is constructed if its condition is true.  All
@@ -66,8 +79,8 @@ class JJT${PARSER_NAME}State {
      made children of the conditional node, which is then pushed
      on to the stack.  If the condition is false the node is not
      constructed and they are left on the stack. */
-  public: virtual void closeNodeScope(Node *n, bool condition);
-  public: virtual ~JJT${PARSER_NAME}State();
+  public: void closeNodeScope(Node *n, bool condition);
+  public: ~JJT${PARSER_NAME}State();
 
   private:
     void EraseOpenNode(Node* n) {

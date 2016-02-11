@@ -30,13 +30,6 @@ namespace ${NAMESPACE_OPEN}
     mk = 0;
   }
 
-  /* Determines whether the current node was actually closed and
-     pushed.  This should only be called in the final user action of a
-     node scope.  */
-  bool JJT${PARSER_NAME}State::nodeCreated() {
-    return node_created;
-  }
-
   /* Call this to reinitialize the node stack.  It is called
      automatically by the parser's ReInit() method. */
   void JJT${PARSER_NAME}State::reset() {
@@ -52,12 +45,6 @@ namespace ${NAMESPACE_OPEN}
     return nodes.at(0);
   }
 
-  /* Pushes a node on to the stack. */
-  void JJT${PARSER_NAME}State::pushNode(Node *n) {
-    nodes.push_back(n);
-    ++sp;
-  }
-
   /* Returns the node on the top of the stack, and remove it from the
      stack.  */
   Node *JJT${PARSER_NAME}State::popNode() {
@@ -69,33 +56,12 @@ namespace ${NAMESPACE_OPEN}
     return ret;
   }
 
-  /* Returns the node currently on the top of the stack. */
-  Node *JJT${PARSER_NAME}State::peekNode() {
-    return nodes.size() == 0 ? NULL : nodes.back();
-  }
-
-  /* Returns the number of children on the stack in the current node
-     scope. */
-  int JJT${PARSER_NAME}State::nodeArity() {
-    return sp - mk;
-  }
-
-
   void JJT${PARSER_NAME}State::clearNodeScope(Node *n) {
     while (sp > mk) {
       delete popNode();
     }
     FIXUP_MARKS;
   }
-
-
-  void JJT${PARSER_NAME}State::openNodeScope(Node *n) {
-    marks.push_back(mk);
-    mk = sp;
-    n->jjtOpen();
-    open_nodes.push_back(n);
-  }
-
 
   /* A definite node is constructed from a specified number of
      children.  That number of nodes are popped from the stack and
