@@ -840,7 +840,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 
 			genCodeLine("  " + staticOpt() + "private int trace_indent = 0;");
 			genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType()
-					+ " trace_enabled = false;");
+					+ " trace_enabled;");
 			genCodeLine("");
 			genCodeLine("/** Trace enabled. */");
 			genCodeLine("  " + staticOpt() + "final public boolean trace_enabled() {");
