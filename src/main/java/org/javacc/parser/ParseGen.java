@@ -182,6 +182,12 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 			}
 			genCodeLine("");
 
+			if (Options.getDebugParser()) {
+				genCodeLine("  {");
+				genCodeLine("      enable_tracing();");
+				genCodeLine("  }");
+			}
+
 			if (!Options.getUserTokenManager()) {
 				if (Options.getUserCharStream()) {
 					genCodeLine("  /** Constructor with user supplied CharStream. */");
@@ -832,16 +838,17 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 			}
 			genCodeLine("");
 
+			genCodeLine("  " + staticOpt() + "private int trace_indent = 0;");
+			genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType()
+					+ " trace_enabled = false;");
+			genCodeLine("");
+			genCodeLine("/** Trace enabled. */");
+			genCodeLine("  " + staticOpt() + "final public boolean trace_enabled() {");
+			genCodeLine("	 return trace_enabled;");
+			genCodeLine("  }");
+			genCodeLine("");
+
 			if (Options.getDebugParser()) {
-				genCodeLine("  " + staticOpt() + "private int trace_indent = 0;");
-				genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType()
-						+ " trace_enabled = true;");
-				genCodeLine("");
-				genCodeLine("/** Trace enabled. */");
-				genCodeLine("  " + staticOpt() + "final public boolean trace_enabled() {");
-				genCodeLine("	 return trace_enabled;");
-				genCodeLine("  }");
-				genCodeLine("");
 				genCodeLine("/** Enable tracing. */");
 				genCodeLine("  " + staticOpt() + "final public void enable_tracing() {");
 				genCodeLine("	 trace_enabled = true;");
