@@ -289,7 +289,7 @@ public class CodeGenerator {
     genCommaSeperatedString(superInterfaces);
     genCodeLine(" {");
     if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
-      genCodeLine("   public:");
+      genCodeLine("public:");
     }
   }
 
@@ -337,7 +337,7 @@ public class CodeGenerator {
       }
       genCodeLine("");
     } else {
-      includeBuffer.append("\n" + modsAndRetType + " " + nameAndParams);
+      includeBuffer.append(modsAndRetType + " " + nameAndParams);
       //if (exceptions != null)
         //includeBuffer.append(" throw(" + exceptions + ")");
       includeBuffer.append(";\n");
