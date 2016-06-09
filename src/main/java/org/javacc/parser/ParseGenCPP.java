@@ -73,7 +73,7 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("    JJCalls*   next;");
     genCodeLine("    Token*     first;");
     genCodeLine("    ~JJCalls() { if (next) delete next; }");
-    genCodeLine("     JJCalls() { next = NULL; arg = 0; gen = -1; first = NULL; }");
+    genCodeLine("     JJCalls() { next = nullptr; arg = 0; gen = -1; first = nullptr; }");
     genCodeLine("  };");
     genCodeLine("");
 
@@ -178,7 +178,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine(" : " + superClass + "()");
     }
     genCodeLine("{");
-    genCodeLine("    head = NULL;");
+    genCodeLine("    head = nullptr;");
     genCodeLine("    errorHandlerCreated = false;");
     genCodeLine("    ReInit(tm);");
     genCodeLine("}");
@@ -199,11 +199,11 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("    token_source = tm;");
     genCodeLine("    head = token = new Token();");
     genCodeLine("    token->kind = 0;");
-    genCodeLine("    token->next = NULL;");
+    genCodeLine("    token->next = nullptr;");
     genCodeLine("    jj_lookingAhead = false;");
     genCodeLine("    jj_rescan = false;");
     genCodeLine("    jj_done = false;");
-    genCodeLine("    jj_scanpos = jj_lastpos = NULL;");
+    genCodeLine("    jj_scanpos = jj_lastpos = nullptr;");
     genCodeLine("    jj_gc = 0;");
     genCodeLine("    jj_kind = -1;");
     genCodeLine("    trace_indent = 0;");
@@ -295,11 +295,11 @@ public class ParseGenCPP extends ParseGen {
     }
     if (Options.getCacheTokens()) {
       genCodeLine("    Token *oldToken = token;");
-      genCodeLine("    if ((token = jj_nt)->next != NULL) jj_nt = jj_nt->next;");
+      genCodeLine("    if ((token = jj_nt)->next != nullptr) jj_nt = jj_nt->next;");
       genCodeLine("    else jj_nt = jj_nt->next = token_source->getNextToken();");
     } else {
       genCodeLine("    Token *oldToken;");
-      genCodeLine("    if ((oldToken = token)->next != NULL) token = token->next;");
+      genCodeLine("    if ((oldToken = token)->next != nullptr) token = token->next;");
       genCodeLine("    else token = token->next = token_source->getNextToken();");
       genCodeLine("    jj_ntk = -1;");
     }
@@ -311,8 +311,8 @@ public class ParseGenCPP extends ParseGen {
         genCodeLine("        jj_gc = 0;");
         genCodeLine("        for (int i = 0; i < " + jj2index + "; i++) {");
         genCodeLine("          JJCalls *c = &jj_2_rtns[i];");
-        genCodeLine("          while (c != NULL) {");
-        genCodeLine("            if (c->gen < jj_gen) c->first = NULL;");
+        genCodeLine("          while (c != nullptr) {");
+        genCodeLine("            if (c->gen < jj_gen) c->first = nullptr;");
         genCodeLine("            c = c->next;");
         genCodeLine("          }");
         genCodeLine("        }");
@@ -360,7 +360,7 @@ public class ParseGenCPP extends ParseGen {
       }
       genCodeLine("    if (jj_scanpos == jj_lastpos) {");
       genCodeLine("      jj_la--;");
-      genCodeLine("      if (jj_scanpos->next == NULL) {");
+      genCodeLine("      if (jj_scanpos->next == nullptr) {");
       genCodeLine("        jj_lastpos = jj_scanpos = jj_scanpos->next = token_source->getNextToken();");
       genCodeLine("      } else {");
       genCodeLine("        jj_lastpos = jj_scanpos = jj_scanpos->next;");
@@ -371,8 +371,8 @@ public class ParseGenCPP extends ParseGen {
       if (Options.getErrorReporting()) {
         genCodeLine("    if (jj_rescan) {");
         genCodeLine("      int i = 0; Token *tok = token;");
-        genCodeLine("      while (tok != NULL && tok != jj_scanpos) { i++; tok = tok->next; }");
-        genCodeLine("      if (tok != NULL) jj_add_error_token(kind, i);");
+        genCodeLine("      while (tok != nullptr && tok != jj_scanpos) { i++; tok = tok->next; }");
+        genCodeLine("      if (tok != nullptr) jj_add_error_token(kind, i);");
         if (Options.getDebugLookahead()) {
           genCodeLine("    } else {");
           genCodeLine("      trace_scan(jj_scanpos, kind);");
@@ -393,10 +393,10 @@ public class ParseGenCPP extends ParseGen {
     generateMethodDefHeader("Token *", cu_name, "getNextToken()");
     genCodeLine("{");
     if (Options.getCacheTokens()) {
-      genCodeLine("    if ((token = jj_nt)->next != NULL) jj_nt = jj_nt->next;");
+      genCodeLine("    if ((token = jj_nt)->next != nullptr) jj_nt = jj_nt->next;");
       genCodeLine("    else jj_nt = jj_nt->next = token_source->getNextToken();");
     } else {
-      genCodeLine("    if (token->next != NULL) token = token->next;");
+      genCodeLine("    if (token->next != nullptr) token = token->next;");
       genCodeLine("    else token = token->next = token_source->getNextToken();");
       genCodeLine("    jj_ntk = -1;");
     }
@@ -418,7 +418,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("    Token *t = token;");
     }
     genCodeLine("    for (int i = 0; i < index; i++) {");
-    genCodeLine("      if (t->next != NULL) t = t->next;");
+    genCodeLine("      if (t->next != nullptr) t = t->next;");
     genCodeLine("      else t = t->next = token_source->getNextToken();");
     genCodeLine("    }");
     genCodeLine("    return t;");
@@ -428,7 +428,7 @@ public class ParseGenCPP extends ParseGen {
       generateMethodDefHeader("int", cu_name, "jj_ntk_f()");
       genCodeLine("{");
  
-      genCodeLine("    if ((jj_nt=token->next) == NULL)");
+      genCodeLine("    if ((jj_nt=token->next) == nullptr)");
       genCodeLine("      return (jj_ntk = (token->next=token_source->getNextToken())->kind);");
       genCodeLine("    else");
       genCodeLine("      return (jj_ntk = jj_nt->kind);");
@@ -530,7 +530,7 @@ public class ParseGenCPP extends ParseGen {
       //else
          //genCodeLine("      exptokseq[i] = jj_expentries.get(i);");
       //genCodeLine("    }");
-      genCodeLine("    return new _ParseException();");//token, NULL, tokenImage);");
+      genCodeLine("    return new _ParseException();");//token, nullptr, tokenImage);");
       genCodeLine("  }"); */
     } else {
       genCodeLine("protected:");
@@ -658,7 +658,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("          }");
       genCodeLine("        }");
       genCodeLine("        p = p->next;");
-      genCodeLine("      } while (p != NULL);");
+      genCodeLine("      } while (p != nullptr);");
       //genCodeLine("      } catch(LookaheadSuccess ls) { }");
       genCodeLine("    }");
       genCodeLine("    jj_rescan = false;");
@@ -669,7 +669,7 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("{");
       genCodeLine("    JJCalls *p = &jj_2_rtns[index];");
       genCodeLine("    while (p->gen > jj_gen) {");
-      genCodeLine("      if (p->next == NULL) { p = p->next = new JJCalls(); break; }");
+      genCodeLine("      if (p->next == nullptr) { p = p->next = new JJCalls(); break; }");
       genCodeLine("      p = p->next;");
       genCodeLine("    }");
       genCodeLine("    p->gen = jj_gen + xla - jj_la; p->first = token; p->arg = xla;");
