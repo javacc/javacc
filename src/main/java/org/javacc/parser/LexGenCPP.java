@@ -163,7 +163,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
       genCodeLine("");
       genCodeLine("  /** The parser. */");
-      genCodeLine("  public: " + cu_name + " parser = NULL;");
+      genCodeLine("  public: " + cu_name + "* parser = nullptr;");
     }
     switchToMainFile();
   }
@@ -524,11 +524,10 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     genCodeLine("#define JAVACC_CHARSTREAM CharStream");
     genCodeLine("#endif");
 
-    genCodeLine("  private: " + cu_name + "*parser;");
     genCodeLine("  private: void ReInitRounds();");
-    genCodeLine("  public: " + tokMgrClassName + "(JAVACC_CHARSTREAM *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = NULL);");
+    genCodeLine("  public: " + tokMgrClassName + "(JAVACC_CHARSTREAM *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = nullptr);");
     genCodeLine("  public: virtual ~" + tokMgrClassName + "();");
-    genCodeLine("  void ReInit(JAVACC_CHARSTREAM *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = NULL);");
+    genCodeLine("  void ReInit(JAVACC_CHARSTREAM *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = nullptr);");
     genCodeLine("  void SwitchTo(int lexState);");
     genCodeLine("  void clear();");
     genCodeLine("  const JAVACC_SIMPLE_STRING jjKindsForBitVector(int i, " + Options.getLongType() + " vec);");
@@ -692,8 +691,8 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       genCodeLine("   t->kind = jjmatchedKind;");
       genCodeLine("   t->image = curTokenImage;");
     }
-    genCodeLine("   t->specialToken = NULL;");
-    genCodeLine("   t->next = NULL;");
+    genCodeLine("   t->specialToken = nullptr;");
+    genCodeLine("   t->next = nullptr;");
 
     if (keepLineCol) {
       genCodeLine("");
@@ -716,12 +715,12 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
     switchToIncludeFile();
     genCodeLine("");
-    genCodeLine("public: int curLexState;");
-
-    genCodeLine("public: int jjnewStateCnt;");
-    genCodeLine("public: int jjround;");
-    genCodeLine("public: int jjmatchedPos;");
-    genCodeLine("public: int jjmatchedKind;");
+    genCodeLine("public:");
+    genCodeLine("    int curLexState;");
+    genCodeLine("    int jjnewStateCnt;");
+    genCodeLine("    int jjround;");
+    genCodeLine("    int jjmatchedPos;");
+    genCodeLine("    int jjmatchedKind;");
     genCodeLine("");
     switchToMainFile();
     genCodeLine("const int defaultLexState = " + defaultLexState + ";");
@@ -729,7 +728,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     generateMethodDefHeader("Token *", tokMgrClassName, "getNextToken()");
     genCodeLine("{");
     if (hasSpecial) {
-      genCodeLine("  Token *specialToken = NULL;");
+      genCodeLine("  Token *specialToken = nullptr;");
     }
     genCodeLine("  Token *matchedToken;");
     genCodeLine("  int curPos = 0;");
@@ -979,7 +978,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
             genCodeLine(prefix + "            matchedToken = jjFillToken();");
 
-            genCodeLine(prefix + "            if (specialToken == NULL)");
+            genCodeLine(prefix + "            if (specialToken == nullptr)");
             genCodeLine(prefix + "               specialToken = matchedToken;");
             genCodeLine(prefix + "            else");
             genCodeLine(prefix + "            {");
@@ -995,11 +994,11 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
             if (hasSkipActions)
             {
               genCodeLine(prefix + "         else");
-              genCodeLine(prefix + "            SkipLexicalActions(NULL);");
+              genCodeLine(prefix + "            SkipLexicalActions(nullptr);");
             }
           }
           else if (hasSkipActions)
-            genCodeLine(prefix + "         SkipLexicalActions(NULL);");
+            genCodeLine(prefix + "         SkipLexicalActions(nullptr);");
 
           if (maxLexStates > 1)
           {
