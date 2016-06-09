@@ -6,10 +6,10 @@ namespace ${NAMESPACE_OPEN}
 #fi
 
 #if NODE_FACTORY
-  ${NODE_FACTORY} *nodeFactory = NULL;
+  ${NODE_FACTORY} *nodeFactory = nullptr;
   // Takes ownerhip of the factory
   void setNodeFactory(${NODE_FACTORY} *factory) {
-    //if (nodeFactory != NULL) {
+    //if (nodeFactory) {
       //delete nodeFactory;
     //}
     nodeFactory = factory;
@@ -75,7 +75,7 @@ namespace ${NAMESPACE_OPEN}
 
   /* Returns the node currently on the top of the stack. */
   Node *JJT${PARSER_NAME}State::peekNode() {
-    return nodes->size() == 0 ? NULL : nodes->back();
+    return nodes->size() == 0 ? nullptr : nodes->back();
   }
 
   /* Returns the number of children on the stack in the current node

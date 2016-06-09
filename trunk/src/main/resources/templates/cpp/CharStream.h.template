@@ -172,60 +172,60 @@ public:
 
   CharStream(const JAVACC_CHAR_TYPE *buf, int sz, int startline,
                       int startcolumn, int buffersize) :
-    bufline(NULL), bufcolumn(NULL), buffer(NULL), bufpos(0), bufsize(0), 
+    bufline(nullptr), bufcolumn(nullptr), buffer(nullptr), bufpos(0), bufsize(0), 
     tokenBegin(0), column(0), line(0), prevCharIsCR(false), prevCharIsLF(false),
     available(0), maxNextCharInd(0), inBuf(0), tabSize(1), trackLineColumn(true),
-    inputStream(NULL), deleteStream(false) {
+    inputStream(nullptr), deleteStream(false) {
     ReInit(JAVACC_STRING_TYPE(buf, sz), startline, startcolumn, buffersize);
   }
 
   CharStream(const JAVACC_CHAR_TYPE *buf, int sz, int startline, int startcolumn) :
-    bufline(NULL), bufcolumn(NULL), buffer(NULL), bufpos(0), bufsize(0), 
+    bufline(nullptr), bufcolumn(nullptr), buffer(nullptr), bufpos(0), bufsize(0), 
     tokenBegin(0), column(0), line(0), prevCharIsCR(false), prevCharIsLF(false),
     available(0), maxNextCharInd(0), inBuf(0), tabSize(1), trackLineColumn(true),
-    inputStream(NULL), deleteStream(false) {
+    inputStream(nullptr), deleteStream(false) {
     ReInit(JAVACC_STRING_TYPE(buf, sz), startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
   CharStream(const JAVACC_STRING_TYPE& str, int startline,
                       int startcolumn, int buffersize) :
-    bufline(NULL), bufcolumn(NULL), buffer(NULL), bufpos(0), bufsize(0), 
+    bufline(nullptr), bufcolumn(nullptr), buffer(nullptr), bufpos(0), bufsize(0), 
     tokenBegin(0), column(0), line(0), prevCharIsCR(false), prevCharIsLF(false),
     available(0), maxNextCharInd(0), inBuf(0), tabSize(1), trackLineColumn(true),
-    inputStream(NULL), deleteStream(false) {
+    inputStream(nullptr), deleteStream(false) {
     ReInit(str, startline, startcolumn, buffersize);
   }
 
   CharStream(const JAVACC_STRING_TYPE& str, int startline, int startcolumn) :
-    bufline(NULL), bufcolumn(NULL), buffer(NULL), bufpos(0), bufsize(0), 
+    bufline(nullptr), bufcolumn(nullptr), buffer(nullptr), bufpos(0), bufsize(0), 
     tokenBegin(0), column(0), line(0), prevCharIsCR(false), prevCharIsLF(false),
     available(0), maxNextCharInd(0), inBuf(0), tabSize(1), trackLineColumn(true),
-    inputStream(NULL), deleteStream(false) {
+    inputStream(nullptr), deleteStream(false) {
     ReInit(str, startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
   CharStream(ReaderStream *input_stream, int startline,
              int startcolumn, int buffersize) :
-    bufline(NULL), bufcolumn(NULL), buffer(NULL), bufpos(0), bufsize(0), 
+    bufline(nullptr), bufcolumn(nullptr), buffer(nullptr), bufpos(0), bufsize(0), 
     tokenBegin(0), column(0), line(0), prevCharIsCR(false), prevCharIsLF(false),
     available(0), maxNextCharInd(0), inBuf(0), tabSize(1), trackLineColumn(true),
-    inputStream(NULL), deleteStream(false) {
+    inputStream(nullptr), deleteStream(false) {
     ReInit(input_stream, startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
   CharStream(ReaderStream *input_stream, int startline, int startcolumn) :
-    bufline(NULL), bufcolumn(NULL), buffer(NULL), bufpos(0), bufsize(0), 
+    bufline(nullptr), bufcolumn(nullptr), buffer(nullptr), bufpos(0), bufsize(0), 
     tokenBegin(0), column(0), line(0), prevCharIsCR(false), prevCharIsLF(false),
     available(0), maxNextCharInd(0), inBuf(0), tabSize(1), trackLineColumn(true),
-    inputStream(NULL), deleteStream(false) {
+    inputStream(nullptr), deleteStream(false) {
     ReInit(input_stream, startline, startcolumn, INITIAL_BUFFER_SIZE);
   }
 
   CharStream(ReaderStream *input_stream) :
-    bufline(NULL), bufcolumn(NULL), buffer(NULL), bufpos(0), bufsize(0), 
+    bufline(nullptr), bufcolumn(nullptr), buffer(nullptr), bufpos(0), bufsize(0), 
     tokenBegin(0), column(0), line(0), prevCharIsCR(false), prevCharIsLF(false),
     available(0), maxNextCharInd(0), inBuf(0), tabSize(1), trackLineColumn(true),
-    inputStream(NULL), deleteStream(false) {
+    inputStream(nullptr), deleteStream(false) {
     ReInit(input_stream, 1, 1, INITIAL_BUFFER_SIZE);
   }
 

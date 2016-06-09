@@ -40,13 +40,13 @@ Node *SimpleNode::jjtGetParent() const {
 
 void SimpleNode::jjtAddChild(Node *n, size_t i) {
     if (i >= children.size()) {
-      children.resize(i + 1, NULL);
+      children.resize(i + 1, nullptr);
     }
     children[i] = n;
 }
 
 Node *SimpleNode::jjtGetChild(size_t i) const {
-    return i < children.size() ? children[i] : NULL;
+    return i < children.size() ? children[i] : nullptr;
 }
 
 size_t SimpleNode::jjtGetNumChildren() const {
@@ -108,7 +108,7 @@ void SimpleNode::dumpToBuffer(JAVACC_STRING_TYPE prefix, JAVACC_STRING_TYPE sepa
     buffer->append(separator);
     for (size_t i = 0; i < children.size(); ++i) {
       SimpleNode *n = (SimpleNode*)children[i];
-      if (n != NULL) {
+      if (n != nullptr) {
         n->dumpToBuffer(prefix + space, separator, buffer);
       }
     }

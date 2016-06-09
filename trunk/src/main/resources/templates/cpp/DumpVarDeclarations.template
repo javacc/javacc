@@ -11,7 +11,7 @@
 
 public: 
   void setErrorHandler(TokenManagerErrorHandler *eh) {
-      if (errorHandlerCreated && errorHandler != NULL) delete errorHandler;
+      if (errorHandlerCreated && errorHandler) delete errorHandler;
       errorHandler = eh;
       errorHandlerCreated = false;
     }

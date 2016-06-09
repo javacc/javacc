@@ -1,22 +1,22 @@
 
   SimpleNode::SimpleNode(int i)
 #if NODE_EXTENDS
-   : ${NODE_EXTENDS}(), parent(NULL), value(NULL)
+   : ${NODE_EXTENDS}(), parent(nullptr), value(nullptr)
 #fi
 {
     id = i;
-    parser = NULL;
-    value = NULL;
+    parser = nullptr;
+    value = nullptr;
   }
 
   SimpleNode::SimpleNode(${PARSER_NAME} *p, int i)
 #if NODE_EXTENDS
-   : ${NODE_EXTENDS}(), parent(NULL), value(NULL)
+   : ${NODE_EXTENDS}(), parent(nullptr), value(nullptr)
 #fi
 {
     id = i;
     parser = p;
-    value = NULL;
+    value = nullptr;
   }
 
   void SimpleNode::jjtOpen() const {
@@ -30,14 +30,14 @@
 
   void SimpleNode::jjtAddChild(Node *n, int i) {
     if (i >= children.size()) {
-      children.resize(i + 1, NULL);
+      children.resize(i + 1, nullptr);
     }
 
     children[i] = n;
   }
 
   Node *SimpleNode::jjtGetChild(int i) const {
-    return i < children.size() ? children[i] : NULL;
+    return i < children.size() ? children[i] : nullptr;
   }
 
   int SimpleNode::jjtGetNumChildren() const {
@@ -95,7 +95,7 @@
     buffer->append(separator);
     for (int i = 0; i < children.size(); ++i) {
       SimpleNode *n = (SimpleNode*)children[i];
-      if (n != NULL) {
+      if (n != nullptr) {
         n->dumpToBuffer(prefix + space, separator, buffer);
       }
     }

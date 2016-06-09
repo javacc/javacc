@@ -17,15 +17,15 @@ namespace ${NAMESPACE_OPEN}
    * override this method as appropriate.
    */
   void * Token::getValue() {
-    return NULL;
+    return nullptr;
   }
 
   /**
    * No-argument constructor
    */
   Token::Token() {
-    this->next = NULL;
-    this->specialToken = NULL;
+    this->next = nullptr;
+    this->specialToken = nullptr;
   }
 
   /**
@@ -34,8 +34,8 @@ namespace ${NAMESPACE_OPEN}
   Token::Token(int kind)
   {
     this->kind = kind;
-    this->next = NULL;
-    this->specialToken = NULL;
+    this->next = nullptr;
+    this->specialToken = nullptr;
   }
 
   /**
@@ -45,8 +45,8 @@ namespace ${NAMESPACE_OPEN}
   {
     this->kind = kind;
     this->image = image;
-    this->next = NULL;
-    this->specialToken = NULL;
+    this->next = nullptr;
+    this->specialToken = nullptr;
   }
 
   /**
