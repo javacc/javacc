@@ -41,7 +41,7 @@
   : ${TOKEN_MANAGER_SUPER_CLASS}()
 #fi
   {
-    input_stream = NULL;
+    input_stream = nullptr;
     errorHandlerCreated = false;
     ReInit(stream, lexState, parserArg);
   }

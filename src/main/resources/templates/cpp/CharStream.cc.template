@@ -45,7 +45,7 @@ void CharStream::ReInit(ReaderStream *input_stream, int startline,
    delete inputStream;
   }
 
-  if (buffer != NULL) {
+  if (buffer) {
     DeleteBuffers();
   }
 

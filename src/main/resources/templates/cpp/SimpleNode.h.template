@@ -20,14 +20,14 @@ class SimpleNode : public Node {
 #fi
 protected: 
   std::vector<Node*> children;
-  Node *             parent = NULL;
-  void *             value  = NULL;
+  Node *             parent = nullptr;
+  void *             value  = nullptr;
 //int                numChildren;
 #if TRACK_TOKENS
-  Token *            firstToken = NULL;
-  Token *            lastToken  = NULL;
+  Token *            firstToken = nullptr;
+  Token *            lastToken  = nullptr;
 #fi
-  ${PARSER_NAME}*    parser = NULL;
+  ${PARSER_NAME}*    parser = nullptr;
   int                id;
 
 public: 
