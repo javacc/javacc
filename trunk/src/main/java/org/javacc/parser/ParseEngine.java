@@ -796,7 +796,7 @@ public class ParseEngine {
               !(e.parent instanceof BNFProduction) ||
               i != e_nrw.units.size() - 1) {
             wrap_in_block = true;
-            retval += "if (" + (isJavaDialect ? "true" : "!hasError") + ") {\n";
+            retval += "\nif (" + (isJavaDialect ? "true" : "!hasError") + ") {";
           }
         }
         retval += phase1ExpansionGen((Expansion)(e_nrw.units.get(i)));
