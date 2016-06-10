@@ -42,10 +42,7 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("#include \"JavaCC.h\"");
     genCodeLine("#include \"CharStream.h\"");
     genCodeLine("#include \"Token.h\"");
-    //genCodeLine("#include \"TokenMgrError.h\"");
-    //genCodeLine("#include \"ParseException.h\"");
     genCodeLine("#include \"TokenManager.h\"");
-    genCodeLine("#include \"" + cu_name + "TokenManager.h\"");
 
     if (Options.stringValue(Options.USEROPTION__CPP_PARSER_INCLUDES).length() > 0) {
       genCodeLine("#include \"" + Options.stringValue(Options.USEROPTION__CPP_PARSER_INCLUDES) + "\"\n");
@@ -206,8 +203,8 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("    jj_scanpos = jj_lastpos = nullptr;");
     genCodeLine("    jj_gc = 0;");
     genCodeLine("    jj_kind = -1;");
-    genCodeLine("    trace_indent = 0;");
-    genCodeLine("    trace_enabled = " + Options.getDebugParser() + ";");
+    genCodeLine("    indent = 0;");
+    genCodeLine("    trace = " + Options.getDebugParser() + ";");
     if (!Options.getStackLimit().equals("")) {
       genCodeLine("    jj_stack_limit = "+Options.getStackLimit()+";");
       genCodeLine("    jj_stack_error = jj_stack_check(true);");
@@ -560,52 +557,57 @@ public class ParseGenCPP extends ParseGen {
 
     switchToIncludeFile();
     genCodeLine("private:");
-    genCodeLine("  int  trace_indent;");
-    genCodeLine("  bool trace_enabled;");
+    genCodeLine("  int  indent;	// trace indentation");
+    genCodeLine("  bool trace = " + Options.getDebugParser() + "; // trace enabled if true");
     genCodeLine("");
-    if (Options.getDebugParser()) {
+    genCodeLine("public:");
+    generateMethodDefHeader("  bool",  cu_name, "trace_enabled()");
+    genCodeLine("  {");
+    genCodeLine("    return trace;");
+    genCodeLine("  }");
+    genCodeLine("");
+   if (Options.getDebugParser()) {
       switchToIncludeFile();
-      genCodeLine("public:");
-      generateMethodDefHeader("virtual void",  cu_name, "enable_tracing()");
-      genCodeLine("  {");
-      genCodeLine("    trace_enabled = true;");
-      genCodeLine("  }");
+      generateMethodDefHeader("  void",  cu_name, "enable_tracing()");
+      genCodeLine("{");
+      genCodeLine("    trace = true;");
+      genCodeLine("}");
       genCodeLine("");
 
       switchToIncludeFile();
-      generateMethodDefHeader("virtual void",  cu_name, "disable_tracing()");
-      genCodeLine("  {");
-      genCodeLine("    trace_enabled = false;");
-      genCodeLine("  }");
+      generateMethodDefHeader("  void",  cu_name, "disable_tracing()");
+      genCodeLine("{");
+      genCodeLine("    trace = false;");
+      genCodeLine("}");
       genCodeLine("");
 
       switchToIncludeFile();
-      generateMethodDefHeader("void",  cu_name, "trace_call(const char *s)");
+      generateMethodDefHeader("  void",  cu_name, "trace_call(const char *s)");
       genCodeLine("  {");
-      genCodeLine("    if (trace_enabled) {");
-      genCodeLine("      for (int i = 0; i < trace_indent; i++) { printf(\" \"); }");
+      genCodeLine("    if (trace_enabled()) {");
+      genCodeLine("      for (int i = 0; i < indent; i++) { printf(\" \"); }");
       genCodeLine("      printf(\"Call:   %s\\n\", s);");
       genCodeLine("    }");
-      genCodeLine("    trace_indent = trace_indent + 2;");
+      genCodeLine("    indent = indent + 2;");
       genCodeLine("  }");
       genCodeLine("");
 
       switchToIncludeFile();
-      generateMethodDefHeader("void",  cu_name, "trace_return(const char *s)");
+      generateMethodDefHeader("  void",  cu_name, "trace_return(const char *s)");
       genCodeLine("  {");
-      genCodeLine("    trace_indent = trace_indent - 2;");
-      genCodeLine("    if (trace_enabled) {");
-      genCodeLine("      for (int i = 0; i < trace_indent; i++) { printf(\" \"); }");
+      genCodeLine("    indent = indent - 2;");
+      genCodeLine("    if (trace_enabled()) {");
+      genCodeLine("      for (int i = 0; i < indent; i++) { printf(\" \"); }");
       genCodeLine("      printf(\"Return: %s\\n\", s);");
       genCodeLine("    }");
       genCodeLine("  }");
       genCodeLine("");
 
       switchToIncludeFile();
-      generateMethodDefHeader("void",  cu_name, "trace_token(Token *t, const char *where)");
+      generateMethodDefHeader("  void",  cu_name, "trace_token(Token *t, const char *where)");
       genCodeLine("  {");
-      genCodeLine("    if (trace_enabled) {");
-      genCodeLine("      for (int i = 0; i < trace_indent; i++) { printf(\" \"); }");
+      genCodeLine("    if (trace_enabled()) {");
+      genCodeLine("      for (int i = 0; i < indent; i++) { printf(\" \"); }");
       genCodeLine("      printf(\"Consumed token: <kind: %d(%s), \\\"%s\\\"\", t->kind, addUnicodeEscapes(tokenImage[t->kind]).c_str(), addUnicodeEscapes(t->image).c_str());");
       //genCodeLine("      if (t->kind != 0 && !tokenImage[t->kind].equals(\"\\\"\" + t->image + \"\\\"\")) {");
       //genCodeLine("        System.out.print(\": \\\"\" + t->image + \"\\\"\");");
@@ -616,10 +618,10 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("");
 
       switchToIncludeFile();
-      generateMethodDefHeader("void",  cu_name, "trace_scan(Token *t1, int t2)");
+      generateMethodDefHeader("  void",  cu_name, "trace_scan(Token *t1, int t2)");
       genCodeLine("  {");
-      genCodeLine("    if (trace_enabled) {");
-      genCodeLine("      for (int i = 0; i < trace_indent; i++) { printf(\" \"); }");
+      genCodeLine("    if (trace_enabled()) {");
+      genCodeLine("      for (int i = 0; i < indent; i++) { printf(\" \"); }");
       genCodeLine("      printf(\"Visited token: <Kind: %d(%s), \\\"%s\\\"\", t1->kind, addUnicodeEscapes(tokenImage[t1->kind]).c_str(), addUnicodeEscapes(t1->image).c_str());");
       //genCodeLine("      if (t1->kind != 0 && !tokenImage[t1->kind].equals(\"\\\"\" + t1->image + \"\\\"\")) {");
       //genCodeLine("        System.out.print(\": \\\"\" + t1->image + \"\\\"\");");
@@ -630,7 +632,6 @@ public class ParseGenCPP extends ParseGen {
       genCodeLine("");
     } else {
       switchToIncludeFile();
-      genCodeLine("public:");
       generateMethodDefHeader("  void",  cu_name, "enable_tracing()");
       genCodeLine("  {");
       genCodeLine("  }");
