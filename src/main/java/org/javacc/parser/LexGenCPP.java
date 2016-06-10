@@ -73,6 +73,8 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       genCodeLine("#include \"" + Options.stringValue(Options.USEROPTION__CPP_TOKEN_MANAGER_INCLUDES) + "\"\n");
     }
 
+    genCodeLine("");
+    
     if (Options.stringValue(Options.USEROPTION__CPP_NAMESPACE).length() > 0) {
       genCodeLine("namespace " + Options.stringValue("NAMESPACE_OPEN"));
     }
@@ -124,17 +126,23 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       printTokenSetup((Token)token_mgr_decls.get(0));
       ccol = 1;
 
+      switchToMainFile();
       for (j = 0; j < token_mgr_decls.size(); j++)
       {
         t = (Token)token_mgr_decls.get(j);
         if (t.kind == IDENTIFIER &&
             commonTokenActionNeeded &&
-            !commonTokenActionSeen)
+            !commonTokenActionSeen) {
           commonTokenActionSeen = t.image.equals("CommonTokenAction");
+          if (commonTokenActionSeen) 
+        	  t.image = cu_name + "TokenManager::" + t.image;
+        }
 
         printToken(t);
       }
 
+      switchToIncludeFile();
+      genCodeLine("  void CommonTokenAction(Token* token);");
       genCodeLine("");
       if (commonTokenActionNeeded && !commonTokenActionSeen)
         JavaCCErrors.warning("You have the COMMON_TOKEN_ACTION option set. " +
@@ -152,18 +160,17 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     }
 
     genCodeLine("");
-    genCodeLine("  /** Debug output. */");
+    genCodeLine("  /** Debug stream. */");
     genCodeLine("  FILE *debugStream;");
-    genCodeLine("  /** Set debug output. */");
 
-    generateMethodDefHeader("void ", tokMgrClassName, "setDebugStream(FILE *ds)");
+    generateMethodDefHeader("  void ", tokMgrClassName, "setDebugStream(FILE *ds)");
     genCodeLine("{ debugStream = ds; }");
 
     switchToIncludeFile();
     if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
       genCodeLine("");
       genCodeLine("  /** The parser. */");
-      genCodeLine("  public: " + cu_name + "* parser = nullptr;");
+      genCodeLine("  " + cu_name + "* parser = nullptr;");
     }
     switchToMainFile();
   }
@@ -467,7 +474,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     if (hasLoop)
     {
       switchToStaticsFile();
-      genCodeLine("static int jjemptyLineNo[" + maxLexStates + "];");
+      genCodeLine("static int  jjemptyLineNo[" + maxLexStates + "];");
       genCodeLine("static int  jjemptyColNo[" + maxLexStates + "];");
       genCodeLine("static bool jjbeenHere[" + maxLexStates + "];");
       switchToMainFile();
