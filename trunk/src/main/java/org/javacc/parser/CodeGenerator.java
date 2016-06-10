@@ -4,6 +4,7 @@
 package org.javacc.parser;
 
 import static org.javacc.parser.JavaCCGlobals.*;
+
 import org.javacc.utils.OutputFileGenerator;
 
 import java.io.*;
@@ -68,6 +69,8 @@ public class CodeGenerator {
       if (jjtreeGenerated) {
     	  mainBuffer.insert(0, "#include \"SimpleNode.h\"\n");
       }
+      if(Options.getTokenManagerUsesParser())
+    	  mainBuffer.insert(0, "#include \"" + cu_name + ".h\"\n");
       mainBuffer.insert(0, "#include \"TokenMgrError.h\"\n");
       mainBuffer.insert(0, "#include \"" + incfileName + "\"\n");
       includeBuffer.append("#endif\n");
