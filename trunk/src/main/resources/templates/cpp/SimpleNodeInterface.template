@@ -54,13 +54,13 @@ class SimpleNode : public Node {
      you need to do. */
 
   public: virtual JAVACC_STRING_TYPE toString() const;
-  public: virtual JAVACC_STRING_TYPE toString(JAVACC_STRING_TYPE prefix) const;
+  public: virtual JAVACC_STRING_TYPE toString(const JAVACC_STRING_TYPE& prefix) const;
 
   /* Override this method if you want to customize how the node dumps
      out its children. */
 
   public: virtual void dump(JAVACC_STRING_TYPE prefix) const;
-  public: virtual void dumpToBuffer(JAVACC_STRING_TYPE prefix, JAVACC_STRING_TYPE separator, JAVACC_STRING_TYPE *sb) const;
+  public: virtual void dumpToBuffer(const JAVACC_STRING_TYPE& prefix, const JAVACC_STRING_TYPE& separator, JAVACC_STRING_TYPE *sb) const;
   private: virtual std::vector<Node *> jjtExtractChildrenForDestruction() override;
   public: virtual ~SimpleNode();
   public: virtual int getId() const {

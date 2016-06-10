@@ -23,7 +23,9 @@ namespace ${NAMESPACE_OPEN}
   /**
    * No-argument constructor
    */
-  Token::Token() {
+  Token::Token() :
+  	beginLine(0), beginColumn(0), endLine(0), endColumn(0)
+  {
     this->next = nullptr;
     this->specialToken = nullptr;
   }
@@ -31,7 +33,8 @@ namespace ${NAMESPACE_OPEN}
   /**
    * Constructs a new token for the specified Image.
    */
-  Token::Token(int kind)
+  Token::Token(int kind) :
+  	beginLine(0), beginColumn(0), endLine(0), endColumn(0) 
   {
     this->kind = kind;
     this->next = nullptr;
@@ -41,7 +44,8 @@ namespace ${NAMESPACE_OPEN}
   /**
    * Constructs a new token for the specified Image and Kind.
    */
-  Token::Token(int kind, JAVACC_STRING_TYPE image)
+  Token::Token(int kind, const JAVACC_STRING_TYPE& image)
+  	: beginLine(0), beginColumn(0), endLine(0), endColumn(0) 
   {
     this->kind = kind;
     this->image = image;
@@ -52,7 +56,7 @@ namespace ${NAMESPACE_OPEN}
   /**
    * Returns the image.
    */
-  JAVACC_STRING_TYPE Token::toString()
+  const JAVACC_STRING_TYPE& Token::toString()
   {
     return image;
   }
@@ -69,7 +73,7 @@ namespace ${NAMESPACE_OPEN}
    * to the following switch statement. Then you can cast matchedToken
    * variable to the appropriate type and use sit in your lexical actions.
    */
-  Token *Token::newToken(int ofKind, JAVACC_STRING_TYPE image)
+  Token *Token::newToken(int ofKind, const JAVACC_STRING_TYPE& image)
   {
     switch(ofKind)
     {
@@ -79,11 +83,14 @@ namespace ${NAMESPACE_OPEN}
 
   Token *Token::newToken(int ofKind)
   {
-    return newToken(ofKind, JAVACC_STRING_TYPE((JAVACC_CHAR_TYPE*)""));
+    return newToken(ofKind, "");
   }
 
   Token::~Token() {
     if (specialToken) delete specialToken;
+    this->kind = 0;
+    this->next = nullptr;
+    this->specialToken = nullptr;
   }
 
 #if NAMESPACE

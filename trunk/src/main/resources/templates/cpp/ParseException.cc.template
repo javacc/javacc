@@ -45,7 +45,7 @@ namespace ${NAMESPACE_OPEN}
   }
 
   /** Constructor with message. */
-  ParseException::ParseException(JAVACC_STRING_TYPE message) {
+  ParseException::ParseException(const JAVACC_STRING_TYPE& message) {
   }
 
 
@@ -133,7 +133,7 @@ namespace ${NAMESPACE_OPEN}
    * when these raw version cannot be used as part of an ASCII
    * string literal.
    */
-   JAVACC_STRING_TYPE ParseException::add_escapes(JAVACC_STRING_TYPE str) {
+   JAVACC_STRING_TYPE ParseException::add_escapes(const JAVACC_STRING_TYPE& str) {
 /*
       JAVACC_STRING_TYPE *retval = new JAVACC_STRING_TYPE();
       JAVACC_CHAR_TYPE ch;

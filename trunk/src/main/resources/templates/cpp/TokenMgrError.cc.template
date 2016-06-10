@@ -16,7 +16,7 @@ namespace ${NAMESPACE_OPEN}
    *    curJAVACC_CHAR_TYPE     : the offending character
    * Note: You can customize the lexical error message by modifying this method.
    */
-    JAVACC_STRING_TYPE TokenMgrError::LexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, JAVACC_STRING_TYPE errorAfter, JAVACC_CHAR_TYPE curChar) {
+    JAVACC_STRING_TYPE TokenMgrError::LexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, const JAVACC_STRING_TYPE& errorAfter, JAVACC_CHAR_TYPE curChar) {
 \#if 0
     JAVACC_STRING_TYPE s;
     stringstream<JAVACC_STRING_TYPE> ss;
@@ -50,12 +50,12 @@ namespace ${NAMESPACE_OPEN}
   }
 
   /** Constructor with message and reason. */
-  TokenMgrError::TokenMgrError(JAVACC_STRING_TYPE message, int reason) {
+  TokenMgrError::TokenMgrError(const JAVACC_STRING_TYPE& message, int reason) {
     errorCode = reason;
   }
 
   /** Full Constructor. */
-  TokenMgrError::TokenMgrError(bool EOFSeen, int lexState, int errorLine, int errorColumn, JAVACC_STRING_TYPE errorAfter, JAVACC_CHAR_TYPE curChar, int reason) {
+  TokenMgrError::TokenMgrError(bool EOFSeen, int lexState, int errorLine, int errorColumn, const JAVACC_STRING_TYPE& errorAfter, JAVACC_CHAR_TYPE curChar, int reason) {
     message = LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar);
    errorCode = reason;
   }
@@ -72,7 +72,7 @@ char hexChar(int i) {
  * Replaces unprintable characters by their escaped (or unicode escaped)
  * equivalents in the given string
  */
-JAVACC_SIMPLE_STRING addUnicodeEscapes(JAVACC_STRING_TYPE str) {
+JAVACC_SIMPLE_STRING addUnicodeEscapes(const JAVACC_STRING_TYPE& str) {
   JAVACC_SIMPLE_STRING retval;
   for (size_t i = 0; i < str.size(); i++) {
     JAVACC_CHAR_TYPE ch = str[i];
