@@ -1,5 +1,5 @@
-\#ifndef TOKENMANAGER_H
-\#define TOKENMANAGER_H
+\#ifndef ${PARSER_NAME}_TOKENMANAGER_H
+\#define ${PARSER_NAME}_TOKENMANAGER_H
 \#include <iostream>
 \#include "JavaCC.h"
 \#include "Token.h"
