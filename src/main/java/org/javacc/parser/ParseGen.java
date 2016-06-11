@@ -202,7 +202,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 						genCodeLine("	 }");
 						genCodeLine("	 jj_initialized_once = true;");
 					}
-					if (Options.getTokenManagerUsesParser() && !Options.getStatic()) {
+					if (Options.getTokenManagerUsesParser()) {
 						genCodeLine("	 token_source = new " + cu_name
 								+ "TokenManager(this, stream);");
 					} else {

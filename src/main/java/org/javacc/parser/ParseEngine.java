@@ -801,7 +801,7 @@ public class ParseEngine {
         }
         retval += phase1ExpansionGen((Expansion)(e_nrw.units.get(i)));
         if (wrap_in_block) {
-          retval += "\n}\n";
+          retval += "\n}";
         }
       }
     } else if (e instanceof OneOrMore) {

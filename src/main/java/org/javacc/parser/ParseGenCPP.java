@@ -100,12 +100,18 @@ public class ParseGenCPP extends ParseGen {
     switchToIncludeFile();
     genCodeLine("");
     genCodeLine("public: ");
-    genCodeLine("  TokenManager *token_source;");
-    genCodeLine("  CharStream   *jj_input_stream;");
+    genCodeLine("  void setErrorHandler(ErrorHandler *eh) {");
+    genCodeLine("    if (errorHandler) delete errorHandler;");
+    genCodeLine("    errorHandler = eh;");
+    genCodeLine("  }");
+    genCodeLine("");
+    genCodeLine("  TokenManager *token_source = nullptr;");
+    genCodeLine("  CharStream   *jj_input_stream = nullptr;");
     genCodeLine("  /** Current token. */");
-    genCodeLine("  Token        *token;");
+    genCodeLine("  Token        *token = nullptr;");
     genCodeLine("  /** Next token. */");
-    genCodeLine("  Token        *jj_nt;");
+    genCodeLine("  Token        *jj_nt = nullptr;");
+    genCodeLine("");
     genCodeLine("private: ");
     genCodeLine("  int           jj_ntk;");
 
@@ -120,16 +126,11 @@ public class ParseGenCPP extends ParseGen {
 
     genCodeLine("  int           jj_gen;");
     genCodeLine("  int           jj_la1[" + (maskindex + 1) + "];");
-    genCodeLine("  ErrorHandler *errorHandler;");
-    genCodeLine("  bool          errorHandlerCreated;");
+    genCodeLine("  ErrorHandler *errorHandler = nullptr;");
+    genCodeLine("");
     genCodeLine("protected: ");
     genCodeLine("  bool          hasError;");
-    genCodeLine("public: ");
-    genCodeLine("  void setErrorHandler(ErrorHandler *eh) {");
-    genCodeLine("    if (errorHandlerCreated) delete errorHandler;");
-    genCodeLine("    errorHandler = eh;");
-    genCodeLine("    errorHandlerCreated = false;");
-    genCodeLine("  }");
+    genCodeLine("");
     int tokenMaskSize = (tokenCount-1)/32 + 1;
 
     if (Options.getErrorReporting() && tokenMaskSize > 0) {
@@ -169,15 +170,16 @@ public class ParseGenCPP extends ParseGen {
     switchToIncludeFile(); // TEMP
     genCodeLine("  Token *head; ");
     genCodeLine("public: ");
-    generateMethodDefHeader("", cu_name, cu_name + "(TokenManager *tm)");
+    generateMethodDefHeader(" ", cu_name, cu_name + "(TokenManager *tokenManager)");
     if (superClass != null)
     {
       genCodeLine(" : " + superClass + "()");
     }
     genCodeLine("{");
     genCodeLine("    head = nullptr;");
-    genCodeLine("    errorHandlerCreated = false;");
-    genCodeLine("    ReInit(tm);");
+    genCodeLine("    ReInit(tokenManager);");
+    if (Options.getTokenManagerUsesParser())
+    	genCodeLine("    tokenManager->setParser(this);");
     genCodeLine("}");
 
     switchToIncludeFile();
@@ -187,13 +189,12 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("{");
     genCodeLine("  clear();");
     genCodeLine("}");
-    generateMethodDefHeader("void", cu_name, "ReInit(TokenManager *tm)");
+    generateMethodDefHeader("void", cu_name, "ReInit(TokenManager* tokenManager)");
     genCodeLine("{");
     genCodeLine("    clear();");    
     genCodeLine("    errorHandler = new ErrorHandler();");
-    genCodeLine("    errorHandlerCreated = true;");
     genCodeLine("    hasError = false;");
-    genCodeLine("    token_source = tm;");
+    genCodeLine("    token_source = tokenManager;");
     genCodeLine("    head = token = new Token();");
     genCodeLine("    token->kind = 0;");
     genCodeLine("    token->next = nullptr;");
@@ -231,7 +232,6 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("  }");
     genCodeLine("");
     
-    //Add clear function for deconstructor and ReInit
     generateMethodDefHeader("void", cu_name, "clear()");
     genCodeLine("{");
     genCodeLine("  //Since token manager was generate from outside,");
@@ -245,8 +245,8 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("      t = next;");
     genCodeLine("    }");
     genCodeLine("  }");
-    genCodeLine("  if (errorHandlerCreated) {");
-    genCodeLine("    delete errorHandler;");
+    genCodeLine("  if (errorHandler) {");
+    genCodeLine("    delete errorHandler, errorHandler = nullptr;");
     genCodeLine("  }");
     if (Options.getDepthLimit() > 0) {
       genCodeLine("  assert(jj_depth==0);");
