@@ -198,9 +198,8 @@ public static String staticString;
     genCodeLine("  /** Set debug output. */");
     genCodeLine("  public " + staticString + " void setDebugStream(java.io.PrintStream ds) { debugStream = ds; }");
 
-    if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
+    if(Options.getTokenManagerUsesParser()){
       genCodeLine("");
-      genCodeLine("  /** The parser. */");
       genCodeLine("  public " + cu_name + " parser = null;");
     }
   }

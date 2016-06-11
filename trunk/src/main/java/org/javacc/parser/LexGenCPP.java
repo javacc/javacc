@@ -143,7 +143,14 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
       switchToIncludeFile();
       genCodeLine("  void CommonTokenAction(Token* token);");
+      
+      if (Options.getTokenManagerUsesParser()) {
+    	  genCodeLine("  void setParser(void* parser) {");
+    	  genCodeLine("      this->parser = (" + cu_name + "*) parser;");
+    	  genCodeLine("  }");
+      }
       genCodeLine("");
+
       if (commonTokenActionNeeded && !commonTokenActionSeen)
         JavaCCErrors.warning("You have the COMMON_TOKEN_ACTION option set. " +
             "But it appears you have not defined the method :\n"+
@@ -160,16 +167,15 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     }
 
     genCodeLine("");
-    genCodeLine("  /** Debug stream. */");
     genCodeLine("  FILE *debugStream;");
 
     generateMethodDefHeader("  void ", tokMgrClassName, "setDebugStream(FILE *ds)");
     genCodeLine("{ debugStream = ds; }");
 
     switchToIncludeFile();
-    if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
+    if(Options.getTokenManagerUsesParser()){
       genCodeLine("");
-      genCodeLine("  /** The parser. */");
+      genCodeLine("private:");
       genCodeLine("  " + cu_name + "* parser = nullptr;");
     }
     switchToMainFile();
@@ -530,15 +536,20 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     genCodeLine("#ifndef JAVACC_CHARSTREAM");
     genCodeLine("#define JAVACC_CHARSTREAM CharStream");
     genCodeLine("#endif");
+    genCodeLine("");
 
-    genCodeLine("  private: void ReInitRounds();");
-    genCodeLine("  public: " + tokMgrClassName + "(JAVACC_CHARSTREAM *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = nullptr);");
-    genCodeLine("  public: virtual ~" + tokMgrClassName + "();");
-    genCodeLine("  void ReInit(JAVACC_CHARSTREAM *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = nullptr);");
+    genCodeLine("private:");
+    genCodeLine("  void ReInitRounds();");
+    genCodeLine("");
+    genCodeLine("public:");
+    genCodeLine("  " + tokMgrClassName + "(JAVACC_CHARSTREAM *stream, int lexState = " + defaultLexState + ");");
+    genCodeLine("  virtual ~" + tokMgrClassName + "();");
+    genCodeLine("  void ReInit(JAVACC_CHARSTREAM *stream, int lexState = " + defaultLexState + ");");
     genCodeLine("  void SwitchTo(int lexState);");
     genCodeLine("  void clear();");
     genCodeLine("  const JAVACC_SIMPLE_STRING jjKindsForBitVector(int i, " + Options.getLongType() + " vec);");
     genCodeLine("  const JAVACC_SIMPLE_STRING jjKindsForStateVector(int lexState, int vec[], int start, int end);");
+    genCodeLine("");
   }
 
   private void DumpStaticVarDeclarations() throws IOException
