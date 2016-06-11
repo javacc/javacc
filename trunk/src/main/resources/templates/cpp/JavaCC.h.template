@@ -1,9 +1,8 @@
 \#ifndef JAVACC_H_
 \#define JAVACC_H_
-\#include <stdio.h>
 \#include <string>
-\#include <memory.h>
-\#include <assert.h>
+\#include <memory>
+\#include <cassert>
 
 \#ifndef JAVACC_CHAR_TYPE
 \#define JAVACC_CHAR_TYPE char

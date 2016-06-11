@@ -28,10 +28,10 @@ namespace ${NAMESPACE_OPEN}
 
 class CharStream {
 public:
-          void setTabSize(int i) { tabSize = i; }
-          int  getTabSize(int i) { return tabSize; }
+   void setTabSize(int i) { tabSize = i; }
+   int  getTabSize(int i) { return tabSize; }
 #if KEEP_LINE_COLUMN
- private:
+private:
   int getBufcolumn(int pos) {
     if (trackLineColumn && pos>=0) {
       return bufcolumn[pos];
@@ -46,7 +46,7 @@ public:
       return -1;
     }
   }
- public:
+public:
   virtual int getColumn() { return getBufcolumn(bufpos); }
   virtual int getLine() { return getBufline(bufpos); }
   virtual int getEndColumn() { return getBufcolumn(bufpos); }
@@ -249,7 +249,7 @@ public:
 
   virtual void adjustBeginLineColumn(int newLine, int newCol);
 
- protected:
+protected:
   virtual void UpdateLineColumn(JAVACC_CHAR_TYPE c);
 
   int*               bufline;
