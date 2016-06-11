@@ -4,8 +4,6 @@
 \#include "JavaCC.h"
 \#include "Token.h"
 
-using namespace std;
-
 #if NAMESPACE
 namespace ${NAMESPACE_OPEN}
 #fi
@@ -22,8 +20,9 @@ public:
    */
   virtual       ~TokenManager() { }
   virtual Token *getNextToken() = 0;
+  virtual void   setParser(void* parser) {};
   virtual void   lexicalError() {
-  	cerr << "Lexical error encountered." << endl;
+  	std::cerr << "Lexical error encountered." << std::endl;
   }
 
 };

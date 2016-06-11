@@ -1,5 +1,5 @@
   /** Reinitialise parser. */
-  void ${tokMgrClassName}::ReInit(JAVACC_CHARSTREAM *stream, int lexState, ${parserClassName} *parserArg) {
+  void ${tokMgrClassName}::ReInit(JAVACC_CHARSTREAM *stream, int lexState) {
     clear();
     jjmatchedPos = jjnewStateCnt = 0;
     curLexState = lexState;
@@ -7,9 +7,7 @@
     ReInitRounds();
     debugStream = stdout; // init
     SwitchTo(lexState);
-    parser = parserArg;
     errorHandler = new TokenManagerErrorHandler();
-    errorHandlerCreated = true;
   }
 
   void ${tokMgrClassName}::ReInitRounds() {
@@ -36,14 +34,13 @@
   }
 
   /** Constructor. */
-  ${tokMgrClassName}::${tokMgrClassName} (JAVACC_CHARSTREAM *stream, int lexState, ${parserClassName} *parserArg)
+  ${tokMgrClassName}::${tokMgrClassName} (JAVACC_CHARSTREAM *stream, int lexState)
 #if TOKEN_MANAGER_SUPER_CLASS
   : ${TOKEN_MANAGER_SUPER_CLASS}()
 #fi
   {
     input_stream = nullptr;
-    errorHandlerCreated = false;
-    ReInit(stream, lexState, parserArg);
+    ReInit(stream, lexState);
   }
 
   // Destructor
@@ -56,7 +53,7 @@
     //Since input_stream was generated outside of TokenManager
     //TokenManager should not take care of deleting it
     //if (input_stream) delete input_stream;
-    if (errorHandlerCreated) delete errorHandler;    
+    if (errorHandler) delete errorHandler, errorHandler = nullptr;    
   }
 
 
