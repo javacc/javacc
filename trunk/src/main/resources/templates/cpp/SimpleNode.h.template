@@ -1,5 +1,5 @@
-\#ifndef SIMPLENODE_H
-\#define SIMPLENODE_H
+\#ifndef ${PARSER_NAME}_SIMPLENODE_H
+\#define ${PARSER_NAME}_SIMPLENODE_H
 \#include <vector>
 \#include "JavaCC.h"
 \#include "Token.h"

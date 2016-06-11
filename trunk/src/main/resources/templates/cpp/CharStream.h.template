@@ -1,5 +1,5 @@
-\#ifndef CHARSTREAM_H
-\#define CHARSTREAM_H
+\#ifndef ${PARSER_NAME}_CHARSTREAM_H
+\#define ${PARSER_NAME}_CHARSTREAM_H
 \#include "JavaCC.h"
 
 \#ifndef INITIAL_BUFFER_SIZE
@@ -30,6 +30,7 @@ class CharStream {
 public:
    void setTabSize(int i) { tabSize = i; }
    int  getTabSize(int i) { return tabSize; }
+
 #if KEEP_LINE_COLUMN
 private:
   int getBufcolumn(int pos) {
@@ -46,13 +47,14 @@ private:
       return -1;
     }
   }
+
 public:
-  virtual int getColumn() { return getBufcolumn(bufpos); }
-  virtual int getLine() { return getBufline(bufpos); }
-  virtual int getEndColumn() { return getBufcolumn(bufpos); }
-  virtual int getEndLine() { return getBufline(bufpos); }
-  virtual int getBeginColumn() { return getBufcolumn(tokenBegin); }
-  virtual int getBeginLine() { return getBufline(tokenBegin); }
+  virtual int getColumn()        { return getBufcolumn(bufpos); }
+  virtual int getLine()          { return getBufline(bufpos); }
+  virtual int getEndColumn()     { return getBufcolumn(bufpos); }
+  virtual int getEndLine()       { return getBufline(bufpos); }
+  virtual int getBeginColumn()   { return getBufcolumn(tokenBegin); }
+  virtual int getBeginLine()     { return getBufline(tokenBegin); }
 #else
   virtual int  getColumn()       { return -1; }
   virtual int  getLine()         { return -1; }

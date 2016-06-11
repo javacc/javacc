@@ -1,5 +1,5 @@
-\#ifndef ${NODE_TYPE}_H
-\#define ${NODE_TYPE}_H
+\#ifndef ${PARSER_NAME}_${NODE_TYPE}_H
+\#define ${PARSER_NAME}_${NODE_TYPE}_H
 \#include "JavaCC.h"
 \#include "SimpleNode.h"
 
