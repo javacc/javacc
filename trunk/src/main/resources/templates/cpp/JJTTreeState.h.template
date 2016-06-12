@@ -1,5 +1,5 @@
-\#ifndef JJT${PARSER_NAME}_${PARSER_NAME}State_H
-\#define JJT${PARSER_NAME}_${PARSER_NAME}State_H
+\#ifndef JJT${PARSER_NAME}State_H
+\#define JJT${PARSER_NAME}State_H
 \#include <set>
 \#include <vector>
 \#include "JavaCC.h"
