@@ -156,41 +156,41 @@ public class CPPFiles extends JavaCCGlobals implements JavaCCParserConstants
   }
 
   public static void gen_CharStream() {
-    String[] parameters = new String[] {Options.NONUSER_OPTION__PARSER_NAME, Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
+    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
     genFile("CharStream.h", charStreamVersion, parameters);
     genFile("CharStream.cc", charStreamVersion, parameters);
   }
 
   public static void gen_ParseException() {
-    String[] parameters = new String[] {Options.NONUSER_OPTION__PARSER_NAME, Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
+    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
     genFile("ParseException.h", parseExceptionVersion, parameters);
     genFile("ParseException.cc", parseExceptionVersion, parameters);
   }
 
   public static void gen_TokenMgrError() {
-    String[] parameters = new String[] {Options.NONUSER_OPTION__PARSER_NAME, Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
+    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
     genFile("TokenMgrError.h", tokenMgrErrorVersion, parameters);
     genFile("TokenMgrError.cc", tokenMgrErrorVersion, parameters);
   }
 
   public static void gen_Token() {
-    String[] parameters = new String[] {Options.NONUSER_OPTION__PARSER_NAME, Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC, Options.USEROPTION__CPP_TOKEN_INCLUDES, Options.USEROPTION__TOKEN_EXTENDS};
+    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC, Options.USEROPTION__CPP_TOKEN_INCLUDES, Options.USEROPTION__TOKEN_EXTENDS};
     genFile("Token.h", tokenMgrErrorVersion, parameters);
     genFile("Token.cc", tokenMgrErrorVersion, parameters);
   }
 
   public static void gen_TokenManager() {
-    String[] parameters = new String[] {Options.NONUSER_OPTION__PARSER_NAME, Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
+    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
     genFile("TokenManager.h", tokenManagerVersion, parameters);
   }
 
   public static void gen_JavaCCDefs() {
-    String[] parameters = new String[] {Options.NONUSER_OPTION__PARSER_NAME, Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
+    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
     genFile("JavaCC.h", tokenManagerVersion, parameters);
   }
 
   public static void gen_ErrorHandler() {
-    String[] parameters = new String[] {Options.NONUSER_OPTION__PARSER_NAME, Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC, Options.USEROPTION__BUILD_PARSER, Options.USEROPTION__BUILD_TOKEN_MANAGER};
+    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC, Options.USEROPTION__BUILD_PARSER, Options.USEROPTION__BUILD_TOKEN_MANAGER};
     genFile("ErrorHandler.h", parseExceptionVersion, parameters);
   }
 
