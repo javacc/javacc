@@ -1,5 +1,5 @@
-\#ifndef ${PARSER_NAME}_CHARSTREAM_H
-\#define ${PARSER_NAME}_CHARSTREAM_H
+\#ifndef CHARSTREAM_H
+\#define CHARSTREAM_H
 \#include "JavaCC.h"
 
 \#ifndef INITIAL_BUFFER_SIZE

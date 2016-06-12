@@ -1,5 +1,5 @@
-\#ifndef ${PARSER_NAME}_ERRORHANDLER_H
-\#define ${PARSER_NAME}_ERRORHANDLER_H
+\#ifndef ERRORHANDLER_H
+\#define ERRORHANDLER_H
 \#include <stdio.h>
 \#include <string>
 \#include "JavaCC.h"
