@@ -36,22 +36,4 @@ import java.util.List;
 
 public class CppCodeProduction extends CodeProduction {
 
-  public String getReturnType() {
-	  String returnType = new String();
-	  for(Token token : super.getReturnTypeTokens()) {
-		  returnType += token.toString();
-		  returnType += " ";
-	  }
-	  return returnType;
-  }
-  
-  public String getParameterList() {
-	  String parameterList = new String();
-	  for(Token token : super.getParameterListTokens()) {
-		  parameterList += token.toString();
-		  if (getParameterListTokens().indexOf(token) < getParameterListTokens().size())
-			  parameterList += ",";
-	  }
-	  return parameterList;
-  }
 }
