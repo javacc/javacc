@@ -27,9 +27,25 @@
  */
 package org.javacc.parser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Describes JAVACODE productions.
+ * Describes a CODE productions.
  */
 
-public class JavaCodeProduction extends CodeProduction {
+public abstract class CodeProduction extends NormalProduction {
+
+  /**
+   * The tokens that implement this JAVACODE/CPPCODE production.
+   */
+  private List<Token> code_tokens = new ArrayList<Token>();
+
+  /**
+   * @return the code_tokens
+   */
+  public List<Token> getCodeTokens() {
+    return code_tokens;
+  }
+
 }

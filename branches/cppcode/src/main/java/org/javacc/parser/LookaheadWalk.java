@@ -64,7 +64,7 @@ public final class LookaheadWalk {
       return retval;
     } else if (exp instanceof NonTerminal) {
       NormalProduction prod = ((NonTerminal)exp).getProd();
-      if (prod instanceof JavaCodeProduction) {
+      if (prod instanceof CodeProduction) {
         return new ArrayList();
       } else {
         return genFirstSet(partialMatches, prod.getExpansion());
