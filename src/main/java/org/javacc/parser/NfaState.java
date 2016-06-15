@@ -96,7 +96,7 @@ public class NfaState
    private char[] rangeMoves = null;
    NfaState next = null;
    private NfaState stateForCase;
-   Vector epsilonMoves = new Vector();
+   Vector<NfaState> epsilonMoves = new Vector<NfaState>();
    private String epsilonMovesString;
    private NfaState[] epsilonMoveArray;
 
@@ -334,7 +334,7 @@ public class NfaState
       for (i = 0; i < epsilonMoves.size(); i++)
          ((NfaState)epsilonMoves.get(i)).EpsilonClosure();
 
-      Enumeration e = epsilonMoves.elements();
+      Enumeration<NfaState> e = epsilonMoves.elements();
 
       while (e.hasMoreElements())
       {
@@ -424,7 +424,7 @@ public class NfaState
       isFinal |= other.isFinal;
    }
 
-   NfaState CreateEquivState(List states)
+   NfaState CreateEquivState(List<NfaState> states)
    {
       NfaState newState = ((NfaState)states.get(0)).CreateClone();
 
@@ -571,7 +571,7 @@ public class NfaState
       NfaState newState = null;
       NfaState tmp1, tmp2;
       int j;
-      List equivStates = null;
+      List<NfaState> equivStates = null;
 
       while (sometingOptimized)
       {
@@ -1725,7 +1725,7 @@ public class NfaState
          original.removeElement(tmp);
 
          long bitVec = tmp.asciiMoves[byteNum];
-         List subSet = new ArrayList();
+         List<NfaState> subSet = new ArrayList<NfaState>();
          subSet.add(tmp);
 
          for (int j = 0; j < original.size(); j++)

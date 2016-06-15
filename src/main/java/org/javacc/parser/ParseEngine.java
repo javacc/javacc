@@ -685,9 +685,10 @@ public class ParseEngine {
     if (Options.getDebugParser()) {
       codeGenerator.genCodeLine("");
       codeGenerator.genCodeLine("    trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
-      codeGenerator.genCode("    try {");
+      codeGenerator.genCodeLine("    try {");
       indentamt = 6;
     }
+    
     if (!Options.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) &&
         p.getDeclarationTokens().size() != 0) {
       codeGenerator.printTokenSetup((Token)(p.getDeclarationTokens().get(0))); cline--;
@@ -697,9 +698,11 @@ public class ParseEngine {
       }
       codeGenerator.printTrailingComments(t);
     }
+    
     String code = phase1ExpansionGen(p.getExpansion());
     dumpFormattedString(code);
     codeGenerator.genCodeLine("");
+    
     if (p.isJumpPatched() && !voidReturn) {
       if (isJavaDialect) {
     	// TODO :: I don't think we need to throw an Error/Exception to mark that a return statement is missing as the compiler will flag this error automatically

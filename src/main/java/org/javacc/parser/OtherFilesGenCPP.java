@@ -65,7 +65,7 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
       throw new Error();
     }
 
-    List tn = new ArrayList(toolNames);
+    List<String> tn = new ArrayList<String>(toolNames);
     tn.add(toolName);
     ostr.println("/* " + getIdString(tn, cu_name + "Constants.java") + " */");
 
@@ -105,8 +105,8 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
     String constPrefix = "const";
     ostr.println("  /** End of File. */");
     ostr.println(constPrefix + "  int _EOF = 0;");
-    for (java.util.Iterator it = ordered_named_tokens.iterator(); it.hasNext();) {
-      re = (RegularExpression)it.next();
+    for (java.util.Iterator<RegularExpression> it = ordered_named_tokens.iterator(); it.hasNext();) {
+      re = it.next();
       ostr.println("  /** RegularExpression Id. */");
       ostr.println(constPrefix + "  int " + re.label + " = " + re.ordinal + ";");
     }
@@ -125,11 +125,11 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
     printCharArray(ostr, "<EOF>");
     ostr.println(";");
 
-    for (java.util.Iterator it = rexprlist.iterator(); it.hasNext();) {
-      TokenProduction tp = (TokenProduction)(it.next());
-      List respecs = tp.respecs;
-      for (java.util.Iterator it2 = respecs.iterator(); it2.hasNext();) {
-        RegExprSpec res = (RegExprSpec)(it2.next());
+    for (java.util.Iterator<TokenProduction> it = rexprlist.iterator(); it.hasNext();) {
+      TokenProduction tp = it.next();
+      List<RegExprSpec> respecs = tp.respecs;
+      for (java.util.Iterator<RegExprSpec> it2 = respecs.iterator(); it2.hasNext();) {
+        RegExprSpec res = it2.next();
         re = res.rexp;
         ostr.println("  static const JAVACC_CHAR_TYPE tokenImage_arr_" + ++cnt + "[] = ");
         if (re instanceof RStringLiteral) {

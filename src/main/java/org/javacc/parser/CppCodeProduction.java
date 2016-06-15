@@ -27,8 +27,6 @@
  */
 package org.javacc.parser;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Describes CPPCODE productions.

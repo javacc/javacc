@@ -34,7 +34,7 @@ public final class LookaheadWalk {
 
   public static boolean considerSemanticLA;
 
-  public static ArrayList sizeLimitedMatches;
+  public static ArrayList<MatchInfo> sizeLimitedMatches;
 
   private LookaheadWalk() {}
 
@@ -44,9 +44,9 @@ public final class LookaheadWalk {
     }
   }
 
-  public static List genFirstSet(List partialMatches, Expansion exp) {
+  public static List<MatchInfo> genFirstSet(List partialMatches, Expansion exp) {
     if (exp instanceof RegularExpression) {
-      List retval = new ArrayList();
+      List<MatchInfo> retval = new ArrayList<MatchInfo>();
       for (int i = 0; i < partialMatches.size(); i++) {
         MatchInfo m = (MatchInfo)partialMatches.get(i);
         MatchInfo mnew = new MatchInfo();
@@ -65,20 +65,20 @@ public final class LookaheadWalk {
     } else if (exp instanceof NonTerminal) {
       NormalProduction prod = ((NonTerminal)exp).getProd();
       if (prod instanceof CodeProduction) {
-        return new ArrayList();
+        return new ArrayList<MatchInfo>();
       } else {
         return genFirstSet(partialMatches, prod.getExpansion());
       }
     } else if (exp instanceof Choice) {
-      List retval = new ArrayList();
+      List<MatchInfo> retval = new ArrayList<MatchInfo>();
       Choice ch = (Choice)exp;
       for (int i = 0; i < ch.getChoices().size(); i++) {
-        List v = genFirstSet(partialMatches, (Expansion)ch.getChoices().get(i));
+        List<MatchInfo> v = genFirstSet(partialMatches, (Expansion)ch.getChoices().get(i));
         listAppend(retval, v);
       }
       return retval;
     } else if (exp instanceof Sequence) {
-      List v = partialMatches;
+      List<MatchInfo> v = partialMatches;
       Sequence seq = (Sequence)exp;
       for (int i = 0; i < seq.units.size(); i++) {
         v = genFirstSet(v, (Expansion)seq.units.get(i));
@@ -86,8 +86,8 @@ public final class LookaheadWalk {
       }
       return v;
     } else if (exp instanceof OneOrMore) {
-      List retval = new ArrayList();
-      List v = partialMatches;
+      List<MatchInfo> retval = new ArrayList<MatchInfo>();
+      List<MatchInfo> v = partialMatches;
       OneOrMore om = (OneOrMore)exp;
       while (true) {
         v = genFirstSet(v, om.expansion);
@@ -96,9 +96,9 @@ public final class LookaheadWalk {
       }
       return retval;
     } else if (exp instanceof ZeroOrMore) {
-      List retval = new ArrayList();
+      List<MatchInfo> retval = new ArrayList<MatchInfo>();
       listAppend(retval, partialMatches);
-      List v = partialMatches;
+      List<MatchInfo> v = partialMatches;
       ZeroOrMore zm = (ZeroOrMore)exp;
       while (true) {
         v = genFirstSet(v, zm.expansion);
@@ -107,7 +107,7 @@ public final class LookaheadWalk {
       }
       return retval;
     } else if (exp instanceof ZeroOrOne) {
-      List retval = new ArrayList();
+      List<MatchInfo> retval = new ArrayList<MatchInfo>();
       listAppend(retval, partialMatches);
       listAppend(retval, genFirstSet(partialMatches, ((ZeroOrOne)exp).expansion));
       return retval;
@@ -117,9 +117,9 @@ public final class LookaheadWalk {
                exp instanceof Lookahead &&
                ((Lookahead)exp).getActionTokens().size() != 0
               ) {
-      return new ArrayList();
+      return new ArrayList<MatchInfo>();
     } else {
-      List retval = new ArrayList();
+      List<MatchInfo> retval = new ArrayList<MatchInfo>();
       listAppend(retval, partialMatches);
       return retval;
     }

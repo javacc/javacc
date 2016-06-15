@@ -42,7 +42,7 @@ public class NonTerminal extends Expansion {
    * is assigned.  In case there is no LHS, then the vector
    * remains empty.
    */
-  private List lhsTokens = new ArrayList();
+  private List<Token> lhsTokens = new ArrayList<Token>();
 
   /**
    * The name of the non-terminal.
@@ -52,7 +52,7 @@ public class NonTerminal extends Expansion {
   /**
    * The list of all tokens in the argument list.
    */
-  private List argument_tokens = new ArrayList();
+  private List<Token> argument_tokens = new ArrayList<Token>();
 
   private List<Token> parametrized_type__tokens = new ArrayList<Token>();
   /**
@@ -68,14 +68,14 @@ public class NonTerminal extends Expansion {
 /**
  * @param lhsTokens the lhsTokens to set
  */
-public void setLhsTokens(List lhsTokens) {
+public void setLhsTokens(List<Token> lhsTokens) {
 	this.lhsTokens = lhsTokens;
 }
 
 /**
  * @return the lhsTokens
  */
-public List getLhsTokens() {
+public List<Token> getLhsTokens() {
 	return lhsTokens;
 }
 
@@ -96,7 +96,7 @@ public String getName() {
 /**
  * @param argument_tokens the argument_tokens to set
  */
-public void setParametrizedTypeTokens(List argument_tokens) {
+public void setParametrizedTypeTokens(List<Token> argument_tokens) {
 	this.argument_tokens = argument_tokens;
 }
 
@@ -117,7 +117,7 @@ public void setArgumentTokens(List<Token> parametrized_type__tokens) {
 /**
  * @return the argument_tokens
  */
-public List getArgumentTokens() {
+public List<Token> getArgumentTokens() {
 	return argument_tokens;
 }
 
