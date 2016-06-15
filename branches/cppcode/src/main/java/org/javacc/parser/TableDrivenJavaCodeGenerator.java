@@ -2,13 +2,10 @@ package org.javacc.parser;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Class that implements a table driven code generator for the token manager in
@@ -30,7 +27,7 @@ public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
     options.put("parserName", tokenizerData.parserName);
     options.put("maxLongs", tokenizerData.allMatches.size()/64 + 1);
     options.put("parserName", tokenizerData.parserName);
-    options.put("charStreamName", codeGenerator.getCharStreamName());
+    options.put("charStreamName", CodeGenerator.getCharStreamName());
     options.put("defaultLexState", tokenizerData.defaultLexState);
     options.put("decls", tokenizerData.decls);
     options.put("superClass", (superClass == null || superClass.equals(""))
@@ -119,15 +116,11 @@ public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
         continue;
       }
       codeGenerator.genCode("{");
-      int cnt = 0;
-      List<Character> ranges = new ArrayList<Character>();
       BitSet bits = new BitSet();
-      Outer:
       for (char c : tmp.characters) {
         bits.set(c);
       }
       long[] longs = bits.toLongArray();
-      long prev = longs[0];
       for (int k = 0; k < longs.length; k++) {
         int rep = 1;
         while (k + rep < longs.length && longs[k + rep] == longs[k]) rep++;

@@ -102,7 +102,7 @@ public class LookaheadCalc extends JavaCCGlobals {
     MatchInfo[] overlapInfo = new MatchInfo[ch.getChoices().size()-1];
     int[] other = new int[ch.getChoices().size()-1];
     MatchInfo m;
-    List v;
+    List<MatchInfo> v;
     boolean overlapDetected;
     for (int la = 1; la <= Options.getChoiceAmbiguityCheck(); la++) {
       MatchInfo.laLimit = la;
@@ -111,7 +111,7 @@ public class LookaheadCalc extends JavaCCGlobals {
         LookaheadWalk.sizeLimitedMatches = new ArrayList();
         m = new MatchInfo();
         m.firstFreeLoc = 0;
-        v = new ArrayList();
+        v = new ArrayList<MatchInfo>();
         v.add(m);
         LookaheadWalk.genFirstSet(v, (Expansion)ch.getChoices().get(i));
         dbl[i] = LookaheadWalk.sizeLimitedMatches;
@@ -121,7 +121,7 @@ public class LookaheadCalc extends JavaCCGlobals {
         LookaheadWalk.sizeLimitedMatches = new ArrayList();
         m = new MatchInfo();
         m.firstFreeLoc = 0;
-        v = new ArrayList();
+        v = new ArrayList<MatchInfo>();
         v.add(m);
         LookaheadWalk.genFirstSet(v, (Expansion)ch.getChoices().get(i));
         dbr[i] = LookaheadWalk.sizeLimitedMatches;
@@ -220,14 +220,15 @@ public class LookaheadCalc extends JavaCCGlobals {
   public static void ebnfCalc(Expansion exp, Expansion nested) {
     // exp is one of OneOrMore, ZeroOrMore, ZeroOrOne
     MatchInfo m, m1 = null;
-    List v, first, follow;
+    List<MatchInfo> v;
+    List first, follow;
     int la;
     for (la = 1; la <= Options.getOtherAmbiguityCheck(); la++) {
       MatchInfo.laLimit = la;
       LookaheadWalk.sizeLimitedMatches = new ArrayList();
       m = new MatchInfo();
       m.firstFreeLoc = 0;
-      v = new ArrayList();
+      v = new ArrayList<MatchInfo>();
       v.add(m);
       LookaheadWalk.considerSemanticLA = !Options.getForceLaCheck();
       LookaheadWalk.genFirstSet(v, nested);

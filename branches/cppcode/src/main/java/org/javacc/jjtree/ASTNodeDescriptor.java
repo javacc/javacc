@@ -33,7 +33,6 @@ package org.javacc.jjtree;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Vector;
 
 public class ASTNodeDescriptor extends JJTreeNode {
   ASTNodeDescriptor(int id) {
@@ -52,16 +51,16 @@ public class ASTNodeDescriptor extends JJTreeNode {
   }
 
 
-  static List nodeIds = new ArrayList();
-  static List nodeNames = new ArrayList();
-  static Hashtable nodeSeen = new Hashtable();
+  static List<String> nodeIds = new ArrayList<String>();
+  static List<String> nodeNames = new ArrayList<String>();
+  static Hashtable<String, String> nodeSeen = new Hashtable<String, String>();
 
-  static List getNodeIds()
+  static List<String> getNodeIds()
   {
     return nodeIds;
   }
 
-  static List getNodeNames()
+  static List<String> getNodeNames()
   {
     return nodeNames;
   }

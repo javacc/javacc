@@ -122,7 +122,7 @@ public class Expansion {
     return sb;
   }
 
-  public StringBuffer dump(int indent, Set alreadyDumped) {
+  public StringBuffer dump(int indent, Set<? super Expansion> alreadyDumped) {
     StringBuffer value = dumpPrefix(indent).append(System.identityHashCode(this)).append(" ").append(getSimpleName());
     return value;
   }
