@@ -59,8 +59,8 @@ public class NfaState
    private static boolean stateDone[];
 
    private static List<NfaState> allStates = new ArrayList<NfaState>();
-   private static List indexedAllStates = new ArrayList();
-   private static List nonAsciiTableForMethod = new ArrayList();
+   private static List<NfaState> indexedAllStates = new ArrayList<NfaState>();
+   private static List<NfaState> nonAsciiTableForMethod = new ArrayList<NfaState>();
    private static Hashtable equivStatesTable = new Hashtable();
    private static Hashtable allNextStates = new Hashtable();
    private static Hashtable lohiByteTab = new Hashtable();
@@ -1177,7 +1177,7 @@ public class NfaState
              (starts && ((NfaState)indexedAllStates.get(nameSet[toRet])).inNextOf > 1))
          toRet++;
 
-      Enumeration e = compositeStateTable.keys();
+      Enumeration<String> e = compositeStateTable.keys();
       String s;
       while (e.hasMoreElements())
       {
