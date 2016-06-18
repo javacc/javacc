@@ -641,6 +641,7 @@ void option_binding() :
 	  int int_val;
 	  boolean bool_val;
 	  String string_val;
+	  List<String > string_list;
 	  Token t = getToken(1);
 	}
 {
@@ -664,10 +665,28 @@ void option_binding() :
 	{
 	  Options.setInputFileOption(t, getToken(0), option_name, string_val);
 	}
+  |
+    string_list = StringList()
+    {
+	  Options.setInputFileOption(t, getToken(0), option_name, string_list);
+    }
   )
   ";"
 }
 
+List<String> StringList() :
+{ List<String> strings = new ArrayList<String>(); String string; }
+{
+	"(" string = StringLiteral()
+	{
+	  strings.add(string);
+	}
+	("," string = StringLiteral()
+	{
+	  strings.add(string);
+	}
+	)* ")" {  return strings; }
+}
 void production() :
 {}
 {
@@ -712,8 +731,8 @@ void javacode_production() :
 	  String lhs;
 	  Token t = getToken(1);
 	  p.setFirstToken(t);
-	  java.util.List excName;
-	  p.setThrowsList(new java.util.ArrayList());
+	  List excName;
+	  p.setThrowsList(new ArrayList());
 	  p.setLine(t.beginLine);
 	  p.setColumn(t.beginColumn);
 	}
@@ -754,8 +773,8 @@ void cppcode_production() :
 	  String lhs;
 	  Token t = getToken(1);
 	  p.setFirstToken(t);
-	  java.util.List excName;
-	  p.setThrowsList(new java.util.ArrayList());
+	  List excName;
+	  p.setThrowsList(new ArrayList());
 	  p.setLine(t.beginLine);
 	  p.setColumn(t.beginColumn);
 	}
@@ -796,9 +815,9 @@ void bnf_production() :
 	  Container c = new Container();
 	  Token t = getToken(1);
 	  p.setFirstToken(t);
-	  java.util.List excName;
+	  List excName;
 	  String lhs;
-	  p.setThrowsList(new java.util.ArrayList());
+	  p.setThrowsList(new ArrayList());
 	  p.setLine(t.beginLine);
 	  p.setColumn(t.beginColumn);
 	  jumpPatched = false;
@@ -853,7 +872,7 @@ void AccessModifier(NormalProduction p) :
 void regular_expr_production() :
 	{
 	  TokenProduction p = new TokenProduction();
-	  java.util.List states;
+	  List states;
 	  Token t = p.firstToken = getToken(1);
 	  p.setLine(t.beginLine);
 	  p.setColumn(t.beginColumn);
@@ -872,7 +891,7 @@ void regular_expr_production() :
   |
     "<"
 	{
-	  states = new java.util.ArrayList();
+	  states = new ArrayList();
 	}
       t=<IDENTIFIER>
 	{
@@ -916,7 +935,7 @@ void regular_expr_production() :
 
 void token_manager_decls() :
 	{
-	  java.util.List decls = new java.util.ArrayList();
+	  List decls = new ArrayList();
 	  Token t;
 	}
 {
@@ -1151,7 +1170,7 @@ Lookahead local_lookahead() :
 void expansion_unit(Container c) :
 	{
 	  String name;
-	  java.util.List lhsTokens = new java.util.ArrayList();
+	  List lhsTokens = new ArrayList();
 	  NonTerminal nt;
 	  Action act;
 	  Token t;
@@ -1212,11 +1231,11 @@ void expansion_unit(Container c) :
 |
 	{
 	  Container expch = new Container();
-	  java.util.List types = new java.util.ArrayList();
-	  java.util.List ids = new java.util.ArrayList();
-	  java.util.List catchblks = new java.util.ArrayList();
-	  java.util.List finallyblk = null;
-	  java.util.List vec = new java.util.ArrayList();
+	  List types = new ArrayList();
+	  List ids = new ArrayList();
+	  List catchblks = new ArrayList();
+	  List finallyblk = null;
+	  List vec = new ArrayList();
 	  Token t0;
 	}
   t0="try" "{" expansion_choices(expch) "}"
@@ -1234,14 +1253,14 @@ void expansion_unit(Container c) :
 	{
 	  types.add(vec);
 	  ids.add(t);
-	  vec = new java.util.ArrayList();
+	  vec = new ArrayList();
 	  inAction = true;
 	}
     Block(vec)
 	{
 	  inAction = false;
 	  catchblks.add(vec);
-	  vec = new java.util.ArrayList();
+	  vec = new ArrayList();
 	}
   )*
   [
@@ -2030,7 +2049,7 @@ void ClassOrInterfaceType():
   ( LOOKAHEAD(2) ( "." | "::" ) <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments(null) ] )*
 }
 
-void TypeArguments(java.util.List tokens):
+void TypeArguments(List tokens):
 /*
  * Parsing this fills "tokens" with all tokens of the arguments
  * excluding the parentheses at each end.
@@ -2447,7 +2466,7 @@ void NullLiteral() :
   "null"
 }
 
-void Arguments(java.util.List tokens) :
+void Arguments(List tokens) :
 /*
  * Parsing this fills "tokens" with all tokens of the arguments
  * excluding the parentheses at each end.

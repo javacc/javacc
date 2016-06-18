@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -118,6 +119,8 @@ public class Options {
 	public static final String USEROPTION__CPP_STOP_ON_FIRST_ERROR = "STOP_ON_FIRST_ERROR";
 	public static final String USEROPTION__CPP_STACK_LIMIT = "STACK_LIMIT";
 
+	public static final String USEROPTION__CPP_TOKEN_INCLUDE = "TOKEN_INCLUDE";
+	public static final String USEROPTION__CPP_PARSER_INCLUDE = "PARSER_INCLUDE";
 	/**
 	 * Various constants relating to possible values for certain options
 	 */
@@ -213,6 +216,9 @@ public class Options {
 		temp.add(new OptionInfo(USEROPTION__DEPTH_LIMIT, OptionType.INTEGER, new Integer(0)));
 		temp.add(new OptionInfo(USEROPTION__CPP_STACK_LIMIT, OptionType.STRING, ""));
 
+		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_INCLUDE, OptionType.STRING, "", false));
+		temp.add(new OptionInfo(USEROPTION__CPP_PARSER_INCLUDE, OptionType.STRING, "" , false));
+
 		userOptions = Collections.unmodifiableSet(temp);
 	}
 
@@ -264,6 +270,12 @@ public class Options {
 	public static String stringValue(final String option) {
 		return (String) optionValues.get(option);
 	}
+
+
+	public static Object objectValue(final String option) {
+		return  optionValues.get(option);
+	}
+
 
 	public static Map<String,Object> getOptions() {
 		HashMap<String,Object> ret = new HashMap<String,Object>(optionValues);
@@ -369,9 +381,15 @@ public class Options {
 
 			boolean isIndirectProperty = nameUpperCase.equalsIgnoreCase(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING);
 
-			if (isIndirectProperty || ((existingValue.getClass() != value.getClass())
-					|| (value instanceof Integer && ((Integer) value)
-							.intValue() <= 0))) {
+			Object object = null;
+			if (value instanceof List) {
+				object = ((List<?>)value).get(0);
+			} else {
+				object = value;
+			}
+			boolean isValidInteger = (object instanceof Integer && ((Integer) value).intValue() <= 0);
+			if (isIndirectProperty || (existingValue.getClass() != object.getClass())
+					|| (isValidInteger)) {
 				JavaCCErrors.warning(valueloc, "Bad option value \"" + value
 						+ "\" for \"" + name
 						+ "\".  Option setting will be ignored.");
@@ -408,7 +426,9 @@ public class Options {
 
 			boolean isLegacy = JAVA_TEMPLATE_TYPE_CLASSIC.equals(templateType);
 			optionValues.put(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING, isLegacy);
-		} else if (nameUpperCase.equalsIgnoreCase(USEROPTION__OUTPUT_LANGUAGE)) {
+		} else
+			
+		if (nameUpperCase.equalsIgnoreCase(USEROPTION__OUTPUT_LANGUAGE)) {
 			String outputLanguage = (String)value;
 			if (!isValidOutputLanguage(outputLanguage)) {
 				JavaCCErrors.warning(valueloc, "Bad option value \"" + value
@@ -420,7 +440,9 @@ public class Options {
 				language = Language.java;
 			else if (isOutputLanguageCpp())
 				language = Language.cpp;
-		} else if (nameUpperCase.equalsIgnoreCase(USEROPTION__CPP_NAMESPACE)) {
+		} else
+			
+		if (nameUpperCase.equalsIgnoreCase(USEROPTION__CPP_NAMESPACE)) {
 			processCPPNamespaceOption((String) value);
 		}
 	}
