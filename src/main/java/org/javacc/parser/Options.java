@@ -216,9 +216,6 @@ public class Options {
 		temp.add(new OptionInfo(USEROPTION__DEPTH_LIMIT, OptionType.INTEGER, new Integer(0)));
 		temp.add(new OptionInfo(USEROPTION__CPP_STACK_LIMIT, OptionType.STRING, ""));
 
-		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_INCLUDE, OptionType.STRING, "", false));
-		temp.add(new OptionInfo(USEROPTION__CPP_PARSER_INCLUDE, OptionType.STRING, "" , false));
-
 		userOptions = Collections.unmodifiableSet(temp);
 	}
 
