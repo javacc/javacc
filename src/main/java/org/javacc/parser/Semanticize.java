@@ -67,7 +67,7 @@ public class Semanticize extends JavaCCGlobals {
      * them to trivial choices.  This way, their semantic lookahead specification
      * can be evaluated during other lookahead evaluations.
      */
-    for (Iterator it = bnfproductions.iterator(); it.hasNext();) {
+    for (Iterator<NormalProduction> it = bnfproductions.iterator(); it.hasNext();) {
       ExpansionTreeWalker.postOrderWalk(((NormalProduction)it.next()).getExpansion(),
                                         new LookaheadFixer());
     }
@@ -75,8 +75,8 @@ public class Semanticize extends JavaCCGlobals {
     /*
      * The following loop populates "production_table"
      */
-    for (Iterator it = bnfproductions.iterator(); it.hasNext();) {
-      NormalProduction p = (NormalProduction)it.next();
+    for (Iterator<NormalProduction> it = bnfproductions.iterator(); it.hasNext();) {
+      NormalProduction p = it.next();
       if (production_table.put(p.getLhs(), p) != null) {
         JavaCCErrors.semantic_error(p, p.getLhs() + " occurs on the left hand side of more than one production.");
       }
@@ -86,9 +86,8 @@ public class Semanticize extends JavaCCGlobals {
      * The following walks the entire parse tree to make sure that all
      * non-terminals on RHS's are defined on the LHS.
      */
-    for (Iterator it = bnfproductions.iterator(); it.hasNext();) {
-      ExpansionTreeWalker.preOrderWalk(((NormalProduction)it.next()).getExpansion(),
-                                       new ProductionDefinedChecker());
+    for (Iterator<NormalProduction> it = bnfproductions.iterator(); it.hasNext();) {
+      ExpansionTreeWalker.preOrderWalk((it.next()).getExpansion(), new ProductionDefinedChecker());
     }
 
     /*
@@ -541,11 +540,11 @@ public class Semanticize extends JavaCCGlobals {
     } else if (exp instanceof ZeroOrOne) {
       addLeftMost(prod, ((ZeroOrOne)exp).expansion);
     } else if (exp instanceof Choice) {
-      for (Iterator it = ((Choice)exp).getChoices().iterator(); it.hasNext();) {
+      for (Iterator<? super Object> it = ((Choice)exp).getChoices().iterator(); it.hasNext();) {
         addLeftMost(prod, (Expansion)it.next());
       }
     } else if (exp instanceof Sequence) {
-      for (Iterator it = ((Sequence)exp).units.iterator(); it.hasNext();) {
+      for (Iterator<? super Object> it = ((Sequence)exp).units.iterator(); it.hasNext();) {
         Expansion e = (Expansion)it.next();
         addLeftMost(prod, e);
         if (!emptyExpansionExists(e)) {
