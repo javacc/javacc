@@ -31,44 +31,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Describes one-or-more regular expressions (<foo+>).
+ * Describes a CODE productions.
  */
 
-public class RRepetitionRange extends RegularExpression {
+public abstract class CodeProduction extends NormalProduction {
 
   /**
-   * The regular expression which is repeated one or more times.
+   * The tokens that implement this JAVACODE/CPPCODE production.
    */
-  public RegularExpression regexpr;
-  public int min = 0;
-  public int max = -1;
-  public boolean hasMax;
+  private List<Token> code_tokens = new ArrayList<Token>();
 
-  public Nfa GenerateNfa(boolean ignoreCase)
-  {
-     List<? super Object> units = new ArrayList<Object>();
-     RSequence seq;
-     int i;
-
-     for (i = 0; i < min; i++)
-     {
-        units.add(regexpr);
-     }
-
-     if (hasMax && max == -1) // Unlimited
-     {
-        RZeroOrMore zoo = new RZeroOrMore();
-        zoo.regexpr = regexpr;
-        units.add(zoo);
-     }
-
-     while (i++ < max)
-     {
-        RZeroOrOne zoo = new RZeroOrOne();
-        zoo.regexpr = regexpr;
-        units.add(zoo);
-     }
-     seq = new RSequence(units);
-     return seq.GenerateNfa(ignoreCase);
+  /**
+   * @return the code_tokens
+   */
+  public List<Token> getCodeTokens() {
+    return code_tokens;
   }
+
 }

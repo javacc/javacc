@@ -59,8 +59,8 @@ public class NfaState
    private static boolean stateDone[];
 
    private static List<NfaState> allStates = new ArrayList<NfaState>();
-   private static List indexedAllStates = new ArrayList();
-   private static List nonAsciiTableForMethod = new ArrayList();
+   private static List<NfaState> indexedAllStates = new ArrayList<NfaState>();
+   private static List<NfaState> nonAsciiTableForMethod = new ArrayList<NfaState>();
    private static Hashtable equivStatesTable = new Hashtable();
    private static Hashtable allNextStates = new Hashtable();
    private static Hashtable lohiByteTab = new Hashtable();
@@ -96,7 +96,7 @@ public class NfaState
    private char[] rangeMoves = null;
    NfaState next = null;
    private NfaState stateForCase;
-   Vector epsilonMoves = new Vector();
+   Vector<NfaState> epsilonMoves = new Vector<NfaState>();
    private String epsilonMovesString;
    private NfaState[] epsilonMoveArray;
 
@@ -334,7 +334,7 @@ public class NfaState
       for (i = 0; i < epsilonMoves.size(); i++)
          ((NfaState)epsilonMoves.get(i)).EpsilonClosure();
 
-      Enumeration e = epsilonMoves.elements();
+      Enumeration<NfaState> e = epsilonMoves.elements();
 
       while (e.hasMoreElements())
       {
@@ -424,7 +424,7 @@ public class NfaState
       isFinal |= other.isFinal;
    }
 
-   NfaState CreateEquivState(List states)
+   NfaState CreateEquivState(List<NfaState> states)
    {
       NfaState newState = ((NfaState)states.get(0)).CreateClone();
 
@@ -571,7 +571,7 @@ public class NfaState
       NfaState newState = null;
       NfaState tmp1, tmp2;
       int j;
-      List equivStates = null;
+      List<NfaState> equivStates = null;
 
       while (sometingOptimized)
       {
@@ -1177,7 +1177,7 @@ public class NfaState
              (starts && ((NfaState)indexedAllStates.get(nameSet[toRet])).inNextOf > 1))
          toRet++;
 
-      Enumeration e = compositeStateTable.keys();
+      Enumeration<String> e = compositeStateTable.keys();
       String s;
       while (e.hasMoreElements())
       {
@@ -1725,7 +1725,7 @@ public class NfaState
          original.removeElement(tmp);
 
          long bitVec = tmp.asciiMoves[byteNum];
-         List subSet = new ArrayList();
+         List<NfaState> subSet = new ArrayList<NfaState>();
          subSet.add(tmp);
 
          for (int j = 0; j < original.size(); j++)

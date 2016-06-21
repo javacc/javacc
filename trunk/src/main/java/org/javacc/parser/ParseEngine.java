@@ -90,7 +90,7 @@ public class ParseEngine {
       return false;
     } else if (exp instanceof NonTerminal) {
       NormalProduction prod = ((NonTerminal)exp).getProd();
-      if (prod instanceof JavaCodeProduction) {
+      if (prod instanceof CodeProduction) {
         return true;
       } else {
         return javaCodeCheck(prod.getExpansion());
@@ -151,7 +151,7 @@ public class ParseEngine {
     if (exp instanceof RegularExpression) {
       firstSet[((RegularExpression)exp).ordinal] = true;
     } else if (exp instanceof NonTerminal) {
-      if (!(((NonTerminal)exp).getProd() instanceof JavaCodeProduction))
+      if (!(((NonTerminal)exp).getProd() instanceof CodeProduction))
       {
         genFirstSet(((BNFProduction)(((NonTerminal)exp).getProd())).getExpansion());
       }
@@ -171,7 +171,7 @@ public class ParseEngine {
         // Javacode productions can not have FIRST sets. Instead we generate the FIRST set
         // for the preceding LOOKAHEAD (the semantic checks should have made sure that
         // the LOOKAHEAD is suitable).
-        if (unit instanceof NonTerminal && ((NonTerminal)unit).getProd() instanceof JavaCodeProduction) {
+        if (unit instanceof NonTerminal && ((NonTerminal)unit).getProd() instanceof CodeProduction) {
           if (i > 0 && seq.units.get(i-1) instanceof Lookahead) {
             Lookahead la = (Lookahead)seq.units.get(i-1);
             genFirstSet(la.getLaExpansion());
@@ -477,7 +477,58 @@ public class ParseEngine {
     }
   }
 
- // Print method header and return the ERROR_RETURN string.
+  // Print CPPCODE method header.
+  private String generateCPPMethodheader(CppCodeProduction p) {
+    StringBuffer sig = new StringBuffer();
+    String ret, params;
+    Token t = null;
+    
+    String method_name = p.getLhs();
+    boolean void_ret = false;
+    boolean ptr_ret = false;
+
+//    codeGenerator.printTokenSetup(t); ccol = 1;
+//    String comment1 = codeGenerator.getLeadingComments(t);
+//    cline = t.beginLine;
+//    ccol = t.beginColumn;
+//    sig.append(t.image);
+//    if (t.kind == JavaCCParserConstants.VOID) void_ret = true;
+//    if (t.kind == JavaCCParserConstants.STAR) ptr_ret = true;
+
+    for (int i = 0; i < p.getReturnTypeTokens().size(); i++) {
+      t = (Token)(p.getReturnTypeTokens().get(i));
+      String s = codeGenerator.getStringToPrint(t);
+      sig.append(t.toString());
+      sig.append(" ");
+      if (t.kind == JavaCCParserConstants.VOID) void_ret = true;
+      if (t.kind == JavaCCParserConstants.STAR) ptr_ret = true;
+    }
+
+    String comment2 = "";
+    if (t != null)
+    	comment2 = codeGenerator.getTrailingComments(t);
+    ret = sig.toString();
+
+    sig.setLength(0);
+    sig.append("(");
+    if (p.getParameterListTokens().size() != 0) {
+      codeGenerator.printTokenSetup((Token)(p.getParameterListTokens().get(0)));
+      for (java.util.Iterator it = p.getParameterListTokens().iterator(); it.hasNext();) {
+        t = (Token)it.next();
+        sig.append(codeGenerator.getStringToPrint(t));
+      }
+      sig.append(codeGenerator.getTrailingComments(t));
+    }
+    sig.append(")");
+    params = sig.toString();
+
+    // For now, just ignore comments
+    codeGenerator.generateMethodDefHeader(ret, cu_name, p.getLhs()+params, sig.toString());
+
+    return "";
+  }
+
+  // Print method header and return the ERROR_RETURN string.
   private String generateCPPMethodheader(BNFProduction p, Token t) {
     StringBuffer sig = new StringBuffer();
     String ret, params;
@@ -634,9 +685,10 @@ public class ParseEngine {
     if (Options.getDebugParser()) {
       codeGenerator.genCodeLine("");
       codeGenerator.genCodeLine("    trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
-      codeGenerator.genCode("    try {");
+      codeGenerator.genCodeLine("    try {");
       indentamt = 6;
     }
+    
     if (!Options.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) &&
         p.getDeclarationTokens().size() != 0) {
       codeGenerator.printTokenSetup((Token)(p.getDeclarationTokens().get(0))); cline--;
@@ -646,9 +698,11 @@ public class ParseEngine {
       }
       codeGenerator.printTrailingComments(t);
     }
+    
     String code = phase1ExpansionGen(p.getExpansion());
     dumpFormattedString(code);
     codeGenerator.genCodeLine("");
+    
     if (p.isJumpPatched() && !voidReturn) {
       if (isJavaDialect) {
     	// TODO :: I don't think we need to throw an Error/Exception to mark that a return statement is missing as the compiler will flag this error automatically
@@ -1009,7 +1063,7 @@ public class ParseEngine {
         {
           NonTerminal e_nrw = (NonTerminal)seq;
           NormalProduction ntprod = (NormalProduction)(production_table.get(e_nrw.getName()));
-          if (ntprod instanceof JavaCodeProduction)
+          if (ntprod instanceof CodeProduction)
           {
             break; // nothing to do here
           }
@@ -1056,7 +1110,7 @@ public class ParseEngine {
       // variables are the same.
       NonTerminal e_nrw = (NonTerminal)e;
       NormalProduction ntprod = (NormalProduction)(production_table.get(e_nrw.getName()));
-      if (ntprod instanceof JavaCodeProduction) {
+      if (ntprod instanceof CodeProduction) {
         ; // nothing to do here
       } else {
         generate3R(ntprod.getExpansion(), inf);
@@ -1158,7 +1212,7 @@ public class ParseEngine {
       // variables are the same.
       NonTerminal e_nrw = (NonTerminal)e;
       NormalProduction ntprod = (NormalProduction)(production_table.get(e_nrw.getName()));
-      if (ntprod instanceof JavaCodeProduction) {
+      if (ntprod instanceof CodeProduction) {
         codeGenerator.genCodeLine("    if (true) { jj_la = 0; jj_scanpos = jj_lastpos; " + genReturn(false) + "}");
       } else {
         Expansion ntexp = ntprod.getExpansion();
@@ -1300,7 +1354,7 @@ public class ParseEngine {
     } else if (e instanceof NonTerminal) {
       NonTerminal e_nrw = (NonTerminal)e;
       NormalProduction ntprod = (NormalProduction)(production_table.get(e_nrw.getName()));
-      if (ntprod instanceof JavaCodeProduction) {
+      if (ntprod instanceof CodeProduction) {
         retval = Integer.MAX_VALUE;
         // Make caller think this is unending (for we do not go beyond JAVACODE during
         // phase3 execution).
@@ -1357,11 +1411,63 @@ public class ParseEngine {
   void build(CodeGenerator codeGenerator) {
     NormalProduction p;
     JavaCodeProduction jp;
+    CppCodeProduction cp;
     Token t = null;
 
     this.codeGenerator = codeGenerator;
     for (java.util.Iterator prodIterator = bnfproductions.iterator(); prodIterator.hasNext();) {
       p = (NormalProduction)prodIterator.next();
+      if (p instanceof CppCodeProduction) {
+          cp = (CppCodeProduction)p;
+
+          generateCPPMethodheader(cp);
+//          t = (Token)(cp.getReturnTypeTokens().get(0));
+//          codeGenerator.printTokenSetup(t); ccol = 1;
+//          codeGenerator.printLeadingComments(t);
+//          codeGenerator.genCode("  " + staticOpt() + (p.getAccessMod() != null ? p.getAccessMod() + " " : ""));
+//          cline = t.beginLine; ccol = t.beginColumn;
+//          codeGenerator.printTokenOnly(t);
+//          for (int i = 1; i < cp.getReturnTypeTokens().size(); i++) {
+//            t = (Token)(cp.getReturnTypeTokens().get(i));
+//            codeGenerator.printToken(t);
+//          }
+//          codeGenerator.printTrailingComments(t);
+//          codeGenerator.genCode(" " + cp.getLhs() + "(");
+//          if (cp.getParameterListTokens().size() != 0) {
+//            codeGenerator.printTokenSetup((Token)(cp.getParameterListTokens().get(0)));
+//            for (java.util.Iterator it = cp.getParameterListTokens().iterator(); it.hasNext();) {
+//              t = (Token)it.next();
+//              codeGenerator.printToken(t);
+//            }
+//            codeGenerator.printTrailingComments(t);
+//          }
+//          codeGenerator.genCode(")");
+//          for (java.util.Iterator it = cp.getThrowsList().iterator(); it.hasNext();) {
+//            codeGenerator.genCode(", ");
+//            java.util.List name = (java.util.List)it.next();
+//            for (java.util.Iterator it2 = name.iterator(); it2.hasNext();) {
+//              t = (Token)it2.next();
+//              codeGenerator.genCode(t.image);
+//            }
+//          }
+          codeGenerator.genCodeLine(" {");
+          if (Options.getDebugParser()) {
+            codeGenerator.genCodeLine("");
+            codeGenerator.genCodeLine("    trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(cp.getLhs()) + "\");");
+            codeGenerator.genCodeLine("    try {");
+          }
+          if (cp.getCodeTokens().size() != 0) {
+            codeGenerator.printTokenSetup((Token)(cp.getCodeTokens().get(0))); cline--;
+            codeGenerator.printTokenList(cp.getCodeTokens());
+          }
+          codeGenerator.genCodeLine("");
+          if (Options.getDebugParser()) {
+            codeGenerator.genCodeLine("    } catch(...) { }");
+            codeGenerator.genCodeLine("    trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(cp.getLhs()) + "\");");
+          }
+          codeGenerator.genCodeLine("  }");
+          codeGenerator.genCodeLine(""); 	  
+      } else
       if (p instanceof JavaCodeProduction) {
         if (!isJavaDialect) {
           JavaCCErrors.semantic_error("Cannot use JAVACODE productions with C++ output (yet).");
@@ -1477,7 +1583,7 @@ public class ParseEngine {
       NonTerminal e_nrw = (NonTerminal)e;
       NormalProduction ntprod =
           (NormalProduction)(production_table.get(e_nrw.getName()));
-      if (ntprod instanceof JavaCodeProduction) {
+      if (ntprod instanceof CodeProduction) {
         // javacode, true - always (warn?)
         System.err.println("JAVACODE_PROD, true");
       } else {
@@ -1519,7 +1625,7 @@ public class ParseEngine {
           NormalProduction ntprod =
               (NormalProduction)(
                   production_table.get(((NonTerminal)tmp).getName()));
-          if (ntprod instanceof JavaCodeProduction) break;
+          if (ntprod instanceof CodeProduction) break;
           tmp = ntprod.getExpansion();
         }
         buildPhase3Table(new Phase3Data(tmp, cnt));

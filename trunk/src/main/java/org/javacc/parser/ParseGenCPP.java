@@ -26,7 +26,8 @@ import java.util.List;
  */
 public class ParseGenCPP extends ParseGen {
 
-  public void start() throws MetaParseException {
+  @SuppressWarnings("unchecked")
+public void start() throws MetaParseException {
 
     Token t = null;
 
@@ -44,8 +45,26 @@ public class ParseGenCPP extends ParseGen {
     genCodeLine("#include \"Token.h\"");
     genCodeLine("#include \"TokenManager.h\"");
 
-    if (Options.stringValue(Options.USEROPTION__CPP_PARSER_INCLUDES).length() > 0) {
-      genCodeLine("#include \"" + Options.stringValue(Options.USEROPTION__CPP_PARSER_INCLUDES) + "\"\n");
+    
+    Object object = Options.objectValue(Options.USEROPTION__CPP_PARSER_INCLUDES);
+    
+    if (object instanceof String) {
+    	String include = (String)object;
+    	if (include.length() > 0) {
+    		if (include.charAt(0) == '<')
+    			genCodeLine("#include " + include);
+    		else
+    			genCodeLine("#include \"" + include + "\"");
+    	}
+    } else
+    if (object instanceof List<?>) {
+    	for(String include : (List<String>)object)
+        	if (include.length() > 0) {
+        		if (include.charAt(0) == '<')
+        			genCodeLine("#include " + include);
+        		else
+        			genCodeLine("#include \"" + include + "\"");
+        	}
     }
 
     genCodeLine("#include \"" + cu_name + "Constants.h\"");

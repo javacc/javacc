@@ -141,9 +141,9 @@ public class CodeGenerator {
 		ccol = tt.beginColumn;
   }
 
-  protected void printTokenList(List list) {
+  protected void printTokenList(List<Token> list) {
     Token t = null;
-    for (java.util.Iterator it = list.iterator(); it.hasNext();) {
+    for (Iterator<Token> it = list.iterator(); it.hasNext();) {
       t = (Token)it.next();
       printToken(t);
     }

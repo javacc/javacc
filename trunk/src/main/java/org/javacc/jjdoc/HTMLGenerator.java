@@ -30,6 +30,7 @@ package org.javacc.jjdoc;
 
 import java.util.Hashtable;
 
+import org.javacc.parser.CppCodeProduction;
 import org.javacc.parser.Expansion;
 import org.javacc.parser.JavaCodeProduction;
 import org.javacc.parser.NonTerminal;
@@ -157,10 +158,16 @@ public class HTMLGenerator extends TextGenerator implements Generator {
   }
 
   public void javacode(JavaCodeProduction jp) {
-    productionStart(jp);
-    println("<I>java code</I></TD></TR>");
-    productionEnd(jp);
-  }
+	    productionStart(jp);
+	    println("<I>java code</I></TD></TR>");
+	    productionEnd(jp);
+	  }
+
+  public void cppcode(CppCodeProduction cp) {
+	    productionStart(cp);
+	    println("<I>cpp code</I></TD></TR>");
+	    productionEnd(cp);
+	  }
 
   public void productionStart(NormalProduction np) {
     if (!JJDocOptions.getOneTable()) {

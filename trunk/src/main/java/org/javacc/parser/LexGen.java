@@ -49,9 +49,10 @@ import static org.javacc.parser.JavaCCGlobals.*;
 public class LexGen extends CodeGenerator implements JavaCCParserConstants
 {
   private static final String DUMP_STATIC_VAR_DECLARATIONS_TEMPLATE_RESOURCE_URL = "/templates/DumpStaticVarDeclarations.template";
-private static final String DUMP_DEBUG_METHODS_TEMPLATE_RESOURCE_URL = "/templates/DumpDebugMethods.template";
-private static final String BOILERPLATER_METHOD_RESOURCE_URL = "/templates/TokenManagerBoilerPlateMethods.template";
-public static String staticString;
+  private static final String DUMP_DEBUG_METHODS_TEMPLATE_RESOURCE_URL = "/templates/DumpDebugMethods.template";
+  private static final String BOILERPLATER_METHOD_RESOURCE_URL = "/templates/TokenManagerBoilerPlateMethods.template";
+  
+  public static String staticString;
   public static String tokMgrClassName;
 
   // Hashtable of vectors
@@ -104,7 +105,7 @@ public static String staticString;
   {
     int i, j;
 
-    List tn = new ArrayList(toolNames);
+    List<String> tn = new ArrayList<String>(toolNames);
     tn.add(toolName);
      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
     genCodeLine("/* " + getIdString(tn, tokMgrClassName + getFileExtension(Options.getOutputLanguage())) + " */");
@@ -261,16 +262,16 @@ public static String staticString;
 
   static void BuildLexStatesTable()
   {
-    Iterator it = rexprlist.iterator();
+    Iterator<TokenProduction> it = rexprlist.iterator();
     TokenProduction tp;
     int i;
 
     String[] tmpLexStateName = new String[lexstate_I2S.size()];
     while (it.hasNext())
     {
-      tp = (TokenProduction)it.next();
-      List respecs = tp.respecs;
-      List tps;
+      tp = it.next();
+      List<RegExprSpec> respecs = tp.respecs;
+      List<TokenProduction> tps;
 
       for (i = 0; i < tp.lexStates.length; i++)
       {
@@ -376,7 +377,7 @@ public static String staticString;
 
       lexStateIndex = GetIndex(key);
       lexStateSuffix = "_" + lexStateIndex;
-      List allTps = (List)allTpsForState.get(key);
+      List<TokenProduction> allTps = (List<TokenProduction>)allTpsForState.get(key);
       initStates.put(key, initialState = new NfaState());
       ignoring = false;
 
@@ -391,7 +392,7 @@ public static String staticString;
         tp = (TokenProduction)allTps.get(i);
         int kind = tp.kind;
         boolean ignore = tp.ignoreCase;
-        List rexps = tp.respecs;
+        List<RegExprSpec> rexps = tp.respecs;
 
         if (i == 0)
           ignoring = ignore;
