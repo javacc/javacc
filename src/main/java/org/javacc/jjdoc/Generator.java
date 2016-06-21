@@ -29,6 +29,7 @@
 
 package org.javacc.jjdoc;
 
+import org.javacc.parser.CppCodeProduction;
 import org.javacc.parser.Expansion;
 import org.javacc.parser.JavaCodeProduction;
 import org.javacc.parser.NonTerminal;
@@ -113,6 +114,12 @@ public interface Generator {
    * @param jp the JavaCodeProduction to output
    */
   void javacode(JavaCodeProduction jp);
+
+  /**
+   * Output comment from a production.
+   * @param cp the CppCodeProduction to output
+   */
+  void cppcode(CppCodeProduction cp);
 
   /**
    * Output start of a normal production.

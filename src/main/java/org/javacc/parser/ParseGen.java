@@ -66,7 +66,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 		}
 
 		if (Options.getBuildParser()) {
-			final List tn = new ArrayList(toolNames);
+			final List<String> tn = new ArrayList<String>(toolNames);
 			tn.add(toolName);
 			
 			// This is the first line generated -- the the comment line at the top of the generated parser
@@ -79,8 +79,8 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 				Object firstToken = cu_to_insertion_point_1.get(0);
 				printTokenSetup((Token) firstToken);
 				ccol = 1;
-				for (final Iterator it = cu_to_insertion_point_1.iterator(); it.hasNext();) {
-					t = (Token) it.next();
+				for (final Iterator<Token> it = cu_to_insertion_point_1.iterator(); it.hasNext();) {
+					t = it.next();
 					if (t.kind == IMPLEMENTS) {
 						implementsExists = true;
 					} else if (t.kind == CLASS) {
@@ -99,9 +99,8 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 			genCode(cu_name + "Constants ");
 			if (cu_to_insertion_point_2.size() != 0) {
 				printTokenSetup((Token) (cu_to_insertion_point_2.get(0)));
-				for (final Iterator it = cu_to_insertion_point_2.iterator(); it.hasNext();) {
-					t = (Token) it.next();
-					printToken(t);
+				for (final Iterator<Token> it = cu_to_insertion_point_2.iterator(); it.hasNext();) {
+					printToken(it.next());
 				}
 			}
 

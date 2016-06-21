@@ -63,12 +63,12 @@ public class NormalProduction {
   /**
    * The tokens that make up the return type of this production.
    */
-  private List return_type_tokens = new ArrayList();
+  private List<Token> return_type_tokens = new ArrayList<Token>();
 
   /**
    * The tokens that make up the parameters of this production.
    */
-  private List parameter_list_tokens = new ArrayList();
+  private List<Token> parameter_list_tokens = new ArrayList<Token>();
 
   /**
    * Each entry in this list is a list of tokens that represents an
@@ -213,14 +213,14 @@ public class NormalProduction {
   /**
    * @return the return_type_tokens
    */
-  public List getReturnTypeTokens() {
+  public List<Token> getReturnTypeTokens() {
     return return_type_tokens;
   }
 
   /**
    * @return the parameter_list_tokens
    */
-  public List getParameterListTokens() {
+  public List<Token> getParameterListTokens() {
     return parameter_list_tokens;
   }
 

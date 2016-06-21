@@ -45,25 +45,25 @@ public class TryBlock extends Expansion {
    * The types of each catch block.  Each list entry is itself a
    * list which in turn contains tokens as entries.
    */
-  public List types;
+  public List<List<Token>> types;
 
   /**
    * The exception identifiers of each catch block.  Each list entry
    * is a token.
    */
-  public List ids;
+  public List<Token> ids;
 
   /**
    * The block part of each catch block.  Each list entry is itself a
    * list which in turn contains tokens as entries.
    */
-  public List catchblks;
+  public List<List<Token>> catchblks;
 
   /**
    * The block part of the finally block.  Each list entry is a token.
    * If there is no finally block, this is null.
    */
-  public List finallyblk;
+  public List<Token> finallyblk;
 
   public StringBuffer dump(int indent, Set alreadyDumped) {
     StringBuffer sb = super.dump(indent, alreadyDumped);
