@@ -27,7 +27,7 @@ class ParseException {
    */
   ParseException(Token currentTokenVal,
                         int** expectedTokenSequencesVal,
-                        JAVACC_STRING_TYPE* tokenImageVal
+                        String* tokenImageVal
                        );
 
   /**
@@ -43,7 +43,7 @@ class ParseException {
   ParseException();
 
   /** Constructor with message. */
-  ParseException(const JAVACC_STRING_TYPE& message);
+  ParseException(const String& message);
 
 
   /**
@@ -65,7 +65,7 @@ class ParseException {
    * parser within which the parse error occurred.  This array is
    * defined in the generated ...Constants class.
    */
-  JAVACC_STRING_TYPE* tokenImage;
+  String* tokenImage;
 
   /**
    * It uses "currentToken" and "expectedTokenSequences" to generate a parse
@@ -74,9 +74,9 @@ class ParseException {
    * from the parser) the correct error message
    * gets displayed.
    */
-  private:  JAVACC_STRING_TYPE initialise(Token currentToken,
+  private:  String initialise(Token currentToken,
                            int** expectedTokenSequences,
-                           JAVACC_STRING_TYPE* tokenImage);
+                           String* tokenImage);
 
   /**
    * The end of line string for this machine.
@@ -88,7 +88,7 @@ class ParseException {
    * when these raw version cannot be used as part of an ASCII
    * string literal.
    */
-   JAVACC_STRING_TYPE add_escapes(const JAVACC_STRING_TYPE& str);
+   String add_escapes(const String& str);
 
 };
 

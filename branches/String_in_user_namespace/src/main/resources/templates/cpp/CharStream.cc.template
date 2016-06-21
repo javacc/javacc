@@ -10,8 +10,12 @@ void ArrayCopy(T* src, int src_offset, T* dest, int dest_offset, int len) {
 
 class StringReaderStream : public ReaderStream {
  public:
-  StringReaderStream(const JAVACC_STRING_TYPE& str) : str_(str), cur_(0), max_(str.size()) {}
-  virtual size_t read(JAVACC_CHAR_TYPE *bufptr, int offset, size_t len) {
+#if NAMESPACE
+ StringReaderStream(const ${NAMESPACE}::String& str) : str_(str), cur_(0), max_(str.size()) {}
+#else
+ StringReaderStream(const String& str) : str_(str), cur_(0), max_(str.size()) {}
+#fi
+   virtual size_t read(JAVACC_CHAR_TYPE *bufptr, int offset, size_t len) {
     size_t count = str_.copy(bufptr + offset, len > max_ ? max_ : len, cur_);
     cur_ += count;
     max_ -= count;
@@ -23,7 +27,11 @@ class StringReaderStream : public ReaderStream {
   }
 
  private:
-  const JAVACC_STRING_TYPE str_;
+#if NAMESPACE
+  const ${NAMESPACE}::String str_;
+#else
+  const String str_;
+#fi
   size_t cur_;
   size_t max_;
 };
@@ -32,7 +40,7 @@ class StringReaderStream : public ReaderStream {
 #if NAMESPACE
 namespace ${NAMESPACE_OPEN}
 #fi
-void CharStream::ReInit(const JAVACC_STRING_TYPE& str, int startline,
+void CharStream::ReInit(const String& str, int startline,
                         int startcolumn, int buffersize) {
   StringReaderStream *stream = new StringReaderStream(str);
   ReInit(stream, startline, startcolumn, buffersize);
@@ -50,7 +58,7 @@ void CharStream::ReInit(ReaderStream *input_stream, int startline,
   }
 
   available = bufsize = buffersize;
-  buffer = new JAVACC_CHAR_TYPE[buffersize];
+  buffer = new Character[buffersize];
   bufline = new int[buffersize];
   bufcolumn = new int[buffersize];
 

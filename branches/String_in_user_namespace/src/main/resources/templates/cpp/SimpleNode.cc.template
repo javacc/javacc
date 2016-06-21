@@ -92,18 +92,18 @@ void SimpleNode::childrenAccept(${PARSER_NAME}Visitor *visitor, ${VISITOR_DATA_T
      toString(string), otherwise overriding toString() is probably all
      you need to do. */
 
-JAVACC_STRING_TYPE SimpleNode::toString() const { return jjtNodeName[id]; }
-JAVACC_STRING_TYPE SimpleNode::toString(const JAVACC_STRING_TYPE& prefix) const { return prefix + toString(); }
+String SimpleNode::toString() const { return jjtNodeName[id]; }
+String SimpleNode::toString(const String& prefix) const { return prefix + toString(); }
 
 static JAVACC_CHAR_TYPE space_char_arr_[] = { ' ', '\0' };
 static JAVACC_CHAR_TYPE newline_char_arr_[] = { '\n', '\0' };
-static JAVACC_STRING_TYPE space = space_char_arr_;
-static JAVACC_STRING_TYPE newline = newline_char_arr_;
+static String space = space_char_arr_;
+static String newline = newline_char_arr_;
 
   /* Override this method if you want to customize how the node dumps
      out its children. */
 
-void SimpleNode::dumpToBuffer(const JAVACC_STRING_TYPE& prefix, const JAVACC_STRING_TYPE& separator, JAVACC_STRING_TYPE *buffer) const {
+void SimpleNode::dumpToBuffer(const String& prefix, const String& separator, String *buffer) const {
     buffer->append(toString(prefix));
     buffer->append(separator);
     for (size_t i = 0; i < children.size(); ++i) {
@@ -114,8 +114,8 @@ void SimpleNode::dumpToBuffer(const JAVACC_STRING_TYPE& prefix, const JAVACC_STR
     }
 }
   
-void SimpleNode::dump(const JAVACC_STRING_TYPE& prefix) const {
-    JAVACC_STRING_TYPE *buffer = new JAVACC_STRING_TYPE();
+void SimpleNode::dump(const String& prefix) const {
+    String *buffer = new String();
     dumpToBuffer(prefix, newline, buffer);
     for (size_t i = 0; i < buffer->size(); i++) {
       printf("%c", (*buffer)[i]);

@@ -22,7 +22,7 @@ namespace ${NAMESPACE_OPEN}
    */
   ParseException::ParseException(Token currentTokenVal,
                         int** expectedTokenSequencesVal,
-                        JAVACC_STRING_TYPE* tokenImageVal
+                        String* tokenImageVal
                        )
   {
     initialise(currentTokenVal, expectedTokenSequencesVal, tokenImageVal);
@@ -45,7 +45,7 @@ namespace ${NAMESPACE_OPEN}
   }
 
   /** Constructor with message. */
-  ParseException::ParseException(const JAVACC_STRING_TYPE& message) {
+  ParseException::ParseException(const String& message) {
   }
 
 
@@ -68,7 +68,7 @@ namespace ${NAMESPACE_OPEN}
    * parser within which the parse error occurred.  This array is
    * defined in the generated ...Constants class.
    */
-  JAVACC_STRING_TYPE* tokenImage;
+  String* tokenImage;
 
   /**
    * It uses "currentToken" and "expectedTokenSequences" to generate a parse
@@ -77,12 +77,12 @@ namespace ${NAMESPACE_OPEN}
    * from the parser) the correct error message
    * gets displayed.
    */
-  JAVACC_STRING_TYPE ParseException::initialise(Token currentToken,
+  String ParseException::initialise(Token currentToken,
                            int** expectedTokenSequences,
-                           JAVACC_STRING_TYPE* tokenImage) {
+                           String* tokenImage) {
 \#if 0
-    //JAVACC_STRING_TYPE eol = System.getProperty("line.separator", "\n");
-     expected = new JAVACC_STRING_TYPE();
+    //String eol = System.getProperty("line.separator", "\n");
+     expected = new String();
     int maxSize = 0;
     for (int i = 0; i < expectedTokenSequences.length; i++) {
       if (maxSize < expectedTokenSequences[i].length) {
@@ -96,7 +96,7 @@ namespace ${NAMESPACE_OPEN}
       }
       expected.append(eol).append("    ");
     }
-    JAVACC_STRING_TYPE retval = (JAVACC_CHAR_TYPE*)"Encountered \"";
+    String retval = (JAVACC_CHAR_TYPE*)"Encountered \"";
     Token tok = currentToken.next;
     for (int i = 0; i < maxSize; i++) {
       if (i != 0) retval += (JAVACC_CHAR_TYPE*)" ";
@@ -124,7 +124,7 @@ namespace ${NAMESPACE_OPEN}
   }
 
   /**
-   * The end of line JAVACC_STRING_TYPE for this machine.
+   * The end of line String for this machine.
    */
 \#define eol "\n"
 
@@ -133,9 +133,9 @@ namespace ${NAMESPACE_OPEN}
    * when these raw version cannot be used as part of an ASCII
    * string literal.
    */
-   JAVACC_STRING_TYPE ParseException::add_escapes(const JAVACC_STRING_TYPE& str) {
+   String ParseException::add_escapes(const String& str) {
 /*
-      JAVACC_STRING_TYPE *retval = new JAVACC_STRING_TYPE();
+      String *retval = new String();
       JAVACC_CHAR_TYPE ch;
       for (int i = 0; i < str.length(); i++) {
         switch (str.charAt(i))
@@ -166,7 +166,7 @@ namespace ${NAMESPACE_OPEN}
               continue;
            default:
               if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
-                 JAVACC_STRING_TYPE s = "0000" + Integer.toString(ch, 16);
+                 String s = "0000" + Integer.toString(ch, 16);
                  retval.append("\\u" + s.substring(s.length() - 4, s.length()));
               } else {
                  retval.append(ch);

@@ -20,7 +20,7 @@
   /** Switch to specified lex state. */
   void ${tokMgrClassName}::SwitchTo(int lexState) {
     if (lexState >= ${lexStateNameLength} || lexState < 0) {
-      JAVACC_STRING_TYPE message;
+      String message;
 \#ifdef WIDE_CHAR
       message += L"Error: Ignoring invalid lexical state : ";
       message += lexState; message += L". State unchanged.";
