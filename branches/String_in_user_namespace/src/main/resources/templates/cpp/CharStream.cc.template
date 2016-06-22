@@ -12,10 +12,11 @@ class StringReaderStream : public ReaderStream {
  public:
 #if NAMESPACE
  StringReaderStream(const ${NAMESPACE}::String& str) : str_(str), cur_(0), max_(str.size()) {}
+   virtual size_t read(${NAMESPACE}::Char *bufptr, int offset, size_t len) {
 #else
  StringReaderStream(const String& str) : str_(str), cur_(0), max_(str.size()) {}
+   virtual size_t read(Char *bufptr, int offset, size_t len) {
 #fi
-   virtual size_t read(JAVACC_CHAR_TYPE *bufptr, int offset, size_t len) {
     size_t count = str_.copy(bufptr + offset, len > max_ ? max_ : len, cur_);
     cur_ += count;
     max_ -= count;
@@ -58,7 +59,7 @@ void CharStream::ReInit(ReaderStream *input_stream, int startline,
   }
 
   available = bufsize = buffersize;
-  buffer = new Character[buffersize];
+  buffer = new Char[buffersize];
   bufline = new int[buffersize];
   bufcolumn = new int[buffersize];
 
@@ -118,7 +119,7 @@ void CharStream::adjustBeginLineColumn(int newLine, int newCol) {
 }
 
 void CharStream::ExpandBuff(bool wrapAround) {
-  JAVACC_CHAR_TYPE *newbuffer = new JAVACC_CHAR_TYPE[bufsize + 2048];
+  Char *newbuffer = new Char[bufsize + 2048];
   int *newbufline = new int[bufsize + 2048];
   int *newbufcolumn = new int[bufsize + 2048];
 
@@ -179,7 +180,7 @@ void CharStream::FillBuff() {
   }
 }
 
-void CharStream::UpdateLineColumn(JAVACC_CHAR_TYPE c) {
+void CharStream::UpdateLineColumn(Char c) {
   column++;
   if (prevCharIsLF) {
     prevCharIsLF = false;

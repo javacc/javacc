@@ -17,9 +17,10 @@
 #if NAMESPACE
 namespace ${NAMESPACE_OPEN}
 #fi
-typedef JAVACC_STRING_TYPE StringBuffer;
-typedef JAVACC_STRING_TYPE String;
-typedef JAVACC_CHAR_TYPE   Character;
+typedef JAVACC_STRING_TYPE   StringBuffer;
+typedef JAVACC_STRING_TYPE   String;
+typedef JAVACC_CHAR_TYPE     Char;
+typedef JAVACC_SIMPLE_STRING SimpleString;
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi
@@ -29,18 +30,18 @@ class ReaderStream {
 public:
   // Read block of data into a buffer and return the actual number read.
 #if NAMESPACE
-  virtual size_t read(${NAMESPACE}::Character *buffer, int offset, size_t len) { return 0; }
+  virtual size_t read(${NAMESPACE}::Char *buffer, int offset, size_t len) { return 0; }
 #else
-  virtual size_t read(Character *buffer, int offset, size_t len) { return 0; }
+  virtual size_t read(Char *buffer, int offset, size_t len) { return 0; }
 #fi
   virtual bool   endOfInput() { return true; }
   virtual ~ReaderStream() {}
 };
 
 #if NAMESPACE
-const ${NAMESPACE}::Character EMPTY[] = { 0 };
+const ${NAMESPACE}::Char EMPTY[] = { 0 };
 #else
-const Character EMPTY[] = { 0 };
+const Char EMPTY[] = { 0 };
 #fi
 
 \#ifndef MAX

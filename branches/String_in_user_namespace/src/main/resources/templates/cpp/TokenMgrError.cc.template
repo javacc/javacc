@@ -13,10 +13,10 @@ namespace ${NAMESPACE_OPEN}
    *    errorLine   : line number when the error occurred
    *    errorColumn : column number when the error occurred
    *    errorAfter  : prefix that was seen before this error occurred
-   *    curJAVACC_CHAR_TYPE     : the offending character
+   *    curChar     : the offending character
    * Note: You can customize the lexical error message by modifying this method.
    */
-    String TokenMgrError::LexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, const String& errorAfter, JAVACC_CHAR_TYPE curChar) {
+    String TokenMgrError::LexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, const String& errorAfter, Char curChar) {
 \#if 0
     String s;
     stringstream<String> ss;
@@ -55,7 +55,7 @@ namespace ${NAMESPACE_OPEN}
   }
 
   /** Full Constructor. */
-  TokenMgrError::TokenMgrError(bool EOFSeen, int lexState, int errorLine, int errorColumn, const String& errorAfter, JAVACC_CHAR_TYPE curChar, int reason) {
+  TokenMgrError::TokenMgrError(bool EOFSeen, int lexState, int errorLine, int errorColumn, const String& errorAfter, Char curChar, int reason) {
     message = LexicalError(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar);
    errorCode = reason;
   }
@@ -72,10 +72,10 @@ char hexChar(int i) {
  * Replaces unprintable characters by their escaped (or unicode escaped)
  * equivalents in the given string
  */
-JAVACC_SIMPLE_STRING addUnicodeEscapes(const String& str) {
-  JAVACC_SIMPLE_STRING retval;
+SimpleString addUnicodeEscapes(const String& str) {
+  SimpleString retval;
   for (size_t i = 0; i < str.size(); i++) {
-    JAVACC_CHAR_TYPE ch = str[i];
+    Char ch = str[i];
     switch (ch)
     {
       case '\b':

@@ -92,35 +92,35 @@ namespace ${NAMESPACE_OPEN}
         expected.append(tokenImage[expectedTokenSequences[i][j]]).append(' ');
       }
       if (expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0) {
-        expected.append((JAVACC_CHAR_TYPE*)"...");
+        expected.append((Char*)"...");
       }
       expected.append(eol).append("    ");
     }
-    String retval = (JAVACC_CHAR_TYPE*)"Encountered \"";
+    String retval = (Char*)"Encountered \"";
     Token tok = currentToken.next;
     for (int i = 0; i < maxSize; i++) {
-      if (i != 0) retval += (JAVACC_CHAR_TYPE*)" ";
+      if (i != 0) retval += (Char*)" ";
       if (tok.kind == 0) {
         retval += tokenImage[0];
         break;
       }
-      retval += (JAVACC_CHAR_TYPE*)" " + tokenImage[tok.kind];
-      retval += (JAVACC_CHAR_TYPE*)" \"";
+      retval += (Char*)" " + tokenImage[tok.kind];
+      retval += (Char*)" \"";
       retval += add_escapes(tok.image);
-      retval += (JAVACC_CHAR_TYPE*)" \"";
+      retval += (Char*)" \"";
       tok = tok.next;
     }
-    retval += (JAVACC_CHAR_TYPE*)"\" at line " + currentToken.next.beginLine + (JAVACC_CHAR_TYPE*)", column " + currentToken.next.beginColumn;
-    retval += (JAVACC_CHAR_TYPE*)"." + eol;
+    retval += (Char*)"\" at line " + currentToken.next.beginLine + (Char*)", column " + currentToken.next.beginColumn;
+    retval += (Char*)"." + eol;
     if (expectedTokenSequences.length == 1) {
-      retval += (JAVACC_CHAR_TYPE*)"Was expecting:" + eol + (JAVACC_CHAR_TYPE*)"    ";
+      retval += (Char*)"Was expecting:" + eol + (Char*)"    ";
     } else {
-      retval += (JAVACC_CHAR_TYPE*)"Was expecting one of:" + eol + (JAVACC_CHAR_TYPE*)"    ";
+      retval += (Char*)"Was expecting one of:" + eol + (Char*)"    ";
     }
     retval += expected.toString();
     return retval;
 \#endif
-    return (JAVACC_CHAR_TYPE*)"Parse exception";
+    return (Char*)"Parse exception";
   }
 
   /**
@@ -136,7 +136,7 @@ namespace ${NAMESPACE_OPEN}
    String ParseException::add_escapes(const String& str) {
 /*
       String *retval = new String();
-      JAVACC_CHAR_TYPE ch;
+      Char ch;
       for (int i = 0; i < str.length(); i++) {
         switch (str.charAt(i))
         {

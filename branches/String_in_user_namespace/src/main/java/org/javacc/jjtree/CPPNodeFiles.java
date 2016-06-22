@@ -394,13 +394,13 @@ final class CPPNodeFiles {
       ostr.println();
 
       for (int i = 0; i < nodeNames.size(); ++i) {
-        ostr.println("  static JAVACC_CHAR_TYPE jjtNodeName_arr_" + i + "[] = ");
+        ostr.println("  static Char jjtNodeName_arr_" + i + "[] = ");
         String n = (String)nodeNames.get(i);
-        //ostr.println("    (JAVACC_CHAR_TYPE*)\"" + n + "\",");
+        //ostr.println("    (Char*)\"" + n + "\",");
         OtherFilesGenCPP.printCharArray(ostr, n);
         ostr.println(";");
       }
-      ostr.println("  static JAVACC_STRING_TYPE jjtNodeName[] = {");
+      ostr.println("  static String jjtNodeName[] = {");
       for (int i = 0; i < nodeNames.size(); i++) {
         ostr.println("jjtNodeName_arr_" + i + ", ");
       }

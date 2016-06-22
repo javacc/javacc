@@ -5,7 +5,7 @@
   String                    image;
   int                       jjimageLen;
   int                       lengthOfMatch;
-  JAVACC_CHAR_TYPE          curChar;
+  Char                 curChar;
   TokenManagerErrorHandler* errorHandler = nullptr;
 
 public: 

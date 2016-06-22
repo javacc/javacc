@@ -64,7 +64,7 @@ JAVACC_SIMPLE_STRING addUnicodeEscapes(const String& str);
        //    errorAfter  : prefix that was seen before this error occurred
        //    curchar     : the offending character
        //
-       virtual void lexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, const String& errorAfter, JAVACC_CHAR_TYPE curChar, ${PARSER_NAME}TokenManager* token_manager) {
+       virtual void lexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, const String& errorAfter, Char curChar, ${PARSER_NAME}TokenManager* token_manager) {
         // by default, we just print an error message and return.
         fprintf(stderr, "Lexical error at: %d:%d. Encountered: %c after: %s.\n", errorLine, errorColumn, curChar, (EOFSeen? "EOF" : (const char*)errorAfter.c_str()));
       }

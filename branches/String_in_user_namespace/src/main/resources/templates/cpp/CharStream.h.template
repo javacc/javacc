@@ -86,9 +86,9 @@ public:
  * All characters must remain in the buffer between two successive calls
  * to this method to implement backup correctly.
  */
-  virtual inline Character BeginToken() {
+  virtual inline Char BeginToken() {
     tokenBegin = -1;
-    Character c = readChar();
+    Char c = readChar();
     tokenBegin = bufpos;
     return c;
   }
@@ -99,7 +99,7 @@ public:
  * of selecting the input is the responsibility of the class
  * implementing this class.
  */
-  virtual inline Character readChar() {
+  virtual inline Char readChar() {
     if (inBuf > 0) {
       --inBuf;
       ++bufpos;
@@ -114,7 +114,7 @@ public:
       FillBuff();
     }
 
-    JAVACC_CHAR_TYPE c = buffer[bufpos];
+    Char c = buffer[bufpos];
 
 #if KEEP_LINE_COLUMN
     if (trackLineColumn) {
@@ -172,7 +172,7 @@ public:
     return inBuf == 0 && bufpos + 1 >= maxNextCharInd && inputStream->endOfInput();
   }
 
-  CharStream(const JAVACC_CHAR_TYPE *buf, int sz, int startline,
+  CharStream(const Char *buf, int sz, int startline,
                       int startcolumn, int buffersize) :
     bufline(nullptr), bufcolumn(nullptr), buffer(nullptr), bufpos(0), bufsize(0), 
     tokenBegin(0), column(0), line(0), prevCharIsCR(false), prevCharIsLF(false),
@@ -181,7 +181,7 @@ public:
     ReInit(String(buf, sz), startline, startcolumn, buffersize);
   }
 
-  CharStream(const JAVACC_CHAR_TYPE *buf, int sz, int startline, int startcolumn) :
+  CharStream(const Char *buf, int sz, int startline, int startcolumn) :
     bufline(nullptr), bufcolumn(nullptr), buffer(nullptr), bufpos(0), bufsize(0), 
     tokenBegin(0), column(0), line(0), prevCharIsCR(false), prevCharIsLF(false),
     available(0), maxNextCharInd(0), inBuf(0), tabSize(1), trackLineColumn(true),
@@ -252,11 +252,11 @@ public:
   virtual void adjustBeginLineColumn(int newLine, int newCol);
 
 protected:
-  virtual void UpdateLineColumn(JAVACC_CHAR_TYPE c);
+  virtual void UpdateLineColumn(Char c);
 
   int*               bufline;
   int*               bufcolumn;
-  Character*         buffer;
+  Char*              buffer;
   int                bufpos;
   int                bufsize;
   int                tokenBegin;

@@ -641,7 +641,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     generateMethodDefHeader("Token *", tokMgrClassName, "jjFillToken()");
     genCodeLine("{");
     genCodeLine("   Token *t;");
-    genCodeLine("   JAVACC_STRING_TYPE curTokenImage;");
+    genCodeLine("   String curTokenImage;");
     if (keepLineCol)
     {
       genCodeLine("   int beginLine   = -1;");
@@ -667,7 +667,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       genCodeLine("   }");
       genCodeLine("   else");
       genCodeLine("   {");
-      genCodeLine("      JAVACC_STRING_TYPE im = jjstrLiteralImages[jjmatchedKind];");
+      genCodeLine("      String im = jjstrLiteralImages[jjmatchedKind];");
       genCodeLine("      curTokenImage = (im.length() == 0) ? input_stream->GetImage() : im;");
 
       if (keepLineCol)
@@ -684,7 +684,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     }
     else
     {
-      genCodeLine("   JAVACC_STRING_TYPE im = jjstrLiteralImages[jjmatchedKind];");
+      genCodeLine("   String im = jjstrLiteralImages[jjmatchedKind];");
       genCodeLine("   curTokenImage = (im.length() == 0) ? input_stream->GetImage() : im;");
       if (keepLineCol)
       {
@@ -1060,7 +1060,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       genCodeLine(prefix + "   }");
       genCodeLine(prefix + "   int error_line = input_stream->getEndLine();");
       genCodeLine(prefix + "   int error_column = input_stream->getEndColumn();");
-      genCodeLine(prefix + "   JAVACC_STRING_TYPE error_after;");
+      genCodeLine(prefix + "   String error_after;");
       genCodeLine(prefix + "   bool EOFSeen = false;");
       genCodeLine(prefix + "   if (input_stream->endOfInput()) {");
       genCodeLine(prefix + "      EOFSeen = true;");
@@ -1117,7 +1117,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
             genCodeLine("            if (jjbeenHere[" + lexStates[i] + "] &&");
             genCodeLine("                jjemptyLineNo[" + lexStates[i] + "] == input_stream->getBeginLine() &&");
             genCodeLine("                jjemptyColNo[" + lexStates[i] + "] == input_stream->getBeginColumn())");
-            genCodeLine("               errorHandler->lexicalError(JAVACC_STRING_TYPE(\"(\"Error: Bailing out of infinite loop caused by repeated empty string matches \" + \"at line \" + input_stream->getBeginLine() + \", \" + \"column \" + input_stream->getBeginColumn() + \".\")), this);");
+            genCodeLine("               errorHandler->lexicalError(String(\"(\"Error: Bailing out of infinite loop caused by repeated empty string matches \" + \"at line \" + input_stream->getBeginLine() + \", \" + \"column \" + input_stream->getBeginColumn() + \".\")), this);");
             genCodeLine("            jjemptyLineNo[" + lexStates[i] + "] = input_stream->getBeginLine();");
             genCodeLine("            jjemptyColNo[" + lexStates[i] + "] = input_stream->getBeginColumn();");
             genCodeLine("            jjbeenHere[" + lexStates[i] + "] = true;");
@@ -1188,7 +1188,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
             genCodeLine("            if (jjbeenHere[" + lexStates[i] + "] &&");
             genCodeLine("                jjemptyLineNo[" + lexStates[i] + "] == input_stream->getBeginLine() &&");
             genCodeLine("                jjemptyColNo[" + lexStates[i] + "] == input_stream->getBeginColumn())");
-            genCodeLine("               errorHandler->lexicalError(JAVACC_STRING_TYPE(\"(\"Error: Bailing out of infinite loop caused by repeated empty string matches \" + \"at line \" + input_stream->getBeginLine() + \", \" + \"column \" + input_stream->getBeginColumn() + \".\")), this);");
+            genCodeLine("               errorHandler->lexicalError(String(\"(\"Error: Bailing out of infinite loop caused by repeated empty string matches \" + \"at line \" + input_stream->getBeginLine() + \", \" + \"column \" + input_stream->getBeginColumn() + \".\")), this);");
             genCodeLine("            jjemptyLineNo[" + lexStates[i] + "] = input_stream->getBeginLine();");
             genCodeLine("            jjemptyColNo[" + lexStates[i] + "] = input_stream->getBeginColumn();");
             genCodeLine("            jjbeenHere[" + lexStates[i] + "] = true;");
@@ -1262,7 +1262,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
             genCodeLine("            if (jjbeenHere[" + lexStates[i] + "] &&");
             genCodeLine("                jjemptyLineNo[" + lexStates[i] + "] == input_stream->getBeginLine() &&");
             genCodeLine("                jjemptyColNo[" + lexStates[i] + "] == input_stream->getBeginColumn())");
-            genCodeLine("               errorHandler->lexicalError(JAVACC_STRING_TYPE(\"Error: Bailing out of infinite loop caused by repeated empty string matches " + "at line \" + input_stream->getBeginLine() + \", " + "column \" + input_stream->getBeginColumn() + \".\"), this);");
+            genCodeLine("               errorHandler->lexicalError(String(\"Error: Bailing out of infinite loop caused by repeated empty string matches " + "at line \" + input_stream->getBeginLine() + \", " + "column \" + input_stream->getBeginColumn() + \".\"), this);");
             genCodeLine("            jjemptyLineNo[" + lexStates[i] + "] = input_stream->getBeginLine();");
             genCodeLine("            jjemptyColNo[" + lexStates[i] + "] = input_stream->getBeginColumn();");
             genCodeLine("            jjbeenHere[" + lexStates[i] + "] = true;");

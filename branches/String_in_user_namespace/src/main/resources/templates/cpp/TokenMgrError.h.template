@@ -53,7 +53,7 @@ public:
    *    curchar     : the offending character
    * Note: You can customize the lexical error message by modifying this method.
    */
-    String LexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, const String& errorAfter, JAVACC_CHAR_TYPE curChar);
+    String LexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, const String& errorAfter, Char curChar);
 
 private:
    String message;
@@ -81,7 +81,7 @@ public:
   TokenMgrError(const String& message, int reason) ;
 
   /** Full Constructor. */
-  TokenMgrError(bool EOFSeen, int lexState, int errorLine, int errorColumn, const String& errorAfter, JAVACC_CHAR_TYPE curChar, int reason) ;
+  TokenMgrError(bool EOFSeen, int lexState, int errorLine, int errorColumn, const String& errorAfter, Char curChar, int reason) ;
 };
 
 #if NAMESPACE

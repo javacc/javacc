@@ -95,8 +95,8 @@ void SimpleNode::childrenAccept(${PARSER_NAME}Visitor *visitor, ${VISITOR_DATA_T
 String SimpleNode::toString() const { return jjtNodeName[id]; }
 String SimpleNode::toString(const String& prefix) const { return prefix + toString(); }
 
-static JAVACC_CHAR_TYPE space_char_arr_[] = { ' ', '\0' };
-static JAVACC_CHAR_TYPE newline_char_arr_[] = { '\n', '\0' };
+static Char space_char_arr_[] = { ' ', '\0' };
+static Char newline_char_arr_[] = { '\n', '\0' };
 static String space = space_char_arr_;
 static String newline = newline_char_arr_;
 
