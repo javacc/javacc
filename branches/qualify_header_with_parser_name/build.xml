@@ -1,0 +1,648 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+
+<!--
+
+Copyright (c) 2006, Sun Microsystems, Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the name of the Sun Microsystems, Inc. nor the names of its
+      contributors may be used to endorse or promote products derived from
+      this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+THE POSSIBILITY OF SUCH DAMAGE.
+
+-->
+
+<project name="javacc" default="jar" basedir="." >
+
+   <property file="version.properties" />
+   <property name="version" value="${version.major}.${version.minor}.${version.patch}" />
+   <property name="java-src" value="src/main/java" />
+   <property name="test-src" value="src/test/java" />
+   <property name="resources-src" value="src/main/resources" />
+   <property name="generated-src" value="src/main/generated-sources" />
+   <property name="parser-generated-src" value="${generated-src}/org/javacc/parser" />
+   <property name="utils-generated-src" value="${generated-src}/org/javacc/utils" />
+   <property name="jjtree-generated-src" value="${generated-src}/org/javacc/jjtree" />
+   <property name="test-tmp" value="test.tmp" />
+   <property name="target-folder" value="target" />
+   <property name="javacc-versionnedjarname" value="javacc-${version.major}.${version.minor}.${version.patch}.jar" />
+   <property name="javacc-jarname" value="javacc.jar" />
+   <property name="javacc-versionnedjar" value="${target-folder}/${javacc-versionnedjarname}" />
+   <property name="javacc-jar" value="${target-folder}/${javacc-jarname}" />
+   <property name="bootstrap-jar" value="bootstrap/javacc.jar" />
+   <property name="jjtree-bootstrap-class" value="org.javacc.jjtree.Main" />
+   <property name="javacc-bootstrap-class" value="org.javacc.parser.Main" />
+
+  <target name="clean">
+    <delete dir="classes" />
+    <delete dir="${target-folder}" />
+    <delete dir="test.tmp" />
+    <delete dir="dist" />
+  </target>
+
+  <target name="clean_generated_sources">
+   <delete dir="${generated-src}" />
+  </target>
+
+   
+  <target name="compile" depends="clean, clean_generated_sources">
+  
+    <!-- Create the folders we need in the generated sources folder -->
+    
+    <mkdir dir="${generated-src}"/>
+    <mkdir dir="${parser-generated-src}"/>
+    <mkdir dir="${utils-generated-src}"/>
+    <mkdir dir="${jjtree-generated-src}"/>
+  
+    <!-- Generate the Java CC Main Parser -->
+
+     <java classname="${javacc-bootstrap-class}" classpath="${bootstrap-jar}" dir="${basedir}/src/main/javacc" fork="true">
+        <arg value="JavaCC.jj"/>
+     </java>
+     
+     <!-- This class is overrriden -->
+     <delete file="${parser-generated-src}/Token.java" />
+     
+     <!-- Generate the JJTree Parser Definition (from the tree definition) -->
+     
+     <java classname="${jjtree-bootstrap-class}" classpath="${bootstrap-jar}" dir="${basedir}/src/main/jjtree" fork="true">
+           <arg value="JJTree.jjt"/>
+     </java>
+     
+     <!-- Generate the JJTree Parser  -->
+     
+     <java classname="${javacc-bootstrap-class}" classpath="${bootstrap-jar}" dir="${generated-src}/org/javacc/jjtree" fork="true">
+           <arg value="JJTree.jj"/>
+     </java>
+     
+     <!-- Delete the .jj file created by the jjtree program and the classes that were override and already added into the main source path -->
+     
+     <delete file="${jjtree-generated-src}/JJTree.jj" />
+     <delete file="${jjtree-generated-src}/ASTBNF.java" />
+     <delete file="${jjtree-generated-src}/ASTBNFAction.java" />
+     <delete file="${jjtree-generated-src}/ASTBNFDeclaration.java" />
+     <delete file="${jjtree-generated-src}/ASTBNFNodeScope.java" />
+     <delete file="${jjtree-generated-src}/ASTCompilationUnit.java" />
+     <delete file="${jjtree-generated-src}/ASTExpansionNodeScope.java" />
+     <delete file="${jjtree-generated-src}/ASTGrammar.java" />
+     <delete file="${jjtree-generated-src}/ASTJavacode.java" />
+     <delete file="${jjtree-generated-src}/ASTJavacodeBody.java" />
+     <delete file="${jjtree-generated-src}/ASTNodeDescriptor.java" />
+     <delete file="${jjtree-generated-src}/ASTNodeDescriptorExpression.java" />
+     <delete file="${jjtree-generated-src}/ASTOptionBinding.java" />
+     <delete file="${jjtree-generated-src}/ASTOptions.java" />
+     <delete file="${jjtree-generated-src}/JJTreeParserVisitor.java" />
+     <delete file="${jjtree-generated-src}/JJTreeParserDefaultVisitor.java" />
+     <delete file="${jjtree-generated-src}/Token.java" />
+     
+     <!-- Generate the Condition Parser -->
+     
+     <java classname="${javacc-bootstrap-class}" classpath="${bootstrap-jar}" dir="${basedir}/src/main/javacc" fork="true">
+          <arg value="ConditionParser.jj"/>
+     </java>
+    
+    <mkdir dir="classes"/>
+    
+    <copy todir="classes/templates">
+      <fileset dir="${resources-src}/templates" />
+    </copy>
+    
+    <copy file="version.properties" todir="classes" />
+    
+    <javac srcdir="${java-src}" destdir="classes" debug="true" source="1.5" target="1.5" classpath="">
+           <src path="${java-src}"/>  
+           <src path="${generated-src}"/>  
+           <src path="${resources-src}"/>  
+    </javac>
+  
+  </target>
+
+  <target name="jar" depends="compile" description="Create ${javacc-jar}">
+    <antcall target="jar-nocompile" />
+  </target>
+
+  <!-- Be careful not to include the test files in the distribution. -->
+  <target name="jar-nocompile" depends="jar-check" unless="jar.uptodate">
+    <mkdir dir="${target-folder}" />
+    <jar jarfile="${javacc-jar}" basedir="classes" compress="true" />
+    <jar jarfile="${javacc-versionnedjar}" basedir="classes" compress="true" />
+  </target>
+
+  <target name="jar-check">
+    <uptodate property="jar.uptodate" targetfile="${javacc-jar}">
+      <srcfiles dir="classes" />
+    </uptodate>
+  </target>
+
+  <target name="binary-distribution" depends="clean,jar, javadoc">
+    <property name="install-name" value="${target-folder}/javacc-${version}" />
+   
+     <delete file="${install-name}-distribution.tar.gz" />
+     <tar destfile="${install-name}-distribution.tar.gz" compression="gzip">
+        <tarfileset username="root" uid="1" group="root" prefix="javacc-${version}/doc" filemode="444" dir="www/doc" />
+        <tarfileset username="root" uid="1" group="root" prefix="javacc-${version}/examples" filemode="444" dir="examples/" />
+        <tarfileset username="root" uid="1" group="root" prefix="javacc-${version}" filemode="444" file="LICENSE" />
+        <tarfileset username="root" uid="1" group="root" prefix="javacc-${version}/${target-folder}" filemode="444" file="${javacc-jar}" />
+   </tar>
+      
+     <delete file="${install-name}-distribution.zip" />
+     <zip destfile="${install-name}-distribution.zip">
+
+        <zipfileset prefix="javacc-${version}/${target-folder}" filemode="444" file="${javacc-jar}" />
+        <zipfileset prefix="javacc-${version}/doc" filemode="444" dir="www/doc" />
+        <zipfileset prefix="javacc-${version}/examples" filemode="444" dir="examples/" />
+        <zipfileset prefix="javacc-${version}" filemode="444" file="LICENSE" />
+   </zip>
+   
+     <!-- <antcall target="clean"/> -->
+
+   <delete dir="." includes="**/*.class" />
+     <delete file="${install-name}-sources.tar.gz" />
+
+     <tar destfile="${install-name}-sources.tar.gz" compression="gzip">
+        <tarfileset username="root" uid="1" group="root" prefix="javacc-${version}" filemode="444" file="./**" excludes="deployment_pom/**, target/**, temp/**, .svn,CVS,**/*.zip,**/*.tar.gz" />
+   </tar>
+
+     <delete file="${install-name}-sources.jar" />
+     <zip destfile="${install-name}-sources.jar">
+        <zipfileset prefix="javacc-${version}" filemode="444" file="./**" excludes=".svn,CVS,**/*.zip,**/*.tar.gz, deployment_pom/**, target/**, dist/**, temp/**" />
+   </zip>
+
+
+  </target>
+
+
+   <target name="javadoc">
+       <property name="install-name" value="${target-folder}/javacc-${version}" />
+
+       <delete dir="${target-folder}/javadoc" />
+        <mkdir dir="${target-folder}/javadoc"/>
+       <javadoc destdir="${target-folder}/javadoc">
+               <fileset dir="${generated-src}"/>  
+               <fileset dir="${java-src}"/> 
+       </javadoc>
+
+     <zip destfile="${install-name}-javadoc.jar" basedir="${target-folder}/javadoc" >
+     </zip>
+
+   </target>
+
+  <target name="unittest" depends="jar" description="run JUnit unit test cases">
+    <delete dir="test.tmp" />
+    <mkdir dir="test.tmp" />
+
+    <junit printsummary="yes" haltonfailure="yes">
+    
+      <classpath>
+       <pathelement path="classes" />
+       <pathelement path="lib/junit3.8.1/junit.jar"/>
+      </classpath>
+      
+      <batchtest fork="no" todir=".">
+        <fileset dir="classes">
+          <include name="**/*Test.*" />
+        </fileset>
+      </batchtest>
+    </junit>
+
+    <!-- Should sort this out properly, in the test. But for now... -->
+    <delete file="JavaCCParserTokenManager.java" />
+  </target>
+
+  <target name="test" depends="clean,clean_generated_sources, jar,unittest" description="run functional test cases">
+
+    <delete dir="test.tmp" />
+    <mkdir dir="test.tmp" />
+
+    <echo />
+
+    <ant antfile="build.xml" target="test" dir="test" />
+
+    <echo />
+    
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/CORBA-IDL examples/CORBA-IDL/IDL.jj" />
+    </java>
+
+    <javac srcdir="${test-tmp}/CORBA-IDL" />
+
+    <copy todir="${test-tmp}/CORBA-IDL/">
+      <fileset dir="examples/CORBA-IDL">
+        <include name="*.idl" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="IDLParser" classpath="${test-tmp}/CORBA-IDL/" outputproperty="test.corba.out">
+      <arg line="${test-tmp}/CORBA-IDL/Hello.idl" />
+    </java>
+
+    <echo>${test.corba.out}</echo>
+
+    <fail message="CORBA failed">
+     <condition>
+      <not>
+       <contains string="${test.corba.out}" substring="IDL file parsed successfully" />
+      </not>
+     </condition>
+    </fail>
+
+    <echo />
+    
+    <copy todir="${test-tmp}/GUIParsing/ParserVersion">
+      <fileset dir="examples/GUIParsing/ParserVersion">
+        <include name="*.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/GUIParsing/ParserVersion examples/GUIParsing/ParserVersion/CalcInput.jj" />
+    </java>
+
+    <javac srcdir="${test-tmp}/GUIParsing/ParserVersion" />
+
+    <echo />
+    
+  	<!--
+    <copy todir="${test-tmp}/GUIParsing/TokenMgrVersion">
+      <fileset dir="examples/GUIParsing/TokenMgrVersion">
+        <include name="*.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/GUIParsing/TokenMgrVersion examples/GUIParsing/TokenMgrVersion/CalcInput.jj" />
+    </java>
+    
+    <javac srcdir="${test-tmp}/GUIParsing/TokenMgrVersion" />
+
+    <echo />
+    -->
+  	
+    <copy todir="${test-tmp}/Interpreter">
+      <fileset dir="examples/Interpreter">
+        <include name="*.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="jjtree" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Interpreter examples/Interpreter/SPL.jjt" />
+    </java>
+    
+    
+
+    
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Interpreter ${test-tmp}/Interpreter/SPL.jj" />
+    </java>
+
+    <javac srcdir="${test-tmp}/Interpreter" />
+    
+    <copy todir="${test-tmp}/Interpreter/">
+      <fileset dir="examples/Interpreter/">
+        <include name="*.spl" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" 
+          classname="SPL" 
+          classpath="${test-tmp}/Interpreter/"
+          inputstring="3"
+          outputproperty="spl.out1" >
+      <arg line="${test-tmp}/Interpreter/fact.spl" />
+    </java>
+    <echo>${spl.out1}</echo>
+    <fail message="SPL fact parse failed">
+     <condition>
+      <not>
+       <contains string="${spl.out1}" substring="Value of fact : 6" />
+      </not>
+     </condition>
+    </fail>
+    <java failonerror="true" fork="true" 
+          classname="SPL" 
+          classpath="${test-tmp}/Interpreter/"
+          inputstring="3"
+          outputproperty="spl.out2" >
+          
+      <arg line="${test-tmp}/Interpreter/odd.spl" />
+    </java>
+    <echo>${spl.out2}</echo>
+    <fail message="SPL odd parse failed">
+     <condition>
+      <not>
+       <contains string="${spl.out2}" substring="Value of odd : true" />
+      </not>
+     </condition>
+    </fail>
+    <java failonerror="true" fork="true" 
+          classname="SPL" 
+          classpath="${test-tmp}/Interpreter/"
+          inputstring="9"
+          outputproperty="spl.out3" >
+          
+      <arg line="${test-tmp}/Interpreter/sqrt.spl" />
+    </java>
+    <echo>${spl.out3}</echo>
+    <fail message="SPL sqrt parse failed">
+     <condition>
+      <not>
+       <contains string="${spl.out3}" substring="Value of sqrt : 3" />
+      </not>
+     </condition>
+    </fail>
+
+    <echo />
+    
+    <java failonerror="true" fork="true" classname="jjtree" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg1 examples/JJTreeExamples/java/eg1.jjt" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg1 ${test-tmp}/java/JJTreeExamples.eg1/eg1.jj" />
+    </java>
+
+    <javac srcdir="${test-tmp}/java/JJTreeExamples.eg1" />
+    
+    <java failonerror="true" fork="true" 
+          classname="Eg1" 
+          classpath="${test-tmp}/java/JJTreeExamples.eg1/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg1.out"
+    >
+    </java>
+    <echo>${jjtree.eg1.out}</echo>
+    <fail message="JJTree eg1 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg1.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
+
+    <echo />
+    
+    <copy todir="${test-tmp}/java/JJTreeExamples.eg2">
+      <fileset dir="examples/JJTreeExamples/java">
+        <include name="*.java" />
+        <exclude name="Eg4DumpVisitor.java" />
+        <exclude name="ASTMyOtherID.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="jjtree" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg2 examples/JJTreeExamples/java/eg2.jjt" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg2 ${test-tmp}/java/JJTreeExamples.eg2/eg2.jj" />
+    </java>
+
+    <javac srcdir="${test-tmp}/java/JJTreeExamples.eg2" />
+    
+    <java failonerror="true" fork="true" 
+          classname="Eg2" 
+          classpath="${test-tmp}/java/JJTreeExamples.eg2/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg2.out" >
+    </java>
+    <echo>${jjtree.eg2.out}</echo>
+    <fail message="JJTree eg2 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg2.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
+    <echo />
+
+    <copy todir="${test-tmp}/java/JJTreeExamples.eg3">
+      <fileset dir="examples/JJTreeExamples/java">
+        <include name="*.java" />
+        <exclude name="Eg4DumpVisitor.java" />
+        <exclude name="ASTMyOtherID.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="jjtree" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg3 examples/JJTreeExamples/java/eg3.jjt" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg3 ${test-tmp}/java/JJTreeExamples.eg3/eg3.jj" />
+    </java>
+    
+    <javac srcdir="${test-tmp}/java/JJTreeExamples.eg3" />
+
+    <java failonerror="true" fork="true" 
+          classname="Eg3" 
+          classpath="${test-tmp}/java/JJTreeExamples.eg3/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg3.out" >
+    </java>
+    <echo>${jjtree.eg3.out}</echo>
+    <fail message="JJTree eg3 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg3.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
+
+    <echo />
+
+    <copy todir="${test-tmp}/java/JJTreeExamples.eg4">
+      <fileset dir="examples/JJTreeExamples/java">
+        <include name="*.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="jjtree" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg4 examples/JJTreeExamples/java/eg4.jjt" />
+    </java>
+    
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg4 ${test-tmp}/java/JJTreeExamples.eg4/eg4.jj" />
+    </java>
+
+    <javac srcdir="${test-tmp}/java/JJTreeExamples.eg4" debug="true" />
+
+    <java failonerror="true" fork="true" 
+          classname="Eg4" 
+          classpath="${test-tmp}/java/JJTreeExamples.eg4/"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg4.out" >
+    </java>
+    <echo>${jjtree.eg4.out}</echo>
+    <fail message="JJTree eg4 parse failed">
+     <condition>
+      <not>
+       <contains string="${jjtree.eg4.out}" substring="Thank you." />
+      </not>
+     </condition>
+    </fail>
+
+    <echo />
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/JavaCCGrammar examples/JavaCCGrammar/JavaCC.jj" />
+    </java>
+
+    <javac srcdir="${test-tmp}/JavaCCGrammar" />
+
+    <echo />
+
+    <ant antfile="build.xml" target="compile-and-test" dir="examples/JavaGrammars/1.5" />
+    <ant antfile="build.xml" target="clean" dir="examples/JavaGrammars/1.5" />
+
+    <echo />
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Lookahead.eg1 examples/Lookahead/Example1.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Lookahead.eg2 examples/Lookahead/Example2.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Lookahead.eg3 examples/Lookahead/Example3.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Lookahead.eg4 examples/Lookahead/Example4.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Lookahead.eg5 examples/Lookahead/Example5.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Lookahead.eg6 examples/Lookahead/Example6.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Lookahead.eg7 examples/Lookahead/Example7.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Lookahead.eg8 examples/Lookahead/Example8.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Lookahead.eg9 examples/Lookahead/Example9.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Lookahead.eg10 examples/Lookahead/Example10.jj" />
+    </java>
+
+    <echo />
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/MailProcessing examples/MailProcessing/Digest.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/MailProcessing examples/MailProcessing/Faq.jj" />
+    </java>
+
+    <javac srcdir="${test-tmp}/MailProcessing" />
+
+    <echo />
+
+    <copy todir="${test-tmp}/Obfuscator">
+      <fileset dir="examples/Obfuscator">
+        <include name="*.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Obfuscator examples/Obfuscator/Java1.1.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Obfuscator examples/Obfuscator/IdsFile.jj" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Obfuscator examples/Obfuscator/MapFile.jj" />
+    </java>
+
+    <javac srcdir="${test-tmp}/Obfuscator" />
+
+    <!-- TODO, test cases for SimpleExamples -->
+    
+    <echo />
+
+    <copy todir="${test-tmp}/Transformer">
+      <fileset dir="examples/Transformer">
+        <include name="*.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="jjtree" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Transformer examples/Transformer/ToyJava.jjt" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/Transformer ${test-tmp}/Transformer/ToyJava.jj" />
+    </java>
+
+    <javac srcdir="${test-tmp}/Transformer" />
+
+    <echo />
+
+    <copy todir="${test-tmp}/VTransformer">
+      <fileset dir="examples/VTransformer">
+        <include name="*.java" />
+      </fileset>
+    </copy>
+
+    <java failonerror="true" fork="true" classname="jjtree" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/VTransformer examples/VTransformer/Java1.1.jjt" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/VTransformer ${test-tmp}/VTransformer/Java1.1.jj" />
+    </java>
+    <javac srcdir="${test-tmp}/VTransformer" />
+
+     <!-- 2014/05/09 - New tests to test that TOKEN_MANAGER_USES_PARSER has no effect if static is true -->
+
+     <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+        <arg line="-OUTPUT_DIRECTORY=${test-tmp}/TestTokenManagerUsesParser test/TestTokenManagerUsesParser/TestTokenManagerUsesParser.jj" />
+     </java>
+      
+      <javac srcdir="${test-tmp}/TestTokenManagerUsesParser" />
+
+      <!-- 2014/05/09 - New tests to test that TOKEN_MANAGER_USES_PARSER works as expected if static is false -->
+
+     <java failonerror="true" fork="true" classname="javacc" classpath="${javacc-jar}">
+        <arg line="-OUTPUT_DIRECTORY=${test-tmp}/TestTokenManagerUsesParser2 test/TestTokenManagerUsesParser2/TestTokenManagerUsesParser2.jj" />
+     </java>
+      
+      <javac srcdir="${test-tmp}/TestTokenManagerUsesParser2" />
+
+  </target>
+
+</project>
