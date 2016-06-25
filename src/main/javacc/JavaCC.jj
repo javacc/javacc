@@ -1971,9 +1971,13 @@ void FormalParameters(List tokens) :
 }
 
 void FormalParameter():
-{}
+{ Token t; }
 {
-  Modifiers() Type() [ "..." ] VariableDeclaratorId()
+  Modifiers() Type()
+  [ ( t = "&" | t = "*") { if (!isAllowed(t)) throw new ParseException(t.image + " is invalid in this context"); }
+  	| "..."
+  ]
+  VariableDeclaratorId()
 }
 
 void ConstructorDeclaration():
