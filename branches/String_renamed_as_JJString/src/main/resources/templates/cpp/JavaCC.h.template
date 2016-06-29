@@ -14,8 +14,10 @@
 
 \#define JAVACC_SIMPLE_STRING std::basic_string<char>
 
-typedef JAVACC_STRING_TYPE StringBuffer;
-typedef JAVACC_STRING_TYPE String;
+typedef JAVACC_CHAR_TYPE     JJChar;
+typedef JAVACC_STRING_TYPE   JJString;
+typedef JAVACC_STRING_TYPE   JJStringBuffer;
+typedef JAVACC_SIMPLE_STRING JJSimpleString;
 
 // Abstraction on stream classes to read a block of data into a buffer.
 class ReaderStream {

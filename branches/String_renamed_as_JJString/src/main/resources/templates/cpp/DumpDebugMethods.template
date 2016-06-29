@@ -1,7 +1,7 @@
-  const JAVACC_SIMPLE_STRING ${tokMgrClassName}::jjKindsForBitVector(int i, unsigned long long vec)
+  const JJSimpleString ${tokMgrClassName}::jjKindsForBitVector(int i, unsigned long long vec)
   {
     int kindCnt = 0;
-    JAVACC_SIMPLE_STRING retVal;
+    JJSimpleString retVal;
     if (i == 0)
        kindCnt = 0;
     for (int j = 0; j < 64; j++)
@@ -19,10 +19,10 @@
     return retVal;
   }
 
-  const JAVACC_SIMPLE_STRING ${tokMgrClassName}::jjKindsForStateVector(int lexState, int vec[], int start, int end)
+  const JJSimpleString ${tokMgrClassName}::jjKindsForStateVector(int lexState, int vec[], int start, int end)
   {
     bool kindDone[${maxOrdinal}];
-    JAVACC_SIMPLE_STRING retVal;
+    JJSimpleString retVal;
     int cnt = 0;
     for (int i = start; i < end; i++)
     {
