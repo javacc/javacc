@@ -121,7 +121,7 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
     }
     ostr.println("  /** Literal token values. */");
     int cnt = 0;
-    ostr.println("  static const JAVACC_CHAR_TYPE tokenImage_arr_" + cnt + "[] = ");
+    ostr.println("  static const JJChar tokenImage_arr_" + cnt + "[] = ");
     printCharArray(ostr, "<EOF>");
     ostr.println(";");
 
@@ -131,7 +131,7 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
       for (java.util.Iterator<RegExprSpec> it2 = respecs.iterator(); it2.hasNext();) {
         RegExprSpec res = it2.next();
         re = res.rexp;
-        ostr.println("  static const JAVACC_CHAR_TYPE tokenImage_arr_" + ++cnt + "[] = ");
+        ostr.println("  static const JJChar tokenImage_arr_" + ++cnt + "[] = ");
         if (re instanceof RStringLiteral) {
           printCharArray(ostr, "\"" + ((RStringLiteral)re).image + "\"");
         } else if (!re.label.equals("")) {
@@ -146,7 +146,7 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
       }
     }
 
-    ostr.println("  static const JAVACC_CHAR_TYPE* const tokenImage[] = {");
+    ostr.println("  static const JJChar* const tokenImage[] = {");
     for (int i = 0; i <= cnt; i++) {
       ostr.println("tokenImage_arr_" + i + ", ");
     }
