@@ -19,12 +19,12 @@ public class CodeGenerator {
   public void genStringLiteralArrayCPP(String varName, String[] arr) {
     // First generate char array vars
     for (int i = 0; i < arr.length; i++) {
-      genCodeLine("static const JAVACC_CHAR_TYPE " + varName + "_arr_" + i + "[] = ");
+      genCodeLine("static const JJChar " + varName + "_arr_" + i + "[] = ");
       genStringLiteralInCPP(arr[i]);
       genCodeLine(";");
     }
 
-    genCodeLine("static const JAVACC_STRING_TYPE " + varName + "[] = {");
+    genCodeLine("static const JJString " + varName + "[] = {");
     for (int i = 0; i < arr.length; i++) {
       genCodeLine(varName + "_arr_" + i + ", ");
     }
