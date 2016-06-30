@@ -748,7 +748,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     if (hasSpecial) {
       genCodeLine("  Token *specialToken = nullptr;");
     }
-    genCodeLine("  Token *matchedToken;");
+    genCodeLine("  Token *matchedToken = nullptr;");
     genCodeLine("  int curPos = 0;");
     genCodeLine("");
     genCodeLine("  for (;;)");
