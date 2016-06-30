@@ -1255,7 +1255,7 @@ void FormalParameters() :
 void FormalParameter():
 {}
 {
-  Modifiers() Type() [ "..." ] VariableDeclaratorId()
+  Modifiers() Type() [ "&" | "*" | "..." ] VariableDeclaratorId()
 }
 
 void ConstructorDeclaration():
