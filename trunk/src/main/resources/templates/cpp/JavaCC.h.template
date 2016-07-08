@@ -40,4 +40,19 @@ const JAVACC_CHAR_TYPE EMPTY[] = { 0 };
 \#define null 0
 \#endif
 
+template<typename T>
+struct JJEnter
+{
+    JJEnter(T f_) : f{f_} {f();}
+    ~JJEnter(){}
+    T f;
+};
+template<typename T>
+struct JJExit
+{
+    JJExit(T f_) : f{f_} {}
+    ~JJExit(){f();}
+    T f;
+};
+
 \#endif
