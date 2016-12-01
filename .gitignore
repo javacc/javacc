@@ -1,0 +1,5 @@
+bin/
+classes/
+src/main/generated-sources/
+tmp/
+target/
