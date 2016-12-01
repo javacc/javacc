@@ -54,7 +54,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 	<property file="version.properties" />
 	<property name="version" value="${version.major}.${version.minor}.${version.patch}" />
 	
-	<property name="javacc" value="javacc.jar" />
+	<property name="javacc" value="${target-folder}/javacc.jar" />
 
 	<property name="javacc-jar" value="javacc-${version}.jar" />
 	<property name="javacc-sources-jar" value="javacc-${version}-sources.jar" />

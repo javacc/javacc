@@ -35,13 +35,15 @@ THE FOLLOWING INTERMEDIATE VERSIONS:
     4.2
     6.0
     6.1.2
-    7.0
+    7.0.0
 
 
 ===================================================================
 MODIFICATIONS IN VERSION 7.0
 ===================================================================
 This version initiates the table driven parsing process as a optional feature.
+
+Ant can now publish the distribution to Maven Central.
 
 
 ===================================================================
