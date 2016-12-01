@@ -3,3 +3,7 @@ classes/
 src/main/generated-sources/
 tmp/
 target/
+.gradle/
+gradle/
+**/out-dir/
+*.*~
