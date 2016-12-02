@@ -140,21 +140,22 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 	</target>
 
-	<target name="jar" depends="compile" description="Create ${javacc}">
+	<target name="jar" description="Create ${javacc}">
 		<antcall target="jar-nocompile" />
 	</target>
 
 	<!-- Be careful not to include the test files in the distribution. -->
-	<target name="jar-nocompile" depends="jar-check" unless="jar.uptodate">
-		<mkdir dir="${target-folder}" />
-		<jar jarfile="${javacc}" basedir="classes" compress="true" />
-		<jar jarfile="${javacc-path}" basedir="classes" compress="true" />
-	</target>
-
 	<target name="jar-check">
 		<uptodate property="jar.uptodate" targetfile="${javacc-path}">
 			<srcfiles dir="classes" />
 		</uptodate>
+	</target>
+
+	<target name="jar-nocompile" depends="jar-check" unless="jar.uptodate">
+		<mkdir dir="${target-folder}" />
+		<antcall target="compile" />
+		<jar jarfile="${javacc}" basedir="classes" compress="true" />
+		<jar jarfile="${javacc-path}" basedir="classes" compress="true" />
 	</target>
 
 	<target name="dist" depends="clean, jar, javadoc">
@@ -215,13 +216,13 @@ THE POSSIBILITY OF SUCH DAMAGE.
 		<mkdir dir="test.tmp" />
 
 		<path id="compile-test-classpath">
+			<pathelement location="lib/junit.jar" />
 			<pathelement location="classes" />
-			<pathelement location="lib/junit-3.8.1.jar" />
 		</path>
 		
 		<delete dir="junit" />
 		<mkdir dir="junit" />
-		<javac srcdir="${test-src}" destdir="junit" debug="true" classpathref="compile-test-classpath">
+		<javac srcdir="${test-src}" destdir="junit" classpathref="compile-test-classpath" includeantruntime='false'>
 			<src path="${test-src}" />
 		</javac>
 
@@ -230,7 +231,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 			<classpath>
 				<pathelement location="classes" />
 				<pathelement location="junit" />
-				<pathelement location="lib/junit-3.8.1.jar" />
+				<pathelement location="lib/junit.jar" />
 			</classpath>
 
 			<batchtest fork="no" todir=".">
@@ -247,7 +248,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 		<delete file="JavaCCParserTokenManager.java" />
 	</target>
 
-	<target name="test" depends="clean,clean_generated_sources, jar,unittest" description="run functional test cases">
+	<target name="test" depends="jar, unittest" description="run functional test cases">
 
 		<delete dir="test.tmp" />
 		<mkdir dir="test.tmp" />
