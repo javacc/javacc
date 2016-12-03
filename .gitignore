@@ -1,6 +1,7 @@
 bin/
 classes/
 src/main/generated-sources/
+test.tmp/
 tmp/
 target/
 .gradle/
