@@ -95,6 +95,19 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       <organization>Context Computing</organization>
       <organizationUrl>http://www.context-computing.co.uk/</organizationUrl>
     </developer>
+
+    <developer>
+      <name>Francis ANDRE</name>
+      <id>zosrothko</id>
+      <email>zosrothko AT orange.fr</email>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <timezone>0</timezone>
+      <url>http://paneris.org/~timp</url>
+      <organization>Kampbell</organization>
+      <organizationUrl>https://github.com/Kampbell/</organizationUrl>
+    </developer>
   </developers>
   <licenses>
    <license>
