@@ -12,10 +12,8 @@ JavaCC is a parser/scanner generator for java.
   </description>
   <url>https://javacc.dev.java.net/</url>
   <issueManagement>
-   <system>java.dev</system>
-    <url>       
-https://javacc.dev.java.net/servlets/ProjectIssues
-    </url>
+   <system>GitHub</system>
+    <url>https://github.com/javacc/javacc/issues</url>
   </issueManagement>
   <inceptionYear>1996</inceptionYear>
   <organization>
@@ -23,15 +21,9 @@ https://javacc.dev.java.net/servlets/ProjectIssues
     <url>http://www.java.net/</url>
   </organization>
   <scm>
-    <connection>
-      scm:cvs:pserver:user@cvs.dev.java.net:/cvs:javacc
-    </connection>
-    <developerConnection>
-     scm:cvs:ext:user@cvs.dev.java.net:/cvs:javacc
-    </developerConnection>
-    <url>
-      https://javacc.dev.java.net/source/browse/javacc/
-    </url>
+    <connection>scm:git:git@github.com/javacc/javacc.git</connection>
+    <url>git@github.com/javacc/javacc.git</url>
+    <developerConnection>scm:git:git@github.com/javacc/javacc.git</developerConnection>
   </scm>
   <mailingLists>
     <mailingList>
@@ -102,6 +94,19 @@ https://javacc.dev.java.net/servlets/SummarizeList?listName=issues
       <url>http://paneris.org/~timp</url>
       <organization>Context Computing</organization>
       <organizationUrl>http://www.context-computing.co.uk/</organizationUrl>
+    </developer>
+
+    <developer>
+      <name>Francis ANDRE</name>
+      <id>zosrothko</id>
+      <email>zosrothko AT orange.fr</email>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <timezone>0</timezone>
+      <url>http://paneris.org/~timp</url>
+      <organization>Kampbell</organization>
+      <organizationUrl>https://github.com/Kampbell/</organizationUrl>
     </developer>
   </developers>
   <licenses>
