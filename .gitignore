@@ -9,3 +9,4 @@ gradle/
 junit/
 **/out-dir/
 *.*~
+examples/JJTreeExamples/cpp/eg*/
