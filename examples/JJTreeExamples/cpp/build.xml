@@ -26,6 +26,7 @@
 				<compilerarg value="-Wall" />
 				<compilerarg value="-fpermissive" />
 				<compilerarg value="-O2" />
+				<compilerarg value="-std=c++11" />
 			</compiler>
 			
 			<linker id="LinuxLinker" name="g++" libtool="true">
@@ -60,6 +61,7 @@
 				<compilerarg value="-Wall" />
 				<compilerarg value="-fpermissive" />
 				<compilerarg value="-O2" />
+				<compilerarg value="-std=c++11" />
 			</compiler>
 			
 			<linker id="LinuxLinker" name="g++" libtool="true">
@@ -94,6 +96,7 @@
 				<compilerarg value="-Wall" />
 				<compilerarg value="-fpermissive" />
 				<compilerarg value="-O2" />
+				<compilerarg value="-std=c++11" />
 			</compiler>
 			
 			<linker id="LinuxLinker" name="g++" libtool="true">
@@ -158,6 +161,7 @@
 				<compilerarg value="-Wall" />
 				<compilerarg value="-fpermissive" />
 				<compilerarg value="-O2" />
+				<compilerarg value="-std=c++11" />
 			</compiler>
 			
 			<linker id="LinuxLinker" name="g++" libtool="true">

@@ -148,6 +148,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 	<target name="jar-check">
 		<uptodate property="jar.uptodate" targetfile="${javacc-path}">
 			<srcfiles dir="classes" />
+			<srcfiles dir="${resources-src}" />
 		</uptodate>
 	</target>
 
@@ -209,7 +210,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 	</target>
 
-	<target name="unittest" depends="jar" description="run JUnit unit test cases" unless="false">
+	<target name="unittest" depends="jar" description="run JUnit unit test cases" unless="true">
 		<delete dir="test.tmp" />
 		<mkdir dir="test.tmp" />
 

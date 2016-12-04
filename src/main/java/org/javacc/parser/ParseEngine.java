@@ -1472,10 +1472,6 @@ public class ParseEngine {
           codeGenerator.genCodeLine(""); 	  
       } else
       if (p instanceof JavaCodeProduction) {
-        if (!isJavaDialect) {
-          JavaCCErrors.semantic_error("Cannot use JAVACODE productions with C++ output (yet).");
-          continue;
-        }
         jp = (JavaCodeProduction)p;
         t = (Token)(jp.getReturnTypeTokens().get(0));
         codeGenerator.printTokenSetup(t); ccol = 1;

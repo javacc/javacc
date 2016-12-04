@@ -54,13 +54,16 @@ public:
       Used in destructor to do linear destruction of tree.
       Since some parsers has subclassed Node, we can't use pure virtual
       function, that would break backward compatibility. */
-  private: virtual std::vector<Node *> jjtExtractChildrenForDestruction() {
+  private: 
+  
+  virtual std::vector<Node *> jjtExtractChildrenForDestruction() {
     std::vector<Node *> x;
     return x;
   }
   friend class SimpleNode;
 
            Node() { }
+  public:
   virtual ~Node() { }
 };
 
