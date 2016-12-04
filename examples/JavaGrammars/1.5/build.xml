@@ -59,7 +59,7 @@
   </target>
 
   <target name="generated-files" depends="parser-files-init" if="parser.gen">
-     <java failonerror="true" fork="true" classname="javacc" classpath="${javacc.root}/classes" >
+     <java failonerror="true" fork="true" classname="javacc" classpath="${javacc.root}/target/javacc.jar" >
            <arg value="-DEBUG_PARSER=${debug_parser}"/>
            <arg value="-DEBUG_TOKEN_MANAGER=${debug_scanner}"/>
            <arg value="Java1.5.jj"/>

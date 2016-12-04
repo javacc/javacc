@@ -145,7 +145,7 @@ public class RStringLiteral extends RegularExpression {
 	
 	    if (allImages == null || allImages.length == 0)
 	    {
-	      codeGenerator.genCodeLine("static const JAVACC_STRING_TYPE jjstrLiteralImages[] = {};");
+	      codeGenerator.genCodeLine("static const JJString jjstrLiteralImages[] = {};");
 	      return;
 	    }
 	
@@ -170,12 +170,12 @@ public class RStringLiteral extends RegularExpression {
 	          charCnt = 0;
 	        }
 	
-	        codeGenerator.genCodeLine("static JAVACC_CHAR_TYPE jjstrLiteralChars_"
+	        codeGenerator.genCodeLine("static JJChar jjstrLiteralChars_"
 	            + literalCount++ + "[] = {0};");
 	        continue;
 	      }
 	
-	      String toPrint = "static JAVACC_CHAR_TYPE jjstrLiteralChars_" +
+	      String toPrint = "static JJChar jjstrLiteralChars_" +
 	                           literalCount++ + "[] = {";
 	      for (int j = 0; j < image.length(); j++) {
 	        String hexVal = Integer.toHexString((int)image.charAt(j));
@@ -202,13 +202,13 @@ public class RStringLiteral extends RegularExpression {
 	        charCnt = 0;
 	      }
 	
-	      codeGenerator.genCodeLine("static JAVACC_CHAR_TYPE jjstrLiteralChars_" +
+	      codeGenerator.genCodeLine("static JJChar jjstrLiteralChars_" +
 	                                 literalCount++ + "[] = {0};");
 	      continue;
 	    }
 	
 	    // Generate the array here.
-	    codeGenerator.genCodeLine("static const JAVACC_STRING_TYPE " +
+	    codeGenerator.genCodeLine("static const JJString " +
 	                              "jjstrLiteralImages[] = {");
 	    for (int j = 0; j < literalCount; j++) {
 	      codeGenerator.genCodeLine("jjstrLiteralChars_" + j + ", ");

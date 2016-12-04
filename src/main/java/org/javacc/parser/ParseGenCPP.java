@@ -351,7 +351,7 @@ public void start() throws MetaParseException {
     if (!Options.getStackLimit().equals("")) {
       genCodeLine("    if (!jj_stack_error) {");
     }
-    genCodeLine("    JAVACC_STRING_TYPE image = kind >= 0 ? tokenImage[kind] : tokenImage[0];");
+    genCodeLine("    JJString image = kind >= 0 ? tokenImage[kind] : tokenImage[0];");
     genCodeLine("    errorHandler->handleUnexpectedToken(kind, image.substr(1, image.size() - 2), getToken(1), this);");
     if (!Options.getStackLimit().equals("")) {
       genCodeLine("    }");
@@ -562,7 +562,7 @@ public void start() throws MetaParseException {
       genCodeLine("    Token *errortok = token->next;");
       if (Options.getKeepLineColumn())
          genCodeLine("    int line = errortok.beginLine, column = errortok.beginColumn;");
-      genCodeLine("    JAVACC_STRING_TYPE mess = (errortok->kind == 0) ? tokenImage[0] : errortok->image;");
+      genCodeLine("    JJString mess = (errortok->kind == 0) ? tokenImage[0] : errortok->image;");
       if (Options.getKeepLineColumn())
          genCodeLine("    return new _ParseException();");// +
              //"\"Parse error at line \" + line + \", column \" + column + \".  " +

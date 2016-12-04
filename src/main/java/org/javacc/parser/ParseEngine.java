@@ -683,8 +683,9 @@ public class ParseEngine {
 
     indentamt = 4;
     if (Options.getDebugParser()) {
-      codeGenerator.genCodeLine("");
-      codeGenerator.genCodeLine("    trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
+      if (!isJavaDialect) {
+    	  codeGenerator.genCodeLine("    JJExit<std::function<void()>> jjtr([this]() {trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) +"\"); });");
+      }
       codeGenerator.genCodeLine("    try {");
       indentamt = 6;
     }
@@ -716,10 +717,10 @@ public class ParseEngine {
     if (Options.getDebugParser()) {
       if (isJavaDialect) {
         codeGenerator.genCodeLine("    } finally {");
+        codeGenerator.genCodeLine("      trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
       } else {
         codeGenerator.genCodeLine("    } catch(...) { }");
       }
-      codeGenerator.genCodeLine("      trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
       if (isJavaDialect) {
         codeGenerator.genCodeLine("    }");
       }
@@ -1454,6 +1455,9 @@ public class ParseEngine {
           if (Options.getDebugParser()) {
             codeGenerator.genCodeLine("");
             codeGenerator.genCodeLine("    trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(cp.getLhs()) + "\");");
+            if (!isJavaDialect) {
+          	  codeGenerator.genCodeLine("    JJExit<std::function<void()>> jjtr([this]() {trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(cp.getLhs()) +"\"); });");
+            }
             codeGenerator.genCodeLine("    try {");
           }
           if (cp.getCodeTokens().size() != 0) {
@@ -1463,7 +1467,6 @@ public class ParseEngine {
           codeGenerator.genCodeLine("");
           if (Options.getDebugParser()) {
             codeGenerator.genCodeLine("    } catch(...) { }");
-            codeGenerator.genCodeLine("    trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(cp.getLhs()) + "\");");
           }
           codeGenerator.genCodeLine("  }");
           codeGenerator.genCodeLine(""); 	  
@@ -1518,11 +1521,7 @@ public class ParseEngine {
         }
         codeGenerator.genCodeLine("");
         if (Options.getDebugParser()) {
-          if (isJavaDialect) {
-            codeGenerator.genCodeLine("    } finally {");
-          } else {
-            codeGenerator.genCodeLine("    } catch(...) { } finally {");
-          }
+          codeGenerator.genCodeLine("    } finally {");
           codeGenerator.genCodeLine("      trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(jp.getLhs()) + "\");");
           codeGenerator.genCodeLine("    }");
         }
