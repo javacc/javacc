@@ -44,7 +44,7 @@ MODIFICATIONS IN VERSION 7.0
 This version initiates the table driven parsing process as a optional feature.
 
 Ant can now publish the distribution to Maven Central using the target 
-deploy for the SNAPSHOT then stage for the RELEASE.
+'deploy' for the SNAPSHOT then 'stage' for the RELEASE.
 
 The c++ generation has been refactored.
 
