@@ -5,10 +5,13 @@
 	<artifactId>javacc</artifactId>
 	<packaging>jar</packaging>
 	<name>JavaCC</name>
-	<version>7.0.0</version>
+	<version>${version}</version>
+	<properties>
+		<version>7.0.0</version>
+	</properties>
 
 	<description>JavaCC is a parser/scanner generator for java. </description>
-	<url>https://javacc.dev.java.net/</url>
+	<url>https://github.com/javacc/javacc</url>
 	<issueManagement>
 		<system>GitHub</system>
 		<url>https://github.com/javacc/javacc/issues</url>
@@ -16,7 +19,7 @@
 	<inceptionYear>1996</inceptionYear>
 	<organization>
 		<name>java.net</name>
-		<url>http://www.java.net/</url>
+		<url>https://github.com/javacc/javacc</url>
 	</organization>
 	<scm>
 		<connection>scm:git:git@github.com/javacc/javacc.git</connection>
