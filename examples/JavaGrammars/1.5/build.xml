@@ -31,8 +31,7 @@
   </target>
 
   <target name="compile" depends="generated-files">
-    <javac srcdir="."
-           destdir="." >
+    <javac srcdir="." destdir="." includeantruntime='false'>
     </javac>
   </target>
 
