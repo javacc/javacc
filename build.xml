@@ -133,7 +133,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 		<copy file="version.properties" todir="classes" />
 
-		<javac srcdir="${java-src}" destdir="classes" debug="true" classpath="">
+		<javac srcdir="${java-src}" destdir="classes" debug="true" classpath="" includeantruntime='false'>
 			<src path="${java-src}" />
 			<src path="${generated-src}" />
 			<src path="${resources-src}" />
@@ -206,7 +206,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 		</zip>
 	</target>
 
-	<target name="unittest" depends="jar" description="run JUnit unit test cases" unless="false">
+	<target name="unittest" depends="jar" description="run JUnit unit test cases" unless="true">
 		<delete dir="test.tmp" />
 		<mkdir dir="test.tmp" />
 
@@ -258,7 +258,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 			<arg line="-OUTPUT_DIRECTORY=${test-tmp}/CORBA-IDL examples/CORBA-IDL/IDL.jj" />
 		</java>
 
-		<javac srcdir="${test-tmp}/CORBA-IDL" />
+		<javac srcdir="${test-tmp}/CORBA-IDL" includeantruntime='false'/>
 
 		<copy todir="${test-tmp}/CORBA-IDL/">
 			<fileset dir="examples/CORBA-IDL">
@@ -292,11 +292,11 @@ THE POSSIBILITY OF SUCH DAMAGE.
 			<arg line="-OUTPUT_DIRECTORY=${test-tmp}/GUIParsing/ParserVersion examples/GUIParsing/ParserVersion/CalcInput.jj" />
 		</java>
 
-		<javac srcdir="${test-tmp}/GUIParsing/ParserVersion" />
+		<javac srcdir="${test-tmp}/GUIParsing/ParserVersion" includeantruntime='false'/>
 
 		<echo />
 
-		<!--
+	<!--
 	    <copy todir="${test-tmp}/GUIParsing/TokenMgrVersion">
 	      <fileset dir="examples/GUIParsing/TokenMgrVersion">
 	        <include name="*.java" />
@@ -307,7 +307,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 	      <arg line="-OUTPUT_DIRECTORY=${test-tmp}/GUIParsing/TokenMgrVersion examples/GUIParsing/TokenMgrVersion/CalcInput.jj" />
 	    </java>
 	    
-	    <javac srcdir="${test-tmp}/GUIParsing/TokenMgrVersion" />
+	    <javac srcdir="${test-tmp}/GUIParsing/TokenMgrVersion" includeantruntime='false'/>
 	
 	    <echo />
     -->
@@ -330,7 +330,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 			<arg line="-OUTPUT_DIRECTORY=${test-tmp}/Interpreter ${test-tmp}/Interpreter/SPL.jj" />
 		</java>
 
-		<javac srcdir="${test-tmp}/Interpreter" />
+		<javac srcdir="${test-tmp}/Interpreter" includeantruntime='false'/>
 
 		<copy todir="${test-tmp}/Interpreter/">
 			<fileset dir="examples/Interpreter/">
@@ -384,7 +384,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 			<arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg1 ${test-tmp}/java/JJTreeExamples.eg1/eg1.jj" />
 		</java>
 
-		<javac srcdir="${test-tmp}/java/JJTreeExamples.eg1" />
+		<javac srcdir="${test-tmp}/java/JJTreeExamples.eg1" includeantruntime='false'/>
 
 		<java failonerror="true" fork="true" classname="Eg1" classpath="${test-tmp}/java/JJTreeExamples.eg1/" inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg1.out">
 		</java>
@@ -415,7 +415,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 			<arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg2 ${test-tmp}/java/JJTreeExamples.eg2/eg2.jj" />
 		</java>
 
-		<javac srcdir="${test-tmp}/java/JJTreeExamples.eg2" />
+		<javac srcdir="${test-tmp}/java/JJTreeExamples.eg2" includeantruntime='false'/>
 
 		<java failonerror="true" fork="true" classname="Eg2" classpath="${test-tmp}/java/JJTreeExamples.eg2/" inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg2.out">
 		</java>
@@ -445,7 +445,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 			<arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg3 ${test-tmp}/java/JJTreeExamples.eg3/eg3.jj" />
 		</java>
 
-		<javac srcdir="${test-tmp}/java/JJTreeExamples.eg3" />
+		<javac srcdir="${test-tmp}/java/JJTreeExamples.eg3" includeantruntime='false'/>
 
 		<java failonerror="true" fork="true" classname="Eg3" classpath="${test-tmp}/java/JJTreeExamples.eg3/" inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg3.out">
 		</java>
@@ -474,7 +474,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 			<arg line="-OUTPUT_DIRECTORY=${test-tmp}/java/JJTreeExamples.eg4 ${test-tmp}/java/JJTreeExamples.eg4/eg4.jj" />
 		</java>
 
-		<javac srcdir="${test-tmp}/java/JJTreeExamples.eg4" debug="true" />
+		<javac srcdir="${test-tmp}/java/JJTreeExamples.eg4" debug="true" includeantruntime='false'/>
 
 		<java failonerror="true" fork="true" classname="Eg4" classpath="${test-tmp}/java/JJTreeExamples.eg4/" inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg4.out">
 		</java>
@@ -493,7 +493,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 			<arg line="-OUTPUT_DIRECTORY=${test-tmp}/JavaCCGrammar examples/JavaCCGrammar/JavaCC.jj" />
 		</java>
 
-		<javac srcdir="${test-tmp}/JavaCCGrammar" />
+		<javac srcdir="${test-tmp}/JavaCCGrammar" includeantruntime='false'/>
 
 		<echo />
 
@@ -552,7 +552,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 			<arg line="-OUTPUT_DIRECTORY=${test-tmp}/MailProcessing examples/MailProcessing/Faq.jj" />
 		</java>
 
-		<javac srcdir="${test-tmp}/MailProcessing" />
+		<javac srcdir="${test-tmp}/MailProcessing" includeantruntime='false'/>
 
 		<echo />
 
@@ -574,7 +574,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 			<arg line="-OUTPUT_DIRECTORY=${test-tmp}/Obfuscator examples/Obfuscator/MapFile.jj" />
 		</java>
 
-		<javac srcdir="${test-tmp}/Obfuscator" />
+		<javac srcdir="${test-tmp}/Obfuscator" includeantruntime='false'/>
 
 		<!-- TODO, test cases for SimpleExamples -->
 
@@ -594,7 +594,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 			<arg line="-OUTPUT_DIRECTORY=${test-tmp}/Transformer ${test-tmp}/Transformer/ToyJava.jj" />
 		</java>
 
-		<javac srcdir="${test-tmp}/Transformer" />
+		<javac srcdir="${test-tmp}/Transformer" includeantruntime='false'/>
 
 		<echo />
 
@@ -611,21 +611,21 @@ THE POSSIBILITY OF SUCH DAMAGE.
 		<java failonerror="true" fork="true" classname="javacc" classpath="${javacc}">
 			<arg line="-OUTPUT_DIRECTORY=${test-tmp}/VTransformer ${test-tmp}/VTransformer/Java1.1.jj" />
 		</java>
-		<javac srcdir="${test-tmp}/VTransformer" />
+		<javac srcdir="${test-tmp}/VTransformer" includeantruntime='false'/>
 
 		<!-- 2014/05/09 - New tests to test that TOKEN_MANAGER_USES_PARSER has no effect if static is true -->
 		<java failonerror="true" fork="true" classname="javacc" classpath="${javacc}">
 			<arg line="-OUTPUT_DIRECTORY=${test-tmp}/TestTokenManagerUsesParser test/TestTokenManagerUsesParser/TestTokenManagerUsesParser.jj" />
 		</java>
 
-		<javac srcdir="${test-tmp}/TestTokenManagerUsesParser" />
+		<javac srcdir="${test-tmp}/TestTokenManagerUsesParser" includeantruntime='false'/>
 
 		<!-- 2014/05/09 - New tests to test that TOKEN_MANAGER_USES_PARSER works as expected if static is false -->
 		<java failonerror="true" fork="true" classname="javacc" classpath="${javacc}">
 			<arg line="-OUTPUT_DIRECTORY=${test-tmp}/TestTokenManagerUsesParser2 test/TestTokenManagerUsesParser2/TestTokenManagerUsesParser2.jj" />
 		</java>
 
-		<javac srcdir="${test-tmp}/TestTokenManagerUsesParser2" />
+		<javac srcdir="${test-tmp}/TestTokenManagerUsesParser2" includeantruntime='false'/>
 
 	</target>
 
