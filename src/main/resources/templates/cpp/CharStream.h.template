@@ -1,5 +1,5 @@
-\#ifndef CHARSTREAM_H
-\#define CHARSTREAM_H
+\#pragma once
+
 \#include "JavaCC.h"
 
 \#ifndef INITIAL_BUFFER_SIZE
@@ -276,4 +276,4 @@ protected:
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi
-\#endif
+

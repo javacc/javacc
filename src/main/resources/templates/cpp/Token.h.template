@@ -1,5 +1,5 @@
-\#ifndef TOKEN_H
-\#define TOKEN_H
+\#pragma once
+
 \#include "JavaCC.h"
 
 #if TOKEN_INCLUDES
@@ -119,4 +119,4 @@ class Token
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi
-\#endif
+

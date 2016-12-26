@@ -1,5 +1,5 @@
-\#ifndef ERRORHANDLER_H
-\#define ERRORHANDLER_H
+\#pragma once
+
 \#include <stdio.h>
 \#include <string>
 \#include "JavaCC.h"
@@ -79,4 +79,4 @@ JJSimpleString addUnicodeEscapes(const JJString& str);
 ${NAMESPACE_CLOSE}
 #fi
 
-\#endif
+

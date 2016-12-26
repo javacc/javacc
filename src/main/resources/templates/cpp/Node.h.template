@@ -1,5 +1,4 @@
-\#ifndef NODE_H
-\#define NODE_H
+\#pragma once
 
 \#include <vector>
 \#include "JavaCC.h"
@@ -78,4 +77,4 @@ public:
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi
-\#endif
+

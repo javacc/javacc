@@ -3,16 +3,16 @@ class SimpleNode : public ${NODE_EXTENDS}, public Node {
 #else
 class SimpleNode : public Node {
 #fi
-
-  protected: Node *parent;
-  protected: std::vector<Node*> children;
-  protected: int id;
-  protected: void * value;
-  protected: ${PARSER_NAME} *parser;
-  //protected: int numChildren;
+protected: 
+    Node*              parent;
+    std::vector<Node*> children;
+    int                id;
+    void*              value;
+    ${PARSER_NAME}*    parser;
+//  int                numChildren;
 #if TRACK_TOKENS
-  protected: Token *firstToken;
-  protected: Token *lastToken;
+    Token*             firstToken;
+    Token*             lastToken;
 #fi
 
   public: SimpleNode(int i);

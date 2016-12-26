@@ -1,5 +1,5 @@
-\#ifndef JJT${PARSER_NAME}State_H
-\#define JJT${PARSER_NAME}State_H
+\#pragma once
+
 \#include <set>
 \#include <vector>
 \#include "JavaCC.h"
@@ -76,4 +76,4 @@ public:
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi
-\#endif
+

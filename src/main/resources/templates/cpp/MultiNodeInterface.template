@@ -1,5 +1,5 @@
-\#ifndef ${NODE_TYPE}_H_
-\#define ${NODE_TYPE}_H_
+\#pragma once
+
 \#include "${NODE_CLASS:-SimpleNode}.h"
 
 
@@ -24,5 +24,3 @@ public:
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi
-
-\#endif

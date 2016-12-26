@@ -1,10 +1,13 @@
-\#ifndef SIMPLENODE_H
-\#define SIMPLENODE_H
+\#pragma once
+
 \#include <vector>
 \#include "JavaCC.h"
 \#include "Token.h"
 \#include "Node.h"
 \#include "${PARSER_NAME}TreeConstants.h"
+#if NODE_EXTENDS
+\#include "${NODE_EXTENDS}.h"
+#fi
 
 #if NAMESPACE
 namespace ${NAMESPACE_OPEN}
@@ -13,6 +16,8 @@ namespace ${NAMESPACE_OPEN}
 class ${PARSER_NAME}Visitor;
 #fi
 
+class ${PARSER_NAME};
+
 #if NODE_EXTENDS
 class SimpleNode : public ${NODE_EXTENDS}, public Node {
 #else
@@ -20,19 +25,19 @@ class SimpleNode : public Node {
 #fi
 protected: 
   std::vector<Node*> children;
-  Node *             parent = nullptr;
-  void *             value  = nullptr;
+  Node*              parent = nullptr;
+  void*              value  = nullptr;
 //int                numChildren;
 #if TRACK_TOKENS
-  Token *            firstToken = nullptr;
-  Token *            lastToken  = nullptr;
+  Token*             firstToken = nullptr;
+  Token*             lastToken  = nullptr;
 #fi
   ${PARSER_NAME}*    parser = nullptr;
   int                id;
 
 public: 
            SimpleNode(int id);
-           SimpleNode(${PARSER_NAME} *parser, int id);
+           SimpleNode(${PARSER_NAME}* parser, int id);
   virtual ~SimpleNode();
 
 //#if !NODE_FACTORY
@@ -43,18 +48,18 @@ public:
   virtual void           jjtOpen() const;
   virtual void           jjtClose() const;
   virtual void           jjtSetParent(Node *n);
-  virtual Node *         jjtGetParent() const;
+  virtual Node*          jjtGetParent() const;
   virtual void           jjtAddChild(Node *n, size_t i);
-  virtual Node *         jjtGetChild(size_t i) const;
+  virtual Node*          jjtGetChild(size_t i) const;
   virtual size_t         jjtGetNumChildren() const;
   virtual void           jjtSetValue(void * value);
-  virtual void *         jjtGetValue() const;
+  virtual void*          jjtGetValue() const;
 
 #if TRACK_TOKENS
-  virtual Token *        jjtGetFirstToken() const;
-  virtual Token *        jjtGetLastToken() const;
-  virtual void           jjtSetFirstToken(Token token);
-  virtual void           jjtSetLastToken(Token token);
+  virtual Token*         jjtGetFirstToken() const;
+  virtual Token*         jjtGetLastToken() const;
+  virtual void           jjtSetFirstToken(Token* token);
+  virtual void           jjtSetLastToken(Token* token);
 
 #fi
 #if VISITOR
@@ -70,6 +75,7 @@ public:
      your output uses more than one line you should override
      toString(string), otherwise overriding toString() is probably all
      you need to do. */
+     
   virtual JJString toString() const;
   virtual JJString toString(const JJString& prefix) const;
 
@@ -83,4 +89,3 @@ public:
 ${NAMESPACE_CLOSE}
 #fi
 
-\#endif
