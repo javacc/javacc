@@ -10,3 +10,4 @@ junit/
 TEST-*
 **/out-dir/
 *.*~
+*.asc
