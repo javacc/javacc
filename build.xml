@@ -148,7 +148,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 	<!-- Be careful not to include the test files in the distribution. -->
 	<target name="jar-check">
 		<uptodate property="jar.uptodate" targetfile="${javacc-path}">
-			<srcfiles dir="classes" />
+			<srcfiles dir="src/main" />
 		</uptodate>
 	</target>
 
