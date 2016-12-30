@@ -16,7 +16,6 @@ namespace ${NAMESPACE_OPEN}
    machinery for constructing the parent and child relationships
    between nodes. */
 
-class ${PARSER_NAME};
 #if VISITOR
 class ${PARSER_NAME}Visitor;
 #fi

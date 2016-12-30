@@ -7,6 +7,7 @@
 #include "EG4DumpVisitor.h"
 #include "ParseException.h"
 #include "MyErrorHandler.h"
+#include "ParserTokenManager.h"
 
 using namespace std;
 using namespace EG4;
