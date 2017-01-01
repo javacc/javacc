@@ -50,10 +50,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
      </condition>
     </fail>
 
-    <javac srcdir="out-dir"
-           destdir="out-dir/static"
-           source="1.5"
-	   debug="true"
+    <javac srcdir="out-dir" destdir="out-dir/static" source="1.5" debug="true" includeantruntime='false'
            classpath="../../target/javacc.jar">
     </javac>
     <java classname="Parser" classpath="out-dir/static" inputstring="A" failonerror="true"> </java>
@@ -72,10 +69,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
      </condition>
     </fail>
 
-    <javac srcdir="out-dir"
-           destdir="out-dir/non-static"
-           source="1.5"
-	   debug="true"
+    <javac srcdir="out-dir"  destdir="out-dir/non-static"  source="1.5" debug="true" includeantruntime='false'
            classpath="../../target/javacc.jar">
     </javac>
     <java classname="Parser" classpath="out-dir/non-static" inputstring="A" failonerror="true"> </java>
@@ -97,10 +91,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
      </condition>
     </fail>
 
-    <javac srcdir="out-dir"
-           destdir="out-dir/non-static"
-           source="1.5"
-	   debug="true"
+    <javac srcdir="out-dir" destdir="out-dir/non-static" source="1.5" debug="true" includeantruntime='false'
            classpath="../../target/javacc.jar">
     </javac>
     <java classname="Parser" classpath="out-dir/non-static" inputstring="A" failonerror="true"> </java>
@@ -124,10 +115,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     </fail>
 
 
-    <javac srcdir="out-dir"
-           destdir="out-dir/non-static"
-           source="1.5"
-	   debug="true"
+    <javac srcdir="out-dir" destdir="out-dir/non-static" source="1.5" debug="true" includeantruntime='false'
            classpath="../../target/javacc.jar">
     </javac>
     <java classname="Parser" classpath="out-dir/non-static" inputstring="A" failonerror="true"> </java>
@@ -150,10 +138,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     </fail>
 
 
-    <javac srcdir="out-dir"
-           destdir="out-dir/non-static"
-           source="1.5"
-	   debug="true"
+    <javac srcdir="out-dir" destdir="out-dir/non-static" source="1.5" debug="true" includeantruntime='false'
            classpath="../../target/javacc.jar">
     </javac>
     <java classname="Parser" classpath="out-dir/non-static" inputstring="A" failonerror="true"> </java>
