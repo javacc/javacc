@@ -329,29 +329,36 @@ public class CodeGenerator {
     generateMethodDefHeader(modsAndRetType, className, nameAndParams, null);
   }
 
-  public void generateMethodDefHeader(String modsAndRetType, String className, String nameAndParams, String exceptions) {
+  public void generateMethodDefHeader(String qualifiedModsAndRetType, String className, String nameAndParams, String exceptions) {
     // for C++, we generate the signature in the header file and body in main file
     if (isJavaLanguage()) {
-      genCode(modsAndRetType + " " + nameAndParams);
+      genCode(qualifiedModsAndRetType + " " + nameAndParams);
       if (exceptions != null) {
         genCode(" throws " + exceptions);
       }
       genCodeLine("");
     } else {
-      includeBuffer.append(modsAndRetType + " " + nameAndParams);
+      includeBuffer.append(qualifiedModsAndRetType + " " + nameAndParams);
       //if (exceptions != null)
         //includeBuffer.append(" throw(" + exceptions + ")");
       includeBuffer.append(";\n");
 
-      int i = modsAndRetType.lastIndexOf(':');
+      String modsAndRetType = null;
+      int i = qualifiedModsAndRetType.lastIndexOf(':');
       if (i >= 0)
-        modsAndRetType = modsAndRetType.substring(i+1);
+    	  modsAndRetType = qualifiedModsAndRetType.substring(i+1);
 
-      i = modsAndRetType.lastIndexOf("virtual");
-      if (i >= 0)
-        modsAndRetType = modsAndRetType.substring(i + "virtual".length());
-
-      mainBuffer.append("\n" + modsAndRetType + " " +
+      if (modsAndRetType != null) {
+    	  i = modsAndRetType.lastIndexOf("virtual");
+    	  if (i >= 0)
+    		  modsAndRetType = modsAndRetType.substring(i + "virtual".length());
+      }
+      if (qualifiedModsAndRetType != null) {
+    	  i = qualifiedModsAndRetType.lastIndexOf("virtual");
+    	  if (i >= 0)
+    		  qualifiedModsAndRetType = qualifiedModsAndRetType.substring(i + "virtual".length());
+      }
+      mainBuffer.append("\n" + qualifiedModsAndRetType + " " +
                            getClassQualifier(className) + nameAndParams);
       //if (exceptions != null)
         //mainBuffer.append(" throw( " + exceptions + ")");
