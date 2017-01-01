@@ -6,6 +6,7 @@
 #include "Parser.h"
 #include "ParseException.h"
 #include "ParserTree.h"
+#include "ParserTokenManager.h"
 
 using namespace std;
 using namespace EG3;

@@ -18,7 +18,7 @@
 		<copy file="eg1.jjt" todir="eg1" />
 		<copy file="eg1.cc" todir="eg1" />
 		<jjtree target="eg1.jjt" outputdirectory="eg1" javacchome="${javacc.home}" />
-		<javacc target="eg1/eg1.jj" outputdirectory="eg1" javacchome="${javacc.home}" includeantruntime='false'/>
+		<javacc target="eg1/eg1.jj" outputdirectory="eg1" javacchome="${javacc.home}" />
 		<cpptasks:cc outtype="executable" subsystem="console" outfile="eg1/eg1" objdir="eg1">
 			<fileset dir="eg1" includes="*.cc" />
 			<compiler name="g++" id="Linuxg++" >
@@ -26,6 +26,7 @@
 				<compilerarg value="-Wall" />
 				<compilerarg value="-fpermissive" />
 				<compilerarg value="-O2" />
+				<compilerarg value="-std=c++11" />
 			</compiler>
 			
 			<linker id="LinuxLinker" name="g++" libtool="true">
@@ -42,7 +43,7 @@
 		<copy file="eg2.jjt" todir="eg2" />
 		<copy file="eg2.cc" todir="eg2" />
 		<jjtree target="eg2.jjt" outputdirectory="eg2" javacchome="${javacc.home}" />
-		<javacc target="eg2/eg2.jj" outputdirectory="eg2" javacchome="${javacc.home}" includeantruntime='false'/>
+		<javacc target="eg2/eg2.jj" outputdirectory="eg2" javacchome="${javacc.home}" />
 		<copy file="ASTMyID.h" todir="eg2" overwrite="on">
 		    <filterset>
 		      <filter token="NAMESPACE" value="EG2"/>
@@ -60,6 +61,7 @@
 				<compilerarg value="-Wall" />
 				<compilerarg value="-fpermissive" />
 				<compilerarg value="-O2" />
+				<compilerarg value="-std=c++11" />
 			</compiler>
 			
 			<linker id="LinuxLinker" name="g++" libtool="true">
@@ -76,7 +78,7 @@
 		<copy file="eg3.jjt" todir="eg3" />
 		<copy file="eg3.cc" todir="eg3" />
 		<jjtree target="eg3.jjt" outputdirectory="eg3" javacchome="${javacc.home}" />
-		<javacc target="eg3/eg3.jj" outputdirectory="eg3" javacchome="${javacc.home}" includeantruntime='false'/>
+		<javacc target="eg3/eg3.jj" outputdirectory="eg3" javacchome="${javacc.home}" />
 		<copy file="ASTMyID.h" todir="eg3" overwrite="on">
 		    <filterset>
 		      <filter token="NAMESPACE" value="EG3"/>
@@ -94,6 +96,7 @@
 				<compilerarg value="-Wall" />
 				<compilerarg value="-fpermissive" />
 				<compilerarg value="-O2" />
+				<compilerarg value="-std=c++11" />
 			</compiler>
 			
 			<linker id="LinuxLinker" name="g++" libtool="true">
@@ -110,7 +113,7 @@
 		<copy file="eg4.jjt" todir="eg4" />
 		<copy file="eg4.cc" todir="eg4" />
 		<jjtree target="eg4.jjt" outputdirectory="eg4" javacchome="${javacc.home}" />
-		<javacc target="eg4/eg4.jj" outputdirectory="eg4" javacchome="${javacc.home}" includeantruntime='false'/>
+		<javacc target="eg4/eg4.jj" outputdirectory="eg4" javacchome="${javacc.home}" />
 		<copy file="ASTMyID.h" todir="eg4" overwrite="on">
 		    <filterset>
 		      <filter token="NAMESPACE" value="EG4"/>
@@ -158,6 +161,7 @@
 				<compilerarg value="-Wall" />
 				<compilerarg value="-fpermissive" />
 				<compilerarg value="-O2" />
+				<compilerarg value="-std=c++11" />
 			</compiler>
 			
 			<linker id="LinuxLinker" name="g++" libtool="true">

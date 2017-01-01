@@ -1276,18 +1276,21 @@ public class NfaState
         codeGenerator.switchToStaticsFile();
         codeGenerator.genCode("static const int jjnextStates[] = {");
       }
-      for (int i = 0; i < orderedStateSet.size(); i++)
-      {
-         int[] set = (int[])orderedStateSet.get(i);
+      if (orderedStateSet.size() > 0)
+    	  for (int i = 0; i < orderedStateSet.size(); i++)
+    	  {
+    		  int[] set = (int[])orderedStateSet.get(i);
 
-         for (int j = 0; j < set.length; j++)
-         {
-            if (cnt++ % 16  == 0)
-               codeGenerator.genCode("\n   ");
+    		  for (int j = 0; j < set.length; j++)
+    		  {
+    			  if (cnt++ % 16  == 0)
+    				  codeGenerator.genCode("\n   ");
 
-            codeGenerator.genCode(set[j] + ", ");
-         }
-      }
+    			  codeGenerator.genCode(set[j] + ", ");
+    		  }
+    	  }
+      else
+    	  codeGenerator.genCode("0");
 
       codeGenerator.genCodeLine("\n};");
       if (!codeGenerator.isJavaLanguage()) {

@@ -10,3 +10,5 @@ junit/
 TEST-*
 **/out-dir/
 *.*~
+*.asc
+examples/JJTreeExamples/cpp/eg*/

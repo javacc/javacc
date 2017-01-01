@@ -683,8 +683,6 @@ public class ParseEngine {
 
     indentamt = 4;
     if (Options.getDebugParser()) {
-      codeGenerator.genCodeLine("");
-      codeGenerator.genCodeLine("    trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
       if (!isJavaDialect) {
     	  codeGenerator.genCodeLine("    JJExit<std::function<void()>> jjtr([this]() {trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) +"\"); });");
       }
@@ -1474,10 +1472,6 @@ public class ParseEngine {
           codeGenerator.genCodeLine(""); 	  
       } else
       if (p instanceof JavaCodeProduction) {
-        if (!isJavaDialect) {
-          JavaCCErrors.semantic_error("Cannot use JAVACODE productions with C++ output (yet).");
-          continue;
-        }
         jp = (JavaCodeProduction)p;
         t = (Token)(jp.getReturnTypeTokens().get(0));
         codeGenerator.printTokenSetup(t); ccol = 1;

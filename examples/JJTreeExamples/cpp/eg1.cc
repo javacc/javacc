@@ -6,6 +6,7 @@
 #include "JavaCC.h"
 #include "Parser.h"
 #include "ParseException.h"
+#include "ParserTokenManager.h"
 
 using namespace std;
 using namespace EG1;
