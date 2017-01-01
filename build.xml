@@ -148,7 +148,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 	<!-- Be careful not to include the test files in the distribution. -->
 	<target name="jar-check">
 		<uptodate property="jar.uptodate" targetfile="${javacc-path}">
-			<srcfiles dir="classes" />
+			<srcfiles dir="src/main" />
 		</uptodate>
 	</target>
 
@@ -675,7 +675,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 			<arg value="-Durl=${ossrh-staging-repository-url}" />
 			<arg value="-DrepositoryId=${ossrh-server-id}" />
 			<arg value="-DpomFile=pom.xml" />
-			<arg value="-Dfile=${javacc-javadoc-path}" />
+			<arg value="-Dfile=${javacc-sources-path}" />
 			<arg value="-Dclassifier=sources" />
 			<arg value="-Pgpg" />
 		</artifact:mvn>
