@@ -36,10 +36,19 @@ THE FOLLOWING INTERMEDIATE VERSIONS:
     6.0
     6.1.2
     7.0.0
+    7.0.1
 
 
 ===================================================================
-MODIFICATIONS IN VERSION 7.0
+MODIFICATIONS IN VERSION 7.0.1
+===================================================================
+C++ generation: Fix generation of variadic template return type of BNF 
+production that were missing in the code file.
+
+Refactoring of the build process.
+ 
+===================================================================
+MODIFICATIONS IN VERSION 7.0.0
 ===================================================================
 This version initiates the table driven parsing process as a optional feature.
 
