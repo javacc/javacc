@@ -79,7 +79,8 @@ public:
   virtual JJString toString() const;
   virtual JJString toString(const JJString& prefix) const;
 
-  /* Override this method if you want to customize how the node dumps out its children. */
+  /* Override this method if you want to customize how the node dumps
+     out its children. */
   virtual void          dump(const JJString& prefix) const;
   virtual void          dumpToBuffer(const JJString& prefix, const JJString& separator, JJString *sb) const;
   virtual int           getId() const { return id;  }
