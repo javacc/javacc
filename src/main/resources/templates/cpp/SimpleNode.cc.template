@@ -38,19 +38,19 @@ Node *SimpleNode::jjtGetParent() const {
     return parent; 
 }
 
-void SimpleNode::jjtAddChild(Node *n, size_t i) {
+void SimpleNode::jjtAddChild(Node *n, int i) {
     if (i >= children.size()) {
       children.resize(i + 1, nullptr);
     }
     children[i] = n;
 }
 
-Node *SimpleNode::jjtGetChild(size_t i) const {
+Node *SimpleNode::jjtGetChild(int i) const {
     return i < children.size() ? children[i] : nullptr;
 }
 
-size_t SimpleNode::jjtGetNumChildren() const {
-    return children.size();
+int SimpleNode::jjtGetNumChildren() const {
+    return (int)children.size();
  }
 
 void SimpleNode::jjtSetValue(void * value) {
@@ -61,16 +61,10 @@ void * SimpleNode::jjtGetValue() const {
 }
 
 #if TRACK_TOKENS
-Token* SimpleNode::jjtGetFirstToken() const      { return firstToken; }
-<<<<<<< HEAD
-void   SimpleNode::jjtSetFirstToken(Token token) { this->firstToken = token; }
-Token* SimpleNode::jjtGetLastToken() const       { return lastToken; }
-void   SimpleNode::jjtSetLastToken(Token token)  { this->lastToken = token; }
-=======
+Token* SimpleNode::jjtGetFirstToken() const       { return firstToken; }
 void   SimpleNode::jjtSetFirstToken(Token* token) { this->firstToken = token; }
-Token* SimpleNode::jjtGetLastToken() const       { return lastToken; }
+Token* SimpleNode::jjtGetLastToken() const        { return lastToken; }
 void   SimpleNode::jjtSetLastToken(Token* token)  { this->lastToken = token; }
->>>>>>> refs/remotes/kampbell/develop
 
 #fi
 #if VISITOR
