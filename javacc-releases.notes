@@ -37,9 +37,18 @@ THE FOLLOWING INTERMEDIATE VERSIONS:
     6.1.2
     7.0.0
     7.0.1
+    7.0.2
 
 
 ===================================================================
+MODIFICATIONS IN VERSION 7.0.2
+===================================================================
+C++ generation: Fixes of private/public scope for Node constructors.
+Fix JJTParserState::closeNodeScope signature to avoid ambiguity in 
+resolving the overloaded function name.
+
+
+ 
 MODIFICATIONS IN VERSION 7.0.1
 ===================================================================
 C++ generation: Fix generation of variadic template return type of BNF 
