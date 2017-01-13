@@ -21,9 +21,8 @@ class ${PARSER_NAME}Visitor;
 #fi
 class Node {
   friend class SimpleNode;
-           Node() { }
-
 public:
+           Node() { }
   virtual ~Node() { }
   
   /** This method is called after the node has been made the current
