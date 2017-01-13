@@ -47,7 +47,7 @@ C++ generation: Fixes of private/public scope for Node constructors.
 Fix JJTParserState::closeNodeScope signature to avoid ambiguity in 
 resolving the overloaded function name.
 
-Refactoring of the build process.
+
  
 MODIFICATIONS IN VERSION 7.0.1
 ===================================================================
