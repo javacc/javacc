@@ -32,7 +32,7 @@ void* EG4DumpVisitor::visit(const SimpleNode* node, void* data) {
 //  System.out.println(indentString() + node +
 //                 ": acceptor not unimplemented in subclass?");
 	++indent;
-	node->childrenAccept(this, data);
+	node->jjtChildrenAccept(this, data);
 	--indent;
   return data;
 }
@@ -40,7 +40,7 @@ void* EG4DumpVisitor::visit(const SimpleNode* node, void* data) {
 void* EG4DumpVisitor::visit(const ASTStart* node, void* data) {
 	cout << indentString() + node->toString() << endl;
 	++indent;
-	node->childrenAccept(this, data);
+	node->jjtChildrenAccept(this, data);
 	--indent;
   return data;
 }
@@ -48,7 +48,7 @@ void* EG4DumpVisitor::visit(const ASTStart* node, void* data) {
 void* EG4DumpVisitor::visit(const ASTAdd* node, void* data) {
 	cout << indentString() + node->toString() << endl;
 	++indent;
-	node->childrenAccept(this, data);
+	node->jjtChildrenAccept(this, data);
 	--indent;
   return data;
 }
@@ -56,7 +56,7 @@ void* EG4DumpVisitor::visit(const ASTAdd* node, void* data) {
 void* EG4DumpVisitor::visit(const ASTMult* node, void* data) {
 	cout << indentString() + node->toString() << endl;
 	++indent;
-	node->childrenAccept(this, data);
+	node->jjtChildrenAccept(this, data);
 	--indent;
   return data;
 }
@@ -64,7 +64,7 @@ void* EG4DumpVisitor::visit(const ASTMult* node, void* data) {
 void* EG4DumpVisitor::visit(const ASTMyID* node, void* data) {
 	cout << indentString() + node->toString() << endl;
 	++indent;
-	node->childrenAccept(this, data);
+	node->jjtChildrenAccept(this, data);
 	--indent;
   return data;
 }
@@ -72,7 +72,7 @@ void* EG4DumpVisitor::visit(const ASTMyID* node, void* data) {
 void* EG4DumpVisitor::visit(const ASTMyOtherID* node, void* data) {
 	cout << indentString() + node->toString() << endl;
 	++indent;
-	node->childrenAccept(this, data);
+	node->jjtChildrenAccept(this, data);
 	--indent;
   return data;
 }
@@ -80,7 +80,7 @@ void* EG4DumpVisitor::visit(const ASTMyOtherID* node, void* data) {
 void* EG4DumpVisitor::visit(const ASTInteger* node, void* data) {
 	cout << indentString() + node->toString() << endl;
 	++indent;
-	node->childrenAccept(this, data);
+	node->jjtChildrenAccept(this, data);
 	--indent;
   return data;
 }

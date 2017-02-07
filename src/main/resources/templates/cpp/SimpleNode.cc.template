@@ -34,7 +34,7 @@ void SimpleNode::jjtClose() const {
 void SimpleNode::jjtSetParent(Node *n) {
     parent = n; 
 }
-Node *SimpleNode::jjtGetParent() const {
+Node* SimpleNode::jjtGetParent() const {
     return parent; 
 }
 
@@ -45,18 +45,19 @@ void SimpleNode::jjtAddChild(Node *n, int i) {
     children[i] = n;
 }
 
-Node *SimpleNode::jjtGetChild(int i) const {
+Node* SimpleNode::jjtGetChild(int i) const {
     return i < children.size() ? children[i] : nullptr;
 }
 
 int SimpleNode::jjtGetNumChildren() const {
     return (int)children.size();
- }
+}
 
 void SimpleNode::jjtSetValue(void * value) {
     this->value = value; 
- }
-void * SimpleNode::jjtGetValue() const {
+}
+
+void* SimpleNode::jjtGetValue() const {
     return value;
 }
 
@@ -68,22 +69,25 @@ void   SimpleNode::jjtSetLastToken(Token* token)  { this->lastToken = token; }
 
 #fi
 #if VISITOR
-  /** Accept the visitor. **/
-  ${VISITOR_RETURN_TYPE} SimpleNode::jjtAccept(${PARSER_NAME}Visitor *visitor, ${VISITOR_DATA_TYPE:-void *} data) const
+${VISITOR_RETURN_TYPE} SimpleNode::jjtAccept(${PARSER_NAME}Visitor *visitor, ${VISITOR_DATA_TYPE:-void *} data) const
 {
 #if VISITOR_RETURN_TYPE_VOID
     visitor->visit(this, data);
 #else
     return visitor->visit(this, data);
 #fi
-  }
+}
 
-  /** Accept the visitor. **/
-void SimpleNode::childrenAccept(${PARSER_NAME}Visitor *visitor, ${VISITOR_DATA_TYPE:-void *} data) const {
+void SimpleNode::jjtChildrenAccept(${PARSER_NAME}Visitor *visitor, ${VISITOR_DATA_TYPE:-void *} data) const {
     for (size_t i = 0; i < children.size(); ++i) {
       children[i]->jjtAccept(visitor, data);
     }
 }
+
+void SimpleNode::jjtChildAccept(int childNo, ${PARSER_NAME}Visitor *visitor, ${VISITOR_DATA_TYPE:-void *} data) const {
+    if (0 <= childNo && childNo < children.size())
+      children[childNo]->jjtAccept(visitor, data);
+}    	
 
 #fi
   /* You can override these two methods in subclasses of SimpleNode to
