@@ -159,7 +159,7 @@ void CharStream::FillBuff() {
     }
   }
 
-  int i = inputStream->read(buffer, maxNextCharInd, available - maxNextCharInd);
+  size_t i = inputStream->read(buffer, maxNextCharInd, available - maxNextCharInd);
   if (i > 0) {
     maxNextCharInd += i;
   } else {
