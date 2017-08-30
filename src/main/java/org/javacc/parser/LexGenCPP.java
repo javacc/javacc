@@ -47,7 +47,7 @@ import static org.javacc.parser.JavaCCGlobals.*;
 /**
  * Generate lexer.
  */
-public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserConstants
+public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserConstants
 {
   @Override
   void PrintClassHead()

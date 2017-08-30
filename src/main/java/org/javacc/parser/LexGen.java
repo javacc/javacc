@@ -46,7 +46,7 @@ import static org.javacc.parser.JavaCCGlobals.*;
 /**
  * Generate lexer.
  */
-public class LexGen extends CodeGenerator implements JavaCCParserConstants
+public class LexGen extends CodeGenHelper implements JavaCCParserConstants
 {
   private static final String DUMP_STATIC_VAR_DECLARATIONS_TEMPLATE_RESOURCE_URL = "/templates/DumpStaticVarDeclarations.template";
   private static final String DUMP_DEBUG_METHODS_TEMPLATE_RESOURCE_URL = "/templates/DumpDebugMethods.template";
@@ -349,7 +349,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
         JavaCCErrors.get_error_count() > 0)
       return;
 
-    final String codeGeneratorClass = Options.getTokenManagerCodeGenerator();
+    final CodeGenerator codeGenerator = getCodeGenerator();
     keepLineCol = Options.getKeepLineColumn();
     errorHandlingClass = Options.getTokenMgrErrorClass();
     List choices = new ArrayList();
@@ -360,7 +360,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
     staticString = (Options.getStatic() ? "static " : "");
     tokMgrClassName = cu_name + "TokenManager";
 
-    if (!generateDataOnly && codeGeneratorClass == null) PrintClassHead();
+    if (!generateDataOnly && codeGenerator == null) PrintClassHead();
     BuildLexStatesTable();
 
     e = allTpsForState.keys();
@@ -528,7 +528,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       if (hasNfa[lexStateIndex] && !mixed[lexStateIndex])
         RStringLiteral.GenerateNfaStartStates(this, initialState);
 
-      if (generateDataOnly || codeGeneratorClass != null) {
+      if (generateDataOnly || codeGenerator != null) {
         RStringLiteral.UpdateStringLiteralData(totalNumStates, lexStateIndex);
         NfaState.UpdateNfaData(totalNumStates, startState, lexStateIndex,
                                canMatchAnyChar[lexStateIndex]);
@@ -548,7 +548,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
     CheckEmptyStringMatch();
 
-    if (generateDataOnly || codeGeneratorClass != null) {
+    if (generateDataOnly || codeGenerator != null) {
       tokenizerData.setParserName(cu_name);
       NfaState.BuildTokenizerData(tokenizerData);
       RStringLiteral.BuildTokenizerData(tokenizerData);
@@ -585,19 +585,10 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
           actionStrings, newLexStateIndices,
           toSkip, toSpecial, toMore, toToken);
       if (generateDataOnly) return;
-      Class<TokenManagerCodeGenerator> codeGenClazz;
-      TokenManagerCodeGenerator gen;
-      try {
-        codeGenClazz = (Class<TokenManagerCodeGenerator>)Class.forName(codeGeneratorClass);
-        gen = codeGenClazz.newInstance();
-      } catch(Exception ee) {
-        JavaCCErrors.semantic_error(
-            "Cound not load the token manager code generator class: " +
-            codeGeneratorClass + "\nError: " + ee.getMessage());
-        return;
-      }
-      gen.generateCode(tokenizerData);
-      gen.finish(tokenizerData);
+      TokenManagerCodeGenerator gen = codeGenerator.getTokenManagerCodeGenerator();
+      CodeGeneratorSettings settings = new CodeGeneratorSettings(Options.getOptions());
+      gen.generateCode(settings, tokenizerData);
+      gen.finish(settings, tokenizerData);
       return;
     }
 

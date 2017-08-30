@@ -43,44 +43,54 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
   private static final String CONSTANTS_FILENAME_SUFFIX = "Constants.java";
 
   static public void start(boolean isJavaModern) throws MetaParseException {
-	  
-	JavaResourceTemplateLocations templateLoc = isJavaModern ? JavaFiles.RESOURCES_JAVA_MODERN : JavaFiles.RESOURCES_JAVA_CLASSIC;
-	  
+    
+  JavaResourceTemplateLocations templateLoc = isJavaModern ? JavaFiles.RESOURCES_JAVA_MODERN : JavaFiles.RESOURCES_JAVA_CLASSIC;
+    
     Token t = null;
 
     if (JavaCCErrors.get_error_count() != 0) throw new MetaParseException();
 
-	  // Added this if condition -- 2012/10/17 -- cba
-	if ( Options.isGenerateBoilerplateCode()) {
-		
-	    if (isJavaModern) {
-	    	JavaFiles.gen_JavaModernFiles();
-	    }
-	    
-	    JavaFiles.gen_TokenMgrError(templateLoc);
-	    JavaFiles.gen_ParseException(templateLoc);
-	    JavaFiles.gen_Token(templateLoc);
-	}
+    // Added this if condition -- 2012/10/17 -- cba
+  if ( Options.isGenerateBoilerplateCode()) {
+    
+            CodeGenerator codeGenerator = JavaCCGlobals.getCodeGenerator();
+            if (codeGenerator != null)
+            {
+              if ((!codeGenerator.getTokenCodeGenerator().generateCodeForToken(new CodeGeneratorSettings(Options.getOptions()))) ||
+                  (!codeGenerator.generateHelpers(new CodeGeneratorSettings(Options.getOptions()))))
+              {
+                JavaCCErrors.semantic_error("Could not generate the code for Token or helper classes.");
+              }
+              return;
+            }
+      if (isJavaModern) {
+        JavaFiles.gen_JavaModernFiles();
+      }
+      
+      JavaFiles.gen_TokenMgrError(templateLoc);
+      JavaFiles.gen_ParseException(templateLoc);
+      JavaFiles.gen_Token(templateLoc);
+  }
 
 
     if (Options.getUserTokenManager()) {
-    	// CBA -- I think that Token managers are unique so will always be generated
+      // CBA -- I think that Token managers are unique so will always be generated
       JavaFiles.gen_TokenManager(templateLoc);
     } else if (Options.getUserCharStream()) {
-  	  // Added this if condition -- 2012/10/17 -- cba
-    	if (Options.isGenerateBoilerplateCode()) {
-    		JavaFiles.gen_CharStream(templateLoc);
-    	}
+      // Added this if condition -- 2012/10/17 -- cba
+      if (Options.isGenerateBoilerplateCode()) {
+        JavaFiles.gen_CharStream(templateLoc);
+      }
     } else {
-  	     // Added this if condition -- 2012/10/17 -- cba
+         // Added this if condition -- 2012/10/17 -- cba
 
-    	if (Options.isGenerateBoilerplateCode()) {
-	      if (Options.getJavaUnicodeEscape()) {
-	        JavaFiles.gen_JavaCharStream(templateLoc);
-	      } else {
-	        JavaFiles.gen_SimpleCharStream(templateLoc);
-	      }
-    	}
+      if (Options.isGenerateBoilerplateCode()) {
+        if (Options.getJavaUnicodeEscape()) {
+          JavaFiles.gen_JavaCharStream(templateLoc);
+        } else {
+          JavaFiles.gen_SimpleCharStream(templateLoc);
+        }
+      }
     }
     
     try {
@@ -125,7 +135,7 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
     ostr.println(" */");
 
     if(Options.getSupportClassVisibilityPublic()) {
-    	ostr.print("public ");
+      ostr.print("public ");
     }
     ostr.println("interface " + cu_name + "Constants {");
     ostr.println("");

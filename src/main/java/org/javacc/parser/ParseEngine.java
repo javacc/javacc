@@ -44,7 +44,7 @@ public class ParseEngine {
   private int gensymindex = 0;
   private int indentamt;
   private boolean jj2LA;
-  private CodeGenerator codeGenerator;
+  private CodeGenHelper codeGenerator;
   private boolean isJavaDialect = Options.isOutputLanguageJava();
 
 
@@ -1411,7 +1411,7 @@ public class ParseEngine {
     return retval;
   }
 
-  void build(CodeGenerator codeGenerator) {
+  void build(CodeGenHelper codeGenerator) {
     NormalProduction p;
     JavaCodeProduction jp;
     CppCodeProduction cp;

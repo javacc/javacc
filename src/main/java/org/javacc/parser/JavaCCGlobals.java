@@ -349,6 +349,25 @@ public class JavaCCGlobals {
     }
   }
 
+  static CodeGenerator codeGenerator = null;
+
+  static public CodeGenerator getCodeGenerator() {
+    if (codeGenerator != null) return codeGenerator;
+
+    String className = Options.getCodeGenerator();
+    if (className == null) return null;
+    try
+    {
+      codeGenerator = ((Class<CodeGenerator>)Class.forName(className)).newInstance();
+    }
+    catch(Exception e)
+    {
+      JavaCCErrors.semantic_error("Could not load the CodeGenerator class: \"" + className + "\"");
+    }
+
+    return codeGenerator;
+  }
+
   static public String staticOpt() {
     if (Options.getStatic()) {
       return "static ";

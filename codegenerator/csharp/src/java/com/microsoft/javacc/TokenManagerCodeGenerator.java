@@ -1,4 +1,4 @@
-package org.javacc.parser;
+package com.microsoft.javacc;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,20 +7,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.javacc.parser.CodeGeneratorSettings;
+import org.javacc.parser.CodeGenHelper;
+import org.javacc.parser.Options;
+import org.javacc.parser.TokenizerData;
+
 /**
  * Class that implements a table driven code generator for the token manager in
  * java.
  */
-public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
+public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManagerCodeGenerator {
   private static final String TokenManagerTemplate =
-      "/templates/TableDrivenTokenManager.template";
+      "/templates/csharp/TokenManagerDriver.template";
   private final CodeGenHelper codeGenerator = new CodeGenHelper();
 
   @Override
   public void generateCode(CodeGeneratorSettings settings, TokenizerData tokenizerData) {
-    String superClass = (String)Options.getOptions().get(
+    String superClass = (String)settings.get(
                              Options.USEROPTION__TOKEN_MANAGER_SUPER_CLASS);
-    settings.putAll(Options.getOptions());
     settings.put("maxOrdinal", tokenizerData.allMatches.size());
     settings.put("maxLexStates", tokenizerData.lexStateNames.length);
     settings.put("stateSetSize", tokenizerData.nfa.size());
@@ -50,7 +54,7 @@ public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
     codeGenerator.genCodeLine("\n}");
     if (!Options.getBuildParser()) return;
     String fileName = Options.getOutputDirectory() + File.separator +
-                      tokenizerData.parserName + "TokenManager.java";
+                      tokenizerData.parserName + "TokenManager.cs";
     codeGenerator.saveOutput(fileName);
   }
 
@@ -248,7 +252,7 @@ public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
     toSpecial.set(allMatches.size() + 1, true);
     // Kind map.
     codeGenerator.genCodeLine(
-        "public static final String[] jjstrLiteralImages = {");
+        "public static final string[] jjstrLiteralImages = {");
 
     int k = 0;
     for (int i : allMatches.keySet()) {
@@ -325,7 +329,7 @@ public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
                        "jjmatchedKind", codeGenerator);
     codeGenerator.genCodeLine("}");
 
-    codeGenerator.genCodeLine("public String[] lexStateNames = {");
+    codeGenerator.genCodeLine("public string[] lexStateNames = {");
     for (int i = 0; i < tokenizerData.lexStateNames.length; i++) {
       if (i > 0) codeGenerator.genCode(", ");
       codeGenerator.genCode("\"" + tokenizerData.lexStateNames[i] + "\"");
