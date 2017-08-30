@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.javacc.JavaCCTestCase;
-import org.javacc.parser.CodeGenerator;
+import org.javacc.parser.CodeGenHelper;
 import org.javacc.parser.JavaCCGlobals;
 import org.javacc.parser.JavaCCParser;
 import org.javacc.parser.LexGen;
@@ -120,7 +120,7 @@ public class NfaStateTest extends JavaCCTestCase {
    *     DumpStateSets(java.io.PrintWriter)}.
    */
   public void testDumpStateSets() {
-    CodeGenerator cg = new CodeGenerator();
+    CodeGenHelper cg = new CodeGenHelper();
     NfaState.DumpStateSets(cg);
     String result = cg.getGeneratedCode().replaceAll("\r", "");
     assertEquals("static final int[] jjnextStates = {\n};\n\n" , result);
@@ -131,7 +131,7 @@ public class NfaStateTest extends JavaCCTestCase {
    *     DumpStateSets(java.io.PrintWriter)}.
    */
   public void testDumpStateSetsInitialised() throws Exception {
-    CodeGenerator cg = new CodeGenerator();
+    CodeGenHelper cg = new CodeGenHelper();
     setupState();
     NfaState.DumpStateSets(cg);
     assertEquals("static final int[] jjnextStates = {\n" +
@@ -148,7 +148,7 @@ public class NfaStateTest extends JavaCCTestCase {
    *     DumpCharAndRangeMoves(java.io.PrintWriter)}.
    */
   public void testDumpCharAndRangeMoves() throws Exception {
-    CodeGenerator cg = new CodeGenerator();
+    CodeGenHelper cg = new CodeGenHelper();
     NfaState.DumpCharAndRangeMoves(cg);
     String result = cg.getGeneratedCode().replaceAll("\r", "");
     assertEquals(
@@ -169,7 +169,7 @@ public class NfaStateTest extends JavaCCTestCase {
    *     DumpCharAndRangeMoves(java.io.PrintWriter)}.
    */
   public void testDumpCharAndRangeMovesInitialised() throws Exception {
-    CodeGenerator cg = new CodeGenerator();
+    CodeGenHelper cg = new CodeGenHelper();
     setupState();
     NfaState.DumpCharAndRangeMoves(cg);
     assertEquals(
@@ -193,7 +193,7 @@ public class NfaStateTest extends JavaCCTestCase {
    *     DumpNonAsciiMoveMethods(java.io.PrintWriter)}.
    */
   public void testDumpNonAsciiMoveMethods() {
-    CodeGenerator cg = new CodeGenerator();
+    CodeGenHelper cg = new CodeGenHelper();
     NfaState.DumpNonAsciiMoveMethods(cg);
     String result = cg.getGeneratedCode();
     assertEquals("", result);
@@ -204,7 +204,7 @@ public class NfaStateTest extends JavaCCTestCase {
    *     DumpNonAsciiMoveMethods(java.io.PrintWriter)}.
    */
   public void testDumpNonAsciiMoveMethodsInitialised() throws Exception {
-    CodeGenerator cg = new CodeGenerator();
+    CodeGenHelper cg = new CodeGenHelper();
     setupState();
     NfaState.DumpNonAsciiMoveMethods(cg);
     assertEquals("private static final boolean jjCanMove_0(int hiByte, int i1, int i2, long l1, long l2)\n" +
@@ -393,7 +393,7 @@ public class NfaStateTest extends JavaCCTestCase {
    * Test method for {@link org.javacc.parser.NfaState#DumpMoveNfa(java.io.PrintWriter)}.
    */
   public void testDumpMoveNfa() {
-    CodeGenerator cg = new CodeGenerator();
+    CodeGenHelper cg = new CodeGenHelper();
     try {
       NfaState.DumpMoveNfa(cg);
       fail("Should have bombed");
@@ -441,7 +441,7 @@ public class NfaStateTest extends JavaCCTestCase {
    * Test method for {@link org.javacc.parser.NfaState#DumpMoveNfa(java.io.PrintWriter)}.
    */
   public void testDumpMoveNfaInitialised() throws Exception {
-    CodeGenerator cg = new CodeGenerator();
+    CodeGenHelper cg = new CodeGenHelper();
     setupState();
     NfaState.DumpMoveNfa(cg);
     assertEquals("private int jjMoveNfa_3(int startState, int curPos)\n" +
@@ -455,7 +455,7 @@ public class NfaStateTest extends JavaCCTestCase {
    *     DumpStatesForState(java.io.PrintWriter)}.
    */
   public void testDumpStatesForState() throws Exception {
-    CodeGenerator cg = new CodeGenerator();
+    CodeGenHelper cg = new CodeGenHelper();
     NfaState.DumpStatesForState(cg);
     String result = cg.getGeneratedCode().replaceAll("\r", "");
     assertEquals("protected static final int[][][] statesForState = null;\n" , result);
@@ -466,7 +466,7 @@ public class NfaStateTest extends JavaCCTestCase {
    *     DumpStatesForState(java.io.PrintWriter)}.
    */
   public void testDumpStatesForStateInitialised() throws Exception {
-    CodeGenerator cg = new CodeGenerator();
+    CodeGenHelper cg = new CodeGenHelper();
     setupState();
     NfaState.DumpStatesForState(cg);
     String result = cg.getGeneratedCode().replaceAll("\r", "");
@@ -555,7 +555,7 @@ public class NfaStateTest extends JavaCCTestCase {
    * Test method for {@link org.javacc.parser.NfaState#DumpStatesForKind(java.io.PrintWriter)}.
    */
   public void testDumpStatesForKind() {
-    CodeGenerator cg = new CodeGenerator();
+    CodeGenHelper cg = new CodeGenHelper();
     NfaState.DumpStatesForKind(cg);
     String result = cg.getGeneratedCode().replaceAll("\r", "");
     assertEquals("protected static final int[][][] statesForState = null;\n" +
@@ -566,7 +566,7 @@ public class NfaStateTest extends JavaCCTestCase {
    * Test method for {@link org.javacc.parser.NfaState#DumpStatesForKind(java.io.PrintWriter)}.
    */
   public void testDumpStatesForKindInitialised() throws Exception {
-    CodeGenerator cg = new CodeGenerator();
+    CodeGenHelper cg = new CodeGenHelper();
     setupState();
     NfaState.DumpStatesForKind(cg);
     String result = cg.getGeneratedCode().replaceAll("\r", "");

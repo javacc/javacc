@@ -45,6 +45,7 @@ options {
   BUILD_TOKEN_MANAGER = true;
   SANITY_CHECK = true;
   FORCE_LA_CHECK = false;
+LEGACY_EXCEPTION_HANDLING=false;
 }
 
 PARSER_BEGIN(Simple1)

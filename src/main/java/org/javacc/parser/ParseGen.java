@@ -55,7 +55,7 @@ import java.util.List;
 /**
  * Generate the parser.
  */
-public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
+public class ParseGen extends CodeGenHelper implements JavaCCParserConstants {
 
 	public void start(boolean isJavaModernMode) throws MetaParseException {
 

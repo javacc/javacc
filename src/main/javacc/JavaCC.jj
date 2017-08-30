@@ -291,7 +291,7 @@ TOKEN :
 | < _PARSER_BEGIN: "PARSER_BEGIN" >
 | < _PARSER_END: "PARSER_END" >
 | < _JAVACODE: "JAVACODE" >
-| < _CPPCODE: "CPPCODE" >
+| < _CODE_RULE: "CODE_RULE" >
 | < _TOKEN: "TOKEN" >
 | < _SPECIAL_TOKEN: "SPECIAL_TOKEN" >
 | < _MORE: "MORE" >
@@ -700,7 +700,7 @@ void production() :
 |
   LOOKAHEAD(1)
   /*
-   * Since CPPCODE is both a JavaCC reserved word and a Java identifier,
+   * Since CODE_RULE is both a JavaCC reserved word and a Java identifier,
    * we need to give preference to "cppcode_production" over
    * "bnf_production".
    */
@@ -779,7 +779,7 @@ void cppcode_production() :
 	  p.setColumn(t.beginColumn);
 	}
 {
-  "CPPCODE"
+  "CODE_RULE"
   AccessModifier(p)
   ResultType(p.getReturnTypeTokens())
   lhs=identifier()	{ p.setLhs(lhs); }

@@ -868,7 +868,7 @@ public class NfaState
       (Need a better comment). */
 
    static int[] tmpIndices = new int[512]; // 2 * 256
-   void GenerateNonAsciiMoves(CodeGenerator codeGenerator)
+   void GenerateNonAsciiMoves(CodeGenHelper codeGenerator)
    {
       int i = 0, j = 0;
       char hiByte;
@@ -1203,7 +1203,7 @@ public class NfaState
             tmp = ++dummyStateIndex;
 
         // TODO(sreeni) : Fix this
-        if (Options.getTokenManagerCodeGenerator() != null) {
+        if (JavaCCGlobals.getCodeGenerator() != null) {
           NfaState dummyState = new NfaState();
           dummyState.isComposite = true;
           dummyState.compositeStates = nameSet;
@@ -1234,7 +1234,7 @@ public class NfaState
       return -1;
    }
 
-   public int GenerateInitMoves(CodeGenerator codeGenerator)
+   public int GenerateInitMoves(CodeGenHelper codeGenerator)
    {
       GetEpsilonMovesString();
 
@@ -1266,7 +1266,7 @@ public class NfaState
       return ret;
    }
 
-   public static void DumpStateSets(CodeGenerator codeGenerator)
+   public static void DumpStateSets(CodeGenHelper codeGenerator)
    {
       int cnt = 0;
 
@@ -1656,7 +1656,7 @@ public class NfaState
       return false;
    }
 
-   private static void DumpHeadForCase(CodeGenerator codeGenerator, int byteNum)
+   private static void DumpHeadForCase(CodeGenHelper codeGenerator, int byteNum)
    {
       if (byteNum == 0) {
          codeGenerator.genCodeLine("         " + Options.getLongType() + " l = 1L << curChar;");
@@ -1749,7 +1749,7 @@ public class NfaState
       return partition;
    }
 
-   private String PrintNoBreak(CodeGenerator codeGenerator, int byteNum, boolean[] dumped)
+   private String PrintNoBreak(CodeGenHelper codeGenerator, int byteNum, boolean[] dumped)
    {
       if (inNextOf != 1)
          throw new Error("JavaCC Bug: Please send mail to sankar@cs.stanford.edu");
@@ -1775,7 +1775,7 @@ public class NfaState
       return ("               case " + stateName + ":\n");
    }
 
-   private static void DumpCompositeStatesAsciiMoves(CodeGenerator codeGenerator,
+   private static void DumpCompositeStatesAsciiMoves(CodeGenHelper codeGenerator,
                                 String key, int byteNum, boolean[] dumped)
    {
       int i;
@@ -1883,7 +1883,7 @@ public class NfaState
       return ElemOccurs(stateName, set) >= 0;
    }
 
-   private void DumpAsciiMoveForCompositeState(CodeGenerator codeGenerator, int byteNum, boolean elseNeeded)
+   private void DumpAsciiMoveForCompositeState(CodeGenHelper codeGenerator, int byteNum, boolean elseNeeded)
    {
       boolean nextIntersects = selfLoop();
 
@@ -1971,7 +1971,7 @@ public class NfaState
          codeGenerator.genCodeLine("                  }");
    }
 
-   private void DumpAsciiMove(CodeGenerator codeGenerator, int byteNum, boolean dumped[])
+   private void DumpAsciiMove(CodeGenHelper codeGenerator, int byteNum, boolean dumped[])
    {
       boolean nextIntersects = selfLoop() && isComposite;
       boolean onlyState = true;
@@ -2122,7 +2122,7 @@ public class NfaState
          codeGenerator.genCodeLine("                  break;");
    }
 
-   private static void DumpAsciiMoves(CodeGenerator codeGenerator, int byteNum)
+   private static void DumpAsciiMoves(CodeGenHelper codeGenerator, int byteNum)
    {
       boolean[] dumped = new boolean[Math.max(generatedStates, dummyStateIndex + 1)];
       Enumeration e = compositeStateTable.keys();
@@ -2183,7 +2183,7 @@ public class NfaState
       codeGenerator.genCodeLine("         } while(i != startsAt);");
    }
 
-   private static void DumpCompositeStatesNonAsciiMoves(CodeGenerator codeGenerator,
+   private static void DumpCompositeStatesNonAsciiMoves(CodeGenHelper codeGenerator,
                                       String key, boolean[] dumped)
    {
       int i;
@@ -2274,7 +2274,7 @@ public class NfaState
          codeGenerator.genCodeLine("                  break;");
    }
 
-   private final void DumpNonAsciiMoveForCompositeState(CodeGenerator codeGenerator)
+   private final void DumpNonAsciiMoveForCompositeState(CodeGenHelper codeGenerator)
    {
       boolean nextIntersects = selfLoop();
       for (int j = 0; j < allStates.size(); j++)
@@ -2353,7 +2353,7 @@ public class NfaState
          codeGenerator.genCodeLine("                  }");
    }
 
-   private final void DumpNonAsciiMove(CodeGenerator codeGenerator, boolean dumped[])
+   private final void DumpNonAsciiMove(CodeGenHelper codeGenerator, boolean dumped[])
    {
       boolean nextIntersects = selfLoop() && isComposite;
 
@@ -2479,7 +2479,7 @@ public class NfaState
       codeGenerator.genCodeLine("                  break;");
    }
 
-   public static void DumpCharAndRangeMoves(CodeGenerator codeGenerator)
+   public static void DumpCharAndRangeMoves(CodeGenHelper codeGenerator)
    {
       boolean[] dumped = new boolean[Math.max(generatedStates, dummyStateIndex + 1)];
       Enumeration e = compositeStateTable.keys();
@@ -2541,7 +2541,7 @@ public class NfaState
       codeGenerator.genCodeLine("         } while(i != startsAt);");
    }
 
-   public static void DumpNonAsciiMoveMethods(CodeGenerator codeGenerator)
+   public static void DumpNonAsciiMoveMethods(CodeGenHelper codeGenerator)
    {
       if (!Options.getJavaUnicodeEscape() && !unicodeWarningGiven)
          return;
@@ -2556,7 +2556,7 @@ public class NfaState
       }
    }
 
-   void DumpNonAsciiMoveMethod(CodeGenerator codeGenerator)
+   void DumpNonAsciiMoveMethod(CodeGenHelper codeGenerator)
    {
       int j;
       if (codeGenerator.isJavaLanguage()) {
@@ -2633,7 +2633,7 @@ public class NfaState
    }
 
    //private static boolean boilerPlateDumped = false;
-   static void PrintBoilerPlate(CodeGenerator codeGenerator)
+   static void PrintBoilerPlate(CodeGenHelper codeGenerator)
    {
       codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private void " +
                    "jjCheckNAdd(int state)");
@@ -2684,7 +2684,7 @@ public class NfaState
    }
 
    //private static boolean boilerPlateDumped = false;
-   static void PrintBoilerPlateCPP(CodeGenerator codeGenerator)
+   static void PrintBoilerPlateCPP(CodeGenHelper codeGenerator)
    {
       codeGenerator.switchToIncludeFile();
       codeGenerator.genCodeLine("#define jjCheckNAdd(state)\\");
@@ -2829,7 +2829,7 @@ public class NfaState
 
    static int[][] kinds;
    static int[][][] statesForState;
-   public static void DumpMoveNfa(CodeGenerator codeGenerator)
+   public static void DumpMoveNfa(CodeGenHelper codeGenerator)
    {
       //if (!boilerPlateDumped)
       //   PrintBoilerPlate(codeGenerator);
@@ -3088,7 +3088,7 @@ public class NfaState
       allStates.clear();
    }
 
-   public static void DumpStatesForStateCPP(CodeGenerator codeGenerator)
+   public static void DumpStatesForStateCPP(CodeGenHelper codeGenerator)
    {
       if (statesForState == null) {
          assert(false) : "This should never be null.";
@@ -3154,7 +3154,7 @@ public class NfaState
    }
 
 
-   public static void DumpStatesForState(CodeGenerator codeGenerator)
+   public static void DumpStatesForState(CodeGenHelper codeGenerator)
    {
       codeGenerator.genCode("protected static final int[][][] statesForState = ");
 
@@ -3200,7 +3200,7 @@ public class NfaState
       codeGenerator.genCodeLine("\n};");
    }
 
-   public static void DumpStatesForKind(CodeGenerator codeGenerator)
+   public static void DumpStatesForKind(CodeGenHelper codeGenerator)
    {
       if (codeGenerator.isJavaLanguage()) {
         DumpStatesForState(codeGenerator);

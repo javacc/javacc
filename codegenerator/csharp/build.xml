@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+
+<!--
+
+Copyright (c) 2017, Microsoft
+
+-->
+
+<project name="csharpcodegenerator" default="jar" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+	<property name="javacc-root" value="../.." />
+	<property name="java-src" value="src/java" />
+	<property name="resources-src" value="src/resources" />
+	<property name="javacc-jar" value="${javacc-root}/target/javacc.jar" />
+	<property name="target-folder" value="target" />
+
+	<target name="clean">
+		<delete dir="classes" />
+		<delete dir="lib" />
+		<delete dir="*.jar" />
+	</target>
+
+	<target name="compile" depends="clean">
+		<mkdir dir="classes" />
+
+		<copy todir="classes/templates">
+			<fileset dir="${resources-src}/templates" />
+		</copy>
+
+		<javac srcdir="${java-src}" destdir="classes" debug="true" classpath="${javacc-jar}" includeantruntime='false'>
+			<src path="${java-src}" />
+			<src path="${resources-src}" />
+		</javac>
+
+	</target>
+
+	<target name="jar" description="create javacc.jar">
+		<antcall target="jar-nocompile" />
+	</target>
+
+	<target name="jar-nocompile">
+		<mkdir dir="lib" />
+		<antcall target="compile" />
+		<jar jarfile="csharp-codegenerator.jar" basedir="classes" compress="true" />
+	</target>
+
+</project>

@@ -29,21 +29,23 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.javacc.parser.CodeGeneratorSettings;
+
 /**
  * Generates boiler-plate files from templates. Only very basic
  * template processing is supplied - if we need something more
  * sophisticated I suggest we use a third-party library.
- * 
+ *
  * @author paulcager
  * @since 4.2
  */
 public class OutputFileGenerator {
 
   /**
-   * @param templateName the name of the template. E.g. 
+   * @param templateName the name of the template. E.g.
    *        "/templates/Token.template".
    * @param options the processing options in force, such
-   *        as "STATIC=yes" 
+   *        as "STATIC=yes"
    */
   public OutputFileGenerator(String templateName, Map options) {
     this.templateName = templateName;
@@ -51,9 +53,19 @@ public class OutputFileGenerator {
   }
 
   private final String templateName;
-  private final Map options; 
-  
+  private final Map options;
+
   private String currentLine;
+
+  public static void generateSimple(String template, String outputFileName, String fileHeader, CodeGeneratorSettings settings) throws IOException
+  {
+    File outputDir = new File((String)settings.get("OUTPUT_DIRECTORY"));
+    File outputFile = new File(outputDir, outputFileName);
+    final PrintWriter ostr = new PrintWriter(new FileWriter(outputFile));
+    OutputFileGenerator generator = new OutputFileGenerator(template, settings);
+    generator.generate(ostr);
+    ostr.close();
+  }
 
   /**
    * Generate the output file.
@@ -65,33 +77,33 @@ public class OutputFileGenerator {
     InputStream is = getClass().getResourceAsStream(templateName);
     if (is == null)
       throw new IOException("Invalid template name: " + templateName);
-    BufferedReader in = new BufferedReader(new InputStreamReader(is)); 
+    BufferedReader in = new BufferedReader(new InputStreamReader(is));
     process(in, out, false);
   }
-  
+
   private String peekLine(BufferedReader in) throws IOException
   {
     if (currentLine == null)
       currentLine = in.readLine();
-    
+
     return currentLine;
   }
-  
+
   private String getLine(BufferedReader in) throws IOException
   {
     String line = currentLine;
     currentLine = null;
-    
+
     if (line == null)
       in.readLine();
-    
+
     return line;
   }
-  
+
   private boolean evaluate(String condition)
   {
     condition = condition.trim();
-    
+
     try
     {
       return new ConditionParser(new StringReader(condition)).CompilationUnit(options);
@@ -101,42 +113,42 @@ public class OutputFileGenerator {
       return false;
     }
   }
-  
+
   private String substitute(String text) throws IOException
   {
     int startPos;
-    
+
     if ( (startPos = text.indexOf("${")) == -1)
     {
       return text;
     }
-    
+
     // Find matching "}".
     int braceDepth = 1;
     int endPos = startPos + 2;
-    
+
     while ( endPos < text.length() && braceDepth > 0)
     {
       if (text.charAt(endPos) == '{')
         braceDepth++;
       else if (text.charAt(endPos) == '}')
         braceDepth--;
-      
+
       endPos++;
     }
-    
+
     if (braceDepth != 0)
-      throw new IOException("Mismatched \"{}\" in template string: " + text); 
-    
+      throw new IOException("Mismatched \"{}\" in template string: " + text);
+
     final String variableExpression = text.substring(startPos + 2, endPos - 1);
 
     // Find the end of the variable name
     String value = null;
-    
+
     for (int i = 0; i < variableExpression.length(); i++)
     {
       char ch = variableExpression.charAt(i);
-      
+
       if (ch == ':' && i < variableExpression.length() - 1 && variableExpression.charAt(i+1) == '-' )
       {
         value = substituteWithDefault(variableExpression.substring(0, i), variableExpression.substring(i + 2));
@@ -152,29 +164,29 @@ public class OutputFileGenerator {
         throw new IOException("Invalid variable in " + text);
       }
     }
-    
+
     if (value == null)
     {
       value = substituteWithDefault(variableExpression, "");
     }
-    
+
     return text.substring(0, startPos) + value + text.substring(endPos);
   }
-  
+
   /**
    * @param substring
    * @param defaultValue
    * @return
-   * @throws IOException 
+   * @throws IOException
    */
   private String substituteWithConditional(String variableName, String values) throws IOException
   {
     // Split values into true and false values.
-    
+
     int pos = values.indexOf(':');
     if (pos == -1)
       throw new IOException("No ':' separator in " + values);
-    
+
     if (evaluate(variableName))
       return substitute(values.substring(0, pos));
     else
@@ -191,7 +203,7 @@ public class OutputFileGenerator {
     Object obj = options.get(variableName.trim());
     if (obj == null || obj.toString().length() == 0)
       return substitute(defaultValue);
-    
+
     return obj.toString();
   }
 
@@ -201,14 +213,14 @@ public class OutputFileGenerator {
     {
     text = substitute(text);
     }
-    
+
   // TODO :: Added by Sreenivas on 12 June 2013 for 6.0 release, merged in to 6.1 release for sake of compatibility by cainsley ... This needs to be removed urgently!!!
     if (text.startsWith("\\#")) { // Hack to escape # for C++
       text = text.substring(1);
     }
     out.println(text);
   }
-  
+
   private void process(BufferedReader in, PrintWriter out, boolean ignoring)
       throws IOException {
     //    out.println("*** process ignore=" + ignoring + " : " + peekLine(in));
@@ -218,7 +230,7 @@ public class OutputFileGenerator {
       {
         processIf(in, out, ignoring);
       }
-      else if (peekLine(in).trim().startsWith("#")) 
+      else if (peekLine(in).trim().startsWith("#"))
       {
         break;
       }
@@ -237,7 +249,7 @@ public class OutputFileGenerator {
         String line = getLine(in).trim();
     assert line.trim().startsWith("#if");
     boolean foundTrueCondition = false;
-        
+
     boolean condition = evaluate(line.substring(3).trim());
     while (true)
     {
@@ -249,30 +261,30 @@ public class OutputFileGenerator {
 
       condition = evaluate(getLine(in).trim().substring(5).trim());
     }
-        
+
         if (peekLine(in) != null && peekLine(in).trim().startsWith("#else"))
         {
           getLine(in);   // Discard the #else line
       process(in, out, ignoring || foundTrueCondition);
         }
-        
+
         line = getLine(in);
-        
+
         if (line == null)
           throw new IOException("Missing \"#fi\"");
-        
+
         if (!line.trim().startsWith("#fi"))
           throw new IOException("Expected \"#fi\", got: " + line);
       }
-    
-  
+
+
   public static void main(String[] args) throws Exception
   {
     Map map = new HashMap();
     map.put("falseArg", Boolean.FALSE);
     map.put("trueArg", Boolean.TRUE);
     map.put("stringValue", "someString");
-    
+
     new OutputFileGenerator(args[0], map).generate(new PrintWriter(args[1]));
   }
 

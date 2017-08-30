@@ -83,7 +83,7 @@ namespace ${NAMESPACE_OPEN}
 
   Token *Token::newToken(int ofKind)
   {
-    return newToken(ofKind, "");
+    return newToken(ofKind, JAVACC_STRING_TYPE((JAVACC_CHAR_TYPE*)""));
   }
 
   Token::~Token() {

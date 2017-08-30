@@ -125,7 +125,7 @@ public class RStringLiteral extends RegularExpression {
     statesForPos = null;
   }
 
-  public static void DumpStrLiteralImages(CodeGenerator codeGenerator)
+  public static void DumpStrLiteralImages(CodeGenHelper codeGenerator)
   {
 	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
     if (Options.isOutputLanguageJava()) {
@@ -219,7 +219,7 @@ public class RStringLiteral extends RegularExpression {
     }
   }
 
-  public static void DumpStrLiteralImagesForJava(CodeGenerator codeGenerator) {
+  public static void DumpStrLiteralImagesForJava(CodeGenHelper codeGenerator) {
     String image;
     int i;
     charCnt = 0; // Set to zero in reInit() but just to be sure
@@ -302,7 +302,7 @@ public class RStringLiteral extends RegularExpression {
   /**
    * Used for top level string literals.
    */
-  public void GenerateDfa(CodeGenerator codeGenerator, int kind)
+  public void GenerateDfa(CodeGenHelper codeGenerator, int kind)
   {
      String s;
      Hashtable temp;
@@ -426,7 +426,7 @@ public class RStringLiteral extends RegularExpression {
      return new Nfa(theStartState, finalState);
   }
 
-  static void DumpNullStrLiterals(CodeGenerator codeGenerator)
+  static void DumpNullStrLiterals(CodeGenHelper codeGenerator)
   {
      codeGenerator.genCodeLine("{");
 
@@ -558,7 +558,7 @@ public class RStringLiteral extends RegularExpression {
      }
   }
 
-  static void DumpStartWithStates(CodeGenerator codeGenerator)
+  static void DumpStartWithStates(CodeGenHelper codeGenerator)
   {
 	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
     if (Options.isOutputLanguageJava()) {
@@ -616,7 +616,7 @@ public class RStringLiteral extends RegularExpression {
   }
 
   private static boolean boilerPlateDumped = false;
-  static void DumpBoilerPlate(CodeGenerator codeGenerator)
+  static void DumpBoilerPlate(CodeGenHelper codeGenerator)
   {
 	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
      if (Options.isOutputLanguageJava()) {
@@ -674,7 +674,7 @@ public class RStringLiteral extends RegularExpression {
      return ret;
   }
 
-  static void DumpDfaCode(CodeGenerator codeGenerator)
+  static void DumpDfaCode(CodeGenHelper codeGenerator)
   {
      Hashtable tab;
      String key;
@@ -1266,7 +1266,7 @@ public class RStringLiteral extends RegularExpression {
      return Integer.MAX_VALUE;
   }
 
-  static void GenerateNfaStartStates(CodeGenerator codeGenerator,
+  static void GenerateNfaStartStates(CodeGenHelper codeGenerator,
                                                 NfaState initialState)
   {
      boolean[] seen = new boolean[NfaState.generatedStates];
@@ -1393,13 +1393,13 @@ public class RStringLiteral extends RegularExpression {
      }
 
      // TODO(Sreeni) : Fix this mess.
-     if (Options.getTokenManagerCodeGenerator() == null) {
+     if (JavaCCGlobals.getCodeGenerator() == null) {
        DumpNfaStartStatesCode(statesForPos, codeGenerator);
      }
   }
 
   static void DumpNfaStartStatesCode(Hashtable[] statesForPos,
-                                              CodeGenerator codeGenerator)
+                                              CodeGenHelper codeGenerator)
   {
       if (maxStrKind == 0) { // No need to generate this function
          return;
