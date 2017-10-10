@@ -1,4 +1,5 @@
-\#pragma once
+\#ifndef ${NODE_TYPE}_H
+\#define ${NODE_TYPE}_H
 
 \#include "JavaCC.h"
 \#include "SimpleNode.h"
@@ -21,3 +22,4 @@ public:
 #fi
 };
 
+\#endif

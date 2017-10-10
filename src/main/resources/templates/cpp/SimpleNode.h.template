@@ -1,4 +1,5 @@
-\#pragma once
+\#ifndef SIMPLENODE_H
+\#define SIMPLENODE_H
 
 \#include <vector>
 \#include "JavaCC.h"
@@ -50,8 +51,8 @@ public:
   virtual void           jjtSetParent(Node *n);
   virtual Node*          jjtGetParent() const;
   virtual void           jjtAddChild(Node *n, int i);
-  virtual Node*          jjtGetChild(int i) const;
-  virtual int            jjtGetNumChildren() const;
+  virtual Node*          jjtGetChild(size_t i) const;
+  virtual size_t         jjtGetNumChildren() const;
   virtual void           jjtSetValue(void * value);
   virtual void*          jjtGetValue() const;
 
@@ -87,3 +88,4 @@ public:
 ${NAMESPACE_CLOSE}
 #fi
 
+\#endif

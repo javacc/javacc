@@ -291,13 +291,15 @@ final class CPPNodeFiles {
       optionMap.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(getVisitorReturnType().equals("void")));
 
       PrintWriter ostr = outputFile.getPrintWriter();
-      file.getName().replace('.', '_').toUpperCase();
-      ostr.println("#pragma once");
+      String includeName = file.getName().replace('.', '_').toUpperCase();
+      ostr.println("#ifndef " + includeName);
+      ostr.println("#define " + includeName);
       ostr.println("#include \"SimpleNode.h\"");
       for (Iterator<String> i = nodesToGenerate.iterator(); i.hasNext(); ) {
           String s = (String)i.next();
           ostr.println("#include \"" + s + ".h\"");
       }
+      ostr.println("#endif");
     } catch (IOException e) {
       throw new Error(e.toString());
     }
@@ -374,7 +376,8 @@ final class CPPNodeFiles {
       List<String> nodeNames = ASTNodeDescriptor.getNodeNames();
 
       generatePrologue(ostr);
-      ostr.println("#pragma once");
+      ostr.println("#ifndef " + file.getName().replace('.', '_').toUpperCase());
+      ostr.println("#define " + file.getName().replace('.', '_').toUpperCase());
 
       ostr.println("\n#include \"JavaCC.h\"");
       boolean hasNamespace = JJTreeOptions.stringValue(Options.USEROPTION__CPP_NAMESPACE).length() > 0;
@@ -407,6 +410,8 @@ final class CPPNodeFiles {
         ostr.println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
       }
 
+
+      ostr.println("#endif");
       ostr.close();
 
     } catch (IOException e) {
@@ -454,7 +459,8 @@ final class CPPNodeFiles {
       PrintWriter ostr = outputFile.getPrintWriter();
 
       generatePrologue(ostr);
-      ostr.println("#pragma once");
+      ostr.println("#ifndef " + file.getName().replace('.', '_').toUpperCase());
+      ostr.println("#define " + file.getName().replace('.', '_').toUpperCase());
       ostr.println("\n#include \"JavaCC.h\"");
       ostr.println("#include \"" + JJTreeGlobals.parserName + "Tree.h" + "\"");
 
@@ -470,6 +476,7 @@ final class CPPNodeFiles {
         ostr.println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
       }
 
+      ostr.println("#endif");
       ostr.close();
     } catch(IOException ioe) {
       throw new Error(ioe.toString());

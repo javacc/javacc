@@ -38,19 +38,19 @@ Node* SimpleNode::jjtGetParent() const {
     return parent; 
 }
 
-void SimpleNode::jjtAddChild(Node *n, int i) {
+void SimpleNode::jjtAddChild(Node *n, size_t i) {
     if (i >= children.size()) {
       children.resize(i + 1, nullptr);
     }
     children[i] = n;
 }
 
-Node* SimpleNode::jjtGetChild(int i) const {
+Node* SimpleNode::jjtGetChild(size_t i) const {
     return i < children.size() ? children[i] : nullptr;
 }
 
-int SimpleNode::jjtGetNumChildren() const {
-    return (int)children.size();
+size_t SimpleNode::jjtGetNumChildren() const {
+    return children.size();
 }
 
 void SimpleNode::jjtSetValue(void * value) {

@@ -1,4 +1,5 @@
-\#pragma once
+\#ifndef PARSE_EXCEPTION_H
+\#define PARSE_EXCEPTION_H
 
 \#include "JavaCC.h"
 \#include "Token.h"
@@ -96,3 +97,4 @@ class ParseException {
 ${NAMESPACE_CLOSE}
 #fi
 
+\#endif

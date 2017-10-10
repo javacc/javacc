@@ -16,15 +16,14 @@ namespace ${NAMESPACE_OPEN}
    machinery for constructing the parent and child relationships
    between nodes. */
 
+class ${PARSER_NAME}
 #if VISITOR
 class ${PARSER_NAME}Visitor;
 #fi
 class Node {
   friend class SimpleNode;
-public:
-           Node() { }
-  virtual ~Node() { }
   
+public:
   /** This method is called after the node has been made the current
     node.  It indicates that child nodes can now be added to it. */
   virtual void    jjtOpen() const = 0;
@@ -37,14 +36,14 @@ public:
   virtual Node*   jjtGetParent() const = 0;
 
   /** This method tells the node to add its argument to the node's list of children.  */
-  virtual void    jjtAddChild(Node *n, int i) = 0;
+  virtual void    jjtAddChild(Node *n, size_t i) = 0;
 
   /** This method returns a child node.  The children are numbered
      from zero, left to right. */
-  virtual Node*   jjtGetChild(int i) const = 0;
+  virtual Node*   jjtGetChild(size_t i) const = 0;
 
   /** Return the number of children the node has. */
-  virtual int     jjtGetNumChildren() const = 0;
+  virtual size_t  jjtGetNumChildren() const = 0;
   virtual int     getId() const = 0;
 
 #if VISITOR
@@ -61,6 +60,10 @@ private:
     std::vector<Node *> x;
     return x;
   }
+  friend class SimpleNode;
+
+           Node() { }
+  virtual ~Node() { }
 };
 
 #if NODE_FACTORY
@@ -75,3 +78,4 @@ private:
 ${NAMESPACE_CLOSE}
 #fi
 
+\#endif

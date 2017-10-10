@@ -1,4 +1,5 @@
-\#pragma once
+\#ifndef TOKENMANAGER_H
+\#define TOKENMANAGER_H
 
 \#include <iostream>
 \#include "JavaCC.h"
@@ -31,3 +32,4 @@ public:
 ${NAMESPACE_CLOSE}
 #fi
 
+\#endif
