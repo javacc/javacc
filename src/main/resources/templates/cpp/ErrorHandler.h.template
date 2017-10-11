@@ -1,5 +1,5 @@
-\#ifndef ERRORHANDLER_H
-\#define ERRORHANDLER_H
+\#ifndef JAVACC_ERRORHANDLER_H
+\#define JAVACC_ERRORHANDLER_H
 
 \#include <stdio.h>
 \#include <string>

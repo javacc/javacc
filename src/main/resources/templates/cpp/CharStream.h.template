@@ -1,4 +1,5 @@
-\#pragma once
+\#ifndef JAVACC_CHARSTREAM_H_
+\#define JAVACC_CHARSTREAM_H_
 
 \#include "JavaCC.h"
 
@@ -277,3 +278,4 @@ protected:
 ${NAMESPACE_CLOSE}
 #fi
 
+\#endif

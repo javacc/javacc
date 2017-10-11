@@ -1,5 +1,5 @@
-\#ifndef TOKENMANAGER_H
-\#define TOKENMANAGER_H
+\#ifndef JAVACC_TOKENMANAGER_H
+\#define JAVACC_TOKENMANAGER_H
 
 \#include <iostream>
 \#include "JavaCC.h"

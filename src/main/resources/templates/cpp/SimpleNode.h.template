@@ -1,5 +1,5 @@
-\#ifndef SIMPLENODE_H
-\#define SIMPLENODE_H
+\#ifndef JAVACC_SIMPLENODE_H
+\#define JAVACC_SIMPLENODE_H
 
 \#include <vector>
 \#include "JavaCC.h"

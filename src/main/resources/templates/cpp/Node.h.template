@@ -1,4 +1,5 @@
-\#pragma once
+\#ifndef JAVACC_NODE_H
+\#define JAVACC_NODE_H
 
 \#include <vector>
 \#include "JavaCC.h"

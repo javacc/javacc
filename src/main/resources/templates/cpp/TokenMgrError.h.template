@@ -1,5 +1,5 @@
-\#ifndef TOKENMGRERROR_H
-\#define TOKENMGRERROR_H
+\#ifndef JAVACC_TOKENMGRERROR_H
+\#define JAVACC_TOKENMGRERROR_H
 
 \#include "JavaCC.h"
 
