@@ -323,7 +323,6 @@ SKIP :
 | "\r"
 | "\f"
 | "/*@egen*/" : AFTER_EGEN
-| "\u001A"  // Windows EOF char.
 
 }
 

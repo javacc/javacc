@@ -683,10 +683,16 @@ public class ParseEngine {
 
     indentamt = 4;
     if (Options.getDebugParser()) {
-    	codeGenerator.genCodeLine("    {trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) +"\"); }");
-      codeGenerator.genCodeLine("    try {");
-      indentamt = 6;
-    }
+        codeGenerator.genCodeLine("");
+        if (isJavaDialect) {
+            codeGenerator.genCodeLine("    trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
+        } else {
+      	  codeGenerator.genCodeLine("    JJEnter<std::function<void()>> jjenter([this]() {trace_call  (\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) +"\"); });");
+      	  codeGenerator.genCodeLine("    JJExit <std::function<void()>> jjexit ([this]() {trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) +"\"); });");
+        }
+        codeGenerator.genCodeLine("    try {");
+        indentamt = 6;
+      }
     
     if (!Options.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) &&
         p.getDeclarationTokens().size() != 0) {
@@ -704,10 +710,8 @@ public class ParseEngine {
     
     if (p.isJumpPatched() && !voidReturn) {
       if (isJavaDialect) {
-    	// TODO :: I don't think we need to throw an Error/Exception to mark that a return statement is missing as the compiler will flag this error automatically
-    	if (Options.isLegacyExceptionHandling()) {
-    		codeGenerator.genCodeLine("    throw new "+(Options.isLegacyExceptionHandling() ? "Error" : "RuntimeException")+"(\"Missing return statement in function\");");
-    	}
+	// This line is required for Java!
+	codeGenerator.genCodeLine("    throw new "+(Options.isLegacyExceptionHandling() ? "Error" : "RuntimeException")+"(\"Missing return statement in function\");");
       } else {
         codeGenerator.genCodeLine("    throw \"Missing return statement in function\";");
       }
@@ -715,10 +719,10 @@ public class ParseEngine {
     if (Options.getDebugParser()) {
       if (isJavaDialect) {
         codeGenerator.genCodeLine("    } finally {");
+        codeGenerator.genCodeLine("      trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
       } else {
         codeGenerator.genCodeLine("    } catch(...) { }");
       }
-      codeGenerator.genCodeLine("      trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
       if (isJavaDialect) {
         codeGenerator.genCodeLine("    }");
       }
@@ -1452,7 +1456,12 @@ public class ParseEngine {
           codeGenerator.genCodeLine(" {");
           if (Options.getDebugParser()) {
             codeGenerator.genCodeLine("");
-            codeGenerator.genCodeLine("    trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(cp.getLhs()) + "\");");
+            if (isJavaDialect) {
+                codeGenerator.genCodeLine("    trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(cp.getLhs()) + "\");");
+            } else {
+          	  codeGenerator.genCodeLine("    JJEnter<std::function<void()>> jjenter([this]() {trace_call  (\"" + JavaCCGlobals.addUnicodeEscapes(cp.getLhs()) +"\"); });");
+          	  codeGenerator.genCodeLine("    JJExit <std::function<void()>> jjexit ([this]() {trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(cp.getLhs()) +"\"); });");
+            }
             codeGenerator.genCodeLine("    try {");
           }
           if (cp.getCodeTokens().size() != 0) {
@@ -1467,6 +1476,10 @@ public class ParseEngine {
           codeGenerator.genCodeLine(""); 	  
       } else
       if (p instanceof JavaCodeProduction) {
+        if (!isJavaDialect) {
+          JavaCCErrors.semantic_error("Cannot use JAVACODE productions with C++ output (yet).");
+          continue;
+        }
         jp = (JavaCodeProduction)p;
         t = (Token)(jp.getReturnTypeTokens().get(0));
         codeGenerator.printTokenSetup(t); ccol = 1;
