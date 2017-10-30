@@ -623,6 +623,7 @@ void javacc_input() :
 	}
     ")"
   ( production() )+
+  ( "\u001a" )*  // Skip windows EOF char.
   <EOF>
 }
 
