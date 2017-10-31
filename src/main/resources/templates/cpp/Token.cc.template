@@ -83,7 +83,7 @@ namespace ${NAMESPACE_OPEN}
 
   Token *Token::newToken(int ofKind)
   {
-    return newToken(ofKind, "");
+    return newToken(ofKind, JJString());
   }
 
   Token::~Token() {
