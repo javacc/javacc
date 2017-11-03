@@ -15,8 +15,8 @@
 	</issueManagement>
 	<inceptionYear>1996</inceptionYear>
 	<organization>
-		<name>java.net</name>
-		<url>https://github.com/javacc/javacc</url>
+		<name>javacc.org</name>
+		<url>https://javacc.org</url>
 	</organization>
 	<scm>
 		<connection>scm:git:git@github.com/javacc/javacc.git</connection>
@@ -25,20 +25,16 @@
 	</scm>
 	<mailingLists>
 		<mailingList>
-			<name>Announce</name>
-			<archive>https://javacc.dev.java.net/servlets/SummarizeList?listName=announce</archive>
+			<name>Commits</name>
+			<archive>https://javacc.org/mailing-list-archive/commits@javacc.java.net/</archive>
 		</mailingList>
 		<mailingList>
 			<name>Users</name>
-			<archive>https://javacc.dev.java.net/servlets/SummarizeList?listName=users</archive>
+			<archive>https://javacc.org/mailing-list-archive/users@javacc.java.net/</archive>
 		</mailingList>
 		<mailingList>
 			<name>Developers</name>
-			<archive>https://javacc.dev.java.net/servlets/SummarizeList?listName=dev</archive>
-		</mailingList>
-		<mailingList>
-			<name>CVS</name>
-			<archive>https://javacc.dev.java.net/servlets/SummarizeList?listName=cvs</archive>
+			<archive>https://javacc.org/mailing-list-archive/dev@javacc.java.net/</archive>
 		</mailingList>
 		<mailingList>
 			<name>Issues</name>
@@ -54,8 +50,8 @@
 				<role>Owner</role>
 			</roles>
 			<timezone>0</timezone>
-			<organization>java.net</organization>
-			<organizationUrl>http://www.java.net/</organizationUrl>
+			<organization>javacc.org</organization>
+			<organizationUrl>https://javacc.org</organizationUrl>
 		</developer>
 
 		<developer>
