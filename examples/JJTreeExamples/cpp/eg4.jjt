@@ -120,7 +120,7 @@ void Identifier() #MyOtherID :
 {
   t=<IDENTIFIER>
   {
-    jjtThis->setName(t->image);
+    jjtThis->setName(t->image());
   }
 }
 
