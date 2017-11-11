@@ -23,42 +23,43 @@ namespace ${NAMESPACE_OPEN}
   /**
    * No-argument constructor
    */
-  Token::Token() :
-  	beginLine(0), beginColumn(0), endLine(0), endColumn(0)
+  Token::Token() : _kind(0), _next(nullptr),
+    _beginLine(0), _beginColumn(0), _endLine(0), _endColumn(0),
+    _specialToken(nullptr)
   {
-    this->next = nullptr;
-    this->specialToken = nullptr;
   }
-
   /**
    * Constructs a new token for the specified Image.
    */
-  Token::Token(int kind) :
-  	beginLine(0), beginColumn(0), endLine(0), endColumn(0) 
+  Token::Token(int kind) : _kind(kind), _next(nullptr),
+    _beginLine(0), _beginColumn(0), _endLine(0), _endColumn(0),
+    _specialToken(nullptr)
   {
-    this->kind = kind;
-    this->next = nullptr;
-    this->specialToken = nullptr;
   }
 
   /**
    * Constructs a new token for the specified Image and Kind.
    */
-  Token::Token(int kind, const JJString& image)
-  	: beginLine(0), beginColumn(0), endLine(0), endColumn(0) 
+  Token::Token(int kind, const JJString& image) : _kind(kind), _image(image),
+    _next(nullptr),
+    _beginLine(0), _beginColumn(0), _endLine(0), _endColumn(0),
+    _specialToken(nullptr)
   {
-    this->kind = kind;
-    this->image = image;
-    this->next = nullptr;
-    this->specialToken = nullptr;
+  }
+
+  Token::~Token() {
+    if (_specialToken) delete _specialToken, _specialToken = nullptr;
+    _kind = _beginLine = _beginColumn = _endLine = _endColumn = 0;
+    _next = nullptr;
+    
   }
 
   /**
    * Returns the image.
    */
-  const JJString& Token::toString()
+  const JJString& Token::image() const
   {
-    return image;
+    return _image;
   }
 
   /**
@@ -86,12 +87,47 @@ namespace ${NAMESPACE_OPEN}
     return newToken(ofKind, JJString());
   }
 
-  Token::~Token() {
-    if (specialToken) delete specialToken;
-    this->kind = 0;
-    this->next = nullptr;
-    this->specialToken = nullptr;
+  const int& Token::kind() const 
+  { 
+  	return _kind; 
   }
+  const Token* Token::next() const 
+  {
+    return _next;
+  }
+  Token*& Token::next()
+  {
+    return _next;
+  }
+  const Token* Token::specialToken() const 
+  {
+    return _specialToken;
+  }
+  Token*& Token::specialToken()
+  {
+    return _specialToken;
+  }
+  const int& Token::beginLine() const
+  {
+    return _beginLine;
+  }
+  const int& Token::beginColumn() const
+  {
+    return _beginColumn;
+  }
+  const int& Token::endLine() const
+  {
+    return _endLine;
+  }
+  const int& Token::endColumn() const
+  {
+    return _endColumn;
+  }
+  const JJString& Token::toString() const
+  {
+    return _image;
+  }
+  
 
 #if NAMESPACE
 ${NAMESPACE_CLOSE}

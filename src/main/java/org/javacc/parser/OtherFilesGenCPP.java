@@ -45,7 +45,7 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
 
     CPPFiles.gen_JavaCCDefs();
     CPPFiles.gen_CharStream();
-    CPPFiles.gen_Token();  // TODO(theov): issued twice??
+    CPPFiles.gen_Token(cu_name + "TokenManager");
     CPPFiles.gen_TokenManager();
     CPPFiles.gen_TokenMgrError();
     CPPFiles.gen_ParseException();

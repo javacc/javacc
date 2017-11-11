@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 import org.javacc.Version;
 import org.javacc.utils.OutputFileGenerator;
@@ -134,7 +135,7 @@ public class CPPFiles extends JavaCCGlobals implements JavaCCParserConstants
     }
   }
 
-  private static void genFile(String name, String version, String[] parameters) {
+  private static void genFile(String name, String version, String[] parameters, Map<String, Object> options) {
     final File file = new File(Options.getOutputDirectory(), name);
     try {
       final OutputFile outputFile = new OutputFile(file, version, parameters);
@@ -145,7 +146,7 @@ public class CPPFiles extends JavaCCGlobals implements JavaCCParserConstants
 
       final PrintWriter ostr = outputFile.getPrintWriter();
       OutputFileGenerator generator = new OutputFileGenerator(
-          "/templates/cpp/" + name + ".template", Options.getOptions());
+          "/templates/cpp/" + name + ".template", options);
       generator.generate(ostr);
       ostr.close();
     } catch (IOException e) {
@@ -157,41 +158,43 @@ public class CPPFiles extends JavaCCGlobals implements JavaCCParserConstants
 
   public static void gen_CharStream() {
     String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
-    genFile("CharStream.h", charStreamVersion, parameters);
-    genFile("CharStream.cc", charStreamVersion, parameters);
+    genFile("CharStream.h", charStreamVersion, parameters, Options.getOptions());
+    genFile("CharStream.cc", charStreamVersion, parameters, Options.getOptions());
   }
 
   public static void gen_ParseException() {
     String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
-    genFile("ParseException.h", parseExceptionVersion, parameters);
-    genFile("ParseException.cc", parseExceptionVersion, parameters);
+    genFile("ParseException.h", parseExceptionVersion, parameters, Options.getOptions());
+    genFile("ParseException.cc", parseExceptionVersion, parameters, Options.getOptions());
   }
 
   public static void gen_TokenMgrError() {
     String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
-    genFile("TokenMgrError.h", tokenMgrErrorVersion, parameters);
-    genFile("TokenMgrError.cc", tokenMgrErrorVersion, parameters);
+    genFile("TokenMgrError.h", tokenMgrErrorVersion, parameters, Options.getOptions());
+    genFile("TokenMgrError.cc", tokenMgrErrorVersion, parameters, Options.getOptions());
   }
 
-  public static void gen_Token() {
+  public static void gen_Token(String tokenManagerClass) {
     String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC, Options.USEROPTION__CPP_TOKEN_INCLUDES, Options.USEROPTION__TOKEN_EXTENDS};
-    genFile("Token.h", tokenMgrErrorVersion, parameters);
-    genFile("Token.cc", tokenMgrErrorVersion, parameters);
+    Map<String, Object> options = Options.getOptions();
+    options.put("TOKEN_MANAGER_CLASS", tokenManagerClass);
+    genFile("Token.h", tokenMgrErrorVersion, parameters, options);
+    genFile("Token.cc", tokenMgrErrorVersion, parameters, options);
   }
 
   public static void gen_TokenManager() {
     String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
-    genFile("TokenManager.h", tokenManagerVersion, parameters);
+    genFile("TokenManager.h", tokenManagerVersion, parameters, Options.getOptions());
   }
 
   public static void gen_JavaCCDefs() {
     String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
-    genFile("JavaCC.h", tokenManagerVersion, parameters);
+    genFile("JavaCC.h", tokenManagerVersion, parameters, Options.getOptions());
   }
 
   public static void gen_ErrorHandler() {
     String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC, Options.USEROPTION__BUILD_PARSER, Options.USEROPTION__BUILD_TOKEN_MANAGER};
-    genFile("ErrorHandler.h", parseExceptionVersion, parameters);
+    genFile("ErrorHandler.h", parseExceptionVersion, parameters, Options.getOptions());
   }
 
   public static void reInit()

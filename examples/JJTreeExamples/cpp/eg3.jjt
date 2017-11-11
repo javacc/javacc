@@ -117,7 +117,7 @@ void Identifier() #MyID :
 {
   t=<IDENTIFIER>
   {
-    jjtThis->setName(t->image);
+    jjtThis->setName(t->image());
   }
 }
 

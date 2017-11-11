@@ -706,19 +706,19 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     else
     {
       genCodeLine("   t = " + getClassQualifier("Token") + "newToken(jjmatchedKind);");
-      genCodeLine("   t->kind = jjmatchedKind;");
-      genCodeLine("   t->image = curTokenImage;");
+      genCodeLine("   t->_kind = jjmatchedKind;");
+      genCodeLine("   t->_image = curTokenImage;");
     }
-    genCodeLine("   t->specialToken = nullptr;");
-    genCodeLine("   t->next = nullptr;");
+    genCodeLine("   t->_specialToken = nullptr;");
+    genCodeLine("   t->_next = nullptr;");
 
     if (keepLineCol) {
       genCodeLine("");
       genCodeLine("   if (input_stream->getTrackLineColumn()) {");
-        genCodeLine("   t->beginLine = beginLine;");
-        genCodeLine("   t->endLine = endLine;");
-        genCodeLine("   t->beginColumn = beginColumn;");
-        genCodeLine("   t->endColumn = endColumn;");
+        genCodeLine("   t->_beginLine = beginLine;");
+        genCodeLine("   t->_endLine = endLine;");
+        genCodeLine("   t->_beginColumn = beginColumn;");
+        genCodeLine("   t->_endColumn = endColumn;");
       genCodeLine("   }");
     }
 
@@ -769,7 +769,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     genCodeLine("      matchedToken = jjFillToken();");
 
     if (hasSpecial)
-      genCodeLine("      matchedToken->specialToken = specialToken;");
+      genCodeLine("      matchedToken->_specialToken = specialToken;");
 
     if (nextStateForEof != null || actForEof != null)
       genCodeLine("      TokenLexicalActions(matchedToken);");
@@ -956,15 +956,15 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       genCodeLine(prefix + "         matchedToken = jjFillToken();");
 
       if (hasSpecial)
-        genCodeLine(prefix + "         matchedToken->specialToken = specialToken;");
+        genCodeLine(prefix + "         matchedToken->_specialToken = specialToken;");
 
       if (hasTokenActions)
         genCodeLine(prefix + "         TokenLexicalActions(matchedToken);");
 
       if (maxLexStates > 1)
       {
-        genCodeLine("       if (jjnewLexState[jjmatchedKind] != -1)");
-        genCodeLine(prefix + "       curLexState = jjnewLexState[jjmatchedKind];");
+        genCodeLine(prefix + "       if (jjnewLexState[jjmatchedKind] != -1)");
+        genCodeLine(prefix + "         curLexState = jjnewLexState[jjmatchedKind];");
       }
 
       if (Options.getCommonTokenAction())
@@ -1000,8 +1000,8 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
             genCodeLine(prefix + "               specialToken = matchedToken;");
             genCodeLine(prefix + "            else");
             genCodeLine(prefix + "            {");
-            genCodeLine(prefix + "               matchedToken->specialToken = specialToken;");
-            genCodeLine(prefix + "               specialToken = (specialToken->next = matchedToken);");
+            genCodeLine(prefix + "               matchedToken->_specialToken = specialToken;");
+            genCodeLine(prefix + "               specialToken = (specialToken->_next = matchedToken);");
             genCodeLine(prefix + "            }");
 
             if (hasSkipActions)
@@ -1020,7 +1020,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
           if (maxLexStates > 1)
           {
-            genCodeLine("         if (jjnewLexState[jjmatchedKind] != -1)");
+            genCodeLine(prefix + "         if (jjnewLexState[jjmatchedKind] != -1)");
             genCodeLine(prefix + "         curLexState = jjnewLexState[jjmatchedKind];");
           }
 
@@ -1037,7 +1037,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
           if (maxLexStates > 1)
           {
-            genCodeLine("      if (jjnewLexState[jjmatchedKind] != -1)");
+            genCodeLine(prefix + "      if (jjnewLexState[jjmatchedKind] != -1)");
             genCodeLine(prefix + "      curLexState = jjnewLexState[jjmatchedKind];");
           }
           genCodeLine(prefix + "      curPos = 0;");

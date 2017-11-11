@@ -10,6 +10,7 @@
 #if NAMESPACE
 namespace ${NAMESPACE_OPEN}
 #fi
+  class ${TOKEN_MANAGER_CLASS};
 
 /**
  * Describes the input token stream.
@@ -21,27 +22,31 @@ class Token
 #fi
 {
  public:
+   friend ${TOKEN_MANAGER_CLASS};
 
   /**
    * An integer that describes the kind of this token.  This numbering
    * system is determined by JavaCCParser, and a table of these numbers is
    * stored in the file ...Constants.java.
    */
-  int kind;
+  const int& kind() const;
 
   /** The line number of the first character of this Token. */
-  int beginLine;
+  const int& beginLine() const;
+  
   /** The column number of the first character of this Token. */
-  int beginColumn;
+  const int& beginColumn() const;
+  
   /** The line number of the last character of this Token. */
-  int endLine;
+  const int& endLine() const;
+  
   /** The column number of the last character of this Token. */
-  int endColumn;
+  const int& endColumn() const;
 
   /**
    * The string image of the token.
    */
-  JJString image;
+   const JJString& image() const;
 
   /**
    * A reference to the next regular (non-special) token from the input
@@ -51,7 +56,8 @@ class Token
    * token.  Otherwise, see below for a description of the contents of
    * this field.
    */
-  Token *next;
+  virtual const Token*   next() const;
+  virtual       Token*&  next();
 
   /**
    * This field is used to access special tokens that occur prior to this
@@ -65,7 +71,8 @@ class Token
    * immediately follow it (without an intervening regular token).  If there
    * is no such token, this field is NULL.
    */
-  Token *specialToken;
+  virtual const Token *  specialToken() const;
+  virtual       Token *& specialToken();
 
   /**
    * An optional attribute value of the Token.
@@ -75,7 +82,7 @@ class Token
    * Any subclass of Token that actually wants to return a non-NULL value can
    * override this method as appropriate.
    */
-  void * getValue();
+  virtual void * getValue();
 
   /**
    * No-argument constructor
@@ -97,7 +104,7 @@ class Token
   /**
    * Returns the image.
    */
-  const JJString& toString();
+  const JJString& toString() const;
 
 
   /**
@@ -115,8 +122,20 @@ class Token
   static Token *newToken(int ofKind, const JJString& image);
 
   static Token *newToken(int ofKind);
-};
+  
+  
+protected:
+  int         _kind;
+  JJString    _image;
+  Token *     _next;
+  int         _beginLine;
+  int         _beginColumn;
+  int         _endLine;
+  int         _endColumn;
+  Token *     _specialToken;
 
+};
+ 
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi
