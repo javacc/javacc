@@ -694,7 +694,7 @@ public class ParseEngine {
         indentamt = 6;
       }
     
-    if (!Options.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) &&
+    if (!Options.booleanValue(Options.USEROPTION__IGNORE_ACTIONS) &&
         p.getDeclarationTokens().size() != 0) {
       codeGenerator.printTokenSetup((Token)(p.getDeclarationTokens().get(0))); cline--;
       for (Iterator it = p.getDeclarationTokens().iterator(); it.hasNext();) {
@@ -809,7 +809,7 @@ public class ParseEngine {
     } else if (e instanceof Action) {
       Action e_nrw = (Action)e;
       retval += "\u0003\n";
-      if (!Options.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) &&
+      if (!Options.booleanValue(Options.USEROPTION__IGNORE_ACTIONS) &&
           e_nrw.getActionTokens().size() != 0) {
         codeGenerator.printTokenSetup((Token)(e_nrw.getActionTokens().get(0))); ccol = 1;
         for (Iterator it = e_nrw.getActionTokens().iterator(); it.hasNext();) {

@@ -2,7 +2,9 @@ package com.microsoft.javacc;
 
 import org.javacc.parser.CodeGeneratorSettings;
 import org.javacc.utils.OutputFileGenerator;
-import org.javacc.parser.ParserCodeGenerator;
+
+// TODO(sreeni) : Clean it ip
+import org.javacc.parser.*;
 
 public class CodeGenerator implements org.javacc.parser.CodeGenerator
 {
@@ -17,6 +19,11 @@ public class CodeGenerator implements org.javacc.parser.CodeGenerator
       OutputFileGenerator.generateSimple("/templates/csharp/CharStream.template", "CharStream.cs", "/* JavaCC generated file. */", settings);
       OutputFileGenerator.generateSimple("/templates/csharp/TokenMgrError.template", "TokenMgrError.cs", "/* JavaCC generated file. */", settings);
       OutputFileGenerator.generateSimple("/templates/csharp/ParseException.template", "ParseException.cs", "/* JavaCC generated file. */", settings);
+      if ((Boolean)settings.get("JAVA_UNICODE_ESCAPE")) {
+        OutputFileGenerator.generateSimple("/templates/csharp/JavaCharStream.template", "JavaCharStream.cs", "/* JavaCC generated file. */", settings);
+      } else {
+        OutputFileGenerator.generateSimple("/templates/csharp/CharStream.template", "CharStream.cs", "/* JavaCC generated file. */", settings);
+      }
     }
     catch(Exception e)
     {
@@ -50,6 +57,6 @@ public class CodeGenerator implements org.javacc.parser.CodeGenerator
   @Override
   public ParserCodeGenerator getParserCodeGenerator()
   {
-    return null;
+    return new ParserCodeGenerator();
   }
 }

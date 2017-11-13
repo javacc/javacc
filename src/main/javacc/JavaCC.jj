@@ -323,6 +323,7 @@ SKIP :
 | "\r"
 | "\f"
 | "/*@egen*/" : AFTER_EGEN
+| "\u001a"
 
 }
 
@@ -623,6 +624,7 @@ void javacc_input() :
 	}
     ")"
   ( production() )+
+
   <EOF>
 }
 

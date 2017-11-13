@@ -12,10 +12,12 @@ public class ParserData {
     ZERORORMORE
   };
 
-  public static class LookaheadInfo {
-    public LookaheadType lokaheadType;
-    public List<Integer> data;
-  };
+  // TODO(sreeni): for now, just use the existing code gen.
+  public List<NormalProduction> bnfproductions;
 
-  Map<Integer, List<LookaheadInfo>> lookaheads;
+  public String parserName;
+
+  public int tokenCount;
+  public Map<Integer, String> namesOfTokens;
+  public Map productionTable;
 }

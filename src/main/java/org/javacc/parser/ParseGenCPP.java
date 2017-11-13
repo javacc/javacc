@@ -79,7 +79,7 @@ public void start() throws MetaParseException {
       genCodeLine("#include \"" + cu_name + "Tree.h\"");
     }
 
-    if (Options.stringValue(Options.USEROPTION__CPP_NAMESPACE).length() > 0) {
+    if (Options.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
       genCodeLine("namespace " + Options.stringValue("NAMESPACE_OPEN"));
     }
 
