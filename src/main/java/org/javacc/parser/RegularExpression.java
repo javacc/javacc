@@ -48,7 +48,7 @@ public abstract class RegularExpression extends Expansion {
    * used for internal processing and passing information between
    * the parser and the lexical analyzer.
    */
-  int ordinal;
+  public int ordinal;
 
   /**
    * The LHS to which the token value of the regular expression

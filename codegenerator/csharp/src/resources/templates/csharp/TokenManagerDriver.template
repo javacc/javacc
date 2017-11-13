@@ -1,12 +1,20 @@
-public class ${parserName}TokenManager ${superClass} implements ${parserName}Constants {
+#if NAMESPACE
+namespace ${NAMESPACE}
+{
+#fi
+#if superClass
+public class ${parserName}TokenManager : ${superClass}, ${parserName}Constants {
+#else
+public class ${parserName}TokenManager : ${parserName}Constants {
+#fi
 
-protected ${STATIC?static :}boolean moveToNextChar() {
+protected bool moveToNextChar() {
   try {
     curChar = input_stream.readChar();
 #if IGNORE_CASE
     curChar = (int)Character.toLowerCase((char)curChar);
 #fi
-  } catch(java.io.IOException e) {
+  } catch(System.IO.IOException) {
     return false;
   }
   return true;
@@ -14,7 +22,7 @@ protected ${STATIC?static :}boolean moveToNextChar() {
 
 ${decls}
 
-#if TOKEN_MANAGER_USES_PARSER && !STATIC
+#if TOKEN_MANAGER_USES_PARSER
 
 /* Declarations from the TOKEN_MGR_DECLS section */
 
@@ -26,22 +34,10 @@ ${decls}
     public ${parserName}TokenManager(${charStreamName} stream){
 #fi
 
-#if STATIC && !USER_CHAR_STREAM
-      if (input_stream != null)
-        throw new ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}("ERROR: Second call to constructor of static lexer. You must use ReInit() to initialize the static variables.", ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}.STATIC_LEXER_ERROR);
-#elif !USER_CHAR_STREAM
-    #if JAVA_UNICODE_ESCAPE
-      if (JavaCharStream.staticFlag)
-    #else
-      if (${charStreamName}.staticFlag)
-    #fi
-            throw new ${LEGACY_EXCEPTION_HANDLING?Error:RuntimeException}("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
-#fi
-
     input_stream = stream;
   }
 
-#if TOKEN_MANAGER_USES_PARSER && !STATIC
+#if TOKEN_MANAGER_USES_PARSER
   /** Constructor with parser. */
   public ${parserName}TokenManager (${parserName} parserArg, ${charStreamName} stream, int lexState){
     ReInit(parserArg, stream);
@@ -56,13 +52,13 @@ ${decls}
 
   /** Reinitialise parser. */
   
-#if TOKEN_MANAGER_USES_PARSER && !STATIC
+#if TOKEN_MANAGER_USES_PARSER
   public void ReInit(${parserName} parserArg, ${charStreamName} stream)
 #else
-  ${STATIC?static :}public void ReInit(${charStreamName} stream)
+  public void ReInit(${charStreamName} stream)
 #fi
   {
-#if TOKEN_MANAGER_USES_PARSER && !STATIC
+#if TOKEN_MANAGER_USES_PARSER
 	this.parser = parserArg;
 #else
 
@@ -74,14 +70,14 @@ ${decls}
   }
 
   /** Reinitialise parser. */
-#if TOKEN_MANAGER_USES_PARSER && !STATIC
+#if TOKEN_MANAGER_USES_PARSER
   public void ReInit( ${parserName} parserArg, ${charStreamName} stream, int lexState)
 #else
-  ${STATIC?static :}public void ReInit(${charStreamName} stream, int lexState)
+  public void ReInit(${charStreamName} stream, int lexState)
 #fi
   
   {
-#if TOKEN_MANAGER_USES_PARSER && !STATIC
+#if TOKEN_MANAGER_USES_PARSER
     ReInit(parserArg, stream);
 #else
     ReInit(stream);
@@ -90,29 +86,29 @@ ${decls}
   }
 
   /** Switch to specified lex state. */
-  public ${STATIC?static :}void SwitchTo(int lexState) {
+  public void SwitchTo(int lexState) {
     curLexState = lexState;
   }
 
 #if !NO_DFA
-private ${STATIC?static :}const int jjRunStringLiteralMatch() {
+private  int jjRunStringLiteralMatch() {
   int curPos = 0;
-  const int key = (int)curLexState << 16 | curChar;
-  const int[] arr = startAndSize.get(key);
+  int key = (int)curLexState << 16 | curChar;
   int startState = jjInitStates[curLexState];
-  if (arr != null) {
+  if (startAndSize.ContainsKey(key)) {
+    int[] arr = startAndSize[key];
     int index = arr[0];
     for (int i = 0; i < arr[1]; i++) {
-      const int len = stringLiterals[index++];
+      int len = stringLiterals[index++];
 #if DEBUG_TOKEN_MANAGER
-      System.err.println(
-          "Looking for string literal match of kind: " +
+      System.Console.Error.WriteLine(
+          "Looking foreach string literal match of kind in " +
           stringLiterals[index + len] +
           "; token image: " + tokenImage[stringLiterals[index + len]]);
 #fi
       do {
 #if DEBUG_TOKEN_MANAGER
-      System.err.println("Cur char: '" + (char)curChar + "'");
+      System.Console.Error.WriteLine("Cur char: '" + (char)curChar + "'");
 #fi
         if (curChar != stringLiterals[index + curPos]) break;
         if (++curPos == len) break;
@@ -126,7 +122,7 @@ private ${STATIC?static :}const int jjRunStringLiteralMatch() {
         jjmatchedPos = curPos;
         startState = stringLiterals[index + len + 1];
 #if DEBUG_TOKEN_MANAGER
-        System.err.println(
+        System.Console.Error.WriteLine(
             "Currently matched the first: " + jjmatchedPos +
             " chars as kind: " + stringLiterals[index + len] +
             "; with image: " + tokenImage[jjmatchedKind]);
@@ -141,13 +137,13 @@ private ${STATIC?static :}const int jjRunStringLiteralMatch() {
         input_stream.backup(curPos + 1);
         curPos = 0;
         if (!moveToNextChar()) {
-          assert(false);
+          System.Diagnostics.Debug.Assert(false, "Unreachable code!");
         }
       }
     }
   } else {
 #if DEBUG_TOKEN_MANAGER
-      System.err.println(
+      System.Console.Error.WriteLine(
           "No string literal start with char: '" + (char)curChar + "'");
 #fi
   }
@@ -155,24 +151,24 @@ private ${STATIC?static :}const int jjRunStringLiteralMatch() {
 }
 #fi
 
-private ${STATIC?static :}  int[] stateSet = new int[${generatedStates}];
-private ${STATIC?static :}  int[] newStateSet = new int[${generatedStates}];
-private ${STATIC?static :}  const long[] moved = new long[${generatedStates}];
-private ${STATIC?static :} long moveIndex = 1L;
+private   int[] stateSet = new int[${generatedStates}];
+private   int[] newStateSet = new int[${generatedStates}];
+private   long[] moved = new long[${generatedStates}];
+private  long moveIndex = 1L;
 
-private ${STATIC?static :}const int jjMoveNfa(int startState, int curPos) {
+private  int jjMoveNfa(int startState, int curPos) {
 
   if (startState < 0) {
 #if DEBUG_TOKEN_MANAGER
-  System.err.println("No NFA state at pos: " + curPos);
+  System.Console.Error.WriteLine("No NFA state at pos: " + curPos);
 #fi
     return curPos;
   }
 
   // We have a long array indexed by the NFA state number to roughly indicate
-  // the input position so when the input reaches part Long.MAX_VALUE (which
+  // the input position so when the input reaches part long.MaxValue (which
   // should be extremely rare), we need to reset them all back to zero.
-  if (++moveIndex == Long.MAX_VALUE) {
+  if (++moveIndex == long.MaxValue) {
     for (int i = 0; i < ${generatedStates}; i++) moved[i] = 0L;
     moveIndex = 1L;
   }
@@ -180,7 +176,7 @@ private ${STATIC?static :}const int jjMoveNfa(int startState, int curPos) {
   // We initialize the kind to MAX value so that when a match is found, we can
   // simply check if it's less than the current match and store it in that
   // case. This helps implement the 'first occurring' rule properly.
-  int kind = Integer.MAX_VALUE;
+  int kind = int.MaxValue;
   int cnt = 0;
   stateSet[cnt++] = startState;
   moved[startState] = moveIndex;
@@ -188,7 +184,7 @@ private ${STATIC?static :}const int jjMoveNfa(int startState, int curPos) {
   // Some NFA states have epsilon transitions (move on empty string). So we
   // just start with all of them. Note that the nextStates array already adds
   // the epsilon closure. Only the initial state needs to do this explicitly.
-  for (int s : jjcompositeState[startState]) { 
+  foreach (int s  in jjcompositeState[startState]) { 
     if (moved[s] != moveIndex) {
       stateSet[cnt++] = s;
       moved[s] = moveIndex;
@@ -196,46 +192,46 @@ private ${STATIC?static :}const int jjMoveNfa(int startState, int curPos) {
   }
 
 #if DEBUG_TOKEN_MANAGER
-  System.err.println("Starting NFA with start state: " + startState);
+  System.Console.Error.WriteLine("Starting NFA with start state: " + startState);
 #fi
   do {
 #if DEBUG_TOKEN_MANAGER
-    System.err.println("Cur char: '" + (char)curChar + "'");
+    System.Console.Error.WriteLine("Cur char: '" + (char)curChar + "'");
 #fi
     int newCnt = 0;
-    if (++moveIndex == Long.MAX_VALUE) {
+    if (++moveIndex == long.MaxValue) {
       for (int i = 0; i < ${generatedStates}; i++) moved[i] = 0L;
       moveIndex = 1L;
     }
 
-    const int vectorIndex = curChar >> 6;
-    const long bitpattern = (1L << (curChar & 077));
+    int vectorIndex = curChar >> 6;
+    long bitpattern = (1L << (curChar & 0x3f));
     do {
-      const int state = stateSet[--cnt];
+      int state = stateSet[--cnt];
 #if DEBUG_TOKEN_MANAGER
       // TODO(sreeni) : Fix it to give better error message instead of UNKNOWN.
-      System.err.println(
+      System.Console.Error.WriteLine(
          "Looking to move from state: " + state + "; for: " +
-         (jjmatchKinds[state] != Integer.MAX_VALUE
+         (jjmatchKinds[state] != int.MaxValue
               ? tokenImage[jjmatchKinds[state]] : " <UNKNOWN>"));
 #fi
       if ((jjChars[state][vectorIndex] & bitpattern) != 0L) {
         // Current input character can move this NFA state. So add all the
         // next states of the current states for use with the next input char.
-        for (int newState : jjnextStateSet[state]) {
+        foreach (int newState  in jjnextStateSet[state]) {
           if (moved[newState] != moveIndex) {
             // We add each state only once.
             newStateSet[newCnt++] = newState;
             moved[newState] = moveIndex;
           }
         }
-        const int newKind = jjmatchKinds[state];
+        int newKind = jjmatchKinds[state];
         if (kind > newKind) {
-          // It's a const state so store the matched kind if it's smaller than
+          // It's a state so store the matched kind if it's smaller than
           // what's already matched.
           kind = newKind;
 #if DEBUG_TOKEN_MANAGER
-          System.err.println(
+          System.Console.Error.WriteLine(
               "Found a match of kind: " + kind + "; kind: " +
               tokenImage[kind] + " using the first: " + curPos +
               " characters.");
@@ -244,13 +240,13 @@ private ${STATIC?static :}const int jjMoveNfa(int startState, int curPos) {
       }
     } while (cnt > 0);
 
-    if (kind != Integer.MAX_VALUE) {
+    if (kind != int.MaxValue) {
       // We found a match. So remember the kind and position of the match.
       jjmatchedKind = kind;
       jjmatchedPos = curPos;
       // Reset the kind to max value so we can contine looking for a longer
       // match.
-      kind = Integer.MAX_VALUE;
+      kind = int.MaxValue;
     }
 
     // Swap the current and next state sets.
@@ -263,7 +259,7 @@ private ${STATIC?static :}const int jjMoveNfa(int startState, int curPos) {
       // There were no transitions from any of the current states on the
       // current input. So we are done.
 #if DEBUG_TOKEN_MANAGER
-      System.err.println("Done with NFA at pos: " + curPos);
+      System.Console.Error.WriteLine("Done with NFA at pos: " + curPos);
 #fi
       return curPos;
     }
@@ -271,66 +267,66 @@ private ${STATIC?static :}const int jjMoveNfa(int startState, int curPos) {
     if (!moveToNextChar()) {
       // EOF reached!
 #if DEBUG_TOKEN_MANAGER
-      System.err.println("Reached EOF here at pos: " + curPos);
+      System.Console.Error.WriteLine("Reached EOF here at pos: " + curPos);
 #fi
       return curPos;
     }
     ++curPos;
   } while (cnt > 0);
 
-  assert(false) :
-      "Interal error. Please submit a bug at: http://javacc.java.net.";
+  System.Diagnostics.Debug.Assert(false,
+      "Interal error. Please submit a bug at: http://javacc.java.net.");
   return curPos;
 }
 
-private ${STATIC?static :} int defaultLexState = ${defaultLexState};
-private ${STATIC?static :} int curLexState = ${defaultLexState};
-private ${STATIC?static :} int jjmatchedPos;
-private ${STATIC?static :} int jjmatchedKind;
-private ${STATIC?static :}const StringBuilder jjimage = new StringBuilder();
-private ${STATIC?static :}StringBuilder image = jjimage;
-private ${STATIC?static :}int jjimageLen;
-private ${STATIC?static :}int lengthOfMatch;
-protected ${STATIC?static :}int curChar;
-protected ${STATIC?static :} ${charStreamName} input_stream;
+private  int defaultLexState = ${defaultLexState};
+private  int curLexState = ${defaultLexState};
+private  int jjmatchedPos;
+private  int jjmatchedKind;
+private  string jjimage = string.Empty;
+private string image = string.Empty;
+private int jjimageLen;
+private int lengthOfMatch;
+protected int curChar;
+protected  ${charStreamName} input_stream;
 
-public static const boolean isToken(int kind) {
-  return (jjtoToken[kind >> 6] & (1L << (kind & 077))) != 0L;
+public static bool isToken(int kind) {
+  return (jjtoToken[kind >> 6] & (1L << (kind & 0x3f))) != 0L;
 }
 
-public static const boolean isSkip(int kind) {
-  return (jjtoSkip[kind >> 6] & (1L << (kind & 077))) != 0L;
+public static bool isSkip(int kind) {
+  return (jjtoSkip[kind >> 6] & (1L << (kind & 0x3f))) != 0L;
 }
 
-public static const boolean isSpecial(int kind) {
-  return (jjtoSpecial[kind >> 6] & (1L << (kind & 077))) != 0L;
+public static bool isSpecial(int kind) {
+  return (jjtoSpecial[kind >> 6] & (1L << (kind & 0x3f))) != 0L;
 }
 
-public static const boolean isMore(int kind) {
-  return (jjtoMore[kind >> 6] & (1L << (kind & 077))) != 0L;
+public static bool isMore(int kind) {
+  return (jjtoMore[kind >> 6] & (1L << (kind & 0x3f))) != 0L;
 }
 
-protected ${STATIC?static :} Token jjFillToken() {
-  const Token t;
-  const string curTokenImage;
+protected  Token jjFillToken() {
+  Token t;
+  string curTokenImage;
 #if KEEP_LINE_COLUMN
-  const int beginLine;
-  const int endLine;
-  const int beginColumn;
-  const int endColumn;
+  int beginLine;
+  int endLine;
+  int beginColumn;
+  int endColumn;
 #fi
   if (jjmatchedPos < 0) {
     if (image == null) {
       curTokenImage = "";
     } else {
-      curTokenImage = image.toString();
+      curTokenImage = image.ToString();
     }
 #if KEEP_LINE_COLUMN
     beginLine = endLine = input_stream.getEndLine();
     beginColumn = endColumn = input_stream.getEndColumn();
 #fi
   } else {
-    string im = jjstrLiteralImages[jjmatchedKind];
+    string im = tokenImage[jjmatchedKind];
     curTokenImage = (im == null) ? input_stream.GetImage() : im;
 #if KEEP_LINE_COLUMN
     beginLine = input_stream.getBeginLine();
@@ -361,7 +357,7 @@ protected ${STATIC?static :} Token jjFillToken() {
 }
 
 /** Get the next Token. */
-public ${STATIC?static :} Token getNextToken() {
+public  Token getNextToken() {
   Token specialToken = null;
   Token matchedToken;
   int lastReadPosition = 0;
@@ -374,12 +370,12 @@ public ${STATIC?static :} Token getNextToken() {
 #if IGNORE_CASE
       curChar = Character.toLowerCase(curChar);
 #fi
-    } catch(Exception e) {
+    } catch(System.Exception) {
 #if DEBUG_TOKEN_MANAGER
-    if (lexStateNames.length > 1) {
-      System.err.print("<" + lexStateNames[curLexState] + "> ");
+    if (lexStateNames.Length > 1) {
+      System.Console.Error.Write("<" + lexStateNames[curLexState] + "> ");
     }
-    System.err.println("Reached EOF at " +
+    System.Console.Error.WriteLine("Reached EOF at " +
                        input_stream.getBeginLine() + ":" +
                        input_stream.getBeginColumn());
 #fi
@@ -391,10 +387,10 @@ public ${STATIC?static :} Token getNextToken() {
       return matchedToken;
     }
 #if DEBUG_TOKEN_MANAGER
-    if (lexStateNames.length > 1) {
-      System.err.print("<" + lexStateNames[curLexState] + "> ");
+    if (lexStateNames.Length > 1) {
+      System.Console.Error.Write("<" + lexStateNames[curLexState] + "> ");
     }
-    System.err.println("Current input char: '" + (char)curChar + "' at " +
+    System.Console.Error.WriteLine("Current input char: '" + (char)curChar + "' at " +
                        input_stream.getBeginLine() + ":" +
                        input_stream.getBeginColumn());
 #fi
@@ -402,17 +398,17 @@ public ${STATIC?static :} Token getNextToken() {
     // Set matched kind to a MAX VALUE to implement largest, first occuring rule
     // i.e., smallest kind value matched should be used.
     image = jjimage;
-    image.setLength(0);
+    image = string.Empty;
     jjimageLen = 0;
 
-    MoreLoop: for (;;) {
-      jjmatchedKind = Integer.MAX_VALUE;
+    for (;;) {
+      jjmatchedKind = int.MaxValue;
       jjmatchedPos = 0;
 #if DEBUG_TOKEN_MANAGER
-    if (lexStateNames.length > 1) {
-      System.err.print("<" + lexStateNames[curLexState] + "> ");
+    if (lexStateNames.Length > 1) {
+      System.Console.Error.Write("<" + lexStateNames[curLexState] + "> ");
     }
-    System.err.println("Current input char: '" + (char)curChar + "' at " +
+    System.Console.Error.WriteLine("Current input char: '" + (char)curChar + "' at " +
                        input_stream.getBeginLine() + ":" +
                        input_stream.getBeginColumn());
 #fi
@@ -424,20 +420,20 @@ public ${STATIC?static :} Token getNextToken() {
       if (jjmatchedPos == 0 && jjmatchedKind > canMatchAnyChar[curLexState]) {
         jjmatchedKind = canMatchAnyChar[curLexState];
 #if DEBUG_TOKEN_MANAGER
-        System.err.println(
+        System.Console.Error.WriteLine(
             "Matched current char: '" + (char)curChar +
             "' as a wildcard kind: " + jjmatchedKind);
 #fi
       }
 
-      if (jjmatchedKind != Integer.MAX_VALUE) {
+      if (jjmatchedKind != int.MaxValue) {
         // We have a match!
   
         // Put back any characters looked ahead.
         input_stream.backup(lastReadPosition - jjmatchedPos);
         if (isToken(jjmatchedKind)) {
 #if DEBUG_TOKEN_MANAGER
-          System.err.println("Returning token.");
+          System.Console.Error.WriteLine("Returning token.");
 #fi
           // Matched kind is a real TOKEN.
           matchedToken = jjFillToken();
@@ -452,7 +448,7 @@ public ${STATIC?static :} Token getNextToken() {
           return matchedToken;
         } else if (isSkip(jjmatchedKind)) {
 #if DEBUG_TOKEN_MANAGER
-          System.err.println("Found a SKIP match.");
+          System.Console.Error.WriteLine("Found a SKIP match.");
 #fi
           // Matched kind is a SKIP or SPECIAL_TOKEN.
           if (isSpecial(jjmatchedKind)) {
@@ -470,10 +466,10 @@ public ${STATIC?static :} Token getNextToken() {
           if (jjnewLexState[jjmatchedKind] != -1) {
             curLexState = jjnewLexState[jjmatchedKind];
           }
-          continue EOFLoop;
+          goto EOFLoop;
         }
 #if DEBUG_TOKEN_MANAGER
-        System.err.println("Found a MORE match.");
+        System.Console.Error.WriteLine("Found a MORE match.");
 #fi
         // Here it's a MORE.
         MoreLexicalActions();
@@ -481,27 +477,27 @@ public ${STATIC?static :} Token getNextToken() {
           curLexState = jjnewLexState[jjmatchedKind];
         }
         lastReadPosition = 0;
-        jjmatchedKind = 0x7fffffff;
+        jjmatchedKind = int.MaxValue;
         try {
           curChar = input_stream.readChar();
           continue;
         }
-        catch (java.io.IOException e1) { }
+        catch (System.IO.IOException) { }
       }
       reportError(lastReadPosition);
     }
   }
 }
 
-protected ${STATIC?static :} void reportError(int lastReadPosition) {
+protected  void reportError(int lastReadPosition) {
   int error_line = input_stream.getEndLine();
   int error_column = input_stream.getEndColumn();
   string error_after = null;
-  boolean EOFSeen = false;
+  bool EOFSeen = false;
   try {
     input_stream.readChar();
     input_stream.backup(1);
-  } catch (java.io.IOException e1) {
+  } catch (System.IO.IOException) {
     EOFSeen = true;
     error_after = lastReadPosition <= 1 ? "" : input_stream.GetImage();
     if (curChar == '\n' || curChar == '\r') {

@@ -178,4 +178,13 @@ public class TokenizerData {
       allMatches.put(i, matchInfo);
     }
   }
+
+  // Labels.
+  public Map<Integer, String> labels;
+  public String[] images;
+  public void setLabelsAndImages(Map<Integer, String> labels, String[] images) {
+System.err.println("**** im: " + labels.size() + "; im: " +  images.length);
+    this.labels = labels;
+    this.images = images;
+  }
 }

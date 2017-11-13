@@ -59,6 +59,30 @@ public class ParseGen extends CodeGenHelper implements JavaCCParserConstants {
 
 	public void start(boolean isJavaModernMode) throws MetaParseException {
 
+		if (!Options.getBuildParser()) {
+      return;
+    }
+
+    CodeGenerator codeGenerator = JavaCCGlobals.getCodeGenerator();
+System.err.println("*** cidegen: " + codeGenerator);
+    if (codeGenerator != null) {
+      ParserCodeGenerator parserCodeGenerator = codeGenerator.getParserCodeGenerator();
+      if (parserCodeGenerator != null) {
+System.err.println("*** parsercg: " + parserCodeGenerator);
+        ParserData parserData = new ParserData();
+        parserData.bnfproductions = JavaCCGlobals.bnfproductions;
+        parserData.parserName = JavaCCGlobals.cu_name;
+        parserData.tokenCount = JavaCCGlobals.tokenCount;
+        parserData.namesOfTokens = JavaCCGlobals.names_of_tokens;
+        parserData.productionTable = JavaCCGlobals.production_table;
+        CodeGeneratorSettings settings = new CodeGeneratorSettings(Options.getOptions());
+System.err.println("*** Genrating code here ******");
+        parserCodeGenerator.generateCode(settings, new CodeGenHelper(), parserData);
+        parserCodeGenerator.finish(settings, new CodeGenHelper(), parserData);
+        return;
+      }
+    }
+
 		Token t = null;
 
 		if (JavaCCErrors.get_error_count() != 0) {

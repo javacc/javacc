@@ -11,23 +11,16 @@ namespace ${NAMESPACE}
  * You can modify this class to customize your error reporting
  * mechanisms so long as you retain the public fields.
  */
-public class ParseException extends Exception {
-
-  /**
-   * The version identifier for this Serializable class.
-   * Increment only if the <i>serialized</i> form of the
-   * class changes.
-   */
-  private static final long serialVersionUID = 1L;
+public class ParseException : System.Exception {
 
   /**
    * The end of line string for this machine.
    */
-  protected static string EOL = System.getProperty("line.separator", "\n");
+  protected static string EOL = System.Environment.NewLine;
 
   /**
-   * This constructor is used by the method "generateParseException"
-   * in the generated parser.  Calling this constructor generates
+   * Thisructor is used by the method "generateParseException"
+   * in the generated parser.  Calling thisructor generates
    * a new object of this type with the fields "currentToken",
    * "expectedTokenSequences", and "tokenImage" set.
    */
@@ -36,29 +29,26 @@ public class ParseException extends Exception {
                         string[] tokenImageVal
                        )
   {
-    super(initialise(currentTokenVal, expectedTokenSequencesVal, tokenImageVal));
     currentToken = currentTokenVal;
     expectedTokenSequences = expectedTokenSequencesVal;
     tokenImage = tokenImageVal;
   }
 
   /**
-   * The following constructors are for use by you for whatever
+   * The followingructors are for use by you for whatever
    * purpose you can think of.  Constructing the exception in this
    * manner makes the exception behave in the normal way - i.e., as
-   * documented in the class "Throwable".  The fields "errorToken",
+   * documented in the class "System.Exception".  The fields "errorToken",
    * "expectedTokenSequences", and "tokenImage" do not contain
    * relevant information.  The JavaCC generated code does not use
-   * these constructors.
+   * theseructors.
    */
 
   public ParseException() {
-    super();
   }
 
   /** Constructor with message. */
-  public ParseException(string message) {
-    super(message);
+  public ParseException(string message)  : base(message) {
   }
 
 
@@ -94,19 +84,19 @@ public class ParseException extends Exception {
                            int[][] expectedTokenSequences,
                            string[] tokenImage) {
 
-    StringBuffer expected = new StringBuffer();
+    string expected = string.Empty;
     int maxSize = 0;
-    for (int i = 0; i < expectedTokenSequences.length; i++) {
-      if (maxSize < expectedTokenSequences[i].length) {
-        maxSize = expectedTokenSequences[i].length;
+    for (int i = 0; i < expectedTokenSequences.Length; i++) {
+      if (maxSize < expectedTokenSequences[i].Length) {
+        maxSize = expectedTokenSequences[i].Length;
       }
-      for (int j = 0; j < expectedTokenSequences[i].length; j++) {
-        expected.append(tokenImage[expectedTokenSequences[i][j]]).append(' ');
+      for (int j = 0; j < expectedTokenSequences[i].Length; j++) {
+        expected += tokenImage[expectedTokenSequences[i][j]] + ' ';
       }
-      if (expectedTokenSequences[i][expectedTokenSequences[i].length - 1] != 0) {
-        expected.append("...");
+      if (expectedTokenSequences[i][expectedTokenSequences[i].Length - 1] != 0) {
+        expected += "...";
       }
-      expected.append(EOL).append("    ");
+      expected += EOL + "    ";
     }
     string retval = "Encountered \"";
     Token tok = currentToken.next;
@@ -128,15 +118,15 @@ public class ParseException extends Exception {
     retval += "." + EOL;
     
     
-    if (expectedTokenSequences.length == 0) {
+    if (expectedTokenSequences.Length == 0) {
         // Nothing to add here
     } else {
-	    if (expectedTokenSequences.length == 1) {
+	    if (expectedTokenSequences.Length == 1) {
 	      retval += "Was expecting:" + EOL + "    ";
 	    } else {
 	      retval += "Was expecting one of:" + EOL + "    ";
 	    }
-	    retval += expected.toString();
+	    retval += expected.ToString();
     }
     
     return retval;
@@ -149,46 +139,46 @@ public class ParseException extends Exception {
    * string literal.
    */
   static string add_escapes(string str) {
-      StringBuffer retval = new StringBuffer();
+      string retval = string.Empty;
       char ch;
-      for (int i = 0; i < str.length(); i++) {
-        switch (str.charAt(i))
+      for (int i = 0; i < str.Length; i++) {
+        switch (str[i])
         {
            case '\b':
-              retval.append("\\b");
+              retval += "\\b";
               continue;
            case '\t':
-              retval.append("\\t");
+              retval += "\\t";
               continue;
            case '\n':
-              retval.append("\\n");
+              retval += "\\n";
               continue;
            case '\f':
-              retval.append("\\f");
+              retval += "\\f";
               continue;
            case '\r':
-              retval.append("\\r");
+              retval += "\\r";
               continue;
            case '\"':
-              retval.append("\\\"");
+              retval += "\\\"";
               continue;
            case '\'':
-              retval.append("\\\'");
+              retval += "\\\'";
               continue;
            case '\\':
-              retval.append("\\\\");
+              retval += "\\\\";
               continue;
            default:
-              if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
-                 string s = "0000" + Integer.toString(ch, 16);
-                 retval.append("\\u" + s.substring(s.length() - 4, s.length()));
+              if ((ch = str[i]) < 0x20 || ch > 0x7e) {
+                 string s = "0000" + ((int)ch).ToString("X4");
+                 retval += "\\u" + s.Substring(s.Length - 4, s.Length);
               } else {
-                 retval.append(ch);
+                 retval += ch;
               }
               continue;
         }
       }
-      return retval.toString();
+      return retval.ToString();
    }
 
 }

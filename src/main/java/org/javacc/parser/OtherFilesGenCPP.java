@@ -97,7 +97,7 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
     ostr.println("#define " + define);
     ostr.println("#include \"JavaCC.h\"");
     ostr.println("");
-    if (Options.stringValue(Options.USEROPTION__CPP_NAMESPACE).length() > 0) {
+    if (Options.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
       ostr.println("namespace " + Options.stringValue("NAMESPACE_OPEN"));
     }
 
@@ -152,7 +152,7 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
     }
     ostr.println("  };");
     ostr.println("");
-    if (Options.stringValue(Options.USEROPTION__CPP_NAMESPACE).length() > 0) {
+    if (Options.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
       ostr.println(Options.stringValue("NAMESPACE_CLOSE"));
     }
     ostr.println("#endif");

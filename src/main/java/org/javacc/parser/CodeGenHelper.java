@@ -59,7 +59,7 @@ public class CodeGenHelper {
       mainBuffer.insert(0, staticsBuffer);
 
       // Finally enclose the whole thing in the namespace, if specified.
-      if (Options.stringValue(Options.USEROPTION__CPP_NAMESPACE).length() > 0) {
+      if (Options.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
         mainBuffer.insert(0, "namespace " + Options.stringValue("NAMESPACE_OPEN") + "\n");
         mainBuffer.append(Options.stringValue("NAMESPACE_CLOSE") + "\n");
         includeBuffer.append(Options.stringValue("NAMESPACE_CLOSE") + "\n");
@@ -128,7 +128,7 @@ public class CodeGenHelper {
 
   protected int cline, ccol;
 
-  protected void printTokenSetup(Token t) {
+  public void printTokenSetup(Token t) {
 		Token tt = t;
 		
 		while (tt.specialToken != null) {
@@ -139,7 +139,7 @@ public class CodeGenHelper {
 		ccol = tt.beginColumn;
   }
 
-  protected void printTokenList(List<Token> list) {
+  public void printTokenList(List<Token> list) {
     Token t = null;
     for (Iterator<Token> it = list.iterator(); it.hasNext();) {
       t = (Token)it.next();
@@ -150,11 +150,11 @@ public class CodeGenHelper {
       printTrailingComments(t);
   }
 
-  protected void printTokenOnly(Token t) {
+  public void printTokenOnly(Token t) {
     genCode(getStringForTokenOnly(t));
   }
 
-  protected String getStringForTokenOnly(Token t) {
+  public String getStringForTokenOnly(Token t) {
     String retval = "";
     for (; cline < t.beginLine; cline++) {
       retval += "\n"; ccol = 1;
@@ -179,11 +179,11 @@ public class CodeGenHelper {
     return retval;
   }
 
-  protected void printToken(Token t) {
+  public void printToken(Token t) {
     genCode(getStringToPrint(t));
   }
 
-  protected String getStringToPrint(Token t) {
+  public String getStringToPrint(Token t) {
     String retval = "";
     Token tt = t.specialToken;
     if (tt != null) {
@@ -197,11 +197,11 @@ public class CodeGenHelper {
     return retval + getStringForTokenOnly(t);
   }
 
-  protected void printLeadingComments(Token t) {
+  public void printLeadingComments(Token t) {
     genCode(getLeadingComments(t));
   }
 
-  protected String getLeadingComments(Token t) {
+  public String getLeadingComments(Token t) {
     String retval = "";
     if (t.specialToken == null) return retval;
     Token tt = t.specialToken;
@@ -218,11 +218,11 @@ public class CodeGenHelper {
     return retval;
   }
 
-  protected void printTrailingComments(Token t) {
+  public void printTrailingComments(Token t) {
     outputBuffer.append(getTrailingComments(t));
   }
 
-  protected String getTrailingComments(Token t) {
+  public String getTrailingComments(Token t) {
     if (t.next == null) return "";
     return getLeadingComments(t.next);
   }

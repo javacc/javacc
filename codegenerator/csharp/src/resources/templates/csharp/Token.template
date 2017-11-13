@@ -7,17 +7,10 @@ namespace ${NAMESPACE}
  */
 
 #if TOKEN_EXTENDS
-${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class Token extends ${TOKEN_EXTENDS} implements java.io.Serializable {
+${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class Token : ${TOKEN_EXTENDS} {
 #else
-${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class Token implements java.io.Serializable {
+${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class Token {
 #fi
-
-  /**
-   * The version identifier for this Serializable class.
-   * Increment only if the <i>serialized</i> form of the
-   * class changes.
-   */
-  private static const long serialVersionUID = 1L;
 
   /**
    * An integer that describes the kind of this token.  This numbering
@@ -74,21 +67,20 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class Token implements java.io.Serial
    * Any subclass of Token that actually wants to return a non-null value can
    * override this method as appropriate.
    */
-  public Object getValue() {
+  public object getValue() {
     return null;
   }
 
   /**
-   * No-argument constructor
+   * No-argumentructor
    */
   public Token() {}
 
   /**
    * Constructs a new token for the specified Image.
    */
-  public Token(int kind)
+  public Token(int kind) : this(kind, null)
   {
-    this(kind, null);
   }
 
   /**
@@ -103,9 +95,12 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class Token implements java.io.Serial
   /**
    * Returns the image.
    */
-  public string toString()
+  override public string ToString()
   {
-    return image;
+    if (kind == 0)  // 0 is always EOF
+      return "EOF" + " (" + beginLine + ":" + beginColumn + "-" + endLine + ":" + endColumn + ")";
+
+    return image + " (" + beginLine + ":" + beginColumn + "-" + endLine + ":" + endColumn + ")";
   }
 
   /**

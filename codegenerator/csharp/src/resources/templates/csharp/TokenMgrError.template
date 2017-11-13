@@ -3,39 +3,27 @@ namespace ${NAMESPACE}
 {
 #fi
 /** Token Manager Error. */
-${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException} extends ${LEGACY_EXCEPTION_HANDLING?Error:RuntimeException}
+${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class TokenMgrError : System.Exception
 {
 
   /**
-   * The version identifier for this Serializable class.
-   * Increment only if the <i>serialized</i> form of the
-   * class changes.
-   */
-  private static const long serialVersionUID = 1L;
-
-  /*
    * Ordinals for various reasons why an Error of this type can be thrown.
    */
 
   /**
    * Lexical error occurred.
    */
-  public static const int LEXICAL_ERROR = 0;
-
-  /**
-   * An attempt was made to create a second instance of a static token manager.
-   */
-  public static const int STATIC_LEXER_ERROR = 1;
+  public static int LEXICAL_ERROR = 0;
 
   /**
    * Tried to change to an invalid lexical state.
    */
-  public static const int INVALID_LEXICAL_STATE = 2;
+  public static int INVALID_LEXICAL_STATE = 2;
 
   /**
    * Detected (and bailed out of) an infinite loop in the token manager.
    */
-  public static const int LOOP_DETECTED = 3;
+  public static int LOOP_DETECTED = 3;
 
   /**
    * Indicates the reason why the exception is thrown. It will have
@@ -47,47 +35,47 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class ${LEGACY_EXCEPTION_HANDLING?Tok
    * Replaces unprintable characters by their escaped (or unicode escaped)
    * equivalents in the given string
    */
-  protected static const string addEscapes(string str) {
-    StringBuffer retval = new StringBuffer();
+  internal static string addEscapes(string str) {
+    string retval = string.Empty;
     char ch;
-    for (int i = 0; i < str.length(); i++) {
-      switch (str.charAt(i))
+    for (int i = 0; i < str.Length; i++) {
+      switch (str[i])
       {
         case '\b':
-          retval.append("\\b");
+          retval += "\\b";
           continue;
         case '\t':
-          retval.append("\\t");
+          retval += "\\t";
           continue;
         case '\n':
-          retval.append("\\n");
+          retval += "\\n";
           continue;
         case '\f':
-          retval.append("\\f");
+          retval += "\\f";
           continue;
         case '\r':
-          retval.append("\\r");
+          retval += "\\r";
           continue;
         case '\"':
-          retval.append("\\\"");
+          retval += "\\\"";
           continue;
         case '\'':
-          retval.append("\\\'");
+          retval += "\\\'";
           continue;
         case '\\':
-          retval.append("\\\\");
+          retval += "\\\\";
           continue;
         default:
-          if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
-            string s = "0000" + Integer.toString(ch, 16);
-            retval.append("\\u" + s.substring(s.length() - 4, s.length()));
+          if ((ch = str[i]) < 0x20 || ch > 0x7e) {
+            string s = "0000" + ((int)ch).ToString("X4");
+            retval += "\\u" + s.Substring(s.Length - 4, s.Length);
           } else {
-            retval.append(ch);
+            retval += ch;
           }
           continue;
       }
     }
-    return retval.toString();
+    return retval.ToString();
   }
 
   /**
@@ -102,45 +90,27 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class ${LEGACY_EXCEPTION_HANDLING?Tok
    *    curchar     : the offending character
    * Note: You can customize the lexical error message by modifying this method.
    */
-  protected static string LexicalErr(boolean EOFSeen, int lexState, int errorLine, int errorColumn, string errorAfter, int curChar) {
+  internal static string LexicalErr(bool EOFSeen, int lexState, int errorLine, int errorColumn, string errorAfter, int curChar) {
     char curChar1 = (char)curChar;
     return("Lexical error at line " +
           errorLine + ", column " +
           errorColumn + ".  Encountered: " +
-          (EOFSeen ? "<EOF> " : ("\"" + addEscapes(string.valueOf(curChar1)) + "\"") + " (" + (int)curChar + "), ") +
+          (EOFSeen ? "<EOF> " : ("\"" + addEscapes(curChar1.ToString()) + "\"") + " (" + (int)curChar + "), ") +
           "after : \"" + addEscapes(errorAfter) + "\"");
   }
 
-  /**
-   * You can also modify the body of this method to customize your error messages.
-   * For example, cases like LOOP_DETECTED and INVALID_LEXICAL_STATE are not
-   * of end-users concern, so you can return something like :
-   *
-   *     "Internal Error : Please file a bug report .... "
-   *
-   * from this method for such cases in the release version of your parser.
-   */
-  public string getMessage() {
-    return super.getMessage();
-  }
-
-  /*
-   * Constructors of various flavors follow.
-   */
-
-  /** No arg constructor. */
-  public ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}() {
+  /** No argructor. */
+  public TokenMgrError() {
   }
 
   /** Constructor with message and reason. */
-  public ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}(string message, int reason) {
-    super(message);
+  public TokenMgrError(string message, int reason) : base(message) {
     errorCode = reason;
   }
 
   /** Full Constructor. */
-  public ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}(boolean EOFSeen, int lexState, int errorLine, int errorColumn, string errorAfter, int curChar, int reason) {
-    this(LexicalErr(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason);
+  public TokenMgrError(bool EOFSeen, int lexState, int errorLine, int errorColumn, string errorAfter, int curChar, int reason) :
+    this(LexicalErr(EOFSeen, lexState, errorLine, errorColumn, errorAfter, curChar), reason) {
   }
 }
 #if NAMESPACE

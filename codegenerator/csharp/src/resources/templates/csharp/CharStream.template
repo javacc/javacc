@@ -10,33 +10,32 @@ namespace ${NAMESPACE}
 ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
 {
 /** Whether parser is static. */
-  public static const boolean staticFlag = ${STATIC};
   ${PREFIX}int bufsize;
   ${PREFIX}int available;
   ${PREFIX}int tokenBegin;
 /** Position in buffer. */
   ${PREFIX}public int bufpos = -1;
 #if KEEP_LINE_COLUMN
-  ${PREFIX}protected int bufline[];
-  ${PREFIX}protected int bufcolumn[];
+  ${PREFIX}protected int[] bufline;
+  ${PREFIX}protected int[] bufcolumn;
 
   ${PREFIX}protected int column = 0;
   ${PREFIX}protected int line = 1;
 
-  ${PREFIX}protected boolean prevCharIsCR = false;
-  ${PREFIX}protected boolean prevCharIsLF = false;
+  ${PREFIX}protected bool prevCharIsCR = false;
+  ${PREFIX}protected bool prevCharIsLF = false;
 #fi
 
-  ${PREFIX}protected java.io.Reader inputStream;
+  ${PREFIX}protected System.IO.TextReader inputStream;
 
   ${PREFIX}protected char[] buffer;
   ${PREFIX}protected int maxNextCharInd = 0;
   ${PREFIX}protected int inBuf = 0;
   ${PREFIX}protected int tabSize = 1;
 #if KEEP_LINE_COLUMN
-  ${PREFIX}protected boolean trackLineColumn = true;
+  ${PREFIX}protected bool trackLineColumn = true;
 #else
-  ${PREFIX}protected boolean trackLineColumn = false;
+  ${PREFIX}protected bool trackLineColumn = false;
 #fi
 
   ${PREFIX}public void setTabSize(int i) { tabSize = i; }
@@ -44,29 +43,29 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
 
 
 
-  ${PREFIX}protected void ExpandBuff(boolean wrapAround)
+  ${PREFIX}protected void ExpandBuff(bool wrapAround)
   {
     char[] newbuffer = new char[bufsize + 2048];
 #if KEEP_LINE_COLUMN
-    int newbufline[] = new int[bufsize + 2048];
-    int newbufcolumn[] = new int[bufsize + 2048];
+    int[] newbufline = new int[bufsize + 2048];
+    int[] newbufcolumn = new int[bufsize + 2048];
 #fi
 
     try
     {
       if (wrapAround)
       {
-        System.arraycopy(buffer, tokenBegin, newbuffer, 0, bufsize - tokenBegin);
-        System.arraycopy(buffer, 0, newbuffer, bufsize - tokenBegin, bufpos);
+        System.Array.Copy(buffer, tokenBegin, newbuffer, 0, bufsize - tokenBegin);
+        System.Array.Copy(buffer, 0, newbuffer, bufsize - tokenBegin, bufpos);
         buffer = newbuffer;
 #if KEEP_LINE_COLUMN
 
-        System.arraycopy(bufline, tokenBegin, newbufline, 0, bufsize - tokenBegin);
-        System.arraycopy(bufline, 0, newbufline, bufsize - tokenBegin, bufpos);
+        System.Array.Copy(bufline, tokenBegin, newbufline, 0, bufsize - tokenBegin);
+        System.Array.Copy(bufline, 0, newbufline, bufsize - tokenBegin, bufpos);
         bufline = newbufline;
 
-        System.arraycopy(bufcolumn, tokenBegin, newbufcolumn, 0, bufsize - tokenBegin);
-        System.arraycopy(bufcolumn, 0, newbufcolumn, bufsize - tokenBegin, bufpos);
+        System.Array.Copy(bufcolumn, tokenBegin, newbufcolumn, 0, bufsize - tokenBegin);
+        System.Array.Copy(bufcolumn, 0, newbufcolumn, bufsize - tokenBegin, bufpos);
         bufcolumn = newbufcolumn;
 #fi
 
@@ -74,23 +73,23 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
       }
       else
       {
-        System.arraycopy(buffer, tokenBegin, newbuffer, 0, bufsize - tokenBegin);
+        System.Array.Copy(buffer, tokenBegin, newbuffer, 0, bufsize - tokenBegin);
         buffer = newbuffer;
 #if KEEP_LINE_COLUMN
 
-        System.arraycopy(bufline, tokenBegin, newbufline, 0, bufsize - tokenBegin);
+        System.Array.Copy(bufline, tokenBegin, newbufline, 0, bufsize - tokenBegin);
         bufline = newbufline;
 
-        System.arraycopy(bufcolumn, tokenBegin, newbufcolumn, 0, bufsize - tokenBegin);
+        System.Array.Copy(bufcolumn, tokenBegin, newbufcolumn, 0, bufsize - tokenBegin);
         bufcolumn = newbufcolumn;
 #fi
 
         maxNextCharInd = (bufpos -= tokenBegin);
       }
     }
-    catch (Throwable t)
+    catch (System.Exception t)
     {
-      throw new ${LEGACY_EXCEPTION_HANDLING?Error:RuntimeException}(t.getMessage());
+      throw t;
     }
 
 
@@ -99,7 +98,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
     tokenBegin = 0;
   }
 
-  ${PREFIX}protected void FillBuff() throws java.io.IOException
+  ${PREFIX}protected void FillBuff()
   {
     if (maxNextCharInd == available)
     {
@@ -125,16 +124,16 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
 
     int i;
     try {
-      if ((i = inputStream.read(buffer, maxNextCharInd, available - maxNextCharInd)) == -1)
+      if ((i = inputStream.Read(buffer, maxNextCharInd, available - maxNextCharInd)) == 0)
       {
-        inputStream.close();
-        throw new java.io.IOException();
+        inputStream.Close();
+        throw new System.IO.IOException();
       }
       else
         maxNextCharInd += i;
       return;
     }
-    catch(java.io.IOException e) {
+    catch(System.IO.IOException e) {
       --bufpos;
       backup(0);
       if (tokenBegin == -1)
@@ -144,7 +143,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   }
 
 /** Start. */
-  ${PREFIX}public char BeginToken() throws java.io.IOException
+  ${PREFIX}public char BeginToken()
   {
     tokenBegin = -1;
     char c = readChar();
@@ -196,7 +195,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
 #fi
 
 /** Read a character. */
-  ${PREFIX}public char readChar() throws java.io.IOException
+  ${PREFIX}public char readChar()
   {
     if (inBuf > 0)
     {
@@ -217,38 +216,6 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
     UpdateLineColumn(c);
 #fi
     return c;
-  }
-
-#if GENERATE_ANNOTATIONS
-  @Deprecated
-#fi
-  /**
-   * @deprecated
-   * @see #getEndColumn
-   */
-
-  ${PREFIX}public int getColumn() {
-#if KEEP_LINE_COLUMN
-    return bufcolumn[bufpos];
-#else
-    return -1;
-#fi
-  }
-
-#if GENERATE_ANNOTATIONS
-  @Deprecated
-#fi
-  /**
-   * @deprecated
-   * @see #getEndLine
-   */
-
-  ${PREFIX}public int getLine() {
-#if KEEP_LINE_COLUMN
-    return bufline[bufpos];
-#else
-    return -1;
-#fi
   }
 
   /** Get token end column number. */
@@ -296,15 +263,9 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   }
 
   /** Constructor. */
-  public SimpleCharStream(java.io.Reader dstream, int startline,
+  public SimpleCharStream(System.IO.TextReader dstream, int startline,
   int startcolumn, int buffersize)
   {
-#if STATIC
-    if (inputStream != null)
-      throw new ${LEGACY_EXCEPTION_HANDLING?Error:RuntimeException}("\n   ERROR: Second call to the constructor of a static SimpleCharStream.\n" +
-      "       You must either use ReInit() or set the JavaCC option STATIC to false\n" +
-      "       during the generation of this class.");
-#fi
     inputStream = dstream;
 #if KEEP_LINE_COLUMN
     line = startline;
@@ -320,20 +281,20 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   }
 
   /** Constructor. */
-  public SimpleCharStream(java.io.Reader dstream, int startline,
+  public SimpleCharStream(System.IO.TextReader dstream, int startline,
                           int startcolumn)
-  {
-    this(dstream, startline, startcolumn, 4096);
+  :
+    this(dstream, startline, startcolumn, 4096) {
   }
 
   /** Constructor. */
-  public SimpleCharStream(java.io.Reader dstream)
-  {
-    this(dstream, 1, 1, 4096);
+  public SimpleCharStream(System.IO.TextReader dstream)
+  :
+    this(dstream, 1, 1, 4096) {
   }
 
   /** Reinitialise. */
-  public void ReInit(java.io.Reader dstream, int startline,
+  public void ReInit(System.IO.TextReader dstream, int startline,
   int startcolumn, int buffersize)
   {
     inputStream = dstream;
@@ -342,7 +303,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
     column = startcolumn - 1;
 #fi
 
-    if (buffer == null || buffersize != buffer.length)
+    if (buffer == null || buffersize != buffer.Length)
     {
       available = bufsize = buffersize;
       buffer = new char[buffersize];
@@ -359,102 +320,26 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   }
 
   /** Reinitialise. */
-  public void ReInit(java.io.Reader dstream, int startline,
+  public void ReInit(System.IO.TextReader dstream, int startline,
                      int startcolumn)
   {
     ReInit(dstream, startline, startcolumn, 4096);
   }
 
   /** Reinitialise. */
-  public void ReInit(java.io.Reader dstream)
+  public void ReInit(System.IO.TextReader dstream)
   {
     ReInit(dstream, 1, 1, 4096);
   }
-  /** Constructor. */
-  public SimpleCharStream(java.io.InputStream dstream, String encoding, int startline,
-  int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException
-  {
-    this(encoding == null ? new java.io.InputStreamReader(dstream) : new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);
-  }
 
-  /** Constructor. */
-  public SimpleCharStream(java.io.InputStream dstream, int startline,
-  int startcolumn, int buffersize)
-  {
-    this(new java.io.InputStreamReader(dstream), startline, startcolumn, buffersize);
-  }
-
-  /** Constructor. */
-  public SimpleCharStream(java.io.InputStream dstream, String encoding, int startline,
-                          int startcolumn) throws java.io.UnsupportedEncodingException
-  {
-    this(dstream, encoding, startline, startcolumn, 4096);
-  }
-
-  /** Constructor. */
-  public SimpleCharStream(java.io.InputStream dstream, int startline,
-                          int startcolumn)
-  {
-    this(dstream, startline, startcolumn, 4096);
-  }
-
-  /** Constructor. */
-  public SimpleCharStream(java.io.InputStream dstream, String encoding) throws java.io.UnsupportedEncodingException
-  {
-    this(dstream, encoding, 1, 1, 4096);
-  }
-
-  /** Constructor. */
-  public SimpleCharStream(java.io.InputStream dstream)
-  {
-    this(dstream, 1, 1, 4096);
-  }
-
-  /** Reinitialise. */
-  public void ReInit(java.io.InputStream dstream, String encoding, int startline,
-                          int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException
-  {
-    ReInit(encoding == null ? new java.io.InputStreamReader(dstream) : new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);
-  }
-
-  /** Reinitialise. */
-  public void ReInit(java.io.InputStream dstream, int startline,
-                          int startcolumn, int buffersize)
-  {
-    ReInit(new java.io.InputStreamReader(dstream), startline, startcolumn, buffersize);
-  }
-
-  /** Reinitialise. */
-  public void ReInit(java.io.InputStream dstream, String encoding) throws java.io.UnsupportedEncodingException
-  {
-    ReInit(dstream, encoding, 1, 1, 4096);
-  }
-
-  /** Reinitialise. */
-  public void ReInit(java.io.InputStream dstream)
-  {
-    ReInit(dstream, 1, 1, 4096);
-  }
-  /** Reinitialise. */
-  public void ReInit(java.io.InputStream dstream, String encoding, int startline,
-                     int startcolumn) throws java.io.UnsupportedEncodingException
-  {
-    ReInit(dstream, encoding, startline, startcolumn, 4096);
-  }
-  /** Reinitialise. */
-  public void ReInit(java.io.InputStream dstream, int startline,
-                     int startcolumn)
-  {
-    ReInit(dstream, startline, startcolumn, 4096);
-  }
   /** Get token literal value. */
-  ${PREFIX}public String GetImage()
+  ${PREFIX}public string GetImage()
   {
     if (bufpos >= tokenBegin)
-      return new String(buffer, tokenBegin, bufpos - tokenBegin + 1);
+      return new string(buffer, tokenBegin, bufpos - tokenBegin + 1);
     else
-      return new String(buffer, tokenBegin, bufsize - tokenBegin) +
-                            new String(buffer, 0, bufpos + 1);
+      return new string(buffer, tokenBegin, bufsize - tokenBegin) +
+                            new string(buffer, 0, bufpos + 1);
   }
 
   /** Get the suffix. */
@@ -463,12 +348,12 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
     char[] ret = new char[len];
 
     if ((bufpos + 1) >= len)
-      System.arraycopy(buffer, bufpos - len + 1, ret, 0, len);
+      System.Array.Copy(buffer, bufpos - len + 1, ret, 0, len);
     else
     {
-      System.arraycopy(buffer, bufsize - (len - bufpos - 1), ret, 0,
+      System.Array.Copy(buffer, bufsize - (len - bufpos - 1), ret, 0,
                                                         len - bufpos - 1);
-      System.arraycopy(buffer, 0, ret, len - bufpos - 1, bufpos + 1);
+      System.Array.Copy(buffer, 0, ret, len - bufpos - 1, bufpos + 1);
     }
 
     return ret;
@@ -531,11 +416,10 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
     line = bufline[j];
     column = bufcolumn[j];
   }
-  ${PREFIX}boolean getTrackLineColumn() { return trackLineColumn; }
-  ${PREFIX}void setTrackLineColumn(boolean tlc) { trackLineColumn = tlc; }
+  ${PREFIX}bool getTrackLineColumn() { return trackLineColumn; }
+  ${PREFIX}void setTrackLineColumn(bool tlc) { trackLineColumn = tlc; }
 #fi
 }
 #if NAMESPACE
-namespace ${NAMESPACE}
-{
+}
 #fi
