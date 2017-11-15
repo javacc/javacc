@@ -107,7 +107,9 @@ public class ParserCodeGenerator implements org.javacc.parser.ParserCodeGenerato
       if (settings.containsKey("suerpClass")) {
         codeGenerator.genCode(settings.get("superClass") + ", ");
       }
+
       codeGenerator.genCodeLine(parserData.parserName + "Constants {");
+      codeGenerator.genCodeLine(parserData.decls);
 
       processProductions(settings, codeGenerator);
       settings.put("numproductions", internalIndexes.size());
@@ -116,7 +118,6 @@ public class ParserCodeGenerator implements org.javacc.parser.ParserCodeGenerato
       if (Options.getNamespace() != null) {
         codeGenerator.genCodeLine("\n}");
       }
-System.out.println("**** saving: " + parserTemplate + "into: " + (Options.getOutputDirectory() + File.separator + parserData.parserName + ".cs"));
       codeGenerator.saveOutput(Options.getOutputDirectory() + File.separator + parserData.parserName + ".cs");
     } catch(Exception e) {
 e.printStackTrace();
@@ -259,6 +260,7 @@ e.printStackTrace();
     }
   }
 
+  private int switchIndex = 0;
   /**
    * This method takes two parameters - an array of Lookahead's
    * "conds", and an array of String's "actions".  "actions" contains
@@ -280,7 +282,6 @@ e.printStackTrace();
 
     // The state variables.
     int state = NOOPENSTM;
-    int switchCount = 0;
     int indentAmt = 0;
     boolean[] casedValues = new boolean[parserData.tokenCount];
     String retval = "";
@@ -324,7 +325,7 @@ e.printStackTrace();
             retval += "\u0002\n" + "} else if (";
             break;
           case OPENSWITCH:
-            retval += "\u0002\n" + "default:" + "\u0001";
+            retval += " else {" + "\u0001";
             if (Options.getErrorReporting()) {
               retval += "\njj_la1[" + maskIndex + "] = jj_gen;";
               maskIndex++;
@@ -367,12 +368,8 @@ e.printStackTrace();
             retval += "\u0002\n" + "} else {\u0001";
             // Control flows through to next case.
           case NOOPENSTM:
-            retval += "\n" + "switch (";
-            if (Options.getCacheTokens()) {
-              retval += "jj_nt.kind) {\u0001";
-            } else {
-              retval += "(jj_ntk==-1)?jj_ntk_f():jj_ntk) {\u0001";
-            }
+            retval += "\n" + "int switch_" + ++switchIndex + " = (";
+            retval += "(jj_ntk==-1)?jj_ntk_f():jj_ntk);\n\u0001";
             for (int i = 0; i < parserData.tokenCount; i++) {
               casedValues[i] = false;
             }
@@ -381,13 +378,19 @@ e.printStackTrace();
             for (int i = 0; i < tokenMaskSize; i++) {
               tokenMask[i] = 0;
             }
+            break;
             // Don't need to do anything if state is OPENSWITCH.
+          case OPENSWITCH:
+            retval += " else ";
+            break;
           }
+          retval += "if (false\u0001";
+          boolean first = true;
           for (int i = 0; i < parserData.tokenCount; i++) {
             if (firstSet[i]) {
               if (!casedValues[i]) {
                 casedValues[i] = true;
-                retval += "\u0002\ncase ";
+                retval += "\u0002\n || switch_" + switchIndex + " == ";
                 int j1 = i/32;
                 int j2 = i%32;
                 tokenMask[j1] |= 1 << j2;
@@ -397,16 +400,14 @@ e.printStackTrace();
                 } else {
                   retval += s;
                 }
-                retval += ":\u0001";
+                retval += "\u0001";
               }
             }
           }
-          retval += "{";
+          retval += ") {";
           retval += actions[index];
-          retval += "\nbreak;\n}";
+          retval += "\u0002\n}";
           state = OPENSWITCH;
-          switchCount++;
-
         }
 
       } else {
@@ -430,7 +431,7 @@ e.printStackTrace();
           retval += "\u0002\n" + "} else if (";
           break;
         case OPENSWITCH:
-          retval += "\u0002\n" + "/*2*/default:" + "\u0001";
+          retval += "else {" + "\u0001";
           if (Options.getErrorReporting()) {
             retval += "\njj_la1[" + maskIndex + "] = jj_gen;";
             maskIndex++;
@@ -476,14 +477,13 @@ e.printStackTrace();
       retval += "\u0002\n" + "} else {\u0001" + actions[index];
       break;
     case OPENSWITCH:
-      retval += "\u0002\n" + "default:" + "\u0001";
+      retval += " else {" + "\u0001";
       if (Options.getErrorReporting()) {
         retval += "\njj_la1[" + maskIndex + "] = jj_gen;";
         maskVals.add(tokenMask);
         maskIndex++;
       }
       retval += actions[index];
-      retval += "break;\n";
       break;
     }
     for (int i = 0; i < indentAmt; i++) {

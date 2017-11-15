@@ -183,18 +183,18 @@ public class CodeGenHelper {
     genCode(getStringToPrint(t));
   }
 
-  public String getStringToPrint(Token t) {
+  public static String getStringToPrint(Token t) {
     String retval = "";
     Token tt = t.specialToken;
     if (tt != null) {
       while (tt.specialToken != null) tt = tt.specialToken;
       while (tt != null) {
-        retval += getStringForTokenOnly(tt);
+        retval += tt.image;
         tt = tt.next;
       }
     }
 
-    return retval + getStringForTokenOnly(t);
+    return retval + t.image;
   }
 
   public void printLeadingComments(Token t) {

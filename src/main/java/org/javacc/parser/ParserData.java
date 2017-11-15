@@ -20,4 +20,5 @@ public class ParserData {
   public int tokenCount;
   public Map<Integer, String> namesOfTokens;
   public Map productionTable;
+  public String decls;
 }

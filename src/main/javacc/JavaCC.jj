@@ -99,7 +99,7 @@ public class JavaCCParser extends JavaCCParserInternals {
 
   protected static boolean isJavaLanguage()
   {
-    return language == Language.java;
+    return language == Language.java && getCodeGenerator() == null;
   }
   protected static boolean isCppLanguage()
   {
@@ -315,7 +315,7 @@ TOKEN :
 
 /* WHITE SPACE */
 
-SKIP :
+SPECIAL_TOKEN :
 {
   " "
 | "\t"
@@ -1648,9 +1648,9 @@ void CompilationUnit() :
   ( ImportDeclaration() )*
   ( TypeDeclaration() )*
 	{
-          if (Options.isOutputLanguageJava()) {
+    if (isJavaLanguage()) {
 	    insertionpointerrors(getToken(1));
-          }
+    }
 	}
 }
 
