@@ -17,7 +17,7 @@ Copyright (c) 2017, Microsoft
 	<target name="clean">
 		<delete dir="classes" />
 		<delete dir="lib" />
-		<delete dir="*.jar" />
+		<delete file="csharp-codegenerator.jar" />
 	</target>
 
 	<target name="compile" depends="clean">
