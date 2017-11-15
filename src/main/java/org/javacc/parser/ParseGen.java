@@ -57,6 +57,24 @@ import java.util.List;
  */
 public class ParseGen extends CodeGenHelper implements JavaCCParserConstants {
 
+  private ParserData createParserData() {
+    ParserData parserData = new ParserData();
+    parserData.bnfproductions = JavaCCGlobals.bnfproductions;
+    parserData.parserName = JavaCCGlobals.cu_name;
+    parserData.tokenCount = JavaCCGlobals.tokenCount;
+    parserData.namesOfTokens = JavaCCGlobals.names_of_tokens;
+    parserData.productionTable = JavaCCGlobals.production_table;
+    StringBuilder decls = new StringBuilder();
+    if (JavaCCGlobals.otherLanguageDeclTokenBeg != null) {
+      int line = JavaCCGlobals.otherLanguageDeclTokenBeg.beginLine;
+      for (Token t = JavaCCGlobals.otherLanguageDeclTokenBeg; t != JavaCCGlobals.otherLanguageDeclTokenEnd; t = t.next) {
+        decls.append(CodeGenHelper.getStringToPrint(t));
+      }
+    }
+    parserData.decls = decls.toString();
+    return parserData;
+  }
+
 	public void start(boolean isJavaModernMode) throws MetaParseException {
 
 		if (!Options.getBuildParser()) {
@@ -64,19 +82,11 @@ public class ParseGen extends CodeGenHelper implements JavaCCParserConstants {
     }
 
     CodeGenerator codeGenerator = JavaCCGlobals.getCodeGenerator();
-System.err.println("*** cidegen: " + codeGenerator);
     if (codeGenerator != null) {
       ParserCodeGenerator parserCodeGenerator = codeGenerator.getParserCodeGenerator();
       if (parserCodeGenerator != null) {
-System.err.println("*** parsercg: " + parserCodeGenerator);
-        ParserData parserData = new ParserData();
-        parserData.bnfproductions = JavaCCGlobals.bnfproductions;
-        parserData.parserName = JavaCCGlobals.cu_name;
-        parserData.tokenCount = JavaCCGlobals.tokenCount;
-        parserData.namesOfTokens = JavaCCGlobals.names_of_tokens;
-        parserData.productionTable = JavaCCGlobals.production_table;
+        ParserData parserData = createParserData();
         CodeGeneratorSettings settings = new CodeGeneratorSettings(Options.getOptions());
-System.err.println("*** Genrating code here ******");
         parserCodeGenerator.generateCode(settings, new CodeGenHelper(), parserData);
         parserCodeGenerator.finish(settings, new CodeGenHelper(), parserData);
         return;
