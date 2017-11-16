@@ -99,7 +99,8 @@ public class JavaCCParser extends JavaCCParserInternals {
 
   protected static boolean isJavaLanguage()
   {
-    return language == Language.java && getCodeGenerator() == null;
+    return language == Language.java && getCodeGenerator() == null &&
+           !Options.booleanValue(Options.NONUSER_OPTION__INTERPRETER);
   }
   protected static boolean isCppLanguage()
   {

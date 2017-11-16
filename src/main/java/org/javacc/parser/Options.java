@@ -64,7 +64,7 @@ public class Options {
   public static final String NONUSER_OPTION__NAMESPACE_OPEN = "NAMESPACE_OPEN";
   public static final String NONUSER_OPTION__PARSER_NAME = "PARSER_NAME";
   public static final String NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING = "LEGACY_EXCEPTION_HANDLING";
-
+  public static final String NONUSER_OPTION__INTERPRETER = "INTERPRETER_MODE";
   /**
    * Options that the user can specify from .javacc file
    */
@@ -256,7 +256,8 @@ public class Options {
    * Convenience method to retrieve boolean options.
    */
   public static boolean booleanValue(final String option) {
-    return ((Boolean) optionValues.get(option)).booleanValue();
+    Object o = optionValues.get(option);
+    return o != null && ((Boolean)o).booleanValue();
   }
 
   /**
@@ -610,7 +611,8 @@ public class Options {
   }
   public static String getCodeGenerator() {
     String retVal = stringValue(USEROPTION__CODE_GENERATOR);
-          return retVal.equals("") ? null : retVal;
+    return (booleanValue(NONUSER_OPTION__INTERPRETER) ||
+            retVal.equals("")) ? null : retVal;
   }
   public static boolean getNoDfa() {
     return booleanValue(USEROPTION__NO_DFA);
@@ -959,6 +961,10 @@ public class Options {
 
   public static String getJavaTemplateType() {
     return stringValue(USEROPTION__JAVA_TEMPLATE_TYPE);
+  }
+
+  public static void set(String optionName, Object optionValue) {
+    optionValues.put(optionName, optionValue);
   }
 
   public static void setStringOption(String optionName, String optionValue) {

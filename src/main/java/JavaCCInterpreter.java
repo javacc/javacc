@@ -7,6 +7,8 @@ public class JavaCCInterpreter {
   public static void main(String[] args) throws Exception {
     // Initialize all static state
     Main.reInitAll();
+    Options.set(Options.NONUSER_OPTION__INTERPRETER, true);
+    Options.set("STATIC", false);
     JavaCCParser parser = null;
     for (int arg = 0; arg < args.length - 2; arg++) {
       if (!Options.isOption(args[arg])) {
@@ -35,24 +37,28 @@ public class JavaCCInterpreter {
       e.printStackTrace();
       System.exit(1);
     } catch (Throwable t) {
+      t.printStackTrace();
       System.exit(1);
     }
-    long l = System.currentTimeMillis();
-    new JavaCCInterpreter().runTokenizer(grammar, input);
-    System.err.println("Tokenized in: " + (System.currentTimeMillis()-l));
+    JavaCCInterpreter interp = new JavaCCInterpreter();
+    interp.runTokenizer(grammar, input);
   }
 
   public void runTokenizer(String grammar, String input) {
     try {
       JavaCCParser parser = new JavaCCParser(new StringReader(grammar));
       parser.javacc_input();
+      //Options.init();
+      Options.set(Options.NONUSER_OPTION__INTERPRETER, true);
       Semanticize.start();
       LexGen lg = new LexGen();
       lg.generateDataOnly = true;
       lg.start();
-      TokenizerData td = LexGen.tokenizerData;
+      TokenizerData tokenizerData = LexGen.tokenizerData;
       if (JavaCCErrors.get_error_count() == 0) {
-        tokenize(td, input);
+        long l = System.currentTimeMillis();
+        tokenize(tokenizerData, input);
+        System.err.println("Tokenized in: " + (System.currentTimeMillis()-l));
       }
     } catch (MetaParseException e) {
       System.out.println("Detected " + JavaCCErrors.get_error_count() +
@@ -60,6 +66,7 @@ public class JavaCCInterpreter {
                          + JavaCCErrors.get_warning_count() + " warnings.");
       System.exit(1);
     } catch (Exception e) {
+      e.printStackTrace();
       System.out.println(e.toString());
       System.out.println("Detected " + (JavaCCErrors.get_error_count()+1) +
                          " errors and "
@@ -68,23 +75,23 @@ public class JavaCCInterpreter {
     }
   }
 
-  public static void tokenize(TokenizerData td, String input) {
+  public static void tokenize(TokenizerData tokenizerData, String input) {
     // First match the string literals.
     final int input_size = input.length();
     int curPos = 0;
-    int curLexState = td.defaultLexState;
+    int curLexState = tokenizerData.defaultLexState;
     Set<Integer> curStates = new HashSet<Integer>();
     Set<Integer> newStates = new HashSet<Integer>();
     while (curPos < input_size) {
       int beg = curPos;
       int matchedPos = beg;
       int matchedKind = Integer.MAX_VALUE;
-      int nfaStartState = td.initialStates.get(curLexState);
+      int nfaStartState = tokenizerData.initialStates.get(curLexState);
 
       char c = input.charAt(curPos);
       if (Options.getIgnoreCase()) c = Character.toLowerCase(c);
       int key = curLexState << 16 | (int)c;
-      final List<String> literals = td.literalSequence.get(key);
+      final List<String> literals = tokenizerData.literalSequence.get(key);
       if (literals != null) {
         // We need to go in order so that the longest match works.
         int litIndex = 0;
@@ -99,9 +106,9 @@ public class JavaCCInterpreter {
           }
           if (index == s.length()) {
             // Found a string literal match.
-            matchedKind = td.literalKinds.get(key).get(litIndex);
+            matchedKind = tokenizerData.literalKinds.get(key).get(litIndex);
             matchedPos = curPos + index - 1;
-            nfaStartState = td.kindToNfaStartState.get(matchedKind);
+            nfaStartState = tokenizerData.kindToNfaStartState.get(matchedKind);
             curPos += index;
             break;
           }
@@ -113,12 +120,12 @@ public class JavaCCInterpreter {
         // We need to add the composite states first.
         int kind = Integer.MAX_VALUE;
         curStates.add(nfaStartState);
-        curStates.addAll(td.nfa.get(nfaStartState).compositeStates);
+        curStates.addAll(tokenizerData.nfa.get(nfaStartState).compositeStates);
         do {
           c = input.charAt(curPos);
           if (Options.getIgnoreCase()) c = Character.toLowerCase(c);
           for (int state : curStates) {
-            TokenizerData.NfaState nfaState = td.nfa.get(state);
+            TokenizerData.NfaState nfaState = tokenizerData.nfa.get(state);
             if (nfaState.characters.contains(c)) {
               if (kind > nfaState.kind) {
                 kind = nfaState.kind;
@@ -137,17 +144,21 @@ public class JavaCCInterpreter {
           }
         } while (!curStates.isEmpty() && ++curPos < input_size);
       }
-      if (matchedPos == beg && matchedKind > td.wildcardKind.get(curLexState)) {
-        matchedKind = td.wildcardKind.get(curLexState);
+      if (matchedPos == beg && matchedKind > tokenizerData.wildcardKind.get(curLexState)) {
+        matchedKind = tokenizerData.wildcardKind.get(curLexState);
       }
       if (matchedKind != Integer.MAX_VALUE) {
-        TokenizerData.MatchInfo matchInfo = td.allMatches.get(matchedKind);
+        TokenizerData.MatchInfo matchInfo = tokenizerData.allMatches.get(matchedKind);
         if (matchInfo.action != null) {
           System.err.println(
               "Actions not implemented (yet) in intererpreted mode");
         }
         if (matchInfo.matchType == TokenizerData.MatchType.TOKEN) {
-          System.err.println("Token: " + matchedKind + "; image: \"" +
+          String label = tokenizerData.labels.get(matchedKind);
+          if (label == null) {
+            label = "Token kind: " + matchedKind;
+          }
+          System.err.println("Token: " + label + "; image: \"" +
                              input.substring(beg, matchedPos + 1) + "\"");
         }
         if (matchInfo.newLexState != -1) {
