@@ -145,6 +145,7 @@ public class JavaCCParser extends JavaCCParserInternals {
      public static final int TRANSIENT = 0x0100;
      public static final int VOLATILE = 0x0200;
      public static final int STRICTFP = 0x1000;
+     public static final int CONST = 0x2000;
 
      /** A set of accessors that indicate whether the specified modifier
          is in the set. */
@@ -202,6 +203,11 @@ public class JavaCCParser extends JavaCCParserInternals {
      public boolean isVolatile(int modifiers)
      {
        return (modifiers & VOLATILE) != 0;
+     }
+
+     public boolean isConst(int modifiers)
+     {
+       return (modifiers & CONST) != 0;
      }
 
      /**
@@ -1700,6 +1706,8 @@ int Modifiers():
   |
    "strictfp" { modifiers |= ModifierSet.STRICTFP; }
   |
+   "const" { modifiers |= ModifierSet.CONST; }
+  |
    Annotation()
   )
  )*
@@ -1974,7 +1982,8 @@ void FormalParameter():
 { Token t; }
 {
   Modifiers() Type()
-  [ ( t = "&" | t = "*") { if (!isAllowed(t)) throw new ParseException(t.image + " is invalid in this context"); }
+  [ ( t = "&" | t = "*" ) { if (!isAllowed(t)) throw new ParseException(t.image + " is invalid in this context"); }
+    [ "const" ]
   	| "..."
   ]
   VariableDeclaratorId()
