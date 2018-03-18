@@ -14,6 +14,8 @@
   private int jj_la;
   private int jj_gen;
   private bool hasError = false;
+  private bool jj_semLA = false;
+  private bool jj_lookingAhead = false;
 
   /** Constructor. */
   public ${parserName}(System.IO.TextReader stream) {
@@ -143,7 +145,7 @@
 
 /** Get the specific Token. */
   public Token getToken(int index) {
-	 Token t = token;
+	 Token t = jj_lookingAhead ? jj_scanpos : token;
 	 for (int i = 0; i < index; i++) {
 	   if (t.next != null) t = t.next;
 	   else t = t.next = token_source.getNextToken();
@@ -230,7 +232,7 @@
 
 
 #if ERROR_REPORTING
-  private int[] jj_la1 = new int[0];
+  private int[] jj_la1 = new int[${numproductions}];  // TODO(sreeni): check this out.
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static private int[] jj_la1_2;
@@ -376,21 +378,18 @@
   private void jj_rescan_token() {
 	 jj_rescan = true;
 	 for (int i = 0; i < ${numproductions}; i++) {
-	   jj_done = false;
-           while (!jj_done) {
 		 JJCalls p = jj_2_rtns[i];
 
-		 do {
+		 while (p != null) {
 		   if (p.gen > jj_gen) {
 			   jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;
          System.Type thisType = this.GetType();
-         System.Reflection.MethodInfo theMethod = thisType.GetMethod("jj_3_" + i);
-         theMethod.Invoke(this, new object[0]);
+         System.Reflection.MethodInfo theMethod = thisType.GetMethod("jj_3_" + (i + 1), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+         if (theMethod != null)
+           theMethod.Invoke(this, new object[0]);
 		   }
 		   p = p.next;
-		 } while (p != null);
-
-		 } 
+		 }
 	 }
 	 jj_rescan = false;
   }

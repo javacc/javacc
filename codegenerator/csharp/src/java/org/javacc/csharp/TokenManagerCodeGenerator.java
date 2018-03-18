@@ -1,4 +1,4 @@
-package com.microsoft.javacc;
+package org.javacc.csharp;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,11 +27,13 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
                              Options.USEROPTION__TOKEN_MANAGER_SUPER_CLASS);
     settings.put("maxOrdinal", tokenizerData.allMatches.size());
     settings.put("maxLexStates", tokenizerData.lexStateNames.length);
+    settings.put("nfaSize", tokenizerData.nfa.size());
+    settings.put("charsVectorSize", (((int)Character.MAX_VALUE >> 6) + 1));
     settings.put("stateSetSize", tokenizerData.nfa.size());
     settings.put("parserName", tokenizerData.parserName);
     settings.put("maxLongs", tokenizerData.allMatches.size()/64 + 1);
     settings.put("parserName", tokenizerData.parserName);
-    settings.put("charStreamName", CodeGenHelper.getCharStreamName());
+    settings.put("charStreamName", "ICharStream");
     settings.put("defaultLexState", tokenizerData.defaultLexState);
     settings.put("decls", tokenizerData.decls);
     settings.put("superClass", (superClass == null || superClass.equals(""))
@@ -52,7 +54,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
       dumpDfaTables(codeGenerator, tokenizerData);
       dumpNfaTables(codeGenerator, tokenizerData);
       dumpMatchInfo(codeGenerator, tokenizerData);
-      codeGenerator.genCode("static " + tokenizerData.parserName + "TokenManager() { Init1(); Init2(); } ");
+      codeGenerator.genCode("static " + tokenizerData.parserName + "TokenManager() {\n  InitStringLiteralData();\n  InitNfaData(); } ");
     } catch(IOException ioe) {
       assert(false);
     }
@@ -106,12 +108,8 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
     }
     codeGenerator.genCodeLine("};");
 
-    codeGenerator.genCodeLine(
-        "private static readonly System.Collections.Generic.Dictionary<int, int[]> startAndSize =\n" +
-        "    new System.Collections.Generic.Dictionary<int, int[]>();");
-
     // Static block to actually initialize the map from the int array above.
-    codeGenerator.genCodeLine("static void Init1() {");
+    codeGenerator.genCodeLine("static void InitStringLiteralData() {");
     for (int key : tokenizerData.literalSequence.keySet()) {
       int[] arr = startAndSize.get(key);
       codeGenerator.genCodeLine("startAndSize[" + key + "] = new int[]{" +
@@ -151,35 +149,6 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
       codeGenerator.genCode("}");
     }
     codeGenerator.genCodeLine("};");
-
-    codeGenerator.genCodeLine(
-         "private static readonly long[][] jjChars = ");
-    codeGenerator.genCodeLine(
-         "    new long[" + tokenizerData.nfa.size() +
-         "][]; ");
-    codeGenerator.genCodeLine(
-         "static void Init2() { ");
-    codeGenerator.genCodeLine(
-         "  for (int i = 0; i < " + tokenizerData.nfa.size() + "; i++) { ");
-    codeGenerator.genCodeLine(
-         "jjChars[i] = new long[" + (((int)Character.MAX_VALUE >> 6) + 1) + " ]; ");
-    codeGenerator.genCodeLine(
-         "    int ind = 0; ");
-    codeGenerator.genCodeLine(
-         "    for (int j = 0; j < jjCharData[i].Length; j += 2) { ");
-    codeGenerator.genCodeLine(
-         "      for (int k = 0; k < (int)jjCharData[i][j]; k++) { ");
-    codeGenerator.genCodeLine(
-         "        jjChars[i][ind++] = jjCharData[i][j + 1]; ");
-    codeGenerator.genCodeLine(
-         "      } ");
-    codeGenerator.genCodeLine(
-         "    } ");
-    codeGenerator.genCodeLine(
-         "  } ");
-    codeGenerator.genCodeLine(
-         "} ");
-
 
     codeGenerator.genCodeLine(
         "private static readonly int[][] jjcompositeState = {");

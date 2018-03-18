@@ -1197,17 +1197,24 @@ public class NfaState
 
       if (toRet >= nameSet.length)
       {
+        // TODO(sreeni) : Fix this mess.
+        if (JavaCCGlobals.getCodeGenerator() != null ||
+            Options.booleanValue(Options.NONUSER_OPTION__INTERPRETER)) {
+          tmp = generatedStates++;
+        } else {
          if (dummyStateIndex == -1)
             tmp = dummyStateIndex = generatedStates;
          else
             tmp = ++dummyStateIndex;
+        }
 
-        // TODO(sreeni) : Fix this
-        if (JavaCCGlobals.getCodeGenerator() != null) {
+        if (JavaCCGlobals.getCodeGenerator() != null ||
+            Options.booleanValue(Options.NONUSER_OPTION__INTERPRETER)) {
           NfaState dummyState = new NfaState();
           dummyState.isComposite = true;
           dummyState.compositeStates = nameSet;
           dummyState.stateName = tmp;
+          dummyState.dummy = true;
         }
       }
       else

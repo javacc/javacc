@@ -11,7 +11,7 @@ namespace ${NAMESPACE}
  * You can modify this class to customize your error reporting
  * mechanisms so long as you retain the public fields.
  */
-public class ParseException : System.Exception {
+public partial class ParseException : System.Exception {
 
   /**
    * The end of line string for this machine.
@@ -27,7 +27,7 @@ public class ParseException : System.Exception {
   public ParseException(Token currentTokenVal,
                         int[][] expectedTokenSequencesVal,
                         string[] tokenImageVal
-                       )
+                       ) : base(initialise(currentTokenVal, expectedTokenSequencesVal, tokenImageVal))
   {
     currentToken = currentTokenVal;
     expectedTokenSequences = expectedTokenSequencesVal;

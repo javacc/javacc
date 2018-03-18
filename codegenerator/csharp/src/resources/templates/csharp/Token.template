@@ -7,9 +7,9 @@ namespace ${NAMESPACE}
  */
 
 #if TOKEN_EXTENDS
-${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class Token : ${TOKEN_EXTENDS} {
+${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}partial class Token : ${TOKEN_EXTENDS} {
 #else
-${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class Token {
+${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}partial class Token {
 #fi
 
   /**

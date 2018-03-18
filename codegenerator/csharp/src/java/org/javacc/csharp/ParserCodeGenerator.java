@@ -28,7 +28,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.microsoft.javacc;
+package org.javacc.csharp;
 
 import org.javacc.parser.*;
 
@@ -74,7 +74,6 @@ public class ParserCodeGenerator implements org.javacc.parser.ParserCodeGenerato
   private int indentamt;
   private boolean jj2LA;
   private CodeGenHelper codeGenerator;
-  private boolean isJavaDialect = Options.isOutputLanguageJava();
   private int cline = 1;
   private int ccol = 1;
 
@@ -132,6 +131,61 @@ e.printStackTrace();
       ParserData parserData) {
   }
 
+  // TODO(sreeni): Fix this mess.
+  private void GenerateCodeProduction(
+      CodeProduction production,
+      CodeGeneratorSettings settings,
+      CodeGenHelper codeGenerator) {
+    Token t = (Token)(production.getReturnTypeTokens().get(0));
+    codeGenerator.printTokenSetup(t); ccol = 1;
+    codeGenerator.printLeadingComments(t);
+    codeGenerator.genCode(
+        "  " + (production.getAccessMod() != null ? production.getAccessMod() + " " : ""));
+    cline = t.beginLine; ccol = t.beginColumn;
+    codeGenerator.printTokenOnly(t);
+    for (int i = 1; i < production.getReturnTypeTokens().size(); i++) {
+      t = (Token)(production.getReturnTypeTokens().get(i));
+      codeGenerator.printToken(t);
+    }
+    codeGenerator.printTrailingComments(t);
+    codeGenerator.genCode(" " + production.getLhs() + "(");
+    if (production.getParameterListTokens().size() != 0) {
+      codeGenerator.printTokenSetup((Token)(production.getParameterListTokens().get(0)));
+      for (java.util.Iterator it = production.getParameterListTokens().iterator(); it.hasNext();) {
+        t = (Token)it.next();
+        codeGenerator.printToken(t);
+      }
+      codeGenerator.printTrailingComments(t);
+    }
+    codeGenerator.genCode(")");
+    for (java.util.Iterator it = production.getThrowsList().iterator(); it.hasNext();) {
+      codeGenerator.genCode(", ");
+      java.util.List name = (java.util.List)it.next();
+      for (java.util.Iterator it2 = name.iterator(); it2.hasNext();) {
+        t = (Token)it2.next();
+        codeGenerator.genCode(t.image);
+      }
+    }
+    codeGenerator.genCode(" {");
+    if (Options.getDebugParser()) {
+      codeGenerator.genCodeLine("");
+      codeGenerator.genCodeLine("    trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(production.getLhs()) + "\");");
+      codeGenerator.genCode("    try {");
+    }
+    if (production.getCodeTokens().size() != 0) {
+      codeGenerator.printTokenSetup((Token)(production.getCodeTokens().get(0))); cline--;
+      codeGenerator.printTokenList(production.getCodeTokens());
+    }
+    codeGenerator.genCodeLine("");
+    if (Options.getDebugParser()) {
+      codeGenerator.genCodeLine("    } finally {");
+      codeGenerator.genCodeLine("      trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(production.getLhs()) + "\");");
+      codeGenerator.genCodeLine("    }");
+    }
+    codeGenerator.genCodeLine("  }");
+    codeGenerator.genCodeLine("");
+  }
+
   private void processProductions(
       CodeGeneratorSettings settings,
       CodeGenHelper codeGenerator) {
@@ -144,7 +198,11 @@ e.printStackTrace();
     for (Iterator prodIterator = parserData.bnfproductions.iterator();
          prodIterator.hasNext();) {
       p = (NormalProduction)prodIterator.next();
-      buildPhase1Routine((BNFProduction)p);
+      if (p instanceof CodeProduction) {
+        GenerateCodeProduction((CodeProduction)p, settings, codeGenerator);
+      } else {
+        buildPhase1Routine((BNFProduction)p);
+      }
     }
 
     for (int phase2index = 0; phase2index < phase2list.size(); phase2index++) {
@@ -724,7 +782,7 @@ e.printStackTrace();
       }
       retval += "\n";
       int labelIndex = ++gensymindex;
-      retval += "while (" + (isJavaDialect ? "true" : "!hasError") + ") {\u0001";
+      retval += "while (!hasError) {\u0001";
       conds = new Lookahead[1];
       conds[0] = la;
       actions = new String[2];
@@ -788,11 +846,7 @@ e.printStackTrace();
         retval += "\u0004\n" + "}";
       }
       if (e_nrw.finallyblk != null) {
-        if (isJavaDialect) {
-          retval += " finally {\u0003\n";
-        } else {
-          retval += " finally {\u0003\n";
-        }
+        retval += " finally {\u0003\n";
 
         if (e_nrw.finallyblk.size() != 0) {
           codeGenerator.printTokenSetup((Token)(e_nrw.finallyblk.get(0))); ccol = 1;
@@ -940,7 +994,7 @@ e.printStackTrace();
   }
 
   private String getTypeForToken() {
-    return isJavaDialect ? "Token" : "Token *";
+    return "Token";
   }
 
   private String genjj_3Call(Expansion e)
@@ -1091,9 +1145,6 @@ e.printStackTrace();
     }
     if (!recursive_call) {
       codeGenerator.genCodeLine("    " + genReturn(false));
-      if (!isJavaDialect && Options.getDepthLimit() > 0) {
-        codeGenerator.genCodeLine("#undef __ERROR_RET__");
-      }
       codeGenerator.genCodeLine("  }");
       codeGenerator.genCodeLine("");
     }

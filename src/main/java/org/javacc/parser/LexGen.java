@@ -584,7 +584,6 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
       tokenizerData.updateMatchInfo(
           actionStrings, newLexStateIndices,
           toSkip, toSpecial, toMore, toToken);
-System.err.println("**** codegen: " + codeGenerator);
       Map<Integer, String> labels = new HashMap<Integer, String>();
       String[] images = new String[rexps_of_tokens.size() + 1];
       for (Integer o: rexps_of_tokens.keySet()) {
@@ -601,7 +600,6 @@ System.err.println("**** codegen: " + codeGenerator);
 
       if (generateDataOnly) return;
 
-System.err.println("**** RETURNRED HERE *****");
       TokenManagerCodeGenerator gen = codeGenerator.getTokenManagerCodeGenerator();
       CodeGeneratorSettings settings = new CodeGeneratorSettings(Options.getOptions());
       gen.generateCode(settings, tokenizerData);

@@ -3,16 +3,16 @@ namespace ${NAMESPACE}
 {
 #fi
 #if superClass
-public class ${parserName}TokenManager : ${superClass}, ${parserName}Constants {
+public partial class ${parserName}TokenManager : ${superClass}, ${parserName}Constants {
 #else
-public class ${parserName}TokenManager : ${parserName}Constants {
+public partial class ${parserName}TokenManager : ${parserName}Constants {
 #fi
 
 protected bool moveToNextChar() {
   try {
     curChar = input_stream.readChar();
 #if IGNORE_CASE
-    curChar = (int)Character.toLowerCase((char)curChar);
+    curChar = (int)System.Char.ToLower((char)curChar);
 #fi
   } catch(System.IO.IOException) {
     return false;
@@ -368,7 +368,7 @@ public  Token getNextToken() {
     try {
       curChar = input_stream.BeginToken();
 #if IGNORE_CASE
-      curChar = Character.toLowerCase(curChar);
+      curChar = (int)System.Char.ToLower((char)curChar);
 #fi
     } catch(System.Exception) {
 #if DEBUG_TOKEN_MANAGER
@@ -480,6 +480,9 @@ public  Token getNextToken() {
         jjmatchedKind = int.MaxValue;
         try {
           curChar = input_stream.readChar();
+#if IGNORE_CASE
+          curChar = (int)System.Char.ToLower((char)curChar);
+#fi
           continue;
         }
         catch (System.IO.IOException) { }
@@ -513,4 +516,23 @@ protected  void reportError(int lastReadPosition) {
   }
   throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column,
                           error_after, curChar, TokenMgrError.LEXICAL_ERROR);
+}
+
+private static readonly System.Collections.Generic.Dictionary<int, int[]> startAndSize =
+    new System.Collections.Generic.Dictionary<int, int[]>();
+
+
+private static readonly long[][] jjChars = new long[${nfaSize}][];
+private static void InitNfaData() {
+  for (int i = 0; i < ${nfaSize}; i++) {
+    jjChars[i] = new long[${charsVectorSize}];
+    int ind = 0;
+    // We originally generate something like RLE for the static arrays and
+    // we actually expannd them here.
+    for (int j = 0; j < jjCharData[i].Length; j += 2) {
+      for (int k = 0; k < (int)jjCharData[i][j]; k++) {
+        jjChars[i][ind++] = jjCharData[i][j + 1];
+      }
+    }
+  }
 }

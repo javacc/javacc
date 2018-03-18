@@ -1,4 +1,4 @@
-package com.microsoft.javacc;
+package org.javacc.csharp;
 
 import java.io.IOException;
 import org.javacc.parser.CodeGeneratorSettings;

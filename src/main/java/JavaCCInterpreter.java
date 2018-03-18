@@ -75,13 +75,43 @@ public class JavaCCInterpreter {
     }
   }
 
+  static int line, col;
+  static boolean prevCR;
+  static Map<Integer, Integer> lineBoundaries = new TreeMap<Integer, Integer>();
+  static int maxpos = -1;
+  static int getLine(int pos) {
+    for (int key: lineBoundaries.keySet()) {
+      if (pos >= key) {
+        return lineBoundaries.get(key);
+      }
+    }
+    return -1;
+  }
+
+  static void updateLineCol(int pos, char c) {
+    if (pos < maxpos) return;
+    maxpos = pos;
+    if (c == '\r' || (c == '\n' && !prevCR))
+    {
+      line++;
+      col = 0;
+      prevCR = c == '\r';
+      lineBoundaries.put(pos, line);
+    } else {
+      col++;
+    }
+  }
+
   public static void tokenize(TokenizerData tokenizerData, String input) {
     // First match the string literals.
     final int input_size = input.length();
     int curPos = 0;
+    line = 1;
+    col = 0;
     int curLexState = tokenizerData.defaultLexState;
     Set<Integer> curStates = new HashSet<Integer>();
     Set<Integer> newStates = new HashSet<Integer>();
+    int tokline, tokcol;
     while (curPos < input_size) {
       int beg = curPos;
       int matchedPos = beg;
@@ -89,9 +119,12 @@ public class JavaCCInterpreter {
       int nfaStartState = tokenizerData.initialStates.get(curLexState);
 
       char c = input.charAt(curPos);
+      updateLineCol(curPos, c);
       if (Options.getIgnoreCase()) c = Character.toLowerCase(c);
       int key = curLexState << 16 | (int)c;
       final List<String> literals = tokenizerData.literalSequence.get(key);
+      tokline = getLine(curPos);
+      tokcol = col;
       if (literals != null) {
         // We need to go in order so that the longest match works.
         int litIndex = 0;
@@ -100,6 +133,7 @@ public class JavaCCInterpreter {
           // See which literal matches.
           while (index < s.length() && curPos + index < input_size) {
             c = input.charAt(curPos + index);
+            updateLineCol(curPos + index, c);
             if (Options.getIgnoreCase()) c = Character.toLowerCase(c);
             if (c != s.charAt(index)) break;
             index++;
@@ -123,6 +157,7 @@ public class JavaCCInterpreter {
         curStates.addAll(tokenizerData.nfa.get(nfaStartState).compositeStates);
         do {
           c = input.charAt(curPos);
+          updateLineCol(curPos, c);
           if (Options.getIgnoreCase()) c = Character.toLowerCase(c);
           for (int state : curStates) {
             TokenizerData.NfaState nfaState = tokenizerData.nfa.get(state);
@@ -158,8 +193,8 @@ public class JavaCCInterpreter {
           if (label == null) {
             label = "Token kind: " + matchedKind;
           }
-          System.err.println("Token: " + label + "; image: \"" +
-                             input.substring(beg, matchedPos + 1) + "\"");
+          System.out.println("Token: " + label + "; image: \"" +
+                             input.substring(beg, matchedPos + 1) + "\" at: " + tokline + ":" + tokcol);
         }
         if (matchInfo.newLexState != -1) {
           curLexState = matchInfo.newLexState;

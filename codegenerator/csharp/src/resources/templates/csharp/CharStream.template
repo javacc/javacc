@@ -2,12 +2,29 @@
 namespace ${NAMESPACE}
 {
 #fi
+
+public interface ICharStream {
+  void setTabSize(int i);
+  int getTabSize();
+  char BeginToken();
+  char readChar();
+  int getEndColumn();
+  int getEndLine();
+  int getBeginColumn();
+  int getBeginLine();
+  void backup(int amount);
+  string GetImage();
+  char[] GetSuffix(int len);
+  void Done();
+  void adjustBeginLineColumn(int newLine, int newCol);
+}
+
 /**
  * An implementation of interface CharStream, where the stream is assumed to
  * contain only ASCII characters (without unicode processing).
  */
 
-${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
+${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :} partial class SimpleCharStream : ICharStream
 {
 /** Whether parser is static. */
   ${PREFIX}int bufsize;
@@ -38,8 +55,8 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   ${PREFIX}protected bool trackLineColumn = false;
 #fi
 
-  ${PREFIX}public void setTabSize(int i) { tabSize = i; }
-  ${PREFIX}public int getTabSize() { return tabSize; }
+  ${PREFIX}public virtual void setTabSize(int i) { tabSize = i; }
+  ${PREFIX}public virtual int getTabSize() { return tabSize; }
 
 
 
@@ -143,7 +160,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   }
 
 /** Start. */
-  ${PREFIX}public char BeginToken()
+  ${PREFIX}public virtual char BeginToken()
   {
     tokenBegin = -1;
     char c = readChar();
@@ -195,7 +212,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
 #fi
 
 /** Read a character. */
-  ${PREFIX}public char readChar()
+  ${PREFIX}public virtual char readChar()
   {
     if (inBuf > 0)
     {
@@ -219,7 +236,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   }
 
   /** Get token end column number. */
-  ${PREFIX}public int getEndColumn() {
+  ${PREFIX}public virtual int getEndColumn() {
 #if KEEP_LINE_COLUMN
     return bufcolumn[bufpos];
 #else
@@ -228,7 +245,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   }
 
   /** Get token end line number. */
-  ${PREFIX}public int getEndLine() {
+  ${PREFIX}public virtual int getEndLine() {
 #if KEEP_LINE_COLUMN
      return bufline[bufpos];
 #else
@@ -237,7 +254,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   }
 
   /** Get token beginning column number. */
-  ${PREFIX}public int getBeginColumn() {
+  ${PREFIX}public virtual int getBeginColumn() {
 #if KEEP_LINE_COLUMN
     return bufcolumn[tokenBegin];
 #else
@@ -246,7 +263,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   }
 
   /** Get token beginning line number. */
-  ${PREFIX}public int getBeginLine() {
+  ${PREFIX}public virtual int getBeginLine() {
 #if KEEP_LINE_COLUMN
     return bufline[tokenBegin];
 #else
@@ -255,7 +272,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   }
 
 /** Backup a number of characters. */
-  ${PREFIX}public void backup(int amount) {
+  ${PREFIX}public virtual void backup(int amount) {
 
     inBuf += amount;
     if ((bufpos -= amount) < 0)
@@ -294,7 +311,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   }
 
   /** Reinitialise. */
-  public void ReInit(System.IO.TextReader dstream, int startline,
+  public virtual void ReInit(System.IO.TextReader dstream, int startline,
   int startcolumn, int buffersize)
   {
     inputStream = dstream;
@@ -320,20 +337,20 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   }
 
   /** Reinitialise. */
-  public void ReInit(System.IO.TextReader dstream, int startline,
+  public virtual void ReInit(System.IO.TextReader dstream, int startline,
                      int startcolumn)
   {
     ReInit(dstream, startline, startcolumn, 4096);
   }
 
   /** Reinitialise. */
-  public void ReInit(System.IO.TextReader dstream)
+  public virtual void ReInit(System.IO.TextReader dstream)
   {
     ReInit(dstream, 1, 1, 4096);
   }
 
   /** Get token literal value. */
-  ${PREFIX}public string GetImage()
+  ${PREFIX}public virtual string GetImage()
   {
     if (bufpos >= tokenBegin)
       return new string(buffer, tokenBegin, bufpos - tokenBegin + 1);
@@ -343,7 +360,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   }
 
   /** Get the suffix. */
-  ${PREFIX}public char[] GetSuffix(int len)
+  ${PREFIX}public virtual char[] GetSuffix(int len)
   {
     char[] ret = new char[len];
 
@@ -360,7 +377,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   }
 
   /** Reset buffer when finished. */
-  ${PREFIX}public void Done()
+  ${PREFIX}public virtual void Done()
   {
     buffer = null;
 #if KEEP_LINE_COLUMN
@@ -373,7 +390,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   /**
    * Method to adjust line and column numbers for the start of a token.
    */
-  ${PREFIX}public void adjustBeginLineColumn(int newLine, int newCol)
+  ${PREFIX}public virtual void adjustBeginLineColumn(int newLine, int newCol)
   {
     int start = tokenBegin;
     int len;

@@ -291,7 +291,7 @@ TOKEN :
 | < _IGNORE_CASE: "IGNORE_CASE" >
 | < _PARSER_BEGIN: "PARSER_BEGIN" >
 | < _PARSER_END: "PARSER_END" >
-| < _JAVACODE: "JAVACODE" >
+| < _JAVACODE: ( "JAVACODE" | "CODE_PRODUCTION" ) >
 | < _CODE_RULE: "CODE_RULE" >
 | < _TOKEN: "TOKEN" >
 | < _SPECIAL_TOKEN: "SPECIAL_TOKEN" >
@@ -740,7 +740,7 @@ void javacode_production() :
 	  p.setColumn(t.beginColumn);
 	}
 {
-  "JAVACODE"
+  <_JAVACODE>
   AccessModifier(p)
   ResultType(p.getReturnTypeTokens())
   lhs=identifier()	{ p.setLhs(lhs); }

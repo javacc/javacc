@@ -131,7 +131,10 @@ public class TokenizerData {
                           Set<Integer> compositeStates, int kind) {
     NfaState nfaState =
         new NfaState(index, characters, nextStates, compositeStates, kind);
-    nfa.put(index, nfaState);
+    if (nfa.put(index, nfaState) != null)
+    {
+      throw new RuntimeException(new MetaParseException());
+    }
   }
 
   public void setInitialStates(Map<Integer, Integer> initialStates) {
@@ -183,7 +186,6 @@ public class TokenizerData {
   public Map<Integer, String> labels;
   public String[] images;
   public void setLabelsAndImages(Map<Integer, String> labels, String[] images) {
-System.err.println("**** im: " + labels.size() + "; im: " +  images.length);
     this.labels = labels;
     this.images = images;
   }

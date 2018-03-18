@@ -1,4 +1,4 @@
-package com.microsoft.javacc;
+package org.javacc.csharp;
 
 import org.javacc.parser.CodeGeneratorSettings;
 import org.javacc.utils.OutputFileGenerator;
