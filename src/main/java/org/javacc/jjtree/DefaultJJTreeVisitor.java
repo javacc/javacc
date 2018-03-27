@@ -132,5 +132,6 @@ public class DefaultJJTreeVisitor implements JJTreeParserVisitor
   public Object visit(ASTPrimaryExpression node, Object data){
     return defaultVisit(node, data);
   }
+  public void generateHelperFiles() throws java.io.IOException { }
 }
 /* JavaCC - OriginalChecksum=3b7689ed0de9c57e70ae4a27c1480635 (do not edit this line) */

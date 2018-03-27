@@ -38,9 +38,6 @@ const JAVACC_CHAR_TYPE EMPTY[] = { 0 };
 \#ifndef MIN
 \#define MIN(a,b) (a<=b?a:b)
 \#endif
-\#ifndef null
-\#define null 0
-\#endif
 
 template<typename T>
 struct JJEnter

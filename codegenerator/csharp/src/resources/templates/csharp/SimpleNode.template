@@ -110,7 +110,13 @@ public class SimpleNode : Node {
      you need to do. */
 
   public string toString() {
-    return ${PARSER_NAME}TreeConstants.jjtNodeName[id];
+    return ${PARSER_NAME}TreeConstants.jjtNodeName[id] 
+#if TRACK_TOKENS
+     + " (" + firstToken.beginLine + ":" + firstToken.beginColumn + "-"  
+     + lastToken.endLine + ":" + lastToken.endColumn  +
+     ( firstToken == lastToken && jjtGetNumChildren() == 0 ? ") (" + firstToken.image : "") + ")";
+#fi
+;
   }
   public string toString(string prefix) { return prefix + toString(); }
 

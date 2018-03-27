@@ -54,6 +54,9 @@ public class CodeGenHelper {
       String incfilePath = fileName.replace(".cc", ".h");
       String incfileName = new File(incfilePath).getName();
       includeBuffer.insert(0, "#pragma once\n");
+      //includeBuffer.insert(0, "#define " + new File(incfileName).getName().replace('.', '_').toUpperCase() + "\n");
+      //includeBuffer.insert(0, "#ifndef " + new File(incfileName).getName().replace('.', '_').toUpperCase() + "\n");
+
 
       // dump the statics into the main file with the code.
       mainBuffer.insert(0, staticsBuffer);
@@ -66,12 +69,13 @@ public class CodeGenHelper {
       }
 
       if (jjtreeGenerated) {
-    	  mainBuffer.insert(0, "#include \"SimpleNode.h\"\n");
+    	  mainBuffer.insert(0, "#include \"" + cu_name + "Tree.h\"\n");
       }
       if(Options.getTokenManagerUsesParser())
     	  mainBuffer.insert(0, "#include \"" + cu_name + ".h\"\n");
       mainBuffer.insert(0, "#include \"TokenMgrError.h\"\n");
       mainBuffer.insert(0, "#include \"" + incfileName + "\"\n");
+      //includeBuffer.append("#endif\n");
       saveOutput(incfilePath, includeBuffer);
     }
 

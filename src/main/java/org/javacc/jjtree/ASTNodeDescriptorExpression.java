@@ -33,7 +33,7 @@ public class ASTNodeDescriptorExpression extends JJTreeNode {
     super(id);
   }
 
-  String translateImage(Token t)
+  public String translateImage(Token t)
   {
     return whiteOut(t);
   }

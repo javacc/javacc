@@ -363,7 +363,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
       if (tokenizerData.images[i] == null)
         codeGenerator.genCode("null");
       else
-        codeGenerator.genCode("@\"" + tokenizerData.images[i].replace("\"", "\\\"") + "\"");
+        codeGenerator.genCode("@\"" + tokenizerData.images[i].replace("\"", "\"\"") + "\"");
     }
     codeGenerator.genCodeLine("};");
 

@@ -21,4 +21,10 @@ public interface CodeGenerator
    * The Parser class generator.
    */
   ParserCodeGenerator getParserCodeGenerator();
+
+  /**
+   * TODO(sreeni): Fix this when we do tree annotations in the parser code generator.
+   * The JJTree preprocesor.
+   */
+  org.javacc.jjtree.DefaultJJTreeVisitor getJJTreeCodeGenerator();
 }

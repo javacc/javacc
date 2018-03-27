@@ -39,7 +39,8 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.Reader;
 import org.javacc.parser.JavaCCGlobals;
-final class IO
+
+public final class IO
 {
   private String ifn;
   private String ofn;
@@ -48,62 +49,62 @@ final class IO
   private PrintStream msg;
   private PrintStream err;
 
-  IO()
+  public IO()
   {
     ifn = "<uninitialized input>";
     msg = System.out;
     err = System.err;
   }
 
-  String getInputFileName()
+  public String getInputFileName()
   {
     return ifn;
   }
 
-  Reader getIn()
+  public Reader getIn()
   {
     return in;
   }
 
-  String getOutputFileName()
+  public String getOutputFileName()
   {
     return ofn;
   }
 
-  PrintWriter getOut()
+  public PrintWriter getOut()
   {
     return out;
   }
 
-  PrintStream getMsg()
+  public PrintStream getMsg()
   {
     return msg;
   }
 
-  PrintStream getErr()
+  public PrintStream getErr()
   {
     return err;
   }
 
 
-  void print(String s)
+  public void print(String s)
   {
     out.print(s);
   }
 
-  void println(String s)
+  public void println(String s)
   {
     out.print(s);
     out.println();
   }
 
-  void println()
+  public void println()
   {
     out.println();
   }
 
 
-  void closeAll()
+  public void closeAll()
   {
     if (out != null) out.close();
     if (msg != null) msg.flush();
@@ -139,7 +140,7 @@ final class IO
   }
 
 
-  void setInput(String fn) throws JJTreeIOException
+  public void setInput(String fn) throws JJTreeIOException
   {
     try {
       File fp = new File(fn);

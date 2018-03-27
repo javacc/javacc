@@ -7,10 +7,11 @@
   int                       lengthOfMatch;
   JJChar                    curChar;
   TokenManagerErrorHandler* errorHandler = nullptr;
+  bool 											delete_eh = false;
 
 public: 
   void setErrorHandler(TokenManagerErrorHandler *eh) {
-      if (errorHandler) delete errorHandler, errorHandler = nullptr;
+      if (delete_eh) delete errorHandler, errorHandler = nullptr;
+      delete_eh = false;  // We don't delete stuff passed in.
       errorHandler = eh;
-    }
-    
+  }

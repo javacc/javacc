@@ -4,8 +4,6 @@
 package org.javacc.jjtree;
 
 import org.javacc.parser.JavaCCGlobals;
-import org.javacc.parser.Options;
-
 import java.io.File;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -21,8 +19,8 @@ public class CPPCodeGenerator extends DefaultJJTreeVisitor {
     io.println("/*@bgen(jjtree) " +
         JavaCCGlobals.getIdString(JJTreeGlobals.toolList,
         new File(io.getOutputFileName()).getName()) +
-         (JJTreeOptions.booleanValue(Options.USEROPTION__IGNORE_ACTIONS)  ? "" : " */"));
-    io.print((JJTreeOptions.booleanValue(Options.USEROPTION__IGNORE_ACTIONS)  ? "" :"/*") + "@egen*/");
+         (JJTreeOptions.booleanValue("IGNORE_ACTIONS")  ? "" : " */"));
+    io.print((JJTreeOptions.booleanValue("IGNORE_ACTIONS")  ? "" :"/*") + "@egen*/");
 
     return node.childrenAccept(this, io);
   }
@@ -214,16 +212,16 @@ public class CPPCodeGenerator extends DefaultJJTreeVisitor {
   static void openJJTreeComment(IO io, String arg)
   {
     if (arg != null) {
-      io.print("/*@bgen(jjtree) " + arg + (JJTreeOptions.booleanValue(Options.USEROPTION__IGNORE_ACTIONS)  ? "" :" */"));
+      io.print("/*@bgen(jjtree) " + arg + (JJTreeOptions.booleanValue("IGNORE_ACTIONS")  ? "" :" */"));
     } else {
-      io.print("/*@bgen(jjtree)" + (JJTreeOptions.booleanValue(Options.USEROPTION__IGNORE_ACTIONS) ? "" : "*/"));
+      io.print("/*@bgen(jjtree)" + (JJTreeOptions.booleanValue("IGNORE_ACTIONS") ? "" : "*/"));
     }
   }
 
 
   static void closeJJTreeComment(IO io)
   {
-    io.print((JJTreeOptions.booleanValue(Options.USEROPTION__IGNORE_ACTIONS) ? "" : "/*") + "@egen*/");
+    io.print((JJTreeOptions.booleanValue("IGNORE_ACTIONS") ? "" : "/*") + "@egen*/");
   }
 
 
@@ -283,7 +281,7 @@ public class CPPCodeGenerator extends DefaultJJTreeVisitor {
     }
 
     if (JJTreeOptions.getTrackTokens()) {
-      io.println(indent + ns.nodeVar + "->jjtSetFirstToken(getToken(1));");
+      io.println(indent + ns.nodeVar + ".jjtSetFirstToken(getToken(1));");
     }
   }
 
@@ -301,7 +299,7 @@ public class CPPCodeGenerator extends DefaultJJTreeVisitor {
     }
 
     if (JJTreeOptions.getTrackTokens()) {
-      io.println(indent + ns.nodeVar + "->jjtSetLastToken(getToken(0));");
+      io.println(indent + ns.nodeVar + ".jjtSetLastToken(getToken(0));");
     }
   }
 

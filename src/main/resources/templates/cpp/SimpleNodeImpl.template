@@ -28,7 +28,7 @@
   void SimpleNode::jjtSetParent(Node *n) { parent = n; }
   Node *SimpleNode::jjtGetParent() const { return parent; }
 
-  void SimpleNode::jjtAddChild(Node *n, int i) {
+  void SimpleNode::jjtAddChild(Node *n, size_t i) {
     if (i >= children.size()) {
       children.resize(i + 1, nullptr);
     }
@@ -36,11 +36,11 @@
     children[i] = n;
   }
 
-  Node *SimpleNode::jjtGetChild(int i) const {
+  Node *SimpleNode::jjtGetChild(size_t i) const {
     return i < children.size() ? children[i] : nullptr;
   }
 
-  int SimpleNode::jjtGetNumChildren() const {
+  size_t SimpleNode::jjtGetNumChildren() const {
     return children.size();
   }
 
@@ -67,7 +67,7 @@
 
   /** Accept the visitor. **/
   void SimpleNode::childrenAccept(${PARSER_NAME}Visitor *visitor, ${VISITOR_DATA_TYPE:-void *} data) const {
-    for (int i = 0; i < children.size(); ++i) {
+    for (size_t i = 0; i < children.size(); ++i) {
       children[i]->jjtAccept(visitor, data);
     }
   }
@@ -93,7 +93,7 @@
   void SimpleNode::dumpToBuffer(const JJString& prefix, const JJString& separator, JJString *buffer) const {
     buffer->append(toString(prefix));
     buffer->append(separator);
-    for (int i = 0; i < children.size(); ++i) {
+    for (size_t i = 0; i < children.size(); ++i) {
       SimpleNode *n = (SimpleNode*)children[i];
       if (n != nullptr) {
         n->dumpToBuffer(prefix + space, separator, buffer);
@@ -104,7 +104,7 @@
   void SimpleNode::dump(const JJString& prefix) const {
     JJString *buffer = new JJString();
     dumpToBuffer(prefix, newline, buffer);
-    for (int i = 0; i < buffer->size(); i++) {
+    for (size_t i = 0; i < buffer->size(); i++) {
       printf("%c", (*buffer)[i]);
     }
     delete buffer;
@@ -125,7 +125,7 @@
   SimpleNode::~SimpleNode() {
     std::vector<Node*> tree = children;
     std::vector<Node*> nodes;
-    for (int i = 0; i < tree.size(); ++i) {
+    for (size_t i = 0; i < tree.size(); ++i) {
       if (tree[i]) {
         nodes = tree[i]->jjtExtractChildrenForDestruction();
         for (Node* child : nodes) {

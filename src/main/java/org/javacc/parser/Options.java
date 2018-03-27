@@ -425,7 +425,7 @@ public class Options {
     } else
       
     if (nameUpperCase.equalsIgnoreCase(USEROPTION__OUTPUT_LANGUAGE)) {
-      String outputLanguage = (String)value;
+      String outputLanguage = ((String)value).toLowerCase();
       if (!isValidOutputLanguage(outputLanguage)) {
         JavaCCErrors.warning(valueloc, "Bad option value \"" + value
             + "\" for \"" + name

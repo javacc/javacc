@@ -34,8 +34,8 @@ public class ASTBNFNodeScope extends JJTreeNode
     super(id);
   }
 
-  NodeScope node_scope;
-  JJTreeNode expansion_unit;
+  public NodeScope node_scope;
+  public JJTreeNode expansion_unit;
 
 
   /** Accept the visitor. **/

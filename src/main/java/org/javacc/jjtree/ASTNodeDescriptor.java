@@ -55,12 +55,12 @@ public class ASTNodeDescriptor extends JJTreeNode {
   static List<String> nodeNames = new ArrayList<String>();
   static Hashtable<String, String> nodeSeen = new Hashtable<String, String>();
 
-  static List<String> getNodeIds()
+  public static List<String> getNodeIds()
   {
     return nodeIds;
   }
 
-  static List<String> getNodeNames()
+  public static List<String> getNodeNames()
   {
     return nodeNames;
   }
@@ -75,7 +75,7 @@ public class ASTNodeDescriptor extends JJTreeNode {
     }
   }
 
-  String getNodeId()
+  public String getNodeId()
   {
     return "JJT" + name.toUpperCase().replace('.', '_');
   }
@@ -86,7 +86,7 @@ public class ASTNodeDescriptor extends JJTreeNode {
   ASTNodeDescriptorExpression expression;
 
 
-  boolean isVoid()
+  public boolean isVoid()
   {
     return name.equals("void");
   }
@@ -101,7 +101,7 @@ public class ASTNodeDescriptor extends JJTreeNode {
   }
 
 
-  String getDescriptor()
+  public String getDescriptor()
   {
     if (expression == null) {
       return name;
@@ -110,7 +110,7 @@ public class ASTNodeDescriptor extends JJTreeNode {
     }
   }
 
-  String getNodeType()
+  public String getNodeType()
   {
     if (JJTreeOptions.getMulti()) {
       return JJTreeOptions.getNodePrefix() + name;
@@ -120,19 +120,19 @@ public class ASTNodeDescriptor extends JJTreeNode {
   }
 
 
-  String getNodeName()
+  public String getNodeName()
   {
     return name;
   }
 
 
-  String openNode(String nodeVar)
+  public String openNode(String nodeVar)
   {
     return "jjtree.openNodeScope(" + nodeVar + ");";
   }
 
 
-  String expression_text()
+  public String expression_text()
   {
     if (expression.getFirstToken().image.equals(")") &&
       expression.getLastToken().image.equals("(")) {
@@ -152,7 +152,7 @@ public class ASTNodeDescriptor extends JJTreeNode {
   }
 
 
-  String closeNode(String nodeVar)
+  public String closeNode(String nodeVar)
   {
     if (expression == null) {
       return "jjtree.closeNodeScope(" + nodeVar + ", true);";
@@ -166,7 +166,7 @@ public class ASTNodeDescriptor extends JJTreeNode {
   }
 
 
-  String translateImage(Token t)
+  public String translateImage(Token t)
   {
     return whiteOut(t);
   }

@@ -120,8 +120,9 @@ public void start() throws MetaParseException {
     genCodeLine("");
     genCodeLine("public: ");
     genCodeLine("  void setErrorHandler(ErrorHandler *eh) {");
-    genCodeLine("    if (errorHandler) delete errorHandler;");
+    genCodeLine("    if (delete_eh) delete errorHandler;");
     genCodeLine("    errorHandler = eh;");
+    genCodeLine("    delete_eh = false;");
     genCodeLine("  }");
     genCodeLine("");
     genCodeLine("  TokenManager *token_source = nullptr;");
@@ -146,6 +147,7 @@ public void start() throws MetaParseException {
     genCodeLine("  int           jj_gen;");
     genCodeLine("  int           jj_la1[" + (maskindex + 1) + "];");
     genCodeLine("  ErrorHandler *errorHandler = nullptr;");
+    genCodeLine("  bool delete_eh = false;");
     genCodeLine("");
     genCodeLine("protected: ");
     genCodeLine("  bool          hasError;");
@@ -212,6 +214,7 @@ public void start() throws MetaParseException {
     genCodeLine("{");
     genCodeLine("    clear();");    
     genCodeLine("    errorHandler = new ErrorHandler();");
+    genCodeLine("    delete_eh = true;");
     genCodeLine("    hasError = false;");
     genCodeLine("    token_source = tokenManager;");
     genCodeLine("    head = token = new Token();");
@@ -264,8 +267,9 @@ public void start() throws MetaParseException {
     genCodeLine("      t = next;");
     genCodeLine("    }");
     genCodeLine("  }");
-    genCodeLine("  if (errorHandler) {");
+    genCodeLine("  if (delete_eh) {");
     genCodeLine("    delete errorHandler, errorHandler = nullptr;");
+    genCodeLine("    delete_eh = false;");
     genCodeLine("  }");
     if (Options.getDepthLimit() > 0) {
       genCodeLine("  assert(jj_depth==0);");

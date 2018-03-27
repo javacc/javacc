@@ -3,7 +3,6 @@
 \#include "Token.h"
 \#include "Node.h"
 \#include "${PARSER_NAME}TreeConstants.h"
-\#include "SimpleNode.h"
 
 #if NODE_INCLUDES
 \#include "${NODE_INCLUDES}"

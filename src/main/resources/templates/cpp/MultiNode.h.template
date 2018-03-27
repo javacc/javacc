@@ -2,7 +2,6 @@
 \#define JAVACC_${NODE_TYPE}_H
 
 \#include "JavaCC.h"
-\#include "SimpleNode.h"
 
 #if NODE_FACTORY
 \#define jjtCreate(id) new _${NODE_TYPE}(id)

@@ -6,15 +6,13 @@ public class JJT${PARSER_NAME}State {
   private System.Collections.Generic.List<Node> nodes;
   private System.Collections.Generic.List<int> marks;
 
-  private int sp;        // number of nodes on stack
-  private int mk;        // current mark
-  private bool node_created;
+  private int sp = 0;        // number of nodes on stack
+  private int mk = 0;        // current mark
+  private bool node_created = false;
 
   public JJT${PARSER_NAME}State() {
     nodes = new System.Collections.Generic.List<Node>();
     marks = new System.Collections.Generic.List<int>();
-    sp = 0;
-    mk = 0;
   }
 
   /* Determines whether the current node was actually closed and

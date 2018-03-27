@@ -60,7 +60,7 @@ public class ASTOptionBinding extends JJTreeNode {
   }
 
 
-  String translateImage(Token t)
+  public String translateImage(Token t)
   {
     if (suppressed) {
       return whiteOut(t);

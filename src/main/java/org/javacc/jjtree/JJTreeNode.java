@@ -75,12 +75,12 @@ public class JJTreeNode extends SimpleNode {
   public Token getLastToken() { return last;  }
   public void setLastToken(Token t) { last = t; }
 
-  String translateImage(Token t)
+  public String translateImage(Token t)
   {
     return t.image;
   }
 
-  String whiteOut(Token t)
+  public String whiteOut(Token t)
   {
     StringBuffer sb = new StringBuffer(t.image.length());
 
@@ -100,7 +100,7 @@ public class JJTreeNode extends SimpleNode {
      replaced with the actual node variable. */
   private boolean whitingOut = false;
 
-  protected void print(Token t, IO io) {
+  public void print(Token t, IO io) {
     Token tt = t.specialToken;
     if (tt != null) {
       while (tt.specialToken != null) tt = tt.specialToken;

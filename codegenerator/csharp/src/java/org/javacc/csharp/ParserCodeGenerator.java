@@ -102,13 +102,17 @@ public class ParserCodeGenerator implements org.javacc.parser.ParserCodeGenerato
         codeGenerator.genCodeLine("namespace " + Options.getNamespace() + " {\n");
       }
 
-      codeGenerator.genCode("public class " + parserData.parserName + " : ");
+      codeGenerator.genCode("public partial class " + parserData.parserName + " : ");
       if (settings.containsKey("suerpClass")) {
         codeGenerator.genCode(settings.get("superClass") + ", ");
       }
 
       codeGenerator.genCodeLine(parserData.parserName + "Constants {");
       codeGenerator.genCodeLine(parserData.decls);
+
+       {
+        codeGenerator.genCodeLine("  JJT" + parserData.parserName + "State jjtree = new JJT" + parserData.parserName + "State();");
+      }
 
       processProductions(settings, codeGenerator);
       settings.put("numproductions", internalIndexes.size());

@@ -40,6 +40,7 @@ options {
 PARSER_BEGIN(JJTreeParser)
 
 package org.javacc.jjtree;
+import org.javacc.parser.JavaCCGlobals;
 
 public class JJTreeParser {
 
@@ -94,7 +95,7 @@ TOKEN :
 | < _IGNORE_CASE: "IGNORE_CASE" >
 | < _PARSER_BEGIN: "PARSER_BEGIN" >
 | < _PARSER_END: "PARSER_END" >
-| < _JAVACODE: "JAVACODE" >
+| < _JAVACODE: ( "JAVACODE" | "CODE_PRODUCTION" ) >
 | < _TOKEN: "TOKEN" >
 | < _SPECIAL_TOKEN: "SPECIAL_TOKEN" >
 | < _MORE: "MORE" >
@@ -118,6 +119,7 @@ SPECIAL_TOKEN :
 | "\n"
 | "\r"
 | "\f"
+| "\u001a"
 }
 
 /* COMMENTS */
@@ -370,7 +372,7 @@ void javacc_input() #Grammar :
   javacc_options()
   {
     // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-    isJavaLanguage = JJTreeOptions.isOutputLanguageJava();
+    isJavaLanguage = JJTreeOptions.isOutputLanguageJava() && JavaCCGlobals.getCodeGenerator() == null;
   }
   (
     "PARSER_BEGIN" "(" t=identifier() ")"

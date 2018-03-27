@@ -59,4 +59,16 @@ public class CodeGenerator implements org.javacc.parser.CodeGenerator
   {
     return new ParserCodeGenerator();
   }
+
+  
+  /**
+   * TODO(sreeni): Fix this when we do tree annotations in the parser code generator.
+   * The JJTree preprocesor.
+   */
+  @Override
+  public org.javacc.jjtree.DefaultJJTreeVisitor getJJTreeCodeGenerator()
+  {
+    return new JJTreeCodeGenerator();
+  }
+
 }

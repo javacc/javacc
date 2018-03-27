@@ -343,6 +343,7 @@ public class JJTreeCodeGenerator extends DefaultJJTreeVisitor {
       io.println(indent + "    jjtree.popNode();");
       io.println(indent + "  }");
     }
+    io.println(indent + "  throw;");
   }
 
   void tryTokenSequence(NodeScope ns, IO io, String indent, Token first, Token last)

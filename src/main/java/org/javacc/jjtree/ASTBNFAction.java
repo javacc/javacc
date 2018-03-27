@@ -34,7 +34,7 @@ public class ASTBNFAction extends JJTreeNode {
     super(id);
   }
 
-  protected Node getScopingParent(NodeScope ns)
+  public Node getScopingParent(NodeScope ns)
   {
     for (Node n = this.jjtGetParent(); n != null; n = n.jjtGetParent()) {
       if (n instanceof ASTBNFNodeScope) {

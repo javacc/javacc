@@ -33,7 +33,7 @@ public class ASTBNFDeclaration extends JJTreeNode {
     super(id);
   }
 
-  NodeScope node_scope;
+  public NodeScope node_scope;
 
   /** Accept the visitor. **/
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {

@@ -32,15 +32,15 @@ import java.util.Hashtable;
 
 public class NodeScope
 {
-  ASTProduction production;
-  ASTNodeDescriptor node_descriptor;
+  public ASTProduction production;
+  public ASTNodeDescriptor node_descriptor;
 
-  String closedVar;
-  String exceptionVar;
-  String nodeVar;
-  int scopeNumber;
+  public String closedVar;
+  public String exceptionVar;
+  public String nodeVar;
+  public int scopeNumber;
 
-  NodeScope(ASTProduction p, ASTNodeDescriptor n)
+  public NodeScope(ASTProduction p, ASTNodeDescriptor n)
   {
     production = p;
 
@@ -61,25 +61,25 @@ public class NodeScope
   }
 
 
-  boolean isVoid()
+  public boolean isVoid()
   {
     return node_descriptor.isVoid();
   }
 
 
-  ASTNodeDescriptor getNodeDescriptor()
+  public ASTNodeDescriptor getNodeDescriptor()
   {
     return node_descriptor;
   }
 
 
-  String getNodeDescriptorText()
+  public String getNodeDescriptorText()
   {
     return node_descriptor.getDescriptor();
   }
 
 
-  String getNodeVariable()
+  public String getNodeVariable()
   {
     return nodeVar;
   }
@@ -92,12 +92,12 @@ public class NodeScope
   }
 
 
-  boolean usesCloseNodeVar()
+  public boolean usesCloseNodeVar()
   {
     return true;
   }
 
-  static NodeScope getEnclosingNodeScope(Node node)
+  public static NodeScope getEnclosingNodeScope(Node node)
   {
     if (node instanceof ASTBNFDeclaration) {
       return ((ASTBNFDeclaration)node).node_scope;

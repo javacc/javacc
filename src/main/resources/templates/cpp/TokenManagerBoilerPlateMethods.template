@@ -7,7 +7,9 @@
     ReInitRounds();
     debugStream = stdout; // init
     SwitchTo(lexState);
+    if (delete_eh) delete errorHandler, errorHandler = nullptr;
     errorHandler = new TokenManagerErrorHandler();
+    delete_eh = true;
   }
 
   void ${tokMgrClassName}::ReInitRounds() {
@@ -53,7 +55,7 @@
     //Since input_stream was generated outside of TokenManager
     //TokenManager should not take care of deleting it
     //if (input_stream) delete input_stream;
-    if (errorHandler) delete errorHandler, errorHandler = nullptr;    
+    if (delete_eh) delete errorHandler, errorHandler = nullptr;    
   }
 
 

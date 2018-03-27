@@ -33,6 +33,7 @@ package org.javacc.jjtree;
 
 import java.io.File;
 
+import org.javacc.parser.JavaCCGlobals;
 import org.javacc.parser.JavaCCErrors;
 import org.javacc.parser.Options;
 
@@ -41,7 +42,7 @@ import org.javacc.parser.Options;
  *
  * @author Kees Jan Koster &lt;kjkoster@kjkoster.org&gt;
  */
-class JJTreeOptions extends Options {
+public class JJTreeOptions extends Options {
 
     /**
      * Limit subclassing to derived classes.
@@ -75,7 +76,12 @@ class JJTreeOptions extends Options {
         Options.optionValues.put("NODE_INCLUDES", "");
         Options.optionValues.put("OUTPUT_FILE", "");
         Options.optionValues.put("VISITOR_DATA_TYPE", "");
-        Options.optionValues.put("VISITOR_RETURN_TYPE", "Object");
+        if (JavaCCGlobals.getCodeGenerator() != null &&
+            JJTreeOptions.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__JAVA)) {
+          Options.optionValues.put("VISITOR_RETURN_TYPE", "Object");
+        } else {
+          Options.optionValues.put("VISITOR_RETURN_TYPE", "void");
+        }
         Options.optionValues.put("VISITOR_EXCEPTION", "");
 
         Options.optionValues.put("JJTREE_OUTPUT_DIRECTORY", "");

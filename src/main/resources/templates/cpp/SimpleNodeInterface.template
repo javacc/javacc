@@ -27,9 +27,9 @@ class SimpleNode : public Node {
   public: virtual void jjtClose() const;
   public: virtual void jjtSetParent(Node *n);
   public: virtual Node *jjtGetParent() const;
-  public: virtual void jjtAddChild(Node *n, int i);
-  public: virtual Node *jjtGetChild(int i) const;
-  public: virtual int jjtGetNumChildren() const;
+  public: virtual void jjtAddChild(Node *n, size_t i);
+  public: virtual Node *jjtGetChild(size_t i) const;
+  public: virtual size_t jjtGetNumChildren() const;
   public: virtual void jjtSetValue(void * value);
   public: virtual void * jjtGetValue() const;
 
@@ -59,7 +59,7 @@ class SimpleNode : public Node {
   /* Override this method if you want to customize how the node dumps
      out its children. */
 
-  public: virtual void dump(JJString prefix) const;
+  public: virtual void dump(const JJString& prefix) const;
   public: virtual void dumpToBuffer(const JJString& prefix, const JJString& separator, JJString *sb) const;
   private: virtual std::vector<Node *> jjtExtractChildrenForDestruction() override;
   public: virtual ~SimpleNode();

@@ -36,7 +36,7 @@ public final class TokenUtils
 {
   private TokenUtils() {}
 
-  static void print(Token t, IO io, String in, String out) {
+  public static void print(Token t, IO io, String in, String out) {
     Token tt = t.specialToken;
     if (tt != null) {
       while (tt.specialToken != null) tt = tt.specialToken;
@@ -52,11 +52,11 @@ public final class TokenUtils
     io.print(addUnicodeEscapes(i));
   }
 
-  static void print(Token t, IO io) {
+  public static void print(Token t, IO io) {
     print(t, io, null, null);
   }
 
-  static String addUnicodeEscapes(String str) {
+  public static String addUnicodeEscapes(String str) {
     StringBuffer buff = new StringBuffer(str.length());
     char ch;
     for (int i = 0; i < str.length(); i++) {
@@ -72,7 +72,7 @@ public final class TokenUtils
   }
 
 
-  static boolean hasTokens(JJTreeNode n)
+  public static boolean hasTokens(JJTreeNode n)
   {
     if (n.getLastToken().next == n.getFirstToken()) {
       return false;
@@ -81,7 +81,7 @@ public final class TokenUtils
     }
   }
 
-  static String remove_escapes_and_quotes(Token t, String str) {
+  public static String remove_escapes_and_quotes(Token t, String str) {
     String retval = "";
     int index = 1;
     char ch, ch1;

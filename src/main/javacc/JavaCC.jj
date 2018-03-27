@@ -1249,7 +1249,12 @@ void expansion_unit(Container c) :
       }
       t = getToken(0);
       t.kind = IDENTIFIER;
-      t.image = "...";
+      // TODO(sreeni): Fixup to be part of the codegen api
+      if (getCodeGenerator() != null) {
+        t.image = "System.Exception"; // assume C# for now.
+      } else {
+        t.image = "...";
+      }
     }
     [ LOOKAHEAD({isJavaLanguage()}) Name(vec) t=<IDENTIFIER> ]
    ")"

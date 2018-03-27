@@ -1,13 +1,9 @@
 \#include <stdio.h>
-\#include "SimpleNode.h"
 
 #if VISITOR
 \#include "${PARSER_NAME}Visitor.h"
 #fi
 
-#if NAMESPACE
-namespace ${NAMESPACE_OPEN}
-#fi
 
  SimpleNode::SimpleNode(int id) :
    id(id)
@@ -132,7 +128,4 @@ SimpleNode::~SimpleNode() {
       delete children[i];
     }
 }
-#if NAMESPACE
-${NAMESPACE_CLOSE}
-#fi
   

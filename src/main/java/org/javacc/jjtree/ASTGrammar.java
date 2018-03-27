@@ -31,6 +31,7 @@
 
 package org.javacc.jjtree;
 
+import org.javacc.parser.CodeGenerator;
 import org.javacc.parser.JavaCCGlobals;
 import org.javacc.parser.Options;
 
@@ -40,10 +41,13 @@ public class ASTGrammar extends JJTreeNode {
     super(id);
   }
 
-  void generate(IO io) {
-     System.out.println("opt:" + JJTreeOptions.getOutputLanguage());
+  void generate(IO io) throws java.io.IOException {
     // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-    if (JJTreeOptions.isOutputLanguageJava()) {
+
+    CodeGenerator codeGenerator = JavaCCGlobals.getCodeGenerator();
+    if (codeGenerator != null) {
+      codeGenerator.getJJTreeCodeGenerator().visit(this, io);
+    } else if (JJTreeOptions.isOutputLanguageJava()) {
       new JavaCodeGenerator().visit(this, io);
     } else if (JJTreeOptions.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
       new CPPCodeGenerator().visit(this, io);
@@ -52,6 +56,24 @@ public class ASTGrammar extends JJTreeNode {
     	// Catch all to ensure we don't accidently do nothing
     	throw new RuntimeException("Language type not supported for JJTree : " + JJTreeOptions.getOutputLanguage());
     }
+
+    String outputLanguage = JJTreeOptions.getOutputLanguage();
+    if (codeGenerator != null) {
+      codeGenerator.getJJTreeCodeGenerator().generateHelperFiles();
+    } else if (JJTreeOptions.isOutputLanguageJava()) {
+          NodeFiles.generateTreeConstants_java();
+          NodeFiles.generateVisitor_java();
+          NodeFiles.generateDefaultVisitor_java();
+          JJTreeState.generateTreeState_java();
+        } else if (JJTreeOptions.isOutputLanguageCpp()) {
+          CPPNodeFiles.generateTreeConstants();
+          CPPNodeFiles.generateVisitors();
+          //CPPNodeFiles.generateDefaultVisitor();
+          CPPJJTreeState.generateTreeState();
+          //CPPNodeFiles.generateJJTreeH();
+        } else {
+        	assert(false) : "Unsupported JJTree output language : " + outputLanguage;
+        }
   }
 
   /** Accept the visitor. **/

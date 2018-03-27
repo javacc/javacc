@@ -6,13 +6,7 @@
 \#include "Token.h"
 \#include "Node.h"
 \#include "${PARSER_NAME}TreeConstants.h"
-#if NODE_EXTENDS
-\#include "${NODE_EXTENDS}.h"
-#fi
 
-#if NAMESPACE
-namespace ${NAMESPACE_OPEN}
-#fi
 #if VISITOR
 class ${PARSER_NAME}Visitor;
 #fi
@@ -84,8 +78,5 @@ public:
   virtual void          dumpToBuffer(const JJString& prefix, const JJString& separator, JJString *sb) const;
   virtual int           getId() const { return id;  }
 };
-#if NAMESPACE
-${NAMESPACE_CLOSE}
-#fi
 
 \#endif
