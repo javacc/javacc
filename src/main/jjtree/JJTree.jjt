@@ -481,7 +481,7 @@ void javacode_production() #Javacode :
         {
 	  prod = jjtThis;
 	}
-  "JAVACODE"
+  <_JAVACODE>
   AccessModifier() ResultType() t1=identifier() FormalParameters()
   {
     if (!isJavaLanguage) {

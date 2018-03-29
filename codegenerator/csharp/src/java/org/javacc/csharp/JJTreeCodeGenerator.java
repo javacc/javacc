@@ -330,8 +330,7 @@ public class JJTreeCodeGenerator extends DefaultJJTreeVisitor {
   }
 
 
-  private void insertCatchBlocks(NodeScope ns, IO io,
-         String indent)
+  private void insertCatchBlocks(NodeScope ns, IO io, String indent)
   {
     io.println(indent + "} catch(System.Exception e) {");
 
@@ -343,6 +342,7 @@ public class JJTreeCodeGenerator extends DefaultJJTreeVisitor {
       io.println(indent + "    jjtree.popNode();");
       io.println(indent + "  }");
     }
+
     io.println(indent + "  throw;");
   }
 

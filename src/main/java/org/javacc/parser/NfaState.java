@@ -112,6 +112,7 @@ public class NfaState
    boolean dummy = false;
    private boolean isComposite = false;
    private int[] compositeStates = null;
+   private Set<NfaState> compositeStateSet = new HashSet<NfaState>();
    boolean isFinal = false;
    private Vector loByteVec;
    private int[] nonAsciiMoveIndices;
@@ -3322,6 +3323,11 @@ public class NfaState
        cleanStates.add(tmp);
        if (tmp.stateName == startStateName) {
          startState = tmp;
+         if (tmp.isComposite) {
+           for (int c : tmp.compositeStates) {
+             tmp.compositeStateSet.add(indexedAllStates.get(c));
+           }
+         }
        }
      }
 
@@ -3344,7 +3350,7 @@ public class NfaState
        for (int i = 0; i < states.size(); i++) {
          NfaState state = states.get(i);
          if (state.stateName == -1) continue;
-         states.get(i).stateName += offset;
+         state.stateName += offset;
        }
        cleanStateList.addAll(states);
      }
@@ -3366,7 +3372,9 @@ public class NfaState
        }
        Set<Integer> composite = new TreeSet<Integer>();
        if (s.isComposite) {
-         for (int c : s.compositeStates) composite.add(c);
+         for (NfaState c : s.compositeStateSet) {
+           composite.add(c.stateName);
+         }
        }
        tokenizerData.addNfaState(
            s.stateName, chars, nextStates, composite, s.kindToPrint);

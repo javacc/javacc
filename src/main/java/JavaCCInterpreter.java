@@ -112,6 +112,7 @@ public class JavaCCInterpreter {
     Set<Integer> curStates = new HashSet<Integer>();
     Set<Integer> newStates = new HashSet<Integer>();
     int tokline, tokcol;
+    System.out.println("*** Starting in lexical state: " + tokenizerData.lexStateNames[curLexState]);
     while (curPos < input_size) {
       int beg = curPos;
       int matchedPos = beg;
@@ -152,10 +153,10 @@ public class JavaCCInterpreter {
 
       if (nfaStartState != -1) {
         // We need to add the composite states first.
-        int kind = Integer.MAX_VALUE;
         curStates.add(nfaStartState);
         curStates.addAll(tokenizerData.nfa.get(nfaStartState).compositeStates);
         do {
+          int kind = Integer.MAX_VALUE;
           c = input.charAt(curPos);
           updateLineCol(curPos, c);
           if (Options.getIgnoreCase()) c = Character.toLowerCase(c);
@@ -175,7 +176,6 @@ public class JavaCCInterpreter {
           if (kind != Integer.MAX_VALUE) {
             matchedKind = kind;
             matchedPos = curPos;
-            kind = Integer.MAX_VALUE;
           }
         } while (!curStates.isEmpty() && ++curPos < input_size);
       }
