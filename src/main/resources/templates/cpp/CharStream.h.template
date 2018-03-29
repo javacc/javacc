@@ -213,7 +213,7 @@ public:
     tokenBegin(0), column(0), line(0), prevCharIsCR(false), prevCharIsLF(false),
     available(0), maxNextCharInd(0), inBuf(0), tabSize(1), trackLineColumn(true),
     inputStream(nullptr), deleteStream(false) {
-    ReInit(input_stream, startline, startcolumn, INITIAL_BUFFER_SIZE);
+    ReInit(input_stream, startline, startcolumn, buffersize);
   }
 
   CharStream(ReaderStream *input_stream, int startline, int startcolumn) :
