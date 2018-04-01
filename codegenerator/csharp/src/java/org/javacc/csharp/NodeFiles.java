@@ -24,57 +24,42 @@ final class NodeFiles {
    */
   static final String nodeVersion = Version.majorDotMinor;
 
-  static Set nodesGenerated = new HashSet();
+  private static Set<String> nodesToBuild = new HashSet<String>();
 
-  static void ensure(IO io, String nodeType)
+  static void generateNodeType(String nodeType)
   {
-    File file = new File(JJTreeOptions.getJJTreeOutputDirectory(), nodeType + ".cs");
-
-    if (nodeType.equals("Node")) {
-    } else if (nodeType.equals("SimpleNode")) {
-      ensure(io, "Node");
-    } else {
-      ensure(io, "SimpleNode");
+    if (!nodeType.equals("Node") && !nodeType.equals("SimpleNode")) {
+      nodesToBuild.add(nodeType);
     }
+  }
 
-    /* Only build the node file if we're dealing with Node.cs, or
-       the NODE_BUILD_FILES option is set. */
-    if (!(nodeType.equals("Node") || JJTreeOptions.getBuildNodeFiles())) {
-      return;
-    }
-
-    if (file.exists() && nodesGenerated.contains(file.getName())) {
-      return;
-    }
-
+  private static void generateTreeNodes() {
+    File file = new File(JJTreeOptions.getJJTreeOutputDirectory(), JJTreeGlobals.parserName + "Tree.cs");
     try {
       String[] options = new String[] {"MULTI", "NODE_USES_PARSER", "VISITOR", "TRACK_TOKENS", "NODE_PREFIX", "NODE_EXTENDS", "NODE_FACTORY", Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
+
       OutputFile outputFile = new OutputFile(file, nodeVersion, options);
       outputFile.setToolName("JJTree");
+      PrintWriter pw = outputFile.getPrintWriter();
 
-      nodesGenerated.add(file.getName());
-
-      if (!outputFile.needToWrite) {
-        return;
+      if (JJTreeOptions.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
+        pw.println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
       }
 
-      if (nodeType.equals("Node")) {
-        generateNode(outputFile);
-      } else if (nodeType.equals("SimpleNode")) {
-        generateSimpleNode(outputFile);
-      } else {
-        generateMULTINode(outputFile, nodeType);
+      for (String node: nodesToBuild) {
+        generateMULTINode(pw, node);
       }
 
-      outputFile.close();
-
+      if (JJTreeOptions.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
+        pw.println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
+      }
+      pw.close();
     } catch (IOException e) {
       throw new Error(e.toString());
     }
   }
 
-
-  static void generatePrologue(PrintWriter ostr)
+  static void generatePrologue(PrintWriter pw)
   {
   }
 
@@ -91,38 +76,38 @@ final class NodeFiles {
 
     try {
       OutputFile outputFile = new OutputFile(file);
-      PrintWriter ostr = outputFile.getPrintWriter();
+      PrintWriter pw = outputFile.getPrintWriter();
 
       List nodeIds = ASTNodeDescriptor.getNodeIds();
       List nodeNames = ASTNodeDescriptor.getNodeNames();
 
-      generatePrologue(ostr);
+      generatePrologue(pw);
       if (JJTreeOptions.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
-        ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
+        pw.println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
       }
-      ostr.println("public class " + name);
-      ostr.println("{");
+      pw.println("public class " + name);
+      pw.println("{");
 
       for (int i = 0; i < nodeIds.size(); ++i) {
         String n = (String)nodeIds.get(i);
-        ostr.println("  public const int " + n + " = " + i + ";");
+        pw.println("  public const int " + n + " = " + i + ";");
       }
 
-      ostr.println();
-      ostr.println();
+      pw.println();
+      pw.println();
 
-      ostr.println("  public static string[] jjtNodeName = {");
+      pw.println("  public static string[] jjtNodeName = {");
       for (int i = 0; i < nodeNames.size(); ++i) {
         String n = (String)nodeNames.get(i);
-        ostr.println("    \"" + n + "\",");
+        pw.println("    \"" + n + "\",");
       }
-      ostr.println("  };");
+      pw.println("  };");
 
-      ostr.println("}");
+      pw.println("}");
       if (JJTreeOptions.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
-        ostr.println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
+        pw.println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
       }
-      ostr.close();
+      pw.close();
 
     } catch (IOException e) {
       throw new Error(e.toString());
@@ -146,16 +131,16 @@ final class NodeFiles {
 
     try {
       OutputFile outputFile = new OutputFile(file);
-      PrintWriter ostr = outputFile.getPrintWriter();
+      PrintWriter pw = outputFile.getPrintWriter();
 
       List nodeNames = ASTNodeDescriptor.getNodeNames();
 
-      generatePrologue(ostr);
+      generatePrologue(pw);
       if (JJTreeOptions.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
-        ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
+        pw.println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
       }
-      ostr.println("public interface " + name);
-      ostr.println("{");
+      pw.println("public interface " + name);
+      pw.println("{");
 
       String ve = mergeVisitorException();
 
@@ -164,7 +149,7 @@ final class NodeFiles {
         argumentType = JJTreeOptions.getVisitorDataType();
       }
 
-      ostr.println("  " + JJTreeOptions.getVisitorReturnType() + " Visit(SimpleNode node, " + argumentType + " data)" +
+      pw.println("  " + JJTreeOptions.getVisitorReturnType() + " Visit(SimpleNode node, " + argumentType + " data)" +
           ve + ";");
       if (JJTreeOptions.getMulti()) {
         for (int i = 0; i < nodeNames.size(); ++i) {
@@ -173,16 +158,16 @@ final class NodeFiles {
             continue;
           }
           String nodeType = JJTreeOptions.getNodePrefix() + n;
-          ostr.println("  " + JJTreeOptions.getVisitorReturnType() + " " + getVisitMethodName(nodeType) +
+          pw.println("  " + JJTreeOptions.getVisitorReturnType() + " " + getVisitMethodName(nodeType) +
           "(" + nodeType +
               " node, " + argumentType + " data)" + ve + ";");
         }
       }
-      ostr.println("}");
+      pw.println("}");
       if (JJTreeOptions.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
-        ostr.println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
+        pw.println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
       }
-      ostr.close();
+      pw.close();
 
     } catch (IOException e) {
       throw new Error(e.toString());
@@ -216,16 +201,15 @@ final class NodeFiles {
     File file = new File(JJTreeOptions.getJJTreeOutputDirectory(), className + ".cs");
 
     try {
-      OutputFile outputFile = new OutputFile(file);
-      PrintWriter ostr = outputFile.getPrintWriter();
+      PrintWriter pw = new OutputFile(file).getPrintWriter();
 
       List nodeNames = ASTNodeDescriptor.getNodeNames();
 
-      generatePrologue(ostr);
+      generatePrologue(pw);
       if (JJTreeOptions.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
-        ostr.println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
+        pw.println("namespace " + JJTreeOptions.stringValue("NAMESPACE_OPEN"));
       }
-      ostr.println("public class " + className + " : " + visitorClass() + "{");
+      pw.println("public class " + className + " : " + visitorClass() + "{");
 
       String ve = mergeVisitorException();
 
@@ -235,16 +219,16 @@ final class NodeFiles {
       }
 
       String ret = JJTreeOptions.getVisitorReturnType();
-      ostr.println("  public virtual " + ret + " defaultVisit(SimpleNode node, " + argumentType + " data)" +
+      pw.println("  public virtual " + ret + " defaultVisit(SimpleNode node, " + argumentType + " data)" +
           ve + "{");
-      ostr.println("    node.childrenAccept(this, data);");
-      ostr.println("    return" + (ret.trim().equals("void") ? "" : " data") + ";");
-      ostr.println("  }");
+      pw.println("    node.childrenAccept(this, data);");
+      pw.println("    return" + (ret.trim().equals("void") ? "" : " data") + ";");
+      pw.println("  }");
 
-      ostr.println("  public virtual " + ret + " Visit(SimpleNode node, " + argumentType + " data)" +
+      pw.println("  public virtual " + ret + " Visit(SimpleNode node, " + argumentType + " data)" +
           ve + "{");
-      ostr.println("    " + (ret.trim().equals("void") ? "" : "return ") + "defaultVisit(node, data);");
-      ostr.println("  }");
+      pw.println("    " + (ret.trim().equals("void") ? "" : "return ") + "defaultVisit(node, data);");
+      pw.println("  }");
 
       if (JJTreeOptions.getMulti()) {
         for (int i = 0; i < nodeNames.size(); ++i) {
@@ -253,18 +237,18 @@ final class NodeFiles {
             continue;
           }
           String nodeType = JJTreeOptions.getNodePrefix() + n;
-          ostr.println("  public " + ret + " " + getVisitMethodName(nodeType) +
+          pw.println("  public " + ret + " " + getVisitMethodName(nodeType) +
           "(" + nodeType +
               " node, " + argumentType + " data)" + ve + "{");
-          ostr.println("    " + (ret.trim().equals("void") ? "" : "return ") + "defaultVisit(node, data);");
-          ostr.println("  }");
+          pw.println("    " + (ret.trim().equals("void") ? "" : "return ") + "defaultVisit(node, data);");
+          pw.println("  }");
         }
       }
-      ostr.println("}");
+      pw.println("}");
       if (JJTreeOptions.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
-        ostr.println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
+        pw.println(JJTreeOptions.stringValue("NAMESPACE_CLOSE"));
       }
-      ostr.close();
+      pw.close();
 
     } catch (IOException e) {
       throw new Error(e.toString());
@@ -279,61 +263,46 @@ final class NodeFiles {
     return ve;
   }
 
-
-  private static void generateNode(OutputFile outputFile) throws IOException
+  private static void generateDefaultNode() throws IOException
   {
-    PrintWriter ostr = outputFile.getPrintWriter();
+    File file = new File(JJTreeOptions.getJJTreeOutputDirectory(), "Node.cs");
+    PrintWriter pw = new OutputFile(file).getPrintWriter();
 
-    generatePrologue(ostr);
-    
-    Map options = new HashMap(Options.getOptions());
-    options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
-    
-    OutputFileGenerator generator = new OutputFileGenerator(
-        "/templates/csharp/Node.template", options);
-    
-    generator.generate(ostr);
+    generatePrologue(pw);
 
-    ostr.close();
-  }
-
-
-  private static void generateSimpleNode(OutputFile outputFile) throws IOException
-  {
-    PrintWriter ostr = outputFile.getPrintWriter();
-
-    generatePrologue(ostr);
-    
     Map options = new HashMap(Options.getOptions());
     options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     options.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(JJTreeOptions.getVisitorReturnType().equals("void")));
-    
-    OutputFileGenerator generator = new OutputFileGenerator(
-        "/templates/csharp/SimpleNode.template", options);
-    
-    generator.generate(ostr);
 
-    ostr.close();
+    OutputFileGenerator generator = new OutputFileGenerator(
+        "/templates/csharp/Node.template", options);
+
+    generator.generate(pw);
+
+    pw.close();
   }
 
-
-  private static void generateMULTINode(OutputFile outputFile, String nodeType) throws IOException
+  private static void generateMULTINode(PrintWriter pw, String nodeType) throws IOException
   {
-    PrintWriter ostr = outputFile.getPrintWriter();
-
-    generatePrologue(ostr);
+    generatePrologue(pw);
 
     Map options = new HashMap(Options.getOptions());
     options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     options.put("NODE_TYPE", nodeType);
     options.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(JJTreeOptions.getVisitorReturnType().equals("void")));
-    
+
     OutputFileGenerator generator = new OutputFileGenerator(
         "/templates/csharp/MultiNode.template", options);
-    
-    generator.generate(ostr);
 
-    ostr.close();
+    generator.generate(pw);
+  }
+
+  static void generateOutputFiles() throws IOException {
+    generateDefaultNode();
+    generateTreeNodes();
+    generateTreeConstants();
+    generateVisitor();
+    generateDefaultVisitor();
   }
 
 }

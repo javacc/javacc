@@ -368,7 +368,7 @@
   }
 
 
-  internal class JJCalls {
+  internal partial class JJCalls {
 	 internal int gen;
 	 internal Token first;
 	 internal int arg;

@@ -263,7 +263,7 @@ public class JJTreeCodeGenerator extends DefaultJJTreeVisitor {
 
     /* Ensure that there is a template definition file for the node
        type. */
-    NodeFiles.ensure(io, type);
+    NodeFiles.generateNodeType(type);
 
     io.print(indent + nodeClass + " " + ns.nodeVar + " = ");
     String p = JJTreeOptions.getStatic() ? "null" : "this";
@@ -409,8 +409,6 @@ public class JJTreeCodeGenerator extends DefaultJJTreeVisitor {
     generator.generate(ostr);
     ostr.close();
 
-    NodeFiles.generateTreeConstants();
-    NodeFiles.generateVisitor();
-    NodeFiles.generateDefaultVisitor();
+    NodeFiles.generateOutputFiles();
   }
 }

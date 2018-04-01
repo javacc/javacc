@@ -1,8 +1,4 @@
-#if NAMESPACE
-namespace ${NAMESPACE_OPEN}
-#fi
-
-public class ${NODE_TYPE} : ${NODE_CLASS:-SimpleNode} {
+public partial class ${NODE_TYPE} : ${NODE_CLASS:-SimpleNode} {
   public ${NODE_TYPE}(int id) : base(id) {
   }
 
@@ -35,7 +31,3 @@ public class ${NODE_TYPE} : ${NODE_CLASS:-SimpleNode} {
   }
 #fi
 }
-
-#if NAMESPACE
-}
-#fi

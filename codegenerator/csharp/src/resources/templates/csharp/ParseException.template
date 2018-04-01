@@ -8,7 +8,7 @@ namespace ${NAMESPACE}
  * calling the method generateParseException in the generated
  * parser.
  *
- * You can modify this class to customize your error reporting
+ * You can modify this partial class to customize your error reporting
  * mechanisms so long as you retain the public fields.
  */
 public partial class ParseException : System.Exception {
@@ -38,7 +38,7 @@ public partial class ParseException : System.Exception {
    * The followingructors are for use by you for whatever
    * purpose you can think of.  Constructing the exception in this
    * manner makes the exception behave in the normal way - i.e., as
-   * documented in the class "System.Exception".  The fields "errorToken",
+   * documented in the partial class "System.Exception".  The fields "errorToken",
    * "expectedTokenSequences", and "tokenImage" do not contain
    * relevant information.  The JavaCC generated code does not use
    * theseructors.

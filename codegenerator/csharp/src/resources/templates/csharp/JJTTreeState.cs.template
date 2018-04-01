@@ -2,7 +2,7 @@
 namespace ${NAMESPACE_OPEN}
 #fi
 
-public class JJT${PARSER_NAME}State {
+public partial class JJT${PARSER_NAME}State {
   private System.Collections.Generic.List<Node> nodes;
   private System.Collections.Generic.List<int> marks;
 
