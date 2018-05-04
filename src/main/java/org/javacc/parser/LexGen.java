@@ -367,13 +367,15 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
 
     boolean ignoring = false;
 
-    while (e.hasMoreElements())
+    //while (e.hasMoreElements())
+    for (int k = 0; k < lexStateName.length; k++)
     {
       int startState = -1;
       NfaState.ReInit();
       RStringLiteral.ReInit();
 
-      String key = (String)e.nextElement();
+      //String key = (String)e.nextElement();
+      String key = lexStateName[k];
 
       lexStateIndex = GetIndex(key);
       lexStateSuffix = "_" + lexStateIndex;

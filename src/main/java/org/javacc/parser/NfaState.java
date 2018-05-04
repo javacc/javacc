@@ -1160,6 +1160,7 @@ public class NfaState
 
       int tmp;
 
+System.err.println("*** toret: " + toRet + ";len: " + nameSet.length);
       if (toRet >= nameSet.length)
       {
         // TODO(sreeni) : Fix this mess.
@@ -1180,9 +1181,9 @@ public class NfaState
           dummyState.compositeStates = nameSet;
           dummyState.stateName = tmp;
           dummyState.dummy = true;
-           for (int c : dummyState.compositeStates) {
-             dummyState.compositeStateSet.add(indexedAllStates.get(c));
-           }
+          for (int c : dummyState.compositeStates) {
+            dummyState.compositeStateSet.add(indexedAllStates.get(c));
+          }
         }
       }
       else
@@ -3353,7 +3354,7 @@ public class NfaState
            s.stateName, chars, nextStates, composite, s.kindToPrint);
      }
      Map<Integer, Integer> initStates = new HashMap<Integer, Integer>();
-     for (int l : initialStates.keySet()) {
+     for (int l = 0; l < initialStates.keySet().size(); l++) {
        if (initialStates.get(l) == null) {
          initStates.put(l, -1);
        } else {
