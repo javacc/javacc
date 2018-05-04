@@ -954,6 +954,7 @@ public class ParseEngine {
       retval += "\u0002\n" + "}";
       for (int i = 0; i < e_nrw.catchblks.size(); i++) {
         retval += " catch (";
+        if (isJavaDialect) {
         list = (java.util.List)(e_nrw.types.get(i));
         if (list.size() != 0) {
           codeGenerator.printTokenSetup((Token)(list.get(0)));
@@ -969,6 +970,7 @@ public class ParseEngine {
         retval += codeGenerator.getStringToPrint(t);
         retval += codeGenerator.getTrailingComments(t);
         retval += ") {\u0003\n";
+        }
         list = (java.util.List)(e_nrw.catchblks.get(i));
         if (list.size() != 0) {
           codeGenerator.printTokenSetup((Token)(list.get(0))); ccol = 1;

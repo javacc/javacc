@@ -823,21 +823,6 @@ e.printStackTrace();
       retval += "\u0002\n" + "}";
       for (int i = 0; i < e_nrw.catchblks.size(); i++) {
         retval += " catch (";
-        list = (java.util.List)(e_nrw.types.get(i));
-        if (list.size() != 0) {
-          codeGenerator.printTokenSetup((Token)(list.get(0)));
-          for (Iterator it = list.iterator(); it.hasNext();) {
-            t = (Token)it.next();
-            retval += codeGenerator.getStringToPrint(t);
-          }
-          retval += codeGenerator.getTrailingComments(t);
-        }
-        retval += " ";
-        t = (Token)(e_nrw.ids.get(i));
-        codeGenerator.printTokenSetup(t);
-        retval += codeGenerator.getStringToPrint(t);
-        retval += codeGenerator.getTrailingComments(t);
-        retval += ") {\u0003\n";
         list = (java.util.List)(e_nrw.catchblks.get(i));
         if (list.size() != 0) {
           codeGenerator.printTokenSetup((Token)(list.get(0))); ccol = 1;

@@ -17,7 +17,7 @@ public partial class ${NODE_TYPE} : ${NODE_CLASS:-SimpleNode} {
 #if VISITOR
 
   /** Accept the visitor. **/
-  override public ${VISITOR_RETURN_TYPE} jjtAccept(${PARSER_NAME}Visitor visitor, ${VISITOR_DATA_TYPE:-System.Object} data) {
+  override public ${VISITOR_RETURN_TYPE} jjtAccept(${PARSER_NAME}Visitor visitor, ${VISITOR_DATA_TYPE:-object} data) {
 
 #if VISITOR_RETURN_TYPE_VOID
 #else

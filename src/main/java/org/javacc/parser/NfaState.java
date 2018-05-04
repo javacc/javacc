@@ -823,42 +823,6 @@ public class NfaState
       return retVal;
    }
 
-   public static int moveFromSetForRegEx(char c, NfaState[] states, NfaState[] newStates, int round)
-   {
-      int start = 0;
-      int sz = states.length;
-
-      for (int i = 0; i < sz; i++)
-      {
-         NfaState tmp1, tmp2;
-
-         if ((tmp1 = states[i]) == null)
-            break;
-
-         if (tmp1.CanMoveUsingChar(c))
-         {
-            if (tmp1.kindToPrint != Integer.MAX_VALUE)
-            {
-               newStates[start] = null;
-               return 1;
-            }
-
-            NfaState[] v = tmp1.next.epsilonMoveArray;
-            for (int j = v.length; j-- > 0;)
-            {
-               if ((tmp2 = v[j]).round != round)
-               {
-                  tmp2.round = round;
-                  newStates[start++] = tmp2;
-               }
-            }
-         }
-      }
-
-      newStates[start] = null;
-      return Integer.MAX_VALUE;
-   }
-
    static List allBitVectors = new ArrayList();
 
    /* This function generates the bit vectors of low and hi bytes for common
@@ -1216,6 +1180,9 @@ public class NfaState
           dummyState.compositeStates = nameSet;
           dummyState.stateName = tmp;
           dummyState.dummy = true;
+           for (int c : dummyState.compositeStates) {
+             dummyState.compositeStateSet.add(indexedAllStates.get(c));
+           }
         }
       }
       else
@@ -3308,6 +3275,7 @@ public class NfaState
        new HashMap<Integer, Integer>();
    private static final Map<Integer, Integer> matchAnyChar =
        new HashMap<Integer, Integer>();
+
    static void UpdateNfaData(
        int maxState, int startStateName, int lexicalStateIndex,
        int matchAnyCharKind) {
@@ -3317,7 +3285,10 @@ public class NfaState
      NfaState startState = null;
      for (int i = 0; i < allStates.size(); i++) {
        NfaState tmp = (NfaState)allStates.get(i);
-       if (tmp.stateName == -1) continue;
+       if (tmp.stateName == -1) {
+           assert(tmp.kindToPrint == Integer.MAX_VALUE);
+           continue;
+       }
        if (done.contains(tmp.stateName)) continue;
        done.add(tmp.stateName);
        cleanStates.add(tmp);
@@ -3349,7 +3320,9 @@ public class NfaState
        List<NfaState> states = statesForLexicalState.get(l);
        for (int i = 0; i < states.size(); i++) {
          NfaState state = states.get(i);
-         if (state.stateName == -1) continue;
+         if (state.stateName == -1) {
+           continue;
+         }
          state.stateName += offset;
        }
        cleanStateList.addAll(states);
@@ -3393,10 +3366,6 @@ public class NfaState
 
    static NfaState getNfaState(int index) {
      if (index == -1) return null;
-     for (NfaState s : allStates) {
-       if (s.stateName == index) return s;
-     }
-     assert(false);
-     return null;
+     return indexedAllStates.get(index);
    }
 }

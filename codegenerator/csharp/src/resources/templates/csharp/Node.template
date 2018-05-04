@@ -40,9 +40,9 @@ interface Node {
 
   /** Accept the visitor. **/
 #if VISITOR_EXCEPTION
-  ${VISITOR_RETURN_TYPE} jjtAccept(${PARSER_NAME}Visitor visitor, ${VISITOR_DATA_TYPE:-System.Object} data) throws ${VISITOR_EXCEPTION};
+  ${VISITOR_RETURN_TYPE} jjtAccept(${PARSER_NAME}Visitor visitor, ${VISITOR_DATA_TYPE:-object} data) throws ${VISITOR_EXCEPTION};
 #else
-  ${VISITOR_RETURN_TYPE} jjtAccept(${PARSER_NAME}Visitor visitor, ${VISITOR_DATA_TYPE:-System.Object} data);
+  ${VISITOR_RETURN_TYPE} jjtAccept(${PARSER_NAME}Visitor visitor, ${VISITOR_DATA_TYPE:-object} data);
 #fi
 #fi
 }
@@ -56,7 +56,7 @@ public partial class SimpleNode : Node {
   protected Node parent;
   protected Node[] children;
   protected int id;
-  protected System.Object value;
+  protected object value;
   protected ${PARSER_NAME} parser;
 #if TRACK_TOKENS
   protected Token firstToken;
@@ -109,8 +109,8 @@ public partial class SimpleNode : Node {
     return (children == null) ? 0 : children.Length;
   }
 
-  public void jjtSetValue(System.Object value) { this.value = value; }
-  public System.Object jjtGetValue() { return value; }
+  public void jjtSetValue(object value) { this.value = value; }
+  public object jjtGetValue() { return value; }
 
 #if TRACK_TOKENS
   public Token jjtGetFirstToken() { return firstToken; }
@@ -121,7 +121,7 @@ public partial class SimpleNode : Node {
 #fi
 #if VISITOR
   /** Accept the visitor. **/
-  virtual public ${VISITOR_RETURN_TYPE} jjtAccept(${PARSER_NAME}Visitor visitor, ${VISITOR_DATA_TYPE:-System.Object} data)
+  virtual public ${VISITOR_RETURN_TYPE} jjtAccept(${PARSER_NAME}Visitor visitor, ${VISITOR_DATA_TYPE:-object} data)
 #if VISITOR_EXCEPTION
      throws ${VISITOR_EXCEPTION}
 #fi
@@ -134,7 +134,7 @@ public partial class SimpleNode : Node {
   }
 
   /** Accept the visitor. **/
-  public System.Object childrenAccept(${PARSER_NAME}Visitor visitor, ${VISITOR_DATA_TYPE:-System.Object} data)
+  public object childrenAccept(${PARSER_NAME}Visitor visitor, ${VISITOR_DATA_TYPE:-object} data)
 #if VISITOR_EXCEPTION
      throws ${VISITOR_EXCEPTION}
 #fi

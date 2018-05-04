@@ -332,7 +332,7 @@ public class JJTreeCodeGenerator extends DefaultJJTreeVisitor {
 
   private void insertCatchBlocks(NodeScope ns, IO io, String indent)
   {
-    io.println(indent + "} catch(System.Exception e) {");
+    io.println(indent + "} catch(System.Exception) {");
 
     if (ns.usesCloseNodeVar()) {
       io.println(indent + "  if (" + ns.closedVar + ") {");

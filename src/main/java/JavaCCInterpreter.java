@@ -126,6 +126,7 @@ public class JavaCCInterpreter {
       final List<String> literals = tokenizerData.literalSequence.get(key);
       tokline = getLine(curPos);
       tokcol = col;
+
       if (literals != null) {
         // We need to go in order so that the longest match works.
         int litIndex = 0;
@@ -160,6 +161,7 @@ public class JavaCCInterpreter {
           c = input.charAt(curPos);
           updateLineCol(curPos, c);
           if (Options.getIgnoreCase()) c = Character.toLowerCase(c);
+
           for (int state : curStates) {
             TokenizerData.NfaState nfaState = tokenizerData.nfa.get(state);
             if (nfaState.characters.contains(c)) {
@@ -169,6 +171,7 @@ public class JavaCCInterpreter {
               newStates.addAll(nfaState.nextStates);
             }
           }
+
           Set<Integer> tmp = newStates;
           newStates = curStates;
           curStates = tmp;
@@ -200,7 +203,7 @@ public class JavaCCInterpreter {
           curLexState = matchInfo.newLexState;
         }
         curPos = matchedPos + 1;
-      } else {
+      } else if (curPos < input_size) {
         System.err.println("Encountered token error at char: " +
                            input.charAt(curPos));
         System.exit(1);

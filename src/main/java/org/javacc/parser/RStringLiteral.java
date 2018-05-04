@@ -1602,68 +1602,6 @@ public class RStringLiteral extends RegularExpression {
     return super.toString() + " - " + image;
   }
 
-/*
-  static void GenerateData(TokenizerData tokenizerData) {
-     Hashtable tab;
-     String key;
-     KindInfo info;
-     for (int i = 0; i < maxLen; i++) {
-        tab = (Hashtable)charPosKind.get(i);
-        String[] keys = ReArrange(tab);
-        if (Options.getIgnoreCase()) {
-          for (String s : keys) {
-            char c = s.charAt(0); 
-            tab.put(Character.toLowerCase(c), tab.get(c));
-            tab.put(Character.toUpperCase(c), tab.get(c));
-          }
-        }
-        for (int q = 0; q < keys.length; q++) {
-           key = keys[q];
-           info = (KindInfo)tab.get(key);
-           char c = key.charAt(0);
-           for (int kind : info.finalKindSet) {
-             tokenizerData.addDfaFinalKindAndState(
-                 i, c, kind, GetStateSetForKind(i, kind));
-           }
-           for (int kind : info.validKindSet) {
-             tokenizerData.addDfaValidKind(i, c, kind);
-           }
-        }
-     }
-     for (int i = 0; i < maxLen; i++) {
-        Enumeration e = statesForPos[i].keys();
-        while (e.hasMoreElements())
-        {
-           String stateSetString = (String)e.nextElement();
-           long[] actives = (long[])statesForPos[i].get(stateSetString);
-           int ind = stateSetString.indexOf(", ");
-           String kindStr = stateSetString.substring(0, ind);
-           String afterKind = stateSetString.substring(ind + 2);
-           stateSetString = afterKind.substring(afterKind.indexOf(", ") + 2);
-           BitSet bits = BitSet.valueOf(actives);
-
-           for (int j = 0; j < bits.length(); j++) {
-             if (bits.get(j)) tokenizerData.addFinalDfaKind(j);
-           }
-           // Pos
-           codeGenerator.genCode(
-               ", " + afterKind.substring(0, afterKind.indexOf(", ")));
-           // Kind
-           codeGenerator.genCode(", " + kindStr);
-
-           // State
-           if (stateSetString.equals("null;")) {
-              codeGenerator.genCodeLine(", -1");
-           } else {
-              codeGenerator.genCodeLine(
-                  ", " + NfaState.AddStartStateSet(stateSetString));
-           }
-        }
-        codeGenerator.genCode("}");
-     }
-     codeGenerator.genCodeLine("};");
-  }
-*/
 
   static final Map<Integer, List<String>> literalsByLength =
       new HashMap<Integer, List<String>>();
@@ -1725,7 +1663,9 @@ public class RStringLiteral extends RegularExpression {
     Map<Integer, Integer> nfaStateIndices = new HashMap<Integer, Integer>();
     for (int kind : nfaStateMap.keySet()) {
       if (nfaStateMap.get(kind) != null) {
-        nfaStateIndices.put(kind, nfaStateMap.get(kind).stateName);
+        if (nfaStateIndices.put(kind, nfaStateMap.get(kind).stateName) != null) {
+          System.err.println("ERROR: Multiple start states for kind: " + kind);
+        }
       } else {
         nfaStateIndices.put(kind, -1);
       }

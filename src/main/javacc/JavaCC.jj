@@ -1176,7 +1176,7 @@ void expansion_unit(Container c) :
 	  List lhsTokens = new ArrayList();
 	  NonTerminal nt;
 	  Action act;
-	  Token t;
+	  Token t = null;
 	  Lookahead la;
 	}
 {
@@ -1245,23 +1245,29 @@ void expansion_unit(Container c) :
   ("catch" "("
     {
       if (!isJavaLanguage()) {
-        while (getToken(1).kind != RPAREN) getNextToken();
+        while (getToken(1).kind != RPAREN) vec.add(getNextToken());
+        vec.add(getToken(1));  // Just add the rparen too. HACK!!!
+        vec.add(getToken(2));  // Just add the open curly too. HACK!!!
+        // Remove the lastone.
+        t = null;
       }
-      t = getToken(0);
-      t.kind = IDENTIFIER;
-      // TODO(sreeni): Fixup to be part of the codegen api
-      if (getCodeGenerator() != null) {
-        t.image = "System.Exception"; // assume C# for now.
-      } else {
-        t.image = "...";
-      }
+      //t = getToken(0);
+      //t.kind = IDENTIFIER;
+      //// TODO(sreeni): Fixup to be part of the codegen api
+      //if (getCodeGenerator() != null) {
+        //t.image = "System.Exception"; // assume C# for now.
+      //} else {
+        //t.image = "...";
+      //}
     }
     [ LOOKAHEAD({isJavaLanguage()}) Name(vec) t=<IDENTIFIER> ]
    ")"
 	{
-	  types.add(vec);
-	  ids.add(t);
-	  vec = new ArrayList();
+	  if (isJavaLanguage()) {
+      types.add(vec);
+	    ids.add(t);
+	    vec = new ArrayList();
+    }
 	  inAction = true;
 	}
     Block(vec)

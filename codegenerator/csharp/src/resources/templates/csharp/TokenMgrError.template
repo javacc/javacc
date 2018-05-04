@@ -67,8 +67,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class TokenMgrError : System.Exceptio
           continue;
         default:
           if ((ch = str[i]) < 0x20 || ch > 0x7e) {
-            string s = "0000" + ((int)ch).ToString("X4");
-            retval += "\\u" + s.Substring(s.Length - 4, s.Length);
+            retval += "\\U" + ((int)ch).ToString("X4");;
           } else {
             retval += ch;
           }

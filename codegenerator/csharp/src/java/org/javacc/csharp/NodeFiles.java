@@ -144,7 +144,7 @@ final class NodeFiles {
 
       String ve = mergeVisitorException();
 
-      String argumentType = "System.Object";
+      String argumentType = "object";
       if (!JJTreeOptions.getVisitorDataType().equals("")) {
         argumentType = JJTreeOptions.getVisitorDataType();
       }
@@ -213,7 +213,7 @@ final class NodeFiles {
 
       String ve = mergeVisitorException();
 
-      String argumentType = "System.Object";
+      String argumentType = "object";
       if (!JJTreeOptions.getVisitorDataType().equals("")) {
         argumentType = JJTreeOptions.getVisitorDataType();
       }
@@ -237,7 +237,7 @@ final class NodeFiles {
             continue;
           }
           String nodeType = JJTreeOptions.getNodePrefix() + n;
-          pw.println("  public " + ret + " " + getVisitMethodName(nodeType) +
+          pw.println("  public virtual " + ret + " " + getVisitMethodName(nodeType) +
           "(" + nodeType +
               " node, " + argumentType + " data)" + ve + "{");
           pw.println("    " + (ret.trim().equals("void") ? "" : "return ") + "defaultVisit(node, data);");

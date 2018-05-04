@@ -341,10 +341,7 @@
   protected void trace_token(Token t, string where) {
 	 if (traceEnabled) {
 	   for (int i = 0; i < trace_indent; i++) { System.Console.Out.Write(" "); }
-	   System.Console.Out.Write("Consumed token: <" + t.image);
-	   //if (t.kind != 0 && !tokenImage[t.kind].Equals("\"" + t.image + "\"")) {
-		 //System.Console.Out.Write(": \"" + TokenMgrError.addEscapes(t.image) + "\"");
-	   //}
+	   System.Console.Out.Write("Consumed token of kind: " + t.kind + " <" + t.image);
 	   System.Console.Out.WriteLine(" at line " + t.beginLine + " column " + t.beginColumn + ">" + where);
 	 }
   }
