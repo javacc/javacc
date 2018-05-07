@@ -176,7 +176,6 @@ private  int jjMoveNfa(int startState, int curPos) {
   // We initialize the kind to MAX value so that when a match is found, we can
   // simply check if it's less than the current match and store it in that
   // case. This helps implement the 'first occurring' rule properly.
-  int kind = int.MaxValue;
   int cnt = 0;
   stateSet[cnt++] = startState;
   moved[startState] = moveIndex;
@@ -199,6 +198,7 @@ private  int jjMoveNfa(int startState, int curPos) {
     System.Console.Error.WriteLine("Cur char: '" + (char)curChar + "'");
 #fi
     int newCnt = 0;
+    int kind = int.MaxValue;
     if (++moveIndex == long.MaxValue) {
       for (int i = 0; i < ${generatedStates}; i++) moved[i] = 0L;
       moveIndex = 1L;
@@ -415,7 +415,7 @@ public  Token getNextToken() {
 #if !NO_DFA
       lastReadPosition = jjRunStringLiteralMatch();
 #else
-      lastReadPosition = jjMoveNfa(0, 0);
+      lastReadPosition = jjMoveNfa(jjInitStates[curLexState], 0);
 #fi
       if (jjmatchedPos == 0 && jjmatchedKind > canMatchAnyChar[curLexState]) {
         jjmatchedKind = canMatchAnyChar[curLexState];

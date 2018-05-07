@@ -241,7 +241,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
         "public static readonly string[] jjstrLiteralImages = {");
 
     int k = 0;
-    for (int i : allMatches.keySet()) {
+    for (int i = 0; i < allMatches.size(); i++) {
       TokenizerData.MatchInfo matchInfo = allMatches.get(i);
       switch(matchInfo.matchType) {
         case SKIP: toSkip.set(i); break;

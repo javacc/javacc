@@ -554,6 +554,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
       tokenizerData.setParserName(cu_name);
       NfaState.BuildTokenizerData(tokenizerData);
       RStringLiteral.BuildTokenizerData(tokenizerData);
+
       int[] newLexStateIndices = new int[maxOrdinal];
       StringBuilder tokenMgrDecls = new StringBuilder();
       if (token_mgr_decls != null && token_mgr_decls.size() > 0) {

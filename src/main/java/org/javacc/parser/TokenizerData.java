@@ -169,9 +169,8 @@ public class TokenizerData {
       } else if (toMore.length > vectorIndex &&
                  (toMore[vectorIndex] & bits) != 0L) {
         matchType = MatchType.MORE;
-      } else {
-        assert(toToken.length > vectorIndex &&
-               (toToken[vectorIndex] & bits) != 0L);
+      } else if (toToken.length > vectorIndex &&
+                 (toToken[vectorIndex] & bits) != 0L) {
         matchType = MatchType.TOKEN;
       }
       MatchInfo matchInfo =

@@ -1160,7 +1160,6 @@ public class NfaState
 
       int tmp;
 
-System.err.println("*** toret: " + toRet + ";len: " + nameSet.length);
       if (toRet >= nameSet.length)
       {
         // TODO(sreeni) : Fix this mess.
@@ -3316,7 +3315,7 @@ System.err.println("*** toret: " + toRet + ";len: " + nameSet.length);
    public static void BuildTokenizerData(TokenizerData tokenizerData) {
      NfaState[] cleanStates;
      List<NfaState> cleanStateList = new ArrayList<NfaState>();
-     for (int l : statesForLexicalState.keySet()) {
+     for (int l = 0; l < LexGen.lexStateName.length; l++) {
        int offset = nfaStateOffset.get(l);
        List<NfaState> states = statesForLexicalState.get(l);
        for (int i = 0; i < states.size(); i++) {
@@ -3328,7 +3327,10 @@ System.err.println("*** toret: " + toRet + ";len: " + nameSet.length);
        }
        cleanStateList.addAll(states);
      }
+
      cleanStates = new NfaState[cleanStateList.size()];
+     Map<Integer, Set<Character>> charsForState =
+         new HashMap<Integer, Set<Character>>();;
      for (NfaState s : cleanStateList) {
        assert(cleanStates[s.stateName] == null);
        cleanStates[s.stateName] = s;
@@ -3338,6 +3340,10 @@ System.err.println("*** toret: " + toRet + ";len: " + nameSet.length);
            chars.add((char)c);
          }
        }
+       charsForState.put(s.stateName, chars);
+     }
+
+     for (NfaState s : cleanStates) {
        Set<Integer> nextStates = new TreeSet<Integer>();
        if (s.next != null) {
          for (NfaState next : s.next.epsilonMoveArray) {
@@ -3350,11 +3356,14 @@ System.err.println("*** toret: " + toRet + ";len: " + nameSet.length);
            composite.add(c.stateName);
          }
        }
+
        tokenizerData.addNfaState(
-           s.stateName, chars, nextStates, composite, s.kindToPrint);
+           s.stateName, charsForState.get(s.stateName), nextStates,
+           composite, s.kindToPrint);
      }
+
      Map<Integer, Integer> initStates = new HashMap<Integer, Integer>();
-     for (int l = 0; l < initialStates.keySet().size(); l++) {
+     for (int l = 0; l < LexGen.lexStateName.length; l++) {
        if (initialStates.get(l) == null) {
          initStates.put(l, -1);
        } else {

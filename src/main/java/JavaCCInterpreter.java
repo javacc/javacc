@@ -168,6 +168,7 @@ public class JavaCCInterpreter {
               if (kind > nfaState.kind) {
                 kind = nfaState.kind;
               }
+
               newStates.addAll(nfaState.nextStates);
             }
           }
@@ -182,7 +183,9 @@ public class JavaCCInterpreter {
           }
         } while (!curStates.isEmpty() && ++curPos < input_size);
       }
-      if (matchedPos == beg && matchedKind > tokenizerData.wildcardKind.get(curLexState)) {
+
+      if (matchedPos == beg &&
+          matchedKind > tokenizerData.wildcardKind.get(curLexState)) {
         matchedKind = tokenizerData.wildcardKind.get(curLexState);
       }
       if (matchedKind != Integer.MAX_VALUE) {
