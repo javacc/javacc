@@ -308,7 +308,11 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
     stateHasActions = new boolean[maxLexStates];
     lexStateName = new String[maxLexStates];
     singlesToSkip = new NfaState[maxLexStates];
-    System.arraycopy(tmpLexStateName, 0, lexStateName, 0, maxLexStates);
+    //System.arraycopy(tmpLexStateName, 0, lexStateName, 0, maxLexStates);
+
+    for (int l: lexstate_I2S.keySet()) {
+      lexStateName[l] = lexstate_I2S.get(l);
+    }
 
     for (i = 0; i < maxLexStates; i++)
       canMatchAnyChar[i] = -1;
