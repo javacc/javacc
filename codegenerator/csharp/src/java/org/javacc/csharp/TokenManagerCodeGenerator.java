@@ -245,7 +245,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
       TokenizerData.MatchInfo matchInfo = allMatches.get(i);
       switch(matchInfo.matchType) {
         case SKIP: toSkip.set(i); break;
-        case SPECIAL_TOKEN: toSpecial.set(i); break;
+        case SPECIAL_TOKEN: toSkip.set(i); toSpecial.set(i); break;
         case MORE: toMore.set(i); break;
         case TOKEN: toToken.set(i); break;
       }

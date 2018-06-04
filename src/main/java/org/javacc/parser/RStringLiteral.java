@@ -1602,7 +1602,6 @@ public class RStringLiteral extends RegularExpression {
     return super.toString() + " - " + image;
   }
 
-
   static final Map<Integer, List<String>> literalsByLength =
       new HashMap<Integer, List<String>>();
   static final Map<Integer, List<Integer>> literalKinds =

@@ -129,26 +129,25 @@ public class JavaCCInterpreter {
 
       if (literals != null) {
         // We need to go in order so that the longest match works.
-        int litIndex = 0;
-        for (String s : literals) {
-          int index = 1;
+        for (int litIndex = 0; litIndex < literals.size(); litIndex++) {
+          String s = literals.get(litIndex);
+          int charIndex = 1;
           // See which literal matches.
-          while (index < s.length() && curPos + index < input_size) {
-            c = input.charAt(curPos + index);
-            updateLineCol(curPos + index, c);
+          while (charIndex < s.length() && curPos + charIndex < input_size) {
+            c = input.charAt(curPos + charIndex);
+            updateLineCol(curPos + charIndex, c);
             if (Options.getIgnoreCase()) c = Character.toLowerCase(c);
-            if (c != s.charAt(index)) break;
-            index++;
+            if (c != s.charAt(charIndex)) break;
+            charIndex++;
           }
-          if (index == s.length()) {
+          if (charIndex == s.length()) {
             // Found a string literal match.
             matchedKind = tokenizerData.literalKinds.get(key).get(litIndex);
-            matchedPos = curPos + index - 1;
+            matchedPos = curPos + charIndex - 1;
             nfaStartState = tokenizerData.kindToNfaStartState.get(matchedKind);
-            curPos += index;
+            curPos += charIndex;
             break;
           }
-          litIndex++;
         }
       }
 

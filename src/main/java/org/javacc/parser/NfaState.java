@@ -110,7 +110,7 @@ public class NfaState
    private int nonAsciiMethod = -1;
    private int kindToPrint = Integer.MAX_VALUE;
    boolean dummy = false;
-   private boolean isComposite = false;
+   boolean isComposite = false;
    private int[] compositeStates = null;
    private Set<NfaState> compositeStateSet = new HashSet<NfaState>();
    boolean isFinal = false;
@@ -1180,9 +1180,10 @@ public class NfaState
           dummyState.compositeStates = nameSet;
           dummyState.stateName = tmp;
           dummyState.dummy = true;
-          for (int c : dummyState.compositeStates) {
-            dummyState.compositeStateSet.add(indexedAllStates.get(c));
-          }
+          indexedAllStates.add(dummyState);
+          //for (int c : dummyState.compositeStates) {
+            //dummyState.compositeStateSet.add(indexedAllStates.get(c));
+          //}
         }
       }
       else
@@ -1191,6 +1192,15 @@ public class NfaState
       stateNameToReturn = new Integer(tmp);
       stateNameForComposite.put(stateSetString, stateNameToReturn);
       compositeStateTable.put(stateSetString, nameSet);
+      if (JavaCCGlobals.getCodeGenerator() != null ||
+          Options.booleanValue(Options.NONUSER_OPTION__INTERPRETER)) {
+        NfaState tmpNfaState = indexedAllStates.get(tmp);
+        for (int c : nameSet) {
+          if (c < indexedAllStates.size()) {
+            tmpNfaState.compositeStateSet.add(indexedAllStates.get(c));
+          }
+        }
+      }
 
       return tmp;
    }

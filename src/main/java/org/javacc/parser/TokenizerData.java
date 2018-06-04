@@ -161,11 +161,11 @@ public class TokenizerData {
       int vectorIndex = i >> 6;
       long bits = (1L << (i & 077));
       MatchType matchType = MatchType.TOKEN;
-      if (toSkip.length > vectorIndex && (toSkip[vectorIndex] & bits) != 0L) {
-        matchType = MatchType.SKIP;
-      } else if (toSpecial.length > vectorIndex &&
+      if (toSpecial.length > vectorIndex &&
                  (toSpecial[vectorIndex] & bits) != 0L) {
         matchType = MatchType.SPECIAL_TOKEN;
+      } else if (toSkip.length > vectorIndex && (toSkip[vectorIndex] & bits) != 0L) {
+        matchType = MatchType.SKIP;
       } else if (toMore.length > vectorIndex &&
                  (toMore[vectorIndex] & bits) != 0L) {
         matchType = MatchType.MORE;
