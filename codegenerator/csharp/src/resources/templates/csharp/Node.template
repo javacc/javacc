@@ -148,28 +148,14 @@ public partial class SimpleNode : Node {
   }
 
 #fi
-  /* You can override these two methods in subclasses of SimpleNode to
-     customize the way the node appears when the tree is dumped.  If
-     your output uses more than one line you should override
-     toString(string), otherwise overriding toString() is probably all
-     you need to do. */
 
-  public string toString() {
-    return ${PARSER_NAME}TreeConstants.jjtNodeName[id] 
-#if TRACK_TOKENS
-     + " (" + firstToken.beginLine + ":" + firstToken.beginColumn + "-"  
-     + lastToken.endLine + ":" + lastToken.endColumn  +
-     ( firstToken == lastToken && jjtGetNumChildren() == 0 ? ") (" + firstToken.image : "") + ")";
-#fi
-;
-  }
-  public string toString(string prefix) { return prefix + toString(); }
+  public string ToString(string prefix) { return prefix + ToString(); }
 
   /* Override this method if you want to customize how the node dumps
      out its children. */
 
   public void dump(string prefix) {
-    System.Console.Out.WriteLine(toString(prefix));
+    System.Console.Out.WriteLine(ToString(prefix));
     if (children != null) {
       for (int i = 0; i < children.Length; ++i) {
         SimpleNode n = (SimpleNode)children[i];
