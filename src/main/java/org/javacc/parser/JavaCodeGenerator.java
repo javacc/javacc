@@ -5,6 +5,15 @@ import org.javacc.parser.JavaFiles.JavaResourceTemplateLocations;
 public class JavaCodeGenerator implements CodeGenerator
 {
   /**
+   * The name of the Java code generator.
+   */
+  @Override
+  public String getName() 
+  {
+    return "Java";
+  }
+
+  /**
    * Generate any other support files you need.
    */
   @Override

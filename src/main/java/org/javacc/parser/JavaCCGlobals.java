@@ -34,6 +34,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 
 import org.javacc.Version;
 
@@ -354,15 +355,24 @@ public class JavaCCGlobals {
   static public CodeGenerator getCodeGenerator() {
     if (codeGenerator != null) return codeGenerator;
 
-    String className = Options.getCodeGenerator();
-    if (className == null) return null;
+    String name = Options.getCodeGenerator();
+    if (name == null) return null;
+    
+    ServiceLoader<CodeGenerator> serviceLoader = ServiceLoader.load(CodeGenerator.class);
+    for (CodeGenerator generator : serviceLoader) {
+      if(generator.getName().equalsIgnoreCase(name)) {
+        codeGenerator = generator;
+        return codeGenerator;
+      }
+    }
+    
     try
     {
-      codeGenerator = ((Class<CodeGenerator>)Class.forName(className)).newInstance();
+      codeGenerator = ((Class<CodeGenerator>)Class.forName(name)).newInstance();
     }
     catch(Exception e)
     {
-      JavaCCErrors.semantic_error("Could not load the CodeGenerator class: \"" + className + "\"");
+      JavaCCErrors.semantic_error("Could not load the CodeGenerator class: \"" + name + "\"");
     }
 
     return codeGenerator;

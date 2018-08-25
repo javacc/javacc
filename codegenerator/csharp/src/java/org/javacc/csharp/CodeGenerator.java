@@ -9,6 +9,15 @@ import org.javacc.parser.*;
 public class CodeGenerator implements org.javacc.parser.CodeGenerator
 {
   /**
+   * The name of the C# code generator.
+   */
+  @Override
+  public String getName() 
+  {
+    return "C#";
+  }
+
+  /**
    * Generate any other support files you need.
    */
   @Override

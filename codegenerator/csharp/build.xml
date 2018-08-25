@@ -41,7 +41,9 @@ Copyright (c) 2017, Microsoft
 	<target name="jar-nocompile">
 		<mkdir dir="lib" />
 		<antcall target="compile" />
-		<jar jarfile="csharp-codegenerator.jar" basedir="classes" compress="true" />
+		<jar jarfile="csharp-codegenerator.jar" basedir="classes" compress="true">
+			<metainf dir="${java-src}/META-INF"></metainf>
+		</jar>
 	</target>
 
 </project>
