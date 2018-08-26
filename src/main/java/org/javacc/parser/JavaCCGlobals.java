@@ -419,7 +419,7 @@ public class JavaCCGlobals {
 
   static public String addUnicodeEscapes(String str) {
 	  
-	if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+	if (Options.isOutputLanguageCpp()) {
 		return str;
 	} else if (Options.isOutputLanguageJava()) {
 	    String retval = "";
@@ -601,11 +601,10 @@ public class JavaCCGlobals {
 
 
    static String getFileExtension(String language) {
-     String lang = Options.getOutputLanguage();
      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
      if (Options.isOutputLanguageJava()) {
        return ".java";
-     } else if (lang.toLowerCase().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+     } else if (Options.isOutputLanguageCpp()) {
        return ".cc";
      }
 

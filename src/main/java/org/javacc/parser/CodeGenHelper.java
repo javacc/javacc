@@ -244,7 +244,7 @@ public class CodeGenHelper {
   public void genAnnotation(String ann) {
     if (Options.isOutputLanguageJava()) {
       genCode("@" + ann);
-    } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) { // For now, it's only C++ for now
+    } else if (Options.isOutputLanguageCpp()) { // For now, it's only C++ for now
       genCode( "/*" + ann + "*/");
     } else {
     	throw new RuntimeException("Unknown language : " + Options.getOutputLanguage());
@@ -293,7 +293,7 @@ public class CodeGenHelper {
 
     genCommaSeperatedString(superInterfaces);
     genCodeLine(" {");
-    if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+    if (Options.isOutputLanguageCpp()) {
       genCodeLine("public:");
     }
   }

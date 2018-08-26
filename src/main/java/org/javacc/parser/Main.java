@@ -223,7 +223,7 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
       String outputLanguage = Options.getOutputLanguage();
       // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
   	  boolean isJavaOutput = Options.isOutputLanguageJava();
-  	  boolean isCPPOutput = outputLanguage.equals(Options.OUTPUT_LANGUAGE__CPP);
+  	  boolean isCPPOutput = Options.isOutputLanguageCpp();
   	  
   	  // 2013/07/22 Java Modern is a 
   	  boolean isJavaModern = isJavaOutput && Options.getJavaTemplateType().equals(Options.JAVA_TEMPLATE_TYPE_MODERN);

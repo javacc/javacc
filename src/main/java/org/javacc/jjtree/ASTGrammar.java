@@ -49,7 +49,7 @@ public class ASTGrammar extends JJTreeNode {
       codeGenerator.getJJTreeCodeGenerator().visit(this, io);
     } else if (JJTreeOptions.isOutputLanguageJava()) {
       new JavaCodeGenerator().visit(this, io);
-    } else if (JJTreeOptions.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+    } else if (JJTreeOptions.isOutputLanguageCpp()) {
       new CPPCodeGenerator().visit(this, io);
       CPPNodeFiles.generateTreeClasses();
     } else {
