@@ -265,7 +265,7 @@ final class NodeFiles {
 
   private static String getVisitorReturnType() {
     String ret = Options.stringValue("VISITOR_RETURN_TYPE");
-    return ret == null || ret.equals("") || ret.equals("Object") ? "void " : ret;
+    return ret == null || ret.equals("") || ret.equals("Object") ? "void" : ret;
   }
 
   static void generateVisitors() {

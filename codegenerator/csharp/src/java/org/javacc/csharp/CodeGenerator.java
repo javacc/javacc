@@ -3,9 +3,6 @@ package org.javacc.csharp;
 import org.javacc.parser.CodeGeneratorSettings;
 import org.javacc.utils.OutputFileGenerator;
 
-// TODO(sreeni) : Clean it ip
-import org.javacc.parser.*;
-
 public class CodeGenerator implements org.javacc.parser.CodeGenerator
 {
   /**
@@ -68,7 +65,6 @@ public class CodeGenerator implements org.javacc.parser.CodeGenerator
   {
     return new ParserCodeGenerator();
   }
-
   
   /**
    * TODO(sreeni): Fix this when we do tree annotations in the parser code generator.

@@ -52,17 +52,6 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
 
     // Added this if condition -- 2012/10/17 -- cba
   if ( Options.isGenerateBoilerplateCode()) {
-    
-            CodeGenerator codeGenerator = JavaCCGlobals.getCodeGenerator();
-            if (codeGenerator != null)
-            {
-              if ((!codeGenerator.getTokenCodeGenerator().generateCodeForToken(new CodeGeneratorSettings(Options.getOptions()))) ||
-                  (!codeGenerator.generateHelpers(new CodeGeneratorSettings(Options.getOptions()))))
-              {
-                JavaCCErrors.semantic_error("Could not generate the code for Token or helper classes.");
-              }
-              return;
-            }
       if (isJavaModern) {
         JavaFiles.gen_JavaModernFiles();
       }

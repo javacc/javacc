@@ -41,6 +41,8 @@ public class CodeGenerator implements org.javacc.parser.CodeGenerator {
 //      } else {
 //        OutputFileGenerator.generateSimple("/templates/cpp/CharStream.template", "CharStream.cs", "/* JavaCC generated file. */", settings);
 //      }
+
+      OtherFilesGenCPP.start();
     } catch (Exception e) {
       return false;
     }
@@ -71,7 +73,6 @@ public class CodeGenerator implements org.javacc.parser.CodeGenerator {
   public ParserCodeGenerator getParserCodeGenerator() {
     return new ParserCodeGenerator();
   }
-
 
   /**
    * TODO(sreeni): Fix this when we do tree annotations in the parser code generator. The JJTree
