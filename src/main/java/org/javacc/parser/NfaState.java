@@ -91,7 +91,7 @@ public class NfaState
       stateSetsToFix.clear();
    }
 
-   long[] asciiMoves = new long[2];
+   public long[] asciiMoves = new long[2];
    char[] charMoves = null;
    private char[] rangeMoves = null;
    NfaState next = null;
@@ -2669,7 +2669,7 @@ public class NfaState
    }
 
    //private static boolean boilerPlateDumped = false;
-   static void PrintBoilerPlateCPP(CodeGenHelper codeGenerator)
+   public static void PrintBoilerPlateCPP(CodeGenHelper codeGenerator)
    {
       codeGenerator.switchToIncludeFile();
       codeGenerator.genCodeLine("#define jjCheckNAdd(state)\\");

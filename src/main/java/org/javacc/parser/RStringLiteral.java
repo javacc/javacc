@@ -674,7 +674,7 @@ public class RStringLiteral extends RegularExpression {
      return ret;
   }
 
-  static void DumpDfaCode(CodeGenHelper codeGenerator)
+  public static void DumpDfaCode(CodeGenHelper codeGenerator)
   {
      Hashtable tab;
      String key;

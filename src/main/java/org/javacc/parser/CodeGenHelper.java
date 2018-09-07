@@ -11,10 +11,10 @@ import java.io.*;
 import java.util.*;
 
 public class CodeGenHelper {
-  protected StringBuffer mainBuffer = new StringBuffer();
-  protected StringBuffer includeBuffer = new StringBuffer();
-  protected StringBuffer staticsBuffer = new StringBuffer();
-  protected StringBuffer outputBuffer = mainBuffer;
+  public StringBuffer mainBuffer = new StringBuffer();
+  public StringBuffer includeBuffer = new StringBuffer();
+  public StringBuffer staticsBuffer = new StringBuffer();
+  public StringBuffer outputBuffer = mainBuffer;
 
   public void genStringLiteralArrayCPP(String varName, String[] arr) {
     // First generate char array vars
@@ -130,7 +130,7 @@ public class CodeGenHelper {
     }
   }
 
-  protected int cline, ccol;
+  public int cline, ccol;
 
   public void printTokenSetup(Token t) {
 		Token tt = t;
@@ -370,7 +370,7 @@ public class CodeGenHelper {
     }
   }
 
-  protected String getClassQualifier(String className) {
+  public String getClassQualifier(String className) {
     return className == null ? "" : className + "::";
   }
 

@@ -54,12 +54,12 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
   public static String tokMgrClassName;
 
   // Hashtable of vectors
-  static Hashtable allTpsForState = new Hashtable();
+  public static Hashtable allTpsForState = new Hashtable();
   public static int lexStateIndex = 0;
-  static int[] kinds;
+  public static int[] kinds;
   public static int maxOrdinal = 1;
   public static String lexStateSuffix;
-  static String[] newLexState;
+  public static String[] newLexState;
   public static int[] lexStates;
   public static boolean[] ignoreCase;
   public static Action[] actions;
@@ -68,7 +68,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
   public static int totalNumStates;
   public static int maxLexStates;
   public static String[] lexStateName;
-  static NfaState[] singlesToSkip;
+  public static NfaState[] singlesToSkip;
   public static long[] toSkip;
   public static long[] toSpecial;
   public static long[] toMore;
@@ -87,12 +87,12 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
   public static boolean[] mixed;
   public static NfaState initialState;
   public static int curKind;
-  static boolean hasSkipActions = false;
-  static boolean hasMoreActions = false;
-  static boolean hasTokenActions = false;
-  static boolean hasSpecial = false;
-  static boolean hasSkip = false;
-  static boolean hasMore = false;
+  public static boolean hasSkipActions = false;
+  public static boolean hasMoreActions = false;
+  public static boolean hasTokenActions = false;
+  public static boolean hasSpecial = false;
+  public static boolean hasSkip = false;
+  public static boolean hasMore = false;
   public static RegularExpression curRE;
   public static boolean keepLineCol;
   public static String errorHandlingClass;

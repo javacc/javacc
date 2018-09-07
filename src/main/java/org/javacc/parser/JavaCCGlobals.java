@@ -200,8 +200,8 @@ public class JavaCCGlobals {
   public static boolean lookaheadNeeded;
   static public List maskVals = new ArrayList();
 
-  static Action actForEof;
-  static String nextStateForEof;
+  public static Action actForEof;
+  public static String nextStateForEof;
   static public Token otherLanguageDeclTokenBeg;
   static public Token otherLanguageDeclTokenEnd;
 
