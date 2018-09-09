@@ -6,7 +6,7 @@ Copyright (c) 2017, Microsoft
 
 -->
 
-<project name="csharpcodegenerator" default="jar" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+<project name="cppcodegenerator" default="jar" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
 	<property name="javacc-root" value="../.." />
 	<property name="java-src" value="src/java" />
@@ -17,7 +17,7 @@ Copyright (c) 2017, Microsoft
 	<target name="clean">
 		<delete dir="classes" />
 		<delete dir="lib" />
-		<delete file="csharp-codegenerator.jar" />
+		<delete file="cpp-codegenerator.jar" />
 	</target>
 
 	<target name="compile" depends="clean">
@@ -41,7 +41,7 @@ Copyright (c) 2017, Microsoft
 	<target name="jar-nocompile">
 		<mkdir dir="lib" />
 		<antcall target="compile" />
-		<jar jarfile="csharp-codegenerator.jar" basedir="classes" compress="true">
+		<jar jarfile="cpp-codegenerator.jar" basedir="classes" compress="true">
 			<metainf dir="${java-src}/META-INF"></metainf>
 		</jar>
 	</target>

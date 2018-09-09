@@ -3,11 +3,17 @@ package org.javacc.csharp;
 import org.javacc.parser.CodeGeneratorSettings;
 import org.javacc.utils.OutputFileGenerator;
 
-// TODO(sreeni) : Clean it ip
-import org.javacc.parser.*;
-
 public class CodeGenerator implements org.javacc.parser.CodeGenerator
 {
+  /**
+   * The name of the C# code generator.
+   */
+  @Override
+  public String getName() 
+  {
+    return "C#";
+  }
+
   /**
    * Generate any other support files you need.
    */
@@ -59,7 +65,6 @@ public class CodeGenerator implements org.javacc.parser.CodeGenerator
   {
     return new ParserCodeGenerator();
   }
-
   
   /**
    * TODO(sreeni): Fix this when we do tree annotations in the parser code generator.

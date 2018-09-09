@@ -131,7 +131,7 @@ public class RStringLiteral extends RegularExpression {
     if (Options.isOutputLanguageJava()) {
       DumpStrLiteralImagesForJava(codeGenerator);
       return;
-    } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+    } else if (Options.isOutputLanguageCpp()) {
 	
 	    // For C++
 	    String image;
@@ -564,7 +564,7 @@ public class RStringLiteral extends RegularExpression {
     if (Options.isOutputLanguageJava()) {
      codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private int " +
                   "jjStartNfaWithStates" + Main.lg.lexStateSuffix + "(int pos, int kind, int state)");
-    } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+    } else if (Options.isOutputLanguageCpp()) {
      codeGenerator.generateMethodDefHeader("int", Main.lg.tokMgrClassName, "jjStartNfaWithStates" + Main.lg.lexStateSuffix + "(int pos, int kind, int state)");
     } else {
     	throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
@@ -588,7 +588,7 @@ public class RStringLiteral extends RegularExpression {
      if (Options.isOutputLanguageJava()) {
        codeGenerator.genCodeLine("   try { curChar = input_stream.readChar(); }");
        codeGenerator.genCodeLine("   catch(java.io.IOException e) { return pos + 1; }");
-     } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)){
+     } else if (Options.isOutputLanguageCpp()){
        codeGenerator.genCodeLine("   if (input_stream->endOfInput()) { return pos + 1; }");
        codeGenerator.genCodeLine("   curChar = input_stream->readChar();");
      } else {
@@ -601,7 +601,7 @@ public class RStringLiteral extends RegularExpression {
               "\"Current character : \" + " + Options.getTokenMgrErrorClass() +
               ".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
               "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
-       } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+       } else if (Options.isOutputLanguageCpp()) {
          codeGenerator.genCodeLine("   fprintf(debugStream, " +
             "\"<%s>Current character : %c(%d) at line %d column %d\\n\","+
             "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
@@ -622,7 +622,7 @@ public class RStringLiteral extends RegularExpression {
      if (Options.isOutputLanguageJava()) {
      codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private int " +
                   "jjStopAtPos(int pos, int kind)");
-     } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+     } else if (Options.isOutputLanguageCpp()) {
        codeGenerator.generateMethodDefHeader(" int ", Main.lg.tokMgrClassName , "jjStopAtPos(int pos, int kind)");
      } else {
     	 throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
@@ -637,7 +637,7 @@ public class RStringLiteral extends RegularExpression {
          codeGenerator.genCodeLine("   debugStream.println(\"   No more string literal token matches are possible.\");");
          codeGenerator.genCodeLine("   debugStream.println(\"   Currently matched the first \" + (jjmatchedPos + 1) + " +
                 "\" characters as a \" + tokenImage[jjmatchedKind] + \" token.\");");
-       } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+       } else if (Options.isOutputLanguageCpp()) {
         codeGenerator.genCodeLine("   fprintf(debugStream, \"   No more string literal token matches are possible.\");");
         codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\",  (jjmatchedPos + 1),  addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
        } else {
@@ -674,7 +674,7 @@ public class RStringLiteral extends RegularExpression {
      return ret;
   }
 
-  static void DumpDfaCode(CodeGenHelper codeGenerator)
+  public static void DumpDfaCode(CodeGenHelper codeGenerator)
   {
      Hashtable tab;
      String key;
@@ -690,7 +690,7 @@ public class RStringLiteral extends RegularExpression {
      if (Options.isOutputLanguageJava()) {
         codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private int " +
                        "jjMoveStringLiteralDfa0" + Main.lg.lexStateSuffix + "()");
-      } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+      } else if (Options.isOutputLanguageCpp()) {
         codeGenerator.generateMethodDefHeader(" int ", Main.lg.tokMgrClassName, "jjMoveStringLiteralDfa0" + Main.lg.lexStateSuffix + "()");
       } else {
     	  throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
@@ -762,7 +762,7 @@ public class RStringLiteral extends RegularExpression {
      if (Options.isOutputLanguageJava()) {
         codeGenerator.genCode((Options.getStatic() ? "static " : "") + "private int " +
                        "jjMoveStringLiteralDfa" + i + Main.lg.lexStateSuffix + params);
-      } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+      } else if (Options.isOutputLanguageCpp()) {
         codeGenerator.generateMethodDefHeader(" int ", Main.lg.tokMgrClassName, "jjMoveStringLiteralDfa" + i + Main.lg.lexStateSuffix + params);
       } else {
     	  throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
@@ -854,7 +854,7 @@ public class RStringLiteral extends RegularExpression {
                // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
               if (codeGenerator.isJavaLanguage()) {
                 codeGenerator.genCodeLine(" + \" } \");");
-              } else  if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+              } else  if (Options.isOutputLanguageCpp()) {
                 fmt.append("}\\n");
                 codeGenerator.genCodeLine("    fprintf(debugStream, \"" + fmt + "\"," +  args + ");");
               } else {
@@ -866,7 +866,7 @@ public class RStringLiteral extends RegularExpression {
            if (Options.isOutputLanguageJava()) {
              codeGenerator.genCodeLine("   try { curChar = input_stream.readChar(); }");
              codeGenerator.genCodeLine("   catch(java.io.IOException e) {");
-           } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+           } else if (Options.isOutputLanguageCpp()) {
              codeGenerator.genCodeLine("   if (input_stream->endOfInput()) {");
            } else {
         	   throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
@@ -914,7 +914,7 @@ public class RStringLiteral extends RegularExpression {
 
 
      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-        if (i != 0 && Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP) ) {
+        if (i != 0 && Options.isOutputLanguageCpp() ) {
           codeGenerator.genCodeLine("   curChar = input_stream->readChar();");
         }
 
@@ -927,7 +927,7 @@ public class RStringLiteral extends RegularExpression {
                    "\"Current character : \" + " + Options.getTokenMgrErrorClass() +
                    ".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
                    "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
-          } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+          } else if (Options.isOutputLanguageCpp()) {
             codeGenerator.genCodeLine("   fprintf(debugStream, " +
               "\"<%s>Current character : %c(%d) at line %d column %d\\n\","+
               "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
@@ -1418,7 +1418,7 @@ public class RStringLiteral extends RegularExpression {
      if (Options.isOutputLanguageJava()) {
      codeGenerator.genCode("private" + (Options.getStatic() ? " static" : "") + " final int jjStopStringLiteralDfa" +
                   Main.lg.lexStateSuffix + "(int pos, " + params);
-      } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+      } else if (Options.isOutputLanguageCpp()) {
         codeGenerator.generateMethodDefHeader(" int", Main.lg.tokMgrClassName, "jjStopStringLiteralDfa" + Main.lg.lexStateSuffix + "(int pos, " + params);
       } else {
     	  throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
@@ -1430,7 +1430,7 @@ public class RStringLiteral extends RegularExpression {
     	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
        if (codeGenerator.isJavaLanguage()) {
          codeGenerator.genCodeLine("      debugStream.println(\"   No more string literal token matches are possible.\");");
-       } else  if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)){
+       } else  if (Options.isOutputLanguageCpp()){
          codeGenerator.genCodeLine("      fprintf(debugStream, \"   No more string literal token matches are possible.\");");
        } else {
     	   throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());

@@ -3,6 +3,11 @@ package org.javacc.parser;
 public interface CodeGenerator
 {
   /**
+   * Get the name of the code generator.
+   */
+  String getName();
+  
+  /**
    * Generate any other support files you need.
    */
   boolean generateHelpers(CodeGeneratorSettings settings);

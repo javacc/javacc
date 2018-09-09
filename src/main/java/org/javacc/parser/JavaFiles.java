@@ -185,7 +185,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
    * @return The version as a double, eg 4.1
    * @since 4.1
    */
-  static double getVersion(String fileName)
+  public static double getVersion(String fileName)
   {
     final String commentHeader = "/* " + getIdString(toolName, fileName) + " Version ";
     File file = new File(Options.getOutputDirectory(), replaceBackslash(fileName));

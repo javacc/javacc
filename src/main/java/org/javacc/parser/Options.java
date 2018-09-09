@@ -922,7 +922,7 @@ public class Options {
     if (isOutputLanguageJava() && getGenerateStringBuilder()) {
       return getGenerateStringBuilder() ? "StringBuilder"
           : "StringBuffer";
-    } else if (getOutputLanguage().equals(OUTPUT_LANGUAGE__CPP)) {
+    } else if (isOutputLanguageCpp()) {
       return "StringBuffer";
     } else {
       throw new RuntimeException(
@@ -997,7 +997,7 @@ public class Options {
     // processing into a single Enum class
     if (isOutputLanguageJava()) {
       return "long";
-    } else if (getOutputLanguage().equals(OUTPUT_LANGUAGE__CPP)) {
+    } else if (isOutputLanguageCpp()) {
       return "unsigned long long";
     } else {
       throw new RuntimeException("Language type not fully supported : "
@@ -1010,7 +1010,7 @@ public class Options {
     // processing into a single Enum class
     if (isOutputLanguageJava()) {
       return "boolean";
-    } else if (getOutputLanguage().equals(OUTPUT_LANGUAGE__CPP)) {
+    } else if (isOutputLanguageCpp()) {
       return "bool";
     } else {
       throw new RuntimeException("Language type not fully supported : "

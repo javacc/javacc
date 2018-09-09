@@ -1413,7 +1413,7 @@ public class ParseEngine {
     return retval;
   }
 
-  void build(CodeGenHelper codeGenerator) {
+  public void build(CodeGenHelper codeGenerator) {
     NormalProduction p;
     JavaCodeProduction jp;
     CppCodeProduction cp;

@@ -34,6 +34,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 
 import org.javacc.Version;
 
@@ -47,7 +48,7 @@ public class JavaCCGlobals {
   /**
    * String that identifies the JavaCC generated files.
    */
-  protected static final String toolName = "JavaCC";
+  static public final String toolName = "JavaCC";
 
   /**
    * The name of the grammar file being processed.
@@ -194,13 +195,13 @@ public class JavaCCGlobals {
    * maskindex, jj2index, maskVals are variables that are shared between
    * ParseEngine and ParseGen.
    */
-  static protected int maskindex = 0;
-  static protected int jj2index = 0;
+  static public int maskindex = 0;
+  static public int jj2index = 0;
   public static boolean lookaheadNeeded;
-  static protected List maskVals = new ArrayList();
+  static public List maskVals = new ArrayList();
 
-  static Action actForEof;
-  static String nextStateForEof;
+  public static Action actForEof;
+  public static String nextStateForEof;
   static public Token otherLanguageDeclTokenBeg;
   static public Token otherLanguageDeclTokenEnd;
 
@@ -354,15 +355,24 @@ public class JavaCCGlobals {
   static public CodeGenerator getCodeGenerator() {
     if (codeGenerator != null) return codeGenerator;
 
-    String className = Options.getCodeGenerator();
-    if (className == null) return null;
+    String name = Options.getCodeGenerator();
+    if (name == null) return null;
+    
+    ServiceLoader<CodeGenerator> serviceLoader = ServiceLoader.load(CodeGenerator.class);
+    for (CodeGenerator generator : serviceLoader) {
+      if(generator.getName().equalsIgnoreCase(name)) {
+        codeGenerator = generator;
+        return codeGenerator;
+      }
+    }
+    
     try
     {
-      codeGenerator = ((Class<CodeGenerator>)Class.forName(className)).newInstance();
+      codeGenerator = ((Class<CodeGenerator>)Class.forName(name)).newInstance();
     }
     catch(Exception e)
     {
-      JavaCCErrors.semantic_error("Could not load the CodeGenerator class: \"" + className + "\"");
+      JavaCCErrors.semantic_error("Could not load the CodeGenerator class: \"" + name + "\"");
     }
 
     return codeGenerator;
@@ -409,7 +419,7 @@ public class JavaCCGlobals {
 
   static public String addUnicodeEscapes(String str) {
 	  
-	if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+	if (Options.isOutputLanguageCpp()) {
 		return str;
 	} else if (Options.isOutputLanguageJava()) {
 	    String retval = "";
@@ -590,12 +600,11 @@ public class JavaCCGlobals {
    }
 
 
-   static String getFileExtension(String language) {
-     String lang = Options.getOutputLanguage();
+   public static String getFileExtension(String language) {
      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
      if (Options.isOutputLanguageJava()) {
        return ".java";
-     } else if (lang.toLowerCase().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+     } else if (Options.isOutputLanguageCpp()) {
        return ".cc";
      }
 

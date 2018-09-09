@@ -30,7 +30,6 @@
  */
 package org.javacc.parser;
 
-import java.util.List;
 import java.util.Set;
 
 import org.javacc.utils.OptionInfo;
@@ -223,7 +222,7 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
       String outputLanguage = Options.getOutputLanguage();
       // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
   	  boolean isJavaOutput = Options.isOutputLanguageJava();
-  	  boolean isCPPOutput = outputLanguage.equals(Options.OUTPUT_LANGUAGE__CPP);
+  	  boolean isCPPOutput = Options.isOutputLanguageCpp();
   	  
   	  // 2013/07/22 Java Modern is a 
   	  boolean isJavaModern = isJavaOutput && Options.getJavaTemplateType().equals(Options.JAVA_TEMPLATE_TYPE_MODERN);
@@ -247,17 +246,44 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
 
       Semanticize.start();
       boolean isBuildParser = Options.getBuildParser();
+
+
+      CodeGenerator codeGenerator = JavaCCGlobals.getCodeGenerator();
+      if (codeGenerator != null) {
+        ParserCodeGenerator parserCodeGenerator = codeGenerator.getParserCodeGenerator();
+        if (isBuildParser && parserCodeGenerator != null) {
+          ParserData parserData = createParserData();
+          CodeGeneratorSettings settings = new CodeGeneratorSettings(Options.getOptions());
+          parserCodeGenerator.generateCode(settings, new CodeGenHelper(), parserData);
+          parserCodeGenerator.finish(settings, new CodeGenHelper(), parserData);
+        }
+
+        // Must always create the lexer object even if not building a parser.
+        new LexGen().start();
+        
+        Options.setStringOption(Options.NONUSER_OPTION__PARSER_NAME, JavaCCGlobals.cu_name);
+        
+        if (JavaCCErrors.get_error_count() != 0) throw new MetaParseException();
+        if ( Options.isGenerateBoilerplateCode())
+        {
+            if ((!codeGenerator.getTokenCodeGenerator().generateCodeForToken(new CodeGeneratorSettings(Options.getOptions()))) ||
+               (!codeGenerator.generateHelpers(new CodeGeneratorSettings(Options.getOptions()))))
+            {
+              JavaCCErrors.semantic_error("Could not generate the code for Token or helper classes.");
+            }
+        }
+      }
       
  	  // 2012/05/02 -- This is not the best way to add-in GWT support, really the code needs to turn supported languages into enumerations
 	  // and have the enumerations describe the deltas between the outputs. The current approach means that per-langauge configuration is distributed
 	  // and small changes between targets does not benefit from inheritance.
-		if (isJavaOutput) {
+    else if (isJavaOutput) {
 			if (isBuildParser) {
 				new ParseGen().start(isJavaModern);
 			}
 			
 			// Must always create the lexer object even if not building a parser.
-			new LexGen().start();
+			new LexGenJava().start();
 			
 			Options.setStringOption(Options.NONUSER_OPTION__PARSER_NAME, JavaCCGlobals.cu_name);
 			OtherFilesGen.start(isJavaModern);
@@ -306,6 +332,24 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
 private static int unhandledLanguageExit(String outputLanguage) {
 	System.out.println("Invalid '" + Options.USEROPTION__OUTPUT_LANGUAGE+ "' specified : " + outputLanguage);
 	return 1;
+}
+
+private static ParserData createParserData() {
+  ParserData parserData = new ParserData();
+  parserData.bnfproductions = JavaCCGlobals.bnfproductions;
+  parserData.parserName = JavaCCGlobals.cu_name;
+  parserData.tokenCount = JavaCCGlobals.tokenCount;
+  parserData.namesOfTokens = JavaCCGlobals.names_of_tokens;
+  parserData.productionTable = JavaCCGlobals.production_table;
+  StringBuilder decls = new StringBuilder();
+  if (JavaCCGlobals.otherLanguageDeclTokenBeg != null) {
+    int line = JavaCCGlobals.otherLanguageDeclTokenBeg.beginLine;
+    for (Token t = JavaCCGlobals.otherLanguageDeclTokenBeg; t != JavaCCGlobals.otherLanguageDeclTokenEnd; t = t.next) {
+      decls.append(CodeGenHelper.getStringToPrint(t));
+    }
+  }
+  parserData.decls = decls.toString();
+  return parserData;
 }
 
    public static void reInitAll()
