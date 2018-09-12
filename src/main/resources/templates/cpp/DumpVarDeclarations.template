@@ -1,0 +1,17 @@
+  JAVACC_CHARSTREAM*        input_stream;
+  int                       jjrounds[${stateSetSize}];
+  int                       jjstateSet[2 * ${stateSetSize}];
+  JJString                  jjimage;
+  JJString                  image;
+  int                       jjimageLen;
+  int                       lengthOfMatch;
+  JJChar                    curChar;
+  TokenManagerErrorHandler* errorHandler = nullptr;
+  bool 											delete_eh = false;
+
+public: 
+  void setErrorHandler(TokenManagerErrorHandler *eh) {
+      if (delete_eh) delete errorHandler, errorHandler = nullptr;
+      delete_eh = false;  // We don't delete stuff passed in.
+      errorHandler = eh;
+  }
