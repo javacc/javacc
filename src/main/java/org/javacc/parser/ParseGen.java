@@ -58,11 +58,6 @@ import java.util.List;
 public class ParseGen extends CodeGenHelper implements JavaCCParserConstants {
 
 	public void start(boolean isJavaModernMode) throws MetaParseException {
-
-		if (!Options.getBuildParser()) {
-      return;
-    }
-
 		Token t = null;
 
 		if (JavaCCErrors.get_error_count() != 0) {

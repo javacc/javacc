@@ -34,9 +34,14 @@ package org.javacc.parser;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import org.javacc.utils.OutputFileGenerator;
+
 import static org.javacc.parser.JavaCCGlobals.*;
 
 /**
@@ -44,11 +49,12 @@ import static org.javacc.parser.JavaCCGlobals.*;
  */
 public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserConstants
 {
+  @Override
   void PrintClassHead()
   {
     int i, j;
 
-    List<String> tn = new ArrayList<>(toolNames);
+    List<String> tn = new ArrayList<String>(toolNames);
     tn.add(toolName);
 
     switchToStaticsFile();
@@ -212,7 +218,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
 
       RegularExpression re;
       for (i = 0; i < respecs.size(); i++)
-        if (maxOrdinal <= (re = respecs.get(i).rexp).ordinal)
+        if (maxOrdinal <= (re = ((RegExprSpec)respecs.get(i)).rexp).ordinal)
           maxOrdinal = re.ordinal + 1;
     }
 
@@ -265,7 +271,6 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
     singlesToSkip[lexStateIndex].kind = kind;
   }
 
-  @Override
   public void start() throws IOException
   {
     if (!Options.getBuildTokenManager() ||
@@ -310,7 +315,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
 
       for (i = 0; i < allTps.size(); i++)
       {
-        tp = allTps.get(i);
+        tp = (TokenProduction)allTps.get(i);
         int kind = tp.kind;
         boolean ignore = tp.ignoreCase;
         List<RegExprSpec> rexps = tp.respecs;
@@ -320,7 +325,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
 
         for (j = 0; j < rexps.size(); j++)
         {
-          RegExprSpec respec = rexps.get(j);
+          RegExprSpec respec = (RegExprSpec)rexps.get(j);
           curRE = respec.rexp;
 
           rexprs[curKind = curRE.ordinal] = curRE;
@@ -415,7 +420,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
       NfaState.ComputeClosures();
 
       for (i = 0; i < initialState.epsilonMoves.size(); i++)
-        initialState.epsilonMoves.elementAt(i).GenerateCode();
+        ((NfaState)initialState.epsilonMoves.elementAt(i)).GenerateCode();
 
       if (hasNfa[lexStateIndex] = (NfaState.generatedStates != 0))
       {
@@ -837,7 +842,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
         else if (singlesToSkip[i].asciiMoves[0] == 0L)
         {
           genCodeLine(prefix + "   while (curChar > 63 && curChar <= " +
-              (MaxChar(singlesToSkip[i].asciiMoves[1]) + 64) +
+              ((int)MaxChar(singlesToSkip[i].asciiMoves[1]) + 64) +
               " && (0x" +
               Long.toHexString(singlesToSkip[i].asciiMoves[1]) +
           "L & (1L << (curChar & 077))) != 0L)");
@@ -1099,7 +1104,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
 
         for (;;)
         {
-          if (((act = actions[i]) == null ||
+          if (((act = (Action)actions[i]) == null ||
               act.getActionTokens() == null ||
               act.getActionTokens().size() == 0) && !canLoop[lexStates[i]])
             continue Outer;
@@ -1120,7 +1125,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
             genCodeLine("         }");
           }
 
-          if ((act = actions[i]) == null ||
+          if ((act = (Action)actions[i]) == null ||
               act.getActionTokens().size() == 0)
             break;
 
@@ -1132,11 +1137,11 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
             genCodeLine("(input_stream->GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
           }
 
-          printTokenSetup(act.getActionTokens().get(0));
+          printTokenSetup((Token)act.getActionTokens().get(0));
           ccol = 1;
 
           for (int j = 0; j < act.getActionTokens().size(); j++)
-            printToken(act.getActionTokens().get(j));
+            printToken((Token)act.getActionTokens().get(j));
           genCodeLine("");
 
           break;
@@ -1170,7 +1175,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
 
         for (;;)
         {
-          if (((act = actions[i]) == null ||
+          if (((act = (Action)actions[i]) == null ||
               act.getActionTokens() == null ||
               act.getActionTokens().size() == 0) && !canLoop[lexStates[i]])
             continue Outer;
@@ -1191,7 +1196,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
             genCodeLine("         }");
           }
 
-          if ((act = actions[i]) == null ||
+          if ((act = (Action)actions[i]) == null ||
               act.getActionTokens().size() == 0)
           {
             break;
@@ -1205,11 +1210,11 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
             genCodeLine("(input_stream->GetSuffix(jjimageLen));");
 
           genCodeLine("         jjimageLen = 0;");
-          printTokenSetup(act.getActionTokens().get(0));
+          printTokenSetup((Token)act.getActionTokens().get(0));
           ccol = 1;
 
           for (int j = 0; j < act.getActionTokens().size(); j++)
-            printToken(act.getActionTokens().get(j));
+            printToken((Token)act.getActionTokens().get(j));
           genCodeLine("");
 
           break;
@@ -1244,7 +1249,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
 
         for (;;)
         {
-          if (((act = actions[i]) == null ||
+          if (((act = (Action)actions[i]) == null ||
               act.getActionTokens() == null ||
               act.getActionTokens().size() == 0) && !canLoop[lexStates[i]])
             continue Outer;
@@ -1265,7 +1270,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
             genCodeLine("         }");
           }
 
-          if ((act = actions[i]) == null ||
+          if ((act = (Action)actions[i]) == null ||
               act.getActionTokens().size() == 0)
             break;
 
@@ -1285,11 +1290,11 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
             }
           }
 
-          printTokenSetup(act.getActionTokens().get(0));
+          printTokenSetup((Token)act.getActionTokens().get(0));
           ccol = 1;
 
           for (int j = 0; j < act.getActionTokens().size(); j++)
-            printToken(act.getActionTokens().get(j));
+            printToken((Token)act.getActionTokens().get(j));
           genCodeLine("");
 
           break;

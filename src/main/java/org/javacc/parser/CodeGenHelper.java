@@ -11,10 +11,10 @@ import java.io.*;
 import java.util.*;
 
 public class CodeGenHelper {
-  public StringBuffer mainBuffer = new StringBuffer();
-  public StringBuffer includeBuffer = new StringBuffer();
-  public StringBuffer staticsBuffer = new StringBuffer();
-  public StringBuffer outputBuffer = mainBuffer;
+  protected StringBuffer mainBuffer = new StringBuffer();
+  protected StringBuffer includeBuffer = new StringBuffer();
+  protected StringBuffer staticsBuffer = new StringBuffer();
+  protected StringBuffer outputBuffer = mainBuffer;
 
   public void genStringLiteralArrayCPP(String varName, String[] arr) {
     // First generate char array vars
