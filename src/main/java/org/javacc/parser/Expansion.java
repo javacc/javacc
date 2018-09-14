@@ -137,7 +137,7 @@ public class Expansion {
   /**
    * @return the column
    */
-  int getColumn() {
+  public int getColumn() {
     return column;
   }
 
@@ -151,7 +151,7 @@ public class Expansion {
   /**
    * @return the line
    */
-  int getLine() {
+  public int getLine() {
     return line;
   }
 }

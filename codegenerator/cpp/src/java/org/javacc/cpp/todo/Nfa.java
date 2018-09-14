@@ -25,62 +25,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.javacc.parser;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.javacc.cpp.todo;
 
 /**
- * Describes regular expressions which are sequences of
- * other regular expressions.
+ * A Non-deterministic Finite Automaton.
  */
+public class Nfa
+{
+   public NfaState start;
+   public NfaState end;
 
-public class RSequence extends RegularExpression {
+   public Nfa()
+   {
+      start = new NfaState();
+      end = new NfaState();
+   }
 
-  /**
-   * The list of units in this regular expression sequence.  Each
-   * list component will narrow to RegularExpression.
-   */
-  public List<? super Object> units = new ArrayList<Object>();
-
-  public Nfa GenerateNfa(boolean ignoreCase)
-  {
-     if (units.size() == 1)
-        return ((RegularExpression)units.get(0)).GenerateNfa(ignoreCase);
-
-     Nfa retVal = new Nfa();
-     NfaState startState = retVal.start;
-     NfaState finalState = retVal.end;
-     Nfa temp1;
-     Nfa temp2 = null;
-
-     RegularExpression curRE;
-
-     curRE = (RegularExpression)units.get(0);
-     temp1 = curRE.GenerateNfa(ignoreCase);
-     startState.AddMove(temp1.start);
-
-     for (int i = 1; i < units.size(); i++)
-     {
-        curRE = (RegularExpression)units.get(i);
-
-        temp2 = curRE.GenerateNfa(ignoreCase);
-        temp1.end.AddMove(temp2.start);
-        temp1 = temp2;
-     }
-
-     temp2.end.AddMove(finalState);
-
-     return retVal;
-  }
-
-  RSequence()
-  {
-  }
-
-  public RSequence(List<? super Object> seq)
-  {
-     ordinal = Integer.MAX_VALUE;
-     units = seq;
-  }
+   public Nfa(NfaState startGiven, NfaState finalGiven)
+   {
+      start = startGiven;
+      end = finalGiven;
+   }
 }

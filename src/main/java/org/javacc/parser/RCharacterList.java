@@ -172,7 +172,7 @@ static final char[] diffUpperCaseRanges = {
 65345, 65370, 65371, 0xfffe, 0xffff, 0xffff
 };
 
-  void ToCaseNeutral()
+  public void ToCaseNeutral()
   {
     int cnt = descriptors.size();
 
@@ -410,7 +410,7 @@ static final char[] diffUpperCaseRanges = {
      return (c >= range.getLeft() && c <= range.getRight());
   }
 
-  void SortDescriptors()
+  public void SortDescriptors()
   {
      int j;
 
@@ -501,7 +501,7 @@ static final char[] diffUpperCaseRanges = {
      descriptors = newDesc;
   }
 
-  void RemoveNegation()
+  public void RemoveNegation()
   {
      int i;
 
@@ -606,7 +606,7 @@ static final char[] diffUpperCaseRanges = {
   {
   }
 
-  RCharacterList(char c)
+  public RCharacterList(char c)
   {
     descriptors = new ArrayList();
     descriptors.add(new SingleCharacter(c));

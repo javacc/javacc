@@ -32,8 +32,8 @@ package org.javacc.parser;
  */
 public class Nfa
 {
-   NfaState start;
-   NfaState end;
+   public NfaState start;
+   public NfaState end;
 
    public Nfa()
    {
