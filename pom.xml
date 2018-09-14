@@ -7,7 +7,7 @@
 	<artifactId>javacc</artifactId>
 	<packaging>jar</packaging>
 	<name>JavaCC</name>
-	<version>7.0.4</version>
+	<version>8.0.0</version>
 
 	<description>JavaCC is a parser/scanner generator for java. </description>
 	<url>https://github.com/javacc/javacc</url>
