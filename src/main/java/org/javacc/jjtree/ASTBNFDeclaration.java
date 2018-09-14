@@ -27,8 +27,7 @@
  */
 package org.javacc.jjtree;
 
-
-public class ASTBNFDeclaration extends JJTreeNode {
+public class ASTBNFDeclaration extends JJTreeNode{
   ASTBNFDeclaration(int id) {
     super(id);
   }
@@ -40,5 +39,4 @@ public class ASTBNFDeclaration extends JJTreeNode {
     return visitor.visit(this, data);
   }
 }
-
-/*end*/
+/* JavaCC - OriginalChecksum=648bf04b7ddff8fa55521f43f0f2bf2e (do not edit this line) */

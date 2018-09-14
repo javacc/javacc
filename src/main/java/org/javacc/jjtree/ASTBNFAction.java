@@ -27,8 +27,7 @@
  */
 package org.javacc.jjtree;
 
-
-public class ASTBNFAction extends JJTreeNode {
+public class ASTBNFAction extends JJTreeNode{
 
   ASTBNFAction(int id) {
     super(id);
@@ -55,7 +54,5 @@ public class ASTBNFAction extends JJTreeNode {
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
     return visitor.visit(this, data);
   }
-
 }
-
-/*end*/
+/* JavaCC - OriginalChecksum=fc1bdeb609eab6c1c9b7b660dec5baf0 (do not edit this line) */

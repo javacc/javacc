@@ -16,7 +16,6 @@ import org.javacc.jjtree.ASTCompilationUnit;
 import org.javacc.jjtree.ASTExpansionNodeScope;
 import org.javacc.jjtree.ASTGrammar;
 import org.javacc.jjtree.ASTJavacodeBody;
-import org.javacc.jjtree.ASTLHS;
 import org.javacc.jjtree.ASTNodeDescriptor;
 import org.javacc.jjtree.DefaultJJTreeVisitor;
 import org.javacc.jjtree.IO;
@@ -198,23 +197,6 @@ public class JJTreeCodeGenerator extends DefaultJJTreeVisitor {
     io.println();
     insertOpenNodeCode(node.node_scope, io, indent);
     tryTokenSequence(node.node_scope, io, indent, first, node.getLastToken());
-    return null;
-  }
-
-  public Object visit(ASTLHS node, Object data) {
-    IO io = (IO) data;
-    NodeScope ns = NodeScope.getEnclosingNodeScope(node);
-
-    /*
-     * Print out all the tokens, converting all references to `jjtThis' into the current node
-     * variable.
-     */
-    Token first = node.getFirstToken();
-    Token last = node.getLastToken();
-    for (Token t = first; t != last.next; t = t.next) {
-      TokenUtils.print(t, io, "jjtThis", ns.getNodeVariable());
-    }
-
     return null;
   }
 

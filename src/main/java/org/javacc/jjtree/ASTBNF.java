@@ -29,8 +29,7 @@
 package org.javacc.jjtree;
 
 
-public class ASTBNF extends ASTProduction
-{
+public class ASTBNF extends ASTProduction{
   ASTBNF(int id) {
     super(id);
     throws_list.add("ParseException");
@@ -44,11 +43,10 @@ public class ASTBNF extends ASTProduction
     return super.toString() + ": " + name;
   }
 
+
   /** Accept the visitor. **/
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
     return visitor.visit(this, data);
   }
-
 }
-
-/*end*/
+/* JavaCC - OriginalChecksum=e0c72f48f82f608478edf9776ddc8fbb (do not edit this line) */

@@ -158,21 +158,6 @@ public class CPPCodeGenerator extends DefaultJJTreeVisitor {
     return null;
   }
 
-  public Object visit(ASTLHS node, Object data) {
-    IO io = (IO)data;
-    NodeScope ns = NodeScope.getEnclosingNodeScope(node);
-
-    /* Print out all the tokens, converting all references to
-       `jjtThis' into the current node variable. */
-    Token first = node.getFirstToken();
-    Token last = node.getLastToken();
-    for (Token t = first; t != last.next; t = t.next) {
-      TokenUtils.print(t, io, "jjtThis", ns.getNodeVariable());
-    }
-
-    return null;
-  }
-
   /* This method prints the tokens corresponding to this node
      recursively calling the print methods of its children.
      Overriding this print method in appropriate nodes gives the

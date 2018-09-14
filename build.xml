@@ -107,9 +107,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 		<delete file="${jjtree-generated-src}/ASTBNFAction.java" />
 		<delete file="${jjtree-generated-src}/ASTBNFDeclaration.java" />
 		<delete file="${jjtree-generated-src}/ASTBNFNodeScope.java" />
-		<delete file="${jjtree-generated-src}/ASTCompilationUnit.java" />
 		<delete file="${jjtree-generated-src}/ASTExpansionNodeScope.java" />
-		<delete file="${jjtree-generated-src}/ASTGrammar.java" />
 		<delete file="${jjtree-generated-src}/ASTJavacode.java" />
 		<delete file="${jjtree-generated-src}/ASTJavacodeBody.java" />
 		<delete file="${jjtree-generated-src}/ASTNodeDescriptor.java" />

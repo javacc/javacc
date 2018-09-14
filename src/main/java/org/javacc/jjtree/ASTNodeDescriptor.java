@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-public class ASTNodeDescriptor extends JJTreeNode {
+public class ASTNodeDescriptor extends JJTreeNode{
   ASTNodeDescriptor(int id) {
     super(id);
   }
@@ -175,7 +175,5 @@ public class ASTNodeDescriptor extends JJTreeNode {
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
     return visitor.visit(this, data);
   }
-
 }
-
-/*end*/
+/* JavaCC - OriginalChecksum=f2bf932eb272496d76c632cf95593422 (do not edit this line) */
