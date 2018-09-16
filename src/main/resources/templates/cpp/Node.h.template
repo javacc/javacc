@@ -37,14 +37,14 @@ public:
   virtual Node*   jjtGetParent() const = 0;
 
   /** This method tells the node to add its argument to the node's list of children.  */
-  virtual void    jjtAddChild(Node *n, size_t i) = 0;
+  virtual void    jjtAddChild(Node *n, int i) = 0;
 
   /** This method returns a child node.  The children are numbered
      from zero, left to right. */
-  virtual Node*   jjtGetChild(size_t i) const = 0;
+  virtual Node*   jjtGetChild(int i) const = 0;
 
   /** Return the number of children the node has. */
-  virtual size_t  jjtGetNumChildren() const = 0;
+  virtual int     jjtGetNumChildren() const = 0;
   virtual int     getId() const = 0;
 
 #if VISITOR
