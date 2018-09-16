@@ -93,7 +93,8 @@ public abstract class RegularExpression extends Expansion {
    */
   int walkStatus = 0;
 
-  public StringBuffer dump(int indent, Set<? super Expansion> alreadyDumped) {
+  @Override
+  public StringBuffer dump(int indent, Set<Expansion> alreadyDumped) {
     StringBuffer sb = super.dump(indent, alreadyDumped);
     alreadyDumped.add(this);
     sb.append(' ').append(label);

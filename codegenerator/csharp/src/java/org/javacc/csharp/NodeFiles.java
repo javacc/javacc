@@ -78,8 +78,8 @@ final class NodeFiles {
       OutputFile outputFile = new OutputFile(file);
       PrintWriter pw = outputFile.getPrintWriter();
 
-      List nodeIds = ASTNodeDescriptor.getNodeIds();
-      List nodeNames = ASTNodeDescriptor.getNodeNames();
+      List<String> nodeIds = ASTNodeDescriptor.getNodeIds();
+      List<String> nodeNames = ASTNodeDescriptor.getNodeNames();
 
       generatePrologue(pw);
       if (JJTreeOptions.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
@@ -89,7 +89,7 @@ final class NodeFiles {
       pw.println("{");
 
       for (int i = 0; i < nodeIds.size(); ++i) {
-        String n = (String)nodeIds.get(i);
+        String n = nodeIds.get(i);
         pw.println("  public const int " + n + " = " + i + ";");
       }
 
@@ -98,7 +98,7 @@ final class NodeFiles {
 
       pw.println("  public static string[] jjtNodeName = {");
       for (int i = 0; i < nodeNames.size(); ++i) {
-        String n = (String)nodeNames.get(i);
+        String n = nodeNames.get(i);
         pw.println("    \"" + n + "\",");
       }
       pw.println("  };");
@@ -133,7 +133,7 @@ final class NodeFiles {
       OutputFile outputFile = new OutputFile(file);
       PrintWriter pw = outputFile.getPrintWriter();
 
-      List nodeNames = ASTNodeDescriptor.getNodeNames();
+      List<String> nodeNames = ASTNodeDescriptor.getNodeNames();
 
       generatePrologue(pw);
       if (JJTreeOptions.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
@@ -153,7 +153,7 @@ final class NodeFiles {
           ve + ";");
       if (JJTreeOptions.getMulti()) {
         for (int i = 0; i < nodeNames.size(); ++i) {
-          String n = (String)nodeNames.get(i);
+          String n = nodeNames.get(i);
           if (n.equals("void")) {
             continue;
           }
@@ -203,7 +203,7 @@ final class NodeFiles {
     try {
       PrintWriter pw = new OutputFile(file).getPrintWriter();
 
-      List nodeNames = ASTNodeDescriptor.getNodeNames();
+      List<String> nodeNames = ASTNodeDescriptor.getNodeNames();
 
       generatePrologue(pw);
       if (JJTreeOptions.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
@@ -232,7 +232,7 @@ final class NodeFiles {
 
       if (JJTreeOptions.getMulti()) {
         for (int i = 0; i < nodeNames.size(); ++i) {
-          String n = (String)nodeNames.get(i);
+          String n = nodeNames.get(i);
           if (n.equals("void")) {
             continue;
           }
@@ -270,7 +270,7 @@ final class NodeFiles {
 
     generatePrologue(pw);
 
-    Map options = new HashMap(Options.getOptions());
+    Map<String, Object> options = new HashMap<>(Options.getOptions());
     options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     options.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(JJTreeOptions.getVisitorReturnType().equals("void")));
 
@@ -286,7 +286,7 @@ final class NodeFiles {
   {
     generatePrologue(pw);
 
-    Map options = new HashMap(Options.getOptions());
+    Map<String, Object> options = new HashMap<>(Options.getOptions());
     options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     options.put("NODE_TYPE", nodeType);
     options.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(JJTreeOptions.getVisitorReturnType().equals("void")));

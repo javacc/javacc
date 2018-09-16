@@ -40,28 +40,29 @@ public class RChoice extends RegularExpression {
    * The list of choices of this regular expression.  Each
    * list component will narrow to RegularExpression.
    */
-  private List choices = new ArrayList();
+  private List<RegularExpression> choices = new ArrayList<>();
 
   /**
    * @param choices the choices to set
    */
-  public void setChoices(List choices) {
+  public void setChoices(List<RegularExpression> choices) {
     this.choices = choices;
   }
 
   /**
    * @return the choices
    */
-  public List getChoices() {
+  public List<RegularExpression> getChoices() {
     return choices;
   }
 
+  @Override
   public Nfa GenerateNfa(boolean ignoreCase)
   {
      CompressCharLists();
 
      if (getChoices().size() == 1)
-        return ((RegularExpression)getChoices().get(0)).GenerateNfa(ignoreCase);
+        return getChoices().get(0).GenerateNfa(ignoreCase);
 
      Nfa retVal = new Nfa();
      NfaState startState = retVal.start;
@@ -70,7 +71,7 @@ public class RChoice extends RegularExpression {
      for (int i = 0; i < getChoices().size(); i++)
      {
         Nfa temp;
-        RegularExpression curRE = (RegularExpression)getChoices().get(i);
+        RegularExpression curRE = getChoices().get(i);
 
         temp = curRE.GenerateNfa(ignoreCase);
 
@@ -89,7 +90,7 @@ public class RChoice extends RegularExpression {
 
      for (int i = 0; i < getChoices().size(); i++)
      {
-        curRE = (RegularExpression)getChoices().get(i);
+        curRE = getChoices().get(i);
 
         while (curRE instanceof RJustName)
            curRE = ((RJustName)curRE).regexpr;
@@ -104,7 +105,7 @@ public class RChoice extends RegularExpression {
            if (((RCharacterList)curRE).negated_list)
               ((RCharacterList)curRE).RemoveNegation();
 
-           List tmp = ((RCharacterList)curRE).descriptors;
+           List<Expansion> tmp = ((RCharacterList)curRE).descriptors;
 
            if (curCharList == null)
               getChoices().set(i, curRE = curCharList = new RCharacterList());
@@ -124,7 +125,7 @@ public class RChoice extends RegularExpression {
 
      for (int i = 0; i < getChoices().size(); i++)
      {
-        curRE = (RegularExpression)getChoices().get(i);
+        curRE = getChoices().get(i);
 
         while (curRE instanceof RJustName)
            curRE = ((RJustName)curRE).regexpr;
@@ -145,7 +146,7 @@ public class RChoice extends RegularExpression {
 
      for (int i = 0; i < getChoices().size(); i++)
      {
-        if (!(curRE = (RegularExpression)getChoices().get(i)).private_rexp &&
+        if (!(curRE = getChoices().get(i)).private_rexp &&
             //curRE instanceof RJustName &&
             curRE.ordinal > 0 && curRE.ordinal < ordinal &&
             Main.lg.lexStates[curRE.ordinal] == Main.lg.lexStates[ordinal])

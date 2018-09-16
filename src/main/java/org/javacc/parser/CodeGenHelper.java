@@ -34,7 +34,7 @@ public class CodeGenHelper {
     // String literals in CPP become char arrays
     outputBuffer.append("{");
     for (int i = 0; i < s.length(); i++) {
-      outputBuffer.append("0x" + Integer.toHexString((int)s.charAt(i)) + ", ");
+      outputBuffer.append("0x" + Integer.toHexString(s.charAt(i)) + ", ");
     }
     outputBuffer.append("0}");
   }
@@ -83,7 +83,7 @@ public class CodeGenHelper {
     saveOutput(fileName, mainBuffer);
   }
 
-  private static boolean isHexDigit(char c) {
+  public static boolean isHexDigit(char c) {
     return (c >= '0' && c <= '9') ||
            (c >= 'a' && c <= 'f') ||
            (c >= 'A' && c <= 'F');
@@ -92,7 +92,7 @@ public class CodeGenHelper {
   // HACK
   private void fixupLongLiterals(StringBuffer sb) {
     for (int i = 0; i < sb.length() - 1; i++) {
-      int beg = i;
+      // int beg = i;
       char c1 = sb.charAt(i);
       char c2 = sb.charAt(i + 1);
       if (Character.isDigit(c1) || (c1 == '0' && c2 == 'x')) {
@@ -146,7 +146,7 @@ public class CodeGenHelper {
   public void printTokenList(List<Token> list) {
     Token t = null;
     for (Iterator<Token> it = list.iterator(); it.hasNext();) {
-      t = (Token)it.next();
+      t = it.next();
       printToken(t);
     }
     
@@ -298,7 +298,7 @@ public class CodeGenHelper {
     }
   }
 
-  private void genCommaSeperatedString(String[] strings) {
+  protected void genCommaSeperatedString(String[] strings) {
     for (int i = 0; i < strings.length; i++) {
       if (i > 0) {
         genCode(", ");

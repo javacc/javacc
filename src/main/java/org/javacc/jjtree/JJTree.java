@@ -31,11 +31,11 @@
 
 package org.javacc.jjtree;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-
-import org.javacc.parser.Options;
+import org.javacc.parser.CodeGenerator;
 import org.javacc.parser.JavaCCGlobals;
 
 public class JJTree {
@@ -112,9 +112,9 @@ public class JJTree {
   public int main(String args[]) {
 
     // initialize static state for allowing repeat runs without exiting
-    ASTNodeDescriptor.nodeIds = new ArrayList();
-    ASTNodeDescriptor.nodeNames = new ArrayList();
-    ASTNodeDescriptor.nodeSeen = new Hashtable();
+    ASTNodeDescriptor.nodeIds = new ArrayList<>();
+    ASTNodeDescriptor.nodeNames = new ArrayList<>();
+    ASTNodeDescriptor.nodeSeen = new Hashtable<>();
     org.javacc.parser.Main.reInitAll();
 
     JavaCCGlobals.bannerLine("Tree Builder", "");
@@ -173,7 +173,7 @@ public class JJTree {
           p("Error setting output: " + ioe.getMessage());
           return 1;
         }
-        root.generate(io);
+        JJTree.generateIO(io, root);
         io.getOut().close();
         p("Annotated grammar generated successfully in " +
               io.getOutputFileName());
@@ -203,6 +203,39 @@ public class JJTree {
     JJTreeGlobals.initialize();
   }
 
+  private static void generateIO(IO io, ASTGrammar grammar) throws IOException {
+    // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+    CodeGenerator codeGenerator = JavaCCGlobals.getCodeGenerator();
+    if (codeGenerator != null) {
+      codeGenerator.getJJTreeCodeGenerator().visit(grammar, io);
+    } else if (JJTreeOptions.isOutputLanguageJava()) {
+      new JavaCodeGenerator().visit(grammar, io);
+    } else if (JJTreeOptions.isOutputLanguageCpp()) {
+      new CPPCodeGenerator().visit(grammar, io);
+      CPPNodeFiles.generateTreeClasses();
+    } else {
+      // Catch all to ensure we don't accidently do nothing
+      throw new RuntimeException("Language type not supported for JJTree : " + JJTreeOptions.getOutputLanguage());
+    }
+
+    String outputLanguage = JJTreeOptions.getOutputLanguage();
+    if (codeGenerator != null) {
+      codeGenerator.getJJTreeCodeGenerator().generateHelperFiles();
+    } else if (JJTreeOptions.isOutputLanguageJava()) {
+      NodeFiles.generateTreeConstants_java();
+      NodeFiles.generateVisitor_java();
+      NodeFiles.generateDefaultVisitor_java();
+      JJTreeState.generateTreeState_java();
+    } else if (JJTreeOptions.isOutputLanguageCpp()) {
+      CPPNodeFiles.generateTreeConstants();
+      CPPNodeFiles.generateVisitors();
+      //CPPNodeFiles.generateDefaultVisitor();
+      CPPJJTreeState.generateTreeState();
+      //CPPNodeFiles.generateJJTreeH();
+    } else {
+      assert(false) : "Unsupported JJTree output language : " + outputLanguage;
+    }
+  }
 
 }
 

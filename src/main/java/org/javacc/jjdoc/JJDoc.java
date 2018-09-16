@@ -110,11 +110,11 @@ public class JJDoc extends JJDocGlobals {
   }
   */
 
-  private static void emitTokenProductions(Generator gen, List prods) {
+  private static void emitTokenProductions(Generator gen, List<TokenProduction> prods) {
     gen.tokensStart();
     // FIXME there are many empty productions here
-    for (Iterator it = prods.iterator(); it.hasNext();) {
-      TokenProduction tp = (TokenProduction)it.next();
+    for (Iterator<TokenProduction> it = prods.iterator(); it.hasNext();) {
+      TokenProduction tp = it.next();
       emitTopLevelSpecialTokens(tp.firstToken, gen);
 
       
@@ -150,8 +150,8 @@ public static String getStandardTokenProductionText(TokenProduction tp) {
           token += " [IGNORE_CASE]";
         }
         token += " : {\n";
-        for (Iterator it2 = tp.respecs.iterator(); it2.hasNext();) {
-          RegExprSpec res = (RegExprSpec)it2.next();
+        for (Iterator<RegExprSpec> it2 = tp.respecs.iterator(); it2.hasNext();) {
+          RegExprSpec res = it2.next();
 
           token += emitRE(res.rexp);
 
@@ -169,18 +169,18 @@ public static String getStandardTokenProductionText(TokenProduction tp) {
     return token;
 }
 
-  private static void emitNormalProductions(Generator gen, List prods) {
+  private static void emitNormalProductions(Generator gen, List<NormalProduction> prods) {
     gen.nonterminalsStart();
-    for (Iterator it = prods.iterator(); it.hasNext();) {
-      NormalProduction np = (NormalProduction)it.next();
+    for (Iterator<NormalProduction> it = prods.iterator(); it.hasNext();) {
+      NormalProduction np = it.next();
       emitTopLevelSpecialTokens(np.getFirstToken(), gen);
       if (np instanceof BNFProduction) {
         gen.productionStart(np);
         if (np.getExpansion() instanceof Choice) {
           boolean first = true;
           Choice c = (Choice)np.getExpansion();
-          for (Iterator expansionsIterator = c.getChoices().iterator(); expansionsIterator.hasNext();) {
-            Expansion e = (Expansion)(expansionsIterator.next());
+          for (Iterator<Expansion> expansionsIterator = c.getChoices().iterator(); expansionsIterator.hasNext();) {
+            Expansion e = expansionsIterator.next();
             gen.expansionStart(e, first);
             emitExpansionTree(e, gen);
             gen.expansionEnd(e, first);
@@ -230,8 +230,8 @@ public static String getStandardTokenProductionText(TokenProduction tp) {
   private static void emitExpansionAction(Action a, Generator gen) {
   }
   private static void emitExpansionChoice(Choice c, Generator gen) {
-    for (Iterator it = c.getChoices().iterator(); it.hasNext();) {
-      Expansion e = (Expansion)(it.next());
+    for (Iterator<Expansion> it = c.getChoices().iterator(); it.hasNext();) {
+      Expansion e = it.next();
       emitExpansionTree(e, gen);
       if (it.hasNext()) {
         gen.text(" | ");
@@ -261,8 +261,8 @@ public static String getStandardTokenProductionText(TokenProduction tp) {
   }
   private static void emitExpansionSequence(Sequence s, Generator gen) {
     boolean firstUnit = true;
-    for (Iterator it = s.units.iterator(); it.hasNext();) {
-      Expansion e = (Expansion)it.next();
+    for (Iterator<Expansion> it = s.units.iterator(); it.hasNext();) {
+      Expansion e = it.next();
       if (e instanceof Lookahead || e instanceof Action) {
         continue;
       }
@@ -327,7 +327,7 @@ public static String getStandardTokenProductionText(TokenProduction tp) {
         returnString += "~";
       }
       returnString += "[";
-      for (Iterator it = cl.descriptors.iterator(); it.hasNext();) {
+      for (Iterator<Expansion> it = cl.descriptors.iterator(); it.hasNext();) {
         Object o = it.next();
         if (o instanceof SingleCharacter) {
           returnString += "\"";
@@ -352,8 +352,8 @@ public static String getStandardTokenProductionText(TokenProduction tp) {
       returnString += "]";
     } else if (re instanceof RChoice) {
       RChoice c = (RChoice)re;
-      for (Iterator it = c.getChoices().iterator(); it.hasNext();) {
-        RegularExpression sub = (RegularExpression)(it.next());
+      for (Iterator<RegularExpression> it = c.getChoices().iterator(); it.hasNext();) {
+        RegularExpression sub = it.next();
         returnString += emitRE(sub);
         if (it.hasNext()) {
           returnString += " | ";
@@ -371,8 +371,8 @@ public static String getStandardTokenProductionText(TokenProduction tp) {
       returnString += ")+";
     } else if (re instanceof RSequence) {
       RSequence s = (RSequence)re;
-      for (Iterator it = s.units.iterator(); it.hasNext();) {
-        RegularExpression sub = (RegularExpression)(it.next());
+      for (Iterator<RegularExpression> it = s.units.iterator(); it.hasNext();) {
+        RegularExpression sub = it.next();
         boolean needParens = false;
         if (sub instanceof RChoice) {
           needParens = true;

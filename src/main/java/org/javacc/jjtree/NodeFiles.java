@@ -54,7 +54,7 @@ final class NodeFiles {
    */
   static final String nodeVersion = Version.majorDotMinor;
 
-  static Set nodesGenerated = new HashSet();
+  static Set<String> nodesGenerated = new HashSet<>();
 
   static void ensure(IO io, String nodeType)
   {
@@ -137,15 +137,15 @@ final class NodeFiles {
       OutputFile outputFile = new OutputFile(file);
       PrintWriter ostr = outputFile.getPrintWriter();
 
-      List nodeIds = ASTNodeDescriptor.getNodeIds();
-      List nodeNames = ASTNodeDescriptor.getNodeNames();
+      List<String> nodeIds = ASTNodeDescriptor.getNodeIds();
+      List<String> nodeNames = ASTNodeDescriptor.getNodeNames();
 
       generatePrologue(ostr);
       ostr.println("public interface " + name);
       ostr.println("{");
 
       for (int i = 0; i < nodeIds.size(); ++i) {
-        String n = (String)nodeIds.get(i);
+        String n = nodeIds.get(i);
         ostr.println("  public int " + n + " = " + i + ";");
       }
 
@@ -154,7 +154,7 @@ final class NodeFiles {
 
       ostr.println("  public String[] jjtNodeName = {");
       for (int i = 0; i < nodeNames.size(); ++i) {
-        String n = (String)nodeNames.get(i);
+        String n = nodeNames.get(i);
         ostr.println("    \"" + n + "\",");
       }
       ostr.println("  };");
@@ -186,7 +186,7 @@ final class NodeFiles {
       OutputFile outputFile = new OutputFile(file);
       PrintWriter ostr = outputFile.getPrintWriter();
 
-      List nodeNames = ASTNodeDescriptor.getNodeNames();
+      List<String> nodeNames = ASTNodeDescriptor.getNodeNames();
 
       generatePrologue(ostr);
       ostr.println("public interface " + name);
@@ -203,7 +203,7 @@ final class NodeFiles {
           ve + ";");
       if (JJTreeOptions.getMulti()) {
         for (int i = 0; i < nodeNames.size(); ++i) {
-          String n = (String)nodeNames.get(i);
+          String n = nodeNames.get(i);
           if (n.equals("void")) {
             continue;
           }
@@ -251,7 +251,7 @@ final class NodeFiles {
       OutputFile outputFile = new OutputFile(file);
       PrintWriter ostr = outputFile.getPrintWriter();
 
-      List nodeNames = ASTNodeDescriptor.getNodeNames();
+      List<String> nodeNames = ASTNodeDescriptor.getNodeNames();
 
       generatePrologue(ostr);
       ostr.println("public class " + className + " implements " + visitorClass() + "{");
@@ -277,7 +277,7 @@ final class NodeFiles {
 
       if (JJTreeOptions.getMulti()) {
         for (int i = 0; i < nodeNames.size(); ++i) {
-          String n = (String)nodeNames.get(i);
+          String n = nodeNames.get(i);
           if (n.equals("void")) {
             continue;
           }
@@ -312,7 +312,7 @@ final class NodeFiles {
 
     generatePrologue(ostr);
     
-    Map options = new HashMap(Options.getOptions());
+    Map<String, Object> options = new HashMap<>(Options.getOptions());
     options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     
     OutputFileGenerator generator = new OutputFileGenerator(
@@ -329,8 +329,8 @@ final class NodeFiles {
     PrintWriter ostr = outputFile.getPrintWriter();
 
     generatePrologue(ostr);
-    
-    Map options = new HashMap(Options.getOptions());
+
+    Map<String, Object> options = new HashMap<>(Options.getOptions());
     options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     options.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(JJTreeOptions.getVisitorReturnType().equals("void")));
     
@@ -349,7 +349,7 @@ final class NodeFiles {
 
     generatePrologue(ostr);
 
-    Map options = new HashMap(Options.getOptions());
+    Map<String, Object> options = new HashMap<>(Options.getOptions());
     options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     options.put("NODE_TYPE", nodeType);
     options.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(JJTreeOptions.getVisitorReturnType().equals("void")));

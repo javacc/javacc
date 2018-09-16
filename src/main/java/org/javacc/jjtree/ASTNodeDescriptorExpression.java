@@ -27,21 +27,21 @@
  */
 package org.javacc.jjtree;
 
-
-public class ASTNodeDescriptorExpression extends JJTreeNode {
+public class ASTNodeDescriptorExpression extends JJTreeNode{
   ASTNodeDescriptorExpression(int id) {
     super(id);
   }
 
-  public String translateImage(Token t)
-  {
+  @Override
+  public String translateImage(Token t) {
     return whiteOut(t);
   }
 
+
   /** Accept the visitor. **/
+  @Override
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
     return visitor.visit(this, data);
   }
 }
-
-/*end*/
+/* JavaCC - OriginalChecksum=cc7bdab7cf5a9babdfc37fc542c70701 (do not edit this line) */

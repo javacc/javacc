@@ -94,6 +94,7 @@ public class Token {
   /**
    * equals
    */
+  @Override
   public boolean equals(Object object) {
 	if (object == null)
 	  return false;
@@ -107,6 +108,7 @@ public class Token {
   /**
    * hashCode
    */
+  @Override
   public int hashCode() {
     return image.hashCode();
   }
@@ -114,6 +116,7 @@ public class Token {
   /**
    * Returns the image.
    */
+  @Override
   public String toString()
   {
     return image;

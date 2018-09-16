@@ -27,8 +27,7 @@
  */
 package org.javacc.jjtree;
 
-
-public class ASTJavacodeBody extends JJTreeNode {
+public class ASTJavacodeBody extends JJTreeNode{
   ASTJavacodeBody(int id) {
     super(id);
   }
@@ -36,9 +35,9 @@ public class ASTJavacodeBody extends JJTreeNode {
   public NodeScope node_scope;
 
   /** Accept the visitor. **/
+  @Override
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
     return visitor.visit(this, data);
   }
 }
-
-/*end*/
+/* JavaCC - OriginalChecksum=35919e1a4f2c8df8810b4becf429350e (do not edit this line) */

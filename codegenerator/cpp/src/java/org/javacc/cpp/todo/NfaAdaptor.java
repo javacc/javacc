@@ -97,7 +97,7 @@ public class NfaAdaptor {
     re.CompressCharLists();
 
     if (re.getChoices().size() == 1)
-       return toNfa(ignoreCase, (RegularExpression)re.getChoices().get(0));
+       return toNfa(ignoreCase, re.getChoices().get(0));
 
     Nfa retVal = new Nfa();
     NfaState startState = retVal.start;
@@ -106,7 +106,7 @@ public class NfaAdaptor {
     for (int i = 0; i < re.getChoices().size(); i++)
     {
        Nfa temp;
-       RegularExpression curRE = (RegularExpression)re.getChoices().get(i);
+       RegularExpression curRE = re.getChoices().get(i);
 
        temp = toNfa(ignoreCase, curRE);
 
@@ -141,7 +141,7 @@ public class NfaAdaptor {
 
   public static Nfa generateRRepetitionRange(boolean ignoreCase, RRepetitionRange re) {
 
-    List<? super Object> units = new ArrayList<Object>();
+    List<RegularExpression> units = new ArrayList<>();
     RSequence seq;
     int i;
 
@@ -169,7 +169,7 @@ public class NfaAdaptor {
 
   public static Nfa generateRSequence(boolean ignoreCase, RSequence re) {
     if (re.units.size() == 1)
-      return toNfa(ignoreCase, (RegularExpression)re.units.get(0));
+      return toNfa(ignoreCase, re.units.get(0));
 
    Nfa retVal = new Nfa();
    NfaState startState = retVal.start;
@@ -179,13 +179,13 @@ public class NfaAdaptor {
 
    RegularExpression curRE;
 
-   curRE = (RegularExpression)re.units.get(0);
+   curRE = re.units.get(0);
    temp1 = toNfa(ignoreCase, curRE);
    startState.AddMove(temp1.start);
 
    for (int i = 1; i < re.units.size(); i++)
    {
-      curRE = (RegularExpression)re.units.get(i);
+      curRE = re.units.get(i);
 
       temp2 = toNfa(ignoreCase, curRE);
       temp1.end.AddMove(temp2.start);

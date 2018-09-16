@@ -32,6 +32,8 @@ package org.javacc.jjtree;
  */
 class JJTreeIOException extends java.io.IOException {
 
+  private static final long serialVersionUID = -6760209854183974421L;
+
   JJTreeIOException(String detail)
   {
     super(detail);

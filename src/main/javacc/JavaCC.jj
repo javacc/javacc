@@ -1023,11 +1023,11 @@ void regexpr_spec(TokenProduction p) :
 	}
 }
 
-void expansion_choices(Container c1) :
+void expansion_choices(Container<Expansion> c1) :
 	{
 	  boolean morethanone = false;
 	  Choice ch = null; // unnecessary initialization to make Java compiler happy!
-	  Container c2 = new Container();
+	  Container<Expansion> c2 = new Container();
 	}
 {
   expansion(c1)
@@ -1035,13 +1035,13 @@ void expansion_choices(Container c1) :
 	{
 	  if (morethanone) {
 	    ch.getChoices().add(c2.member);
-	    ((Expansion)c2.member).parent = ch;
+	    c2.member.parent = ch;
 	  } else {
 	    morethanone = true;
 	    ch = new Choice((Expansion)c1.member);
-	    ((Expansion)c1.member).parent = ch;
+	    c1.member.parent = ch;
 	    ch.getChoices().add(c2.member);
-	    ((Expansion)c2.member).parent = ch;
+	    c2.member.parent = ch;
 	  }
 	}
   )*
@@ -1055,7 +1055,7 @@ void expansion_choices(Container c1) :
 void expansion(Container c1) :
 	{
 	  Sequence seq = new Sequence();
-	  Container c2 = new Container();
+	  Container<Expansion> c2 = new Container();
 	  Lookahead la = new Lookahead();
 	  Token t = getToken(1);
 	  seq.setLine(t.beginLine);
@@ -1084,8 +1084,8 @@ void expansion(Container c1) :
     expansion_unit(c2)
 	{
 	  seq.units.add(c2.member);
-	  ((Expansion)c2.member).parent = seq;
-	  ((Expansion)c2.member).ordinal = seq.units.size()-1;
+	  c2.member.parent = seq;
+	  c2.member.ordinal = seq.units.size()-1;
 	}
   )+
 	{
@@ -1349,7 +1349,7 @@ void expansion_unit(Container c) :
   )?
 }
 
-void regular_expression(Container c) :
+void regular_expression(Container<RegularExpression> c) :
 	{
 	  REndOfFile ef;
 	  String image;
@@ -1408,11 +1408,11 @@ void regular_expression(Container c) :
 	}
 }
 
-void complex_regular_expression_choices(Container c1) :
+void complex_regular_expression_choices(Container<RegularExpression> c1) :
 	{
 	  boolean morethanone = false;
 	  RChoice ch = null; // unnecessary initialization to make Java compiler happy!
-	  Container c2 = new Container();
+	  Container<RegularExpression> c2 = new Container();
 	}
 {
   complex_regular_expression(c1)
@@ -1423,8 +1423,8 @@ void complex_regular_expression_choices(Container c1) :
 	  } else {
 	    morethanone = true;
 	    ch = new RChoice();
-	    ch.setLine(((RegularExpression)c1.member).getLine());
-	    ch.setColumn(((RegularExpression)c1.member).getColumn());
+	    ch.setLine(c1.member.getLine());
+	    ch.setColumn(c1.member.getColumn());
 	    ch.getChoices().add(c1.member);
 	    ch.getChoices().add(c2.member);
 	  }
@@ -1437,11 +1437,11 @@ void complex_regular_expression_choices(Container c1) :
 	}
 }
 
-void complex_regular_expression(Container c1) :
+void complex_regular_expression(Container<RegularExpression> c1) :
 	{
 	  int count = 0;
 	  RSequence seq = null; // unnecessary initialization to make Java compiler happy!
-	  Container c2 = new Container();
+	  Container<RegularExpression> c2 = new Container();
 	}
 {
   ( complex_regular_expression_unit(c2)
@@ -1451,8 +1451,8 @@ void complex_regular_expression(Container c1) :
 	    c1.member = c2.member; // if count does not go beyond 1, we are done.
 	  } else if (count == 2) { // more than 1, so create a sequence.
 	    seq = new RSequence();
-	    seq.setLine(((RegularExpression)c1.member).getLine());
-	    seq.setColumn(((RegularExpression)c1.member).getColumn());
+	    seq.setLine(c1.member.getLine());
+	    seq.setColumn(c1.member.getColumn());
 	    seq.units.add(c1.member);
 	    seq.units.add(c2.member);
 	  } else {
@@ -1467,7 +1467,7 @@ void complex_regular_expression(Container c1) :
 	}
 }
 
-void complex_regular_expression_unit(Container c) :
+void complex_regular_expression_unit(Container<RegularExpression> c) :
 	{
 	  String image;
 	  Token t = getToken(1);
@@ -1526,7 +1526,7 @@ void character_list(Container c1) :
 	  Token t = getToken(1);
 	  chlist.setLine(t.beginLine);
 	  chlist.setColumn(t.beginColumn);
-	  Container c2 = new Container();
+	  Container<Expansion> c2 = new Container();
 	}
 {
   ["~"

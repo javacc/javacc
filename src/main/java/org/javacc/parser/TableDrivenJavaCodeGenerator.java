@@ -267,9 +267,9 @@ public class TableDrivenJavaCodeGenerator implements TokenManagerCodeGenerator {
         for (int j = 0; j < image.length(); j++) {
           if (image.charAt(j) <= 0xff) {
             codeGenerator.genCode(
-                "\\" + Integer.toOctalString((int)image.charAt(j)));
+                "\\" + Integer.toOctalString(image.charAt(j)));
           } else {
-            String hexVal = Integer.toHexString((int)image.charAt(j));
+            String hexVal = Integer.toHexString(image.charAt(j));
             if (hexVal.length() == 3)
               hexVal = "0" + hexVal;
             codeGenerator.genCode("\\u" + hexVal);

@@ -27,9 +27,6 @@
  */
 package org.javacc.jjtree;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-
 public class NodeScope
 {
   public ASTProduction production;
