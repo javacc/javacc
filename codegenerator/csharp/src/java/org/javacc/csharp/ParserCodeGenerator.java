@@ -73,7 +73,7 @@ public class ParserCodeGenerator implements org.javacc.parser.ParserCodeGenerato
   private int gensymindex = 0;
   private int indentamt;
   private boolean jj2LA;
-  private CodeGenHelper codeGenerator;
+  private CodeGenHelper codeGenerator = new CodeGenHelper();
   private int cline = 1;
   private int ccol = 1;
 
@@ -85,10 +85,9 @@ public class ParserCodeGenerator implements org.javacc.parser.ParserCodeGenerato
  
   @Override
   public void generateCode(
-      CodeGeneratorSettings settings,
-      CodeGenHelper codeGenerator, ParserData parserData) {
+      CodeGeneratorSettings settings, ParserData parserData) {
     this.parserData = parserData;
-    this.codeGenerator = codeGenerator;
+
     String superClass = (String)settings.get(
                              Options.USEROPTION__TOKEN_MANAGER_SUPER_CLASS);
     settings.put("parserName", parserData.parserName);
@@ -131,7 +130,6 @@ e.printStackTrace();
   @Override
   public void finish(
       CodeGeneratorSettings settings,
-      CodeGenHelper codeGenerator,
       ParserData parserData) {
   }
 

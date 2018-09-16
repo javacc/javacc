@@ -47,7 +47,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
   private String staticString;
   private String tokMgrClassName;
   
-  private final CodeGenHelper codeGenerator   = new CodeGenHelper();
+  private final CodeGenHelper codeGenerator   = new CppCodeGenHelper();
   private CodeGeneratorSettings settings;
   
 
@@ -450,7 +450,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
     codeGenerator.genCodeLine("  void ReInit(JAVACC_CHARSTREAM *stream, int lexState = " + tokenizerData.defaultLexState + ");");
     codeGenerator.genCodeLine("  void SwitchTo(int lexState);");
     codeGenerator.genCodeLine("  void clear();");
-    codeGenerator.genCodeLine("  const JJSimpleString jjKindsForBitVector(int i, " + Options.getLongType() + " vec);");
+    codeGenerator.genCodeLine("  const JJSimpleString jjKindsForBitVector(int i, " + Types.getLongType() + " vec);");
     codeGenerator
         .genCodeLine("  const JJSimpleString jjKindsForStateVector(int lexState, int vec[], int start, int end);");
     codeGenerator.genCodeLine("");
@@ -487,7 +487,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
     if (LexGenCPP.hasSkip || LexGenCPP.hasMore || LexGenCPP.hasSpecial)
     {
       // Bit vector for TOKEN
-      codeGenerator.genCode("static const " + Options.getLongType() + " jjtoToken[] = {");
+      codeGenerator.genCode("static const " + Types.getLongType() + " jjtoToken[] = {");
       for (i = 0; i < tokenizerData.images.length / 64 + 1; i++)
       {
         if (i % 4 == 0)
@@ -500,7 +500,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
     if (LexGenCPP.hasSkip || LexGenCPP.hasSpecial)
     {
       // Bit vector for SKIP
-      codeGenerator.genCode("static const " + Options.getLongType() + " jjtoSkip[] = {");
+      codeGenerator.genCode("static const " + Types.getLongType() + " jjtoSkip[] = {");
       for (i = 0; i < tokenizerData.images.length / 64 + 1; i++)
       {
         if (i % 4 == 0)
@@ -513,7 +513,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
     if (LexGenCPP.hasSpecial)
     {
       // Bit vector for SPECIAL
-      codeGenerator.genCode("static const " + Options.getLongType() + " jjtoSpecial[] = {");
+      codeGenerator.genCode("static const " + Types.getLongType() + " jjtoSpecial[] = {");
       for (i = 0; i < tokenizerData.images.length / 64 + 1; i++)
       {
         if (i % 4 == 0)

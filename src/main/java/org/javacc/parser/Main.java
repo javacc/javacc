@@ -254,8 +254,8 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
         if (isBuildParser && parserCodeGenerator != null) {
           ParserData parserData = createParserData();
           CodeGeneratorSettings settings = new CodeGeneratorSettings(Options.getOptions());
-          parserCodeGenerator.generateCode(settings, new CodeGenHelper(), parserData);
-          parserCodeGenerator.finish(settings, new CodeGenHelper(), parserData);
+          parserCodeGenerator.generateCode(settings, parserData);
+          parserCodeGenerator.finish(settings, parserData);
         }
 
         // Must always create the lexer object even if not building a parser.

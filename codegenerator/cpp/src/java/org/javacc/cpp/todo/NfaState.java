@@ -30,6 +30,7 @@
  */
 package org.javacc.cpp.todo;
 
+import org.javacc.cpp.Types;
 import org.javacc.parser.CodeGenHelper;
 import org.javacc.parser.JavaCCErrors;
 import org.javacc.parser.JavaCCGlobals;
@@ -946,7 +947,7 @@ public class NfaState
 
                if (!AllBitsSet(tmp)) {
                   codeGenerator.switchToStaticsFile();
-                  codeGenerator.genCodeLine("static const " + Options.getLongType() + " jjbitVec" +  lohiByteCnt + "[] = " + tmp);
+                  codeGenerator.genCodeLine("static const " + Types.getLongType() + " jjbitVec" +  lohiByteCnt + "[] = " + tmp);
                }
                lohiByteTab.put(tmp, ind = Integer.valueOf(lohiByteCnt++));
             }
@@ -963,7 +964,7 @@ public class NfaState
 
                if (!AllBitsSet(tmp)) {
                  codeGenerator.switchToStaticsFile();
-                 codeGenerator.genCodeLine("static const " + Options.getLongType() + " jjbitVec" + lohiByteCnt + "[] = " + tmp);
+                 codeGenerator.genCodeLine("static const " + Types.getLongType() + " jjbitVec" + lohiByteCnt + "[] = " + tmp);
                  codeGenerator.switchToMainFile();
                }
                lohiByteTab.put(tmp, ind = Integer.valueOf(lohiByteCnt++));
@@ -1010,7 +1011,7 @@ public class NfaState
                if (!AllBitsSet(tmp))
                {
                  codeGenerator.switchToStaticsFile();
-                 codeGenerator.genCodeLine("static const " + Options.getLongType() + " jjbitVec" +  lohiByteCnt + "[] = " + tmp);
+                 codeGenerator.genCodeLine("static const " + Types.getLongType() + " jjbitVec" +  lohiByteCnt + "[] = " + tmp);
                }
                lohiByteTab.put(tmp, ind = Integer.valueOf(lohiByteCnt++));
             }
@@ -1632,21 +1633,21 @@ public class NfaState
    private static void DumpHeadForCase(CodeGenHelper codeGenerator, int byteNum)
    {
       if (byteNum == 0) {
-         codeGenerator.genCodeLine("         " + Options.getLongType() + " l = 1L << curChar;");
+         codeGenerator.genCodeLine("         " + Types.getLongType() + " l = 1L << curChar;");
          codeGenerator.genCodeLine("         (void)l;");
       } else if (byteNum == 1) {
-         codeGenerator.genCodeLine("         " + Options.getLongType() + " l = 1L << (curChar & 077);");
+         codeGenerator.genCodeLine("         " + Types.getLongType() + " l = 1L << (curChar & 077);");
          codeGenerator.genCodeLine("         (void)l;");
       } else {
          if (Options.getJavaUnicodeEscape() || unicodeWarningGiven)
          {
            codeGenerator.genCodeLine("         int hiByte = (curChar >> 8);");
            codeGenerator.genCodeLine("         int i1 = hiByte >> 6;");
-           codeGenerator.genCodeLine("         " + Options.getLongType() + " l1 = 1L << (hiByte & 077);");
+           codeGenerator.genCodeLine("         " + Types.getLongType() + " l1 = 1L << (hiByte & 077);");
          }
 
          codeGenerator.genCodeLine("         int i2 = (curChar & 0xff) >> 6;");
-         codeGenerator.genCodeLine("         " + Options.getLongType() + " l2 = 1L << (curChar & 077);");
+         codeGenerator.genCodeLine("         " + Types.getLongType() + " l2 = 1L << (curChar & 077);");
       }
 
       //codeGenerator.genCodeLine("         MatchLoop: do");
@@ -2529,7 +2530,7 @@ public class NfaState
    {
       int j;
       codeGenerator.generateMethodDefHeader("" + Options.getBooleanType() + "", LexGenCPP.tokMgrClassName, "jjCanMove_" + nonAsciiMethod +
-                    "(int hiByte, int i1, int i2, " + Options.getLongType() + " l1, " + Options.getLongType() + " l2)");
+                    "(int hiByte, int i1, int i2, " + Types.getLongType() + " l1, " + Types.getLongType() + " l2)");
       codeGenerator.genCodeLine("{");
       codeGenerator.genCodeLine("   switch(hiByte)");
       codeGenerator.genCodeLine("   {");

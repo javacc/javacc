@@ -34,7 +34,6 @@ package org.javacc.cpp.todo;
 import static org.javacc.parser.JavaCCGlobals.actForEof;
 import static org.javacc.parser.JavaCCGlobals.cu_name;
 import static org.javacc.parser.JavaCCGlobals.cu_to_insertion_point_1;
-import static org.javacc.parser.JavaCCGlobals.getFileExtension;
 import static org.javacc.parser.JavaCCGlobals.getIdString;
 import static org.javacc.parser.JavaCCGlobals.lexstate_I2S;
 import static org.javacc.parser.JavaCCGlobals.nextStateForEof;
@@ -43,6 +42,7 @@ import static org.javacc.parser.JavaCCGlobals.token_mgr_decls;
 import static org.javacc.parser.JavaCCGlobals.toolName;
 import static org.javacc.parser.JavaCCGlobals.toolNames;
 
+import org.javacc.cpp.CppCodeGenHelper;
 import org.javacc.parser.Action;
 import org.javacc.parser.CodeGenHelper;
 import org.javacc.parser.JavaCCErrors;
@@ -69,7 +69,7 @@ import java.util.Map;
 /**
  * Generate lexer.
  */
-public class LexGenCPP extends CodeGenHelper implements JavaCCParserConstants
+public class LexGenCPP extends CppCodeGenHelper implements JavaCCParserConstants
 {  
   public static String staticString;
   public static String tokMgrClassName;
@@ -127,7 +127,7 @@ public class LexGenCPP extends CodeGenHelper implements JavaCCParserConstants
     List<String> tn = new ArrayList<String>(toolNames);
     tn.add(toolName);
      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-    genCodeLine("/* " + getIdString(tn, tokMgrClassName + getFileExtension(Options.getOutputLanguage())) + " */");
+    genCodeLine("/* " + getIdString(tn, tokMgrClassName + ".cc") + " */");
 
     int l = 0, kind;
     i = 1;

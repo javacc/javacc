@@ -31,6 +31,7 @@
 
 package org.javacc.cpp.todo;
 
+import org.javacc.cpp.Types;
 import org.javacc.parser.CodeGenHelper;
 import org.javacc.parser.JavaCCErrors;
 import org.javacc.parser.JavaCCGlobals;
@@ -540,14 +541,14 @@ public class RStringLiteralHelper {
                        params.append(", ");
                     else
                        atLeastOne = true;
-                    params.append("" + Options.getLongType() + " active" + j);
+                    params.append("" + Types.getLongType() + " active" + j);
                  }
 
               if (i <= maxLenForActive[j])
               {
                  if (atLeastOne)
                     params.append(", ");
-                 params.append("" + Options.getLongType() + " active" + j);
+                 params.append("" + Types.getLongType() + " active" + j);
               }
            }
            else
@@ -559,14 +560,14 @@ public class RStringLiteralHelper {
                        params.append(", ");
                     else
                        atLeastOne = true;
-                    params.append("" + Options.getLongType() + " old" + j + ", " + Options.getLongType() + " active" + j);
+                    params.append("" + Types.getLongType() + " old" + j + ", " + Types.getLongType() + " active" + j);
                  }
 
               if (i <= maxLenForActive[j] + 1)
               {
                  if (atLeastOne)
                     params.append(", ");
-                 params.append("" + Options.getLongType() + " old" + j + ", " + Options.getLongType() + " active" + j);
+                 params.append("" + Types.getLongType() + " old" + j + ", " + Types.getLongType() + " active" + j);
               }
            }
         }
@@ -1167,8 +1168,8 @@ public class RStringLiteralHelper {
 
      StringBuffer params = new StringBuffer();
      for (i = 0; i < maxKindsReqd - 1; i++)
-        params.append("" + Options.getLongType() + " active" + i + ", ");
-     params.append("" + Options.getLongType() + " active" + i + ")");
+        params.append("" + Types.getLongType() + " active" + i + ", ");
+     params.append("" + Types.getLongType() + " active" + i + ")");
 
      codeGenerator.generateMethodDefHeader(" int", LexGenCPP.tokMgrClassName, "jjStopStringLiteralDfa" + LexGenCPP.lexStateSuffix + "(int pos, " + params);
      codeGenerator.genCodeLine("{");
@@ -1290,8 +1291,8 @@ public class RStringLiteralHelper {
      params.setLength(0);
      params.append("(int pos, ");
      for (i = 0; i < maxKindsReqd - 1; i++)
-        params.append("" + Options.getLongType() + " active" + i + ", ");
-     params.append("" + Options.getLongType() + " active" + i + ")");
+        params.append("" + Types.getLongType() + " active" + i + ", ");
+     params.append("" + Types.getLongType() + " active" + i + ")");
 
      codeGenerator.generateMethodDefHeader("int ", LexGenCPP.tokMgrClassName, "jjStartNfa" + LexGenCPP.lexStateSuffix + params);
      codeGenerator.genCodeLine("{");
