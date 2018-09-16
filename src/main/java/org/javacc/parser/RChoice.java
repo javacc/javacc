@@ -81,7 +81,7 @@ public class RChoice extends RegularExpression {
      return retVal;
   }
 
-  void CompressCharLists()
+  public void CompressCharLists()
   {
      CompressChoices(); // Unroll nested choices
      RegularExpression curRE;

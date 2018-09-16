@@ -325,7 +325,12 @@ public class ParseEngine {
           case NOOPENSTM:
             retval += "\n" + "switch (";
             if (Options.getCacheTokens()) {
-              retval += "jj_nt.kind) {\u0001";
+              if(Options.isOutputLanguageCpp()) {
+                retval += "jj_nt->kind";
+              } else {
+                retval += "jj_nt.kind";
+              }
+              retval += ") {\u0001";
             } else {
               retval += "(jj_ntk==-1)?jj_ntk_f():jj_ntk) {\u0001";
             }
