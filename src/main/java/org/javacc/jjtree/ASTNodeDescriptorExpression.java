@@ -32,12 +32,14 @@ public class ASTNodeDescriptorExpression extends JJTreeNode{
     super(id);
   }
 
+  @Override
   public String translateImage(Token t) {
     return whiteOut(t);
   }
 
 
   /** Accept the visitor. **/
+  @Override
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
     return visitor.visit(this, data);
   }

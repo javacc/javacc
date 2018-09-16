@@ -50,7 +50,8 @@ public class ZeroOrMore extends Expansion {
         this.expansion.parent = this;
     }
 
-    public StringBuffer dump(int indent, Set<? super Expansion> alreadyDumped) {
+    @Override
+    public StringBuffer dump(int indent, Set<Expansion> alreadyDumped) {
       StringBuffer sb = super.dump(indent, alreadyDumped);
       if (alreadyDumped.contains(this))
         return sb;

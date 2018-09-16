@@ -9,11 +9,13 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class JavaCodeGenerator extends DefaultJJTreeVisitor {
+  @Override
   public Object defaultVisit(SimpleNode node, Object data) {
     visit((JJTreeNode)node, data);
     return null;
   }
 
+  @Override
   public Object visit(ASTGrammar node, Object data) {
     IO io = (IO)data;
     io.println("/*@bgen(jjtree) " +
@@ -25,6 +27,7 @@ public class JavaCodeGenerator extends DefaultJJTreeVisitor {
     return node.childrenAccept(this, io);
   }
 
+  @Override
   public Object visit(ASTBNFAction node, Object data) {
     IO io = (IO)data;
     /* Assume that this action requires an early node close, and then
@@ -71,6 +74,7 @@ public class JavaCodeGenerator extends DefaultJJTreeVisitor {
     return visit((JJTreeNode)node, io);
   }
 
+  @Override
   public Object visit(ASTBNFDeclaration node, Object data) {
     IO io = (IO)data;
     if (!node.node_scope.isVoid()) {
@@ -92,6 +96,7 @@ public class JavaCodeGenerator extends DefaultJJTreeVisitor {
     return visit((JJTreeNode)node, io);
   }
 
+  @Override
   public Object visit(ASTBNFNodeScope node, Object data) {
     IO io = (IO)data;
     if (node.node_scope.isVoid()) {
@@ -106,6 +111,7 @@ public class JavaCodeGenerator extends DefaultJJTreeVisitor {
     return null;
   }
 
+  @Override
   public Object visit(ASTCompilationUnit node, Object data) {
     IO io = (IO)data;
     Token t = node.getFirstToken();
@@ -152,6 +158,7 @@ public class JavaCodeGenerator extends DefaultJJTreeVisitor {
     }
   }
 
+  @Override
   public Object visit(ASTExpansionNodeScope node, Object data) {
     IO io = (IO)data;
     String indent = getIndentation(node.expansion_unit);
@@ -166,6 +173,7 @@ public class JavaCodeGenerator extends DefaultJJTreeVisitor {
     return null;
   }
 
+  @Override
   public Object visit(ASTJavacodeBody node, Object data) {
     IO io = (IO)data;
     if (node.node_scope.isVoid()) {
@@ -309,7 +317,7 @@ public class JavaCodeGenerator extends DefaultJJTreeVisitor {
       io.println(indent + ns.closedVar + " = false;");
     }
     if (JJTreeOptions.getNodeScopeHook()) {
-      int i = closeNode.lastIndexOf(",");
+      // int i = closeNode.lastIndexOf(",");
       io.println(indent + "if (jjtree.nodeCreated()) {");
       io.println(indent + " jjtreeCloseNodeScope(" + ns.nodeVar + ");");
       io.println(indent + "}");
@@ -337,7 +345,7 @@ public class JavaCodeGenerator extends DefaultJJTreeVisitor {
   }
 
 
-  private void insertCatchBlocks(NodeScope ns, IO io, Enumeration thrown_names,
+  private void insertCatchBlocks(NodeScope ns, IO io, Enumeration<String> thrown_names,
          String indent)
   {
     String thrown;
@@ -354,7 +362,7 @@ public class JavaCodeGenerator extends DefaultJJTreeVisitor {
       }
 
       while (thrown_names.hasMoreElements()) {
-        thrown = (String)thrown_names.nextElement();
+        thrown = thrown_names.nextElement();
         io.println(indent + "  if (" + ns.exceptionVar + " instanceof " +
             thrown + ") {");
         io.println(indent + "    throw (" + thrown + ")" + ns.exceptionVar + ";");
@@ -383,7 +391,7 @@ public class JavaCodeGenerator extends DefaultJJTreeVisitor {
     openJJTreeComment(io, null);
     io.println();
 
-    Enumeration thrown_names = ns.production.throws_list.elements();
+    Enumeration<String> thrown_names = ns.production.throws_list.elements();
     insertCatchBlocks(ns, io, thrown_names, indent);
 
     io.println(indent + "} finally {");
@@ -397,18 +405,18 @@ public class JavaCodeGenerator extends DefaultJJTreeVisitor {
   }
 
 
-  private static void findThrown(NodeScope ns, Hashtable thrown_set,
+  private static void findThrown(NodeScope ns, Hashtable<String, String> thrown_set,
       JJTreeNode expansion_unit)
   {
     if (expansion_unit instanceof ASTBNFNonTerminal) {
       /* Should really make the nonterminal explicitly maintain its
          name. */
       String nt = expansion_unit.getFirstToken().image;
-      ASTProduction prod = (ASTProduction)JJTreeGlobals.productions.get(nt);
+      ASTProduction prod = JJTreeGlobals.productions.get(nt);
       if (prod != null) {
-        Enumeration e = prod.throws_list.elements();
+        Enumeration<String> e = prod.throws_list.elements();
         while (e.hasMoreElements()) {
-          String t = (String)e.nextElement();
+          String t = e.nextElement();
           thrown_set.put(t, t);
         }
       }
@@ -430,9 +438,9 @@ public class JavaCodeGenerator extends DefaultJJTreeVisitor {
     openJJTreeComment(io, null);
     io.println();
 
-    Hashtable thrown_set = new Hashtable();
+    Hashtable<String, String> thrown_set = new Hashtable<>();
     findThrown(ns, thrown_set, expansion_unit);
-    Enumeration thrown_names = thrown_set.elements();
+    Enumeration<String> thrown_names = thrown_set.elements();
     insertCatchBlocks(ns, io, thrown_names, indent);
 
     io.println(indent + "} finally {");

@@ -51,6 +51,7 @@ public class ASTBNFAction extends JJTreeNode{
 
 
   /** Accept the visitor. **/
+  @Override
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
     return visitor.visit(this, data);
   }

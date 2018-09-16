@@ -36,6 +36,7 @@ public class ASTExpansionNodeScope extends JJTreeNode{
   public JJTreeNode expansion_unit;
 
   /** Accept the visitor. **/
+  @Override
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
     return visitor.visit(this, data);
   }

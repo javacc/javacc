@@ -44,9 +44,10 @@ public class RRepetitionRange extends RegularExpression {
   public int max = -1;
   public boolean hasMax;
 
+  @Override
   public Nfa GenerateNfa(boolean ignoreCase)
   {
-     List<? super Object> units = new ArrayList<Object>();
+     List<RegularExpression> units = new ArrayList<>();
      RSequence seq;
      int i;
 

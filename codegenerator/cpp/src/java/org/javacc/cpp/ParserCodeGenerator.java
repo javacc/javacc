@@ -153,7 +153,7 @@ public class ParserCodeGenerator extends CodeGenHelper implements org.javacc.par
                    "public " + superClass});
     codeGenerator.switchToMainFile();
     if (cu_to_insertion_point_2.size() != 0) {
-      codeGenerator.printTokenSetup((cu_to_insertion_point_2.get(0)));
+      printTokenSetup(cu_to_insertion_point_2.get(0));
       for (Iterator<Token> it = cu_to_insertion_point_2.iterator(); it.hasNext();) {
         codeGenerator.printToken(it.next());
       }
@@ -209,8 +209,8 @@ public class ParserCodeGenerator extends CodeGenHelper implements org.javacc.par
       for (int i = 0; i < tokenMaskSize; i++) {
         if (maskVals.size() > 0) {
           codeGenerator.genCodeLine("  unsigned int jj_la1_" + i + "[] = {");
-          for (Iterator it = maskVals.iterator(); it.hasNext();) {
-            int[] tokenMask = (int[])(it.next());
+          for (Iterator<int[]> it = maskVals.iterator(); it.hasNext();) {
+            int[] tokenMask = it.next();
             codeGenerator.genCode("0x" + Integer.toHexString(tokenMask[i]) + ",");
           }
           codeGenerator.genCodeLine("};");

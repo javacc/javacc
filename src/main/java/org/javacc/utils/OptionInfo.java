@@ -1,6 +1,5 @@
 package org.javacc.utils;
 
-import java.util.Map;
 
 /**
  * 

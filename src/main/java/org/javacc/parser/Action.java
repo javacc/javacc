@@ -44,7 +44,8 @@ public class Action extends Expansion {
    */
   private List<Token> action_tokens = new ArrayList<Token>();
 
-  public StringBuffer dump(int indent, Set alreadyDumped) {
+  @Override
+  public StringBuffer dump(int indent, Set<Expansion> alreadyDumped) {
     StringBuffer sb = super.dump(indent, alreadyDumped);
     alreadyDumped.add(this);
     if (getActionTokens().size() > 0)

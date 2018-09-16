@@ -4,39 +4,32 @@
 package org.javacc.csharp;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.javacc.Version;
 import org.javacc.parser.Options;
 import org.javacc.parser.OutputFile;
 import org.javacc.utils.OutputFileGenerator;
-import org.javacc.parser.JavaCCGlobals;
 import org.javacc.jjtree.*;
 
 public class JJTreeCodeGenerator extends DefaultJJTreeVisitor {
 
   static final String JJTStateVersion = Version.majorDotMinor;
 
+  @Override
   public Object defaultVisit(SimpleNode node, Object data) {
     visit((JJTreeNode)node, data);
     return null;
   }
 
+  @Override
   public Object visit(ASTGrammar node, Object data) {
     IO io = (IO)data;
     return node.childrenAccept(this, io);
   }
 
+  @Override
   public Object visit(ASTBNFAction node, Object data) {
     IO io = (IO)data;
     /* Assume that this action requires an early node close, and then
@@ -83,6 +76,7 @@ public class JJTreeCodeGenerator extends DefaultJJTreeVisitor {
     return visit((JJTreeNode)node, io);
   }
 
+  @Override
   public Object visit(ASTBNFDeclaration node, Object data) {
     IO io = (IO)data;
     if (!node.node_scope.isVoid()) {
@@ -104,6 +98,7 @@ public class JJTreeCodeGenerator extends DefaultJJTreeVisitor {
     return visit((JJTreeNode)node, io);
   }
 
+  @Override
   public Object visit(ASTBNFNodeScope node, Object data) {
     IO io = (IO)data;
     if (node.node_scope.isVoid()) {
@@ -118,6 +113,7 @@ public class JJTreeCodeGenerator extends DefaultJJTreeVisitor {
     return null;
   }
 
+  @Override
   public Object visit(ASTCompilationUnit node, Object data) {
     IO io = (IO)data;
     Token t = node.getFirstToken();
@@ -136,6 +132,7 @@ public class JJTreeCodeGenerator extends DefaultJJTreeVisitor {
     return null;
   }
 
+  @Override
   public Object visit(ASTExpansionNodeScope node, Object data) {
     IO io = (IO)data;
     String indent = getIndentation(node.expansion_unit);
@@ -150,6 +147,7 @@ public class JJTreeCodeGenerator extends DefaultJJTreeVisitor {
     return null;
   }
 
+  @Override
   public Object visit(ASTJavacodeBody node, Object data) {
     IO io = (IO)data;
     if (node.node_scope.isVoid()) {
@@ -382,7 +380,7 @@ public class JJTreeCodeGenerator extends DefaultJJTreeVisitor {
 
   @Override
   public void generateHelperFiles() throws java.io.IOException {
-    Map options = JJTreeOptions.getOptions();
+    Map<String, Object> options = JJTreeOptions.getOptions();
     options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     String filePrefix = new File(JJTreeOptions.getJJTreeOutputDirectory(), "JJT" + JJTreeGlobals.parserName + "State").getAbsolutePath();
 

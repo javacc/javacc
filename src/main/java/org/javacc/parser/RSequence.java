@@ -41,12 +41,13 @@ public class RSequence extends RegularExpression {
    * The list of units in this regular expression sequence.  Each
    * list component will narrow to RegularExpression.
    */
-  public List<? super Object> units = new ArrayList<Object>();
+  public List<RegularExpression> units = new ArrayList<>();
 
+  @Override
   public Nfa GenerateNfa(boolean ignoreCase)
   {
      if (units.size() == 1)
-        return ((RegularExpression)units.get(0)).GenerateNfa(ignoreCase);
+        return units.get(0).GenerateNfa(ignoreCase);
 
      Nfa retVal = new Nfa();
      NfaState startState = retVal.start;
@@ -56,13 +57,13 @@ public class RSequence extends RegularExpression {
 
      RegularExpression curRE;
 
-     curRE = (RegularExpression)units.get(0);
+     curRE = units.get(0);
      temp1 = curRE.GenerateNfa(ignoreCase);
      startState.AddMove(temp1.start);
 
      for (int i = 1; i < units.size(); i++)
      {
-        curRE = (RegularExpression)units.get(i);
+        curRE = units.get(i);
 
         temp2 = curRE.GenerateNfa(ignoreCase);
         temp1.end.AddMove(temp2.start);
@@ -78,7 +79,7 @@ public class RSequence extends RegularExpression {
   {
   }
 
-  public RSequence(List<? super Object> seq)
+  public RSequence(List<RegularExpression> seq)
   {
      ordinal = Integer.MAX_VALUE;
      units = seq;

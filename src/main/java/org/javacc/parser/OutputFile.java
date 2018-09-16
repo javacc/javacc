@@ -107,8 +107,8 @@ public class OutputFile {
       try {
         digest = MessageDigest.getInstance("MD5");
       } catch (NoSuchAlgorithmException e) {
-        throw (IOException) (new IOException("No MD5 implementation")
-        .initCause(e));
+        throw (IOException) new IOException("No MD5 implementation")
+        .initCause(e);
       }
       DigestOutputStream digestStream = new DigestOutputStream(
           new NullOutputStream(), digest);
@@ -244,8 +244,8 @@ public class OutputFile {
       try {
         digest = MessageDigest.getInstance("MD5");
       } catch (NoSuchAlgorithmException e) {
-        throw (IOException) (new IOException("No MD5 implementation")
-        .initCause(e));
+        throw (IOException) new IOException("No MD5 implementation")
+        .initCause(e);
       }
       dos = new DigestOutputStream(new BufferedOutputStream(
           new FileOutputStream(file)), digest);
@@ -300,12 +300,15 @@ public class OutputFile {
 
   private static class NullOutputStream extends OutputStream {
 
+    @Override
     public void write(byte[] arg0, int arg1, int arg2) throws IOException {
     }
 
+    @Override
     public void write(byte[] arg0) throws IOException {
     }
 
+    @Override
     public void write(int arg0) throws IOException {
     }
   }
@@ -320,6 +323,7 @@ public class OutputFile {
       super.close();
     }
 
+    @Override
     public void close() {
       try {
         OutputFile.this.close();

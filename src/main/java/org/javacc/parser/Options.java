@@ -156,10 +156,10 @@ public class Options {
 
     temp.add(new OptionInfo(USEROPTION__PARSER_SUPER_CLASS, OptionType.STRING, null));
     temp.add(new OptionInfo(USEROPTION__TOKEN_MANAGER_SUPER_CLASS, OptionType.STRING, null));
-    temp.add(new OptionInfo(USEROPTION__LOOKAHEAD, OptionType.INTEGER, new Integer(1)));
+    temp.add(new OptionInfo(USEROPTION__LOOKAHEAD, OptionType.INTEGER, Integer.valueOf(1)));
 
-    temp.add(new OptionInfo(USEROPTION__CHOICE_AMBIGUITY_CHECK, OptionType.INTEGER,new Integer(2)));
-    temp.add(new OptionInfo(USEROPTION__OTHER_AMBIGUITY_CHECK, OptionType.INTEGER, new Integer(1)));
+    temp.add(new OptionInfo(USEROPTION__CHOICE_AMBIGUITY_CHECK, OptionType.INTEGER,Integer.valueOf(2)));
+    temp.add(new OptionInfo(USEROPTION__OTHER_AMBIGUITY_CHECK, OptionType.INTEGER, Integer.valueOf(1)));
     temp.add(new OptionInfo(USEROPTION__STATIC, OptionType.BOOLEAN, Boolean.TRUE));
     temp.add(new OptionInfo(USEROPTION__CODE_GENERATOR, OptionType.STRING, ""));
     temp.add(new OptionInfo(USEROPTION__NO_DFA, OptionType.BOOLEAN, Boolean.FALSE));
@@ -211,7 +211,7 @@ public class Options {
     temp.add(new OptionInfo(USEROPTION__CPP_STOP_ON_FIRST_ERROR, OptionType.BOOLEAN, Boolean.FALSE));
     temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_MANAGER_SUPERCLASS, OptionType.STRING, ""));
 
-    temp.add(new OptionInfo(USEROPTION__DEPTH_LIMIT, OptionType.INTEGER, new Integer(0)));
+    temp.add(new OptionInfo(USEROPTION__DEPTH_LIMIT, OptionType.INTEGER, Integer.valueOf(0)));
     temp.add(new OptionInfo(USEROPTION__CPP_STACK_LIMIT, OptionType.STRING, ""));
 
     userOptions = Collections.unmodifiableSet(temp);
@@ -320,8 +320,8 @@ public class Options {
   }
 
   public static String getTokenMgrErrorClass() {
-    return isOutputLanguageJava() ? (isLegacyExceptionHandling() ? "TokenMgrError"
-        : "TokenMgrException")
+    return isOutputLanguageJava() ? isLegacyExceptionHandling() ? "TokenMgrError"
+        : "TokenMgrException"
         : "TokenMgrError";
   }
 
@@ -383,9 +383,9 @@ public class Options {
       } else {
         object = value;
       }
-      boolean isValidInteger = (object instanceof Integer && ((Integer) value).intValue() <= 0);
-      if (isIndirectProperty || (existingValue.getClass() != object.getClass())
-          || (isValidInteger)) {
+      boolean isValidInteger = object instanceof Integer && ((Integer) value).intValue() <= 0;
+      if (isIndirectProperty || existingValue.getClass() != object.getClass()
+          || isValidInteger) {
         JavaCCErrors.warning(valueloc, "Bad option value \"" + value
             + "\" for \"" + name
             + "\".  Option setting will be ignored.");
@@ -513,7 +513,7 @@ public class Options {
                 + arg + "\" will be ignored.");
             return;
           }
-          Val = new Integer(i);
+          Val = Integer.valueOf(i);
         } catch (NumberFormatException e) {
           Val = s.substring(index + 1);
           if (s.length() > index + 2) {
@@ -611,8 +611,8 @@ public class Options {
   }
   public static String getCodeGenerator() {
     String retVal = stringValue(USEROPTION__CODE_GENERATOR);
-    return (booleanValue(NONUSER_OPTION__INTERPRETER) ||
-            retVal.equals("")) ? null : retVal;
+    return booleanValue(NONUSER_OPTION__INTERPRETER) ||
+            retVal.equals("") ? null : retVal;
   }
   public static boolean getNoDfa() {
     return booleanValue(USEROPTION__NO_DFA);
@@ -1027,7 +1027,7 @@ public class Options {
   }
 
   public static boolean isTokenManagerRequiresParserAccess() {
-    return getTokenManagerUsesParser() && (!getStatic());
+    return getTokenManagerUsesParser() && !getStatic();
   }
 
   /**

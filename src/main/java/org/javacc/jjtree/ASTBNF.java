@@ -38,6 +38,7 @@ public class ASTBNF extends ASTProduction{
 
   Token declBeginLoc;
 
+  @Override
   public String toString()
   {
     return super.toString() + ": " + name;
@@ -45,6 +46,7 @@ public class ASTBNF extends ASTProduction{
 
 
   /** Accept the visitor. **/
+  @Override
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
     return visitor.visit(this, data);
   }

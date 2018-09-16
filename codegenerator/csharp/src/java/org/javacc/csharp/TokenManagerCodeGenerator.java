@@ -28,7 +28,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
     settings.put("maxOrdinal", tokenizerData.allMatches.size());
     settings.put("maxLexStates", tokenizerData.lexStateNames.length);
     settings.put("nfaSize", tokenizerData.nfa.size());
-    settings.put("charsVectorSize", (((int)Character.MAX_VALUE >> 6) + 1));
+    settings.put("charsVectorSize", ((Character.MAX_VALUE >> 6) + 1));
     settings.put("stateSetSize", tokenizerData.nfa.size());
     settings.put("parserName", tokenizerData.parserName);
     settings.put("maxLongs", tokenizerData.allMatches.size()/64 + 1);
@@ -257,9 +257,9 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
         for (int j = 0; j < image.length(); j++) {
           if (image.charAt(j) <= 0xff) {
             codeGenerator.genCode(
-                "\\0" + Integer.toOctalString((int)image.charAt(j)));
+                "\\0" + Integer.toOctalString(image.charAt(j)));
           } else {
-            String hexVal = Integer.toHexString((int)image.charAt(j));
+            String hexVal = Integer.toHexString(image.charAt(j));
             if (hexVal.length() == 3)
               hexVal = "0" + hexVal;
             codeGenerator.genCode("\\u" + hexVal);

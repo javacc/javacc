@@ -35,20 +35,12 @@ import java.util.Set;
  * Describes JavaCC productions.
  */
 
-public class NormalProduction {
-
-  /**
-   * The line and column number of the construct that corresponds
-   * most closely to this node.
-   */
-  private int column;
-
-  private int line;
+public class NormalProduction extends Expansion {
 
   /**
    * The NonTerminal nodes which refer to this production.
    */
-  private List parents = new ArrayList();
+  private List<Expansion> parents = new ArrayList<>();
 
   /**
    * The access modifier of this production.
@@ -75,7 +67,7 @@ public class NormalProduction {
    * exception in the throws list of this production.  This list does not
    * include ParseException which is always thrown.
    */
-  private List throws_list = new ArrayList();
+  private List<List<Token>> throws_list = new ArrayList<>();
 
   /**
    * The RHS of this production.  Not used for JavaCodeProduction.
@@ -114,6 +106,7 @@ public class NormalProduction {
   private Token firstToken;
 
   protected String eol = System.getProperty("line.separator", "\n");
+  @Override
   protected StringBuffer dumpPrefix(int indent) {
     StringBuffer sb = new StringBuffer(128);
     for (int i = 0; i < indent; i++)
@@ -126,7 +119,8 @@ public class NormalProduction {
     return name.substring(name.lastIndexOf(".")+1); // strip the package name
   }
 
-  public StringBuffer dump(int indent, Set alreadyDumped) {
+  @Override
+  public StringBuffer dump(int indent, Set<Expansion> alreadyDumped) {
     StringBuffer sb = dumpPrefix(indent).append(System.identityHashCode(this)).append(' ').append(getSimpleName()).append(' ').append(getLhs());
     if (!alreadyDumped.contains(this))
     {
@@ -141,44 +135,16 @@ public class NormalProduction {
   }
 
   /**
-   * @param line the line to set
-   */
-  public void setLine(int line) {
-    this.line = line;
-  }
-
-  /**
-   * @return the line
-   */
-  public int getLine() {
-    return line;
-  }
-
-  /**
-   * @param column the column to set
-   */
-  public void setColumn(int column) {
-    this.column = column;
-  }
-
-  /**
-   * @return the column
-   */
-  public int getColumn() {
-    return column;
-  }
-
-  /**
    * @param parents the parents to set
    */
-  void setParents(List parents) {
+  void setParents(List<Expansion> parents) {
     this.parents = parents;
   }
 
   /**
    * @return the parents
    */
-  List getParents() {
+  List<Expansion> getParents() {
     return parents;
   }
 
@@ -227,14 +193,14 @@ public class NormalProduction {
   /**
    * @param throws_list the throws_list to set
    */
-  public void setThrowsList(List throws_list) {
+  public void setThrowsList(List<List<Token>> throws_list) {
     this.throws_list = throws_list;
   }
 
   /**
    * @return the throws_list
    */
-  public List getThrowsList() {
+  public List<List<Token>> getThrowsList() {
     return throws_list;
   }
 

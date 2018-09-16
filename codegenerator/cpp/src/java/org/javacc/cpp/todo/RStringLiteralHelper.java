@@ -87,7 +87,7 @@ public class RStringLiteralHelper {
   private static int maxStrKind = 0;
   private static int maxLen = 0;
   private static int charCnt = 0;
-  private static List charPosKind = new ArrayList(); // Elements are hashtables
+  private static List<Hashtable<String, KindInfo>> charPosKind = new ArrayList<>(); // Elements are hashtables
                                                      // with single char keys;
   private static int[] maxLenForActive = new int[100]; // 6400 tokens
   public static String[] allImages;
@@ -97,7 +97,7 @@ public class RStringLiteralHelper {
   private static int startStateCnt = 0;
   private static boolean subString[];
   private static boolean subStringAtPos[];
-  public static Hashtable[] statesForPos;  
+  public static Hashtable<String, long[]>[] statesForPos;  
 
 
   /**
@@ -110,7 +110,7 @@ public class RStringLiteralHelper {
   {
     maxStrKind = 0;
     maxLen = 0;
-    charPosKind = new ArrayList();
+    charPosKind = new ArrayList<>();
     maxLenForActive = new int[100]; // 6400 tokens
     intermediateKinds = null;
     intermediateMatchedPos = null;
@@ -167,7 +167,7 @@ public class RStringLiteralHelper {
 	      String toPrint = "static JJChar jjstrLiteralChars_" +
 	                           literalCount++ + "[] = {";
 	      for (int j = 0; j < image.length(); j++) {
-	        String hexVal = Integer.toHexString((int)image.charAt(j));
+	        String hexVal = Integer.toHexString(image.charAt(j));
 	        toPrint += "0x" + hexVal + ", ";
 	      }
 	
@@ -211,7 +211,7 @@ public class RStringLiteralHelper {
   public static void GenerateDfa(CodeGenHelper codeGenerator, int kind, RStringLiteral re)
   {
      String s;
-     Hashtable temp;
+     Hashtable<String, KindInfo> temp;
      KindInfo info;
      int len;
 
@@ -240,11 +240,11 @@ public class RStringLiteralHelper {
         }
 
         if (i >= charPosKind.size()) // Kludge, but OK
-           charPosKind.add(temp = new Hashtable());
+           charPosKind.add(temp = new Hashtable<>());
         else
-           temp = (Hashtable)charPosKind.get(i);
+           temp = charPosKind.get(i);
 
-        if ((info = (KindInfo)temp.get(s)) == null)
+        if ((info = temp.get(s)) == null)
            temp.put(s, info = new KindInfo(LexGenCPP.maxOrdinal));
 
         if (i + 1 == len)
@@ -258,11 +258,11 @@ public class RStringLiteralHelper {
            s = ("" + re.image.charAt(i)).toLowerCase();
 
            if (i >= charPosKind.size()) // Kludge, but OK
-              charPosKind.add(temp = new Hashtable());
+              charPosKind.add(temp = new Hashtable<>());
            else
-              temp = (Hashtable)charPosKind.get(i);
+              temp = charPosKind.get(i);
 
-           if ((info = (KindInfo)temp.get(s)) == null)
+           if ((info = temp.get(s)) == null)
               temp.put(s, info = new KindInfo(LexGenCPP.maxOrdinal));
 
            if (i + 1 == len)
@@ -277,11 +277,11 @@ public class RStringLiteralHelper {
            s = ("" + re.image.charAt(i)).toUpperCase();
 
            if (i >= charPosKind.size()) // Kludge, but OK
-              charPosKind.add(temp = new Hashtable());
+              charPosKind.add(temp = new Hashtable<>());
            else
-              temp = (Hashtable)charPosKind.get(i);
+              temp = charPosKind.get(i);
 
-           if ((info = (KindInfo)temp.get(s)) == null)
+           if ((info = temp.get(s)) == null)
               temp.put(s, info = new KindInfo(LexGenCPP.maxOrdinal));
 
            if (i + 1 == len)
@@ -313,17 +313,17 @@ public class RStringLiteralHelper {
      if (LexGenCPP.mixed[LexGenCPP.lexStateIndex] || NfaState.generatedStates == 0)
         return -1;
 
-     Hashtable allStateSets = statesForPos[pos];
+     Hashtable<String, long[]> allStateSets = statesForPos[pos];
 
      if (allStateSets == null)
         return -1;
 
-     Enumeration e = allStateSets.keys();
+     Enumeration<String> e = allStateSets.keys();
 
      while (e.hasMoreElements())
      {
-        String s = (String)e.nextElement();
-        long[] actives = (long[])allStateSets.get(s);
+        String s = e.nextElement();
+        long[] actives = allStateSets.get(s);
 
         s = s.substring(s.indexOf(", ") + 2);
         s = s.substring(s.indexOf(", ") + 2);
@@ -408,16 +408,16 @@ public class RStringLiteralHelper {
         for (int j = 0; j < maxStrKind; j++)
         {
            if (j != i && LexGenCPP.lexStates[j] == LexGenCPP.lexStateIndex &&
-               ((String)allImages[j]) != null)
+               (allImages[j]) != null)
            {
-              if (((String)allImages[j]).indexOf(image) == 0)
+              if (allImages[j].indexOf(image) == 0)
               {
                  subString[i] = true;
                  subStringAtPos[image.length() - 1] = true;
                  break;
               }
               else if (Options.getIgnoreCase() &&
-                       StartsWithIgnoreCase((String)allImages[j], image))
+                       StartsWithIgnoreCase(allImages[j], image))
               {
                  subString[i] = true;
                  subStringAtPos[image.length() - 1] = true;
@@ -471,17 +471,17 @@ public class RStringLiteralHelper {
      codeGenerator.genCodeLine("}");
   }
 
-  static String[] ReArrange(Hashtable tab)
+  static String[] ReArrange(Hashtable<String, KindInfo> tab)
   {
      String[] ret = new String[tab.size()];
-     Enumeration e = tab.keys();
+     Enumeration<String> e = tab.keys();
      int cnt = 0;
 
      while (e.hasMoreElements())
      {
         int i = 0, j;
         String s;
-        char c = (s = (String)e.nextElement()).charAt(0);
+        char c = (s = e.nextElement()).charAt(0);
 
         while (i < cnt && ret[i].charAt(0) < c) i++;
 
@@ -498,7 +498,7 @@ public class RStringLiteralHelper {
 
   public static void DumpDfaCode(CodeGenHelper codeGenerator)
   {
-     Hashtable tab;
+     Hashtable<String, KindInfo> tab;
      String key;
      KindInfo info;
      int maxLongsReqd = maxStrKind / 64 + 1;
@@ -524,7 +524,7 @@ public class RStringLiteralHelper {
      {
         boolean atLeastOne = false;
         boolean startNfaNeeded = false;
-        tab = (Hashtable)charPosKind.get(i);
+        tab = charPosKind.get(i);
         String[] keys = ReArrange(tab);
 
         StringBuffer params = new StringBuffer();
@@ -704,7 +704,7 @@ public class RStringLiteralHelper {
         for (int q = 0; q < keys.length; q++)
         {
            key = keys[q];
-           info = (KindInfo)tab.get(key);
+           info = tab.get(key);
            ifGenerated = false;
            char c = key.charAt(0);
 
@@ -1026,13 +1026,13 @@ public class RStringLiteralHelper {
                                                 NfaState initialState)
   {
      boolean[] seen = new boolean[NfaState.generatedStates];
-     Hashtable stateSets = new Hashtable();
+     Hashtable<String, String> stateSets = new Hashtable<>();
      String stateSetString  = "";
      int i, j, kind, jjmatchedPos = 0;
      int maxKindsReqd = maxStrKind / 64 + 1;
      long[] actives;
-     List newStates = new ArrayList();
-     List oldStates = null, jjtmpStates;
+     List<NfaState> newStates = new ArrayList<>();
+     List<NfaState> oldStates = null, jjtmpStates;
 
      statesForPos = new Hashtable[maxLen];
      intermediateKinds = new int[maxStrKind + 1][];
@@ -1050,7 +1050,7 @@ public class RStringLiteralHelper {
 
         try
         {
-           if ((oldStates = (List)initialState.epsilonMoves.clone()) == null ||
+           if ((oldStates = (List<NfaState>)initialState.epsilonMoves.clone()) == null ||
                oldStates.size() == 0)
            {
               DumpNfaStartStatesCode(statesForPos, codeGenerator);
@@ -1116,16 +1116,16 @@ public class RStringLiteralHelper {
               stateSets.put(stateSetString, stateSetString);
               for (p = 0; p < newStates.size(); p++)
               {
-                 if (seen[((NfaState)newStates.get(p)).stateName])
-                    ((NfaState)newStates.get(p)).inNextOf++;
+                 if (seen[newStates.get(p).stateName])
+                    newStates.get(p).inNextOf++;
                  else
-                    seen[((NfaState)newStates.get(p)).stateName] = true;
+                    seen[newStates.get(p).stateName] = true;
               }
            }
            else
            {
               for (p = 0; p < newStates.size(); p++)
-                 seen[((NfaState)newStates.get(p)).stateName] = true;
+                 seen[newStates.get(p).stateName] = true;
            }
 
            jjtmpStates = oldStates;
@@ -1133,9 +1133,9 @@ public class RStringLiteralHelper {
            (newStates = jjtmpStates).clear();
 
            if (statesForPos[j] == null)
-              statesForPos[j] = new Hashtable();
+              statesForPos[j] = new Hashtable<>();
 
-           if ((actives = ((long[])statesForPos[j].get(kind + ", " +
+           if ((actives = (statesForPos[j].get(kind + ", " +
                                     jjmatchedPos + ", " + stateSetString))) == null)
            {
               actives = new long[maxKindsReqd];
@@ -1148,13 +1148,13 @@ public class RStringLiteralHelper {
         }
      }
 
-     // TODO(Sreeni, Brigl) : Fix this mess. 
+     // TODO(Sreeni) : Fix this mess. 
      if (JavaCCGlobals.getCodeGenerator() == null) {
        DumpNfaStartStatesCode(statesForPos, codeGenerator);
      }
   }
 
-  public static void DumpNfaStartStatesCode(Hashtable[] statesForPos,
+  public static void DumpNfaStartStatesCode(Hashtable<String, long[]>[] statesForPos,
                                               CodeGenHelper codeGenerator)
   {
       if (maxStrKind == 0) { // No need to generate this function
@@ -1187,11 +1187,11 @@ public class RStringLiteralHelper {
 
         codeGenerator.genCodeLine("      case " + i + ":");
 
-        Enumeration e = statesForPos[i].keys();
+        Enumeration<String> e = statesForPos[i].keys();
         while (e.hasMoreElements())
         {
-           String stateSetString = (String)e.nextElement();
-           long[] actives = (long[])statesForPos[i].get(stateSetString);
+           String stateSetString = e.nextElement();
+           long[] actives = statesForPos[i].get(stateSetString);
 
            for (int j = 0; j < maxKindsReqd; j++)
            {
@@ -1362,7 +1362,7 @@ public class RStringLiteralHelper {
         s = s.toLowerCase();
       }
       char c = s.charAt(0);
-      int key = (int)LexGenCPP.lexStateIndex << 16 | (int)c;
+      int key = LexGenCPP.lexStateIndex << 16 | c;
       List<String> l = literalsByLength.get(key);
       List<Integer> kinds = literalKinds.get(key);
       int j = 0;

@@ -35,8 +35,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-
-import org.javacc.parser.Options;
 import org.javacc.parser.CodeGenerator;
 import org.javacc.parser.JavaCCGlobals;
 
@@ -114,9 +112,9 @@ public class JJTree {
   public int main(String args[]) {
 
     // initialize static state for allowing repeat runs without exiting
-    ASTNodeDescriptor.nodeIds = new ArrayList();
-    ASTNodeDescriptor.nodeNames = new ArrayList();
-    ASTNodeDescriptor.nodeSeen = new Hashtable();
+    ASTNodeDescriptor.nodeIds = new ArrayList<>();
+    ASTNodeDescriptor.nodeNames = new ArrayList<>();
+    ASTNodeDescriptor.nodeSeen = new Hashtable<>();
     org.javacc.parser.Main.reInitAll();
 
     JavaCCGlobals.bannerLine("Tree Builder", "");

@@ -348,7 +348,7 @@ private static ParserData createParserData() {
   parserData.productionTable = JavaCCGlobals.production_table;
   StringBuilder decls = new StringBuilder();
   if (JavaCCGlobals.otherLanguageDeclTokenBeg != null) {
-    int line = JavaCCGlobals.otherLanguageDeclTokenBeg.beginLine;
+    // int line = JavaCCGlobals.otherLanguageDeclTokenBeg.beginLine;
     for (Token t = JavaCCGlobals.otherLanguageDeclTokenBeg; t != JavaCCGlobals.otherLanguageDeclTokenEnd; t = t.next) {
       decls.append(CodeGenHelper.getStringToPrint(t));
     }

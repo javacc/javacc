@@ -59,6 +59,7 @@ public class ASTOptionBinding extends JJTreeNode{
   }
 
 
+  @Override
   public String translateImage(Token t)
   {
     if (suppressed) {
@@ -69,6 +70,7 @@ public class ASTOptionBinding extends JJTreeNode{
   }
 
   /** Accept the visitor. **/
+  @Override
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
     return visitor.visit(this, data);
   }

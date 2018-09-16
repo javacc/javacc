@@ -65,7 +65,8 @@ public class TryBlock extends Expansion {
    */
   public List<Token> finallyblk;
 
-  public StringBuffer dump(int indent, Set alreadyDumped) {
+  @Override
+  public StringBuffer dump(int indent, Set<Expansion> alreadyDumped) {
     StringBuffer sb = super.dump(indent, alreadyDumped);
     if (alreadyDumped.contains(this))
       return sb;

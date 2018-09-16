@@ -77,8 +77,8 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
 // ######################### BEGIN
     LexGenCPP.reInit();
     LexGenCPP.keepLineCol = Options.getKeepLineColumn();
-    List choices = new ArrayList();
-    Enumeration e;
+    List<RegularExpression> choices = new ArrayList<>();
+    Enumeration<String> e;
     TokenProduction tp;
     int i, j;
 
@@ -97,11 +97,11 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
       RStringLiteralHelper.ReInit();
       NfaAdaptor.transformed = false;
 
-      String key = (String)e.nextElement();
+      String key = e.nextElement();
 
       LexGenCPP.lexStateIndex = GetIndex(key, tokenizerData);
       LexGenCPP.lexStateSuffix = "_" + LexGenCPP.lexStateIndex;
-      List<TokenProduction> allTps = (List<TokenProduction>)LexGenCPP.allTpsForState.get(key);
+      List<TokenProduction> allTps = LexGenCPP.allTpsForState.get(key);
       LexGenCPP.initStates.put(key, LexGenCPP.initialState = new NfaState());
       ignoring = false;
 
@@ -298,13 +298,13 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
 
     NfaState.PrintBoilerPlateCPP(codeGenerator);
 
-    String charStreamName;
-    if (Options.getUserCharStream())
-      charStreamName = "CharStream";
-    else if (Options.getJavaUnicodeEscape())
-      charStreamName = "JavaCharStream";
-    else
-      charStreamName = "SimpleCharStream";
+//    String charStreamName;
+//    if (Options.getUserCharStream())
+//      charStreamName = "CharStream";
+//    else if (Options.getJavaUnicodeEscape())
+//      charStreamName = "JavaCharStream";
+//    else
+//      charStreamName = "SimpleCharStream";
 
     writeTemplate("/templates/cpp/TokenManagerBoilerPlateMethods.template", "charStreamName", "CharStream",
         "parserClassName", cu_name, "defaultLexState", "defaultLexState", "lexStateNameLength", tokenizerData.lexStateNames.length);
@@ -368,17 +368,17 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
         new String[] { "public TokenManager" + (superClass == null ? "" : ", public " + superClass) });
 
     if (token_mgr_decls != null && token_mgr_decls.size() > 0) {
-      Token t = (Token) token_mgr_decls.get(0);
+      Token t = token_mgr_decls.get(0);
       boolean commonTokenActionSeen = false;
       boolean commonTokenActionNeeded = Options.getCommonTokenAction();
 
-      codeGenerator.printTokenSetup((Token) token_mgr_decls.get(0));
+      codeGenerator.printTokenSetup(token_mgr_decls.get(0));
       codeGenerator.ccol = 1;
 
       // switchToMainFile();
       codeGenerator.switchToIncludeFile();
       for (int j = 0; j < token_mgr_decls.size(); j++) {
-        t = (Token) token_mgr_decls.get(j);
+        t = token_mgr_decls.get(j);
         if (t.kind == JavaCCParserConstants.IDENTIFIER && commonTokenActionNeeded && !commonTokenActionSeen) {
           commonTokenActionSeen = t.image.equals("CommonTokenAction");
           if (commonTokenActionSeen)
@@ -981,7 +981,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
 
         for (;;)
         {
-          if (((act = (Action)LexGenCPP.actions[i]) == null ||
+          if (((act = LexGenCPP.actions[i]) == null ||
               act.getActionTokens() == null ||
               act.getActionTokens().size() == 0) && !LexGenCPP.canLoop[LexGenCPP.lexStates[i]])
             continue Outer;
@@ -1002,7 +1002,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
             codeGenerator.genCodeLine("         }");
           }
 
-          if ((act = (Action)LexGenCPP.actions[i]) == null ||
+          if ((act = LexGenCPP.actions[i]) == null ||
               act.getActionTokens().size() == 0)
             break;
 
@@ -1014,11 +1014,11 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
             codeGenerator.genCodeLine("(input_stream->GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
           }
 
-        codeGenerator.printTokenSetup((Token)act.getActionTokens().get(0));
+        codeGenerator.printTokenSetup(act.getActionTokens().get(0));
         codeGenerator.ccol = 1;
 
           for (int j = 0; j < act.getActionTokens().size(); j++)
-            codeGenerator.printToken((Token)act.getActionTokens().get(j));
+            codeGenerator.printToken(act.getActionTokens().get(j));
           codeGenerator.genCodeLine("");
 
           break;
@@ -1052,7 +1052,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
 
       for (;;)
       {
-        if (((act = (Action)LexGenCPP.actions[i]) == null ||
+        if (((act = LexGenCPP.actions[i]) == null ||
             act.getActionTokens() == null ||
             act.getActionTokens().size() == 0) && !LexGenCPP.canLoop[LexGenCPP.lexStates[i]])
           continue Outer;
@@ -1076,7 +1076,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
           codeGenerator.genCodeLine("         }");
         }
 
-        if ((act = (Action)LexGenCPP.actions[i]) == null ||
+        if ((act = LexGenCPP.actions[i]) == null ||
             act.getActionTokens().size() == 0)
         {
           break;
@@ -1090,11 +1090,11 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
           codeGenerator.genCodeLine("(input_stream->GetSuffix(jjimageLen));");
 
         codeGenerator.genCodeLine("         jjimageLen = 0;");
-        codeGenerator.printTokenSetup((Token)act.getActionTokens().get(0));
+        codeGenerator.printTokenSetup(act.getActionTokens().get(0));
         codeGenerator.ccol = 1;
 
         for (int j = 0; j < act.getActionTokens().size(); j++)
-          codeGenerator.printToken((Token)act.getActionTokens().get(j));
+          codeGenerator.printToken(act.getActionTokens().get(j));
         codeGenerator.genCodeLine("");
 
         break;
@@ -1129,7 +1129,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
 
       for (;;)
       {
-        if (((act = (Action)LexGenCPP.actions[i]) == null ||
+        if (((act = LexGenCPP.actions[i]) == null ||
             act.getActionTokens() == null ||
             act.getActionTokens().size() == 0) && !LexGenCPP.canLoop[LexGenCPP.lexStates[i]])
           continue Outer;
@@ -1150,7 +1150,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
           codeGenerator.genCodeLine("         }");
         }
 
-        if ((act = (Action)LexGenCPP.actions[i]) == null ||
+        if ((act = LexGenCPP.actions[i]) == null ||
             act.getActionTokens().size() == 0)
           break;
 
@@ -1170,11 +1170,11 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
           }
         }
 
-        codeGenerator.printTokenSetup((Token)act.getActionTokens().get(0));
+        codeGenerator.printTokenSetup(act.getActionTokens().get(0));
         codeGenerator.ccol = 1;
 
         for (int j = 0; j < act.getActionTokens().size(); j++)
-          codeGenerator.printToken((Token)act.getActionTokens().get(j));
+          codeGenerator.printToken(act.getActionTokens().get(j));
         codeGenerator.genCodeLine("");
 
         break;
@@ -1259,10 +1259,10 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
 
       for (i = 0; i < tp.lexStates.length; i++)
       {
-        if ((tps = (List<TokenProduction>)LexGenCPP.allTpsForState.get(tp.lexStates[i])) == null)
+        if ((tps = LexGenCPP.allTpsForState.get(tp.lexStates[i])) == null)
         {
           tmpLexStateName[LexGenCPP.maxLexStates++] = tp.lexStates[i];
-          LexGenCPP.allTpsForState.put(tp.lexStates[i], tps = new ArrayList());
+          LexGenCPP.allTpsForState.put(tp.lexStates[i], tps = new ArrayList<>());
         }
 
         tps.add(tp);
@@ -1286,7 +1286,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
     LexGenCPP.actions = new Action[LexGenCPP.maxOrdinal];
     LexGenCPP.actions[0] = actForEof;
     LexGenCPP.hasTokenActions = actForEof != null;
-    LexGenCPP.initStates = new Hashtable();
+    LexGenCPP.initStates = new Hashtable<>();
     LexGenCPP.canMatchAnyChar = new int[LexGenCPP.maxLexStates];
     LexGenCPP.canLoop = new boolean[LexGenCPP.maxLexStates];
 

@@ -126,13 +126,13 @@ public final class TokenUtils
         continue;
       }
       if (ch >= '0' && ch <= '7') {
-        ordinal = ((int)ch) - ((int)'0'); index++;
+        ordinal = (ch) - ('0'); index++;
         ch1 = str.charAt(index);
         if (ch1 >= '0' && ch1 <= '7') {
-          ordinal = ordinal*8 + ((int)ch1) - ((int)'0'); index++;
+          ordinal = ordinal*8 + (ch1) - ('0'); index++;
           ch1 = str.charAt(index);
           if (ch <= '3' && ch1 >= '0' && ch1 <= '7') {
-            ordinal = ordinal*8 + ((int)ch1) - ((int)'0'); index++;
+            ordinal = ordinal*8 + (ch1) - ('0'); index++;
           }
         }
         retval += (char)ordinal;
@@ -175,9 +175,9 @@ public final class TokenUtils
   }
 
   private static int hexval(char ch) {
-    if (ch >= '0' && ch <= '9') return ((int)ch) - ((int)'0');
-    if (ch >= 'A' && ch <= 'F') return ((int)ch) - ((int)'A') + 10;
-    return ((int)ch) - ((int)'a') + 10;
+    if (ch >= '0' && ch <= '9') return (ch) - ('0');
+    if (ch >= 'A' && ch <= 'F') return (ch) - ('A') + 10;
+    return (ch) - ('a') + 10;
   }
 
 }

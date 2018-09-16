@@ -44,7 +44,7 @@ public class Choice extends Expansion {
    * The list of choices of this expansion unit.  Each
    * List component will narrow to ExpansionUnit.
    */
-  private List<? super Object> choices = new ArrayList<Object>();
+  private List<Expansion> choices = new ArrayList<>();
 
   public Choice() {}
 
@@ -62,24 +62,25 @@ public class Choice extends Expansion {
   /**
    * @param choices the choices to set
    */
-  public void setChoices(List<? super Object> choices) {
+  public void setChoices(List<Expansion> choices) {
     this.choices = choices;
   }
 
   /**
    * @return the choices
    */
-  public List<? super Object> getChoices() {
+  public List<Expansion> getChoices() {
     return choices;
   }
 
-  public StringBuffer dump(int indent, Set<? super Expansion> alreadyDumped) {
+  @Override
+  public StringBuffer dump(int indent, Set<Expansion> alreadyDumped) {
     StringBuffer sb = super.dump(indent, alreadyDumped);
     if (alreadyDumped.contains(this))
       return sb;
     alreadyDumped.add(this);
-    for (Iterator<? super Expansion> it = getChoices().iterator(); it.hasNext(); ) {
-      Expansion next = (Expansion)it.next();
+    for (Iterator<Expansion> it = getChoices().iterator(); it.hasNext(); ) {
+      Expansion next = it.next();
       sb.append(eol).append(next.dump(indent + 1, alreadyDumped));
     }
     return sb;

@@ -46,7 +46,7 @@ public class RCharacterList extends RegularExpression {
    * This is the list of descriptors of the character list.  Each list
    * entry will narrow to either SingleCharacter or to CharacterRange.
    */
-  public List descriptors = new ArrayList();
+  public List<Expansion> descriptors = new ArrayList<>();
 
 static final char[] diffLowerCaseRanges = {
 65, 90, 192, 214, 216, 222, 256, 256, 258, 258, 260, 260, 262, 262, 264, 264,
@@ -302,6 +302,7 @@ static final char[] diffUpperCaseRanges = {
   }
 
   boolean transformed = false;
+  @Override
   public Nfa GenerateNfa(boolean ignoreCase)
   {
      if (!transformed)
@@ -414,7 +415,7 @@ static final char[] diffUpperCaseRanges = {
   {
      int j;
 
-     List newDesc = new ArrayList(descriptors.size());
+     List<Expansion> newDesc = new ArrayList<>(descriptors.size());
      int cnt = 0;
 
      Outer:
@@ -527,7 +528,7 @@ static final char[] diffUpperCaseRanges = {
      System.out.println("");
 */
 
-     List newDescriptors = new ArrayList();
+     List<Expansion> newDescriptors = new ArrayList<>();
      int lastRemoved = -1; // One less than the first valid character.
 
      for (i = 0; i < descriptors.size(); i++)
@@ -608,12 +609,13 @@ static final char[] diffUpperCaseRanges = {
 
   public RCharacterList(char c)
   {
-    descriptors = new ArrayList();
+    descriptors = new ArrayList<>();
     descriptors.add(new SingleCharacter(c));
     negated_list = false;
     ordinal = Integer.MAX_VALUE;
   }
 
+  @Override
   public boolean CanMatchAnyChar()
   {
     // Return true only if it is ~[]

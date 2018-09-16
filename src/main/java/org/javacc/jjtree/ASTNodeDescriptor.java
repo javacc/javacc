@@ -91,6 +91,7 @@ public class ASTNodeDescriptor extends JJTreeNode{
     return name.equals("void");
   }
 
+  @Override
   public String toString()
   {
     if (faked) {
@@ -166,12 +167,14 @@ public class ASTNodeDescriptor extends JJTreeNode{
   }
 
 
+  @Override
   public String translateImage(Token t)
   {
     return whiteOut(t);
   }
 
   /** Accept the visitor. **/
+  @Override
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
     return visitor.visit(this, data);
   }

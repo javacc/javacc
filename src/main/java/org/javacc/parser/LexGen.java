@@ -33,7 +33,6 @@ package org.javacc.parser;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -56,7 +55,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
   public static String tokMgrClassName;
 
   // Hashtable of vectors
-  public static Hashtable allTpsForState = new Hashtable();
+  public static Hashtable<String, List<TokenProduction>> allTpsForState = new Hashtable<>();
   public static int lexStateIndex = 0;
   public static int[] kinds;
   public static int maxOrdinal = 1;
@@ -65,7 +64,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
   public static int[] lexStates;
   public static boolean[] ignoreCase;
   public static Action[] actions;
-  public static Hashtable initStates = new Hashtable();
+  public static Hashtable<String, NfaState> initStates = new Hashtable<>();
   public static int stateSetSize;
   public static int totalNumStates;
   public static int maxLexStates;
@@ -117,10 +116,10 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
       if (cu_to_insertion_point_1.size() <= l)
         break;
 
-      kind = ((Token)cu_to_insertion_point_1.get(l)).kind;
+      kind = cu_to_insertion_point_1.get(l).kind;
       if(kind == PACKAGE || kind == IMPORT) {
         for (; i < cu_to_insertion_point_1.size(); i++) {
-          kind = ((Token)cu_to_insertion_point_1.get(i)).kind;
+          kind = cu_to_insertion_point_1.get(i).kind;
           if (kind == SEMICOLON ||
               kind == ABSTRACT ||
               kind == FINAL ||
@@ -128,13 +127,13 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
               kind == CLASS ||
               kind == INTERFACE)
           {
-            cline = ((Token)(cu_to_insertion_point_1.get(l))).beginLine;
-            ccol = ((Token)(cu_to_insertion_point_1.get(l))).beginColumn;
+            cline = (cu_to_insertion_point_1.get(l)).beginLine;
+            ccol = (cu_to_insertion_point_1.get(l)).beginColumn;
             for (j = l; j < i; j++) {
-              printToken((Token)(cu_to_insertion_point_1.get(j)));
+              printToken((cu_to_insertion_point_1.get(j)));
             }
             if (kind == SEMICOLON)
-              printToken((Token)(cu_to_insertion_point_1.get(j)));
+              printToken((cu_to_insertion_point_1.get(j)));
             genCodeLine("");
             break;
           }
@@ -159,16 +158,16 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
 
     if (token_mgr_decls != null && token_mgr_decls.size() > 0)
     {
-      Token t = (Token)token_mgr_decls.get(0);
+      Token t = token_mgr_decls.get(0);
       boolean commonTokenActionSeen = false;
       boolean commonTokenActionNeeded = Options.getCommonTokenAction();
 
-      printTokenSetup((Token)token_mgr_decls.get(0));
+      printTokenSetup(token_mgr_decls.get(0));
       ccol = 1;
 
       for (j = 0; j < token_mgr_decls.size(); j++)
       {
-        t = (Token)token_mgr_decls.get(j);
+        t = token_mgr_decls.get(j);
         if (t.kind == IDENTIFIER &&
             commonTokenActionNeeded &&
             !commonTokenActionSeen)
@@ -275,10 +274,10 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
 
       for (i = 0; i < tp.lexStates.length; i++)
       {
-        if ((tps = (List)allTpsForState.get(tp.lexStates[i])) == null)
+        if ((tps = allTpsForState.get(tp.lexStates[i])) == null)
         {
           tmpLexStateName[maxLexStates++] = tp.lexStates[i];
-          allTpsForState.put(tp.lexStates[i], tps = new ArrayList());
+          allTpsForState.put(tp.lexStates[i], tps = new ArrayList<>());
         }
 
         tps.add(tp);
@@ -289,7 +288,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
 
       RegularExpression re;
       for (i = 0; i < respecs.size(); i++)
-        if (maxOrdinal <= (re = ((RegExprSpec)respecs.get(i)).rexp).ordinal)
+        if (maxOrdinal <= (re = respecs.get(i).rexp).ordinal)
           maxOrdinal = re.ordinal + 1;
     }
 
@@ -302,7 +301,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
     actions = new Action[maxOrdinal];
     actions[0] = actForEof;
     hasTokenActions = actForEof != null;
-    initStates = new Hashtable();
+    initStates = new Hashtable<>();
     canMatchAnyChar = new int[maxLexStates];
     canLoop = new boolean[maxLexStates];
     stateHasActions = new boolean[maxLexStates];
@@ -356,8 +355,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
     final CodeGenerator codeGenerator = getCodeGenerator();
     keepLineCol = Options.getKeepLineColumn();
     errorHandlingClass = Options.getTokenMgrErrorClass();
-    List choices = new ArrayList();
-    Enumeration e;
+    List<RegularExpression> choices = new ArrayList<>();
     TokenProduction tp;
     int i, j;
 
@@ -366,8 +364,6 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
 
     if (!generateDataOnly && codeGenerator == null) PrintClassHead();
     BuildLexStatesTable();
-
-    e = allTpsForState.keys();
 
     boolean ignoring = false;
 
@@ -383,7 +379,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
 
       lexStateIndex = GetIndex(key);
       lexStateSuffix = "_" + lexStateIndex;
-      List<TokenProduction> allTps = (List<TokenProduction>)allTpsForState.get(key);
+      List<TokenProduction> allTps = allTpsForState.get(key);
       initStates.put(key, initialState = new NfaState());
       ignoring = false;
 
@@ -395,7 +391,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
 
       for (i = 0; i < allTps.size(); i++)
       {
-        tp = (TokenProduction)allTps.get(i);
+        tp = allTps.get(i);
         int kind = tp.kind;
         boolean ignore = tp.ignoreCase;
         List<RegExprSpec> rexps = tp.respecs;
@@ -405,7 +401,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
 
         for (j = 0; j < rexps.size(); j++)
         {
-          RegExprSpec respec = (RegExprSpec)rexps.get(j);
+          RegExprSpec respec = rexps.get(j);
           curRE = respec.rexp;
 
           rexprs[curKind = curRE.ordinal] = curRE;
@@ -501,7 +497,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
       NfaState.ComputeClosures();
 
       for (i = 0; i < initialState.epsilonMoves.size(); i++)
-        ((NfaState)initialState.epsilonMoves.elementAt(i)).GenerateCode();
+        initialState.epsilonMoves.elementAt(i).GenerateCode();
 
       if (hasNfa[lexStateIndex] = (NfaState.generatedStates != 0))
       {
@@ -562,9 +558,9 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
       int[] newLexStateIndices = new int[maxOrdinal];
       StringBuilder tokenMgrDecls = new StringBuilder();
       if (token_mgr_decls != null && token_mgr_decls.size() > 0) {
-        Token t = (Token)token_mgr_decls.get(0);
+        //Token t = token_mgr_decls.get(0);
         for (j = 0; j < token_mgr_decls.size(); j++) {
-          tokenMgrDecls.append(((Token)token_mgr_decls.get(j)).image + " ");
+          tokenMgrDecls.append(token_mgr_decls.get(j).image + " ");
         }
       }
       tokenizerData.setDecls(tokenMgrDecls.toString());
@@ -581,7 +577,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
         if (act == null) continue;
         StringBuilder sb = new StringBuilder();
         for (int k = 0; k < act.getActionTokens().size(); k++) {
-          sb.append(((Token)act.getActionTokens().get(k)).image);
+          sb.append(act.getActionTokens().get(k).image);
           sb.append(" ");
         }
         actionStrings.put(i, sb.toString());
@@ -1035,7 +1031,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
         else if (singlesToSkip[i].asciiMoves[0] == 0L)
         {
           genCodeLine(prefix + "   while (curChar > 63 && curChar <= " +
-              ((int)MaxChar(singlesToSkip[i].asciiMoves[1]) + 64) +
+              (MaxChar(singlesToSkip[i].asciiMoves[1]) + 64) +
               " && (0x" +
               Long.toHexString(singlesToSkip[i].asciiMoves[1]) +
           "L & (1L << (curChar & 077))) != 0L)");
@@ -1312,7 +1308,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
 
         for (;;)
         {
-          if (((act = (Action)actions[i]) == null ||
+          if (((act = actions[i]) == null ||
               act.getActionTokens() == null ||
               act.getActionTokens().size() == 0) && !canLoop[lexStates[i]])
             continue Outer;
@@ -1336,7 +1332,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
             genCodeLine("         }");
           }
 
-          if ((act = (Action)actions[i]) == null ||
+          if ((act = actions[i]) == null ||
               act.getActionTokens().size() == 0)
             break;
 
@@ -1348,11 +1344,11 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
             genCodeLine("(input_stream.GetSuffix(jjimageLen + (lengthOfMatch = jjmatchedPos + 1)));");
           }
 
-          printTokenSetup((Token)act.getActionTokens().get(0));
+          printTokenSetup(act.getActionTokens().get(0));
           ccol = 1;
 
           for (int j = 0; j < act.getActionTokens().size(); j++)
-            printToken((Token)act.getActionTokens().get(j));
+            printToken(act.getActionTokens().get(j));
           genCodeLine("");
 
           break;
@@ -1385,7 +1381,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
 
         for (;;)
         {
-          if (((act = (Action)actions[i]) == null ||
+          if (((act = actions[i]) == null ||
               act.getActionTokens() == null ||
               act.getActionTokens().size() == 0) && !canLoop[lexStates[i]])
             continue Outer;
@@ -1409,7 +1405,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
             genCodeLine("         }");
           }
 
-          if ((act = (Action)actions[i]) == null ||
+          if ((act = actions[i]) == null ||
               act.getActionTokens().size() == 0)
           {
             break;
@@ -1423,11 +1419,11 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
             genCodeLine("(input_stream.GetSuffix(jjimageLen));");
 
           genCodeLine("         jjimageLen = 0;");
-          printTokenSetup((Token)act.getActionTokens().get(0));
+          printTokenSetup(act.getActionTokens().get(0));
           ccol = 1;
 
           for (int j = 0; j < act.getActionTokens().size(); j++)
-            printToken((Token)act.getActionTokens().get(j));
+            printToken(act.getActionTokens().get(j));
           genCodeLine("");
 
           break;
@@ -1461,7 +1457,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
 
         for (;;)
         {
-          if (((act = (Action)actions[i]) == null ||
+          if (((act = actions[i]) == null ||
               act.getActionTokens() == null ||
               act.getActionTokens().size() == 0) && !canLoop[lexStates[i]])
             continue Outer;
@@ -1485,7 +1481,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
             genCodeLine("         }");
           }
 
-          if ((act = (Action)actions[i]) == null ||
+          if ((act = actions[i]) == null ||
               act.getActionTokens().size() == 0)
             break;
 
@@ -1505,11 +1501,11 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
             }
           }
 
-          printTokenSetup((Token)act.getActionTokens().get(0));
+          printTokenSetup(act.getActionTokens().get(0));
           ccol = 1;
 
           for (int j = 0; j < act.getActionTokens().size(); j++)
-            printToken((Token)act.getActionTokens().get(j));
+            printToken(act.getActionTokens().get(j));
           genCodeLine("");
 
           break;
@@ -1527,7 +1523,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
   public static void reInit()
   {
     actions = null;
-    allTpsForState = new Hashtable();
+    allTpsForState = new Hashtable<>();
     canLoop = null;
     canMatchAnyChar = null;
     canReachOnMore = null;
@@ -1546,7 +1542,7 @@ public class LexGen extends CodeGenHelper implements JavaCCParserConstants
     hasTokenActions = false;
     ignoreCase = null;
     initMatch = null;
-    initStates = new Hashtable();
+    initStates = new Hashtable<>();
     initialState = null;
     keepLineCol = false;
     kinds = null;

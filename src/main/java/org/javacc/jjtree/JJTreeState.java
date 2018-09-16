@@ -32,7 +32,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import org.javacc.parser.Options;
 import org.javacc.parser.OutputFile;
 
 /**
@@ -188,7 +187,7 @@ final class JJTreeState
     ostr.println("");
     ostr.println("  public void openNodeScope(Node n) {");
     if (!JJTreeOptions.getGenerateGenerics())
-      ostr.println("    marks.add(new Integer(mk));");
+      ostr.println("    marks.add(Integer.valueOf(mk));");
     else
       ostr.println("    marks.add(mk);");
     ostr.println("    mk = sp;");

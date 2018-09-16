@@ -39,6 +39,7 @@ public class RZeroOrMore extends RegularExpression {
    */
   public RegularExpression regexpr;
 
+  @Override
   public Nfa GenerateNfa(boolean ignoreCase)
   {
      Nfa retVal = new Nfa();
