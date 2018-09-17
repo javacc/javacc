@@ -85,36 +85,43 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   
   
   public static class JavaModernResourceTemplateLocationImpl implements JavaResourceTemplateLocations {
-		public String getTokenMgrErrorTemplateResourceUrl() {
+		@Override
+    public String getTokenMgrErrorTemplateResourceUrl() {
 			// Same as Java
 			return "/templates/TokenMgrError.template";
 		}
-		public String getCharStreamTemplateResourceUrl() {
+		@Override
+    public String getCharStreamTemplateResourceUrl() {
 			// Same as Java
 			return "/templates/CharStream.template";
 		}
 	  
-	  public String getTokenManagerTemplateResourceUrl() {
+	  @Override
+    public String getTokenManagerTemplateResourceUrl() {
 		// Same as Java
 			return "/templates/TokenManager.template";
 		}
 		
-		public String getTokenTemplateResourceUrl() {
+		@Override
+    public String getTokenTemplateResourceUrl() {
 			// Same as Java
 			return "/templates/Token.template";
 		}
 		
-		public String getSimpleCharStreamTemplateResourceUrl() {
+		@Override
+    public String getSimpleCharStreamTemplateResourceUrl() {
 			return "/templates/gwt/SimpleCharStream.template";
 		}
 		
 		
-		public String getJavaCharStreamTemplateResourceUrl() {
+		@Override
+    public String getJavaCharStreamTemplateResourceUrl() {
 			return "/templates/gwt/JavaCharStream.template";
 		}
 
 		
-		public String getParseExceptionTemplateResourceUrl() {
+		@Override
+    public String getParseExceptionTemplateResourceUrl() {
 			return "/templates/gwt/ParseException.template";
 		}
   }
@@ -122,27 +129,34 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
   
   public static class JavaResourceTemplateLocationImpl implements JavaResourceTemplateLocations {
 	  
-	    public String getTokenTemplateResourceUrl() {
+	    @Override
+      public String getTokenTemplateResourceUrl() {
 			return "/templates/Token.template";
 		}
-		public String getTokenManagerTemplateResourceUrl() {
+		@Override
+    public String getTokenManagerTemplateResourceUrl() {
 			return "/templates/TokenManager.template";
 		}
-		public String getTokenMgrErrorTemplateResourceUrl() {
+		@Override
+    public String getTokenMgrErrorTemplateResourceUrl() {
 			return "/templates/TokenMgrError.template";
 		}
-		public String getJavaCharStreamTemplateResourceUrl() {
+		@Override
+    public String getJavaCharStreamTemplateResourceUrl() {
 			return "/templates/JavaCharStream.template";
 		}
 		
-		public String getCharStreamTemplateResourceUrl() {
+		@Override
+    public String getCharStreamTemplateResourceUrl() {
 			return "/templates/CharStream.template";
 		}
-		public String getSimpleCharStreamTemplateResourceUrl() {
+		@Override
+    public String getSimpleCharStreamTemplateResourceUrl() {
 			return "/templates/SimpleCharStream.template";
 		}
 		
-		public String getParseExceptionTemplateResourceUrl() {
+		@Override
+    public String getParseExceptionTemplateResourceUrl() {
 			return "/templates/ParseException.template";
 		}
 		
@@ -255,14 +269,14 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       final PrintWriter ostr = outputFile.getPrintWriter();
 
       if (cu_to_insertion_point_1.size() != 0 &&
-          ((Token)cu_to_insertion_point_1.get(0)).kind == PACKAGE
+          cu_to_insertion_point_1.get(0).kind == PACKAGE
       ) {
         for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
-          if (((Token)cu_to_insertion_point_1.get(i)).kind == SEMICOLON) {
-            cline = ((Token)(cu_to_insertion_point_1.get(0))).beginLine;
-            ccol = ((Token)(cu_to_insertion_point_1.get(0))).beginColumn;
+          if (cu_to_insertion_point_1.get(i).kind == SEMICOLON) {
+            cline = cu_to_insertion_point_1.get(0).beginLine;
+            ccol = cu_to_insertion_point_1.get(0).beginColumn;
             for (int j = 0; j <= i; j++) {
-              printToken((Token)(cu_to_insertion_point_1.get(j)), ostr);
+              printToken(cu_to_insertion_point_1.get(j), ostr);
             }
             ostr.println("");
             ostr.println("");
@@ -270,8 +284,8 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
           }
         }
       }
-      String prefix = (Options.getStatic() ? "static " : "");
-      Map options = new HashMap(Options.getOptions());
+      String prefix = Options.getStatic() ? "static " : "";
+      Map<String, Object> options = new HashMap<>(Options.getOptions());
       options.put("PREFIX", prefix);
       
       OutputFileGenerator generator = new OutputFileGenerator(
@@ -302,14 +316,14 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       final PrintWriter ostr = outputFile.getPrintWriter();
 
       if (cu_to_insertion_point_1.size() != 0 &&
-          ((Token)cu_to_insertion_point_1.get(0)).kind == PACKAGE
+          cu_to_insertion_point_1.get(0).kind == PACKAGE
       ) {
         for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
-          if (((Token)cu_to_insertion_point_1.get(i)).kind == SEMICOLON) {
-            cline = ((Token)(cu_to_insertion_point_1.get(0))).beginLine;
-            ccol = ((Token)(cu_to_insertion_point_1.get(0))).beginColumn;
+          if (cu_to_insertion_point_1.get(i).kind == SEMICOLON) {
+            cline = cu_to_insertion_point_1.get(0).beginLine;
+            ccol = cu_to_insertion_point_1.get(0).beginColumn;
             for (int j = 0; j <= i; j++) {
-              printToken((Token)(cu_to_insertion_point_1.get(j)), ostr);
+              printToken(cu_to_insertion_point_1.get(j), ostr);
             }
             ostr.println("");
             ostr.println("");
@@ -317,8 +331,8 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
           }
         }
       }
-      String prefix = (Options.getStatic() ? "static " : "");
-      Map options = new HashMap(Options.getOptions());
+      String prefix = Options.getStatic() ? "static " : "";
+      Map<String, Object> options = new HashMap<>(Options.getOptions());
       options.put("PREFIX", prefix);
       
       OutputFileGenerator generator = new OutputFileGenerator(
@@ -349,14 +363,14 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       final PrintWriter ostr = outputFile.getPrintWriter();
 
       if (cu_to_insertion_point_1.size() != 0 &&
-          ((Token)cu_to_insertion_point_1.get(0)).kind == PACKAGE
+          cu_to_insertion_point_1.get(0).kind == PACKAGE
       ) {
         for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
-          if (((Token)cu_to_insertion_point_1.get(i)).kind == SEMICOLON) {
-            cline = ((Token)(cu_to_insertion_point_1.get(0))).beginLine;
-            ccol = ((Token)(cu_to_insertion_point_1.get(0))).beginColumn;
+          if (cu_to_insertion_point_1.get(i).kind == SEMICOLON) {
+            cline = cu_to_insertion_point_1.get(0).beginLine;
+            ccol = cu_to_insertion_point_1.get(0).beginColumn;
             for (int j = 0; j <= i; j++) {
-              printToken((Token)(cu_to_insertion_point_1.get(j)), ostr);
+              printToken(cu_to_insertion_point_1.get(j), ostr);
             }
             ostr.println("");
             ostr.println("");
@@ -401,14 +415,14 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
 	  final PrintWriter ostr = outputFile.getPrintWriter();
 
 	  if (cu_to_insertion_point_1.size() != 0 &&
-	      ((Token)cu_to_insertion_point_1.get(0)).kind == PACKAGE
+	      cu_to_insertion_point_1.get(0).kind == PACKAGE
 	  ) {
 	    for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
-	      if (((Token)cu_to_insertion_point_1.get(i)).kind == SEMICOLON) {
-	        cline = ((Token)(cu_to_insertion_point_1.get(0))).beginLine;
-	        ccol = ((Token)(cu_to_insertion_point_1.get(0))).beginColumn;
+	      if (cu_to_insertion_point_1.get(i).kind == SEMICOLON) {
+	        cline = cu_to_insertion_point_1.get(0).beginLine;
+	        ccol = cu_to_insertion_point_1.get(0).beginColumn;
 	        for (int j = 0; j <= i; j++) {
-	          printToken((Token)(cu_to_insertion_point_1.get(j)), ostr);
+	          printToken(cu_to_insertion_point_1.get(j), ostr);
 	        }
 	        ostr.println("");
 	        ostr.println("");
@@ -443,14 +457,14 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       final PrintWriter ostr = outputFile.getPrintWriter();
 
       if (cu_to_insertion_point_1.size() != 0 &&
-          ((Token)cu_to_insertion_point_1.get(0)).kind == PACKAGE
+          cu_to_insertion_point_1.get(0).kind == PACKAGE
       ) {
         for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
-          if (((Token)cu_to_insertion_point_1.get(i)).kind == SEMICOLON) {
-            cline = ((Token)(cu_to_insertion_point_1.get(0))).beginLine;
-            ccol = ((Token)(cu_to_insertion_point_1.get(0))).beginColumn;
+          if (cu_to_insertion_point_1.get(i).kind == SEMICOLON) {
+            cline = cu_to_insertion_point_1.get(0).beginLine;
+            ccol = cu_to_insertion_point_1.get(0).beginColumn;
             for (int j = 0; j <= i; j++) {
-              printToken((Token)(cu_to_insertion_point_1.get(j)), ostr);
+              printToken(cu_to_insertion_point_1.get(j), ostr);
             }
             ostr.println("");
             ostr.println("");
@@ -492,14 +506,14 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       final PrintWriter ostr = outputFile.getPrintWriter();
 
       if (cu_to_insertion_point_1.size() != 0 &&
-          ((Token)cu_to_insertion_point_1.get(0)).kind == PACKAGE
+          cu_to_insertion_point_1.get(0).kind == PACKAGE
       ) {
         for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
-          if (((Token)cu_to_insertion_point_1.get(i)).kind == SEMICOLON) {
-            cline = ((Token)(cu_to_insertion_point_1.get(0))).beginLine;
-            ccol = ((Token)(cu_to_insertion_point_1.get(0))).beginColumn;
+          if (cu_to_insertion_point_1.get(i).kind == SEMICOLON) {
+            cline = cu_to_insertion_point_1.get(0).beginLine;
+            ccol = cu_to_insertion_point_1.get(0).beginColumn;
             for (int j = 0; j <= i; j++) {
-              printToken((Token)(cu_to_insertion_point_1.get(j)), ostr);
+              printToken(cu_to_insertion_point_1.get(j), ostr);
             }
             ostr.println("");
             ostr.println("");
@@ -539,14 +553,14 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       final PrintWriter ostr = outputFile.getPrintWriter();
 
       if (cu_to_insertion_point_1.size() != 0 &&
-          ((Token)cu_to_insertion_point_1.get(0)).kind == PACKAGE
+          cu_to_insertion_point_1.get(0).kind == PACKAGE
       ) {
         for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
-          if (((Token)cu_to_insertion_point_1.get(i)).kind == SEMICOLON) {
-            cline = ((Token)(cu_to_insertion_point_1.get(0))).beginLine;
-            ccol = ((Token)(cu_to_insertion_point_1.get(0))).beginColumn;
+          if (cu_to_insertion_point_1.get(i).kind == SEMICOLON) {
+            cline = cu_to_insertion_point_1.get(0).beginLine;
+            ccol = cu_to_insertion_point_1.get(0).beginColumn;
             for (int j = 0; j <= i; j++) {
-              printToken((Token)(cu_to_insertion_point_1.get(j)), ostr);
+              printToken(cu_to_insertion_point_1.get(j), ostr);
             }
             ostr.println("");
             ostr.println("");
@@ -583,14 +597,14 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
       final PrintWriter ostr = outputFile.getPrintWriter();
 
       if (cu_to_insertion_point_1.size() != 0 &&
-          ((Token)cu_to_insertion_point_1.get(0)).kind == PACKAGE
+          cu_to_insertion_point_1.get(0).kind == PACKAGE
       ) {
         for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
-          if (((Token)cu_to_insertion_point_1.get(i)).kind == SEMICOLON) {
-            cline = ((Token)(cu_to_insertion_point_1.get(0))).beginLine;
-            ccol = ((Token)(cu_to_insertion_point_1.get(0))).beginColumn;
+          if (cu_to_insertion_point_1.get(i).kind == SEMICOLON) {
+            cline = cu_to_insertion_point_1.get(0).beginLine;
+            ccol = cu_to_insertion_point_1.get(0).beginColumn;
             for (int j = 0; j <= i; j++) {
-              printToken((Token)(cu_to_insertion_point_1.get(j)), ostr);
+              printToken(cu_to_insertion_point_1.get(j), ostr);
             }
             ostr.println("");
             ostr.println("");

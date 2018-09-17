@@ -9,7 +9,7 @@ public class JavaCCInterpreter {
     Main.reInitAll();
     Options.set(Options.NONUSER_OPTION__INTERPRETER, true);
     Options.set("STATIC", false);
-    JavaCCParser parser = null;
+    // TODO JavaCCParser parser = null;
     for (int arg = 0; arg < args.length - 2; arg++) {
       if (!Options.isOption(args[arg])) {
         System.out.println("Argument \"" + args[arg] + "\" must be an option setting.");
@@ -23,15 +23,20 @@ public class JavaCCInterpreter {
     try {
       File fp = new File(args[args.length-2]);
       byte[] buf = new byte[(int)fp.length()];
-      new DataInputStream(
+      
+      try(DataInputStream istream = new DataInputStream(
           new BufferedInputStream(
-              new FileInputStream(fp))).readFully(buf);
+              new FileInputStream(fp)))) {
+        istream.readFully(buf);
+      }
       grammar = new String(buf);
       File inputFile = new File(args[args.length - 1]);
       buf = new byte[(int)inputFile.length()];
-      new DataInputStream(
+      try(DataInputStream istream = new DataInputStream(
           new BufferedInputStream(
-              new FileInputStream(inputFile))).readFully(buf);
+              new FileInputStream(inputFile)))){
+        istream.readFully(buf);
+      }
       input = new String(buf);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
@@ -122,7 +127,7 @@ public class JavaCCInterpreter {
       char c = input.charAt(curPos);
       updateLineCol(curPos, c);
       if (Options.getIgnoreCase()) c = Character.toLowerCase(c);
-      int key = curLexState << 16 | (int)c;
+      int key = curLexState << 16 | c;
       final List<String> literals = tokenizerData.literalSequence.get(key);
       tokline = getLine(curPos);
       tokcol = col;

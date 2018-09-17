@@ -48,7 +48,7 @@ public final class LookaheadWalk {
     if (exp instanceof RegularExpression) {
       List<MatchInfo> retval = new ArrayList<MatchInfo>();
       for (int i = 0; i < partialMatches.size(); i++) {
-        MatchInfo m = (MatchInfo)partialMatches.get(i);
+        MatchInfo m = partialMatches.get(i);
         MatchInfo mnew = new MatchInfo();
         for (int j = 0; j < m.firstFreeLoc; j++) {
           mnew.match[j] = m.match[j];
@@ -73,7 +73,7 @@ public final class LookaheadWalk {
       List<MatchInfo> retval = new ArrayList<MatchInfo>();
       Choice ch = (Choice)exp;
       for (int i = 0; i < ch.getChoices().size(); i++) {
-        List<MatchInfo> v = genFirstSet(partialMatches, (Expansion)ch.getChoices().get(i));
+        List<MatchInfo> v = genFirstSet(partialMatches, ch.getChoices().get(i));
         listAppend(retval, v);
       }
       return retval;
@@ -81,7 +81,7 @@ public final class LookaheadWalk {
       List<MatchInfo> v = partialMatches;
       Sequence seq = (Sequence)exp;
       for (int i = 0; i < seq.units.size(); i++) {
-        v = genFirstSet(v, (Expansion)seq.units.get(i));
+        v = genFirstSet(v, seq.units.get(i));
         if (v.size() == 0) break;
       }
       return v;
@@ -125,7 +125,7 @@ public final class LookaheadWalk {
     }
   }
 
-  private static void listSplit(List toSplit, List mask, List partInMask, List rest) {
+  private static void listSplit(List<MatchInfo> toSplit, List<MatchInfo> mask, List<MatchInfo> partInMask, List<MatchInfo> rest) {
     OuterLoop:
     for (int i = 0; i < toSplit.size(); i++) {
       for (int j = 0; j < mask.size(); j++) {
@@ -165,7 +165,7 @@ public final class LookaheadWalk {
       Sequence seq = (Sequence)exp.parent;
       List<MatchInfo> v = partialMatches;
       for (int i = exp.ordinal+1; i < seq.units.size(); i++) {
-        v = genFirstSet(v, (Expansion)seq.units.get(i));
+        v = genFirstSet(v, seq.units.get(i));
         if (v.size() == 0) return v;
       }
       List<MatchInfo>v1 = new ArrayList<MatchInfo>();

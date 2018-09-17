@@ -254,12 +254,17 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
         if (isBuildParser && parserCodeGenerator != null) {
           ParserData parserData = createParserData();
           CodeGeneratorSettings settings = new CodeGeneratorSettings(Options.getOptions());
-          parserCodeGenerator.generateCode(settings, new CodeGenHelper(), parserData);
-          parserCodeGenerator.finish(settings, new CodeGenHelper(), parserData);
+          parserCodeGenerator.generateCode(settings, parserData);
+          parserCodeGenerator.finish(settings, parserData);
         }
 
         // Must always create the lexer object even if not building a parser.
-        new LexGen().start();
+        if (Options.getBuildTokenManager() &&
+            !Options.getUserTokenManager() &&
+            JavaCCErrors.get_error_count() == 0)
+        {
+          new LexGen().start();
+        }
         
         Options.setStringOption(Options.NONUSER_OPTION__PARSER_NAME, JavaCCGlobals.cu_name);
         
@@ -272,18 +277,18 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
               JavaCCErrors.semantic_error("Could not generate the code for Token or helper classes.");
             }
         }
-      }
+      } else 
       
  	  // 2012/05/02 -- This is not the best way to add-in GWT support, really the code needs to turn supported languages into enumerations
 	  // and have the enumerations describe the deltas between the outputs. The current approach means that per-langauge configuration is distributed
 	  // and small changes between targets does not benefit from inheritance.
-    else if (isJavaOutput) {
+		if (isJavaOutput) {
 			if (isBuildParser) {
 				new ParseGen().start(isJavaModern);
 			}
 			
 			// Must always create the lexer object even if not building a parser.
-			new LexGenJava().start();
+			new LexGen().start();
 			
 			Options.setStringOption(Options.NONUSER_OPTION__PARSER_NAME, JavaCCGlobals.cu_name);
 			OtherFilesGen.start(isJavaModern);
@@ -343,7 +348,7 @@ private static ParserData createParserData() {
   parserData.productionTable = JavaCCGlobals.production_table;
   StringBuilder decls = new StringBuilder();
   if (JavaCCGlobals.otherLanguageDeclTokenBeg != null) {
-    int line = JavaCCGlobals.otherLanguageDeclTokenBeg.beginLine;
+    // int line = JavaCCGlobals.otherLanguageDeclTokenBeg.beginLine;
     for (Token t = JavaCCGlobals.otherLanguageDeclTokenBeg; t != JavaCCGlobals.otherLanguageDeclTokenEnd; t = t.next) {
       decls.append(CodeGenHelper.getStringToPrint(t));
     }

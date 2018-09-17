@@ -100,7 +100,7 @@ public void start() throws MetaParseException {
                    "public " + superClass});
     switchToMainFile();
     if (cu_to_insertion_point_2.size() != 0) {
-      printTokenSetup((Token)(cu_to_insertion_point_2.get(0)));
+      printTokenSetup(cu_to_insertion_point_2.get(0));
       for (Iterator<?> it = cu_to_insertion_point_2.iterator(); it.hasNext();) {
         t = (Token)it.next();
         printToken(t);
@@ -159,8 +159,8 @@ public void start() throws MetaParseException {
       for (int i = 0; i < tokenMaskSize; i++) {
         if (maskVals.size() > 0) {
           genCodeLine("  unsigned int jj_la1_" + i + "[] = {");
-          for (Iterator it = maskVals.iterator(); it.hasNext();) {
-            int[] tokenMask = (int[])(it.next());
+          for (Iterator<int[]> it = maskVals.iterator(); it.hasNext();) {
+            int[] tokenMask = it.next();
             genCode("0x" + Integer.toHexString(tokenMask[i]) + ",");
           }
           genCodeLine("};");
@@ -702,7 +702,7 @@ public void start() throws MetaParseException {
     }
 
     if (cu_from_insertion_point_2.size() != 0) {
-      printTokenSetup((Token)(cu_from_insertion_point_2.get(0))); ccol = 1;
+      printTokenSetup(cu_from_insertion_point_2.get(0)); ccol = 1;
       for (Iterator<?> it = cu_from_insertion_point_2.iterator(); it.hasNext();) {
         t = (Token)it.next();
         printToken(t);

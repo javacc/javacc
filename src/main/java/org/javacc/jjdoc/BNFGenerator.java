@@ -33,13 +33,13 @@ import org.javacc.parser.*;
 import java.io.*;
 
 public class BNFGenerator implements Generator {
-  private Hashtable id_map = new Hashtable();
+  private Hashtable<String, String> id_map = new Hashtable<>();
   private int id = 1;
   protected PrintWriter ostr;
   private boolean printing = true;
 
   protected String get_id(String nt) {
-    String i = (String)id_map.get(nt);
+    String i = id_map.get(nt);
     if (i == null) {
       i = "prod" + id++;
       id_map.put(nt, i);
@@ -89,21 +89,26 @@ public class BNFGenerator implements Generator {
     print(s + "\n");
   }
 
+  @Override
   public void text(String s) {
     if (printing && !(s.length() == 1 && (s.charAt(0) == '\n' || s.charAt(0) == '\r'))) {
       print(s);
     }
   }
+  @Override
   public void print(String s) {
     ostr.print(s);
   }
 
+  @Override
   public void documentStart() {
     ostr = create_output_stream();
   }
+  @Override
   public void documentEnd() {
     ostr.close();
   }
+  @Override
   public void specialTokens(String s) {
   }
 //  public void tokenStart(TokenProduction tp) {
@@ -112,39 +117,55 @@ public class BNFGenerator implements Generator {
 //  public void tokenEnd(TokenProduction tp) {
 //    printing = true;
 //  }
+  @Override
   public void nonterminalsStart() { }
+  @Override
   public void nonterminalsEnd() { }
   @Override public void tokensStart() {}
   @Override public void tokensEnd() {}
+  @Override
   public void javacode(JavaCodeProduction jp) { }
+  @Override
   public void cppcode(CppCodeProduction cp) { }
+  @Override
   public void expansionEnd(Expansion e, boolean first) { }
+  @Override
   public void nonTerminalStart(NonTerminal nt) { }
+  @Override
   public void nonTerminalEnd(NonTerminal nt) { }
+  @Override
   public void productionStart(NormalProduction np) {
 	  println("");
     print(np.getLhs() + " ::= ");
   }
+  @Override
   public void productionEnd(NormalProduction np) {
 	  println("");
   }
+  @Override
   public void expansionStart(Expansion e, boolean first) {
     if (!first) {
       print(" | ");
     }
   }
+  @Override
   public void reStart(RegularExpression r) {
     if (r.getClass().equals(RJustName.class) || r.getClass().equals(RCharacterList.class)) {
       printing = false;
     }
   }
+  @Override
   public void reEnd(RegularExpression r) {
     printing = true;
   }
 
+  @Override
   public void debug(String message) { System.err.println(message); }
+  @Override
   public void info(String message) { System.err.println(message); }
+  @Override
   public void warn(String message) { System.err.println(message); }
+  @Override
   public void error(String message) { System.err.println(message); }
 
 @Override

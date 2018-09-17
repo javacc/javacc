@@ -31,8 +31,8 @@ package org.javacc.parser;
  * An object container.  Used to pass references to objects as parameter.
  */
 
-public class Container {
+public class Container<T> {
 
-  public Object member;
+  public T member;
 
 }

@@ -60,7 +60,8 @@ public class NonTerminal extends Expansion {
    */
   private NormalProduction prod;
 
-  public StringBuffer dump(int indent, Set alreadyDumped) {
+  @Override
+  public StringBuffer dump(int indent, Set<Expansion> alreadyDumped) {
     StringBuffer value = super.dump(indent, alreadyDumped).append(' ').append(name);
     return value;
   }

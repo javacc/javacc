@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-public class ASTNodeDescriptor extends JJTreeNode {
+public class ASTNodeDescriptor extends JJTreeNode{
   ASTNodeDescriptor(int id) {
     super(id);
   }
@@ -91,6 +91,7 @@ public class ASTNodeDescriptor extends JJTreeNode {
     return name.equals("void");
   }
 
+  @Override
   public String toString()
   {
     if (faked) {
@@ -166,16 +167,16 @@ public class ASTNodeDescriptor extends JJTreeNode {
   }
 
 
+  @Override
   public String translateImage(Token t)
   {
     return whiteOut(t);
   }
 
   /** Accept the visitor. **/
+  @Override
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
     return visitor.visit(this, data);
   }
-
 }
-
-/*end*/
+/* JavaCC - OriginalChecksum=f2bf932eb272496d76c632cf95593422 (do not edit this line) */

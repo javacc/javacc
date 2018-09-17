@@ -29,7 +29,16 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.javacc.parser;
+package org.javacc.cpp.todo;
+
+import org.javacc.cpp.Types;
+import org.javacc.parser.CodeGenHelper;
+import org.javacc.parser.JavaCCErrors;
+import org.javacc.parser.JavaCCGlobals;
+import org.javacc.parser.Options;
+import org.javacc.parser.RStringLiteral;
+import org.javacc.parser.RegularExpression;
+import org.javacc.parser.TokenizerData;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -74,21 +83,7 @@ final class KindInfo
  * Describes string literals.
  */
 
-public class RStringLiteral extends RegularExpression {
-
-  /**
-   * The string image of the literal.
-   */
-  public String image;
-
-  public RStringLiteral() {
-  }
-
-  public RStringLiteral(Token t, String image) {
-    this.setLine(t.beginLine);
-    this.setColumn(t.beginColumn);
-    this.image = image;
-  }
+public class RStringLiteralHelper {
 
   private static int maxStrKind = 0;
   private static int maxLen = 0;
@@ -103,7 +98,8 @@ public class RStringLiteral extends RegularExpression {
   private static int startStateCnt = 0;
   private static boolean subString[];
   private static boolean subStringAtPos[];
-  public static Hashtable<String, long[]>[] statesForPos;
+  public static Hashtable<String, long[]>[] statesForPos;  
+
 
   /**
    * Initialize all the static variables, so that there is no interference
@@ -127,12 +123,6 @@ public class RStringLiteral extends RegularExpression {
 
   public static void DumpStrLiteralImages(CodeGenHelper codeGenerator)
   {
-	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-    if (Options.isOutputLanguageJava()) {
-      DumpStrLiteralImagesForJava(codeGenerator);
-      return;
-    } else if (Options.isOutputLanguageCpp()) {
-	
 	    // For C++
 	    String image;
 	    int i;
@@ -153,13 +143,13 @@ public class RStringLiteral extends RegularExpression {
 	    for (i = 0; i < allImages.length; i++)
 	    {
 	      if ((image = allImages[i]) == null ||
-	          ((Main.lg.toSkip[i / 64] & (1L << (i % 64))) == 0L &&
-	           (Main.lg.toMore[i / 64] & (1L << (i % 64))) == 0L &&
-	           (Main.lg.toToken[i / 64] & (1L << (i % 64))) == 0L) ||
-	          (Main.lg.toSkip[i / 64] & (1L << (i % 64))) != 0L ||
-	          (Main.lg.toMore[i / 64] & (1L << (i % 64))) != 0L ||
-	          Main.lg.canReachOnMore[Main.lg.lexStates[i]] ||
-	          ((Options.getIgnoreCase() || Main.lg.ignoreCase[i]) &&
+	          ((LexGenCPP.toSkip[i / 64] & (1L << (i % 64))) == 0L &&
+	           (LexGenCPP.toMore[i / 64] & (1L << (i % 64))) == 0L &&
+	           (LexGenCPP.toToken[i / 64] & (1L << (i % 64))) == 0L) ||
+	          (LexGenCPP.toSkip[i / 64] & (1L << (i % 64))) != 0L ||
+	          (LexGenCPP.toMore[i / 64] & (1L << (i % 64))) != 0L ||
+	          LexGenCPP.canReachOnMore[LexGenCPP.lexStates[i]] ||
+	          ((Options.getIgnoreCase() || LexGenCPP.ignoreCase[i]) &&
 	           (!image.equals(image.toLowerCase()) ||
 	            !image.equals(image.toUpperCase()))))
 	      {
@@ -194,7 +184,7 @@ public class RStringLiteral extends RegularExpression {
 	      codeGenerator.genCodeLine(toPrint);
 	    }
 	
-	    while (++i < Main.lg.maxOrdinal)
+	    while (++i < LexGenCPP.maxOrdinal)
 	    {
 	      if ((charCnt += 6) > 80)
 	      {
@@ -214,121 +204,38 @@ public class RStringLiteral extends RegularExpression {
 	      codeGenerator.genCodeLine("jjstrLiteralChars_" + j + ", ");
 	    }
 	    codeGenerator.genCodeLine("};");
-    } else {
-    	throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
-    }
-  }
-
-  public static void DumpStrLiteralImagesForJava(CodeGenHelper codeGenerator) {
-    String image;
-    int i;
-    charCnt = 0; // Set to zero in reInit() but just to be sure
-
-    codeGenerator.genCodeLine("");
-    codeGenerator.genCodeLine("/** Token literal values. */");
-    codeGenerator.genCodeLine("public static final String[] jjstrLiteralImages = {");
-
-    if (allImages == null || allImages.length == 0)
-    {
-      codeGenerator.genCodeLine("};");
-      return;
-    }
-
-    allImages[0] = "";
-    for (i = 0; i < allImages.length; i++)
-    {
-      if ((image = allImages[i]) == null ||
-          ((Main.lg.toSkip[i / 64] & (1L << (i % 64))) == 0L &&
-           (Main.lg.toMore[i / 64] & (1L << (i % 64))) == 0L &&
-           (Main.lg.toToken[i / 64] & (1L << (i % 64))) == 0L) ||
-          (Main.lg.toSkip[i / 64] & (1L << (i % 64))) != 0L ||
-          (Main.lg.toMore[i / 64] & (1L << (i % 64))) != 0L ||
-          Main.lg.canReachOnMore[Main.lg.lexStates[i]] ||
-          ((Options.getIgnoreCase() || Main.lg.ignoreCase[i]) &&
-           (!image.equals(image.toLowerCase()) ||
-            !image.equals(image.toUpperCase()))))
-      {
-        allImages[i] = null;
-        if ((charCnt += 6) > 80)
-        {
-          codeGenerator.genCodeLine("");
-          charCnt = 0;
-        }
-
-        codeGenerator.genCode("null, ");
-        continue;
-      }
-
-      String toPrint = "\"";
-      for (int j = 0; j < image.length(); j++)
-      {
-        if (codeGenerator.isJavaLanguage() && image.charAt(j) <= 0xff)
-          toPrint += ("\\" + Integer.toOctalString(image.charAt(j)));
-        else
-        {
-          String hexVal = Integer.toHexString(image.charAt(j));
-          if (hexVal.length() == 3)
-            hexVal = "0" + hexVal;
-          toPrint += ("\\u" + hexVal);
-        }
-      }
-
-      toPrint += ("\", ");
-
-      if ((charCnt += toPrint.length()) >= 80)
-      {
-        codeGenerator.genCodeLine("");
-        charCnt = 0;
-      }
-
-      codeGenerator.genCode(toPrint);
-    }
-
-    while (++i < Main.lg.maxOrdinal)
-    {
-      if ((charCnt += 6) > 80)
-      {
-        codeGenerator.genCodeLine("");
-        charCnt = 0;
-      }
-
-      codeGenerator.genCode("null, ");
-      continue;
-    }
-
-    codeGenerator.genCodeLine("};");
   }
 
   /**
    * Used for top level string literals.
    */
-  public void GenerateDfa(CodeGenHelper codeGenerator, int kind)
+  public static void GenerateDfa(CodeGenHelper codeGenerator, int kind, RStringLiteral re)
   {
      String s;
      Hashtable<String, KindInfo> temp;
      KindInfo info;
      int len;
 
-     if (maxStrKind <= ordinal)
-        maxStrKind = ordinal + 1;
+     if (maxStrKind <= re.ordinal)
+        maxStrKind = re.ordinal + 1;
 
-     if ((len = image.length()) > maxLen)
+     if ((len = re.image.length()) > maxLen)
         maxLen = len;
 
      char c;
      for (int i = 0; i < len; i++)
      {
         if (Options.getIgnoreCase())
-           s = ("" + (c = image.charAt(i))).toLowerCase();
+           s = ("" + (c = re.image.charAt(i))).toLowerCase();
         else
-           s = "" + (c = image.charAt(i));
+           s = "" + (c = re.image.charAt(i));
 
         if (!NfaState.unicodeWarningGiven && c > 0xff &&
             !Options.getJavaUnicodeEscape() &&
             !Options.getUserCharStream())
         {
            NfaState.unicodeWarningGiven = true;
-           JavaCCErrors.warning(Main.lg.curRE, "Non-ASCII characters used in regular expression." +
+           JavaCCErrors.warning(LexGenCPP.curRE, "Non-ASCII characters used in regular expression." +
               "Please make sure you use the correct Reader when you create the parser, " +
               "one that can handle your character set.");
         }
@@ -339,17 +246,17 @@ public class RStringLiteral extends RegularExpression {
            temp = charPosKind.get(i);
 
         if ((info = temp.get(s)) == null)
-           temp.put(s, info = new KindInfo(Main.lg.maxOrdinal));
+           temp.put(s, info = new KindInfo(LexGenCPP.maxOrdinal));
 
         if (i + 1 == len)
-           info.InsertFinalKind(ordinal);
+           info.InsertFinalKind(re.ordinal);
         else
-           info.InsertValidKind(ordinal);
+           info.InsertValidKind(re.ordinal);
 
-        if (!Options.getIgnoreCase() && Main.lg.ignoreCase[ordinal] &&
+        if (!Options.getIgnoreCase() && LexGenCPP.ignoreCase[re.ordinal] &&
             c != Character.toLowerCase(c))
         {
-           s = ("" + image.charAt(i)).toLowerCase();
+           s = ("" + re.image.charAt(i)).toLowerCase();
 
            if (i >= charPosKind.size()) // Kludge, but OK
               charPosKind.add(temp = new Hashtable<>());
@@ -357,18 +264,18 @@ public class RStringLiteral extends RegularExpression {
               temp = charPosKind.get(i);
 
            if ((info = temp.get(s)) == null)
-              temp.put(s, info = new KindInfo(Main.lg.maxOrdinal));
+              temp.put(s, info = new KindInfo(LexGenCPP.maxOrdinal));
 
            if (i + 1 == len)
-              info.InsertFinalKind(ordinal);
+              info.InsertFinalKind(re.ordinal);
            else
-              info.InsertValidKind(ordinal);
+              info.InsertValidKind(re.ordinal);
         }
 
-        if (!Options.getIgnoreCase() && Main.lg.ignoreCase[ordinal] &&
+        if (!Options.getIgnoreCase() && LexGenCPP.ignoreCase[re.ordinal] &&
             c != Character.toUpperCase(c))
         {
-           s = ("" + image.charAt(i)).toUpperCase();
+           s = ("" + re.image.charAt(i)).toUpperCase();
 
            if (i >= charPosKind.size()) // Kludge, but OK
               charPosKind.add(temp = new Hashtable<>());
@@ -376,55 +283,18 @@ public class RStringLiteral extends RegularExpression {
               temp = charPosKind.get(i);
 
            if ((info = temp.get(s)) == null)
-              temp.put(s, info = new KindInfo(Main.lg.maxOrdinal));
+              temp.put(s, info = new KindInfo(LexGenCPP.maxOrdinal));
 
            if (i + 1 == len)
-              info.InsertFinalKind(ordinal);
+              info.InsertFinalKind(re.ordinal);
            else
-              info.InsertValidKind(ordinal);
+              info.InsertValidKind(re.ordinal);
         }
      }
 
-     maxLenForActive[ordinal / 64] = Math.max(maxLenForActive[ordinal / 64],
+     maxLenForActive[re.ordinal / 64] = Math.max(maxLenForActive[re.ordinal / 64],
                                                                         len -1);
-     allImages[ordinal] = image;
-  }
-
-  @Override
-  public Nfa GenerateNfa(boolean ignoreCase)
-  {
-     if (image.length() == 1)
-     {
-        RCharacterList temp = new RCharacterList(image.charAt(0));
-        return temp.GenerateNfa(ignoreCase);
-     }
-
-     NfaState startState = new NfaState();
-     NfaState theStartState = startState;
-     NfaState finalState = null;
-
-     if (image.length() == 0)
-        return new Nfa(theStartState, theStartState);
-
-     int i;
-
-     for (i = 0; i < image.length(); i++)
-     {
-        finalState = new NfaState();
-        startState.charMoves = new char[1];
-        startState.AddChar(image.charAt(i));
-
-        if (Options.getIgnoreCase() || ignoreCase)
-        {
-           startState.AddChar(Character.toLowerCase(image.charAt(i)));
-           startState.AddChar(Character.toUpperCase(image.charAt(i)));
-        }
-
-        startState.next = finalState;
-        startState = finalState;
-     }
-
-     return new Nfa(theStartState, finalState);
+     allImages[re.ordinal] = re.image;
   }
 
   static void DumpNullStrLiterals(CodeGenHelper codeGenerator)
@@ -432,7 +302,7 @@ public class RStringLiteral extends RegularExpression {
      codeGenerator.genCodeLine("{");
 
      if (NfaState.generatedStates != 0)
-        codeGenerator.genCodeLine("   return jjMoveNfa" + Main.lg.lexStateSuffix + "(" + NfaState.InitStateName() + ", 0);");
+        codeGenerator.genCodeLine("   return jjMoveNfa" + LexGenCPP.lexStateSuffix + "(" + NfaState.InitStateName() + ", 0);");
      else
         codeGenerator.genCodeLine("   return 1;");
 
@@ -441,7 +311,7 @@ public class RStringLiteral extends RegularExpression {
 
   private static int GetStateSetForKind(int pos, int kind)
   {
-     if (Main.lg.mixed[Main.lg.lexStateIndex] || NfaState.generatedStates == 0)
+     if (LexGenCPP.mixed[LexGenCPP.lexStateIndex] || NfaState.generatedStates == 0)
         return -1;
 
      Hashtable<String, long[]> allStateSets = statesForPos[pos];
@@ -474,7 +344,7 @@ public class RStringLiteral extends RegularExpression {
 
   static String GetLabel(int kind)
   {
-     RegularExpression re = Main.lg.rexprs[kind];
+     RegularExpression re = LexGenCPP.rexprs[kind];
 
      if (re instanceof RStringLiteral)
        return " \"" + JavaCCGlobals.add_escapes(((RStringLiteral)re).image) + "\"";
@@ -486,12 +356,12 @@ public class RStringLiteral extends RegularExpression {
 
   static int GetLine(int kind)
   {
-     return Main.lg.rexprs[kind].getLine();
+     return LexGenCPP.rexprs[kind].getLine();
   }
 
   static int GetColumn(int kind)
   {
-     return Main.lg.rexprs[kind].getColumn();
+     return LexGenCPP.rexprs[kind].getColumn();
   }
 
   /**
@@ -525,10 +395,10 @@ public class RStringLiteral extends RegularExpression {
         subString[i] = false;
 
         if ((image = allImages[i]) == null ||
-            Main.lg.lexStates[i] != Main.lg.lexStateIndex)
+            LexGenCPP.lexStates[i] != LexGenCPP.lexStateIndex)
            continue;
 
-        if (Main.lg.mixed[Main.lg.lexStateIndex])
+        if (LexGenCPP.mixed[LexGenCPP.lexStateIndex])
         {
            // We will not optimize for mixed case
            subString[i] = true;
@@ -538,7 +408,7 @@ public class RStringLiteral extends RegularExpression {
 
         for (int j = 0; j < maxStrKind; j++)
         {
-           if (j != i && Main.lg.lexStates[j] == Main.lg.lexStateIndex &&
+           if (j != i && LexGenCPP.lexStates[j] == LexGenCPP.lexStateIndex &&
                (allImages[j]) != null)
            {
               if (allImages[j].indexOf(image) == 0)
@@ -561,89 +431,41 @@ public class RStringLiteral extends RegularExpression {
 
   static void DumpStartWithStates(CodeGenHelper codeGenerator)
   {
-	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-    if (Options.isOutputLanguageJava()) {
-     codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private int " +
-                  "jjStartNfaWithStates" + Main.lg.lexStateSuffix + "(int pos, int kind, int state)");
-    } else if (Options.isOutputLanguageCpp()) {
-     codeGenerator.generateMethodDefHeader("int", Main.lg.tokMgrClassName, "jjStartNfaWithStates" + Main.lg.lexStateSuffix + "(int pos, int kind, int state)");
-    } else {
-    	throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
-    }
+     codeGenerator.generateMethodDefHeader("int", LexGenCPP.tokMgrClassName, "jjStartNfaWithStates" + LexGenCPP.lexStateSuffix + "(int pos, int kind, int state)");
      codeGenerator.genCodeLine("{");
      codeGenerator.genCodeLine("   jjmatchedKind = kind;");
      codeGenerator.genCodeLine("   jjmatchedPos = pos;");
 
      if (Options.getDebugTokenManager()) {
-       if (codeGenerator.isJavaLanguage()) {
-         codeGenerator.genCodeLine("   debugStream.println(\"   No more string literal token matches are possible.\");");
-         codeGenerator.genCodeLine("   debugStream.println(\"   Currently matched the first \" " +
-                 "+ (jjmatchedPos + 1) + \" characters as a \" + tokenImage[jjmatchedKind] + \" token.\");");
-       } else {
-         codeGenerator.genCodeLine("   fprintf(debugStream, \"   No more string literal token matches are possible.\");");
-         codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\",  (jjmatchedPos + 1),  addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
-       }
+       codeGenerator.genCodeLine("   fprintf(debugStream, \"   No more string literal token matches are possible.\");");
+       codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\",  (jjmatchedPos + 1),  addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
      }
 
-     // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-     if (Options.isOutputLanguageJava()) {
-       codeGenerator.genCodeLine("   try { curChar = input_stream.readChar(); }");
-       codeGenerator.genCodeLine("   catch(java.io.IOException e) { return pos + 1; }");
-     } else if (Options.isOutputLanguageCpp()){
-       codeGenerator.genCodeLine("   if (input_stream->endOfInput()) { return pos + 1; }");
-       codeGenerator.genCodeLine("   curChar = input_stream->readChar();");
-     } else {
-    	 throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
-     }
+     codeGenerator.genCodeLine("   if (input_stream->endOfInput()) { return pos + 1; }");
+     codeGenerator.genCodeLine("   curChar = input_stream->readChar();");
+
      if (Options.getDebugTokenManager()) {
-       if (codeGenerator.isJavaLanguage()) {
-         codeGenerator.genCodeLine("   debugStream.println(" +
-              (LexGen.maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") +
-              "\"Current character : \" + " + Options.getTokenMgrErrorClass() +
-              ".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
-              "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
-       } else if (Options.isOutputLanguageCpp()) {
-         codeGenerator.genCodeLine("   fprintf(debugStream, " +
-            "\"<%s>Current character : %c(%d) at line %d column %d\\n\","+
-            "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
-            "input_stream->getEndLine(), input_stream->getEndColumn());");
-       } else {
-    	   throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
-       }
+       codeGenerator.genCodeLine("   fprintf(debugStream, " +
+          "\"<%s>Current character : %c(%d) at line %d column %d\\n\","+
+          "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
+          "input_stream->getEndLine(), input_stream->getEndColumn());");
      }
 
-     codeGenerator.genCodeLine("   return jjMoveNfa" + Main.lg.lexStateSuffix + "(state, pos + 1);");
+     codeGenerator.genCodeLine("   return jjMoveNfa" + LexGenCPP.lexStateSuffix + "(state, pos + 1);");
      codeGenerator.genCodeLine("}");
   }
 
   private static boolean boilerPlateDumped = false;
   static void DumpBoilerPlate(CodeGenHelper codeGenerator)
   {
-	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-     if (Options.isOutputLanguageJava()) {
-     codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private int " +
-                  "jjStopAtPos(int pos, int kind)");
-     } else if (Options.isOutputLanguageCpp()) {
-       codeGenerator.generateMethodDefHeader(" int ", Main.lg.tokMgrClassName , "jjStopAtPos(int pos, int kind)");
-     } else {
-    	 throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
-     }
+     codeGenerator.generateMethodDefHeader(" int ", LexGenCPP.tokMgrClassName , "jjStopAtPos(int pos, int kind)");
      codeGenerator.genCodeLine("{");
      codeGenerator.genCodeLine("   jjmatchedKind = kind;");
      codeGenerator.genCodeLine("   jjmatchedPos = pos;");
 
      if (Options.getDebugTokenManager()) {
-    	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-       if (codeGenerator.isJavaLanguage()) {
-         codeGenerator.genCodeLine("   debugStream.println(\"   No more string literal token matches are possible.\");");
-         codeGenerator.genCodeLine("   debugStream.println(\"   Currently matched the first \" + (jjmatchedPos + 1) + " +
-                "\" characters as a \" + tokenImage[jjmatchedKind] + \" token.\");");
-       } else if (Options.isOutputLanguageCpp()) {
-        codeGenerator.genCodeLine("   fprintf(debugStream, \"   No more string literal token matches are possible.\");");
-        codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\",  (jjmatchedPos + 1),  addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
-       } else {
-    	   throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
-       }
+       codeGenerator.genCodeLine("   fprintf(debugStream, \"   No more string literal token matches are possible.\");");
+       codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\",  (jjmatchedPos + 1),  addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
      }
 
      codeGenerator.genCodeLine("   return pos + 1;");
@@ -683,19 +505,11 @@ public class RStringLiteral extends RegularExpression {
      int maxLongsReqd = maxStrKind / 64 + 1;
      int i, j, k;
      boolean ifGenerated;
-     Main.lg.maxLongsReqd[Main.lg.lexStateIndex] = maxLongsReqd;
+     LexGenCPP.maxLongsReqd[LexGenCPP.lexStateIndex] = maxLongsReqd;
 
      if (maxLen == 0)
      {
-    	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-     if (Options.isOutputLanguageJava()) {
-        codeGenerator.genCodeLine((Options.getStatic() ? "static " : "") + "private int " +
-                       "jjMoveStringLiteralDfa0" + Main.lg.lexStateSuffix + "()");
-      } else if (Options.isOutputLanguageCpp()) {
-        codeGenerator.generateMethodDefHeader(" int ", Main.lg.tokMgrClassName, "jjMoveStringLiteralDfa0" + Main.lg.lexStateSuffix + "()");
-      } else {
-    	  throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
-      }
+        codeGenerator.generateMethodDefHeader(" int ", LexGenCPP.tokMgrClassName, "jjMoveStringLiteralDfa0" + LexGenCPP.lexStateSuffix + "()");
         DumpNullStrLiterals(codeGenerator);
         return;
      }
@@ -727,14 +541,14 @@ public class RStringLiteral extends RegularExpression {
                        params.append(", ");
                     else
                        atLeastOne = true;
-                    params.append("" + Options.getLongType() + " active" + j);
+                    params.append("" + Types.getLongType() + " active" + j);
                  }
 
               if (i <= maxLenForActive[j])
               {
                  if (atLeastOne)
                     params.append(", ");
-                 params.append("" + Options.getLongType() + " active" + j);
+                 params.append("" + Types.getLongType() + " active" + j);
               }
            }
            else
@@ -746,29 +560,20 @@ public class RStringLiteral extends RegularExpression {
                        params.append(", ");
                     else
                        atLeastOne = true;
-                    params.append("" + Options.getLongType() + " old" + j + ", " + Options.getLongType() + " active" + j);
+                    params.append("" + Types.getLongType() + " old" + j + ", " + Types.getLongType() + " active" + j);
                  }
 
               if (i <= maxLenForActive[j] + 1)
               {
                  if (atLeastOne)
                     params.append(", ");
-                 params.append("" + Options.getLongType() + " old" + j + ", " + Options.getLongType() + " active" + j);
+                 params.append("" + Types.getLongType() + " old" + j + ", " + Types.getLongType() + " active" + j);
               }
            }
         }
         params.append(")");
 
-     // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-     if (Options.isOutputLanguageJava()) {
-        codeGenerator.genCode((Options.getStatic() ? "static " : "") + "private int " +
-                       "jjMoveStringLiteralDfa" + i + Main.lg.lexStateSuffix + params);
-      } else if (Options.isOutputLanguageCpp()) {
-        codeGenerator.generateMethodDefHeader(" int ", Main.lg.tokMgrClassName, "jjMoveStringLiteralDfa" + i + Main.lg.lexStateSuffix + params);
-      } else {
-    	  throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
-      }
-
+      codeGenerator.generateMethodDefHeader(" int ", LexGenCPP.tokMgrClassName, "jjMoveStringLiteralDfa" + i + LexGenCPP.lexStateSuffix + params);
       codeGenerator.genCodeLine("{");
 
         if (i != 0)
@@ -796,9 +601,9 @@ public class RStringLiteral extends RegularExpression {
               }
 
               codeGenerator.genCodeLine(") == 0L)");
-              if (!Main.lg.mixed[Main.lg.lexStateIndex] && NfaState.generatedStates != 0)
+              if (!LexGenCPP.mixed[LexGenCPP.lexStateIndex] && NfaState.generatedStates != 0)
               {
-                 codeGenerator.genCode("      return jjStartNfa" + Main.lg.lexStateSuffix +
+                 codeGenerator.genCode("      return jjStartNfa" + LexGenCPP.lexStateSuffix +
                                  "(" + (i - 2) + ", ");
                  for (j = 0; j < maxLongsReqd - 1; j++)
                     if (i <= maxLenForActive[j] + 1)
@@ -811,7 +616,7 @@ public class RStringLiteral extends RegularExpression {
                     codeGenerator.genCodeLine("0L);");
               }
               else if (NfaState.generatedStates != 0)
-                 codeGenerator.genCodeLine("      return jjMoveNfa" + Main.lg.lexStateSuffix +
+                 codeGenerator.genCodeLine("      return jjMoveNfa" + LexGenCPP.lexStateSuffix +
                          "(" + NfaState.InitStateName() + ", " + (i - 1) + ");");
               else
                  codeGenerator.genCodeLine("      return " + i + ";");
@@ -819,63 +624,36 @@ public class RStringLiteral extends RegularExpression {
 
            if (i != 0 && Options.getDebugTokenManager())
            {
-             if (codeGenerator.isJavaLanguage()) {
-               codeGenerator.genCodeLine("   if (jjmatchedKind != 0 && jjmatchedKind != 0x" + Integer.toHexString(Integer.MAX_VALUE) + ")");
-               codeGenerator.genCodeLine("      debugStream.println(\"   Currently matched the first \" + " + "(jjmatchedPos + 1) + \" characters as a \" + tokenImage[jjmatchedKind] + \" token.\");");
-               codeGenerator.genCodeLine("   debugStream.println(\"   Possible string literal matches : { \"");
-             } else {
-               codeGenerator.genCodeLine("   if (jjmatchedKind != 0 && jjmatchedKind != 0x" + Integer.toHexString(Integer.MAX_VALUE) + ")");
-               codeGenerator.genCodeLine("      fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\", (jjmatchedPos + 1), addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
+              codeGenerator.genCodeLine("   if (jjmatchedKind != 0 && jjmatchedKind != 0x" + Integer.toHexString(Integer.MAX_VALUE) + ")");
+              codeGenerator.genCodeLine("      fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\", (jjmatchedPos + 1), addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
               codeGenerator.genCodeLine("   fprintf(debugStream, \"   Possible string literal matches : { \");");
-             }
-
+ 
               StringBuffer fmt = new StringBuffer();
               StringBuffer args = new StringBuffer();
               for (int vecs = 0; vecs < maxStrKind / 64 + 1; vecs++)
               {
                  if (i <= maxLenForActive[vecs])
                  {
-                   if (codeGenerator.isJavaLanguage()) {
-                     codeGenerator.genCodeLine(" +");
-                     codeGenerator.genCode("         jjKindsForBitVector(" + vecs + ", ");
-                     codeGenerator.genCode("active" + vecs + ") ");
-                   } else {
-                     if (fmt.length() > 0) {
-                       fmt.append(", ");
-                       args.append(", ");
-                     }
-
-                     fmt.append("%s");
-                     args.append("         jjKindsForBitVector(" + vecs + ", ");
-                     args.append("active" + vecs + ")" + (codeGenerator.isJavaLanguage() ? " " : ".c_str() "));
+                   if (fmt.length() > 0) {
+                     fmt.append(", ");
+                     args.append(", ");
                    }
+
+                   fmt.append("%s");
+                   args.append("         jjKindsForBitVector(" + vecs + ", ");
+                   args.append("active" + vecs + ")" + ".c_str() ");
                  }
               }
 
-               // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-              if (codeGenerator.isJavaLanguage()) {
-                codeGenerator.genCodeLine(" + \" } \");");
-              } else  if (Options.isOutputLanguageCpp()) {
-                fmt.append("}\\n");
-                codeGenerator.genCodeLine("    fprintf(debugStream, \"" + fmt + "\"," +  args + ");");
-              } else {
-            	  throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
-              }
+              fmt.append("}\\n");
+              codeGenerator.genCodeLine("    fprintf(debugStream, \"" + fmt + "\"," +  args + ");");
            }
 
-           // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-           if (Options.isOutputLanguageJava()) {
-             codeGenerator.genCodeLine("   try { curChar = input_stream.readChar(); }");
-             codeGenerator.genCodeLine("   catch(java.io.IOException e) {");
-           } else if (Options.isOutputLanguageCpp()) {
-             codeGenerator.genCodeLine("   if (input_stream->endOfInput()) {");
-           } else {
-        	   throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
-           }
+           codeGenerator.genCodeLine("   if (input_stream->endOfInput()) {");
 
-           if (!Main.lg.mixed[Main.lg.lexStateIndex] && NfaState.generatedStates != 0)
+           if (!LexGenCPP.mixed[LexGenCPP.lexStateIndex] && NfaState.generatedStates != 0)
            {
-              codeGenerator.genCode("      jjStopStringLiteralDfa" + Main.lg.lexStateSuffix + "(" + (i - 1) + ", ");
+              codeGenerator.genCode("      jjStopStringLiteralDfa" + LexGenCPP.lexStateSuffix + "(" + (i - 1) + ", ");
               for (k = 0; k < maxLongsReqd - 1; k++) {
                  if (i <= maxLenForActive[k])
                     codeGenerator.genCode("active" + k + ", ");
@@ -891,19 +669,14 @@ public class RStringLiteral extends RegularExpression {
 
 
               if (i != 0 && Options.getDebugTokenManager()) {
-                if (codeGenerator.isJavaLanguage()) {
-                  codeGenerator.genCodeLine("      if (jjmatchedKind != 0 && jjmatchedKind != 0x" + Integer.toHexString(Integer.MAX_VALUE) + ")");
-                  codeGenerator.genCodeLine("         debugStream.println(\"   Currently matched the first \" + " + "(jjmatchedPos + 1) + \" characters as a \" + tokenImage[jjmatchedKind] + \" token.\");");
-                } else {
-                  codeGenerator.genCodeLine("      if (jjmatchedKind != 0 && jjmatchedKind != 0x" + Integer.toHexString(Integer.MAX_VALUE) + ")");
-                  codeGenerator.genCodeLine("      fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\", (jjmatchedPos + 1),  addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
-                }
+                codeGenerator.genCodeLine("      if (jjmatchedKind != 0 && jjmatchedKind != 0x" + Integer.toHexString(Integer.MAX_VALUE) + ")");
+                codeGenerator.genCodeLine("      fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\", (jjmatchedPos + 1),  addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
               }
 
               codeGenerator.genCodeLine("      return " + i + ";");
            }
            else if (NfaState.generatedStates != 0) {
-              codeGenerator.genCodeLine("   return jjMoveNfa" + Main.lg.lexStateSuffix + "(" + NfaState.InitStateName() +
+              codeGenerator.genCodeLine("   return jjMoveNfa" + LexGenCPP.lexStateSuffix + "(" + NfaState.InitStateName() +
                       ", " + (i - 1) + ");");
            } else {
               codeGenerator.genCodeLine("      return " + i + ";");
@@ -914,28 +687,15 @@ public class RStringLiteral extends RegularExpression {
 
 
 
-     // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-        if (i != 0 && Options.isOutputLanguageCpp() ) {
+        if (i != 0 ) {
           codeGenerator.genCodeLine("   curChar = input_stream->readChar();");
         }
 
         if (i != 0 && Options.getDebugTokenManager()) {
-        	
-        	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-          if (codeGenerator.isJavaLanguage()) {
-            codeGenerator.genCodeLine("   debugStream.println(" +
-                   (LexGen.maxLexStates > 1 ? "\"<\" + lexStateNames[curLexState] + \">\" + " : "") +
-                   "\"Current character : \" + " + Options.getTokenMgrErrorClass() +
-                   ".addEscapes(String.valueOf(curChar)) + \" (\" + (int)curChar + \") " +
-                   "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
-          } else if (Options.isOutputLanguageCpp()) {
-            codeGenerator.genCodeLine("   fprintf(debugStream, " +
-              "\"<%s>Current character : %c(%d) at line %d column %d\\n\","+
-              "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
-              "input_stream->getEndLine(), input_stream->getEndColumn());");
-          } else {
-        	  throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
-          }
+          codeGenerator.genCodeLine("   fprintf(debugStream, " +
+            "\"<%s>Current character : %c(%d) at line %d column %d\\n\","+
+            "addUnicodeEscapes(lexStateNames[curLexState]).c_str(), curChar, (int)curChar, " +
+            "input_stream->getEndLine(), input_stream->getEndColumn());");
         }
 
         codeGenerator.genCodeLine("   switch(curChar)");
@@ -966,23 +726,23 @@ public class RStringLiteral extends RegularExpression {
                         intermediateKinds[(j * 64 + k)][i] < (j * 64 + k) &&
                         intermediateMatchedPos != null &&
                         intermediateMatchedPos[(j * 64 + k)][i] == i) ||
-                       (Main.lg.canMatchAnyChar[Main.lg.lexStateIndex] >= 0 &&
-                        Main.lg.canMatchAnyChar[Main.lg.lexStateIndex] < (j * 64 + k)))
+                       (LexGenCPP.canMatchAnyChar[LexGenCPP.lexStateIndex] >= 0 &&
+                        LexGenCPP.canMatchAnyChar[LexGenCPP.lexStateIndex] < (j * 64 + k)))
                       break;
-                    else if ((Main.lg.toSkip[kind / 64] & (1L << (kind % 64))) != 0L  &&
-                             (Main.lg.toSpecial[kind / 64] & (1L << (kind % 64))) == 0L  &&
-                             Main.lg.actions[kind] == null &&
-                             Main.lg.newLexState[kind] == null)
+                    else if ((LexGenCPP.toSkip[kind / 64] & (1L << (kind % 64))) != 0L  &&
+                             (LexGenCPP.toSpecial[kind / 64] & (1L << (kind % 64))) == 0L  &&
+                             LexGenCPP.actions[kind] == null &&
+                             LexGenCPP.newLexState[kind] == null)
                     {
-                       Main.lg.AddCharToSkip(c, kind);
+                       LexGenCPP.AddCharToSkip(c, kind);
 
                        if (Options.getIgnoreCase())
                        {
                           if (c != Character.toUpperCase(c))
-                             Main.lg.AddCharToSkip(Character.toUpperCase(c), kind);
+                             LexGenCPP.AddCharToSkip(Character.toUpperCase(c), kind);
 
                           if (c != Character.toLowerCase(c))
-                             Main.lg.AddCharToSkip(Character.toLowerCase(c), kind);
+                             LexGenCPP.AddCharToSkip(Character.toLowerCase(c), kind);
                        }
                        continue CaseLoop;
                     }
@@ -1047,16 +807,16 @@ public class RStringLiteral extends RegularExpression {
                        kindToPrint = intermediateKinds[(j * 64 + k)][i];
                     }
                     else if (i == 0 &&
-                         Main.lg.canMatchAnyChar[Main.lg.lexStateIndex] >= 0 &&
-                         Main.lg.canMatchAnyChar[Main.lg.lexStateIndex] < (j * 64 + k))
+                         LexGenCPP.canMatchAnyChar[LexGenCPP.lexStateIndex] >= 0 &&
+                         LexGenCPP.canMatchAnyChar[LexGenCPP.lexStateIndex] < (j * 64 + k))
                     {
                        JavaCCErrors.warning(" \"" +
                            JavaCCGlobals.add_escapes(allImages[j * 64 + k]) +
                            "\" cannot be matched as a string literal token " +
                            "at line " + GetLine(j * 64 + k) + ", column " + GetColumn(j * 64 + k) +
                            ". It will be matched as " +
-                           GetLabel(Main.lg.canMatchAnyChar[Main.lg.lexStateIndex]) + ".");
-                       kindToPrint = Main.lg.canMatchAnyChar[Main.lg.lexStateIndex];
+                           GetLabel(LexGenCPP.canMatchAnyChar[LexGenCPP.lexStateIndex]) + ".");
+                       kindToPrint = LexGenCPP.canMatchAnyChar[LexGenCPP.lexStateIndex];
                     }
                     else
                        kindToPrint = j * 64 + k;
@@ -1069,7 +829,7 @@ public class RStringLiteral extends RegularExpression {
                        {
                           createStartNfa = true;
                           codeGenerator.genCodeLine(prefix + "return jjStartNfaWithStates" +
-                              Main.lg.lexStateSuffix + "(" + i +
+                              LexGenCPP.lexStateSuffix + "(" + i +
                               ", " + kindToPrint + ", " + stateSetName + ");");
                        }
                        else
@@ -1077,8 +837,8 @@ public class RStringLiteral extends RegularExpression {
                     }
                     else
                     {
-                       if ((Main.lg.initMatch[Main.lg.lexStateIndex] != 0 &&
-                            Main.lg.initMatch[Main.lg.lexStateIndex] != Integer.MAX_VALUE) ||
+                       if ((LexGenCPP.initMatch[LexGenCPP.lexStateIndex] != 0 &&
+                            LexGenCPP.initMatch[LexGenCPP.lexStateIndex] != Integer.MAX_VALUE) ||
                             i != 0)
                        {
                           codeGenerator.genCodeLine("         {");
@@ -1104,7 +864,7 @@ public class RStringLiteral extends RegularExpression {
                  codeGenerator.genCode("         return ");
 
                  codeGenerator.genCode("jjMoveStringLiteralDfa" + (i + 1) +
-                                Main.lg.lexStateSuffix + "(");
+                                LexGenCPP.lexStateSuffix + "(");
                  for (j = 0; j < maxLongsReqd - 1; j++)
                     if ((i + 1) <= maxLenForActive[j])
                     {
@@ -1113,7 +873,7 @@ public class RStringLiteral extends RegularExpression {
                        else
                           atLeastOne = true;
 
-                       codeGenerator.genCode("0x" + Long.toHexString(info.validKinds[j]) + (codeGenerator.isJavaLanguage() ? "L" : "L"));
+                       codeGenerator.genCode("0x" + Long.toHexString(info.validKinds[j]) + "L");
                     }
 
                  if ((i + 1) <= maxLenForActive[j])
@@ -1121,7 +881,7 @@ public class RStringLiteral extends RegularExpression {
                     if (atLeastOne)
                        codeGenerator.genCode(", ");
 
-                    codeGenerator.genCode("0x" + Long.toHexString(info.validKinds[j]) + (codeGenerator.isJavaLanguage() ? "L" : "L"));
+                    codeGenerator.genCode("0x" + Long.toHexString(info.validKinds[j]) + "L");
                  }
                  codeGenerator.genCodeLine(");");
               }
@@ -1130,7 +890,7 @@ public class RStringLiteral extends RegularExpression {
                  codeGenerator.genCode("         return ");
 
                  codeGenerator.genCode("jjMoveStringLiteralDfa" + (i + 1) +
-                                Main.lg.lexStateSuffix + "(");
+                                LexGenCPP.lexStateSuffix + "(");
 
                  for (j = 0; j < maxLongsReqd - 1; j++)
                     if ((i + 1) <= maxLenForActive[j] + 1)
@@ -1142,7 +902,7 @@ public class RStringLiteral extends RegularExpression {
 
                        if (info.validKinds[j] != 0L)
                           codeGenerator.genCode("active" + j + ", 0x" +
-                                  Long.toHexString(info.validKinds[j]) + (codeGenerator.isJavaLanguage() ? "L" : "L"));
+                                  Long.toHexString(info.validKinds[j]) + "L");
                        else
                           codeGenerator.genCode("active" + j + ", 0L");
                     }
@@ -1153,7 +913,7 @@ public class RStringLiteral extends RegularExpression {
                        codeGenerator.genCode(", ");
                     if (info.validKinds[j] != 0L)
                        codeGenerator.genCode("active" + j + ", 0x" +
-                                  Long.toHexString(info.validKinds[j]) + (codeGenerator.isJavaLanguage() ? "L" : "L"));
+                                  Long.toHexString(info.validKinds[j]) + "L");
                     else
                        codeGenerator.genCode("active" + j + ", 0L");
                  }
@@ -1164,11 +924,11 @@ public class RStringLiteral extends RegularExpression {
            else
            {
               // A very special case.
-              if (i == 0 && Main.lg.mixed[Main.lg.lexStateIndex])
+              if (i == 0 && LexGenCPP.mixed[LexGenCPP.lexStateIndex])
               {
 
                  if (NfaState.generatedStates != 0)
-                    codeGenerator.genCodeLine("         return jjMoveNfa" + Main.lg.lexStateSuffix +
+                    codeGenerator.genCodeLine("         return jjMoveNfa" + LexGenCPP.lexStateSuffix +
                             "(" + NfaState.InitStateName() + ", 0);");
                  else
                     codeGenerator.genCodeLine("         return 1;");
@@ -1186,11 +946,7 @@ public class RStringLiteral extends RegularExpression {
         codeGenerator.genCodeLine("      default :");
 
         if (Options.getDebugTokenManager()) {
-          if (codeGenerator.isJavaLanguage()) {
-            codeGenerator.genCodeLine("      debugStream.println(\"   No string literal matches possible.\");");
-          } else {
-           codeGenerator.genCodeLine("      fprintf(debugStream, \"   No string literal matches possible.\\n\");");
-          }
+          codeGenerator.genCodeLine("      fprintf(debugStream, \"   No string literal matches possible.\\n\");");
         }
 
         if (NfaState.generatedStates != 0)
@@ -1199,7 +955,7 @@ public class RStringLiteral extends RegularExpression {
            {
               /* This means no string literal is possible. Just move nfa with
                  this guy and return. */
-              codeGenerator.genCodeLine("         return jjMoveNfa" + Main.lg.lexStateSuffix +
+              codeGenerator.genCodeLine("         return jjMoveNfa" + LexGenCPP.lexStateSuffix +
                       "(" + NfaState.InitStateName() + ", 0);");
            }
            else
@@ -1220,13 +976,13 @@ public class RStringLiteral extends RegularExpression {
         {
           if (startNfaNeeded)
           {
-           if (!Main.lg.mixed[Main.lg.lexStateIndex] && NfaState.generatedStates != 0)
+           if (!LexGenCPP.mixed[LexGenCPP.lexStateIndex] && NfaState.generatedStates != 0)
            {
               /* Here, a string literal is successfully matched and no more
                  string literals are possible. So set the kind and state set
                  upto and including this position for the matched string. */
 
-              codeGenerator.genCode("   return jjStartNfa" + Main.lg.lexStateSuffix + "(" + (i - 1) + ", ");
+              codeGenerator.genCode("   return jjStartNfa" + LexGenCPP.lexStateSuffix + "(" + (i - 1) + ", ");
               for (k = 0; k < maxLongsReqd - 1; k++)
                  if (i <= maxLenForActive[k])
                     codeGenerator.genCode("active" + k + ", ");
@@ -1238,7 +994,7 @@ public class RStringLiteral extends RegularExpression {
                  codeGenerator.genCodeLine("0L);");
            }
            else if (NfaState.generatedStates != 0)
-              codeGenerator.genCodeLine("   return jjMoveNfa" + Main.lg.lexStateSuffix +
+              codeGenerator.genCodeLine("   return jjMoveNfa" + LexGenCPP.lexStateSuffix +
                       "(" + NfaState.InitStateName() + ", " + i + ");");
            else
               codeGenerator.genCodeLine("   return " + (i + 1) + ";");
@@ -1248,7 +1004,7 @@ public class RStringLiteral extends RegularExpression {
         codeGenerator.genCodeLine("}");
      }
 
-     if (!Main.lg.mixed[Main.lg.lexStateIndex] && NfaState.generatedStates != 0 && createStartNfa)
+     if (!LexGenCPP.mixed[LexGenCPP.lexStateIndex] && NfaState.generatedStates != 0 && createStartNfa)
         DumpStartWithStates(codeGenerator);
   }
 
@@ -1256,7 +1012,7 @@ public class RStringLiteral extends RegularExpression {
   {
      for (int i = 0; i < maxStrKind; i++)
      {
-        if (Main.lg.lexStates[i] != Main.lg.lexStateIndex)
+        if (LexGenCPP.lexStates[i] != LexGenCPP.lexStateIndex)
            continue;
 
         String image = allImages[i];
@@ -1285,7 +1041,7 @@ public class RStringLiteral extends RegularExpression {
 
      for (i = 0; i < maxStrKind; i++)
      {
-        if (Main.lg.lexStates[i] != Main.lg.lexStateIndex)
+        if (LexGenCPP.lexStates[i] != LexGenCPP.lexStateIndex)
            continue;
 
         String image = allImages[i];
@@ -1326,9 +1082,9 @@ public class RStringLiteral extends RegularExpression {
               oldStates.clear();
 
               if (j == 0 && kind != Integer.MAX_VALUE &&
-                  Main.lg.canMatchAnyChar[Main.lg.lexStateIndex] != -1 &&
-                  kind > Main.lg.canMatchAnyChar[Main.lg.lexStateIndex])
-                 kind = Main.lg.canMatchAnyChar[Main.lg.lexStateIndex];
+                  LexGenCPP.canMatchAnyChar[LexGenCPP.lexStateIndex] != -1 &&
+                  kind > LexGenCPP.canMatchAnyChar[LexGenCPP.lexStateIndex])
+                 kind = LexGenCPP.canMatchAnyChar[LexGenCPP.lexStateIndex];
 
               if (GetStrKind(image.substring(0, j + 1)) < kind)
               {
@@ -1378,7 +1134,7 @@ public class RStringLiteral extends RegularExpression {
            (newStates = jjtmpStates).clear();
 
            if (statesForPos[j] == null)
-              statesForPos[j] = new Hashtable();
+              statesForPos[j] = new Hashtable<>();
 
            if ((actives = (statesForPos[j].get(kind + ", " +
                                     jjmatchedPos + ", " + stateSetString))) == null)
@@ -1393,13 +1149,13 @@ public class RStringLiteral extends RegularExpression {
         }
      }
 
-     // TODO(Sreeni, Brigl) : Fix this mess. 
+     // TODO(Sreeni) : Fix this mess. 
      if (JavaCCGlobals.getCodeGenerator() == null) {
        DumpNfaStartStatesCode(statesForPos, codeGenerator);
      }
   }
 
-  public static void DumpNfaStartStatesCode(Hashtable[] statesForPos,
+  public static void DumpNfaStartStatesCode(Hashtable<String, long[]>[] statesForPos,
                                               CodeGenHelper codeGenerator)
   {
       if (maxStrKind == 0) { // No need to generate this function
@@ -1412,30 +1168,14 @@ public class RStringLiteral extends RegularExpression {
 
      StringBuffer params = new StringBuffer();
      for (i = 0; i < maxKindsReqd - 1; i++)
-        params.append("" + Options.getLongType() + " active" + i + ", ");
-     params.append("" + Options.getLongType() + " active" + i + ")");
+        params.append("" + Types.getLongType() + " active" + i + ", ");
+     params.append("" + Types.getLongType() + " active" + i + ")");
 
-  // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-     if (Options.isOutputLanguageJava()) {
-     codeGenerator.genCode("private" + (Options.getStatic() ? " static" : "") + " final int jjStopStringLiteralDfa" +
-                  Main.lg.lexStateSuffix + "(int pos, " + params);
-      } else if (Options.isOutputLanguageCpp()) {
-        codeGenerator.generateMethodDefHeader(" int", Main.lg.tokMgrClassName, "jjStopStringLiteralDfa" + Main.lg.lexStateSuffix + "(int pos, " + params);
-      } else {
-    	  throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
-      }
-
+     codeGenerator.generateMethodDefHeader(" int", LexGenCPP.tokMgrClassName, "jjStopStringLiteralDfa" + LexGenCPP.lexStateSuffix + "(int pos, " + params);
      codeGenerator.genCodeLine("{");
 
      if (Options.getDebugTokenManager()) {
-    	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-       if (codeGenerator.isJavaLanguage()) {
-         codeGenerator.genCodeLine("      debugStream.println(\"   No more string literal token matches are possible.\");");
-       } else  if (Options.isOutputLanguageCpp()){
-         codeGenerator.genCodeLine("      fprintf(debugStream, \"   No more string literal token matches are possible.\");");
-       } else {
-    	   throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
-       }
+       codeGenerator.genCodeLine("      fprintf(debugStream, \"   No more string literal token matches are possible.\");");
      }
 
      codeGenerator.genCodeLine("   switch (pos)");
@@ -1448,11 +1188,11 @@ public class RStringLiteral extends RegularExpression {
 
         codeGenerator.genCodeLine("      case " + i + ":");
 
-        Enumeration e = statesForPos[i].keys();
+        Enumeration<String> e = statesForPos[i].keys();
         while (e.hasMoreElements())
         {
-           String stateSetString = (String)e.nextElement();
-           long[] actives = (long[])statesForPos[i].get(stateSetString);
+           String stateSetString = e.nextElement();
+           long[] actives = statesForPos[i].get(stateSetString);
 
            for (int j = 0; j < maxKindsReqd; j++)
            {
@@ -1489,8 +1229,8 @@ public class RStringLiteral extends RegularExpression {
                  {
                     codeGenerator.genCodeLine("            jjmatchedKind = " + kindStr + ";");
 
-                    if ((Main.lg.initMatch[Main.lg.lexStateIndex] != 0 &&
-                        Main.lg.initMatch[Main.lg.lexStateIndex] != Integer.MAX_VALUE))
+                    if ((LexGenCPP.initMatch[LexGenCPP.lexStateIndex] != 0 &&
+                        LexGenCPP.initMatch[LexGenCPP.lexStateIndex] != Integer.MAX_VALUE))
                        codeGenerator.genCodeLine("            jjmatchedPos = 0;");
                  }
                  else if (i == jjmatchedPos)
@@ -1551,21 +1291,16 @@ public class RStringLiteral extends RegularExpression {
      params.setLength(0);
      params.append("(int pos, ");
      for (i = 0; i < maxKindsReqd - 1; i++)
-        params.append("" + Options.getLongType() + " active" + i + ", ");
-     params.append("" + Options.getLongType() + " active" + i + ")");
+        params.append("" + Types.getLongType() + " active" + i + ", ");
+     params.append("" + Types.getLongType() + " active" + i + ")");
 
-     if (codeGenerator.isJavaLanguage()) {
-       codeGenerator.genCode("private" + (Options.getStatic() ? " static" : "") + " final int jjStartNfa" +
-                  Main.lg.lexStateSuffix + params);
-     } else {
-       codeGenerator.generateMethodDefHeader("int ", Main.lg.tokMgrClassName, "jjStartNfa" + Main.lg.lexStateSuffix + params);
-     }
+     codeGenerator.generateMethodDefHeader("int ", LexGenCPP.tokMgrClassName, "jjStartNfa" + LexGenCPP.lexStateSuffix + params);
      codeGenerator.genCodeLine("{");
 
-     if (Main.lg.mixed[Main.lg.lexStateIndex])
+     if (LexGenCPP.mixed[LexGenCPP.lexStateIndex])
      {
          if (NfaState.generatedStates != 0)
-            codeGenerator.genCodeLine("   return jjMoveNfa" + Main.lg.lexStateSuffix +
+            codeGenerator.genCodeLine("   return jjMoveNfa" + LexGenCPP.lexStateSuffix +
                     "(" + NfaState.InitStateName() + ", pos + 1);");
          else
             codeGenerator.genCodeLine("   return pos + 1;");
@@ -1574,8 +1309,8 @@ public class RStringLiteral extends RegularExpression {
          return;
      }
 
-     codeGenerator.genCode("   return jjMoveNfa" + Main.lg.lexStateSuffix + "(" +
-               "jjStopStringLiteralDfa" + Main.lg.lexStateSuffix + "(pos, ");
+     codeGenerator.genCode("   return jjMoveNfa" + LexGenCPP.lexStateSuffix + "(" +
+               "jjStopStringLiteralDfa" + LexGenCPP.lexStateSuffix + "(pos, ");
      for (i = 0; i < maxKindsReqd - 1; i++)
         codeGenerator.genCode("active" + i + ", ");
      codeGenerator.genCode("active" + i + ")");
@@ -1594,17 +1329,6 @@ public class RStringLiteral extends RegularExpression {
     boilerPlateDumped = false;
   }
 
-  @Override
-  public StringBuffer dump(int indent, Set alreadyDumped) {
-    StringBuffer sb = super.dump(indent, alreadyDumped).append(' ').append(image);
-    return sb;
-  }
-
-  @Override
-  public String toString() {
-    return super.toString() + " - " + image;
-  }
-
   static final Map<Integer, List<String>> literalsByLength =
       new HashMap<Integer, List<String>>();
   static final Map<Integer, List<Integer>> literalKinds =
@@ -1617,7 +1341,7 @@ public class RStringLiteral extends RegularExpression {
       int generatedNfaStates, int lexStateIndex) {
     for (int kind = 0; kind < allImages.length; kind++) {
       if (allImages[kind] == null || allImages[kind].equals("") ||
-          Main.lg.lexStates[kind] != lexStateIndex) {
+          LexGenCPP.lexStates[kind] != lexStateIndex) {
         continue;
       }
       String s = allImages[kind];
@@ -1639,7 +1363,7 @@ public class RStringLiteral extends RegularExpression {
         s = s.toLowerCase();
       }
       char c = s.charAt(0);
-      int key = Main.lg.lexStateIndex << 16 | c;
+      int key = LexGenCPP.lexStateIndex << 16 | c;
       List<String> l = literalsByLength.get(key);
       List<Integer> kinds = literalKinds.get(key);
       int j = 0;

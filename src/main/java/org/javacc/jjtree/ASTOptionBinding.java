@@ -27,8 +27,7 @@
  */
 package org.javacc.jjtree;
 
-
-public class ASTOptionBinding extends JJTreeNode {
+public class ASTOptionBinding extends JJTreeNode{
   ASTOptionBinding(int id) {
     super(id);
   }
@@ -60,6 +59,7 @@ public class ASTOptionBinding extends JJTreeNode {
   }
 
 
+  @Override
   public String translateImage(Token t)
   {
     if (suppressed) {
@@ -70,10 +70,9 @@ public class ASTOptionBinding extends JJTreeNode {
   }
 
   /** Accept the visitor. **/
+  @Override
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
     return visitor.visit(this, data);
   }
 }
-
-
-/*end*/
+/* JavaCC - OriginalChecksum=bf79b0495b1046817c4eb85e79faf819 (do not edit this line) */

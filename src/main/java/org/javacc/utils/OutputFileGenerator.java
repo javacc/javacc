@@ -47,13 +47,13 @@ public class OutputFileGenerator {
    * @param options the processing options in force, such
    *        as "STATIC=yes"
    */
-  public OutputFileGenerator(String templateName, Map options) {
+  public OutputFileGenerator(String templateName, Map<String, Object> options) {
     this.templateName = templateName;
     this.options = options;
   }
 
   private final String templateName;
-  private final Map options;
+  private final Map<String, Object> options;
 
   private String currentLine;
 
@@ -280,7 +280,7 @@ public class OutputFileGenerator {
 
   public static void main(String[] args) throws Exception
   {
-    Map map = new HashMap();
+    Map<String, Object> map = new HashMap<>();
     map.put("falseArg", Boolean.FALSE);
     map.put("trueArg", Boolean.TRUE);
     map.put("stringValue", "someString");

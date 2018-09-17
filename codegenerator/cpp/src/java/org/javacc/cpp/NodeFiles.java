@@ -274,7 +274,7 @@ final class NodeFiles {
     }
 
     try {
-      String name = visitorClass();
+      //String name = visitorClass();
       File file = new File(visitorIncludeFile());
       OutputFile outputFile = new OutputFile(file);
       PrintWriter ostr = outputFile.getPrintWriter();

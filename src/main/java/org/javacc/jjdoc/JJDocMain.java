@@ -170,7 +170,7 @@ public final class JJDocMain extends JJDocGlobals {
       } else {
         error("Detected " + JavaCCErrors.get_error_count() + " errors and "
                            + JavaCCErrors.get_warning_count() + " warnings.");
-        return (JavaCCErrors.get_error_count()==0)?0:1;
+        return JavaCCErrors.get_error_count()==0?0:1;
       }
     } catch (org.javacc.parser.MetaParseException e) {
       error(e.toString());

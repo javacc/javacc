@@ -27,8 +27,7 @@
  */
 package org.javacc.jjtree;
 
-
-public class ASTJavacode extends ASTProduction {
+public class ASTJavacode extends ASTProduction{
   ASTJavacode(int id) {
     super(id);
   }
@@ -36,9 +35,9 @@ public class ASTJavacode extends ASTProduction {
   Token stmBeginLoc;
 
   /** Accept the visitor. **/
+  @Override
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
     return visitor.visit(this, data);
   }
 }
-
-/*end*/
+/* JavaCC - OriginalChecksum=81cddc62c1f8d704d08e14d03c205569 (do not edit this line) */

@@ -70,13 +70,13 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
     ostr.println("/* " + getIdString(tn, cu_name + "Constants.java") + " */");
 
     if (cu_to_insertion_point_1.size() != 0 &&
-        ((Token)cu_to_insertion_point_1.get(0)).kind == PACKAGE
+        cu_to_insertion_point_1.get(0).kind == PACKAGE
        ) {
       for (int i = 1; i < cu_to_insertion_point_1.size(); i++) {
-        if (((Token)cu_to_insertion_point_1.get(i)).kind == SEMICOLON) {
-          printTokenSetup((Token)(cu_to_insertion_point_1.get(0)));
+        if (cu_to_insertion_point_1.get(i).kind == SEMICOLON) {
+          printTokenSetup(cu_to_insertion_point_1.get(0));
           for (int j = 0; j <= i; j++) {
-            t = (Token)(cu_to_insertion_point_1.get(j));
+            t = cu_to_insertion_point_1.get(j);
             printToken(t, ostr);
           }
           printTrailingComments(t, ostr);
@@ -164,7 +164,7 @@ public class OtherFilesGenCPP extends JavaCCGlobals implements JavaCCParserConst
    public static void printCharArray(java.io.PrintWriter ostr, String s) {
      ostr.print("{");
      for (int i = 0; i < s.length(); i++) {
-       ostr.print("0x" + Integer.toHexString((int)s.charAt(i)) + ", ");
+       ostr.print("0x" + Integer.toHexString(s.charAt(i)) + ", ");
      }
      ostr.print("0}");
    }

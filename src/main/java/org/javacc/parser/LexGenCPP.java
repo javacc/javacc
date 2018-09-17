@@ -37,6 +37,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+
 import static org.javacc.parser.JavaCCGlobals.*;
 
 /**
@@ -44,11 +45,10 @@ import static org.javacc.parser.JavaCCGlobals.*;
  */
 public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserConstants
 {
+  @Override
   void PrintClassHead()
   {
-    int i, j;
-
-    List<String> tn = new ArrayList<>(toolNames);
+    List<String> tn = new ArrayList<String>(toolNames);
     tn.add(toolName);
 
     switchToStaticsFile();
@@ -75,8 +75,6 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
 
     genCodeLine("class " + cu_name + ";");
 
-    int l = 0, kind;
-    i = 1;
     /* namespace?
     for (;;)
     {
@@ -113,18 +111,18 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
 
     if (token_mgr_decls != null && token_mgr_decls.size() > 0)
     {
-      Token t = (Token)token_mgr_decls.get(0);
+      Token t = token_mgr_decls.get(0);
       boolean commonTokenActionSeen = false;
       boolean commonTokenActionNeeded = Options.getCommonTokenAction();
 
-      printTokenSetup((Token)token_mgr_decls.get(0));
+      printTokenSetup(token_mgr_decls.get(0));
       ccol = 1;
 
       //switchToMainFile();
       switchToIncludeFile();
-      for (j = 0; j < token_mgr_decls.size(); j++)
+      for (int j = 0; j < token_mgr_decls.size(); j++)
       {
-        t = (Token)token_mgr_decls.get(j);
+        t = token_mgr_decls.get(j);
         if (t.kind == IDENTIFIER &&
             commonTokenActionNeeded &&
             !commonTokenActionSeen) {
@@ -176,6 +174,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
     switchToMainFile();
   }
 
+  @Override
   void DumpDebugMethods() throws IOException
   {
     writeTemplate("/templates/cpp/DumpDebugMethods.template",
@@ -198,10 +197,10 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
 
       for (i = 0; i < tp.lexStates.length; i++)
       {
-        if ((tps = (List<TokenProduction>)allTpsForState.get(tp.lexStates[i])) == null)
+        if ((tps = allTpsForState.get(tp.lexStates[i])) == null)
         {
           tmpLexStateName[maxLexStates++] = tp.lexStates[i];
-          allTpsForState.put(tp.lexStates[i], tps = new ArrayList());
+          allTpsForState.put(tp.lexStates[i], tps = new ArrayList<>());
         }
 
         tps.add(tp);
@@ -225,7 +224,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
     actions = new Action[maxOrdinal];
     actions[0] = actForEof;
     hasTokenActions = actForEof != null;
-    initStates = new Hashtable();
+    initStates = new Hashtable<>();
     canMatchAnyChar = new int[maxLexStates];
     canLoop = new boolean[maxLexStates];
     stateHasActions = new boolean[maxLexStates];
@@ -274,12 +273,12 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
       return;
 
     keepLineCol = Options.getKeepLineColumn();
-    List choices = new ArrayList();
-    Enumeration e;
+    List<RegularExpression> choices = new ArrayList<>();
+    Enumeration<String> e;
     TokenProduction tp;
     int i, j;
 
-    staticString = (Options.getStatic() ? "static " : "");
+    staticString = Options.getStatic() ? "static " : "";
     tokMgrClassName = cu_name + "TokenManager";
 
     PrintClassHead();
@@ -294,11 +293,11 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
       NfaState.ReInit();
       RStringLiteral.ReInit();
 
-      String key = (String)e.nextElement();
+      String key = e.nextElement();
 
       lexStateIndex = GetIndex(key);
       lexStateSuffix = "_" + lexStateIndex;
-      List<TokenProduction> allTps = (List<TokenProduction>)allTpsForState.get(key);
+      List<TokenProduction> allTps = allTpsForState.get(key);
       initStates.put(key, initialState = new NfaState());
       ignoring = false;
 
@@ -491,16 +490,16 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
 
     NfaState.PrintBoilerPlateCPP(this);
 
-    String charStreamName;
-    if (Options.getUserCharStream())
-      charStreamName = "CharStream";
-    else
-    {
-      if (Options.getJavaUnicodeEscape())
-        charStreamName = "JavaCharStream";
-      else
-        charStreamName = "SimpleCharStream";
-    }
+//    String charStreamName;
+//    if (Options.getUserCharStream())
+//      charStreamName = "CharStream";
+//    else
+//    {
+//      if (Options.getJavaUnicodeEscape())
+//        charStreamName = "JavaCharStream";
+//      else
+//        charStreamName = "SimpleCharStream";
+//    }
 
     writeTemplate("/templates/cpp/TokenManagerBoilerPlateMethods.template",
       "charStreamName", "CharStream",
@@ -629,6 +628,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
     }*/
   }
 
+  @Override
   void DumpFillToken()
   {
     final double tokenVersion = JavaFiles.getVersion("Token.java");
@@ -723,6 +723,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
     genCodeLine("}");
   }
 
+  @Override
   void DumpGetNextToken()
   {
     int i;
@@ -1082,6 +1083,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
     genCodeLine("");
   }
 
+  @Override
   public void DumpSkipActions()
   {
     Action act;
@@ -1152,6 +1154,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
     genCodeLine("}");
   }
 
+  @Override
   public void DumpMoreActions()
   {
     Action act;
@@ -1226,6 +1229,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
     genCodeLine("}");
   }
 
+  @Override
   public void DumpTokenActions()
   {
     Action act;

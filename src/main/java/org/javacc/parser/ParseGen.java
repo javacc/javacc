@@ -58,11 +58,6 @@ import java.util.List;
 public class ParseGen extends CodeGenHelper implements JavaCCParserConstants {
 
 	public void start(boolean isJavaModernMode) throws MetaParseException {
-
-		if (!Options.getBuildParser()) {
-      return;
-    }
-
 		Token t = null;
 
 		if (JavaCCErrors.get_error_count() != 0) {
@@ -102,7 +97,7 @@ public class ParseGen extends CodeGenHelper implements JavaCCParserConstants {
 			}
 			genCode(cu_name + "Constants ");
 			if (cu_to_insertion_point_2.size() != 0) {
-				printTokenSetup((Token) (cu_to_insertion_point_2.get(0)));
+				printTokenSetup(cu_to_insertion_point_2.get(0));
 				for (final Iterator<Token> it = cu_to_insertion_point_2.iterator(); it.hasNext();) {
 					printToken(it.next());
 				}
@@ -168,8 +163,8 @@ public class ParseGen extends CodeGenHelper implements JavaCCParserConstants {
 				for (int i = 0; i < tokenMaskSize; i++) {
 					genCodeLine("	private static void jj_la1_init_" + i + "() {");
 					genCode("	   jj_la1_" + i + " = new int[] {");
-					for (final Iterator it = maskVals.iterator(); it.hasNext();) {
-						final int[] tokenMask = (int[]) (it.next());
+					for (Iterator<int[]> it = maskVals.iterator(); it.hasNext();) {
+						final int[] tokenMask = it.next();
 						genCode("0x" + Integer.toHexString(tokenMask[i]) + ",");
 					}
 					genCodeLine("};");
@@ -963,10 +958,10 @@ public class ParseGen extends CodeGenHelper implements JavaCCParserConstants {
 			}
 
 			if (cu_from_insertion_point_2.size() != 0) {
-				printTokenSetup((Token) (cu_from_insertion_point_2.get(0)));
+				printTokenSetup(cu_from_insertion_point_2.get(0));
 				ccol = 1;
-				for (final Iterator it = cu_from_insertion_point_2.iterator(); it.hasNext();) {
-					t = (Token) it.next();
+				for (final Iterator<Token> it = cu_from_insertion_point_2.iterator(); it.hasNext();) {
+					t = it.next();
 					printToken(t);
 				}
 				printTrailingComments(t);

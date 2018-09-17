@@ -13,8 +13,9 @@ public class ASTOptions extends JJTreeNode{
 
 
   /** Accept the visitor. **/
+  @Override
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
     return visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=30aa49e720b353fc345932a3b397455a (do not edit this line) */
+/* JavaCC - OriginalChecksum=bab47a15ec88dcb8fb44fea005cf17c9 (do not edit this line) */

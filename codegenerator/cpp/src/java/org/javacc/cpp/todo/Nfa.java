@@ -25,19 +25,25 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.javacc.jjtree;
+package org.javacc.cpp.todo;
 
+/**
+ * A Non-deterministic Finite Automaton.
+ */
+public class Nfa
+{
+   public NfaState start;
+   public NfaState end;
 
-public class ASTCompilationUnit extends JJTreeNode {
-  ASTCompilationUnit(int id) {
-    super(id);
-  }
+   public Nfa()
+   {
+      start = new NfaState();
+      end = new NfaState();
+   }
 
-  /** Accept the visitor. **/
-  public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
-    return visitor.visit(this, data);
-  }
-
+   public Nfa(NfaState startGiven, NfaState finalGiven)
+   {
+      start = startGiven;
+      end = finalGiven;
+   }
 }
-
-/*end*/

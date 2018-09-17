@@ -31,16 +31,7 @@ package org.javacc.parser;
  * Describes character range descriptors in a character list.
  */
 
-public class CharacterRange {
-
-  /**
-   * The line and column number of the construct that corresponds
-   * most closely to this node.
-   */
-  private int column;
-
-  private int line;
-
+public class CharacterRange extends Expansion {
   /**
    * The leftmost and the rightmost characters in this character range.
    */
@@ -58,34 +49,6 @@ public class CharacterRange {
 
      setLeft(l);
      setRight(r);
-  }
-
-  /**
-   * @param line the line to set
-   */
-  void setLine(int line) {
-    this.line = line;
-  }
-
-  /**
-   * @return the line
-   */
-  int getLine() {
-    return line;
-  }
-
-  /**
-   * @param column the column to set
-   */
-  void setColumn(int column) {
-    this.column = column;
-  }
-
-  /**
-   * @return the column
-   */
-  int getColumn() {
-    return column;
   }
 
   /**
