@@ -23,21 +23,21 @@ class SimpleNode : public Node {
 //\#define jjtCreate(p, id) new SimpleNode(p, id)
 //#fi
 
-  public: virtual void jjtOpen() const;
-  public: virtual void jjtClose() const;
-  public: virtual void jjtSetParent(Node *n);
-  public: virtual Node *jjtGetParent() const;
-  public: virtual void jjtAddChild(Node *n, size_t i);
-  public: virtual Node *jjtGetChild(size_t i) const;
-  public: virtual size_t jjtGetNumChildren() const;
-  public: virtual void jjtSetValue(void * value);
-  public: virtual void * jjtGetValue() const;
+  public: virtual void  jjtOpen() const;
+  public: virtual void  jjtClose() const;
+  public: virtual void  jjtSetParent(Node *n);
+  public: virtual Node* jjtGetParent() const;
+  public: virtual void  jjtAddChild(Node *n, int i);
+  public: virtual Node* jjtGetChild(int i) const;
+  public: virtual int   jjtGetNumChildren() const;
+  public: virtual void  jjtSetValue(void * value);
+  public: virtual void* jjtGetValue() const;
 
 #if TRACK_TOKENS
-  public: virtual Token *jjtGetFirstToken() const;
-  public: virtual void jjtSetFirstToken(Token* token);
-  public: virtual Token *jjtGetLastToken() const;
-  public: virtual void jjtSetLastToken(Token* token);
+  public: virtual Token*jjtGetFirstToken() const;
+  public: virtual void  jjtSetFirstToken(Token* token);
+  public: virtual Token*jjtGetLastToken() const;
+  public: virtual void  jjtSetLastToken(Token* token);
 
 #fi
 #if VISITOR
