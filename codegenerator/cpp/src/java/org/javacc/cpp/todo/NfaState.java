@@ -1158,8 +1158,7 @@ public class NfaState
       if (toRet >= nameSet.length)
       {
         // TODO(sreeni) : Fix this mess.
-        if (JavaCCGlobals.getCodeGenerator() != null ||
-            Options.booleanValue(Options.NONUSER_OPTION__INTERPRETER)) {
+        if (Options.booleanValue(Options.NONUSER_OPTION__INTERPRETER)) {
           tmp = generatedStates++;
         } else {
          if (dummyStateIndex == -1)
@@ -1168,8 +1167,7 @@ public class NfaState
             tmp = ++dummyStateIndex;
         }
 
-        if (JavaCCGlobals.getCodeGenerator() != null ||
-            Options.booleanValue(Options.NONUSER_OPTION__INTERPRETER)) {
+        if (Options.booleanValue(Options.NONUSER_OPTION__INTERPRETER)) {
           NfaState dummyState = new NfaState();
           dummyState.isComposite = true;
           dummyState.compositeStates = nameSet;
@@ -1187,8 +1185,7 @@ public class NfaState
       stateNameToReturn = Integer.valueOf(tmp);
       stateNameForComposite.put(stateSetString, stateNameToReturn);
       compositeStateTable.put(stateSetString, nameSet);
-      if (JavaCCGlobals.getCodeGenerator() != null ||
-          Options.booleanValue(Options.NONUSER_OPTION__INTERPRETER)) {
+      if (Options.booleanValue(Options.NONUSER_OPTION__INTERPRETER)) {
         NfaState tmpNfaState = indexedAllStates.get(tmp);
         for (int c : nameSet) {
           if (c < indexedAllStates.size()) {
