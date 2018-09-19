@@ -1,0 +1,31 @@
+	compileJjtree {
+		language 'Cpp'
+	    include '*.cc'
+	    include '*.h'
+	    inputDirectory = new File(projectDir, '')
+	    outputDirectory = new File(projectDir, 'build')
+	//    arguments = [grammar_encoding: 'UTF-8', static: 'false']
+	}
+	compileJavacc {
+		inputDirectory 	= projectDir
+		outputDirectory	= new File(projectDir, 'build')
+	//	arguments = [OUTPUT_LANGUAGE: 'c++']
+	}
+	
+ model {
+	    components { 
+        AsnParser(NativeExecutableSpec) {
+			sources {
+				generated(CppSourceSet) {
+					source {
+						srcDir compileJavacc.outputDirectory
+						include "*.cc"
+					}
+					exportedHeaders {
+						srcDirs compileJavacc.inputDirectory, compileJavacc.outputDirectory
+					}
+				}
+			}
+        }
+    }
+ }
