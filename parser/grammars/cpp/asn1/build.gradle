@@ -25,6 +25,12 @@
 						srcDirs compileJavacc.inputDirectory, compileJavacc.outputDirectory
 					}
 				}
+				main(CppSourceSet) {
+					source {
+						srcDir projectDir
+						include "*.cpp"
+					}
+				}
 			}
         }
     }

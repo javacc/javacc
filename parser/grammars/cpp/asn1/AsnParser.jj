@@ -261,11 +261,11 @@ void MacroDefinition() : { }
 
 CODE_RULE
 void MacroBody() {	
-  Token tok;
+  Token* tok;
   int nesting = 1;
   while (true) {
     tok = getToken(1);
-    if (tok.kind == END_TKN) {
+    if (tok->kind == END_TKN) {
 	break;	
     }
     tok = getNextToken();
@@ -536,12 +536,12 @@ void CompoundValue() : {}
 
 CODE_RULE
 void skip_to_matching_brace() {
-  Token tok;
+  Token* tok;
   int nesting = 1;
   while (true) {
     tok = getToken(1);
-    if (tok.kind == LEFTBRACE_TKN) nesting++;
-    if (tok.kind == RIGHTBRACE_TKN) {
+    if (tok->kind == LEFTBRACE_TKN) nesting++;
+    if (tok->kind == RIGHTBRACE_TKN) {
       nesting--;
          if (nesting == 0) break;
     }
