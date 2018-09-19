@@ -17,12 +17,12 @@
 		<module>csharp</module>
 	</modules>
 
+	<name>JavaCC code generator</name>
 	<dependencies>
 		<dependency>
 			<groupId>net.java.dev.javacc</groupId>
-			<artifactId>javacc</artifactId>
+			<artifactId>parser</artifactId>
 			<version>8.0.0</version>
 		</dependency>
 	</dependencies>
-	<name>JavaCC code generator</name>
 </project>
