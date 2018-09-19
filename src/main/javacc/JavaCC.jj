@@ -2063,7 +2063,7 @@ void TemplatePack():
 void ClassOrInterfaceType():
 {}
 {
-  <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments(null) ]
+  [ "::" ] <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments(null) ]
   ( LOOKAHEAD(2) ( "." | "::" ) <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments(null) ] )*
 }
 
