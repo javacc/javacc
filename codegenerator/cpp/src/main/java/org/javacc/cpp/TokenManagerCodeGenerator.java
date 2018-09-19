@@ -375,8 +375,7 @@ public class TokenManagerCodeGenerator implements org.javacc.parser.TokenManager
       codeGenerator.printTokenSetup(token_mgr_decls.get(0));
       codeGenerator.ccol = 1;
 
-      // switchToMainFile();
-      codeGenerator.switchToIncludeFile();
+      codeGenerator.switchToMainFile();
       for (int j = 0; j < token_mgr_decls.size(); j++) {
         t = token_mgr_decls.get(j);
         if (t.kind == JavaCCParserConstants.IDENTIFIER && commonTokenActionNeeded && !commonTokenActionSeen) {
