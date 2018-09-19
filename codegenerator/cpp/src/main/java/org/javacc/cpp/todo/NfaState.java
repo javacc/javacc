@@ -2526,7 +2526,7 @@ public class NfaState
    void DumpNonAsciiMoveMethod(CodeGenHelper codeGenerator)
    {
       int j;
-      codeGenerator.generateMethodDefHeader("" + Options.getBooleanType() + "", LexGenCPP.tokMgrClassName, "jjCanMove_" + nonAsciiMethod +
+      codeGenerator.generateMethodDefHeader("" + Types.getBooleanType() + "", LexGenCPP.tokMgrClassName, "jjCanMove_" + nonAsciiMethod +
                     "(int hiByte, int i1, int i2, " + Types.getLongType() + " l1, " + Types.getLongType() + " l2)");
       codeGenerator.genCodeLine("{");
       codeGenerator.genCodeLine("   switch(hiByte)");

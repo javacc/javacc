@@ -118,8 +118,7 @@ public class LexGenCPP extends LexGen //CodeGenHelper implements JavaCCParserCon
       printTokenSetup(token_mgr_decls.get(0));
       ccol = 1;
 
-      //switchToMainFile();
-      switchToIncludeFile();
+      switchToMainFile();
       for (int j = 0; j < token_mgr_decls.size(); j++)
       {
         t = token_mgr_decls.get(j);
