@@ -107,7 +107,7 @@
 						<configuration>
 							<target>
 								<ant antfile="${basedir}/build.xml">
-			                  		<target name="compile"/>
+			                  		<target name="jar"/>
             			    	</ant>
            			    	</target>
 						</configuration>
@@ -212,7 +212,7 @@
 								<echo />
 
 								<java failonerror="true" fork="true" classname="javacc"
-									classpath="target/classes">
+									classpath="target/javacc.jar">
 									<arg
 										line="-OUTPUT_DIRECTORY=test.tmp/JavaCCGrammar examples/JavaCCGrammar/JavaCC.jj" />
 								</java>
