@@ -1,4 +1,4 @@
-.metadata/
+**/generated-sources/
 .gradle
 .groovy
 .classpath
@@ -28,3 +28,4 @@ TEST-*
 *.*~
 *.asc
 examples/JJTreeExamples/cpp/eg*/
+**/gen/

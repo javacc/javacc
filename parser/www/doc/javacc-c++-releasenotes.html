@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!--
+
+Copyright (c) 2006, Sun Microsystems, Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the name of the Sun Microsystems, Inc. nor the names of its
+      contributors may be used to endorse or promote products derived from
+      this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+THE POSSIBILITY OF SUCH DAMAGE.
+
+-->
+<head>
+	<link href="/styles.css" media="screen" rel="stylesheet" type="text/css" /> 
+ <title>JavaCC Release Notes</title>
+<!-- Created by: Sreenivasa Viswanadha, 6-Jul-2013 -->
+</head>
+<body bgcolor="#FFFFFF" >
+
+<h1>JavaCC [tm]: Release Notes for the C++ version</h1>
+
+<p>
+<B>Javacc is extended to support C++ code generation starting with version 6.0. The generated code mostly uses the same design as the Java version.</B>
+
+<p>
+<h2>C++ specific issues</h2>
+<p>
+Since C++ is somewhat different from Java in code organization in terms of header files etc., we made the following changes:
+
+<ul>
+<li>Parser class in PARSER_BEGIN/PARSER_END - this cannot be supported as the parser is generated into the header file. So in the C++ version you can only define the contents of the class, not the class itself.
+</li>
+
+<li>Include files - in order to write any action code for the lexer/parser/tree, you might need to include header files. So we allow to specify what the header file is for each of the components - see the list of C++ options below for more details.</li>
+
+<li>Limitation on code in actions - since we don't have a full C++ parser embedded in the JavaCC grammar, we don't support arbitrary C++ code. So be aware of this when you write the actions. In general, it's a good idea to make them all function calls.</li>
+
+<li>Object lifetimes - in general, the parser deletes all the objects it creats - including the tokens. So any data that you want to pass out of the parser should be copied to your own objects that you can return. Note that tree created is a "return value" of the parser so that's not deleted.</li>
+
+<li>Exceptions - due to the way the code evolved, we could not use exceptions in C++. So we have an ErroHandler interface instead which by default just prints syntax error and continues trying to parse. Please see the apiroutiunes.html documt for more details.</li>
+
+<li>Wide character support - C++ version is fully wide character compatible and it has been tested on Windows, Linux and Mac environments.</li>
+
+</ul>
+
+<pre>
+
+-------------------------------------------------------------------
+*******************************************************************
+-------------------------------------------------------------------
+
+STARTING WITH VERSION 6.0
+
+Implemented all JavaCC options for the C++ version as well.
+
+Added new options relevant to C++:
+  -NAMESPACE - namespace to be used for all the generated classes.
+  -PARSER_INCLUDES - a single include file that gets includedin the parser. Use this to include all the declarations needed for your actions.
+  -PARSER_SUPER_CLASS - super class of the parser class (as we do not allow class declaration in PARSER_BEGIN/PARSER_END for C++)
+  -TOKEN_INCLUDES - a single include file for the token class
+  -TOKEN_MANAGER_INCLUDES - a single include file for the TokenManager
+  -TOKEN_MANAGER_SUPER_CLASS - super class of the token manager
+  -IGNORE_ACTIONS - an option to ignore all the action so a clean parser can be generated even when jjtree is used. Useful for debugging/profiling/testing
