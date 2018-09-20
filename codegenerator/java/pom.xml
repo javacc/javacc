@@ -8,4 +8,6 @@
   <groupId>net.java.dev.javacc.codgen</groupId>
   <artifactId>java</artifactId>
   <version>1.0.0</version>
+  <name>JavaCC default java code generator</name>
+  <description>JavaCC default java code generator</description>
 </project>
