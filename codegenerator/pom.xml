@@ -15,6 +15,7 @@
 	<modules>
 		<module>cpp</module>
 		<module>csharp</module>
+		<module>java</module>
 	</modules>
 
 	<name>JavaCC code generator</name>
