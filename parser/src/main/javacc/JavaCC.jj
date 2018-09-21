@@ -102,10 +102,6 @@ public class JavaCCParser extends JavaCCParserInternals {
     return language == Language.java && getCodeGenerator() == null &&
            !Options.booleanValue(Options.NONUSER_OPTION__INTERPRETER);
   }
-  protected static boolean isCppLanguage()
-  {
-    return language == Language.cpp;
-  }
 
   /*
    * Returns true if the next token is not in the FOLLOW list of "expansion".
@@ -1264,7 +1260,7 @@ void expansion_unit(Container c) :
    ")"
 	{
 	  if (isJavaLanguage()) {
-      types.add(vec);
+        types.add(vec);
 	    ids.add(t);
 	    vec = new ArrayList();
     }
@@ -1661,7 +1657,7 @@ void CompilationUnit() :
   ( TypeDeclaration() )*
 	{
     if (isJavaLanguage()) {
-	    insertionpointerrors(getToken(1));
+        insertionpointerrors(getToken(1));
     }
 	}
 }

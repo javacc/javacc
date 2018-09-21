@@ -284,7 +284,7 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
 }
 
 private ${STATIC?static :} int defaultLexState = ${defaultLexState};
-private ${STATIC?static :} int curLexState = ${defaultLexState};
+protected ${STATIC?static :} int curLexState = ${defaultLexState};
 private ${STATIC?static :} int jjmatchedPos;
 private ${STATIC?static :} int jjmatchedKind;
 private ${STATIC?static :}final StringBuilder jjimage = new StringBuilder();

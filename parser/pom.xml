@@ -8,13 +8,13 @@
 		<groupId>net.java.dev</groupId>
 		<artifactId>javacc</artifactId>
 		<version>8.0.0</version>
-		<relativePath>../</relativePath>
 	</parent>
+
 	<groupId>net.java.dev.javacc</groupId>
 	<artifactId>parser</artifactId>
 	<packaging>pom</packaging>
-	<name>JavaCC parser</name>
 
+	<name>JavaCC parser</name>
 
 	<build>
 		<plugins>
@@ -30,13 +30,13 @@
 			</plugin>
 
 
-		<!-- Uncomment to include grammar sources in jar -->
-		<!--resources> <resource> <directory>src</directory> <includes> <include>**/*.jj</include> 
-			<include>**/*.jjt</include> </includes> </resource> </resources -->
+			<!-- Uncomment to include grammar sources in jar -->
+			<!--resources> <resource> <directory>src</directory> <includes> <include>**/*.jj</include> 
+				<include>**/*.jjt</include> </includes> </resource> </resources -->
 
-		<!-- NOTE sourceDirectory paths currently configured for Windows due to 
-			http://jira.codehaus.org/browse/MJAVACC-29 -->
-		<!-- 
+			<!-- NOTE sourceDirectory paths currently configured for Windows due to 
+				http://jira.codehaus.org/browse/MJAVACC-29 -->
+			<!-- 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>javacc-maven-plugin</artifactId>
@@ -80,23 +80,24 @@
 					</execution>
 				</executions>
 			</plugin>
-			-->
+			 -->
 
-			<!-- Using ant instead of javacc-maven-plugin, as sources are still created with JavaCC 4.1 -->
+			<!-- Using ant instead of javacc-maven-plugin, as sources are still created 
+				with JavaCC 4.1 -->
 			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.8</version>
-			    <dependencies>
-			        <dependency>
-			            <groupId>com.sun</groupId>
-			            <artifactId>tools</artifactId>
-			            <version>1.8.0</version>
-			            <scope>system</scope>
-			            <systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath>
-			        </dependency>
-			    </dependencies>
-				
+				<dependencies>
+					<dependency>
+						<groupId>com.sun</groupId>
+						<artifactId>tools</artifactId>
+						<version>1.8.0</version>
+						<scope>system</scope>
+						<systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath>
+					</dependency>
+				</dependencies>
+
 				<executions>
 					<execution>
 						<id>generate</id>
@@ -107,9 +108,9 @@
 						<configuration>
 							<target>
 								<ant antfile="${basedir}/build.xml">
-			                  		<target name="jar"/>
-            			    	</ant>
-           			    	</target>
+									<target name="jar" />
+								</ant>
+							</target>
 						</configuration>
 					</execution>
 					<execution>
@@ -279,28 +280,29 @@
 			</plugin>
 
 			<plugin>
-			  <groupId>org.codehaus.mojo</groupId>
-			  <artifactId>build-helper-maven-plugin</artifactId>
-			  <version>3.0.0</version>
-			  <executions>
-			    <execution>
-			      <id>attach-artifacts</id>
-			      <phase>package</phase>
-			      <goals>
-			        <goal>attach-artifact</goal>
-			      </goals>
-			      <configuration>
-			        <artifacts>
-			          <artifact>
-			            <file>target/javacc.jar</file>
-			            <type>jar</type>
-			          </artifact>
-			        </artifacts>
-			      </configuration>
-			    </execution>
-			  </executions>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>attach-artifacts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>target/javacc.jar</file>
+									<type>jar</type>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
-      			<plugin>
+
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.22.0</version>
@@ -314,7 +316,8 @@
 					</excludes>
 				</configuration>
 			</plugin>
-<!-- 
+			
+			<!-- 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
@@ -327,7 +330,7 @@
 					</execution>
 				</executions>
 			</plugin>
- -->
+			 -->
 		</plugins>
 	</build>
 

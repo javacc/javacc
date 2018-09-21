@@ -154,10 +154,8 @@ THE POSSIBILITY OF SUCH DAMAGE.
 		<mkdir dir="${target-folder}" />
 		<antcall target="compile" />
 		<jar jarfile="${javacc}" basedir="classes" compress="true">
-			<metainf dir="${java-src}/META-INF"></metainf>
 		</jar>
 		<jar jarfile="${javacc-path}" basedir="classes" compress="true">
-			<metainf dir="${java-src}/META-INF"></metainf>
 		</jar>
 	</target>
 

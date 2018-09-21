@@ -7,25 +7,26 @@
 	<groupId>net.java.dev</groupId>
 	<artifactId>javacc</artifactId>
 	<packaging>pom</packaging>
-	<name>JavaCC</name>
 	<version>8.0.0</version>
 
-	<description>JavaCC is a parser/scanner generator for java. </description>
+	<name>JavaCC</name>
+	<description>JavaCC is a parser/scanner generator for java.</description>
 	<url>https://github.com/javacc/javacc</url>
-	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/javacc/javacc/issues</url>
-	</issueManagement>
 	<inceptionYear>1996</inceptionYear>
 	<organization>
 		<name>javacc.org</name>
 		<url>https://javacc.org</url>
 	</organization>
+
 	<scm>
 		<connection>scm:git:git@github.com/javacc/javacc.git</connection>
 		<url>git@github.com/javacc/javacc.git</url>
 		<developerConnection>scm:git:git@github.com/javacc/javacc.git</developerConnection>
 	</scm>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/javacc/javacc/issues</url>
+	</issueManagement>
 	<mailingLists>
 		<mailingList>
 			<name>Commits</name>
@@ -44,6 +45,7 @@
 			<archive>https://javacc.dev.java.net/servlets/SummarizeList?listName=issues</archive>
 		</mailingList>
 	</mailingLists>
+
 	<developers>
 		<developer>
 			<name>Sreenivasa Viswanadha</name>
@@ -96,6 +98,7 @@
 			<organizationUrl>https://github.com/Kampbell/</organizationUrl>
 		</developer>
 	</developers>
+
 	<licenses>
 		<license>
 			<name>Berkeley Software Distribution (BSD) License</name>
@@ -122,7 +125,7 @@
 		<module>parser</module>
 		<module>codegenerator</module>
 	</modules>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -144,74 +147,6 @@
 					</excludes>
 				</configuration>
 			</plugin>
-
-
-		<!-- Uncomment to include grammar sources in jar -->
-		<!--resources> <resource> <directory>src</directory> <includes> <include>**/*.jj</include> 
-			<include>**/*.jjt</include> </includes> </resource> </resources -->
-
-		<!-- NOTE sourceDirectory paths currently configured for Windows due to 
-			http://jira.codehaus.org/browse/MJAVACC-29 -->
-		<!-- 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>javacc-maven-plugin</artifactId>
-				<version>2.6</version>
-				<executions>
-					<execution>
-						<id>jcc</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>javacc</goal>
-						</goals>
-						<configuration>
-							<packageName>org.javacc.parser</packageName>
-							<sourceDirectory>src/main/java/org/javacc/parser</sourceDirectory>
-						</configuration>
-					</execution>
-					<execution>
-						<id>jjt</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>jjtree</goal>
-						</goals>
-						<configuration>
-							<excludes>
-								<exclude>**/parser/**</exclude>
-							</excludes>
-							<packageName>org.javacc.jjtree</packageName>
-							<sourceDirectory>src/main/java/org/javacc/jjtree</sourceDirectory>
-						</configuration>
-					</execution>
-					<execution>
-						<id>jjt-jcc</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>javacc</goal>
-						</goals>
-						<configuration>
-							<packageName>org.javacc.jjtree</packageName>
-							<sourceDirectory>target/generated-sources/jjtree</sourceDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			-->
-
-<!-- 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.7</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>clean</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
- -->
 		</plugins>
 	</build>
 
