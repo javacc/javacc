@@ -1,6 +1,6 @@
 public
 class ASTMyOtherID extends SimpleNode {
-	  private String name;
+  private String name;
   public ASTMyOtherID(int id) {
     super(id);
   }
