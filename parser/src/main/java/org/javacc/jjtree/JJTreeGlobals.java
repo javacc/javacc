@@ -123,7 +123,7 @@ public class JJTreeGlobals
   /**
    * This is mapping from production names to ASTProduction objects.
    **/
-  static Map<String, ASTProduction> productions = new HashMap<>();
+  public static Map<String, ASTProduction> productions = new HashMap<>();
 
 }
 
