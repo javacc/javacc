@@ -1,29 +1,10 @@
-public class ${parserName}TokenManager ${superClass} implements ${parserName}Constants {
-
-protected ${STATIC?static :}boolean moveToNextChar() {
-  try {
-    curChar = input_stream.readChar();
-#if IGNORE_CASE
-    curChar = (int)Character.toLowerCase((char)curChar);
-#fi
-  } catch(java.io.IOException e) {
-    return false;
-  }
-  return true;
-}
-
-${decls}
-
 #if TOKEN_MANAGER_USES_PARSER && !STATIC
-
-/* Declarations from the TOKEN_MGR_DECLS section */
-
     /** Constructor with parser. */
-    public ${parserName}TokenManager (${parserName} parserArg, ${charStreamName} stream){
+    public ${tokMgrClassName} (${cu_name} parserArg, ${charStreamName} stream){
     parser = parserArg;
 #else
     /** Constructor. */
-    public ${parserName}TokenManager(${charStreamName} stream){
+    public ${tokMgrClassName}(${charStreamName} stream){
 #fi
 
 #if STATIC && !USER_CHAR_STREAM
@@ -33,7 +14,7 @@ ${decls}
     #if JAVA_UNICODE_ESCAPE
       if (JavaCharStream.staticFlag)
     #else
-      if (${charStreamName}.staticFlag)
+      if (SimpleCharStream.staticFlag)
     #fi
             throw new ${LEGACY_EXCEPTION_HANDLING?Error:RuntimeException}("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
 #fi
@@ -43,12 +24,12 @@ ${decls}
 
 #if TOKEN_MANAGER_USES_PARSER && !STATIC
   /** Constructor with parser. */
-  public ${parserName}TokenManager (${parserName} parserArg, ${charStreamName} stream, int lexState){
+  public ${tokMgrClassName} (${cu_name} parserArg, ${charStreamName} stream, int lexState){
     ReInit(parserArg, stream);
   }
 #else
   /** Constructor. */
-  public ${parserName}TokenManager (${charStreamName} stream, int lexState){
+  public ${tokMgrClassName} (${charStreamName} stream, int lexState){
     ReInit(stream);
     SwitchTo(lexState);
   }
@@ -57,7 +38,7 @@ ${decls}
   /** Reinitialise parser. */
   
 #if TOKEN_MANAGER_USES_PARSER && !STATIC
-  public void ReInit(${parserName} parserArg, ${charStreamName} stream)
+  public void ReInit(${cu_name} parserArg, ${charStreamName} stream)
 #else
   ${STATIC?static :}public void ReInit(${charStreamName} stream)
 #fi
@@ -68,14 +49,31 @@ ${decls}
 
 #fi
 
-    jjmatchedPos = 0;
+    jjmatchedPos =
+#if !TABLE_DRIVEN
+    jjnewStateCnt =
+#fi
+    0;
     curLexState = defaultLexState;
     input_stream = stream;
+#if !TABLE_DRIVEN
+    ReInitRounds();
+#fi
   }
+
+#if !TABLE_DRIVEN
+  ${STATIC?static :}private void ReInitRounds()
+  {
+    int i;
+    jjround = 0x80000001;
+    for (i = ${stateSetSize}; i-- > 0;)
+      jjrounds[i] = 0x80000000;
+  }
+#fi
 
   /** Reinitialise parser. */
 #if TOKEN_MANAGER_USES_PARSER && !STATIC
-  public void ReInit( ${parserName} parserArg, ${charStreamName} stream, int lexState)
+  public void ReInit( ${cu_name} parserArg, ${charStreamName} stream, int lexState)
 #else
   ${STATIC?static :}public void ReInit(${charStreamName} stream, int lexState)
 #fi
@@ -90,9 +88,15 @@ ${decls}
   }
 
   /** Switch to specified lex state. */
-  public ${STATIC?static :}void SwitchTo(int lexState) {
-    curLexState = lexState;
+  public ${STATIC?static :}void SwitchTo(int lexState)
+  {
+    if (lexState >= ${lexStateNameLength} || lexState < 0)
+      throw new ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", ${LEGACY_EXCEPTION_HANDLING?TokenMgrError:TokenMgrException}.INVALID_LEXICAL_STATE);
+    else
+      curLexState = lexState;
   }
+
+#if TABLE_DRIVEN
 
 #if !NO_DFA
 private ${STATIC?static :}final int jjRunStringLiteralMatch() {
@@ -116,7 +120,9 @@ private ${STATIC?static :}final int jjRunStringLiteralMatch() {
 #fi
         if (curChar != stringLiterals[index + curPos]) break;
         if (++curPos == len) break;
-        if (!moveToNextChar()) {
+        try {
+          curChar = input_stream.readChar();
+        } catch(java.io.IOException e) {
           --curPos;
           break;
         }
@@ -131,7 +137,9 @@ private ${STATIC?static :}final int jjRunStringLiteralMatch() {
             " chars as kind: " + stringLiterals[index + len] +
             "; with image: " + tokenImage[jjmatchedKind]);
 #fi
-        if (!moveToNextChar()) {
+        try {
+          curChar = input_stream.readChar();
+        } catch(java.io.IOException e) {
           return curPos;
         }
         curPos++;
@@ -140,7 +148,9 @@ private ${STATIC?static :}final int jjRunStringLiteralMatch() {
         index += len + 2;
         input_stream.backup(curPos + 1);
         curPos = 0;
-        if (!moveToNextChar()) {
+        try {
+          curChar = input_stream.readChar();
+          } catch(java.io.IOException e) {
           assert(false);
         }
       }
@@ -155,10 +165,24 @@ private ${STATIC?static :}final int jjRunStringLiteralMatch() {
 }
 #fi
 
-private ${STATIC?static :}  int[] stateSet = new int[${generatedStates}];
-private ${STATIC?static :}  int[] newStateSet = new int[${generatedStates}];
-private ${STATIC?static :}  final long[] moved = new long[${generatedStates}];
-private ${STATIC?static :} long moveIndex = 1L;
+// NFA related data, initialization and code.
+private static final long[][] jjChars =
+    new long[${generatedStates}][(Character.MAX_VALUE >> 6) + 1];
+static {
+  for (int i = 0; i < ${generatedStates}; i++) {
+    int ind = 0;
+    for (int j = 0; j < jjCharData[i].length; j += 2) {
+      for (int k = 0; k < (int)jjCharData[i][j]; k++) {
+        jjChars[i][ind++] = jjCharData[i][j + 1];
+      }
+    }
+  }
+}
+
+private static  int[] stateSet = new int[${generatedStates}];
+private static  int[] newStateSet = new int[${generatedStates}];
+private static  final long[] moved = new long[${generatedStates}];
+private static long moveIndex = 0L;
 
 private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
 
@@ -181,9 +205,9 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
   // simply check if it's less than the current match and store it in that
   // case. This helps implement the 'first occurring' rule properly.
   int kind = Integer.MAX_VALUE;
-  int cnt = 0;
-  stateSet[cnt++] = startState;
+  stateSet[0] = startState;
   moved[startState] = moveIndex;
+  int cnt = 1;
  
   // Some NFA states have epsilon transitions (move on empty string). So we
   // just start with all of them. Note that the nextStates array already adds
@@ -207,13 +231,11 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
       for (int i = 0; i < ${generatedStates}; i++) moved[i] = 0L;
       moveIndex = 1L;
     }
-
     final int vectorIndex = curChar >> 6;
     final long bitpattern = (1L << (curChar & 077));
     do {
       final int state = stateSet[--cnt];
 #if DEBUG_TOKEN_MANAGER
-      // TODO(sreeni) : Fix it to give better error message instead of UNKNOWN.
       System.err.println(
          "Looking to move from state: " + state + "; for: " +
          (jjmatchKinds[state] != Integer.MAX_VALUE
@@ -268,7 +290,9 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
       return curPos;
     }
     // Read the next character and try to continue running the NFA.
-    if (!moveToNextChar()) {
+    try {
+      curChar = input_stream.readChar();
+    } catch(java.io.IOException e) {
       // EOF reached!
 #if DEBUG_TOKEN_MANAGER
       System.err.println("Reached EOF here at pos: " + curPos);
@@ -284,15 +308,12 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
 }
 
 private ${STATIC?static :} int defaultLexState = ${defaultLexState};
-protected ${STATIC?static :} int curLexState = ${defaultLexState};
+private ${STATIC?static :} int curLexState = ${defaultLexState};
 private ${STATIC?static :} int jjmatchedPos;
 private ${STATIC?static :} int jjmatchedKind;
-private ${STATIC?static :}final StringBuilder jjimage = new StringBuilder();
-private ${STATIC?static :}StringBuilder image = jjimage;
-private ${STATIC?static :}int jjimageLen;
-private ${STATIC?static :}int lengthOfMatch;
-protected ${STATIC?static :}int curChar;
-protected ${STATIC?static :} ${charStreamName} input_stream;
+// private ${STATIC?static :} int lengthOfMatch;;
+// private ${STATIC?static :} String image;
+// private ${STATIC?static :} int jjimageLen;
 
 public static final boolean isToken(int kind) {
   return (jjtoToken[kind >> 6] & (1L << (kind & 077))) != 0L;
@@ -371,9 +392,6 @@ public ${STATIC?static :} Token getNextToken() {
     // First see if we have any input at all.
     try {
       curChar = input_stream.BeginToken();
-#if IGNORE_CASE
-      curChar = Character.toLowerCase(curChar);
-#fi
     } catch(Exception e) {
 #if DEBUG_TOKEN_MANAGER
     if (lexStateNames.length > 1) {
@@ -429,7 +447,6 @@ public ${STATIC?static :} Token getNextToken() {
             "' as a wildcard kind: " + jjmatchedKind);
 #fi
       }
-
       if (jjmatchedKind != Integer.MAX_VALUE) {
         // We have a match!
   
@@ -518,3 +535,5 @@ protected ${STATIC?static :} void reportError(int lastReadPosition) {
   throw new TokenMgrError(EOFSeen, curLexState, error_line, error_column,
                           error_after, curChar, TokenMgrError.LEXICAL_ERROR);
 }
+
+#fi

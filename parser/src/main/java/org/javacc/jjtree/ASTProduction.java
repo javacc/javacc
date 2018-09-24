@@ -38,7 +38,7 @@ public class ASTProduction extends JJTreeNode
   }
 
   String name;
-  Vector<String> throws_list = new Vector<>();
+  public Vector<String> throws_list = new Vector<>();
 
   private Hashtable<NodeScope, Integer> scopes = new Hashtable<>();
   private int nextNodeScopeNumber = 0;
