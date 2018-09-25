@@ -154,8 +154,14 @@ THE POSSIBILITY OF SUCH DAMAGE.
 		<mkdir dir="${target-folder}" />
 		<antcall target="compile" />
 		<jar jarfile="${javacc}" basedir="classes" compress="true">
+			<manifest>
+		        <attribute name="Main-Class" value="org.javacc.parser.Main"/>
+		    </manifest>
 		</jar>
 		<jar jarfile="${javacc-path}" basedir="classes" compress="true">
+			<manifest>
+		        <attribute name="Main-Class" value="org.javacc.parser.Main"/>
+		    </manifest>
 		</jar>
 	</target>
 

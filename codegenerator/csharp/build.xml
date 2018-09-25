@@ -8,16 +8,17 @@ Copyright (c) 2017, Microsoft
 
 <project name="csharpcodegenerator" default="jar" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
-	<property name="javacc-root" value="../.." />
-	<property name="java-src" value="src/java" />
-	<property name="resources-src" value="src/resources" />
-	<property name="javacc-jar" value="${javacc-root}/target/javacc.jar" />
+	<property name="javacc-root" value="../../parser" />
+	<property name="java-src" value="src/main/java" />
+	<property name="resources-src" value="src/main/resources" />
 	<property name="target-folder" value="target" />
+	<property name="javacc-jar" value="${javacc-root}/target/javacc.jar" />
+	<property name="codgen-jar" value="${target-folder}/csharp-codegenerator.jar" />
 
 	<target name="clean">
 		<delete dir="classes" />
 		<delete dir="lib" />
-		<delete file="csharp-codegenerator.jar" />
+		<delete file="${codgen-jar}" />
 	</target>
 
 	<target name="compile" depends="clean">
@@ -25,6 +26,10 @@ Copyright (c) 2017, Microsoft
 
 		<copy todir="classes/templates">
 			<fileset dir="${resources-src}/templates" />
+		</copy>
+
+		<copy todir="classes/META-INF/services">
+			<fileset dir="${resources-src}/META-INF/services" />
 		</copy>
 
 		<javac srcdir="${java-src}" destdir="classes" debug="true" classpath="${javacc-jar}" includeantruntime='false'>
@@ -41,9 +46,7 @@ Copyright (c) 2017, Microsoft
 	<target name="jar-nocompile">
 		<mkdir dir="lib" />
 		<antcall target="compile" />
-		<jar jarfile="csharp-codegenerator.jar" basedir="classes" compress="true">
-			<metainf dir="${java-src}/META-INF"></metainf>
-		</jar>
+		<jar jarfile="${codgen-jar}" basedir="classes" compress="true"/>
 	</target>
 
 </project>
