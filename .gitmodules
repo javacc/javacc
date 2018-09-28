@@ -1,0 +1,11 @@
+[submodule "codgen/cpp"]
+	path = codgen/cpp
+	url = https://github.com/zosrothko/cpp.git
+	
+[submodule "codgen/java"]
+	path = codgen/java
+	url = https://github.com/zosrothko/java.git
+	
+[submodule "codgen/csharp"]
+	path = codgen/csharp
+	url = https://github.com/zosrothko/csharp.git
