@@ -142,8 +142,6 @@ public class RChoice extends RegularExpression {
   public void CheckUnmatchability()
   {
      RegularExpression curRE;
-     int numStrings = 0;
-
      for (int i = 0; i < getChoices().size(); i++)
      {
         if (!(curRE = getChoices().get(i)).private_rexp &&
@@ -159,9 +157,6 @@ public class RChoice extends RegularExpression {
                  curRE.label + " can never be matched as token of kind : " +
                                                                       ordinal);
         }
-
-        if (!curRE.private_rexp && curRE instanceof RStringLiteral)
-           numStrings++;
      }
   }
 

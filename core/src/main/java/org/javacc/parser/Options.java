@@ -72,7 +72,6 @@ public class Options {
   public static final String USEROPTION__PARSER_SUPER_CLASS = "PARSER_SUPER_CLASS";
   public static final String USEROPTION__JAVA_TEMPLATE_TYPE = "JAVA_TEMPLATE_TYPE";
   public static final String USEROPTION__GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
-  public static final String USEROPTION__OUTPUT_LANGUAGE = "OUTPUT_LANGUAGE";
   public static final String USEROPTION__CODE_GENERATOR = "CODE_GENERATOR";
   public static final String USEROPTION__NO_DFA = "NO_DFA";
   public static final String USEROPTION__STATIC = "STATIC";
@@ -120,18 +119,6 @@ public class Options {
 
   public static final String USEROPTION__CPP_TOKEN_INCLUDE = "TOKEN_INCLUDE";
   public static final String USEROPTION__CPP_PARSER_INCLUDE = "PARSER_INCLUDE";
-  /**
-   * Various constants relating to possible values for certain options
-   */
-
-  public static final String OUTPUT_LANGUAGE__CPP = "c++";
-  public static final String OUTPUT_LANGUAGE__JAVA = "java";
-  
-  public static enum Language {
-    java, cpp;
-  }
-  
-  public static Language language = Language.java;
 
 
   /**
@@ -198,8 +185,6 @@ public class Options {
     temp.add(new OptionInfo(USEROPTION__TOKEN_EXTENDS, OptionType.STRING, ""));
     temp.add(new OptionInfo(USEROPTION__TOKEN_FACTORY, OptionType.STRING, ""));
     temp.add(new OptionInfo(USEROPTION__GRAMMAR_ENCODING, OptionType.STRING, ""));
-    temp.add(new OptionInfo(USEROPTION__OUTPUT_LANGUAGE, OptionType.STRING, OUTPUT_LANGUAGE__JAVA));
-    language = Language.java;
     
     temp.add(new OptionInfo(USEROPTION__JAVA_TEMPLATE_TYPE, OptionType.STRING, JAVA_TEMPLATE_TYPE_CLASSIC));
     temp.add(new OptionInfo(USEROPTION__NAMESPACE, OptionType.STRING, ""));
@@ -319,12 +304,6 @@ public class Options {
     return sb.toString();
   }
 
-  public static String getTokenMgrErrorClass() {
-    return isOutputLanguageJava() ? isLegacyExceptionHandling() ? "TokenMgrError"
-        : "TokenMgrException"
-        : "TokenMgrError";
-  }
-
   /**
    * Determine if a given command line argument might be an option flag.
    * Command line options start with a dash&nbsp;(-).
@@ -422,23 +401,7 @@ public class Options {
 
       boolean isLegacy = JAVA_TEMPLATE_TYPE_CLASSIC.equals(templateType);
       optionValues.put(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING, isLegacy);
-    } else
-      
-    if (nameUpperCase.equalsIgnoreCase(USEROPTION__OUTPUT_LANGUAGE)) {
-      String outputLanguage = ((String)value).toLowerCase();
-      if (!isValidOutputLanguage(outputLanguage)) {
-        JavaCCErrors.warning(valueloc, "Bad option value \"" + value
-            + "\" for \"" + name
-            + "\".  Option setting will be ignored. Valid options : " + getAllValidLanguages() );
-        return;
-      }
-      if (isOutputLanguageJava())
-        language = Language.java;
-      else if (isOutputLanguageCpp())
-        language = Language.cpp;
-    } else
-      
-    if (nameUpperCase.equalsIgnoreCase(USEROPTION__NAMESPACE)) {
+    } else if (nameUpperCase.equalsIgnoreCase(USEROPTION__NAMESPACE)) {
       processCPPNamespaceOption((String) value);
     }
   }
@@ -446,10 +409,6 @@ public class Options {
 
   private static String getAllValidJavaTemplateTypes() {
     return Arrays.toString(supportedJavaTemplateTypes.toArray(new String[supportedJavaTemplateTypes.size()]));
-  }
-
-  private static String getAllValidLanguages() {
-    return Arrays.toString(supportedLanguages.toArray(new String[supportedLanguages.size()]));
   }
 
 
@@ -870,11 +829,6 @@ public class Options {
     return stringValue(USEROPTION__TOKEN_EXTENDS);
   }
 
-  // public static String getBoilerplatePackage()
-  // {
-  // return stringValue(BOILERPLATE_PACKAGE);
-  // }
-
   /**
    * Return the Token's factory class.
    *
@@ -916,47 +870,15 @@ public class Options {
     return new File(stringValue(USEROPTION__OUTPUT_DIRECTORY));
   }
 
-  public static String stringBufOrBuild() {
-    // TODO :: CBA -- Require Unification of output language specific
-    // processing into a single Enum class
-    if (isOutputLanguageJava() && getGenerateStringBuilder()) {
-      return getGenerateStringBuilder() ? "StringBuilder"
-          : "StringBuffer";
-    } else if (isOutputLanguageCpp()) {
-      return "StringBuffer";
-    } else {
-      throw new RuntimeException(
-          "Output language type not fully implemented : "
-              + getOutputLanguage());
-    }
-  }
-
   private static final Set<String> supportedJavaTemplateTypes = new HashSet<String>();
   static {
     supportedJavaTemplateTypes.add(JAVA_TEMPLATE_TYPE_CLASSIC);
     supportedJavaTemplateTypes.add(JAVA_TEMPLATE_TYPE_MODERN);
   }
 
-  private static final Set<String> supportedLanguages = new HashSet<String>();
-  static {
-    supportedLanguages.add(OUTPUT_LANGUAGE__JAVA);
-    supportedLanguages.add(OUTPUT_LANGUAGE__CPP);
-  }
-
-  public static boolean isValidOutputLanguage(String language) {
-    return language == null ? false : supportedLanguages.contains(language.toLowerCase());
-  }
-
 
   public static boolean isValidJavaTemplateType(String type) {
     return type == null ? false : supportedJavaTemplateTypes.contains(type.toLowerCase());
-  }
-
-  /**
-   * @return the output language. default java
-   */
-  public static String getOutputLanguage() {
-    return stringValue(USEROPTION__OUTPUT_LANGUAGE);
   }
 
   public static String getJavaTemplateType() {
@@ -990,40 +912,6 @@ public class Options {
       optionValues.put(NONUSER_OPTION__HAS_NAMESPACE, Boolean.TRUE);
       optionValues.put(NONUSER_OPTION__NAMESPACE_CLOSE, ns_close);
     }
-  }
-
-  public static String getLongType() {
-    // TODO :: CBA -- Require Unification of output language specific
-    // processing into a single Enum class
-    if (isOutputLanguageJava()) {
-      return "long";
-    } else if (isOutputLanguageCpp()) {
-      return "unsigned long long";
-    } else {
-      throw new RuntimeException("Language type not fully supported : "
-          + getOutputLanguage());
-    }
-  }
-
-  public static String getBooleanType() {
-    // TODO :: CBA -- Require Unification of output language specific
-    // processing into a single Enum class
-    if (isOutputLanguageJava()) {
-      return "boolean";
-    } else if (isOutputLanguageCpp()) {
-      return "bool";
-    } else {
-      throw new RuntimeException("Language type not fully supported : "
-          + getOutputLanguage());
-    }
-  }
-
-  public static boolean isOutputLanguageJava() {
-    return getOutputLanguage().equalsIgnoreCase(OUTPUT_LANGUAGE__JAVA);
-  }
-
-  public static boolean isOutputLanguageCpp() {
-    return getOutputLanguage().equalsIgnoreCase(OUTPUT_LANGUAGE__CPP);
   }
 
   public static boolean isTokenManagerRequiresParserAccess() {

@@ -151,7 +151,7 @@ public final class LookaheadWalk {
     } else
     
     if (exp.parent instanceof NormalProduction) {
-      List parents = ((NormalProduction)exp.parent).getParents();
+      List<Expansion> parents = ((NormalProduction)exp.parent).getParents();
       List<MatchInfo> retval = new ArrayList<MatchInfo>();
 //    System.out.println("1; gen: " + generation + "; exp: " + exp);
       for (int i = 0; i < parents.size(); i++) {

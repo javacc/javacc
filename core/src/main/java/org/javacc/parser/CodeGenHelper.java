@@ -50,35 +50,6 @@ public class CodeGenHelper {
   }
 
   public void saveOutput(String fileName) {
-    if (!isJavaLanguage()) {
-      String incfilePath = fileName.replace(".cc", ".h");
-      String incfileName = new File(incfilePath).getName();
-      includeBuffer.insert(0, "#pragma once\n");
-      //includeBuffer.insert(0, "#define " + new File(incfileName).getName().replace('.', '_').toUpperCase() + "\n");
-      //includeBuffer.insert(0, "#ifndef " + new File(incfileName).getName().replace('.', '_').toUpperCase() + "\n");
-
-
-      // dump the statics into the main file with the code.
-      mainBuffer.insert(0, staticsBuffer);
-
-      // Finally enclose the whole thing in the namespace, if specified.
-      if (Options.stringValue(Options.USEROPTION__NAMESPACE).length() > 0) {
-        mainBuffer.insert(0, "namespace " + Options.stringValue("NAMESPACE_OPEN") + "\n");
-        mainBuffer.append(Options.stringValue("NAMESPACE_CLOSE") + "\n");
-        includeBuffer.append(Options.stringValue("NAMESPACE_CLOSE") + "\n");
-      }
-
-      if (jjtreeGenerated) {
-    	  mainBuffer.insert(0, "#include \"" + cu_name + "Tree.h\"\n");
-      }
-      if(Options.getTokenManagerUsesParser())
-    	  mainBuffer.insert(0, "#include \"" + cu_name + ".h\"\n");
-      mainBuffer.insert(0, "#include \"TokenMgrError.h\"\n");
-      mainBuffer.insert(0, "#include \"" + incfileName + "\"\n");
-      //includeBuffer.append("#endif\n");
-      saveOutput(incfilePath, includeBuffer);
-    }
-
     mainBuffer.insert(0, "/* " + new File(fileName).getName() + " */\n");
     saveOutput(fileName, mainBuffer);
   }
@@ -108,9 +79,6 @@ public class CodeGenHelper {
 
   public void saveOutput(String fileName, StringBuffer sb) {
     PrintWriter fw = null;
-    if (!isJavaLanguage()) {
-      fixupLongLiterals(sb);
-    }
     try {
       File tmp = new File(fileName);
       fw = new PrintWriter(
@@ -183,6 +151,21 @@ public class CodeGenHelper {
     return retval;
   }
 
+  public String addUnicodeEscapes(String str) {
+      String retval = "";
+      char ch;
+      for (int i = 0; i < str.length(); i++) {
+        ch = str.charAt(i);
+        if (ch < 0x20 || ch > 0x7e /*|| ch == '\\' -- cba commented out 20140305*/ ) {
+          String s = "0000" + Integer.toString(ch, 16);
+          retval += "\\u" + s.substring(s.length() - 4, s.length());
+        } else {
+          retval += ch;
+        }
+      }
+      return retval;
+  }
+
   public void printToken(Token t) {
     genCode(getStringToPrint(t));
   }
@@ -239,31 +222,10 @@ public class CodeGenHelper {
   }
 
   /**
-   * Generate annotation. @XX syntax for java, comments in C++
-   */
-  public void genAnnotation(String ann) {
-    if (Options.isOutputLanguageJava()) {
-      genCode("@" + ann);
-    } else if (Options.isOutputLanguageCpp()) { // For now, it's only C++ for now
-      genCode( "/*" + ann + "*/");
-    } else {
-    	throw new RuntimeException("Unknown language : " + Options.getOutputLanguage());
-    }
-  }
-
-  /**
    * Generate a modifier
    */
   public void genModifier(String mod) {
-    String origMod = mod.toLowerCase();
-    if (isJavaLanguage()) {
-      genCode(mod);
-    } else { // For now, it's only C++ for now
-      if (origMod.equals("public") || origMod.equals("private")) {
-        genCode(origMod + ": ");
-      }
-      // we don't care about other mods for now.
-    }
+    genCode(mod);
   }
 
   /**
@@ -271,31 +233,19 @@ public class CodeGenHelper {
    * another array of super interfaes
    */
   public void genClassStart(String mod, String name, String[] superClasses, String[] superInterfaces) {
-    boolean isJavaLanguage = isJavaLanguage();
-	if (isJavaLanguage && mod != null) {
+    if (mod != null) {
        genModifier(mod);
     }
     genCode("class " + name);
-    if (isJavaLanguage) {
-      if (superClasses.length == 1 && superClasses[0] != null) {
-        genCode(" extends " + superClasses[0]);
-      }
-      if (superInterfaces.length != 0) {
-        genCode(" implements ");
-      }
-    } else {
-      if (superClasses.length > 0 || superInterfaces.length > 0) {
-        genCode(" : ");
-      }
- 
-      genCommaSeperatedString(superClasses);
+    if (superClasses.length == 1 && superClasses[0] != null) {
+      genCode(" extends " + superClasses[0]);
+    }
+    if (superInterfaces.length != 0) {
+      genCode(" implements ");
     }
 
     genCommaSeperatedString(superInterfaces);
     genCodeLine(" {");
-    if (Options.isOutputLanguageCpp()) {
-      genCodeLine("public:");
-    }
   }
 
   protected void genCommaSeperatedString(String[] strings) {
@@ -308,66 +258,24 @@ public class CodeGenHelper {
     }
   }
 
-  protected boolean isJavaLanguage() {
-	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-    return Options.isOutputLanguageJava();
-  }
-
   public void switchToMainFile() {
     outputBuffer = mainBuffer; 
   }
 
-  public void switchToStaticsFile() {
-    if (!isJavaLanguage()) {
-      outputBuffer = staticsBuffer; 
-    }
-  }
+  public void switchToStaticsFile() {}
 
-  public void switchToIncludeFile() {
-    if (!isJavaLanguage()) {
-      outputBuffer = includeBuffer; 
-    }
-  }
+  public void switchToIncludeFile() {}
 
   public void generateMethodDefHeader(String modsAndRetType, String className, String nameAndParams) {
     generateMethodDefHeader(modsAndRetType, className, nameAndParams, null);
   }
 
   public void generateMethodDefHeader(String qualifiedModsAndRetType, String className, String nameAndParams, String exceptions) {
-    // for C++, we generate the signature in the header file and body in main file
-    if (isJavaLanguage()) {
-      genCode(qualifiedModsAndRetType + " " + nameAndParams);
-      if (exceptions != null) {
-        genCode(" throws " + exceptions);
-      }
-      genCodeLine("");
-    } else {
-      includeBuffer.append(qualifiedModsAndRetType + " " + nameAndParams);
-      //if (exceptions != null)
-        //includeBuffer.append(" throw(" + exceptions + ")");
-      includeBuffer.append(";\n");
-
-      String modsAndRetType = null;
-      int i = qualifiedModsAndRetType.lastIndexOf(':');
-      if (i >= 0)
-    	  modsAndRetType = qualifiedModsAndRetType.substring(i+1);
-
-      if (modsAndRetType != null) {
-    	  i = modsAndRetType.lastIndexOf("virtual");
-    	  if (i >= 0)
-    		  modsAndRetType = modsAndRetType.substring(i + "virtual".length());
-      }
-      if (qualifiedModsAndRetType != null) {
-    	  i = qualifiedModsAndRetType.lastIndexOf("virtual");
-    	  if (i >= 0)
-    		  qualifiedModsAndRetType = qualifiedModsAndRetType.substring(i + "virtual".length());
-      }
-      mainBuffer.append("\n" + qualifiedModsAndRetType + " " +
-                           getClassQualifier(className) + nameAndParams);
-      //if (exceptions != null)
-        //mainBuffer.append(" throw( " + exceptions + ")");
-      switchToMainFile();
+    genCode(qualifiedModsAndRetType + " " + nameAndParams);
+    if (exceptions != null) {
+      genCode(" throws " + exceptions);
     }
+    genCodeLine("");
   }
 
   public String getClassQualifier(String className) {

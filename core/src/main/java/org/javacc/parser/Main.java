@@ -216,25 +216,8 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
       JavaCCGlobals.toolNames = JavaCCGlobals.getToolNames(args[args.length-1]);
       parser.javacc_input();
       
-      // 2012/05/02 - Moved this here as cannot evaluate output language
-      // until the cc file has been processed. Was previously setting the 'lg' variable
-      // to a lexer before the configuration override in the cc file had been read.
-      String outputLanguage = Options.getOutputLanguage();
-      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-  	  boolean isJavaOutput = Options.isOutputLanguageJava();
-  	  boolean isCPPOutput = Options.isOutputLanguageCpp();
-  	  
-  	  // 2013/07/22 Java Modern is a 
-  	  boolean isJavaModern = isJavaOutput && Options.getJavaTemplateType().equals(Options.JAVA_TEMPLATE_TYPE_MODERN);
-  	  
-  	  if (isJavaOutput) {
-        lg = new LexGen();
-      } else if (isCPPOutput) {
-        lg = new LexGenCPP();
-      } else {
-      	return unhandledLanguageExit(outputLanguage);
-      }
-  	
+      lg = new LexGen();
+
       JavaCCGlobals.createOutputDir(Options.getOutputDirectory());
 
       if (Options.getUnicodeInput())
@@ -277,33 +260,7 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
               JavaCCErrors.semantic_error("Could not generate the code for Token or helper classes.");
             }
         }
-      } else 
-      
- 	  // 2012/05/02 -- This is not the best way to add-in GWT support, really the code needs to turn supported languages into enumerations
-	  // and have the enumerations describe the deltas between the outputs. The current approach means that per-langauge configuration is distributed
-	  // and small changes between targets does not benefit from inheritance.
-		if (isJavaOutput) {
-			if (isBuildParser) {
-				new ParseGen().start(isJavaModern);
-			}
-			
-			// Must always create the lexer object even if not building a parser.
-			new LexGen().start();
-			
-			Options.setStringOption(Options.NONUSER_OPTION__PARSER_NAME, JavaCCGlobals.cu_name);
-			OtherFilesGen.start(isJavaModern);
-		} else if (isCPPOutput) { // C++ for now
-			if (isBuildParser) {
-				new ParseGenCPP().start();
-			}
-			if (isBuildParser) {
-				new LexGenCPP().start();
-			}
-			Options.setStringOption(Options.NONUSER_OPTION__PARSER_NAME, JavaCCGlobals.cu_name);
-			OtherFilesGenCPP.start();
-		} else {
-			unhandledLanguageExit(outputLanguage);
-		}
+		} 
 	  
 	  
 
@@ -333,11 +290,6 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
       return 1;
     }
   }
-
-private static int unhandledLanguageExit(String outputLanguage) {
-	System.out.println("Invalid '" + Options.USEROPTION__OUTPUT_LANGUAGE+ "' specified : " + outputLanguage);
-	return 1;
-}
 
 private static ParserData createParserData() {
   ParserData parserData = new ParserData();
@@ -370,7 +322,6 @@ private static ParserData createParserData() {
       org.javacc.parser.MatchInfo.reInit();
       org.javacc.parser.LookaheadWalk.reInit();
       org.javacc.parser.Semanticize.reInit();
-      org.javacc.parser.OtherFilesGen.reInit();
       org.javacc.parser.LexGen.reInit();
    }
 

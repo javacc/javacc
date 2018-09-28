@@ -102,7 +102,7 @@ public class OutputFile {
       // stored
       // in the file.
 
-      BufferedReader br = new BufferedReader(new FileReader(file));
+      try (BufferedReader br = new BufferedReader(new FileReader(file))) {
       MessageDigest digest;
       try {
         digest = MessageDigest.getInstance("MD5");
@@ -147,6 +147,7 @@ public class OutputFile {
             + "\" is being rebuilt.");
         needToWrite = true;
       }
+      }
     } else {
       // File does not exist
       System.out.println("File \"" + file.getName() + "\" does not exist.  Will create one.");
@@ -169,9 +170,7 @@ public class OutputFile {
   private void checkVersion(File file, String versionId) {
 	String firstLine = "/* " + JavaCCGlobals.getIdString(toolName, file.getName()) + " Version ";
 
-    try {
-      BufferedReader reader = new BufferedReader(new FileReader(file));
-
+    try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
       String line;
       while ((line = reader.readLine()) != null) {
         if (line.startsWith(firstLine)) {
@@ -204,9 +203,7 @@ public class OutputFile {
    * @param options
    */
   private void checkOptions(File file, String[] options) {
-    try {
-      BufferedReader reader = new BufferedReader(new FileReader(file));
-
+    try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
       String line;
       while ((line = reader.readLine()) != null) {
         if (line.startsWith("/* JavaCCOptions:")) {

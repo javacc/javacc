@@ -76,8 +76,7 @@ public class JJTreeOptions extends Options {
         Options.optionValues.put("NODE_INCLUDES", "");
         Options.optionValues.put("OUTPUT_FILE", "");
         Options.optionValues.put("VISITOR_DATA_TYPE", "");
-        if (JavaCCGlobals.getCodeGenerator() != null &&
-            JJTreeOptions.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__JAVA)) {
+        if (JavaCCGlobals.getCodeGenerator() != null) {
           Options.optionValues.put("VISITOR_RETURN_TYPE", "Object");
         } else {
           Options.optionValues.put("VISITOR_RETURN_TYPE", "void");
