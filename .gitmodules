@@ -1,0 +1,3 @@
+[submodule "codgen"]
+	path = codgen
+	url = https://github.com/javacc/codegenerator.git
