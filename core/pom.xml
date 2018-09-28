@@ -11,7 +11,7 @@
 	</parent>
 
 	<groupId>net.java.dev.javacc</groupId>
-	<artifactId>parser</artifactId>
+	<artifactId>core</artifactId>
 	<packaging>pom</packaging>
 
 	<name>JavaCC parser</name>
