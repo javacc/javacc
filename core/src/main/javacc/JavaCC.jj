@@ -97,12 +97,6 @@ public class JavaCCParser extends JavaCCParserInternals {
    */
   boolean jumpPatched = false;
 
-  protected static boolean isJavaLanguage()
-  {
-    return language == Language.java && getCodeGenerator() == null &&
-           !Options.booleanValue(Options.NONUSER_OPTION__INTERPRETER);
-  }
-
   /*
    * Returns true if the next token is not in the FOLLOW list of "expansion".
    * It is used to decide when the end of an "expansion" has been reached.
@@ -119,10 +113,7 @@ public class JavaCCParser extends JavaCCParserInternals {
    * result type as an error for a java grammar
    */
   private boolean isAllowed(Token t)  {
-    if (isJavaLanguage() && (t.kind == STAR || t.kind == BIT_AND || t.kind == CONST))
-       return false;
-    else
-       return true;
+    return true;
   }    
 
    /**
@@ -602,14 +593,11 @@ void javacc_input() :
 	{
 	  processing_cu = true;
 	  parser_class_name = id1;
-
-          if (!isJavaLanguage()) {
-            JavaCCGlobals.otherLanguageDeclTokenBeg = getToken(1);
-            while(getToken(1).kind != _PARSER_END) {
-              getNextToken();
-            }
-            JavaCCGlobals.otherLanguageDeclTokenEnd = getToken(1);
-          }
+      JavaCCGlobals.otherLanguageDeclTokenBeg = getToken(1);
+      while(getToken(1).kind != _PARSER_END) {
+        getNextToken();
+      }
+      JavaCCGlobals.otherLanguageDeclTokenEnd = getToken(1);
 	}
     CompilationUnit()
 	{
@@ -940,11 +928,9 @@ void token_manager_decls() :
 {
   t="TOKEN_MGR_DECLS" ":"
   {
-    if (!isJavaLanguage()) {
-      getNextToken(); // eat {
-      eatUptoCloseBrace(decls);
-      getNextToken(); // eat }
-    }
+    getNextToken(); // eat {
+    eatUptoCloseBrace(decls);
+    getNextToken(); // eat }
   }
 
   [ ClassOrInterfaceBody(false, decls) ]
@@ -1142,13 +1128,11 @@ Lookahead local_lookahead() :
   [ LOOKAHEAD(0, { emptyLA || commaAtEnd } )
     "{"
         {
-          if (!isJavaLanguage()) {
-            int b = 0;
-            while(getToken(1).kind != RBRACE || --b > 0) {
-              t = getNextToken();
-              la.getActionTokens().add(t);
-              if (t.kind == LBRACE) b++;
-            }
+          int b = 0;
+          while(getToken(1).kind != RBRACE || --b > 0) {
+            t = getNextToken();
+            la.getActionTokens().add(t);
+            if (t.kind == LBRACE) b++;
           }
         }
 
@@ -1240,13 +1224,11 @@ void expansion_unit(Container c) :
   t0="try" "{" expansion_choices(expch) "}"
   ("catch" "("
     {
-      if (!isJavaLanguage()) {
-        while (getToken(1).kind != RPAREN) vec.add(getNextToken());
-        vec.add(getToken(1));  // Just add the rparen too. HACK!!!
-        vec.add(getToken(2));  // Just add the open curly too. HACK!!!
-        // Remove the lastone.
-        t = null;
-      }
+      while (getToken(1).kind != RPAREN) vec.add(getNextToken());
+      vec.add(getToken(1));  // Just add the rparen too. HACK!!!
+      vec.add(getToken(2));  // Just add the open curly too. HACK!!!
+      // Remove the lastone.
+      t = null;
       //t = getToken(0);
       //t.kind = IDENTIFIER;
       //// TODO(sreeni): Fixup to be part of the codegen api
@@ -1256,14 +1238,8 @@ void expansion_unit(Container c) :
         //t.image = "...";
       //}
     }
-    [ LOOKAHEAD({isJavaLanguage()}) Name(vec) t=<IDENTIFIER> ]
    ")"
 	{
-	  if (isJavaLanguage()) {
-        types.add(vec);
-	    ids.add(t);
-	    vec = new ArrayList();
-    }
 	  inAction = true;
 	}
     Block(vec)
@@ -1656,9 +1632,6 @@ void CompilationUnit() :
   ( ImportDeclaration() )*
   ( TypeDeclaration() )*
 	{
-    if (isJavaLanguage()) {
-        insertionpointerrors(getToken(1));
-    }
 	}
 }
 
@@ -2496,9 +2469,7 @@ void Arguments(List tokens) :
 	  first = getToken(1);
 	  // Added by Sreenivas Viswanadha for 6.0
 	  // TODO :: 2013/07/16 -- cba : Think this condition should be if the language IS C++, not if the language ISN'T Java ...
-	  if (!isJavaLanguage()) {
-		eatUptoRParen(null);
-	  }
+	  eatUptoRParen(null);
 	}
   [ ArgumentList() ]
 	{
@@ -2618,9 +2589,7 @@ void Block(List tokens) :
   "{"
 	{
 	  first = getToken(1);
-          if (!isJavaLanguage()) {
-            eatUptoCloseBrace(null);
-          }
+      eatUptoCloseBrace(null);
 	}
   ( BlockStatement() )*
 	{

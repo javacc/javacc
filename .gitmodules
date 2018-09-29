@@ -1,11 +1,3 @@
-[submodule "codgen/cpp"]
-	path = codgen/cpp
-	url = https://github.com/javacc/javacc-codgen-cpp.git
-	
-[submodule "codgen/java"]
-	path = codgen/java
-	url = https://github.com/javacc/javacc-codgen-java.git
-	
-[submodule "codgen/csharp"]
-	path = codgen/csharp
-	url = https://github.com/javacc/javacc-codgen-csharp.git
+[submodule "codgen"]
+	path = codgen
+	url = https://github.com/javacc/codegenerator.git

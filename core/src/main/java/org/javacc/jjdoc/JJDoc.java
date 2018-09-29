@@ -92,7 +92,7 @@ public class JJDoc extends JJDocGlobals {
       cline = tok.beginLine;
       ccol = tok.beginColumn;
       while (tok != null) {
-        s += printTokenOnly(tok);
+        s += printTokenOnly(tok, true);
         tok = tok.next;
       }
     }

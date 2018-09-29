@@ -236,7 +236,7 @@ public class JavaCCGlobals {
         throw new Error();
      }
 
-     return toolNamePrefix + " Do not edit this line. " + addUnicodeEscapes(fileName);
+     return toolNamePrefix + " Do not edit this line. " + fileName;
   }
 
   /**
@@ -417,11 +417,8 @@ public class JavaCCGlobals {
     return retval;
   }
 
-  static public String addUnicodeEscapes(String str) {
-	  
-	if (Options.isOutputLanguageCpp()) {
-		return str;
-	} else if (Options.isOutputLanguageJava()) {
+  static public String addUnicodeEscapes(String str, boolean escape) {
+	if (escape) {
 	    String retval = "";
 	    char ch;
 	    for (int i = 0; i < str.length(); i++) {
@@ -434,10 +431,8 @@ public class JavaCCGlobals {
 	      }
 	    }
 	    return retval;
-	} else {
-		// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-		throw new RuntimeException("Unhandled Output Language : " + Options.getOutputLanguage());
 	}
+  return str;
   }
 
   static protected int cline, ccol;
@@ -449,7 +444,7 @@ public class JavaCCGlobals {
     ccol = tt.beginColumn;
   }
 
-  static protected void printTokenOnly(Token t, java.io.PrintWriter ostr) {
+  static protected void printTokenOnly(Token t, java.io.PrintWriter ostr, boolean escape) {
     for (; cline < t.beginLine; cline++) {
       ostr.println(""); ccol = 1;
     }
@@ -458,7 +453,7 @@ public class JavaCCGlobals {
     }
     if (t.kind == JavaCCParserConstants.STRING_LITERAL ||
         t.kind == JavaCCParserConstants.CHARACTER_LITERAL)
-       ostr.print(addUnicodeEscapes(t.image));
+       ostr.print(addUnicodeEscapes(t.image, escape));
     else
        ostr.print(t.image);
     cline = t.endLine;
@@ -469,35 +464,35 @@ public class JavaCCGlobals {
     }
   }
 
-  static protected void printToken(Token t, java.io.PrintWriter ostr) {
+  static protected void printToken(Token t, java.io.PrintWriter ostr, boolean escape) {
     Token tt = t.specialToken;
     if (tt != null) {
       while (tt.specialToken != null) tt = tt.specialToken;
       while (tt != null) {
-        printTokenOnly(tt, ostr);
+        printTokenOnly(tt, ostr, escape);
         tt = tt.next;
       }
     }
-    printTokenOnly(t, ostr);
+    printTokenOnly(t, ostr, escape);
   }
 
-  static protected void printTokenList(List<Token> list, java.io.PrintWriter ostr) {
+  static protected void printTokenList(List<Token> list, java.io.PrintWriter ostr, boolean escape) {
     Token t = null;
     for (Iterator<Token> it = list.iterator(); it.hasNext();) {
       t = it.next();
-      printToken(t, ostr);
+      printToken(t, ostr, escape);
     }
     
     if (t != null)
-      printTrailingComments(t, ostr);
+      printTrailingComments(t, ostr, escape);
   }
 
-  static protected void printLeadingComments(Token t, java.io.PrintWriter ostr) {
+  static protected void printLeadingComments(Token t, java.io.PrintWriter ostr, boolean escape) {
     if (t.specialToken == null) return;
     Token tt = t.specialToken;
     while (tt.specialToken != null) tt = tt.specialToken;
     while (tt != null) {
-      printTokenOnly(tt, ostr);
+      printTokenOnly(tt, ostr, escape);
       tt = tt.next;
     }
     if (ccol != 1 && cline != t.beginLine) {
@@ -506,12 +501,12 @@ public class JavaCCGlobals {
     }
   }
 
-  static protected void printTrailingComments(Token t, java.io.PrintWriter ostr) {
+  static protected void printTrailingComments(Token t, java.io.PrintWriter ostr, boolean escape) {
     if (t.next == null) return;
-    printLeadingComments(t.next);
+    printLeadingComments(t.next, escape);
   }
 
-  static protected String printTokenOnly(Token t) {
+  static protected String printTokenOnly(Token t, boolean escape) {
     String retval = "";
     for (; cline < t.beginLine; cline++) {
       retval += "\n"; ccol = 1;
@@ -521,7 +516,7 @@ public class JavaCCGlobals {
     }
     if (t.kind == JavaCCParserConstants.STRING_LITERAL ||
         t.kind == JavaCCParserConstants.CHARACTER_LITERAL)
-       retval += addUnicodeEscapes(t.image);
+       retval += addUnicodeEscapes(t.image, escape);
     else
        retval += t.image;
     cline = t.endLine;
@@ -533,27 +528,27 @@ public class JavaCCGlobals {
     return retval;
   }
 
-  static protected String printToken(Token t) {
+  static protected String printToken(Token t, boolean escape) {
     String retval = "";
     Token tt = t.specialToken;
     if (tt != null) {
       while (tt.specialToken != null) tt = tt.specialToken;
       while (tt != null) {
-        retval += printTokenOnly(tt);
+        retval += printTokenOnly(tt, escape);
         tt = tt.next;
       }
     }
-    retval += printTokenOnly(t);
+    retval += printTokenOnly(t, escape);
     return retval;
   }
 
-  static protected String printLeadingComments(Token t) {
+  static protected String printLeadingComments(Token t, boolean escape) {
     String retval = "";
     if (t.specialToken == null) return retval;
     Token tt = t.specialToken;
     while (tt.specialToken != null) tt = tt.specialToken;
     while (tt != null) {
-      retval += printTokenOnly(tt);
+      retval += printTokenOnly(tt, escape);
       tt = tt.next;
     }
     if (ccol != 1 && cline != t.beginLine) {
@@ -563,9 +558,9 @@ public class JavaCCGlobals {
     return retval;
   }
 
-  static protected String printTrailingComments(Token t) {
+  static protected String printTrailingComments(Token t, boolean escape) {
     if (t.next == null) return "";
-    return printLeadingComments(t.next);
+    return printLeadingComments(t.next, escape);
   }
 
    public static void reInit()
@@ -598,18 +593,4 @@ public class JavaCCGlobals {
       actForEof = null;
       nextStateForEof = null;
    }
-
-
-   public static String getFileExtension(String language) {
-     // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-     if (Options.isOutputLanguageJava()) {
-       return ".java";
-     } else if (Options.isOutputLanguageCpp()) {
-       return ".cc";
-     }
-
-     assert(false);
-     return null;
-   }
-
 }
