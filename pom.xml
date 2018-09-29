@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>net.java.dev</groupId>
+	<groupId>org</groupId>
 	<artifactId>javacc</artifactId>
 	<packaging>pom</packaging>
 	<version>8.0.0</version>
@@ -153,7 +153,7 @@
 	<reporting>
 		<plugins>
 			<plugin>
-				<groupId>net.java.dev.javacc</groupId>
+				<groupId>org.javacc</groupId>
 				<artifactId>javacc-maven-plugin</artifactId>
 				<configuration>
 					<sourceDirectory>src/main/java/org/javacc/parser</sourceDirectory>
