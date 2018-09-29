@@ -123,7 +123,7 @@
 
 	<modules>
 		<module>core</module>
-		<module>codgen</module>
+		<module>codegen</module>
 	</modules>
 
 	<dependencies>
