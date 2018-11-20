@@ -1613,6 +1613,7 @@ Token JavaIdentifier() :
 | "SKIP"
 | "TOKEN_MGR_DECLS"
 | "EOF"
+| "template"
 // c++ generation blocks
 | "DCL_PARSER_BEGIN"
 | "DCL_PARSER_END"
@@ -1741,7 +1742,7 @@ void ClassOrInterfaceDeclaration(int modifiers, List tokens):
 }
 {
   ( "class" | "interface" { isInterface = true; } )
-  t=<IDENTIFIER>
+  t=JavaIdentifier()
   [ TypeParameters() ]
   [ ExtendsList(isInterface) ]
   [ ImplementsList(isInterface) ]
@@ -1787,7 +1788,7 @@ void ImplementsList(boolean isInterface):
 void EnumDeclaration(int modifiers):
 {}
 {
-  "enum" <IDENTIFIER>
+  "enum" JavaIdentifier()
   [ ImplementsList(false) ]
   EnumBody()
 }
@@ -1805,7 +1806,7 @@ void EnumBody():
 void EnumConstant():
 {}
 {
-  Modifiers() <IDENTIFIER> [ Arguments(null) ] [ ClassOrInterfaceBody(false, null) ]
+  Modifiers() JavaIdentifier() [ Arguments(null) ] [ ClassOrInterfaceBody(false, null) ]
 }
 
 void TypeParameters():
@@ -1817,7 +1818,7 @@ void TypeParameters():
 void TypeParameter():
 {}
 {
-   <IDENTIFIER> [ TypeBound() ]
+   JavaIdentifier() [ TypeBound() ]
 }
 
 void TypeBound():
@@ -1877,10 +1878,10 @@ void ClassOrInterfaceBodyDeclaration(boolean isInterface):
     |
       EnumDeclaration(modifiers)
     |
-      LOOKAHEAD( [ TypeParameters() ] <IDENTIFIER> "(" )
+      LOOKAHEAD( [ TypeParameters() ] JavaIdentifier() "(" )
       ConstructorDeclaration()
     |
-      LOOKAHEAD( Type() <IDENTIFIER> ( "[" "]" )* ( "," | "=" | ";" ) )
+      LOOKAHEAD( Type() JavaIdentifier() ( "[" "]" )* ( "," | "=" | ";" ) )
       FieldDeclaration(modifiers)
     |
       MethodDeclaration(modifiers)
@@ -1905,7 +1906,7 @@ void VariableDeclarator():
 void VariableDeclaratorId():
 {}
 {
-  <IDENTIFIER> ( "[" "]" )*
+  JavaIdentifier() ( "[" "]" )*
 }
 
 void VariableInitializer():
@@ -1935,7 +1936,7 @@ void MethodDeclaration(int modifiers):
 void MethodDeclarator():
 {}
 {
-  <IDENTIFIER> FormalParameters(null) ( "[" "]" )*
+  JavaIdentifier() FormalParameters(null) ( "[" "]" )*
 }
 
 void FormalParameters(List tokens) :
@@ -1985,7 +1986,7 @@ void ConstructorDeclaration():
 {
   [ TypeParameters() ]
   // Modifiers matched in the caller
-  <IDENTIFIER> FormalParameters(null) [ "throws" NameList() ]
+  JavaIdentifier() FormalParameters(null) [ "throws" NameList() ]
   "{"
     [ LOOKAHEAD(ExplicitConstructorInvocation()) ExplicitConstructorInvocation() ]
     ( BlockStatement() )*
@@ -2342,7 +2343,7 @@ void CastLookahead():
   LOOKAHEAD("(" Type() "[")
   "(" Type() "[" "]"
 |
-  "(" Type() ")" ( "~" | "!" | "(" | <IDENTIFIER> | "this" | "super" | "new" | Literal() )
+  "(" Type() ")" ( "~" | "!" | "(" | JavaIdentifier() | "this" | "super" | "new" | Literal() )
 }
 
 void PostfixExpression():
@@ -2369,7 +2370,7 @@ void PrimaryExpression():
 void MemberSelector():
 {}
 {
-  "." TypeArguments(null) <IDENTIFIER>
+  "." TypeArguments(null) JavaIdentifier()
 }
 
 void PrimaryPrefix():
@@ -2379,7 +2380,7 @@ void PrimaryPrefix():
 |
   "this"
 |
-  "super" "." <IDENTIFIER>
+  "super" "." JavaIdentifier()
 |
   "(" Expression(null) ")"
 |
@@ -2405,7 +2406,7 @@ void PrimarySuffix():
 |
   "[" Expression(null) "]"
 |
-  "." <IDENTIFIER>
+  "." JavaIdentifier()
 |
   Arguments(null)
 }
@@ -2591,7 +2592,7 @@ void AssertStatement():
 void LabeledStatement():
 {}
 {
-  <IDENTIFIER> ":" Statement()
+  JavaIdentifier() ":" Statement()
 }
 
 void Block(List tokens) :
@@ -2632,7 +2633,7 @@ void Block(List tokens) :
 void BlockStatement():
 {}
 {
-  LOOKAHEAD( Modifiers() Type() <IDENTIFIER> )
+  LOOKAHEAD( Modifiers() Type() JavaIdentifier() )
   LocalVariableDeclaration() ";"
 |
   Statement()
@@ -2719,8 +2720,8 @@ void ForStatement():
   "for" "("
 
   (
-      LOOKAHEAD(Modifiers() Type() <IDENTIFIER> ":")
-      Modifiers() Type() <IDENTIFIER> ":" Expression(null)
+      LOOKAHEAD(Modifiers() Type() JavaIdentifier() ":")
+      Modifiers() Type() JavaIdentifier() ":" Expression(null)
     |
      [ ForInit() ] ";" [ Expression(null) ] ";" [ ForUpdate() ]
   )
@@ -2731,7 +2732,7 @@ void ForStatement():
 void ForInit():
 {}
 {
-  LOOKAHEAD( Modifiers() Type() <IDENTIFIER> )
+  LOOKAHEAD( Modifiers() Type() JavaIdentifier() )
   LocalVariableDeclaration()
 |
   StatementExpressionList()
@@ -2752,13 +2753,13 @@ void ForUpdate():
 void BreakStatement():
 {}
 {
-  "break" [ <IDENTIFIER> ] ";"
+  "break" [ JavaIdentifier() ] ";"
 }
 
 void ContinueStatement():
 {}
 {
-  "continue" [ <IDENTIFIER> ] ";"
+  "continue" [ JavaIdentifier() ] ";"
 }
 
 void ReturnStatement() :
@@ -2858,7 +2859,7 @@ void RSIGNEDSHIFT():
 void Annotation():
 {}
 {
-   LOOKAHEAD( "@" Name(null) "(" ( <IDENTIFIER> "=" | ")" ))
+   LOOKAHEAD( "@" Name(null) "(" ( JavaIdentifier() "=" | ")" ))
    NormalAnnotation()
  |
    LOOKAHEAD( "@" Name(null) "(" )
@@ -2894,7 +2895,7 @@ void MemberValuePairs():
 void MemberValuePair():
 {}
 {
-    <IDENTIFIER> "=" MemberValue()
+    JavaIdentifier() "=" MemberValue()
 }
 
 void MemberValue():
@@ -2919,7 +2920,7 @@ void  MemberValueArrayInitializer():
 void AnnotationTypeDeclaration(int modifiers):
 {}
 {
-  "@" "interface" <IDENTIFIER> AnnotationTypeBody()
+  "@" "interface" JavaIdentifier() AnnotationTypeBody()
 }
 
 void AnnotationTypeBody():
@@ -2935,8 +2936,8 @@ void AnnotationTypeMemberDeclaration():
 {
  modifiers = Modifiers()
  (
-   LOOKAHEAD(Type() <IDENTIFIER> "(")
-   Type() <IDENTIFIER> "(" ")" [ DefaultValue() ] ";"
+   LOOKAHEAD(Type() JavaIdentifier() "(")
+   Type() JavaIdentifier() "(" ")" [ DefaultValue() ] ";"
   |
    ClassOrInterfaceDeclaration(modifiers, null)
   |
