@@ -2065,7 +2065,7 @@ void TypeArguments(List tokens):
 }
 {
    "<"   { first = getToken(0); }
-   TypeArgument() ( "," TypeArgument() [ "..." ] )*
+   [ TypeArgument() ( "," TypeArgument() [ "..." ] )* ]
    ">"
    {
      last = getToken(0);
