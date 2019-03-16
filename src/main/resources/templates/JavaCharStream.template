@@ -395,7 +395,7 @@ class JavaCharStream
 
 #if GENERATE_ANNOTATIONS
   @Deprecated
-fi
+#fi
   /*
    * @deprecated
    * @see #getEndLine
