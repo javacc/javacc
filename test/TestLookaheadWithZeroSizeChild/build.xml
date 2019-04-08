@@ -14,10 +14,13 @@
          classpath="../../target/javacc.jar">
     </javac>
 
+    <java classname="Parser" classpath="out-dir" outputproperty="test.out" failonerror="true">  </java>
+    <echo>${test.out}</echo>
+
     <fail message="failing">
       <condition>
         <not>
-          <filesmatch file1="out-dir/Parser.java" file2="expected/Parser.java"/>
+          <contains string="${test.out}" substring="Parser ran sucessfully" />
         </not>
       </condition>
     </fail>
