@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 mkdir temp
 rm temp/*.*
 cp target/javacc-6.2.1.jar temp
