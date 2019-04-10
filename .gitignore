@@ -32,3 +32,4 @@ examples/JJTreeExamples/cpp/eg*/
 
 javacc-*.tar.gz
 javacc-*.zip
+dist/
