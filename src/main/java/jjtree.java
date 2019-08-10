@@ -34,7 +34,7 @@ public final class jjtree {
 
   private jjtree() {}
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
     org.javacc.jjtree.Main.main(args);
   }
 

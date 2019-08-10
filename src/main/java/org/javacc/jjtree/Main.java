@@ -34,7 +34,7 @@ public final class Main {
 
   private Main() {}
 
-  public static void main(String args[])
+  public static void main(String args[]) throws Exception
   {
     JJTree jjtree = new JJTree();
     int result = jjtree.main(args);

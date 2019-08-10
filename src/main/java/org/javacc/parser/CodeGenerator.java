@@ -10,6 +10,9 @@ import org.javacc.utils.OutputFileGenerator;
 import java.io.*;
 import java.util.*;
 
+import com.google.devtools.build.singlejar.ZipCombiner;
+import java.io.StringBufferInputStream;
+
 public class CodeGenerator {
   protected StringBuffer mainBuffer = new StringBuffer();
   protected StringBuffer includeBuffer = new StringBuffer();
@@ -110,15 +113,31 @@ public class CodeGenerator {
       fixupLongLiterals(sb);
     }
     try {
-      File tmp = new File(fileName);
-      fw = new PrintWriter(
-              new BufferedWriter(
-              new FileWriter(tmp),
-              8092
-          )
-      );
+      if (Options.outputAsSrcJar()) {
+        System.out.println("Writing " + fileName);
+        ZipCombiner combiner = Options.outputJarGenerator();
+        combiner.addFile(fileName, ZipCombiner.DOS_EPOCH, new ByteArrayInputStream("sb".toString().getBytes("UTF-8")));
 
-      fw.print(sb.toString());
+        // Add parent directory entries.
+        int idx = fileName.indexOf('/');
+        while (idx != -1) {
+          String dir = fileName.substring(0, idx + 1);
+          if (!combiner.containsFile(dir)) {
+            combiner.addDirectory(dir, ZipCombiner.DOS_EPOCH);
+          }
+          idx = fileName.indexOf('/', idx + 1);
+        }
+      } else {
+        File tmp = new File(fileName);
+        fw = new PrintWriter(
+                new BufferedWriter(
+                new FileWriter(tmp),
+                8092
+            )
+        );
+
+        fw.print(sb.toString());
+      }
     } catch(IOException ioe) {
       JavaCCErrors.fatal("Could not create output file: " + fileName);
     } finally {
@@ -132,11 +151,11 @@ public class CodeGenerator {
 
   protected void printTokenSetup(Token t) {
 		Token tt = t;
-		
+
 		while (tt.specialToken != null) {
 			tt = tt.specialToken;
 		}
-		
+
 		cline = tt.beginLine;
 		ccol = tt.beginColumn;
   }
@@ -147,7 +166,7 @@ public class CodeGenerator {
       t = (Token)it.next();
       printToken(t);
     }
-    
+
     if (t != null)
       printTrailingComments(t);
   }
@@ -176,7 +195,7 @@ public class CodeGenerator {
       if (last == '\n' || last == '\r') {
         cline++; ccol = 1;
       }
-    } 
+    }
 
     return retval;
   }
@@ -285,7 +304,7 @@ public class CodeGenerator {
       if (superClasses.length > 0 || superInterfaces.length > 0) {
         genCode(" : ");
       }
- 
+
       genCommaSeperatedString(superClasses);
     }
 
@@ -312,18 +331,18 @@ public class CodeGenerator {
   }
 
   public void switchToMainFile() {
-    outputBuffer = mainBuffer; 
+    outputBuffer = mainBuffer;
   }
 
   public void switchToStaticsFile() {
     if (!isJavaLanguage()) {
-      outputBuffer = staticsBuffer; 
+      outputBuffer = staticsBuffer;
     }
   }
 
   public void switchToIncludeFile() {
     if (!isJavaLanguage()) {
-      outputBuffer = includeBuffer; 
+      outputBuffer = includeBuffer;
     }
   }
 
@@ -385,12 +404,12 @@ public class CodeGenerator {
   {
 
     // options.put("", .valueOf(maxOrdinal));
-    
-    
+
+
     for (int i = 0; i < additionalOptions.length; i++)
     {
       Object o = additionalOptions[i];
-    
+
       if (o instanceof Map<?,?>)
       {
         options.putAll((Map<String,Object>) o);
@@ -399,12 +418,12 @@ public class CodeGenerator {
       {
         if (i == additionalOptions.length - 1)
           throw new IllegalArgumentException("Must supply pairs of [name value] args");
-        
+
         options.put((String) o, additionalOptions[i+1]);
         i++;
       }
     }
-    
+
     OutputFileGenerator gen = new OutputFileGenerator(name, options);
     StringWriter sw = new StringWriter();
     gen.generate(new PrintWriter(sw));

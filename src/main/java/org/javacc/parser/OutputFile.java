@@ -180,7 +180,7 @@ public class OutputFile {
             JavaCCErrors.warning(file.getName()
                 + ": File is obsolete.  Please rename or delete this file so"
                 + " that a new one can be generated for you.");
-            JavaCCErrors.warning(file.getName() 
+            JavaCCErrors.warning(file.getName()
             	+ " file   version: " + version
             	+ " javacc version: " + versionId);
           }
@@ -343,7 +343,7 @@ public class OutputFile {
   public void setToolName(String toolName) {
     this.toolName = toolName;
   }
- 
+
   public String getPath() {
     return file.getAbsolutePath();
   }

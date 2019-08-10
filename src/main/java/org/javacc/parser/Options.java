@@ -44,6 +44,11 @@ import java.util.TreeSet;
 import org.javacc.utils.OptionInfo;
 import org.javacc.utils.OptionType;
 
+import com.google.devtools.build.singlejar.ZipCombiner;
+import java.io.OutputStream;
+import java.io.IOException;
+import java.io.FileOutputStream;
+
 /**
  * A class with static state that stores all option information.
  */
@@ -121,17 +126,19 @@ public class Options {
 
 	public static final String USEROPTION__CPP_TOKEN_INCLUDE = "TOKEN_INCLUDE";
 	public static final String USEROPTION__CPP_PARSER_INCLUDE = "PARSER_INCLUDE";
+
+	public static final String USEROPTION__OUTPUT_SRCJAR = "OUTPUT_SRCJAR";
 	/**
 	 * Various constants relating to possible values for certain options
 	 */
 
 	public static final String OUTPUT_LANGUAGE__CPP = "c++";
 	public static final String OUTPUT_LANGUAGE__JAVA = "java";
-	
+
 	public static enum Language {
 		java, cpp;
 	}
-	
+
 	public static Language language = Language.java;
 
 
@@ -202,7 +209,7 @@ public class Options {
 		temp.add(new OptionInfo(USEROPTION__GRAMMAR_ENCODING, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__OUTPUT_LANGUAGE, OptionType.STRING, OUTPUT_LANGUAGE__JAVA));
 		language = Language.java;
-		
+
 		temp.add(new OptionInfo(USEROPTION__JAVA_TEMPLATE_TYPE, OptionType.STRING, JAVA_TEMPLATE_TYPE_CLASSIC));
 		temp.add(new OptionInfo(USEROPTION__CPP_NAMESPACE, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_INCLUDES, OptionType.STRING, ""));
@@ -216,6 +223,8 @@ public class Options {
 		temp.add(new OptionInfo(USEROPTION__DEPTH_LIMIT, OptionType.INTEGER, new Integer(0)));
 		temp.add(new OptionInfo(USEROPTION__CPP_STACK_LIMIT, OptionType.STRING, ""));
 
+		temp.add(new OptionInfo(USEROPTION__OUTPUT_SRCJAR, OptionType.STRING, ""));
+
 		userOptions = Collections.unmodifiableSet(temp);
 	}
 
@@ -227,10 +236,15 @@ public class Options {
 	 */
 	protected static Map<String,Object> optionValues = null;
 
+	private static OutputStream outputJarStream = null;
+	private static ZipCombiner outputJarGenerator = null;
+
 	/**
 	 * Initialize for JavaCC
 	 */
-	public static void init() {
+	public static void init() throws IOException {
+		outputJarGenerator = null;
+
 		optionValues = new HashMap<String,Object>();
 		cmdLineSetting = new HashSet<String>();
 		inputFileSetting = new HashSet<String>();
@@ -244,8 +258,44 @@ public class Options {
 			boolean isLegacy = JAVA_TEMPLATE_TYPE_CLASSIC.equals(object);
 			optionValues.put(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING, isLegacy );
 		}
-
 	}
+
+	public static void close() throws IOException {
+		if (null != outputJarGenerator) {
+			outputJarGenerator.close();
+		}
+		if (null != outputJarStream) {
+			outputJarStream.close();
+		}
+	}
+
+	private static void initOutputJarGenerator() throws IOException {
+		if (null != outputJarGenerator) {
+			return;
+		}
+		if (!outputAsSrcJar()) {
+			throw new IllegalStateException();
+		}
+
+		String srcjar = stringValue(USEROPTION__OUTPUT_SRCJAR);
+		outputJarStream = new FileOutputStream(srcjar);
+		outputJarGenerator = new ZipCombiner(ZipCombiner.OutputMode.FORCE_STORED, outputJarStream);
+	}
+
+	public static ZipCombiner outputJarGenerator() {
+		try {
+			initOutputJarGenerator();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		return outputJarGenerator;
+	}
+
+  public static boolean outputAsSrcJar() {
+  	String srcjar = stringValue(USEROPTION__OUTPUT_SRCJAR);
+  	return ((null != srcjar) && (!srcjar.isEmpty()));
+  }
 
 	/**
 	 * Convenience method to retrieve integer options.
@@ -424,7 +474,7 @@ public class Options {
 			boolean isLegacy = JAVA_TEMPLATE_TYPE_CLASSIC.equals(templateType);
 			optionValues.put(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING, isLegacy);
 		} else
-			
+
 		if (nameUpperCase.equalsIgnoreCase(USEROPTION__OUTPUT_LANGUAGE)) {
 			String outputLanguage = (String)value;
 			if (!isValidOutputLanguage(outputLanguage)) {
@@ -438,7 +488,7 @@ public class Options {
 			else if (isOutputLanguageCpp())
 				language = Language.cpp;
 		} else
-			
+
 		if (nameUpperCase.equalsIgnoreCase(USEROPTION__CPP_NAMESPACE)) {
 			processCPPNamespaceOption((String) value);
 		}

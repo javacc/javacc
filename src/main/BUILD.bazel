@@ -1,0 +1,47 @@
+java_library(
+    name = "libJavaCC",
+    srcs = glob([
+        "generated-sources/org/javacc/*.java",
+        "java/org/javacc/*.java",
+    ]),
+    javacopts = [
+        "-XepAllErrorsAsWarnings",
+    ],
+    resources = glob(["resources/**/*"]),
+)
+
+java_library(
+    name = "libUtils",
+    srcs = glob([
+        "generated-sources/org/javacc/utils/**/*.java",
+        "java/org/javacc/utils/**/*.java",
+    ]),
+    javacopts = [
+        "-XepAllErrorsAsWarnings",
+    ],
+)
+
+java_library(
+    name = "libParser",
+    srcs = glob([
+        "generated-sources/org/javacc/parser/**/*.java",
+        "java/org/javacc/parser/**/*.java",
+    ]),
+    javacopts = [
+        "-XepAllErrorsAsWarnings",
+    ],
+    deps = [
+        ":libJavaCC",
+        ":libUtils",
+        "@io_bazel//src/java_tools/singlejar:libSingleJar",
+    ],
+)
+
+java_binary(
+    name = "javacc",
+    srcs = [
+        "java/javacc.java",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [":libParser"],
+)

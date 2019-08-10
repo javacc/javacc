@@ -35,6 +35,7 @@ import java.io.File;
 
 import org.javacc.parser.JavaCCErrors;
 import org.javacc.parser.Options;
+import java.io.IOException;
 
 /**
  * The JJTree-specific options.
@@ -53,11 +54,11 @@ class JJTreeOptions extends Options {
     /**
      * Initialize the JJTree-specific options.
      */
-    public static void init() {
+    public static void init() throws IOException {
         Options.init();
 
 
-        
+
         Options.optionValues.put("MULTI", Boolean.FALSE);
         Options.optionValues.put("NODE_DEFAULT_VOID", Boolean.FALSE);
         Options.optionValues.put("NODE_SCOPE_HOOK", Boolean.FALSE);
@@ -79,11 +80,11 @@ class JJTreeOptions extends Options {
         Options.optionValues.put("VISITOR_EXCEPTION", "");
 
         Options.optionValues.put("JJTREE_OUTPUT_DIRECTORY", "");
-        
-        
+
+
         // TODO :: 2013/07/23 -- This appears to be a duplicate from the parent class
         Options.optionValues.put(Options.USEROPTION__JDK_VERSION, "1.5");
-        
+
         // Also appears to be a duplicate
         Options.optionValues.put(Options.USEROPTION__CPP_NAMESPACE, "");
 

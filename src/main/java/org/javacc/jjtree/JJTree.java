@@ -109,7 +109,7 @@ public class JJTree {
   /**
    * A main program that exercises the parser.
    */
-  public int main(String args[]) {
+  public int main(String args[]) throws Exception {
 
     // initialize static state for allowing repeat runs without exiting
     ASTNodeDescriptor.nodeIds = new ArrayList();
@@ -177,9 +177,9 @@ public class JJTree {
         io.getOut().close();
 
         String outputLanguage = JJTreeOptions.getOutputLanguage();
-        
+
         // TODO :: Not yet tested this in GWT/Modern mode (disabled by default in 6.1)
-        
+
 		if (JJTreeOptions.isOutputLanguageJava()) {
           NodeFiles.generateTreeConstants_java();
           NodeFiles.generateVisitor_java();
@@ -219,7 +219,7 @@ public class JJTree {
   /**
    * Initialize for JJTree
    */
-  private void initializeOptions() {
+  private void initializeOptions() throws Exception {
     JJTreeOptions.init();
     JJTreeGlobals.initialize();
   }

@@ -29,6 +29,7 @@
 package org.javacc.jjdoc;
 
 import org.javacc.parser.Options;
+import java.io.IOException;
 
 /**
  * The options, specific to JJDoc.
@@ -47,7 +48,7 @@ public class JJDocOptions extends Options {
     /**
      * Initialize the options.
      */
-    public static void init() {
+    public static void init() throws IOException {
         Options.init();
 
         Options.optionValues.put("ONE_TABLE", Boolean.TRUE);
@@ -85,7 +86,7 @@ public class JJDocOptions extends Options {
     public static boolean getText() {
         return booleanValue("TEXT");
     }
-    
+
     public static boolean getXText() {
         return booleanValue("XTEXT");
     }

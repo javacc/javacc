@@ -51,7 +51,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
   private static final String DUMP_STATIC_VAR_DECLARATIONS_TEMPLATE_RESOURCE_URL = "/templates/DumpStaticVarDeclarations.template";
   private static final String DUMP_DEBUG_METHODS_TEMPLATE_RESOURCE_URL = "/templates/DumpDebugMethods.template";
   private static final String BOILERPLATER_METHOD_RESOURCE_URL = "/templates/TokenManagerBoilerPlateMethods.template";
-  
+
   public static String staticString;
   public static String tokMgrClassName;
 
@@ -204,7 +204,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       genCodeLine("  public " + cu_name + " parser = null;");
     }
   }
-  
+
   @SuppressWarnings("unchecked")
   protected void writeTemplate(String name, Object... additionalOptions) throws IOException
   {
@@ -228,12 +228,12 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
     options.put("cu_name", cu_name);
 
     // options.put("", .valueOf(maxOrdinal));
-    
-    
+
+
     for (int i = 0; i < additionalOptions.length; i++)
     {
       Object o = additionalOptions[i];
-    
+
       if (o instanceof Map<?,?>)
       {
         options.putAll((Map<String,Object>) o);
@@ -242,12 +242,12 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       {
         if (i == additionalOptions.length - 1)
           throw new IllegalArgumentException("Must supply pairs of [name value] args");
-        
+
         options.put((String) o, additionalOptions[i+1]);
         i++;
       }
     }
-    
+
     OutputFileGenerator gen = new OutputFileGenerator(name, options);
     StringWriter sw = new StringWriter();
     gen.generate(new PrintWriter(sw));
@@ -646,14 +646,17 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
     DumpStaticVarDeclarations(charStreamName);
     genCodeLine(/*{*/ "}");
-    
+
     // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-    String fileName = Options.getOutputDirectory() + File.separator +
-                      tokMgrClassName +
+    String fileName = tokMgrClassName +
                       getFileExtension(Options.getOutputLanguage());
-    
+
     if (Options.getBuildParser()) {
-      saveOutput(fileName);
+      if (Options.outputAsSrcJar()) {
+        saveOutput(fileName);
+      } else {
+        saveOutput(Options.getOutputDirectory() + File.separator + fileName);
+      }
     }
   }
 
