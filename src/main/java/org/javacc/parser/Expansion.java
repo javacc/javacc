@@ -60,7 +60,6 @@ public class Expansion {
    * routines.
    */
   String internal_name = "";
-  int internal_index = -1;
 
   /**
    * The parser routines are generated in three phases.  The generation
@@ -122,7 +121,7 @@ public class Expansion {
     return sb;
   }
 
-  public StringBuffer dump(int indent, Set<? super Expansion> alreadyDumped) {
+  public StringBuffer dump(int indent, Set alreadyDumped) {
     StringBuffer value = dumpPrefix(indent).append(System.identityHashCode(this)).append(" ").append(getSimpleName());
     return value;
   }

@@ -33,11 +33,8 @@ package org.javacc.parser;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 final class KindInfo
@@ -46,8 +43,6 @@ final class KindInfo
    long[] finalKinds;
    int    validKindCnt = 0;
    int    finalKindCnt = 0;
-   Set<Integer> finalKindSet = new HashSet<Integer>();
-   Set<Integer> validKindSet = new HashSet<Integer>();
 
    KindInfo(int maxKind)
    {
@@ -59,14 +54,12 @@ final class KindInfo
    {
       validKinds[kind / 64] |= (1L << (kind % 64));
       validKindCnt++;
-      validKindSet.add(kind);
    }
 
    public void InsertFinalKind(int kind)
    {
       finalKinds[kind / 64] |= (1L << (kind % 64));
       finalKindCnt++;
-      finalKindSet.add(kind);
    }
 };
 
@@ -145,7 +138,7 @@ public class RStringLiteral extends RegularExpression {
 	
 	    if (allImages == null || allImages.length == 0)
 	    {
-	      codeGenerator.genCodeLine("static const JJString jjstrLiteralImages[] = {};");
+	      codeGenerator.genCodeLine("static const JAVACC_STRING_TYPE jjstrLiteralImages[] = {};");
 	      return;
 	    }
 	
@@ -170,12 +163,12 @@ public class RStringLiteral extends RegularExpression {
 	          charCnt = 0;
 	        }
 	
-	        codeGenerator.genCodeLine("static JJChar jjstrLiteralChars_"
+	        codeGenerator.genCodeLine("static JAVACC_CHAR_TYPE jjstrLiteralChars_"
 	            + literalCount++ + "[] = {0};");
 	        continue;
 	      }
 	
-	      String toPrint = "static JJChar jjstrLiteralChars_" +
+	      String toPrint = "static JAVACC_CHAR_TYPE jjstrLiteralChars_" +
 	                           literalCount++ + "[] = {";
 	      for (int j = 0; j < image.length(); j++) {
 	        String hexVal = Integer.toHexString((int)image.charAt(j));
@@ -202,13 +195,13 @@ public class RStringLiteral extends RegularExpression {
 	        charCnt = 0;
 	      }
 	
-	      codeGenerator.genCodeLine("static JJChar jjstrLiteralChars_" +
+	      codeGenerator.genCodeLine("static JAVACC_CHAR_TYPE jjstrLiteralChars_" +
 	                                 literalCount++ + "[] = {0};");
 	      continue;
 	    }
 	
 	    // Generate the array here.
-	    codeGenerator.genCodeLine("static const JJString " +
+	    codeGenerator.genCodeLine("static const JAVACC_STRING_TYPE " +
 	                              "jjstrLiteralImages[] = {");
 	    for (int j = 0; j < literalCount; j++) {
 	      codeGenerator.genCodeLine("jjstrLiteralChars_" + j + ", ");
@@ -583,7 +576,7 @@ public class RStringLiteral extends RegularExpression {
          codeGenerator.genCodeLine("   fprintf(debugStream, \"   Currently matched the first %d characters as a \\\"%s\\\" token.\\n\",  (jjmatchedPos + 1),  addUnicodeEscapes(tokenImage[jjmatchedKind]).c_str());");
        }
      }
-
+  
      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
      if (Options.isOutputLanguageJava()) {
        codeGenerator.genCodeLine("   try { curChar = input_stream.readChar(); }");
@@ -644,7 +637,7 @@ public class RStringLiteral extends RegularExpression {
     	   throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
        }
      }
-
+     
      codeGenerator.genCodeLine("   return pos + 1;");
      codeGenerator.genCodeLine("}");
   }
@@ -757,7 +750,7 @@ public class RStringLiteral extends RegularExpression {
            }
         }
         params.append(")");
-
+        
      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
      if (Options.isOutputLanguageJava()) {
         codeGenerator.genCode((Options.getStatic() ? "static " : "") + "private int " +
@@ -861,7 +854,7 @@ public class RStringLiteral extends RegularExpression {
             	  throw new RuntimeException("Output language type not fully implemented : " + Options.getOutputLanguage());
               }
            }
-
+           
            // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
            if (Options.isOutputLanguageJava()) {
              codeGenerator.genCodeLine("   try { curChar = input_stream.readChar(); }");
@@ -875,18 +868,16 @@ public class RStringLiteral extends RegularExpression {
            if (!Main.lg.mixed[Main.lg.lexStateIndex] && NfaState.generatedStates != 0)
            {
               codeGenerator.genCode("      jjStopStringLiteralDfa" + Main.lg.lexStateSuffix + "(" + (i - 1) + ", ");
-              for (k = 0; k < maxLongsReqd - 1; k++) {
+              for (k = 0; k < maxLongsReqd - 1; k++)
                  if (i <= maxLenForActive[k])
                     codeGenerator.genCode("active" + k + ", ");
                  else
                     codeGenerator.genCode("0L, ");
-              }
 
-              if (i <= maxLenForActive[k]) {
+              if (i <= maxLenForActive[k])
                  codeGenerator.genCodeLine("active" + k + ");");
-              } else {
+              else
                  codeGenerator.genCodeLine("0L);");
-              }
 
 
               if (i != 0 && Options.getDebugTokenManager()) {
@@ -907,12 +898,12 @@ public class RStringLiteral extends RegularExpression {
            } else {
               codeGenerator.genCodeLine("      return " + i + ";");
            }
-
+           
            codeGenerator.genCodeLine("   }");
         }
-
-
-
+        
+        
+        
      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
         if (i != 0 && Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP) ) {
           codeGenerator.genCodeLine("   curChar = input_stream->readChar();");
@@ -1392,10 +1383,7 @@ public class RStringLiteral extends RegularExpression {
         }
      }
 
-     // TODO(Sreeni) : Fix this mess.
-     if (Options.getTokenManagerCodeGenerator() == null) {
-       DumpNfaStartStatesCode(statesForPos, codeGenerator);
-     }
+     DumpNfaStartStatesCode(statesForPos, codeGenerator);
   }
 
   static void DumpNfaStartStatesCode(Hashtable[] statesForPos,
@@ -1413,7 +1401,7 @@ public class RStringLiteral extends RegularExpression {
      for (i = 0; i < maxKindsReqd - 1; i++)
         params.append("" + Options.getLongType() + " active" + i + ", ");
      params.append("" + Options.getLongType() + " active" + i + ")");
-
+     
   // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
      if (Options.isOutputLanguageJava()) {
      codeGenerator.genCode("private" + (Options.getStatic() ? " static" : "") + " final int jjStopStringLiteralDfa" +
@@ -1466,7 +1454,7 @@ public class RStringLiteral extends RegularExpression {
               condGenerated = true;
 
               codeGenerator.genCode("(active" + j + " & 0x" +
-                  Long.toHexString(actives[j]) + "L) != 0L");
+                          Long.toHexString(actives[j]) + "L) != 0L");
            }
 
            if (condGenerated)
@@ -1600,138 +1588,5 @@ public class RStringLiteral extends RegularExpression {
 
   public String toString() {
     return super.toString() + " - " + image;
-  }
-
-/*
-  static void GenerateData(TokenizerData tokenizerData) {
-     Hashtable tab;
-     String key;
-     KindInfo info;
-     for (int i = 0; i < maxLen; i++) {
-        tab = (Hashtable)charPosKind.get(i);
-        String[] keys = ReArrange(tab);
-        if (Options.getIgnoreCase()) {
-          for (String s : keys) {
-            char c = s.charAt(0); 
-            tab.put(Character.toLowerCase(c), tab.get(c));
-            tab.put(Character.toUpperCase(c), tab.get(c));
-          }
-        }
-        for (int q = 0; q < keys.length; q++) {
-           key = keys[q];
-           info = (KindInfo)tab.get(key);
-           char c = key.charAt(0);
-           for (int kind : info.finalKindSet) {
-             tokenizerData.addDfaFinalKindAndState(
-                 i, c, kind, GetStateSetForKind(i, kind));
-           }
-           for (int kind : info.validKindSet) {
-             tokenizerData.addDfaValidKind(i, c, kind);
-           }
-        }
-     }
-     for (int i = 0; i < maxLen; i++) {
-        Enumeration e = statesForPos[i].keys();
-        while (e.hasMoreElements())
-        {
-           String stateSetString = (String)e.nextElement();
-           long[] actives = (long[])statesForPos[i].get(stateSetString);
-           int ind = stateSetString.indexOf(", ");
-           String kindStr = stateSetString.substring(0, ind);
-           String afterKind = stateSetString.substring(ind + 2);
-           stateSetString = afterKind.substring(afterKind.indexOf(", ") + 2);
-           BitSet bits = BitSet.valueOf(actives);
-
-           for (int j = 0; j < bits.length(); j++) {
-             if (bits.get(j)) tokenizerData.addFinalDfaKind(j);
-           }
-           // Pos
-           codeGenerator.genCode(
-               ", " + afterKind.substring(0, afterKind.indexOf(", ")));
-           // Kind
-           codeGenerator.genCode(", " + kindStr);
-
-           // State
-           if (stateSetString.equals("null;")) {
-              codeGenerator.genCodeLine(", -1");
-           } else {
-              codeGenerator.genCodeLine(
-                  ", " + NfaState.AddStartStateSet(stateSetString));
-           }
-        }
-        codeGenerator.genCode("}");
-     }
-     codeGenerator.genCodeLine("};");
-  }
-*/
-
-  static final Map<Integer, List<String>> literalsByLength =
-      new HashMap<Integer, List<String>>();
-  static final Map<Integer, List<Integer>> literalKinds =
-      new HashMap<Integer, List<Integer>>();
-  static final Map<Integer, Integer> kindToLexicalState =
-      new HashMap<Integer, Integer>();
-  static final Map<Integer, NfaState> nfaStateMap =
-      new HashMap<Integer, NfaState>();
-  public static void UpdateStringLiteralData(
-      int generatedNfaStates, int lexStateIndex) {
-    for (int kind = 0; kind < allImages.length; kind++) {
-      if (allImages[kind] == null || allImages[kind].equals("") ||
-          Main.lg.lexStates[kind] != lexStateIndex) {
-        continue;
-      }
-      String s = allImages[kind];
-      int actualKind;
-      if (intermediateKinds != null &&
-          intermediateKinds[kind][s.length() - 1] != Integer.MAX_VALUE &&
-          intermediateKinds[kind][s.length() - 1] < kind) {
-        JavaCCErrors.warning("Token: " + s + " will not be matched as " +
-                             "specified. It will be matched as token " +
-                             "of kind: " +
-                             intermediateKinds[kind][s.length() - 1] +
-                             " instead.");
-        actualKind = intermediateKinds[kind][s.length() - 1];
-      } else {
-        actualKind = kind;
-      }
-      kindToLexicalState.put(actualKind, lexStateIndex);
-      if (Options.getIgnoreCase()) {
-        s = s.toLowerCase();
-      }
-      char c = s.charAt(0);
-      int key = (int)Main.lg.lexStateIndex << 16 | (int)c;
-      List<String> l = literalsByLength.get(key);
-      List<Integer> kinds = literalKinds.get(key);
-      int j = 0;
-      if (l == null) {
-        literalsByLength.put(key, l = new ArrayList<String>());
-        assert(kinds == null);
-        kinds = new ArrayList<Integer>();
-        literalKinds.put(key, kinds = new ArrayList<Integer>());
-      }
-      while (j < l.size() && l.get(j).length() > s.length()) j++;
-      l.add(j, s);
-      kinds.add(j, actualKind);
-      int stateIndex = GetStateSetForKind(s.length() - 1, kind);
-      if (stateIndex != -1) {
-        nfaStateMap.put(actualKind, NfaState.getNfaState(stateIndex));
-      } else {
-        nfaStateMap.put(actualKind, null);
-      }
-    }
-  }
-
-  public static void BuildTokenizerData(TokenizerData tokenizerData) {
-    Map<Integer, Integer> nfaStateIndices = new HashMap<Integer, Integer>();
-    for (int kind : nfaStateMap.keySet()) {
-      if (nfaStateMap.get(kind) != null) {
-        nfaStateIndices.put(kind, nfaStateMap.get(kind).stateName);
-      } else {
-        nfaStateIndices.put(kind, -1);
-      }
-    }
-    tokenizerData.setLiteralSequence(literalsByLength);
-    tokenizerData.setLiteralKinds(literalKinds);
-    tokenizerData.setKindToNfaStartState(nfaStateIndices);
   }
 }

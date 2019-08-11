@@ -34,33 +34,30 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <delete dir="out-dir" />
 
-    <java failonerror="true" fork="true" classname="javacc" classpath="${basedir}/../../target/javacc.jar" >
+    <java failonerror="true" fork="true" classname="javacc" classpath="../../target/${javacc-jarname}" >
       <arg line="Parser.jj" />
     </java>
 
     <loadfile property="plainTokens" srcFile="out-dir/ParserTokenManager.java" />
-  	<echo message="${plainTokens}" file="out-dir/plainTokens.txt"/>
-  	
+
     <!-- Now with a pre-existing, old-format Token.java... -->
     <delete file="out-dir/Token.java" />
     <copy file="OldToken.java" tofile="out-dir/Token.java" />
 
-    <java failonerror="true" fork="true" classname="javacc" classpath="${basedir}/../../target/javacc.jar" >
+    <java failonerror="true" fork="true" classname="javacc" classpath="../../target/${javacc-jarname}" >
       <arg line="Parser.jj" />
     </java>
 
     <loadfile property="oldTokens" srcFile="out-dir/ParserTokenManager.java" />
-  	<echo message="${oldTokens}" file="out-dir/oldTokens.txt"/>
 
     <!-- Now with a Token Factory -->
     <delete file="out-dir/Token.java" />
 
-    <java failonerror="true" fork="true" classname="javacc" classpath="${basedir}/../../target/javacc.jar" >
+    <java failonerror="true" fork="true" classname="javacc" classpath="../../target/${javacc-jarname}" >
       <arg line="ParserTokenFactory.jj" />
     </java>
 
     <loadfile property="tokenFactory" srcFile="out-dir/ParserTokenManager.java" />
-  	<echo message="${tokenFactory}" file="out-dir/tokenFactory.txt"/>
 
 
     <fail message="newToken failed">

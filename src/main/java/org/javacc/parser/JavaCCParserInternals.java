@@ -29,7 +29,6 @@
 package org.javacc.parser;
 
 import java.util.List;
-import java.util.Hashtable;
 
 /**
  * Utilities.
@@ -40,7 +39,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
     Integer i = new Integer(0);
     lexstate_S2I.put("DEFAULT", i);
     lexstate_I2S.put(i, "DEFAULT");
-    simple_tokens_table.put("DEFAULT", new Hashtable());
+    simple_tokens_table.put("DEFAULT", new java.util.Hashtable());
   }
 
   static protected void addcuname(String id) {
@@ -53,7 +52,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
     }
   }
 
-  static private List<Token> add_cu_token_here = cu_to_insertion_point_1;
+  static private List add_cu_token_here = cu_to_insertion_point_1;
   static private Token first_cu_token;
   static private boolean insertionpoint1set = false;
   static private boolean insertionpoint2set = false;
@@ -124,12 +123,12 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
         ii = new Integer(nextFreeLexState++);
         lexstate_S2I.put(p.lexStates[i], ii);
         lexstate_I2S.put(ii, p.lexStates[i]);
-        simple_tokens_table.put(p.lexStates[i], new Hashtable());
+        simple_tokens_table.put(p.lexStates[i], new java.util.Hashtable());
       }
     }
   }
 
-  static protected void add_token_manager_decls(Token t, List decls) {
+  static protected void add_token_manager_decls(Token t, java.util.List decls) {
     if (token_mgr_decls != null) {
       JavaCCErrors.parse_error(t, "Multiple occurrence of \"TOKEN_MGR_DECLS\".");
     } else {

@@ -1,13 +1,15 @@
   /** Reinitialise parser. */
-  void ${tokMgrClassName}::ReInit(JAVACC_CHARSTREAM *stream, int lexState) {
-    clear();
+  void ${tokMgrClassName}::ReInit(JAVACC_CHARSTREAM *stream, int lexState, ${parserClassName} *parserArg) {
+    if (input_stream) delete input_stream;
     jjmatchedPos = jjnewStateCnt = 0;
     curLexState = lexState;
     input_stream = stream;
     ReInitRounds();
     debugStream = stdout; // init
     SwitchTo(lexState);
+    parser = parserArg;
     errorHandler = new TokenManagerErrorHandler();
+    errorHandlerCreated = true;
   }
 
   void ${tokMgrClassName}::ReInitRounds() {
@@ -19,41 +21,26 @@
 
   /** Switch to specified lex state. */
   void ${tokMgrClassName}::SwitchTo(int lexState) {
-    if (lexState >= ${lexStateNameLength} || lexState < 0) {
-      JJString message;
-\#ifdef WIDE_CHAR
-      message += L"Error: Ignoring invalid lexical state : ";
-      message += lexState; message += L". State unchanged.";
-\#else
-      message += "Error: Ignoring invalid lexical state : ";
-      message += lexState; message += ". State unchanged.";
-\#endif
-      throw new TokenMgrError(message, INVALID_LEXICAL_STATE);
-    } else
+    if (lexState >= ${lexStateNameLength} || lexState < 0)
+      assert(false);
+      //throw 1;//new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
+    else
       curLexState = lexState;
   }
 
   /** Constructor. */
-  ${tokMgrClassName}::${tokMgrClassName} (JAVACC_CHARSTREAM *stream, int lexState)
+  ${tokMgrClassName}::${tokMgrClassName} (JAVACC_CHARSTREAM *stream, int lexState, ${parserClassName} *parserArg)
 #if TOKEN_MANAGER_SUPER_CLASS
   : ${TOKEN_MANAGER_SUPER_CLASS}()
 #fi
   {
-    input_stream = nullptr;
-    ReInit(stream, lexState);
+    input_stream = NULL;
+    ReInit(stream, lexState, parserArg);
   }
 
   // Destructor
   ${tokMgrClassName}::~${tokMgrClassName} () {
-    clear();
+    if (input_stream) delete input_stream;
+    if (errorHandlerCreated) delete errorHandler;
   }
-
-  // clear
-  void ${tokMgrClassName}::clear() {
-    //Since input_stream was generated outside of TokenManager
-    //TokenManager should not take care of deleting it
-    //if (input_stream) delete input_stream;
-    if (errorHandler) delete errorHandler, errorHandler = nullptr;    
-  }
-
 

@@ -31,7 +31,6 @@ package org.javacc.jjdoc;
 
 import java.io.PrintWriter;
 
-import org.javacc.parser.CppCodeProduction;
 import org.javacc.parser.Expansion;
 import org.javacc.parser.JavaCodeProduction;
 import org.javacc.parser.NonTerminal;
@@ -134,16 +133,6 @@ public class TextGenerator implements Generator {
     productionStart(jp);
     text("java code");
     productionEnd(jp);
-  }
-
-  /**
-   * {@inheritDoc}
-   * @see org.javacc.jjdoc.Generator#cppcode(org.javacc.parser.CppCodeProduction)
-   */
-  public void cppcode(CppCodeProduction cp) {
-    productionStart(cp);
-    text("c++ code");
-    productionEnd(cp);
   }
 
   /**
@@ -285,7 +274,6 @@ public class TextGenerator implements Generator {
   public void error(String message) {
     System.err.println(message);
   }
-
 
   
   

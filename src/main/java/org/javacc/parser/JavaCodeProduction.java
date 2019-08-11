@@ -31,5 +31,18 @@ package org.javacc.parser;
  * Describes JAVACODE productions.
  */
 
-public class JavaCodeProduction extends CodeProduction {
+public class JavaCodeProduction extends NormalProduction {
+
+  /**
+   * The tokens that implement this JAVACODE production.
+   */
+  private java.util.List code_tokens = new java.util.ArrayList();
+
+  /**
+   * @return the code_tokens
+   */
+  public java.util.List getCodeTokens() {
+    return code_tokens;
+  }
+
 }

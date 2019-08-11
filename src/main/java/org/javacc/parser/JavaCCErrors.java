@@ -121,6 +121,6 @@ public final class JavaCCErrors {
 
    public static void fatal(String message) {
       System.err.println("Fatal Error: " + message);
-      throw new RuntimeException("Fatal Error: " + message);
+      System.exit(1);
    }
 }

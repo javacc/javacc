@@ -43,7 +43,7 @@ import java.util.Set;
 import org.javacc.Version;
 import org.javacc.parser.Options;
 import org.javacc.parser.OutputFile;
-import org.javacc.utils.OutputFileGenerator;
+import org.javacc.utils.JavaFileGenerator;
 
 final class NodeFiles {
   private NodeFiles() {}
@@ -315,7 +315,7 @@ final class NodeFiles {
     Map options = new HashMap(Options.getOptions());
     options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     
-    OutputFileGenerator generator = new OutputFileGenerator(
+    JavaFileGenerator generator = new JavaFileGenerator(
         "/templates/Node.template", options);
     
     generator.generate(ostr);
@@ -334,7 +334,7 @@ final class NodeFiles {
     options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     options.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(JJTreeOptions.getVisitorReturnType().equals("void")));
     
-    OutputFileGenerator generator = new OutputFileGenerator(
+    JavaFileGenerator generator = new JavaFileGenerator(
         "/templates/SimpleNode.template", options);
     
     generator.generate(ostr);
@@ -354,7 +354,7 @@ final class NodeFiles {
     options.put("NODE_TYPE", nodeType);
     options.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(JJTreeOptions.getVisitorReturnType().equals("void")));
     
-    OutputFileGenerator generator = new OutputFileGenerator(
+    JavaFileGenerator generator = new JavaFileGenerator(
         "/templates/MultiNode.template", options);
     
     generator.generate(ostr);

@@ -77,7 +77,7 @@ public class TokenProduction {
    * The list of regular expression specifications that comprise this
    * production.  Each entry is a "RegExprSpec".
    */
-  public List<RegExprSpec> respecs = new ArrayList<RegExprSpec>();
+  public List respecs = new ArrayList();
 
   /**
    * This is true if this corresponds to a production that actually

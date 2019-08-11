@@ -1,6 +1,5 @@
-\#ifndef JAVACC_TOKEN_H
-\#define JAVACC_TOKEN_H
-
+\#ifndef TOKEN_H
+\#define TOKEN_H
 \#include "JavaCC.h"
 
 #if TOKEN_INCLUDES
@@ -41,7 +40,7 @@ class Token
   /**
    * The string image of the token.
    */
-  JJString image;
+  JAVACC_STRING_TYPE image;
 
   /**
    * A reference to the next regular (non-special) token from the input
@@ -90,15 +89,14 @@ class Token
   /**
    * Constructs a new token for the specified Image and Kind.
    */
-  Token(int kind, const JJString& image);
-
-  virtual ~Token();
+  Token(int kind, JAVACC_STRING_TYPE image);
 
   /**
    * Returns the image.
    */
-  const JJString& toString();
+  JAVACC_STRING_TYPE toString();
 
+  public: virtual ~Token();
 
   /**
    * Returns a new Token void *, by default. However, if you want, you
@@ -112,7 +110,7 @@ class Token
    * to the following switch statement. Then you can cast matchedToken
    * variable to the appropriate type and use sit in your lexical actions.
    */
-  static Token *newToken(int ofKind, const JJString& image);
+  static Token *newToken(int ofKind, JAVACC_STRING_TYPE image);
 
   static Token *newToken(int ofKind);
 };
@@ -120,5 +118,4 @@ class Token
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi
-
 \#endif

@@ -52,8 +52,6 @@ PARSER_BEGIN(JavaCCParser)
 
 package org.javacc.parser;
 
-import static org.javacc.parser.Options.*;
-
 import java.util.List;
 import java.util.ArrayList;
 
@@ -97,14 +95,8 @@ public class JavaCCParser extends JavaCCParserInternals {
    */
   boolean jumpPatched = false;
 
-  protected static boolean isJavaLanguage()
-  {
-    return language == Language.java;
-  }
-  protected static boolean isCppLanguage()
-  {
-    return language == Language.cpp;
-  }
+  protected boolean isJavaLanguage = true;
+
 
   /*
    * Returns true if the next token is not in the FOLLOW list of "expansion".
@@ -116,17 +108,6 @@ public class JavaCCParser extends JavaCCParserInternals {
     if (t.kind == BIT_OR || t.kind == COMMA || t.kind == RPAREN || t.kind == RBRACE || t.kind == RBRACKET) return false;
     return true;
   }
-
-  /*
-   * return true if the token is allowed in a ResultType. Used to  mark a c++
-   * result type as an error for a java grammar
-   */
-  private boolean isAllowed(Token t)  {
-    if (isJavaLanguage() && (t.kind == STAR || t.kind == BIT_AND || t.kind == CONST))
-       return false;
-    else
-       return true;
-  }    
 
    /**
     * Class to hold modifiers.
@@ -291,20 +272,12 @@ TOKEN :
 | < _PARSER_BEGIN: "PARSER_BEGIN" >
 | < _PARSER_END: "PARSER_END" >
 | < _JAVACODE: "JAVACODE" >
-| < _CPPCODE: "CPPCODE" >
 | < _TOKEN: "TOKEN" >
 | < _SPECIAL_TOKEN: "SPECIAL_TOKEN" >
 | < _MORE: "MORE" >
 | < _SKIP: "SKIP" >
 | < _TOKEN_MGR_DECLS: "TOKEN_MGR_DECLS" >
 | < _EOF: "EOF" >
-// c++ generation blocks
-| < _DCL_PARSER_BEGIN: "DCL_PARSER_BEGIN" >
-| < _DCL_PARSER_END: "DCL_PARSER_END" >
-| < _INC_PARSER_BEGIN: "INC_PARSER_BEGIN" >
-| < _INC_PARSER_END: "INC_PARSER_END" >
-| < _DEF_PARSER_BEGIN: "DEF_PARSER_BEGIN" >
-| < _DEF_PARSER_END: "DEF_PARSER_END" >
 }
 
 /*
@@ -431,14 +404,6 @@ TOKEN :
 | < WHILE: "while" >
 }
 
-/* C++ RESERVED WORDS AND LITERALS */
-
-TOKEN :
-{
-  < TEMPLATE: "template" >
-| < TYPENAME: "typename" >
-}
-
 /* JAVA LITERALS */
 
 TOKEN :
@@ -529,7 +494,6 @@ TOKEN :
 | < TILDE: "~" >
 | < HOOK: "?" >
 | < COLON: ":" >
-| < DOUBLECOLON: "::" >
 | < EQ: "==" >
 | < LE: "<=" >
 | < GE: ">=" >
@@ -595,8 +559,9 @@ void javacc_input() :
 {
   javacc_options()
   {
+    isJavaLanguage = Options.isOutputLanguageJava();
   }
-    "PARSER_BEGIN" "(" id1=identifier()
+  "PARSER_BEGIN" "(" id1=identifier()
 	{
 	  addcuname(id1);
 	}
@@ -605,7 +570,7 @@ void javacc_input() :
 	  processing_cu = true;
 	  parser_class_name = id1;
 
-          if (!isJavaLanguage()) {
+          if (!isJavaLanguage) {
             JavaCCGlobals.otherLanguageDeclTokenBeg = getToken(1);
             while(getToken(1).kind != _PARSER_END) {
               getNextToken();
@@ -613,15 +578,15 @@ void javacc_input() :
             JavaCCGlobals.otherLanguageDeclTokenEnd = getToken(1);
           }
 	}
-    CompilationUnit()
+  CompilationUnit()
 	{
 	  processing_cu = false;
 	}
-    "PARSER_END" "(" id2=identifier()
+  "PARSER_END" "(" id2=identifier()
 	{
 	  compare(getToken(0), id1, id2);
 	}
-    ")"
+               ")"
   ( production() )+
   <EOF>
 }
@@ -641,7 +606,6 @@ void option_binding() :
 	  int int_val;
 	  boolean bool_val;
 	  String string_val;
-	  List<String > string_list;
 	  Token t = getToken(1);
 	}
 {
@@ -665,28 +629,10 @@ void option_binding() :
 	{
 	  Options.setInputFileOption(t, getToken(0), option_name, string_val);
 	}
-  |
-    string_list = StringList()
-    {
-	  Options.setInputFileOption(t, getToken(0), option_name, string_list);
-    }
   )
   ";"
 }
 
-List<String> StringList() :
-{ List<String> strings = new ArrayList<String>(); String string; }
-{
-	"(" string = StringLiteral()
-	{
-	  strings.add(string);
-	}
-	("," string = StringLiteral()
-	{
-	  strings.add(string);
-	}
-	)* ")" {  return strings; }
-}
 void production() :
 {}
 {
@@ -697,14 +643,6 @@ void production() :
    * "bnf_production".
    */
   javacode_production()
-|
-  LOOKAHEAD(1)
-  /*
-   * Since CPPCODE is both a JavaCC reserved word and a Java identifier,
-   * we need to give preference to "cppcode_production" over
-   * "bnf_production".
-   */
-  cppcode_production()
 |
   LOOKAHEAD(1)
   /*
@@ -731,55 +669,13 @@ void javacode_production() :
 	  String lhs;
 	  Token t = getToken(1);
 	  p.setFirstToken(t);
-	  List excName;
-	  p.setThrowsList(new ArrayList());
+	  java.util.List excName;
+	  p.setThrowsList(new java.util.ArrayList());
 	  p.setLine(t.beginLine);
 	  p.setColumn(t.beginColumn);
 	}
 {
   "JAVACODE"
-  AccessModifier(p)
-  ResultType(p.getReturnTypeTokens())
-  lhs=identifier()	{ p.setLhs(lhs); }
-  FormalParameters(p.getParameterListTokens())
-  [ "throws"
-	{
-	  excName = new ArrayList();
-	}
-    Name(excName)
-	{
-	  p.getThrowsList().add(excName);
-	}
-    (
-	{
-	  excName = new ArrayList();
-	}
-      "," Name(excName)
-	{
-	  p.getThrowsList().add(excName);
-	}
-    )*
-  ]
-  Block(p.getCodeTokens())
-	{
-	  p.setLastToken(getToken(0));
-	  addproduction(p);
-	}
-}
-
-void cppcode_production() :
-	{
-	  CppCodeProduction p = new CppCodeProduction();
-	  String lhs;
-	  Token t = getToken(1);
-	  p.setFirstToken(t);
-	  List excName;
-	  p.setThrowsList(new ArrayList());
-	  p.setLine(t.beginLine);
-	  p.setColumn(t.beginColumn);
-	}
-{
-  "CPPCODE"
   AccessModifier(p)
   ResultType(p.getReturnTypeTokens())
   lhs=identifier()	{ p.setLhs(lhs); }
@@ -815,9 +711,9 @@ void bnf_production() :
 	  Container c = new Container();
 	  Token t = getToken(1);
 	  p.setFirstToken(t);
-	  List excName;
+	  java.util.List excName;
 	  String lhs;
-	  p.setThrowsList(new ArrayList());
+	  p.setThrowsList(new java.util.ArrayList());
 	  p.setLine(t.beginLine);
 	  p.setColumn(t.beginColumn);
 	  jumpPatched = false;
@@ -872,7 +768,7 @@ void AccessModifier(NormalProduction p) :
 void regular_expr_production() :
 	{
 	  TokenProduction p = new TokenProduction();
-	  List states;
+	  java.util.List states;
 	  Token t = p.firstToken = getToken(1);
 	  p.setLine(t.beginLine);
 	  p.setColumn(t.beginColumn);
@@ -891,7 +787,7 @@ void regular_expr_production() :
   |
     "<"
 	{
-	  states = new ArrayList();
+	  states = new java.util.ArrayList();
 	}
       t=<IDENTIFIER>
 	{
@@ -935,13 +831,13 @@ void regular_expr_production() :
 
 void token_manager_decls() :
 	{
-	  List decls = new ArrayList();
+	  java.util.List decls = new java.util.ArrayList();
 	  Token t;
 	}
 {
   t="TOKEN_MGR_DECLS" ":"
   {
-    if (!isJavaLanguage()) {
+    if (!isJavaLanguage) {
       getNextToken(); // eat {
       eatUptoCloseBrace(decls);
       getNextToken(); // eat }
@@ -1143,7 +1039,7 @@ Lookahead local_lookahead() :
   [ LOOKAHEAD(0, { emptyLA || commaAtEnd } )
     "{"
         {
-          if (!isJavaLanguage()) {
+          if (!isJavaLanguage) {
             int b = 0;
             while(getToken(1).kind != RBRACE || --b > 0) {
               t = getNextToken();
@@ -1170,7 +1066,7 @@ Lookahead local_lookahead() :
 void expansion_unit(Container c) :
 	{
 	  String name;
-	  List lhsTokens = new ArrayList();
+	  java.util.List lhsTokens = new java.util.ArrayList();
 	  NonTerminal nt;
 	  Action act;
 	  Token t;
@@ -1231,36 +1127,36 @@ void expansion_unit(Container c) :
 |
 	{
 	  Container expch = new Container();
-	  List types = new ArrayList();
-	  List ids = new ArrayList();
-	  List catchblks = new ArrayList();
-	  List finallyblk = null;
-	  List vec = new ArrayList();
+	  java.util.List types = new java.util.ArrayList();
+	  java.util.List ids = new java.util.ArrayList();
+	  java.util.List catchblks = new java.util.ArrayList();
+	  java.util.List finallyblk = null;
+	  java.util.List vec = new java.util.ArrayList();
 	  Token t0;
 	}
   t0="try" "{" expansion_choices(expch) "}"
   ("catch" "("
     {
-      if (!isJavaLanguage()) {
+      if (!isJavaLanguage) {
         while (getToken(1).kind != RPAREN) getNextToken();
       }
       t = getToken(0);
       t.kind = IDENTIFIER;
       t.image = "...";
     }
-    [ LOOKAHEAD({isJavaLanguage()}) Name(vec) t=<IDENTIFIER> ]
+    [ LOOKAHEAD({isJavaLanguage}) Name(vec) t=<IDENTIFIER> ]
    ")"
 	{
 	  types.add(vec);
 	  ids.add(t);
-	  vec = new ArrayList();
+	  vec = new java.util.ArrayList();
 	  inAction = true;
 	}
     Block(vec)
 	{
 	  inAction = false;
 	  catchblks.add(vec);
-	  vec = new ArrayList();
+	  vec = new java.util.ArrayList();
 	}
   )*
   [
@@ -1306,15 +1202,15 @@ void expansion_unit(Container c) :
 	}
   ]
   (
-	LOOKAHEAD( identifier() [ TypeArguments(null) ] "(")
+	LOOKAHEAD( identifier() "(")
 	{
-	  t = getToken(1);
 	  nt = new NonTerminal();
+	  t = getToken(1);
 	  nt.setLine(t.beginLine);
 	  nt.setColumn(t.beginColumn);
 	  nt.setLhsTokens(lhsTokens);
 	}
-   name=identifier() [ TypeArguments(nt.getParametrizedTypeTokens()) ] Arguments(nt.getArgumentTokens())
+   name=identifier() Arguments(nt.getArgumentTokens())
 	{
 	  nt.setName(name);
 	  c.member = nt;
@@ -1613,14 +1509,6 @@ Token JavaIdentifier() :
 | "SKIP"
 | "TOKEN_MGR_DECLS"
 | "EOF"
-// c++ generation blocks
-| "DCL_PARSER_BEGIN"
-| "DCL_PARSER_END"
-| "INC_PARSER_BEGIN"
-| "INC_PARSER_END"
-| "DEF_PARSER_BEGIN"
-| "DEF_PARSER_END"
-
 )
 	{
 	  Token retval = getToken(0);
@@ -1971,13 +1859,9 @@ void FormalParameters(List tokens) :
 }
 
 void FormalParameter():
-{ Token t; }
+{}
 {
-  Modifiers() Type()
-  [ ( t = "&" | t = "*") { if (!isAllowed(t)) throw new ParseException(t.image + " is invalid in this context"); }
-  	| "..."
-  ]
-  VariableDeclaratorId()
+  Modifiers() Type() [ "..." ] VariableDeclaratorId()
 }
 
 void ConstructorDeclaration():
@@ -2025,60 +1909,20 @@ void ReferenceType():
 {
    PrimitiveType() ( LOOKAHEAD(2) "[" "]" )+
   |
-   ( [ Template() ] ClassOrInterfaceType() ) ( LOOKAHEAD(2) "[" "]" )*
-}
-
-void Template():
-{}
-{
-	"template" "<" TemplateBase() ( "," TemplateBase() )* ">" 
-}
-
-void TemplateBase():
-{}
-{
-	TemplatePack() ["..."] <IDENTIFIER> 
-}
-
-void TemplatePack():
-{}
-{
-	( "class" | "typename" )
+   ( ClassOrInterfaceType() ) ( LOOKAHEAD(2) "[" "]" )*
 }
 
 void ClassOrInterfaceType():
 {}
 {
-  [ "::" ] <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments(null) ]
-  ( LOOKAHEAD(2) ( "." | "::" ) <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments(null) ] )*
+  <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments() ]
+  ( LOOKAHEAD(2) "." <IDENTIFIER> [ LOOKAHEAD(2) TypeArguments() ] )*
 }
 
-void TypeArguments(List tokens):
-/*
- * Parsing this fills "tokens" with all tokens of the arguments
- * excluding the parentheses at each end.
- */
+void TypeArguments():
+{}
 {
-  Token first, last;
-  if (tokens == null)
-	 tokens = new ArrayList();
-}
-{
-   "<"   { first = getToken(0); }
-   TypeArgument() ( "," TypeArgument() [ "..." ] )*
-   ">"
-   {
-     last = getToken(0);
-	  if (last.next != first) { // i.e., this is not an empty sequence
-	    Token t = first;
-	    while (true) {
-	      tokens.add(t);
-	      if (t == last) break;
-	      t = t.next;
-	    }
-	  }
-     
-   }
+   "<" TypeArgument() ( "," TypeArgument() )* ">"
 }
 
 void TypeArgument():
@@ -2127,22 +1971,17 @@ void ResultType(List tokens) :
 	}
 {
 (
-  "void" [ "*" ]
+  "void"
 |
-  [ "const" ] Type() [ "*" | "&" ]
+  Type()
 )
 	{
 	  Token last = getToken(0);
 	  Token t = first;
 	  while (true) {
-	    String i = t.image;
-	    if (isAllowed(t))  {
-	       tokens.add(t);
-	       if (t == last) break;
-	       t = t.next;
-	    } else {
-           throw new ParseException(t.image + " is invalid in this context");
-	    } 
+	    tokens.add(t);
+	    if (t == last) break;
+	    t = t.next;
 	  }
 	}
 }
@@ -2369,7 +2208,7 @@ void PrimaryExpression():
 void MemberSelector():
 {}
 {
-  "." TypeArguments(null) <IDENTIFIER>
+  "." TypeArguments() <IDENTIFIER>
 }
 
 void PrimaryPrefix():
@@ -2470,7 +2309,7 @@ void NullLiteral() :
   "null"
 }
 
-void Arguments(List tokens) :
+void Arguments(java.util.List tokens) :
 /*
  * Parsing this fills "tokens" with all tokens of the arguments
  * excluding the parentheses at each end.
@@ -2486,7 +2325,7 @@ void Arguments(List tokens) :
 	  first = getToken(1);
 	  // Added by Sreenivas Viswanadha for 6.0
 	  // TODO :: 2013/07/16 -- cba : Think this condition should be if the language IS C++, not if the language ISN'T Java ...
-	  if (!isJavaLanguage()) {
+	  if (!isJavaLanguage) {
 		eatUptoRParen(null);
 	  }
 	}
@@ -2519,7 +2358,7 @@ void AllocationExpression():
   LOOKAHEAD(2)
   "new" PrimitiveType() ArrayDimsAndInits()
 |
-  "new" ClassOrInterfaceType() [ TypeArguments(null) ]
+  "new" ClassOrInterfaceType() [ TypeArguments() ]
     (
       ArrayDimsAndInits()
     |
@@ -2608,7 +2447,7 @@ void Block(List tokens) :
   "{"
 	{
 	  first = getToken(1);
-          if (!isJavaLanguage()) {
+          if (!isJavaLanguage) {
             eatUptoCloseBrace(null);
           }
 	}

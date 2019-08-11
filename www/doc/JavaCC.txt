@@ -11,19 +11,12 @@ TOKENS
 | <_PARSER_BEGIN: "PARSER_BEGIN">
 | <_PARSER_END: "PARSER_END">
 | <_JAVACODE: "JAVACODE">
-| <_CPPCODE: "CPPCODE">
 | <_TOKEN: "TOKEN">
 | <_SPECIAL_TOKEN: "SPECIAL_TOKEN">
 | <_MORE: "MORE">
 | <_SKIP: "SKIP">
 | <_TOKEN_MGR_DECLS: "TOKEN_MGR_DECLS">
 | <_EOF: "EOF">
-| <_DCL_PARSER_BEGIN: "DCL_PARSER_BEGIN">
-| <_DCL_PARSER_END: "DCL_PARSER_END">
-| <_INC_PARSER_BEGIN: "INC_PARSER_BEGIN">
-| <_INC_PARSER_END: "INC_PARSER_END">
-| <_DEF_PARSER_BEGIN: "DEF_PARSER_BEGIN">
-| <_DEF_PARSER_END: "DEF_PARSER_END">
 }
 
 /*
@@ -124,11 +117,6 @@ TOKENS
 | <WHILE: "while">
 }
 
-/* C++ RESERVED WORDS AND LITERALS */<DEFAULT> TOKEN : {
-<TEMPLATE: "template">
-| <TYPENAME: "typename">
-}
-
 /* JAVA LITERALS */<DEFAULT> TOKEN : {
 <INTEGER_LITERAL: <DECIMAL_LITERAL> (["l","L"])? | <HEX_LITERAL> (["l","L"])? | <OCTAL_LITERAL> (["l","L"])?>
 | <#DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])*>
@@ -162,7 +150,6 @@ TOKENS
 | <TILDE: "~">
 | <HOOK: "?">
 | <COLON: ":">
-| <DOUBLECOLON: "::">
 | <EQ: "==">
 | <LE: "<=">
 | <GE: ">=">
@@ -210,15 +197,12 @@ NON-TERMINALS
  * THE JAVACC GRAMMAR SPECIFICATION STARTS HERE *
  ************************************************/	javacc_input	:=	javacc_options "PARSER_BEGIN" "(" identifier ")" CompilationUnit "PARSER_END" "(" identifier ")" ( production )+ <EOF>
 	javacc_options	:=	( <IDENTIFIER> "{" ( option_binding )* "}" )?
-	option_binding	:=	( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "static" | "PARSER_BEGIN" ) "=" ( IntegerLiteral | BooleanLiteral | StringLiteral | StringList ) ";"
-	StringList	:=	"(" StringLiteral ( "," StringLiteral )* ")"
+	option_binding	:=	( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "static" ) "=" ( IntegerLiteral | BooleanLiteral | StringLiteral ) ";"
 	production	:=	javacode_production
-		|	cppcode_production
 		|	regular_expr_production
 		|	token_manager_decls
 		|	bnf_production
 	javacode_production	:=	"JAVACODE" AccessModifier ResultType identifier FormalParameters ( "throws" Name ( "," Name )* )? Block
-	cppcode_production	:=	"CPPCODE" AccessModifier ResultType identifier FormalParameters ( "throws" Name ( "," Name )* )? Block
 	bnf_production	:=	AccessModifier ResultType identifier FormalParameters ( "throws" Name ( "," Name )* )? ":" Block "{" expansion_choices "}"
 	AccessModifier	:=	( "public" | "protected" | "private" )?
 	regular_expr_production	:=	( "<" "*" ">" | "<" <IDENTIFIER> ( "," <IDENTIFIER> )* ">" )? regexpr_kind ( "[" "IGNORE_CASE" "]" )? ":" "{" regexpr_spec ( "|" regexpr_spec )* "}"
@@ -235,7 +219,7 @@ NON-TERMINALS
 		|	Block
 		|	"[" expansion_choices "]"
 		|	"try" "{" expansion_choices "}" ( "catch" "(" ( Name <IDENTIFIER> )? ")" Block )* ( "finally" Block )?
-		|	( PrimaryExpression "=" )? ( identifier ( TypeArguments )? Arguments | regular_expression ( "." <IDENTIFIER> )? )
+		|	( PrimaryExpression "=" )? ( identifier Arguments | regular_expression ( "." <IDENTIFIER> )? )
 		|	"(" expansion_choices ")" ( "+" | "*" | "?" )?
 	regular_expression	:=	StringLiteral
 		|	<LANGLE: "<"> ( ( "#" )? identifier ":" )? complex_regular_expression_choices <RANGLE: ">">
@@ -262,7 +246,7 @@ NON-TERMINALS
 /*
  * The following production defines Java identifiers - it
  * includes the reserved words of JavaCC also.
- */	JavaIdentifier	:=	( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "PARSER_BEGIN" | "PARSER_END" | "JAVACODE" | "TOKEN" | "SPECIAL_TOKEN" | "MORE" | "SKIP" | "TOKEN_MGR_DECLS" | "EOF" | "DCL_PARSER_BEGIN" | "DCL_PARSER_END" | "INC_PARSER_BEGIN" | "INC_PARSER_END" | "DEF_PARSER_BEGIN" | "DEF_PARSER_END" )
+ */	JavaIdentifier	:=	( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "PARSER_BEGIN" | "PARSER_END" | "JAVACODE" | "TOKEN" | "SPECIAL_TOKEN" | "MORE" | "SKIP" | "TOKEN_MGR_DECLS" | "EOF" )
 /*
  * Program structuring syntax follows.
  */	CompilationUnit	:=	( PackageDeclaration )? ( ImportDeclaration )* ( TypeDeclaration )*
@@ -299,7 +283,7 @@ NON-TERMINALS
 	MethodDeclaration	:=	( TypeParameters )? ResultType MethodDeclarator ( "throws" NameList )? ( Block | ";" )
 	MethodDeclarator	:=	<IDENTIFIER> FormalParameters ( "[" "]" )*
 	FormalParameters	:=	"(" ( FormalParameter ( "," FormalParameter )* )? ")"
-	FormalParameter	:=	Modifiers Type ( ( "&" | "*" ) | "..." )? VariableDeclaratorId
+	FormalParameter	:=	Modifiers Type ( "..." )? VariableDeclaratorId
 	ConstructorDeclaration	:=	( TypeParameters )? <IDENTIFIER> FormalParameters ( "throws" NameList )? "{" ( ExplicitConstructorInvocation )? ( BlockStatement )* "}"
 	ExplicitConstructorInvocation	:=	"this" Arguments ";"
 		|	( PrimaryExpression "." )? "super" Arguments ";"
@@ -309,12 +293,9 @@ NON-TERMINALS
  */	Type	:=	ReferenceType
 		|	PrimitiveType
 	ReferenceType	:=	PrimitiveType ( "[" "]" )+
-		|	( ( Template )? ClassOrInterfaceType ) ( "[" "]" )*
-	Template	:=	"template" "<" TemplateBase ( "," TemplateBase )* ">"
-	TemplateBase	:=	TemplatePack ( "..." )? <IDENTIFIER>
-	TemplatePack	:=	( "class" | "typename" )
-	ClassOrInterfaceType	:=	<IDENTIFIER> ( TypeArguments )? ( ( "." | "::" ) <IDENTIFIER> ( TypeArguments )? )*
-	TypeArguments	:=	"<" TypeArgument ( "," TypeArgument ( "..." )? )* ">"
+		|	( ClassOrInterfaceType ) ( "[" "]" )*
+	ClassOrInterfaceType	:=	<IDENTIFIER> ( TypeArguments )? ( "." <IDENTIFIER> ( TypeArguments )? )*
+	TypeArguments	:=	"<" TypeArgument ( "," TypeArgument )* ">"
 	TypeArgument	:=	ReferenceType
 		|	"?" ( WildcardBounds )?
 	WildcardBounds	:=	"extends" ReferenceType
@@ -327,7 +308,7 @@ NON-TERMINALS
 		|	"long"
 		|	"float"
 		|	"double"
-	ResultType	:=	( "void" ( "*" )? | ( "const" )? Type ( "*" | "&" )? )
+	ResultType	:=	( "void" | Type )
 	Name	:=	JavaIdentifier ( "." JavaIdentifier )*
 	NameList	:=	Name ( "," Name )*
 /*

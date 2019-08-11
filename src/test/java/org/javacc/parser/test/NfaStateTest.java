@@ -122,8 +122,8 @@ public class NfaStateTest extends JavaCCTestCase {
   public void testDumpStateSets() {
     CodeGenerator cg = new CodeGenerator();
     NfaState.DumpStateSets(cg);
-    String result = cg.getGeneratedCode().replaceAll("\r", "");
-    assertEquals("static final int[] jjnextStates = {\n};\n\n" , result);
+    assertEquals("static final int[] jjnextStates = {\n};\n" ,
+            cg.getGeneratedCode().replaceAll("\r", ""));
   }
 
   /**
@@ -150,7 +150,6 @@ public class NfaStateTest extends JavaCCTestCase {
   public void testDumpCharAndRangeMoves() throws Exception {
     CodeGenerator cg = new CodeGenerator();
     NfaState.DumpCharAndRangeMoves(cg);
-    String result = cg.getGeneratedCode().replaceAll("\r", "");
     assertEquals(
         "         int i2 = (curChar & 0xff) >> 6;\n" +
         "         long l2 = 1L << (curChar & 077);\n" +
@@ -160,8 +159,8 @@ public class NfaStateTest extends JavaCCTestCase {
         "            {\n" +
         "               default : break;\n" +
         "            }\n" +
-        "         } while(i != startsAt);\n\n"
-        , result);
+        "         } while(i != startsAt);\n"
+        ,cg.getGeneratedCode().replaceAll("\r", ""));
   }
 
   /**
@@ -195,8 +194,7 @@ public class NfaStateTest extends JavaCCTestCase {
   public void testDumpNonAsciiMoveMethods() {
     CodeGenerator cg = new CodeGenerator();
     NfaState.DumpNonAsciiMoveMethods(cg);
-    String result = cg.getGeneratedCode();
-    assertEquals("", result);
+    assertEquals("", cg.getGeneratedCode());
   }
 
   /**
@@ -400,8 +398,7 @@ public class NfaStateTest extends JavaCCTestCase {
     } catch (ArrayIndexOutOfBoundsException e) {
       e = null;
     }
-    String result = cg.getGeneratedCode();
-    assertEquals("", result);
+    assertEquals("", cg.getGeneratedCode());
     /*
      assertEquals("static private final void jjCheckNAdd(int state)\n" +
         "{\n" +
@@ -457,8 +454,8 @@ public class NfaStateTest extends JavaCCTestCase {
   public void testDumpStatesForState() throws Exception {
     CodeGenerator cg = new CodeGenerator();
     NfaState.DumpStatesForState(cg);
-    String result = cg.getGeneratedCode().replaceAll("\r", "");
-    assertEquals("protected static final int[][][] statesForState = null;\n" , result);
+    assertEquals("protected static final int[][][] statesForState = null;\n" ,
+            cg.getGeneratedCode().replaceAll("\r", ""));
   }
 
   /**
@@ -469,7 +466,6 @@ public class NfaStateTest extends JavaCCTestCase {
     CodeGenerator cg = new CodeGenerator();
     setupState();
     NfaState.DumpStatesForState(cg);
-    String result = cg.getGeneratedCode().replaceAll("\r", "");
     assertEquals("protected static final int[][][] statesForState = {\n" +
         " {\n" +
         "   { 0 },\n" +
@@ -547,8 +543,8 @@ public class NfaStateTest extends JavaCCTestCase {
         " null,\n" +
         " null,\n" +
         "\n" +
-        "};\n\n",result
-        );
+        "};\n",
+        cg.getGeneratedCode().replaceAll("\r", ""));
   }
 
   /**
@@ -557,9 +553,9 @@ public class NfaStateTest extends JavaCCTestCase {
   public void testDumpStatesForKind() {
     CodeGenerator cg = new CodeGenerator();
     NfaState.DumpStatesForKind(cg);
-    String result = cg.getGeneratedCode().replaceAll("\r", "");
     assertEquals("protected static final int[][][] statesForState = null;\n" +
-                 "protected static final int[][] kindForState = null;\n" , result);
+                 "protected static final int[][] kindForState = null;\n" ,
+            cg.getGeneratedCode().replaceAll("\r", ""));
   }
 
   /**
@@ -569,7 +565,6 @@ public class NfaStateTest extends JavaCCTestCase {
     CodeGenerator cg = new CodeGenerator();
     setupState();
     NfaState.DumpStatesForKind(cg);
-    String result = cg.getGeneratedCode().replaceAll("\r", "");
     assertEquals("protected static final int[][][] statesForState = {\n" +
         " {\n" +
         "   { 0 },\n" +
@@ -659,8 +654,8 @@ public class NfaStateTest extends JavaCCTestCase {
         "{ 23, 23, 23},\n" +
         "null\n,\n" +
         "null\n\n" +
-        "};\n\n", result
-            );
+        "};\n",
+            cg.getGeneratedCode().replaceAll("\r", ""));
   }
 
 

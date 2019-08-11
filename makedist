@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -f
 
 # Copyright (c) 2006, Sun Microsystems, Inc.
 # All rights reserved.
@@ -31,18 +31,20 @@
 install_name="javacc-$1"
 export install_name
 /bin/rm -rf dist
-/bin/rm -f "${install_name}.tar.gz"
-/bin/rm -f "${install_name}.zip"
-mkdir -p "dist/${install_name}"
-cp -rf bin "dist/${install_name}/bin"
-chmod a+x "dist/${install_name}/bin/javacc"
-chmod a+x "dist/${install_name}/bin/jjdoc"
-chmod a+x "dist/${install_name}/bin/jjtree"
-cp -rf www/doc "dist/${install_name}/doc"
-cp -rf examples "dist/${install_name}/examples"
-cp -rf LICENSE "dist/${install_name}"
+/bin/rm -f ${install_name}.tar.gz
+/bin/rm -f ${install_name}.zip
+mkdir -p dist/${install_name}
+cp -rf bin dist/${install_name}/bin
+chmod a+x dist/${install_name}/bin/javacc
+chmod a+x dist/${install_name}/bin/jjdoc
+chmod a+x dist/${install_name}/bin/jjtree
+cp -rf www/doc dist/${install_name}/doc
+cp -rf examples dist/${install_name}/examples
+cp -rf LICENSE dist/${install_name}
 
+find dist -name CVS -exec /bin/rm -rf {} \; 1> /dev/null 2>&1 
 cd dist
-tar czf ../${install_name}.tar.gz .
+tar cpf ../${install_name}.tar .
+gzip ../${install_name}.tar
 zip -qr ../${install_name}.zip .
 /bin/rm -rf dist

@@ -1,10 +1,9 @@
-\#ifndef JAVACC_JAVACC_H_
-\#define JAVACC_JAVACC_H_
-
+\#ifndef __JAVACC_H
+\#define __JAVACC_H
+\#include <stdio.h>
 \#include <string>
-\#include <memory>
-\#include <cassert>
-\#include <functional>
+\#include <memory.h>
+\#include <assert.h>
 
 \#ifndef JAVACC_CHAR_TYPE
 \#define JAVACC_CHAR_TYPE char
@@ -16,17 +15,17 @@
 
 \#define JAVACC_SIMPLE_STRING std::basic_string<char>
 
-typedef JAVACC_CHAR_TYPE     JJChar;
-typedef JAVACC_STRING_TYPE   JJString;
-typedef JAVACC_STRING_TYPE   JJStringBuffer;
-typedef JAVACC_SIMPLE_STRING JJSimpleString;
+typedef JAVACC_STRING_TYPE StringBuffer;
+typedef JAVACC_STRING_TYPE String;
 
 // Abstraction on stream classes to read a block of data into a buffer.
 class ReaderStream {
-public:
+ public:
   // Read block of data into a buffer and return the actual number read.
-  virtual size_t read(JAVACC_CHAR_TYPE *buffer, int offset, size_t len) { return 0; }
-  virtual bool   endOfInput() { return true; }
+  virtual size_t read(JAVACC_CHAR_TYPE *bufptr, int offset, size_t len) {
+    return 0;
+  }
+  virtual bool endOfInput() { return true; }
   virtual ~ReaderStream() {}
 };
 
@@ -35,26 +34,8 @@ const JAVACC_CHAR_TYPE EMPTY[] = { 0 };
 \#ifndef MAX
 \#define MAX(a,b) (a>=b?a:b)
 \#endif
-\#ifndef MIN
+\#ifndef MAX
 \#define MIN(a,b) (a<=b?a:b)
 \#endif
-\#ifndef null
-\#define null 0
-\#endif
-
-template<typename T>
-struct JJEnter
-{
-    JJEnter(T f_) : f{f_} {f();}
-    ~JJEnter(){}
-    T f;
-};
-template<typename T>
-struct JJExit
-{
-    JJExit(T f_) : f{f_} {}
-    ~JJExit(){f();}
-    T f;
-};
 
 \#endif

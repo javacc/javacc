@@ -167,7 +167,7 @@ public class OutputFile {
    * @param versionId
    */
   private void checkVersion(File file, String versionId) {
-	String firstLine = "/* " + JavaCCGlobals.getIdString(toolName, file.getName()) + " Version ";
+    String firstLine = "/* " + JavaCCGlobals.getIdString(toolName, file.getName()) + " Version ";
 
     try {
       BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -175,14 +175,11 @@ public class OutputFile {
       String line;
       while ((line = reader.readLine()) != null) {
         if (line.startsWith(firstLine)) {
-          String version = line.replaceFirst(".*Version ", "").replaceAll(" \\*/", "");
-           if (!version.equals(versionId)) {
+          String version = firstLine.replaceFirst(".* Version ", "").replaceAll(" \\*/", "");
+          if (version != versionId) {
             JavaCCErrors.warning(file.getName()
                 + ": File is obsolete.  Please rename or delete this file so"
                 + " that a new one can be generated for you.");
-            JavaCCErrors.warning(file.getName()
-            	+ " file   version: " + version
-            	+ " javacc version: " + versionId);
           }
           return;
         }
@@ -190,7 +187,8 @@ public class OutputFile {
       // If no version line is found, do not output the warning.
     } catch (FileNotFoundException e1) {
       // This should never happen
-      JavaCCErrors.semantic_error("Could not open file " + file.getName() + " for writing.");
+      JavaCCErrors.semantic_error("Could not open file " + file.getName()
+          + " for writing.");
       throw new Error();
     } catch (IOException e2) {
     }

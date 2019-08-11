@@ -50,7 +50,7 @@ public class OneOrMore extends Expansion {
         expansion.parent = this;
     }
 
-    public StringBuffer dump(int indent, Set<? super Expansion> alreadyDumped) {
+    public StringBuffer dump(int indent, Set alreadyDumped) {
       StringBuffer sb = super.dump(indent, alreadyDumped);
       if (alreadyDumped.contains(this))
         return sb;

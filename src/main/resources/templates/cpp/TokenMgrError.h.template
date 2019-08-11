@@ -1,6 +1,5 @@
-\#ifndef JAVACC_TOKENMGRERROR_H
-\#define JAVACC_TOKENMGRERROR_H
-
+\#ifndef _TOKENMGRERROR_H
+\#define _TOKENMGRERROR_H
 \#include "JavaCC.h"
 
 
@@ -8,7 +7,7 @@
 namespace ${NAMESPACE_OPEN}
 #fi
 
-enum LexerErrors {
+ enum LexerErrors {
   /**
    * Lexical error occurred.
    */
@@ -28,10 +27,11 @@ enum LexerErrors {
    * Detected (and bailed out of) an infinite loop in the token manager.
    */
   LOOP_DETECTED = 3,
-};
+  };
 
-class TokenMgrError {
-public:
+class TokenMgrError
+{
+  public:
   /*
    * Ordinals for various reasons why an Error of this type can be thrown.
    */
@@ -54,10 +54,9 @@ public:
    *    curchar     : the offending character
    * Note: You can customize the lexical error message by modifying this method.
    */
-    JJString LexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, const JJString& errorAfter, JJChar curChar);
+    JAVACC_STRING_TYPE LexicalError(bool EOFSeen, int lexState, int errorLine, int errorColumn, JAVACC_STRING_TYPE errorAfter, JAVACC_CHAR_TYPE curChar);
 
-private:
-   JJString message;
+  private: JAVACC_STRING_TYPE message;
 
   /**
    * You can also modify the body of this method to customize your error messages.
@@ -68,25 +67,23 @@ private:
    *
    * from this method for such cases in the release version of your parser.
    */
-public:
-  JJString getMessage() ;
+  JAVACC_STRING_TYPE getMessage() ;
 
   /*
    * Constructors of various flavors follow.
    */
 
   /** No arg constructor. */
-  TokenMgrError() ;
+  public: TokenMgrError() ;
 
   /** Constructor with message and reason. */
-  TokenMgrError(const JJString& message, int reason) ;
+  public: TokenMgrError(JAVACC_STRING_TYPE message, int reason) ;
 
   /** Full Constructor. */
-  TokenMgrError(bool EOFSeen, int lexState, int errorLine, int errorColumn, const JJString& errorAfter, JJChar curChar, int reason) ;
+  public: TokenMgrError(bool EOFSeen, int lexState, int errorLine, int errorColumn, JAVACC_STRING_TYPE errorAfter, JAVACC_CHAR_TYPE curChar, int reason) ;
 };
 
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi
-
 \#endif

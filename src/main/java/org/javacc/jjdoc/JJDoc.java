@@ -27,14 +27,13 @@
  */
 
 package org.javacc.jjdoc;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
-
 import org.javacc.parser.Action;
 import org.javacc.parser.BNFProduction;
 import org.javacc.parser.CharacterRange;
 import org.javacc.parser.Choice;
-import org.javacc.parser.CppCodeProduction;
 import org.javacc.parser.Expansion;
 import org.javacc.parser.JavaCCParserInternals;
 import org.javacc.parser.JavaCodeProduction;
@@ -47,11 +46,11 @@ import org.javacc.parser.RChoice;
 import org.javacc.parser.REndOfFile;
 import org.javacc.parser.RJustName;
 import org.javacc.parser.ROneOrMore;
-import org.javacc.parser.RRepetitionRange;
 import org.javacc.parser.RSequence;
 import org.javacc.parser.RStringLiteral;
 import org.javacc.parser.RZeroOrMore;
 import org.javacc.parser.RZeroOrOne;
+import org.javacc.parser.RRepetitionRange;
 import org.javacc.parser.RegExprSpec;
 import org.javacc.parser.RegularExpression;
 import org.javacc.parser.Sequence;
@@ -192,10 +191,8 @@ public static String getStandardTokenProductionText(TokenProduction tp) {
           gen.expansionEnd(np.getExpansion(), true);
         }
         gen.productionEnd(np);
-      } else if (np instanceof CppCodeProduction) {
-          gen.cppcode((CppCodeProduction)np);
       } else if (np instanceof JavaCodeProduction) {
-          gen.javacode((JavaCodeProduction)np);
+        gen.javacode((JavaCodeProduction)np);
       }
     }
     gen.nonterminalsEnd();

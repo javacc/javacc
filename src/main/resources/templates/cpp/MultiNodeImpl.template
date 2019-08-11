@@ -1,17 +1,7 @@
-\#include "${NODE_TYPE}.h"
-#if VISITOR
-\#include "${PARSER_NAME}Visitor.h"
-#fi
+  ${NODE_TYPE}::${NODE_TYPE}(int id) : ${NODE_CLASS:-SimpleNode}(id){
+  }
 
-#if NAMESPACE
-namespace ${NAMESPACE_OPEN}
-#fi
-  
-  ${NODE_TYPE}::${NODE_TYPE}(int id) : ${NODE_CLASS:-SimpleNode}(id) {
-  }
-  ${NODE_TYPE}::${NODE_TYPE}(${PARSER_NAME} *parser, int id) : ${NODE_CLASS:-SimpleNode}(parser, id) {
-  }
-  ${NODE_TYPE}::~${NODE_TYPE}() {
+  ${NODE_TYPE}::${NODE_TYPE}(${PARSER_NAME} *p, int id) : ${NODE_CLASS:-SimpleNode}(p, id){
   }
 
 #if VISITOR
@@ -26,8 +16,6 @@ namespace ${NAMESPACE_OPEN}
     visitor->visit(this, data);
 #fi
   }
-#fi
-
-#if NAMESPACE
-${NAMESPACE_CLOSE}
+  ${NODE_TYPE}::~${NODE_TYPE}() {
+  }
 #fi

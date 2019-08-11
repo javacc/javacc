@@ -3,12 +3,10 @@
 
 package org.javacc.parser;
 
-import static org.javacc.parser.JavaCCGlobals.*;
-
-import org.javacc.utils.OutputFileGenerator;
+import static org.javacc.parser.JavaCCGlobals.addUnicodeEscapes;
 
 import java.io.*;
-import java.util.*;
+import java.util.List;
 
 import com.google.devtools.build.singlejar.ZipCombiner;
 import java.io.StringBufferInputStream;
@@ -22,12 +20,12 @@ public class CodeGenerator {
   public void genStringLiteralArrayCPP(String varName, String[] arr) {
     // First generate char array vars
     for (int i = 0; i < arr.length; i++) {
-      genCodeLine("static const JJChar " + varName + "_arr_" + i + "[] = ");
+      genCodeLine("static const JAVACC_CHAR_TYPE " + varName + "_arr_" + i + "[] = ");
       genStringLiteralInCPP(arr[i]);
       genCodeLine(";");
     }
 
-    genCodeLine("static const JJString " + varName + "[] = {");
+    genCodeLine("static const JAVACC_STRING_TYPE " + varName + "[] = {");
     for (int i = 0; i < arr.length; i++) {
       genCodeLine(varName + "_arr_" + i + ", ");
     }
@@ -54,30 +52,23 @@ public class CodeGenerator {
 
   public void saveOutput(String fileName) {
     if (!isJavaLanguage()) {
-      String incfilePath = fileName.replace(".cc", ".h");
-      String incfileName = new File(incfilePath).getName();
-      includeBuffer.insert(0, "#define " + incfileName.replace('.', '_').toUpperCase() + "\n");
-      includeBuffer.insert(0, "#ifndef " + incfileName.replace('.', '_').toUpperCase() + "\n");
+      String incfileName = fileName.replace(".cc", ".h");
+      includeBuffer.insert(0, "#define " + new File(incfileName).getName().replace('.', '_').toUpperCase() + "\n");
+      includeBuffer.insert(0, "#ifndef " + new File(incfileName).getName().replace('.', '_').toUpperCase() + "\n");
 
       // dump the statics into the main file with the code.
       mainBuffer.insert(0, staticsBuffer);
 
       // Finally enclose the whole thing in the namespace, if specified.
-      if (Options.stringValue(Options.USEROPTION__CPP_NAMESPACE).length() > 0) {
+      if (Options.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0) {
         mainBuffer.insert(0, "namespace " + Options.stringValue("NAMESPACE_OPEN") + "\n");
         mainBuffer.append(Options.stringValue("NAMESPACE_CLOSE") + "\n");
         includeBuffer.append(Options.stringValue("NAMESPACE_CLOSE") + "\n");
       }
 
-      if (jjtreeGenerated) {
-    	  mainBuffer.insert(0, "#include \"SimpleNode.h\"\n");
-      }
-      if(Options.getTokenManagerUsesParser())
-    	  mainBuffer.insert(0, "#include \"" + cu_name + ".h\"\n");
-      mainBuffer.insert(0, "#include \"TokenMgrError.h\"\n");
       mainBuffer.insert(0, "#include \"" + incfileName + "\"\n");
       includeBuffer.append("#endif\n");
-      saveOutput(incfilePath, includeBuffer);
+      saveOutput(incfileName, includeBuffer);
     }
 
     mainBuffer.insert(0, "/* " + new File(fileName).getName() + " */\n");
@@ -160,9 +151,9 @@ public class CodeGenerator {
 		ccol = tt.beginColumn;
   }
 
-  protected void printTokenList(List<Token> list) {
+  protected void printTokenList(List list) {
     Token t = null;
-    for (Iterator<Token> it = list.iterator(); it.hasNext();) {
+    for (java.util.Iterator it = list.iterator(); it.hasNext();) {
       t = (Token)it.next();
       printToken(t);
     }
@@ -311,7 +302,7 @@ public class CodeGenerator {
     genCommaSeperatedString(superInterfaces);
     genCodeLine(" {");
     if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
-      genCodeLine("public:");
+      genCodeLine("   public:");
     }
   }
 
@@ -350,36 +341,29 @@ public class CodeGenerator {
     generateMethodDefHeader(modsAndRetType, className, nameAndParams, null);
   }
 
-  public void generateMethodDefHeader(String qualifiedModsAndRetType, String className, String nameAndParams, String exceptions) {
+  public void generateMethodDefHeader(String modsAndRetType, String className, String nameAndParams, String exceptions) {
     // for C++, we generate the signature in the header file and body in main file
     if (isJavaLanguage()) {
-      genCode(qualifiedModsAndRetType + " " + nameAndParams);
+      genCode(modsAndRetType + " " + nameAndParams);
       if (exceptions != null) {
         genCode(" throws " + exceptions);
       }
       genCodeLine("");
     } else {
-      includeBuffer.append(qualifiedModsAndRetType + " " + nameAndParams);
+      includeBuffer.append("\n" + modsAndRetType + " " + nameAndParams);
       //if (exceptions != null)
         //includeBuffer.append(" throw(" + exceptions + ")");
       includeBuffer.append(";\n");
 
-      String modsAndRetType = null;
-      int i = qualifiedModsAndRetType.lastIndexOf(':');
+      int i = modsAndRetType.lastIndexOf(':');
       if (i >= 0)
-    	  modsAndRetType = qualifiedModsAndRetType.substring(i+1);
+        modsAndRetType = modsAndRetType.substring(i+1);
 
-      if (modsAndRetType != null) {
-    	  i = modsAndRetType.lastIndexOf("virtual");
-    	  if (i >= 0)
-    		  modsAndRetType = modsAndRetType.substring(i + "virtual".length());
-      }
-      if (qualifiedModsAndRetType != null) {
-    	  i = qualifiedModsAndRetType.lastIndexOf("virtual");
-    	  if (i >= 0)
-    		  qualifiedModsAndRetType = qualifiedModsAndRetType.substring(i + "virtual".length());
-      }
-      mainBuffer.append("\n" + qualifiedModsAndRetType + " " +
+      i = modsAndRetType.lastIndexOf("virtual");
+      if (i >= 0)
+        modsAndRetType = modsAndRetType.substring(i + "virtual".length());
+
+      mainBuffer.append("\n" + modsAndRetType + " " +
                            getClassQualifier(className) + nameAndParams);
       //if (exceptions != null)
         //mainBuffer.append(" throw( " + exceptions + ")");
@@ -389,45 +373,5 @@ public class CodeGenerator {
 
   protected String getClassQualifier(String className) {
     return className == null ? "" : className + "::";
-  }
-
-  public static String getCharStreamName() {
-    if (Options.getUserCharStream()) {
-      return "CharStream";
-    } else {
-      return Options.getJavaUnicodeEscape() ? "JavaCharStream"
-                                            : "SimpleCharStream";
-    }
-  }
-  @SuppressWarnings("unchecked")
-  protected void writeTemplate(String name, Map<String, Object> options, Object... additionalOptions) throws IOException
-  {
-
-    // options.put("", .valueOf(maxOrdinal));
-
-
-    for (int i = 0; i < additionalOptions.length; i++)
-    {
-      Object o = additionalOptions[i];
-
-      if (o instanceof Map<?,?>)
-      {
-        options.putAll((Map<String,Object>) o);
-      }
-      else
-      {
-        if (i == additionalOptions.length - 1)
-          throw new IllegalArgumentException("Must supply pairs of [name value] args");
-
-        options.put((String) o, additionalOptions[i+1]);
-        i++;
-      }
-    }
-
-    OutputFileGenerator gen = new OutputFileGenerator(name, options);
-    StringWriter sw = new StringWriter();
-    gen.generate(new PrintWriter(sw));
-    sw.close();
-    genCode(sw.toString());
   }
 }

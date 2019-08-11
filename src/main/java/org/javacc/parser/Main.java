@@ -39,8 +39,8 @@ import org.javacc.utils.OptionType;
 /**
  * Entry point.
  */
-public class Main {
-  protected Main() {}
+public final class Main {
+  private Main() {}
 
   public static LexGen lg;
   static void help_message() {
@@ -260,10 +260,9 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
 			if (isBuildParser) {
 				new ParseGen().start(isJavaModern);
 			}
-
-			// Must always create the lexer object even if not building a parser.
-			new LexGen().start();
-
+			if (isBuildParser) {
+				new LexGen().start();
+			}
 			Options.setStringOption(Options.NONUSER_OPTION__PARSER_NAME, JavaCCGlobals.cu_name);
 			OtherFilesGen.start(isJavaModern);
 		} else if (isCPPOutput) { // C++ for now
@@ -283,9 +282,7 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
 
       if ((JavaCCErrors.get_error_count() == 0) && (isBuildParser || Options.getBuildTokenManager())) {
         if (JavaCCErrors.get_warning_count() == 0) {
-        	if (isBuildParser) {
-        		System.out.println("Parser generated successfully.");
-        	}
+          System.out.println("Parser generated successfully.");
         } else {
           System.out.println("Parser generated with 0 errors and "
                              + JavaCCErrors.get_warning_count() + " warnings.");

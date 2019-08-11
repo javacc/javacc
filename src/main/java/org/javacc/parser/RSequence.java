@@ -41,7 +41,7 @@ public class RSequence extends RegularExpression {
    * The list of units in this regular expression sequence.  Each
    * list component will narrow to RegularExpression.
    */
-  public List<? super Object> units = new ArrayList<Object>();
+  public List units = new ArrayList();
 
   public Nfa GenerateNfa(boolean ignoreCase)
   {
@@ -78,7 +78,7 @@ public class RSequence extends RegularExpression {
   {
   }
 
-  RSequence(List<? super Object> seq)
+  RSequence(List seq)
   {
      ordinal = Integer.MAX_VALUE;
      units = seq;

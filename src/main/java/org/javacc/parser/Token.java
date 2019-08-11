@@ -74,14 +74,14 @@ public class Token {
    */
   public Token() {}
 
-//  /**
-//   * Constructs a new token for the specified Image.
-//   */
-//  public Token(int kind)
-//  {
-//    this(kind, null);
-//  }
-//
+  /**
+   * Constructs a new token for the specified Image.
+   */
+  public Token(int kind)
+  {
+    this(kind, null);
+  }
+
   /**
    * Constructs a new token for the specified Image and Kind.
    */
@@ -89,26 +89,6 @@ public class Token {
   {
     this.kind = kind;
     this.image = image;
-  }
-
-  /**
-   * equals
-   */
-  public boolean equals(Object object) {
-	if (object == null)
-	  return false;
-	if (this == object)
-		return true;
-	if (object instanceof String)
-	  return object.equals(image);
-	return false;
-  }
-  
-  /**
-   * hashCode
-   */
-  public int hashCode() {
-    return image.hashCode();
   }
 
   /**

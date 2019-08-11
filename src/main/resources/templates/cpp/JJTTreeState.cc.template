@@ -6,10 +6,10 @@ namespace ${NAMESPACE_OPEN}
 #fi
 
 #if NODE_FACTORY
-  ${NODE_FACTORY} *nodeFactory = nullptr;
+  ${NODE_FACTORY} *nodeFactory = NULL;
   // Takes ownerhip of the factory
   void setNodeFactory(${NODE_FACTORY} *factory) {
-    //if (nodeFactory) {
+    //if (nodeFactory != NULL) {
       //delete nodeFactory;
     //}
     nodeFactory = factory;
@@ -43,7 +43,6 @@ namespace ${NAMESPACE_OPEN}
   /* Call this to reinitialize the node stack.  It is called
      automatically by the parser's ReInit() method. */
   void JJT${PARSER_NAME}State::reset() {
-    clear();
     nodes->resize(0);
     marks->resize(0);
     sp = 0;
@@ -75,7 +74,7 @@ namespace ${NAMESPACE_OPEN}
 
   /* Returns the node currently on the top of the stack. */
   Node *JJT${PARSER_NAME}State::peekNode() {
-    return nodes->size() == 0 ? nullptr : nodes->back();
+    return nodes->size() == 0 ? NULL : nodes->back();
   }
 
   /* Returns the number of children on the stack in the current node
@@ -105,7 +104,7 @@ namespace ${NAMESPACE_OPEN}
      children.  That number of nodes are popped from the stack and
      made the children of the definite node.  Then the definite node
      is pushed on to the stack. */
-   void JJT${PARSER_NAME}State::closeNodeScope(Node *n, int num) {
+  void JJT${PARSER_NAME}State::closeNodeScope(Node *n, int num) {
     open_nodes->erase(n);
     FIXUP_MARKS;
     if (nodes->size() < num) {
@@ -132,7 +131,7 @@ namespace ${NAMESPACE_OPEN}
   void JJT${PARSER_NAME}State::closeNodeScope(Node *n, bool condition) {
     open_nodes->erase(n);
     if (condition) {
-      unsigned int a = nodeArity();
+      int a = nodeArity();
       FIXUP_MARKS;
       if (nodes->size() < a) {
         delete n;
@@ -155,13 +154,6 @@ namespace ${NAMESPACE_OPEN}
   }
 
   JJT${PARSER_NAME}State::~JJT${PARSER_NAME}State() {
-    clear();
-    delete open_nodes;
-    delete nodes;
-    delete marks;
-  }
-
-  void JJT${PARSER_NAME}State::clear() {
     for (size_t i = 0; i < nodes->size(); i++) {
       Node* node = nodes->at(i);
       open_nodes->erase(node);
@@ -169,7 +161,11 @@ namespace ${NAMESPACE_OPEN}
     }
     for (std::set<Node*>::iterator it = open_nodes->begin();
          it != open_nodes->end(); it++) 
-      delete (*it);  
+      delete (*it);
+
+    delete open_nodes;
+    delete nodes;
+    delete marks;
   }
 
 #if NAMESPACE

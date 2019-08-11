@@ -1,27 +1,10 @@
-\#ifndef ${NODE_TYPE}_H_
-\#define ${NODE_TYPE}_H_
-
-\#include "${NODE_CLASS:-SimpleNode}.h"
-
-#if NAMESPACE
-namespace ${NAMESPACE_OPEN}
-#fi
-class ${PARSER_NAME};
-
 class ${NODE_TYPE} : public ${NODE_CLASS:-SimpleNode} {
-public: 
-           ${NODE_TYPE}(int id);
-           ${NODE_TYPE}(${PARSER_NAME} *parser, int id);
-  virtual ~${NODE_TYPE}();
+  public: ${NODE_TYPE}(int id);
+  public: ${NODE_TYPE}(${PARSER_NAME} *p, int id);
 
 #if VISITOR
   /** Accept the visitor. **/
-  virtual ${VISITOR_RETURN_TYPE} jjtAccept(${PARSER_NAME}Visitor *visitor, ${VISITOR_DATA_TYPE:-void *} data) const ;
+  public: virtual ${VISITOR_RETURN_TYPE} jjtAccept(${PARSER_NAME}Visitor *visitor, ${VISITOR_DATA_TYPE:-void *} data) const ;
 #fi
+  public: virtual ~${NODE_TYPE}();
 };
-
-#if NAMESPACE
-${NAMESPACE_CLOSE}
-#fi
-
-\#endif

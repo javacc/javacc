@@ -185,7 +185,7 @@ public class JJTree {
           NodeFiles.generateVisitor_java();
           NodeFiles.generateDefaultVisitor_java();
           JJTreeState.generateTreeState_java();
-        } else if (JJTreeOptions.isOutputLanguageCpp()) {
+        } else if (JJTreeOptions.isOutputLanguageCPP()) {
           CPPNodeFiles.generateTreeConstants();
           CPPNodeFiles.generateVisitors();
           //CPPNodeFiles.generateDefaultVisitor();

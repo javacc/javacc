@@ -38,7 +38,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <ant antfile="build.xml" dir="javacodeLA" />
     <ant antfile="build.xml" dir="javaFiles" />
     <!-- ant antfile="build.xml" dir="javaFileGeneration" / -->
-    <!-- ant antfile="build.xml" dir="newToken" /-->
+    <ant antfile="build.xml" dir="newToken" />
     <ant antfile="build.xml" dir="imports" />
     <ant antfile="build.xml" dir="lom" />
     <ant antfile="build.xml" dir="exceptions" />

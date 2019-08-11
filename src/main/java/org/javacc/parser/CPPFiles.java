@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.javacc.Version;
-import org.javacc.utils.OutputFileGenerator;
+import org.javacc.utils.JavaFileGenerator;
 
 /**
  * Generate CharStream, TokenManager and Exceptions.
@@ -144,7 +144,7 @@ public class CPPFiles extends JavaCCGlobals implements JavaCCParserConstants
       }
 
       final PrintWriter ostr = outputFile.getPrintWriter();
-      OutputFileGenerator generator = new OutputFileGenerator(
+      JavaFileGenerator generator = new JavaFileGenerator(
           "/templates/cpp/" + name + ".template", Options.getOptions());
       generator.generate(ostr);
       ostr.close();

@@ -1,9 +1,8 @@
-\#ifndef JAVACC_TOKENMANAGER_H
-\#define JAVACC_TOKENMANAGER_H
-
-\#include <iostream>
+\#ifndef TOKENMANAGER_H
+\#define TOKENMANAGER_H
 \#include "JavaCC.h"
 \#include "Token.h"
+
 
 #if NAMESPACE
 namespace ${NAMESPACE_OPEN}
@@ -19,11 +18,10 @@ public:
   /** This gets the next token from the input stream.
    *  A token of kind 0 (<EOF>) should be returned on EOF.
    */
-  virtual       ~TokenManager() { }
-  virtual Token *getNextToken() = 0;
-  virtual void   setParser(void* parser) {};
-  virtual void   lexicalError() {
-  	std::cerr << "Lexical error encountered." << std::endl;
+  public: virtual Token *getNextToken() = 0;
+  public: virtual ~TokenManager() { }
+  public: virtual void lexicalError() {
+    fprintf(stderr, "Lexical error encountered.\n");
   }
 
 };
@@ -31,5 +29,4 @@ public:
 #if NAMESPACE
 ${NAMESPACE_CLOSE}
 #fi
-
 \#endif

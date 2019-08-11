@@ -117,7 +117,6 @@ public class BNFGenerator implements Generator {
   @Override public void tokensStart() {}
   @Override public void tokensEnd() {}
   public void javacode(JavaCodeProduction jp) { }
-  public void cppcode(CppCodeProduction cp) { }
   public void expansionEnd(Expansion e, boolean first) { }
   public void nonTerminalStart(NonTerminal nt) { }
   public void nonTerminalEnd(NonTerminal nt) { }

@@ -17,46 +17,42 @@ namespace ${NAMESPACE_OPEN}
    * override this method as appropriate.
    */
   void * Token::getValue() {
-    return nullptr;
+    return NULL;
   }
 
   /**
    * No-argument constructor
    */
-  Token::Token() :
-  	beginLine(0), beginColumn(0), endLine(0), endColumn(0)
-  {
-    this->next = nullptr;
-    this->specialToken = nullptr;
+  Token::Token() {
+    this->next = NULL;
+    this->specialToken = NULL;
   }
 
   /**
    * Constructs a new token for the specified Image.
    */
-  Token::Token(int kind) :
-  	beginLine(0), beginColumn(0), endLine(0), endColumn(0) 
+  Token::Token(int kind)
   {
     this->kind = kind;
-    this->next = nullptr;
-    this->specialToken = nullptr;
+    this->next = NULL;
+    this->specialToken = NULL;
   }
 
   /**
    * Constructs a new token for the specified Image and Kind.
    */
-  Token::Token(int kind, const JJString& image)
-  	: beginLine(0), beginColumn(0), endLine(0), endColumn(0) 
+  Token::Token(int kind, JAVACC_STRING_TYPE image)
   {
     this->kind = kind;
     this->image = image;
-    this->next = nullptr;
-    this->specialToken = nullptr;
+    this->next = NULL;
+    this->specialToken = NULL;
   }
 
   /**
    * Returns the image.
    */
-  const JJString& Token::toString()
+  JAVACC_STRING_TYPE Token::toString()
   {
     return image;
   }
@@ -73,7 +69,7 @@ namespace ${NAMESPACE_OPEN}
    * to the following switch statement. Then you can cast matchedToken
    * variable to the appropriate type and use sit in your lexical actions.
    */
-  Token *Token::newToken(int ofKind, const JJString& image)
+  Token *Token::newToken(int ofKind, JAVACC_STRING_TYPE image)
   {
     switch(ofKind)
     {
@@ -83,14 +79,11 @@ namespace ${NAMESPACE_OPEN}
 
   Token *Token::newToken(int ofKind)
   {
-    return newToken(ofKind, JJString());
+    return newToken(ofKind, JAVACC_STRING_TYPE((JAVACC_CHAR_TYPE*)""));
   }
 
   Token::~Token() {
     if (specialToken) delete specialToken;
-    this->kind = 0;
-    this->next = nullptr;
-    this->specialToken = nullptr;
   }
 
 #if NAMESPACE

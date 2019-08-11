@@ -40,7 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.javacc.utils.OutputFileGenerator;
+import org.javacc.utils.JavaFileGenerator;
 import static org.javacc.parser.JavaCCGlobals.*;
 
 /**
@@ -49,10 +49,11 @@ import static org.javacc.parser.JavaCCGlobals.*;
 public class LexGen extends CodeGenerator implements JavaCCParserConstants
 {
   private static final String DUMP_STATIC_VAR_DECLARATIONS_TEMPLATE_RESOURCE_URL = "/templates/DumpStaticVarDeclarations.template";
-  private static final String DUMP_DEBUG_METHODS_TEMPLATE_RESOURCE_URL = "/templates/DumpDebugMethods.template";
-  private static final String BOILERPLATER_METHOD_RESOURCE_URL = "/templates/TokenManagerBoilerPlateMethods.template";
 
-  public static String staticString;
+private static final String DUMP_DEBUG_METHODS_TEMPLATE_RESOURCE_URL = "/templates/DumpDebugMethods.template";
+private static final String BOILERPLATER_METHOD_RESOURCE_URL = "/templates/TokenManagerBoilerPlateMethods.template";
+public static String staticString;
+
   public static String tokMgrClassName;
 
   // Hashtable of vectors
@@ -67,7 +68,6 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
   public static Action[] actions;
   public static Hashtable initStates = new Hashtable();
   public static int stateSetSize;
-  public static int totalNumStates;
   public static int maxLexStates;
   public static String[] lexStateName;
   static NfaState[] singlesToSkip;
@@ -98,14 +98,12 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
   public static RegularExpression curRE;
   public static boolean keepLineCol;
   public static String errorHandlingClass;
-  public static TokenizerData tokenizerData;
-  public static boolean generateDataOnly;
 
   void PrintClassHead()
   {
     int i, j;
 
-    List<String> tn = new ArrayList<String>(toolNames);
+    List tn = new ArrayList(toolNames);
     tn.add(toolName);
      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
     genCodeLine("/* " + getIdString(tn, tokMgrClassName + getFileExtension(Options.getOutputLanguage())) + " */");
@@ -147,12 +145,14 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
     genCodeLine("");
     genCodeLine("/** Token Manager. */");
+    //genCodeLine("@SuppressWarnings(\"unused\")");
+    genAnnotation("SuppressWarnings(\"unused\")");
     if(Options.getSupportClassVisibilityPublic()) {
-      //genModifier("public ");
-      genModifier("public ");
+    	//genModifier("public ");
+    	genModifier("public ");
     }
     //genCodeLine("class " + tokMgrClassName + " implements " +
-        //cu_name + "Constants");
+    		//cu_name + "Constants");
     //String superClass = Options.stringValue(Options.USEROPTION__TOKEN_MANAGER_SUPER_CLASS);
     genClassStart(null, tokMgrClassName, new String[]{}, new String[]{cu_name + "Constants"});
     //genCodeLine("{"); // }
@@ -199,8 +199,9 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
     genCodeLine("  /** Set debug output. */");
     genCodeLine("  public " + staticString + " void setDebugStream(java.io.PrintStream ds) { debugStream = ds; }");
 
-    if(Options.getTokenManagerUsesParser()){
+    if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
       genCodeLine("");
+      genCodeLine("  /** The parser. */");
       genCodeLine("  public " + cu_name + " parser = null;");
     }
   }
@@ -222,9 +223,6 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
     options.put("stateSetSize", stateSetSize);
     options.put("hasActions", hasMoreActions || hasSkipActions || hasTokenActions);
     options.put("tokMgrClassName", tokMgrClassName);
-    int x = 0;
-    for (int l : maxLongsReqd) x = Math.max(x, l);
-    options.put("maxLongs", x);
     options.put("cu_name", cu_name);
 
     // options.put("", .valueOf(maxOrdinal));
@@ -248,7 +246,8 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       }
     }
 
-    OutputFileGenerator gen = new OutputFileGenerator(name, options);
+    JavaFileGenerator gen = new JavaFileGenerator(name, options);
+
     StringWriter sw = new StringWriter();
     gen.generate(new PrintWriter(sw));
     sw.close();
@@ -262,16 +261,16 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
   static void BuildLexStatesTable()
   {
-    Iterator<TokenProduction> it = rexprlist.iterator();
+    Iterator it = rexprlist.iterator();
     TokenProduction tp;
     int i;
 
     String[] tmpLexStateName = new String[lexstate_I2S.size()];
     while (it.hasNext())
     {
-      tp = it.next();
-      List<RegExprSpec> respecs = tp.respecs;
-      List<TokenProduction> tps;
+      tp = (TokenProduction)it.next();
+      List respecs = tp.respecs;
+      List tps;
 
       for (i = 0; i < tp.lexStates.length; i++)
       {
@@ -349,7 +348,6 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
         JavaCCErrors.get_error_count() > 0)
       return;
 
-    final String codeGeneratorClass = Options.getTokenManagerCodeGenerator();
     keepLineCol = Options.getKeepLineColumn();
     errorHandlingClass = Options.getTokenMgrErrorClass();
     List choices = new ArrayList();
@@ -360,7 +358,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
     staticString = (Options.getStatic() ? "static " : "");
     tokMgrClassName = cu_name + "TokenManager";
 
-    if (!generateDataOnly && codeGeneratorClass == null) PrintClassHead();
+    PrintClassHead();
     BuildLexStatesTable();
 
     e = allTpsForState.keys();
@@ -369,7 +367,6 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
     while (e.hasMoreElements())
     {
-      int startState = -1;
       NfaState.ReInit();
       RStringLiteral.ReInit();
 
@@ -377,7 +374,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
       lexStateIndex = GetIndex(key);
       lexStateSuffix = "_" + lexStateIndex;
-      List<TokenProduction> allTps = (List<TokenProduction>)allTpsForState.get(key);
+      List allTps = (List)allTpsForState.get(key);
       initStates.put(key, initialState = new NfaState());
       ignoring = false;
 
@@ -392,7 +389,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
         tp = (TokenProduction)allTps.get(i);
         int kind = tp.kind;
         boolean ignore = tp.ignoreCase;
-        List<RegExprSpec> rexps = tp.respecs;
+        List rexps = tp.respecs;
 
         if (i == 0)
           ignoring = ignore;
@@ -412,13 +409,12 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
             continue;
           }
 
-          if (!Options.getNoDfa() && curRE instanceof RStringLiteral &&
+          if (curRE instanceof RStringLiteral &&
               !((RStringLiteral)curRE).image.equals(""))
           {
             ((RStringLiteral)curRE).GenerateDfa(this, curRE.ordinal);
-            if (i != 0 && !mixed[lexStateIndex] && ignoring != ignore) {
+            if (i != 0 && !mixed[lexStateIndex] && ignoring != ignore)
               mixed[lexStateIndex] = true;
-            }
           }
           else if (curRE.CanMatchAnyChar())
           {
@@ -500,7 +496,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       if (hasNfa[lexStateIndex] = (NfaState.generatedStates != 0))
       {
         initialState.GenerateCode();
-        startState = initialState.GenerateInitMoves(this);
+        initialState.GenerateInitMoves(this);
       }
 
       if (initialState.kind != Integer.MAX_VALUE && initialState.kind != 0)
@@ -528,17 +524,11 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       if (hasNfa[lexStateIndex] && !mixed[lexStateIndex])
         RStringLiteral.GenerateNfaStartStates(this, initialState);
 
-      if (generateDataOnly || codeGeneratorClass != null) {
-        RStringLiteral.UpdateStringLiteralData(totalNumStates, lexStateIndex);
-        NfaState.UpdateNfaData(totalNumStates, startState, lexStateIndex,
-                               canMatchAnyChar[lexStateIndex]);
-      } else {
-        RStringLiteral.DumpDfaCode(this);
-        if (hasNfa[lexStateIndex]) {
-          NfaState.DumpMoveNfa(this);
-        }
-      }
-      totalNumStates += NfaState.generatedStates;
+      RStringLiteral.DumpDfaCode(this);
+
+      if (hasNfa[lexStateIndex])
+        NfaState.DumpMoveNfa(this);
+
       if (stateSetSize < NfaState.generatedStates)
         stateSetSize = NfaState.generatedStates;
     }
@@ -546,65 +536,11 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
     for (i = 0; i < choices.size(); i++)
       ((RChoice)choices.get(i)).CheckUnmatchability();
 
+    NfaState.DumpStateSets(this);
     CheckEmptyStringMatch();
-
-    if (generateDataOnly || codeGeneratorClass != null) {
-      tokenizerData.setParserName(cu_name);
-      NfaState.BuildTokenizerData(tokenizerData);
-      RStringLiteral.BuildTokenizerData(tokenizerData);
-      int[] newLexStateIndices = new int[maxOrdinal];
-      StringBuilder tokenMgrDecls = new StringBuilder();
-      if (token_mgr_decls != null && token_mgr_decls.size() > 0) {
-        Token t = (Token)token_mgr_decls.get(0);
-        for (j = 0; j < token_mgr_decls.size(); j++) {
-          tokenMgrDecls.append(((Token)token_mgr_decls.get(j)).image + " ");
-        }
-      }
-      tokenizerData.setDecls(tokenMgrDecls.toString());
-      Map<Integer, String> actionStrings = new HashMap<Integer, String>();
-      for (i = 0; i < maxOrdinal; i++) {
-        if (newLexState[i] == null) {
-          newLexStateIndices[i] = -1;
-        } else {
-          newLexStateIndices[i] = GetIndex(newLexState[i]);
-        }
-        // For java, we have this but for other languages, eventually we will
-        // simply have a string.
-        Action act = actions[i];
-        if (act == null) continue;
-        StringBuilder sb = new StringBuilder();
-        for (int k = 0; k < act.getActionTokens().size(); k++) {
-          sb.append(((Token)act.getActionTokens().get(k)).image);
-          sb.append(" ");
-        }
-        actionStrings.put(i, sb.toString());
-      }
-      tokenizerData.setDefaultLexState(defaultLexState);
-      tokenizerData.setLexStateNames(lexStateName);
-      tokenizerData.updateMatchInfo(
-          actionStrings, newLexStateIndices,
-          toSkip, toSpecial, toMore, toToken);
-      if (generateDataOnly) return;
-      Class<TokenManagerCodeGenerator> codeGenClazz;
-      TokenManagerCodeGenerator gen;
-      try {
-        codeGenClazz = (Class<TokenManagerCodeGenerator>)Class.forName(codeGeneratorClass);
-        gen = codeGenClazz.newInstance();
-      } catch(Exception ee) {
-        JavaCCErrors.semantic_error(
-            "Cound not load the token manager code generator class: " +
-            codeGeneratorClass + "\nError: " + ee.getMessage());
-        return;
-      }
-      gen.generateCode(tokenizerData);
-      gen.finish(tokenizerData);
-      return;
-    }
-
+    NfaState.DumpNonAsciiMoveMethods(this);
     RStringLiteral.DumpStrLiteralImages(this);
     DumpFillToken();
-    NfaState.DumpStateSets(this);
-    NfaState.DumpNonAsciiMoveMethods(this);
     DumpGetNextToken();
 
     if (Options.getDebugTokenManager())
@@ -620,9 +556,12 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       genCodeLine(staticString + "" + Options.getBooleanType() + "[] jjbeenHere = new " + Options.getBooleanType() + "[" + maxLexStates + "];");
     }
 
-    DumpSkipActions();
-    DumpMoreActions();
-    DumpTokenActions();
+    if (hasSkipActions)
+      DumpSkipActions();
+    if (hasMoreActions)
+      DumpMoreActions();
+    if (hasTokenActions)
+      DumpTokenActions();
 
     NfaState.PrintBoilerPlate(this);
 
@@ -639,10 +578,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
     writeTemplate(BOILERPLATER_METHOD_RESOURCE_URL,
       "charStreamName", charStreamName,
-      "lexStateNameLength", lexStateName.length,
-      "defaultLexState", defaultLexState,
-      "noDfa", Options.getNoDfa(),
-      "generatedStates", totalNumStates);
+      "lexStateNameLength", lexStateName.length);
 
     DumpStaticVarDeclarations(charStreamName);
     genCodeLine(/*{*/ "}");
@@ -744,6 +680,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       genCodeLine("   \"" + lexStateName[i] + "\",");
     genCodeLine("};");
 
+    if (maxLexStates > 1)
     {
       genCodeLine("");
       genCodeLine("/** Lex State array. */");
@@ -762,6 +699,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       genCodeLine("\n};");
     }
 
+    if (hasSkip || hasMore || hasSpecial)
     {
       // Bit vector for TOKEN
       genCode("static final long[] jjtoToken = {");
@@ -774,6 +712,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       genCodeLine("\n};");
     }
 
+    if (hasSkip || hasSpecial)
     {
       // Bit vector for SKIP
       genCode("static final long[] jjtoSkip = {");
@@ -786,6 +725,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       genCodeLine("\n};");
     }
 
+    if (hasSpecial)
     {
       // Bit vector for SPECIAL
       genCode("static final long[] jjtoSpecial = {");
@@ -798,6 +738,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       genCodeLine("\n};");
     }
 
+    if (hasMore)
     {
       // Bit vector for MORE
       genCode("static final long[] jjtoMore = {");
@@ -1073,6 +1014,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
         "at line \" + input_stream.getEndLine() + \" column \" + input_stream.getEndColumn());");
 
       genCodeLine(prefix + "curPos = jjMoveStringLiteralDfa0_" + i + "();");
+
       if (canMatchAnyChar[i] != -1)
       {
         if (initMatch[i] != Integer.MAX_VALUE && initMatch[i] != 0)
@@ -1516,51 +1458,49 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
   public static void reInit()
   {
-    actions = null;
-    allTpsForState = new Hashtable();
-    canLoop = null;
-    canMatchAnyChar = null;
-    canReachOnMore = null;
-    curKind = 0;
-    curRE = null;
-    defaultLexState = 0;
-    errorHandlingClass = null;
-    hasEmptyMatch = false;
-    hasLoop = false;
-    hasMore = false;
-    hasMoreActions = false;
-    hasNfa = null;
-    hasSkip = false;
-    hasSkipActions = false;
-    hasSpecial = false;
-    hasTokenActions = false;
-    ignoreCase = null;
-    initMatch = null;
-    initStates = new Hashtable();
-    initialState = null;
-    keepLineCol = false;
-    kinds = null;
-    lexStateIndex = 0;
-    lexStateName = null;
-    lexStateSuffix = null;
-    lexStates = null;
-    maxLexStates = 0;
-    maxLongsReqd = null;
-    maxOrdinal = 1;
-    mixed = null;
-    newLexState = null;
-    rexprs = null;
-    singlesToSkip = null;
-    stateHasActions = null;
-    stateSetSize = 0;
-    staticString = null;
-    toMore = null;
-    toSkip = null;
-    toSpecial = null;
-    toToken = null;
-    tokMgrClassName = null;
-    tokenizerData = new TokenizerData();
-    generateDataOnly = false;
+		actions = null;
+		allTpsForState = new Hashtable();
+		canLoop = null;
+		canMatchAnyChar = null;
+		canReachOnMore = null;
+		curKind = 0;
+		curRE = null;
+		defaultLexState = 0;
+		errorHandlingClass = null;
+		hasEmptyMatch = false;
+		hasLoop = false;
+		hasMore = false;
+		hasMoreActions = false;
+		hasNfa = null;
+		hasSkip = false;
+		hasSkipActions = false;
+		hasSpecial = false;
+		hasTokenActions = false;
+		ignoreCase = null;
+		initMatch = null;
+		initStates = new Hashtable();
+		initialState = null;
+		keepLineCol = false;
+		kinds = null;
+		lexStateIndex = 0;
+		lexStateName = null;
+		lexStateSuffix = null;
+		lexStates = null;
+		maxLexStates = 0;
+		maxLongsReqd = null;
+		maxOrdinal = 1;
+		mixed = null;
+		newLexState = null;
+		rexprs = null;
+		singlesToSkip = null;
+		stateHasActions = null;
+		stateSetSize = 0;
+		staticString = null;
+		toMore = null;
+		toSkip = null;
+		toSpecial = null;
+		toToken = null;
+		tokMgrClassName = null;
   }
 
 }

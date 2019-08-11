@@ -35,7 +35,6 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
 
 import static org.javacc.parser.JavaCCGlobals.*;
 
@@ -90,7 +89,7 @@ public class ParseEngine {
       return false;
     } else if (exp instanceof NonTerminal) {
       NormalProduction prod = ((NonTerminal)exp).getProd();
-      if (prod instanceof CodeProduction) {
+      if (prod instanceof JavaCodeProduction) {
         return true;
       } else {
         return javaCodeCheck(prod.getExpansion());
@@ -151,7 +150,7 @@ public class ParseEngine {
     if (exp instanceof RegularExpression) {
       firstSet[((RegularExpression)exp).ordinal] = true;
     } else if (exp instanceof NonTerminal) {
-      if (!(((NonTerminal)exp).getProd() instanceof CodeProduction))
+      if (!(((NonTerminal)exp).getProd() instanceof JavaCodeProduction))
       {
         genFirstSet(((BNFProduction)(((NonTerminal)exp).getProd())).getExpansion());
       }
@@ -171,7 +170,7 @@ public class ParseEngine {
         // Javacode productions can not have FIRST sets. Instead we generate the FIRST set
         // for the preceding LOOKAHEAD (the semantic checks should have made sure that
         // the LOOKAHEAD is suitable).
-        if (unit instanceof NonTerminal && ((NonTerminal)unit).getProd() instanceof CodeProduction) {
+        if (unit instanceof NonTerminal && ((NonTerminal)unit).getProd() instanceof JavaCodeProduction) {
           if (i > 0 && seq.units.get(i-1) instanceof Lookahead) {
             Lookahead la = (Lookahead)seq.units.get(i-1);
             genFirstSet(la.getLaExpansion());
@@ -397,7 +396,6 @@ public class ParseEngine {
         jj2index++;
         // At this point, la.la_expansion.internal_name must be "".
         la.getLaExpansion().internal_name = "_" + jj2index;
-        la.getLaExpansion().internal_index = jj2index;
         phase2list.add(la);
         retval += "jj_2" + la.getLaExpansion().internal_name + "(" + la.getAmount() + ")";
         if (la.getActionTokens().size() != 0) {
@@ -477,58 +475,7 @@ public class ParseEngine {
     }
   }
 
-  // Print CPPCODE method header.
-  private String generateCPPMethodheader(CppCodeProduction p) {
-    StringBuffer sig = new StringBuffer();
-    String ret, params;
-    Token t = null;
-    
-    String method_name = p.getLhs();
-    boolean void_ret = false;
-    boolean ptr_ret = false;
-
-//    codeGenerator.printTokenSetup(t); ccol = 1;
-//    String comment1 = codeGenerator.getLeadingComments(t);
-//    cline = t.beginLine;
-//    ccol = t.beginColumn;
-//    sig.append(t.image);
-//    if (t.kind == JavaCCParserConstants.VOID) void_ret = true;
-//    if (t.kind == JavaCCParserConstants.STAR) ptr_ret = true;
-
-    for (int i = 0; i < p.getReturnTypeTokens().size(); i++) {
-      t = (Token)(p.getReturnTypeTokens().get(i));
-      String s = codeGenerator.getStringToPrint(t);
-      sig.append(t.toString());
-      sig.append(" ");
-      if (t.kind == JavaCCParserConstants.VOID) void_ret = true;
-      if (t.kind == JavaCCParserConstants.STAR) ptr_ret = true;
-    }
-
-    String comment2 = "";
-    if (t != null)
-    	comment2 = codeGenerator.getTrailingComments(t);
-    ret = sig.toString();
-
-    sig.setLength(0);
-    sig.append("(");
-    if (p.getParameterListTokens().size() != 0) {
-      codeGenerator.printTokenSetup((Token)(p.getParameterListTokens().get(0)));
-      for (java.util.Iterator it = p.getParameterListTokens().iterator(); it.hasNext();) {
-        t = (Token)it.next();
-        sig.append(codeGenerator.getStringToPrint(t));
-      }
-      sig.append(codeGenerator.getTrailingComments(t));
-    }
-    sig.append(")");
-    params = sig.toString();
-
-    // For now, just ignore comments
-    codeGenerator.generateMethodDefHeader(ret, cu_name, p.getLhs()+params, sig.toString());
-
-    return "";
-  }
-
-  // Print method header and return the ERROR_RETURN string.
+ // Print method header and return the ERROR_RETURN string.
   private String generateCPPMethodheader(BNFProduction p, Token t) {
     StringBuffer sig = new StringBuffer();
     String ret, params;
@@ -542,14 +489,14 @@ public class ParseEngine {
     cline = t.beginLine;
     ccol = t.beginColumn;
     sig.append(t.image);
-    if (t.kind == JavaCCParserConstants.VOID) void_ret = true;
-    if (t.kind == JavaCCParserConstants.STAR) ptr_ret = true;
+    if (t.image.equals("void")) void_ret = true;
+    if (t.image.equals("*")) ptr_ret = true;
 
     for (int i = 1; i < p.getReturnTypeTokens().size(); i++) {
       t = (Token)(p.getReturnTypeTokens().get(i));
       sig.append(codeGenerator.getStringToPrint(t));
-      if (t.kind == JavaCCParserConstants.VOID) void_ret = true;
-      if (t.kind == JavaCCParserConstants.STAR) ptr_ret = true;
+      if (t.equals("void")) void_ret = true;
+      if (t.equals("*")) ptr_ret = true;
     }
 
     String comment2 = codeGenerator.getTrailingComments(t);
@@ -588,45 +535,6 @@ public class ParseEngine {
   }
 
 
-  void genStackCheck(boolean voidReturn) {
-    if (Options.getDepthLimit() > 0) {
-      if (isJavaDialect) {
-        codeGenerator.genCodeLine("if(++jj_depth > " + Options.getDepthLimit() + ") {");
-        codeGenerator.genCodeLine("  jj_consume_token(-1);");
-        codeGenerator.genCodeLine("  throw new ParseException();");
-        codeGenerator.genCodeLine("}");
-        codeGenerator.genCodeLine("try {");
-      } else {
-        if (!voidReturn) {
-          codeGenerator.genCodeLine("if(jj_depth_error){ return __ERROR_RET__; }");
-        } else {
-          codeGenerator.genCodeLine("if(jj_depth_error){ return; }");
-        }
-        codeGenerator.genCodeLine("__jj_depth_inc __jj_depth_counter(this);");
-        codeGenerator.genCodeLine("if(jj_depth > " + Options.getDepthLimit() + ") {");
-        codeGenerator.genCodeLine("  jj_depth_error = true;");
-        codeGenerator.genCodeLine("  jj_consume_token(-1);");
-        codeGenerator.genCodeLine("  errorHandler->handleParseError(token, getToken(1), __FUNCTION__, this), hasError = true;");
-        if (!voidReturn) {
-          codeGenerator.genCodeLine("  return __ERROR_RET__;");  // Non-recoverable error
-        } else {
-          codeGenerator.genCodeLine("  return;");  // Non-recoverable error
-        }
-        codeGenerator.genCodeLine("}");
-      }
-    }
-  }
-
-  void genStackCheckEnd() {
-    if (Options.getDepthLimit() > 0) {
-      if (isJavaDialect) {
-        codeGenerator.genCodeLine(" } finally {");
-        codeGenerator.genCodeLine("   --jj_depth;");
-        codeGenerator.genCodeLine(" }");
-      }
-    }
-  }
-
   void buildPhase1Routine(BNFProduction p) {
     Token t;
     t = (Token)(p.getReturnTypeTokens().get(0));
@@ -656,7 +564,9 @@ public class ParseEngine {
         codeGenerator.printTrailingComments(t);
       }
       codeGenerator.genCode(")");
-      codeGenerator.genCode(" throws ParseException");
+      if (isJavaDialect) {
+        codeGenerator.genCode(" throws ParseException");
+      }
 
       for (java.util.Iterator it = p.getThrowsList().iterator(); it.hasNext();) {
         codeGenerator.genCode(", ");
@@ -672,28 +582,17 @@ public class ParseEngine {
 
     codeGenerator.genCode(" {");
 
-    if ((Options.booleanValue(Options.USEROPTION__CPP_STOP_ON_FIRST_ERROR) && error_ret != null)
-        || (Options.getDepthLimit() > 0 && !voidReturn && !isJavaDialect)) {
+    if (Options.booleanValue(Options.USEROPTION__CPP_STOP_ON_FIRST_ERROR) && error_ret != null) {
 	      codeGenerator.genCode(error_ret);
-    } else {
-      error_ret = null;
     }
-
-    genStackCheck(voidReturn);
 
     indentamt = 4;
     if (Options.getDebugParser()) {
-        codeGenerator.genCodeLine("");
-        if (isJavaDialect) {
-            codeGenerator.genCodeLine("    trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
-        } else {
-      	  codeGenerator.genCodeLine("    JJEnter<std::function<void()>> jjenter([this]() {trace_call  (\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) +"\"); });");
-      	  codeGenerator.genCodeLine("    JJExit <std::function<void()>> jjexit ([this]() {trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) +"\"); });");
-        }
-        codeGenerator.genCodeLine("    try {");
-        indentamt = 6;
-      }
-    
+      codeGenerator.genCodeLine("");
+      codeGenerator.genCodeLine("    trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
+      codeGenerator.genCode("    try {");
+      indentamt = 6;
+    }
     if (!Options.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) &&
         p.getDeclarationTokens().size() != 0) {
       codeGenerator.printTokenSetup((Token)(p.getDeclarationTokens().get(0))); cline--;
@@ -703,15 +602,15 @@ public class ParseEngine {
       }
       codeGenerator.printTrailingComments(t);
     }
-    
     String code = phase1ExpansionGen(p.getExpansion());
     dumpFormattedString(code);
     codeGenerator.genCodeLine("");
-    
     if (p.isJumpPatched() && !voidReturn) {
       if (isJavaDialect) {
-	// This line is required for Java!
-	codeGenerator.genCodeLine("    throw new "+(Options.isLegacyExceptionHandling() ? "Error" : "RuntimeException")+"(\"Missing return statement in function\");");
+    	// TODO :: I don't think we need to throw an Error/Exception to mark that a return statement is missing as the compiler will flag this error automatically
+    	if (Options.isLegacyExceptionHandling()) {
+    		codeGenerator.genCodeLine("    throw new "+(Options.isLegacyExceptionHandling() ? "Error" : "RuntimeException")+"(\"Missing return statement in function\");");
+    	}
       } else {
         codeGenerator.genCodeLine("    throw \"Missing return statement in function\";");
       }
@@ -719,10 +618,10 @@ public class ParseEngine {
     if (Options.getDebugParser()) {
       if (isJavaDialect) {
         codeGenerator.genCodeLine("    } finally {");
-        codeGenerator.genCodeLine("      trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
       } else {
         codeGenerator.genCodeLine("    } catch(...) { }");
       }
+      codeGenerator.genCodeLine("      trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(p.getLhs()) + "\");");
       if (isJavaDialect) {
         codeGenerator.genCodeLine("    }");
       }
@@ -732,11 +631,10 @@ public class ParseEngine {
     }
 
 
-    if (error_ret != null) {
+    if (Options.booleanValue(Options.USEROPTION__CPP_STOP_ON_FIRST_ERROR)) {
       codeGenerator.genCodeLine("\n#undef __ERROR_RET__\n");
     }
-    genStackCheckEnd();
-    codeGenerator.genCodeLine("}");
+    codeGenerator.genCodeLine("  }");
     codeGenerator.genCodeLine("");
   }
 
@@ -853,12 +751,12 @@ public class ParseEngine {
               !(e.parent instanceof BNFProduction) ||
               i != e_nrw.units.size() - 1) {
             wrap_in_block = true;
-            retval += "\nif (" + (isJavaDialect ? "true" : "!hasError") + ") {";
+            retval += "if (" + (isJavaDialect ? "true" : "!hasError") + ") {\n";
           }
         }
         retval += phase1ExpansionGen((Expansion)(e_nrw.units.get(i)));
         if (wrap_in_block) {
-          retval += "\n}";
+          retval += "\n}\n";
         }
       }
     } else if (e instanceof OneOrMore) {
@@ -1010,18 +908,13 @@ public class ParseEngine {
     }
     codeGenerator.genCodeLine(" {");
     codeGenerator.genCodeLine("    jj_la = xla; jj_lastpos = jj_scanpos = token;");
-
-    String ret_suffix = "";
-    if (Options.getDepthLimit() > 0) {
-      ret_suffix = " && !jj_depth_error";
-    }
-
     if (isJavaDialect) {
-      codeGenerator.genCodeLine("    try { return (!jj_3" + e.internal_name + "()" + ret_suffix + "); }");
+      codeGenerator.genCodeLine("    try { return !jj_3" + e.internal_name + "(); }");
       codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
     } else {
       codeGenerator.genCodeLine("    jj_done = false;");
-      codeGenerator.genCodeLine("    return (!jj_3" + e.internal_name + "() || jj_done)" + ret_suffix + ";");
+      codeGenerator.genCodeLine("    return !jj_3" + e.internal_name + "() || jj_done;");
+      //codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
     }
     if (Options.getErrorReporting()) {
       codeGenerator.genCodeLine((isJavaDialect ? "    finally " : " ") + "{ jj_save(" + (Integer.parseInt(e.internal_name.substring(1))-1) + ", xla); }");
@@ -1066,7 +959,7 @@ public class ParseEngine {
         {
           NonTerminal e_nrw = (NonTerminal)seq;
           NormalProduction ntprod = (NormalProduction)(production_table.get(e_nrw.getName()));
-          if (ntprod instanceof CodeProduction)
+          if (ntprod instanceof JavaCodeProduction)
           {
             break; // nothing to do here
           }
@@ -1092,7 +985,6 @@ public class ParseEngine {
 //    System.out.println(" ***** seq: " + seq.internal_name + "; size: " + ((Sequence)seq).units.size());
 //    }
       e.internal_name = "R_" + gensymindex;
-      e.internal_index = gensymindex;
     }
     Phase3Data p3d = (Phase3Data)(phase3table.get(e));
     if (p3d == null || p3d.count < inf.count) {
@@ -1113,7 +1005,7 @@ public class ParseEngine {
       // variables are the same.
       NonTerminal e_nrw = (NonTerminal)e;
       NormalProduction ntprod = (NormalProduction)(production_table.get(e_nrw.getName()));
-      if (ntprod instanceof CodeProduction) {
+      if (ntprod instanceof JavaCodeProduction) {
         ; // nothing to do here
       } else {
         generate3R(ntprod.getExpansion(), inf);
@@ -1171,18 +1063,14 @@ public class ParseEngine {
     if (!recursive_call) {
       if (isJavaDialect) {
         codeGenerator.genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType() + " jj_3" + e.internal_name + "()");
-      } else {
+     } else {
         codeGenerator.genCodeLine(" inline bool ", "jj_3" + e.internal_name + "()");
-      }
+     }
 
-      codeGenerator.genCodeLine(" {");
+     codeGenerator.genCodeLine(" {");
       if (!isJavaDialect) {
         codeGenerator.genCodeLine("    if (jj_done) return true;");
-        if (Options.getDepthLimit() > 0) {
-          codeGenerator.genCodeLine("#define __ERROR_RET__ true");
-        }
       }
-      genStackCheck(false);
       xsp_declared = false;
       if (Options.getDebugLookahead() && e.parent instanceof NormalProduction) {
         codeGenerator.genCode("    ");
@@ -1215,7 +1103,7 @@ public class ParseEngine {
       // variables are the same.
       NonTerminal e_nrw = (NonTerminal)e;
       NormalProduction ntprod = (NormalProduction)(production_table.get(e_nrw.getName()));
-      if (ntprod instanceof CodeProduction) {
+      if (ntprod instanceof JavaCodeProduction) {
         codeGenerator.genCodeLine("    if (true) { jj_la = 0; jj_scanpos = jj_lastpos; " + genReturn(false) + "}");
       } else {
         Expansion ntexp = ntprod.getExpansion();
@@ -1329,10 +1217,6 @@ public class ParseEngine {
     }
     if (!recursive_call) {
       codeGenerator.genCodeLine("    " + genReturn(false));
-      genStackCheckEnd();
-      if (!isJavaDialect && Options.getDepthLimit() > 0) {
-        codeGenerator.genCodeLine("#undef __ERROR_RET__");
-      }
       codeGenerator.genCodeLine("  }");
       codeGenerator.genCodeLine("");
     }
@@ -1357,7 +1241,7 @@ public class ParseEngine {
     } else if (e instanceof NonTerminal) {
       NonTerminal e_nrw = (NonTerminal)e;
       NormalProduction ntprod = (NormalProduction)(production_table.get(e_nrw.getName()));
-      if (ntprod instanceof CodeProduction) {
+      if (ntprod instanceof JavaCodeProduction) {
         retval = Integer.MAX_VALUE;
         // Make caller think this is unending (for we do not go beyond JAVACODE during
         // phase3 execution).
@@ -1414,67 +1298,11 @@ public class ParseEngine {
   void build(CodeGenerator codeGenerator) {
     NormalProduction p;
     JavaCodeProduction jp;
-    CppCodeProduction cp;
     Token t = null;
 
     this.codeGenerator = codeGenerator;
     for (java.util.Iterator prodIterator = bnfproductions.iterator(); prodIterator.hasNext();) {
       p = (NormalProduction)prodIterator.next();
-      if (p instanceof CppCodeProduction) {
-          cp = (CppCodeProduction)p;
-
-          generateCPPMethodheader(cp);
-//          t = (Token)(cp.getReturnTypeTokens().get(0));
-//          codeGenerator.printTokenSetup(t); ccol = 1;
-//          codeGenerator.printLeadingComments(t);
-//          codeGenerator.genCode("  " + staticOpt() + (p.getAccessMod() != null ? p.getAccessMod() + " " : ""));
-//          cline = t.beginLine; ccol = t.beginColumn;
-//          codeGenerator.printTokenOnly(t);
-//          for (int i = 1; i < cp.getReturnTypeTokens().size(); i++) {
-//            t = (Token)(cp.getReturnTypeTokens().get(i));
-//            codeGenerator.printToken(t);
-//          }
-//          codeGenerator.printTrailingComments(t);
-//          codeGenerator.genCode(" " + cp.getLhs() + "(");
-//          if (cp.getParameterListTokens().size() != 0) {
-//            codeGenerator.printTokenSetup((Token)(cp.getParameterListTokens().get(0)));
-//            for (java.util.Iterator it = cp.getParameterListTokens().iterator(); it.hasNext();) {
-//              t = (Token)it.next();
-//              codeGenerator.printToken(t);
-//            }
-//            codeGenerator.printTrailingComments(t);
-//          }
-//          codeGenerator.genCode(")");
-//          for (java.util.Iterator it = cp.getThrowsList().iterator(); it.hasNext();) {
-//            codeGenerator.genCode(", ");
-//            java.util.List name = (java.util.List)it.next();
-//            for (java.util.Iterator it2 = name.iterator(); it2.hasNext();) {
-//              t = (Token)it2.next();
-//              codeGenerator.genCode(t.image);
-//            }
-//          }
-          codeGenerator.genCodeLine(" {");
-          if (Options.getDebugParser()) {
-            codeGenerator.genCodeLine("");
-            if (isJavaDialect) {
-                codeGenerator.genCodeLine("    trace_call(\"" + JavaCCGlobals.addUnicodeEscapes(cp.getLhs()) + "\");");
-            } else {
-          	  codeGenerator.genCodeLine("    JJEnter<std::function<void()>> jjenter([this]() {trace_call  (\"" + JavaCCGlobals.addUnicodeEscapes(cp.getLhs()) +"\"); });");
-          	  codeGenerator.genCodeLine("    JJExit <std::function<void()>> jjexit ([this]() {trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(cp.getLhs()) +"\"); });");
-            }
-            codeGenerator.genCodeLine("    try {");
-          }
-          if (cp.getCodeTokens().size() != 0) {
-            codeGenerator.printTokenSetup((Token)(cp.getCodeTokens().get(0))); cline--;
-            codeGenerator.printTokenList(cp.getCodeTokens());
-          }
-          codeGenerator.genCodeLine("");
-          if (Options.getDebugParser()) {
-            codeGenerator.genCodeLine("    } catch(...) { }");
-          }
-          codeGenerator.genCodeLine("  }");
-          codeGenerator.genCodeLine(""); 	  
-      } else
       if (p instanceof JavaCodeProduction) {
         if (!isJavaDialect) {
           JavaCCErrors.semantic_error("Cannot use JAVACODE productions with C++ output (yet).");
@@ -1525,7 +1353,11 @@ public class ParseEngine {
         }
         codeGenerator.genCodeLine("");
         if (Options.getDebugParser()) {
-          codeGenerator.genCodeLine("    } finally {");
+          if (isJavaDialect) {
+            codeGenerator.genCodeLine("    } finally {");
+          } else {
+            codeGenerator.genCodeLine("    } catch(...) { } finally {");
+          }
           codeGenerator.genCodeLine("      trace_return(\"" + JavaCCGlobals.addUnicodeEscapes(jp.getLhs()) + "\");");
           codeGenerator.genCodeLine("    }");
         }
@@ -1552,12 +1384,6 @@ public class ParseEngine {
     for (java.util.Enumeration enumeration = phase3table.elements(); enumeration.hasMoreElements();) {
       buildPhase3Routine((Phase3Data)(enumeration.nextElement()), false);
     }
-    // for (java.util.Enumeration enumeration = phase3table.elements(); enumeration.hasMoreElements();) {
-      // Phase3Data inf = (Phase3Data)(enumeration.nextElement());
-      // System.err.println("**** Table for: " + inf.exp.internal_name);
-      // buildPhase3Table(inf);
-      // System.err.println("**** END TABLE *********");
-    // }
 
     codeGenerator.switchToMainFile();
   }
@@ -1575,83 +1401,6 @@ public class ParseEngine {
     jj3_expansion = null;
   }
 
-  // Table driven.
-  void buildPhase3Table(Phase3Data inf) {
-    Expansion e = inf.exp;
-    Token t = null;
-    if (e instanceof RegularExpression) {
-      RegularExpression e_nrw = (RegularExpression)e;
-      System.err.println("TOKEN, " + e_nrw.ordinal);
-    } else if (e instanceof NonTerminal) {
-      NonTerminal e_nrw = (NonTerminal)e;
-      NormalProduction ntprod =
-          (NormalProduction)(production_table.get(e_nrw.getName()));
-      if (ntprod instanceof CodeProduction) {
-        // javacode, true - always (warn?)
-        System.err.println("JAVACODE_PROD, true");
-      } else {
-        Expansion ntexp = ntprod.getExpansion();
-        // nt exp's table.
-        System.err.println("PRODUCTION, " + ntexp.internal_index);
-        //buildPhase3Table(new Phase3Data(ntexp, inf.count));
-      }
-    } else if (e instanceof Choice) {
-      Sequence nested_seq;
-      Choice e_nrw = (Choice)e;
-      System.err.print("CHOICE, ");
-      for (int i = 0; i < e_nrw.getChoices().size(); i++) {
-        if (i > 0) System.err.print("\n|");
-        nested_seq = (Sequence)(e_nrw.getChoices().get(i));
-        Lookahead la = (Lookahead)(nested_seq.units.get(0));
-        if (la.getActionTokens().size() != 0) {
-          System.err.print("SEMANTIC,");
-        } else {
-          buildPhase3Table(new Phase3Data(nested_seq, inf.count));
-        }
-      }
-      System.err.println();
-    } else if (e instanceof Sequence) {
-      Sequence e_nrw = (Sequence)e;
-      int cnt = inf.count;
-      if (e_nrw.units.size() > 2) {
-        System.err.println("SEQ, " + cnt);
-        for (int i = 1; i < e_nrw.units.size(); i++) {
-          System.err.print("   ");
-          Expansion eseq = (Expansion)(e_nrw.units.get(i));
-          buildPhase3Table(new Phase3Data(eseq, cnt));
-          cnt -= minimumSize(eseq);
-          if (cnt <= 0) break;
-        }
-      } else {
-        Expansion tmp = (Expansion)e_nrw.units.get(1);
-        while (tmp instanceof NonTerminal) {
-          NormalProduction ntprod =
-              (NormalProduction)(
-                  production_table.get(((NonTerminal)tmp).getName()));
-          if (ntprod instanceof CodeProduction) break;
-          tmp = ntprod.getExpansion();
-        }
-        buildPhase3Table(new Phase3Data(tmp, cnt));
-      }
-      System.err.println();
-    } else if (e instanceof TryBlock) {
-      TryBlock e_nrw = (TryBlock)e;
-      buildPhase3Table(new Phase3Data(e_nrw.exp, inf.count));
-    } else if (e instanceof OneOrMore) {
-      OneOrMore e_nrw = (OneOrMore)e;
-      System.err.println("SEQ PROD " + e_nrw.expansion.internal_index);
-      System.err.println("ZEROORMORE " + e_nrw.expansion.internal_index);
-    } else if (e instanceof ZeroOrMore) {
-      ZeroOrMore e_nrw = (ZeroOrMore)e;
-      System.err.print("ZEROORMORE, " + e_nrw.expansion.internal_index);
-    } else if (e instanceof ZeroOrOne) {
-      ZeroOrOne e_nrw = (ZeroOrOne)e;
-      System.err.println("ZERORONE, " + e_nrw.expansion.internal_index);
-    } else {
-      assert(false);
-      // table for nested_e - optional
-    }
-  }
 }
 
 /**
@@ -1674,4 +1423,5 @@ class Phase3Data {
     exp = e;
     count = c;
   }
+
 }

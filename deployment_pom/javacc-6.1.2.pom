@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>net.java.dev.javacc</groupId>
+  <artifactId>javacc</artifactId>
+  <version>6.1.2</version>
+  <packaging>jar</packaging>
+
+  <name>JavaCC</name>
+  <description>JavaCC is a parser/scanner generator for Java.</description>
+  <url>https://javacc.dev.java.net/</url>
+  <inceptionYear>1996</inceptionYear>
+  <organization>
+    <name>java.net</name>
+    <url>http://www.java.net/</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>Berkeley Software Distribution (BSD) License</name>
+      <url>http://www.opensource.org/licenses/bsd-license.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Sreenivasa Viswanadha</name>
+      <id>sreeni</id>
+      <email>sreeni At dev.java.net</email>
+      <roles>
+        <role>Owner</role>
+      </roles>
+      <timezone>0</timezone>
+      <organization>java.net</organization>
+      <organizationUrl>http://www.java.net/</organizationUrl>
+    </developer>
+
+    <developer>
+      <name>Chris Ainsley</name>
+      <id>ainsleyc</id>
+      <email>ainsleyc At dev.java.net</email>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <timezone>0</timezone>
+      <organization>java.net</organization>
+      <organizationUrl>http://www.java.net/</organizationUrl>
+    </developer>
+
+    <developer>
+      <name>Tim Pizey</name>
+      <id>timp</id>
+      <email>timp AT paneris.org</email>
+      <roles>
+        <role>Maven maven</role>
+        <role>Developer</role>
+      </roles>
+      <timezone>0</timezone>
+      <url>http://paneris.org/~timp</url>
+      <organization>Context Computing</organization>
+      <organizationUrl>http://www.context-computing.co.uk/</organizationUrl>
+    </developer>
+  </developers>
+
+  <mailingLists>
+    <mailingList>
+      <name>Announce</name>
+      <archive>https://java.net/projects/javacc/lists/announce/archive</archive>
+    </mailingList>
+    <mailingList>
+      <name>Users</name>
+      <archive>https://java.net/projects/javacc/lists/users/archive</archive>
+    </mailingList>
+    <mailingList>
+      <name>Developers</name>
+      <archive>https://java.net/projects/javacc/lists/dev/archive</archive>
+    </mailingList>
+    <mailingList>
+      <name>Commits</name>
+      <archive>https://java.net/projects/javacc/lists/commits/archive</archive>
+    </mailingList>
+    <mailingList>
+      <name>Issues</name>
+      <archive>https://java.net/projects/javacc/lists/issues/archive</archive>
+    </mailingList>
+  </mailingLists>
+
+  <scm>
+    <connection>scm:svn:https://svn.java.net/svn/javacc~svn/trunk/</connection>
+    <developerConnection>scm:svn:https://svn.java.net/svn/javacc~svn/trunk/</developerConnection>
+    <url>https://java.net/projects/javacc/sources/svn/show</url>
+  </scm>
+  <issueManagement>
+    <system>java.dev</system>
+    <url>https://java.net/jira/browse/JAVACC</url>
+  </issueManagement>
+</project>

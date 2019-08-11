@@ -99,7 +99,6 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class Token implements java.io.Serial
   /**
    * Returns the image.
    */
-  @Override
   public String toString()
   {
     return image;

@@ -40,7 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.javacc.utils.OutputFileGenerator;
+import org.javacc.utils.JavaFileGenerator;
 
 import static org.javacc.parser.JavaCCGlobals.*;
 
@@ -54,14 +54,13 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
   {
     int i, j;
 
-    List<String> tn = new ArrayList<String>(toolNames);
+    List tn = new ArrayList(toolNames);
     tn.add(toolName);
 
     switchToStaticsFile();
 
     //standard includes
     switchToIncludeFile();
-    genCodeLine("#include \"stdio.h\"");
     genCodeLine("#include \"JavaCC.h\"");
     genCodeLine("#include \"CharStream.h\"");
     genCodeLine("#include \"Token.h\"");
@@ -73,9 +72,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       genCodeLine("#include \"" + Options.stringValue(Options.USEROPTION__CPP_TOKEN_MANAGER_INCLUDES) + "\"\n");
     }
 
-    genCodeLine("");
-    
-    if (Options.stringValue(Options.USEROPTION__CPP_NAMESPACE).length() > 0) {
+    if (Options.stringValue(Options.USEROPTION_CPP_NAMESPACE).length() > 0) {
       genCodeLine("namespace " + Options.stringValue("NAMESPACE_OPEN"));
     }
 
@@ -126,31 +123,18 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       printTokenSetup((Token)token_mgr_decls.get(0));
       ccol = 1;
 
-      switchToMainFile();
       for (j = 0; j < token_mgr_decls.size(); j++)
       {
         t = (Token)token_mgr_decls.get(j);
         if (t.kind == IDENTIFIER &&
             commonTokenActionNeeded &&
-            !commonTokenActionSeen) {
+            !commonTokenActionSeen)
           commonTokenActionSeen = t.image.equals("CommonTokenAction");
-          if (commonTokenActionSeen) 
-        	  t.image = cu_name + "TokenManager::" + t.image;
-        }
 
         printToken(t);
       }
 
-      switchToIncludeFile();
-      genCodeLine("  void CommonTokenAction(Token* token);");
-      
-      if (Options.getTokenManagerUsesParser()) {
-    	  genCodeLine("  void setParser(void* parser) {");
-    	  genCodeLine("      this->parser = (" + cu_name + "*) parser;");
-    	  genCodeLine("  }");
-      }
       genCodeLine("");
-
       if (commonTokenActionNeeded && !commonTokenActionSeen)
         JavaCCErrors.warning("You have the COMMON_TOKEN_ACTION option set. " +
             "But it appears you have not defined the method :\n"+
@@ -167,16 +151,18 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     }
 
     genCodeLine("");
+    genCodeLine("  /** Debug output. */");
     genCodeLine("  FILE *debugStream;");
+    genCodeLine("  /** Set debug output. */");
 
-    generateMethodDefHeader("  void ", tokMgrClassName, "setDebugStream(FILE *ds)");
+    generateMethodDefHeader("void ", tokMgrClassName, "setDebugStream(FILE *ds)");
     genCodeLine("{ debugStream = ds; }");
 
     switchToIncludeFile();
-    if(Options.getTokenManagerUsesParser()){
+    if(Options.getTokenManagerUsesParser() && !Options.getStatic()){
       genCodeLine("");
-      genCodeLine("private:");
-      genCodeLine("  " + cu_name + "* parser = nullptr;");
+      genCodeLine("  /** The parser. */");
+      genCodeLine("  public: " + cu_name + " parser = NULL;");
     }
     switchToMainFile();
   }
@@ -190,20 +176,20 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
   static void BuildLexStatesTable()
   {
-    Iterator<TokenProduction> it = rexprlist.iterator();
+    Iterator it = rexprlist.iterator();
     TokenProduction tp;
     int i;
 
     String[] tmpLexStateName = new String[lexstate_I2S.size()];
     while (it.hasNext())
     {
-      tp = it.next();
-      List<RegExprSpec> respecs = tp.respecs;
-      List<TokenProduction> tps;
+      tp = (TokenProduction)it.next();
+      List respecs = tp.respecs;
+      List tps;
 
       for (i = 0; i < tp.lexStates.length; i++)
       {
-        if ((tps = (List<TokenProduction>)allTpsForState.get(tp.lexStates[i])) == null)
+        if ((tps = (List)allTpsForState.get(tp.lexStates[i])) == null)
         {
           tmpLexStateName[maxLexStates++] = tp.lexStates[i];
           allTpsForState.put(tp.lexStates[i], tps = new ArrayList());
@@ -302,7 +288,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
       lexStateIndex = GetIndex(key);
       lexStateSuffix = "_" + lexStateIndex;
-      List<TokenProduction> allTps = (List<TokenProduction>)allTpsForState.get(key);
+      List allTps = (List)allTpsForState.get(key);
       initStates.put(key, initialState = new NfaState());
       ignoring = false;
 
@@ -317,7 +303,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
         tp = (TokenProduction)allTps.get(i);
         int kind = tp.kind;
         boolean ignore = tp.ignoreCase;
-        List<RegExprSpec> rexps = tp.respecs;
+        List rexps = tp.respecs;
 
         if (i == 0)
           ignoring = ignore;
@@ -480,7 +466,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     if (hasLoop)
     {
       switchToStaticsFile();
-      genCodeLine("static int  jjemptyLineNo[" + maxLexStates + "];");
+      genCodeLine("static int jjemptyLineNo[" + maxLexStates + "];");
       genCodeLine("static int  jjemptyColNo[" + maxLexStates + "];");
       genCodeLine("static bool jjbeenHere[" + maxLexStates + "];");
       switchToMainFile();
@@ -536,20 +522,15 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     genCodeLine("#ifndef JAVACC_CHARSTREAM");
     genCodeLine("#define JAVACC_CHARSTREAM CharStream");
     genCodeLine("#endif");
-    genCodeLine("");
 
-    genCodeLine("private:");
-    genCodeLine("  void ReInitRounds();");
-    genCodeLine("");
-    genCodeLine("public:");
-    genCodeLine("  " + tokMgrClassName + "(JAVACC_CHARSTREAM *stream, int lexState = " + defaultLexState + ");");
-    genCodeLine("  virtual ~" + tokMgrClassName + "();");
-    genCodeLine("  void ReInit(JAVACC_CHARSTREAM *stream, int lexState = " + defaultLexState + ");");
+    genCodeLine("  private: " + cu_name + "*parser;");
+    genCodeLine("  private: void ReInitRounds();");
+    genCodeLine("  public: " + tokMgrClassName + "(JAVACC_CHARSTREAM *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = NULL);");
+    genCodeLine("  public: virtual ~" + tokMgrClassName + "();");
+    genCodeLine("  void ReInit(JAVACC_CHARSTREAM *stream, int lexState = " + defaultLexState + ", " + cu_name + " *parserArg = NULL);");
     genCodeLine("  void SwitchTo(int lexState);");
-    genCodeLine("  void clear();");
-    genCodeLine("  const JJSimpleString jjKindsForBitVector(int i, " + Options.getLongType() + " vec);");
-    genCodeLine("  const JJSimpleString jjKindsForStateVector(int lexState, int vec[], int start, int end);");
-    genCodeLine("");
+    genCodeLine("  const JAVACC_SIMPLE_STRING jjKindsForBitVector(int i, " + Options.getLongType() + " vec);");
+    genCodeLine("  const JAVACC_SIMPLE_STRING jjKindsForStateVector(int lexState, int vec[], int start, int end);");
   }
 
   private void DumpStaticVarDeclarations() throws IOException
@@ -641,13 +622,13 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     generateMethodDefHeader("Token *", tokMgrClassName, "jjFillToken()");
     genCodeLine("{");
     genCodeLine("   Token *t;");
-    genCodeLine("   JJString curTokenImage;");
+    genCodeLine("   JAVACC_STRING_TYPE curTokenImage;");
     if (keepLineCol)
     {
-      genCodeLine("   int beginLine   = -1;");
-      genCodeLine("   int endLine     = -1;");
-      genCodeLine("   int beginColumn = -1;");
-      genCodeLine("   int endColumn   = -1;");
+      genCodeLine("   int beginLine;");
+      genCodeLine("   int endLine;");
+      genCodeLine("   int beginColumn;");
+      genCodeLine("   int endColumn;");
     }
 
     if (hasEmptyMatch)
@@ -667,7 +648,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       genCodeLine("   }");
       genCodeLine("   else");
       genCodeLine("   {");
-      genCodeLine("      JJString im = jjstrLiteralImages[jjmatchedKind];");
+      genCodeLine("      JAVACC_STRING_TYPE im = jjstrLiteralImages[jjmatchedKind];");
       genCodeLine("      curTokenImage = (im.length() == 0) ? input_stream->GetImage() : im;");
 
       if (keepLineCol)
@@ -684,7 +665,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     }
     else
     {
-      genCodeLine("   JJString im = jjstrLiteralImages[jjmatchedKind];");
+      genCodeLine("   JAVACC_STRING_TYPE im = jjstrLiteralImages[jjmatchedKind];");
       genCodeLine("   curTokenImage = (im.length() == 0) ? input_stream->GetImage() : im;");
       if (keepLineCol)
       {
@@ -709,8 +690,8 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       genCodeLine("   t->kind = jjmatchedKind;");
       genCodeLine("   t->image = curTokenImage;");
     }
-    genCodeLine("   t->specialToken = nullptr;");
-    genCodeLine("   t->next = nullptr;");
+    genCodeLine("   t->specialToken = NULL;");
+    genCodeLine("   t->next = NULL;");
 
     if (keepLineCol) {
       genCodeLine("");
@@ -733,12 +714,12 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
     switchToIncludeFile();
     genCodeLine("");
-    genCodeLine("public:");
-    genCodeLine("    int curLexState;");
-    genCodeLine("    int jjnewStateCnt;");
-    genCodeLine("    int jjround;");
-    genCodeLine("    int jjmatchedPos;");
-    genCodeLine("    int jjmatchedKind;");
+    genCodeLine("public: int curLexState;");
+
+    genCodeLine("public: int jjnewStateCnt;");
+    genCodeLine("public: int jjround;");
+    genCodeLine("public: int jjmatchedPos;");
+    genCodeLine("public: int jjmatchedKind;");
     genCodeLine("");
     switchToMainFile();
     genCodeLine("const int defaultLexState = " + defaultLexState + ";");
@@ -746,9 +727,9 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     generateMethodDefHeader("Token *", tokMgrClassName, "getNextToken()");
     genCodeLine("{");
     if (hasSpecial) {
-      genCodeLine("  Token *specialToken = nullptr;");
+      genCodeLine("  Token *specialToken = NULL;");
     }
-    genCodeLine("  Token *matchedToken = nullptr;");
+    genCodeLine("  Token *matchedToken;");
     genCodeLine("  int curPos = 0;");
     genCodeLine("");
     genCodeLine("  for (;;)");
@@ -996,7 +977,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
             genCodeLine(prefix + "            matchedToken = jjFillToken();");
 
-            genCodeLine(prefix + "            if (specialToken == nullptr)");
+            genCodeLine(prefix + "            if (specialToken == NULL)");
             genCodeLine(prefix + "               specialToken = matchedToken;");
             genCodeLine(prefix + "            else");
             genCodeLine(prefix + "            {");
@@ -1012,11 +993,11 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
             if (hasSkipActions)
             {
               genCodeLine(prefix + "         else");
-              genCodeLine(prefix + "            SkipLexicalActions(nullptr);");
+              genCodeLine(prefix + "            SkipLexicalActions(NULL);");
             }
           }
           else if (hasSkipActions)
-            genCodeLine(prefix + "         SkipLexicalActions(nullptr);");
+            genCodeLine(prefix + "         SkipLexicalActions(NULL);");
 
           if (maxLexStates > 1)
           {
@@ -1060,7 +1041,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
       genCodeLine(prefix + "   }");
       genCodeLine(prefix + "   int error_line = input_stream->getEndLine();");
       genCodeLine(prefix + "   int error_column = input_stream->getEndColumn();");
-      genCodeLine(prefix + "   JJString error_after;");
+      genCodeLine(prefix + "   JAVACC_STRING_TYPE error_after;");
       genCodeLine(prefix + "   bool EOFSeen = false;");
       genCodeLine(prefix + "   if (input_stream->endOfInput()) {");
       genCodeLine(prefix + "      EOFSeen = true;");
@@ -1117,7 +1098,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
             genCodeLine("            if (jjbeenHere[" + lexStates[i] + "] &&");
             genCodeLine("                jjemptyLineNo[" + lexStates[i] + "] == input_stream->getBeginLine() &&");
             genCodeLine("                jjemptyColNo[" + lexStates[i] + "] == input_stream->getBeginColumn())");
-            genCodeLine("               errorHandler->lexicalError(JJString(\"(\"Error: Bailing out of infinite loop caused by repeated empty string matches \" + \"at line \" + input_stream->getBeginLine() + \", \" + \"column \" + input_stream->getBeginColumn() + \".\")), this);");
+            genCodeLine("               errorHandler->lexicalError(JAVACC_STRING_TYPE(\"(\"Error: Bailing out of infinite loop caused by repeated empty string matches \" + \"at line \" + input_stream->getBeginLine() + \", \" + \"column \" + input_stream->getBeginColumn() + \".\")), this);");
             genCodeLine("            jjemptyLineNo[" + lexStates[i] + "] = input_stream->getBeginLine();");
             genCodeLine("            jjemptyColNo[" + lexStates[i] + "] = input_stream->getBeginColumn();");
             genCodeLine("            jjbeenHere[" + lexStates[i] + "] = true;");
@@ -1188,7 +1169,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
             genCodeLine("            if (jjbeenHere[" + lexStates[i] + "] &&");
             genCodeLine("                jjemptyLineNo[" + lexStates[i] + "] == input_stream->getBeginLine() &&");
             genCodeLine("                jjemptyColNo[" + lexStates[i] + "] == input_stream->getBeginColumn())");
-            genCodeLine("               errorHandler->lexicalError(JJString(\"(\"Error: Bailing out of infinite loop caused by repeated empty string matches \" + \"at line \" + input_stream->getBeginLine() + \", \" + \"column \" + input_stream->getBeginColumn() + \".\")), this);");
+            genCodeLine("               errorHandler->lexicalError(JAVACC_STRING_TYPE(\"(\"Error: Bailing out of infinite loop caused by repeated empty string matches \" + \"at line \" + input_stream->getBeginLine() + \", \" + \"column \" + input_stream->getBeginColumn() + \".\")), this);");
             genCodeLine("            jjemptyLineNo[" + lexStates[i] + "] = input_stream->getBeginLine();");
             genCodeLine("            jjemptyColNo[" + lexStates[i] + "] = input_stream->getBeginColumn();");
             genCodeLine("            jjbeenHere[" + lexStates[i] + "] = true;");
@@ -1262,7 +1243,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
             genCodeLine("            if (jjbeenHere[" + lexStates[i] + "] &&");
             genCodeLine("                jjemptyLineNo[" + lexStates[i] + "] == input_stream->getBeginLine() &&");
             genCodeLine("                jjemptyColNo[" + lexStates[i] + "] == input_stream->getBeginColumn())");
-            genCodeLine("               errorHandler->lexicalError(JJString(\"Error: Bailing out of infinite loop caused by repeated empty string matches " + "at line \" + input_stream->getBeginLine() + \", " + "column \" + input_stream->getBeginColumn() + \".\"), this);");
+            genCodeLine("               errorHandler->lexicalError(JAVACC_STRING_TYPE(\"Error: Bailing out of infinite loop caused by repeated empty string matches " + "at line \" + input_stream->getBeginLine() + \", " + "column \" + input_stream->getBeginColumn() + \".\"), this);");
             genCodeLine("            jjemptyLineNo[" + lexStates[i] + "] = input_stream->getBeginLine();");
             genCodeLine("            jjemptyColNo[" + lexStates[i] + "] = input_stream->getBeginColumn();");
             genCodeLine("            jjbeenHere[" + lexStates[i] + "] = true;");

@@ -1,6 +1,6 @@
 <project name="examples" default="eg1" basedir=".">
 
-  <property name="javacc.home" value="../../../target/"/>
+  <property name="javacc.home" value="/usr/local/javacc/"/>
 
   <target name="eg1" description="Builds example 'eg1'">
     <delete dir="eg1"/>
@@ -8,7 +8,7 @@
     <copy file="eg1.jjt" todir="eg1"/>
     <jjtree target="eg1.jjt" outputdirectory="eg1" javacchome="${javacc.home}"/>
     <javacc target="eg1/eg1.jj" outputdirectory="eg1" javacchome="${javacc.home}"/>
-    <javac deprecation="false" srcdir="eg1" destdir="eg1" includeantruntime='false'/>
+    <javac deprecation="false" srcdir="eg1" destdir="eg1"/>
     <echo message="*******"/>
     <echo message="******* Now cd into the eg1 directory and run 'java Eg1' ******"/>
     <echo message="*******"/>
@@ -21,7 +21,7 @@
     <copy file="ASTMyID.java" todir="eg2"/>
     <jjtree target="eg2.jjt" outputdirectory="eg2" javacchome="${javacc.home}"/>
     <javacc target="eg2/eg2.jj" outputdirectory="eg2" javacchome="${javacc.home}"/>
-    <javac deprecation="false" srcdir="eg2" destdir="eg2" includeantruntime='false'/>
+    <javac deprecation="false" srcdir="eg2" destdir="eg2"/>
     <echo message="*******"/>
     <echo message="******* Now cd into the eg2 directory and run 'java Eg2' ******"/>
     <echo message="*******"/>
@@ -34,7 +34,7 @@
     <copy file="ASTMyID.java" todir="eg3"/>
     <jjtree target="eg3.jjt" outputdirectory="eg3" javacchome="${javacc.home}"/>
     <javacc target="eg3/eg3.jj" outputdirectory="eg3" javacchome="${javacc.home}"/>
-    <javac deprecation="false" srcdir="eg3" destdir="eg3" includeantruntime='false'/>
+    <javac deprecation="false" srcdir="eg3" destdir="eg3"/>
     <echo message="*******"/>
     <echo message="******* Now cd into the eg3 directory and run 'java Eg3' ******"/>
     <echo message="*******"/>
@@ -49,7 +49,7 @@
     <copy file="Eg4DumpVisitor.java" todir="eg4"/>
     <jjtree target="eg4.jjt" outputdirectory="eg4" javacchome="${javacc.home}"/>
     <javacc target="eg4/eg4.jj" outputdirectory="eg4" javacchome="${javacc.home}"/>
-    <javac deprecation="false" srcdir="eg4" destdir="eg4" includeantruntime='false'/>
+    <javac deprecation="false" srcdir="eg4" destdir="eg4"/>
     <echo message="*******"/>
     <echo message="******* Now cd into the eg4 directory and run 'java Eg4' ******"/>
     <echo message="*******"/>

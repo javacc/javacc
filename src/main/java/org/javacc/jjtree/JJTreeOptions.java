@@ -86,7 +86,7 @@ class JJTreeOptions extends Options {
         Options.optionValues.put(Options.USEROPTION__JDK_VERSION, "1.5");
 
         // Also appears to be a duplicate
-        Options.optionValues.put(Options.USEROPTION__CPP_NAMESPACE, "");
+        Options.optionValues.put(Options.USEROPTION_CPP_NAMESPACE, "");
 
         // Also appears to be a duplicate
         Options.optionValues.put(Options.USEROPTION__CPP_IGNORE_ACTIONS, Boolean.FALSE);

@@ -1,5 +1,5 @@
                           ==========
-                          JavaCC 7.0
+                          JavaCC 5.0
                           ==========
 
 
@@ -54,7 +54,7 @@ come to this directory (JavaCC source install directory) and type:
 
     $ ant
 
-it will build the javacc.jar file in the target directory.
+it will build the javacc.jar file in the bin/lib directory.
 
 On unix-based systems, you need to make sure the files in the bin
 directory of this distribution are in your path.
