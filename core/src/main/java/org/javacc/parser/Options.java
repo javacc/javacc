@@ -94,7 +94,6 @@ public class Options {
   public static final String USEROPTION__BUILD_TOKEN_MANAGER = "BUILD_TOKEN_MANAGER";
   public static final String USEROPTION__BUILD_PARSER = "BUILD_PARSER";
   public static final String USEROPTION__USER_CHAR_STREAM = "USER_CHAR_STREAM";
-  public static final String USEROPTION__USER_TOKEN_MANAGER = "USER_TOKEN_MANAGER";
   public static final String USEROPTION__JDK_VERSION = "JDK_VERSION";
   public static final String USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC = "SUPPORT_CLASS_VISIBILITY_PUBLIC";
   public static final String USEROPTION__GENERATE_ANNOTATIONS = "GENERATE_ANNOTATIONS";
@@ -119,6 +118,10 @@ public class Options {
 
   public static final String USEROPTION__CPP_TOKEN_INCLUDE = "TOKEN_INCLUDE";
   public static final String USEROPTION__CPP_PARSER_INCLUDE = "PARSER_INCLUDE";
+  
+  public static final String USEROPTION__USER_TOKEN_MANAGER = "USER_TOKEN_MANAGER";
+  public static final String USEROPTION__CPP_USER_TOKEN_CONSTANT = "USER_TOKEN_CONSTANT";
+  public static final String USEROPTION__CPP_USER_TOKEN_CONSTANT_NAMESPACE = "USER_TOKEN_CONSTANT_NAMESPACE";
 
 
   /**
@@ -160,6 +163,9 @@ public class Options {
     temp.add(new OptionInfo(USEROPTION__UNICODE_INPUT, OptionType.BOOLEAN, Boolean.FALSE));
     temp.add(new OptionInfo(USEROPTION__IGNORE_CASE, OptionType.BOOLEAN, Boolean.FALSE));
     temp.add(new OptionInfo(USEROPTION__USER_TOKEN_MANAGER, OptionType.BOOLEAN, Boolean.FALSE));
+    temp.add(new OptionInfo(USEROPTION__CPP_USER_TOKEN_CONSTANT, OptionType.STRING, ""));
+    temp.add(new OptionInfo(USEROPTION__CPP_USER_TOKEN_CONSTANT_NAMESPACE, OptionType.STRING, ""));
+    
     temp.add(new OptionInfo(USEROPTION__USER_CHAR_STREAM, OptionType.BOOLEAN, Boolean.FALSE));
 
     temp.add(new OptionInfo(USEROPTION__BUILD_PARSER, OptionType.BOOLEAN, Boolean.TRUE));
@@ -641,12 +647,31 @@ public class Options {
   }
 
   /**
-   * Find the user tokenmanager value.
+   * Find the user token manager value.
    *
    * @return The requested user tokenmanager value.
    */
   public static boolean getUserTokenManager() {
     return booleanValue(USEROPTION__USER_TOKEN_MANAGER);
+  }
+
+  
+  /**
+   * Find the user token manager constant.
+   *
+   * @return The requested user token manager constant.
+   */
+  public static String getUserTokenManagerConstant() {
+    return stringValue(USEROPTION__CPP_USER_TOKEN_CONSTANT);
+  }
+
+  /**
+   * Find the user token manager constant.
+   *
+   * @return The requested user token manager constant.
+   */
+  public static String getUserTokenManagerConstantNamespace() {
+    return stringValue(USEROPTION__CPP_USER_TOKEN_CONSTANT_NAMESPACE);
   }
 
   /**
