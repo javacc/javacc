@@ -29,3 +29,7 @@ TEST-*
 *.asc
 examples/JJTreeExamples/cpp/eg*/
 **/gen/
+
+javacc-*.tar.gz
+javacc-*.zip
+dist/

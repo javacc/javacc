@@ -34,7 +34,10 @@ export install_name
 /bin/rm -f "${install_name}.tar.gz"
 /bin/rm -f "${install_name}.zip"
 mkdir -p "dist/${install_name}"
-cp -rf bin "dist/${install_name}/bin"
+cp -rf scripts "dist/${install_name}/bin"
+mkdir dist/$install_name/bin/lib
+cp target/javacc.jar dist/$install_name/bin/lib/javacc.jar
+
 chmod a+x "dist/${install_name}/bin/javacc"
 chmod a+x "dist/${install_name}/bin/jjdoc"
 chmod a+x "dist/${install_name}/bin/jjtree"
@@ -43,6 +46,6 @@ cp -rf examples "dist/${install_name}/examples"
 cp -rf LICENSE "dist/${install_name}"
 
 cd dist
-tar czf ../${install_name}.tar.gz .
-zip -qr ../${install_name}.zip .
+tar czf ./${install_name}.tar.gz $install_name
+zip -qr ./${install_name}.zip $install_name
 /bin/rm -rf dist
