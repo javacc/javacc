@@ -447,13 +447,16 @@ TOKEN :
         <DECIMAL_LITERAL> (["l","L"])?
       | <HEX_LITERAL> (["l","L"])?
       | <OCTAL_LITERAL> (["l","L"])?
+      | <BINARY_LITERAL> (["l","L"])?
   >
 |
-  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+  < #DECIMAL_LITERAL: ["1"-"9"] (("_")* ["0"-"9"])* >
 |
-  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ >
+  < #HEX_LITERAL: "0" ["x","X"] ["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])* >
 |
-  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+  < #OCTAL_LITERAL: "0" (("_")* ["0"-"7"])* >
+|
+  < #BINARY_LITERAL: "0" ["b","B"] ["0", "1"] (("_")* ["0","1"])* >
 |
   < FLOATING_POINT_LITERAL:
         <DECIMAL_FLOATING_POINT_LITERAL>
@@ -461,20 +464,21 @@ TOKEN :
   >
 |
   < #DECIMAL_FLOATING_POINT_LITERAL:
-        (["0"-"9"])+ "." (["0"-"9"])* (<DECIMAL_EXPONENT>)? (["f","F","d","D"])?
-      | "." (["0"-"9"])+ (<DECIMAL_EXPONENT>)? (["f","F","d","D"])?
-      | (["0"-"9"])+ <DECIMAL_EXPONENT> (["f","F","d","D"])?
-      | (["0"-"9"])+ (<DECIMAL_EXPONENT>)? ["f","F","d","D"]
+        ["0"-"9"] (("_")* ["0"-"9"])* "." (["0"-"9"](("_")*["0"-"9"])*)? (<DECIMAL_EXPONENT>)? (["f","F","d","D"])?
+      | "." ["0"-"9"](("_")*["0"-"9"])* (<DECIMAL_EXPONENT>)? (["f","F","d","D"])?
+      | ["0"-"9"](("_")*["0"-"9"])* <DECIMAL_EXPONENT> (["f","F","d","D"])?
+      | ["0"-"9"](("_")*["0"-"9"])* (<DECIMAL_EXPONENT>)? ["f","F","d","D"]
   >
 |
-  < #DECIMAL_EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
+  < #DECIMAL_EXPONENT: ["e","E"] (["+","-"])? ["0"-"9"] (("_")*["0"-"9"])* >
 |
   < #HEXADECIMAL_FLOATING_POINT_LITERAL:
-        "0" ["x", "X"] (["0"-"9","a"-"f","A"-"F"])+ (".")? <HEXADECIMAL_EXPONENT> (["f","F","d","D"])?
-      | "0" ["x", "X"] (["0"-"9","a"-"f","A"-"F"])* "." (["0"-"9","a"-"f","A"-"F"])+ <HEXADECIMAL_EXPONENT> (["f","F","d","D"])?
+        "0" ["x", "X"] ["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])* (".")? <HEXADECIMAL_EXPONENT> (["f","F","d","D"])?
+      | "0" ["x", "X"] (["0"-"9","a"-"f","A"-"F"](("_")* ["0"-"9","a"-"f","A"-"F"])* )? "." 
+           ["0"-"9","a"-"f","A"-"F"] (("_")*["0"-"9","a"-"f","A"-"F"])* <HEXADECIMAL_EXPONENT> (["f","F","d","D"])?
   >
 |
-  < #HEXADECIMAL_EXPONENT: ["p","P"] (["+","-"])? (["0"-"9"])+ >
+  < #HEXADECIMAL_EXPONENT: ["p","P"] (["+","-"])? ["0"-"9"](("_")*["0"-"9"])* >
 |
   < CHARACTER_LITERAL:
       "'"
@@ -2820,16 +2824,38 @@ void SynchronizedStatement():
   "synchronized" "(" Expression(null) ")" Block(null)
 }
 
-void TryStatement():
-/*
- * Semantic check required here to make sure that at least one
- * finally/catch is present.
- */
+void ResourceDeclaration():
 {}
 {
-  "try" Block(null)
-  ( "catch" "(" FormalParameter() ")" Block(null) )*
-  [ "finally" Block(null) ]
+  Type() VariableDeclaratorId() "=" Expression(null)
+}
+
+void CatchParameter():
+{ Token t; }
+{
+  Modifiers() Type()
+  [ ( t = "&" | t = "*") { if (!isAllowed(t)) throw new ParseException(t.image + " is invalid in this context"); }
+  	| "..."
+  ]
+  //Multiple exception catching in Java 7+
+  ("|" Type())*
+  
+  VariableDeclaratorId()
+}
+
+void TryStatement():
+{ boolean empty = true; }
+{
+  "try" ["("  ResourceDeclaration()
+         (LOOKAHEAD(2) ";" ResourceDeclaration())* (";")? ")" { empty = false; }
+         ] Block(null)
+  ( "catch" "(" CatchParameter() ")" Block(null) { empty = false; } )*
+  [ "finally" Block(null) { empty = false; } ]
+
+  {
+  if (empty)
+      throw new ParseException("At least one catch or finally block expected.");
+  }
 }
 
 /* We use productions to match >>>, >> and > so that we can keep the
