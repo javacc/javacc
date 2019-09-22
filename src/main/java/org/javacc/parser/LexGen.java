@@ -51,7 +51,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
   private static final String DUMP_STATIC_VAR_DECLARATIONS_TEMPLATE_RESOURCE_URL = "/templates/DumpStaticVarDeclarations.template";
   private static final String DUMP_DEBUG_METHODS_TEMPLATE_RESOURCE_URL = "/templates/DumpDebugMethods.template";
   private static final String BOILERPLATER_METHOD_RESOURCE_URL = "/templates/TokenManagerBoilerPlateMethods.template";
-  
+
   public static String staticString;
   public static String tokMgrClassName;
 
@@ -104,6 +104,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
   void PrintClassHead()
   {
     int i, j;
+    boolean bHasImport = false;
 
     List<String> tn = new ArrayList<String>(toolNames);
     tn.add(toolName);
@@ -119,6 +120,8 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
       kind = ((Token)cu_to_insertion_point_1.get(l)).kind;
       if(kind == PACKAGE || kind == IMPORT) {
+        if (kind == IMPORT)
+          bHasImport = true;
         for (; i < cu_to_insertion_point_1.size(); i++) {
           kind = ((Token)cu_to_insertion_point_1.get(i)).kind;
           if (kind == SEMICOLON ||
@@ -147,6 +150,10 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
     genCodeLine("");
     genCodeLine("/** Token Manager. */");
+
+    if (bHasImport && Options.getGenerateAnnotations()) {
+      genCodeLine("@SuppressWarnings (\"unused\")");
+    }
     if(Options.getSupportClassVisibilityPublic()) {
       //genModifier("public ");
       genModifier("public ");
@@ -204,7 +211,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       genCodeLine("  public " + cu_name + " parser = null;");
     }
   }
-  
+
   @SuppressWarnings("unchecked")
   protected void writeTemplate(String name, Object... additionalOptions) throws IOException
   {
@@ -228,12 +235,12 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
     options.put("cu_name", cu_name);
 
     // options.put("", .valueOf(maxOrdinal));
-    
-    
+
+
     for (int i = 0; i < additionalOptions.length; i++)
     {
       Object o = additionalOptions[i];
-    
+
       if (o instanceof Map<?,?>)
       {
         options.putAll((Map<String,Object>) o);
@@ -242,12 +249,12 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       {
         if (i == additionalOptions.length - 1)
           throw new IllegalArgumentException("Must supply pairs of [name value] args");
-        
+
         options.put((String) o, additionalOptions[i+1]);
         i++;
       }
     }
-    
+
     OutputFileGenerator gen = new OutputFileGenerator(name, options);
     StringWriter sw = new StringWriter();
     gen.generate(new PrintWriter(sw));
@@ -646,12 +653,12 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
 
     DumpStaticVarDeclarations(charStreamName);
     genCodeLine(/*{*/ "}");
-    
+
     // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
     String fileName = Options.getOutputDirectory() + File.separator +
                       tokMgrClassName +
                       getFileExtension(Options.getOutputLanguage());
-    
+
     if (Options.getBuildParser()) {
       saveOutput(fileName);
     }
