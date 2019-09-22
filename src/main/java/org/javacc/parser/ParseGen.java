@@ -68,7 +68,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 		if (Options.getBuildParser()) {
 			final List<String> tn = new ArrayList<String>(toolNames);
 			tn.add(toolName);
-			
+
 			// This is the first line generated -- the the comment line at the top of the generated parser
 			genCodeLine("/* " + getIdString(tn, cu_name + ".java") + " */");
 
@@ -230,13 +230,13 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 					genCodeLine("");
 					genCodeLine("  /** Reinitialise. */");
 					genCodeLine("  " + staticOpt() + "public void ReInit(CharStream stream) {");
-					
+
 					if (Options.isTokenManagerRequiresParserAccess()) {
 						genCodeLine("	 token_source.ReInit(this,stream);");
 					} else {
-						genCodeLine("	 token_source.ReInit(stream);");	
+						genCodeLine("	 token_source.ReInit(stream);");
 					}
-					
+
 
 					genCodeLine("	 token = new Token();");
 					if (Options.getCacheTokens()) {
@@ -351,11 +351,11 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 							genCodeLine("	 try { jj_input_stream.ReInit(stream, encoding, 1, 1); } "
 									+ "catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }");
 						}
-						
+
 						if (Options.isTokenManagerRequiresParserAccess()) {
 							genCodeLine("	 token_source.ReInit(this,jj_input_stream);");
 						} else {
-							genCodeLine("	 token_source.ReInit(jj_input_stream);");	
+							genCodeLine("	 token_source.ReInit(jj_input_stream);");
 						}
 
 						genCodeLine("	 token = new Token();");
@@ -466,9 +466,9 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 						genCodeLine("	   jj_input_stream.ReInit(stream, 1, 1);");
 						genCodeLine("	}");
 					}
-					
+
 					genCodeLine("	if (token_source == null) {");
-					
+
 					if (Options.getTokenManagerUsesParser() && !Options.getStatic()) {
 						genCodeLine(" token_source = new " + cu_name + "TokenManager(this, jj_input_stream);");
 					} else {
@@ -477,13 +477,13 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 
 					genCodeLine("	}");
 					genCodeLine("");
-					
+
 					if (Options.isTokenManagerRequiresParserAccess()) {
 						genCodeLine("	 token_source.ReInit(this,jj_input_stream);");
 					} else {
-						genCodeLine("	 token_source.ReInit(jj_input_stream);");	
+						genCodeLine("	 token_source.ReInit(jj_input_stream);");
 					}
-					
+
 					genCodeLine("	 token = new Token();");
 					if (Options.getCacheTokens()) {
 						genCodeLine("	 token.next = jj_nt = token_source.getNextToken();");
@@ -742,7 +742,7 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 					} else {
 						genCodeLine("	   for (int[] oldentry : jj_expentries) {");
 					}
-					
+
 					genCodeLine("		 if (oldentry.length == jj_expentry.length) {");
 					genCodeLine("		   boolean isMatched = true;");
 					genCodeLine("");
@@ -811,15 +811,15 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 					genCodeLine("	   exptokseq[i] = jj_expentries.get(i);");
 				}
 				genCodeLine("	 }");
-				
-				
+
+
 				if (isJavaModernMode) {
 					// Add the lexical state onto the exception message
 					genCodeLine("	 return new ParseException(token, exptokseq, tokenImage, token_source == null ? null : " +cu_name+ "TokenManager.lexStateNames[token_source.curLexState]);");
 				} else {
 					genCodeLine("	 return new ParseException(token, exptokseq, tokenImage);");
 				}
-				
+
 				genCodeLine("  }");
 			} else {
 				genCodeLine("  /** Generate ParseException. */");
@@ -841,7 +841,6 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 			}
 			genCodeLine("");
 
-			genCodeLine("  " + staticOpt() + "private int trace_indent = 0;");
 			genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType()
 					+ " trace_enabled;");
 			genCodeLine("");
@@ -852,6 +851,8 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 			genCodeLine("");
 
 			if (Options.getDebugParser()) {
+				genCodeLine("  " + staticOpt() + "private int trace_indent = 0;");
+
 				genCodeLine("/** Enable tracing. */");
 				genCodeLine("  " + staticOpt() + "final public void enable_tracing() {");
 				genCodeLine("	 trace_enabled = true;");
