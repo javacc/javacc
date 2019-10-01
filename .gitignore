@@ -4,7 +4,6 @@
 .classpath
 .project
 .checkstyle
-.settings
 .idea
 *.iml
 target
@@ -16,6 +15,7 @@ build-eclipse
 
 bin/
 classes/
+.settings/
 src/main/generated-sources/
 test.tmp/
 tmp/
