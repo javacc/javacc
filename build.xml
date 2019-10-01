@@ -155,8 +155,16 @@ THE POSSIBILITY OF SUCH DAMAGE.
 	<target name="jar-nocompile" depends="jar-check" unless="jar.uptodate">
 		<mkdir dir="${target-folder}" />
 		<antcall target="compile" />
-		<jar jarfile="${javacc}" basedir="classes" compress="true" />
-		<jar jarfile="${javacc-path}" basedir="classes" compress="true" />
+		<jar jarfile="${javacc}" basedir="classes" compress="true">
+			<manifest>
+				<attribute name="Main-Class" value="${javacc-bootstrap-class}"/>
+			</manifest>
+		</jar>
+		<jar jarfile="${javacc-path}" basedir="classes" compress="true">
+			<manifest>
+				<attribute name="Main-Class" value="${javacc-bootstrap-class}"/>
+			</manifest>
+		</jar>
 	</target>
 
 	<target name="dist" depends="jar, javadoc" description="build a distribution">
