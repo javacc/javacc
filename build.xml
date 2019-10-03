@@ -85,6 +85,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 		<!-- Generate the Java CC Main Parser -->
 		<java classname="${javacc-bootstrap-class}" classpath="${bootstrap-jar}" dir="${basedir}/src/main/javacc" fork="true">
+			<arg value="-OUTPUT_DIRECTORY=${basedir}/${parser-generated-src}" />
 			<arg value="JavaCC.jj" />
 		</java>
 
@@ -93,11 +94,13 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 		<!-- Generate the JJTree Parser Definition (from the tree definition) -->
 		<java classname="${jjtree-bootstrap-class}" classpath="${bootstrap-jar}" dir="${basedir}/src/main/jjtree" fork="true">
+			<arg value="-OUTPUT_DIRECTORY=${basedir}/${jjtree-generated-src}" />
 			<arg value="JJTree.jjt" />
 		</java>
 
 		<!-- Generate the JJTree Parser  -->
-		<java classname="${javacc-bootstrap-class}" classpath="${bootstrap-jar}" dir="${generated-src}/org/javacc/jjtree" fork="true">
+		<java classname="${javacc-bootstrap-class}" classpath="${bootstrap-jar}" dir="${basedir}/${jjtree-generated-src}" fork="true">
+			<arg value="-OUTPUT_DIRECTORY=${basedir}/${jjtree-generated-src}" />
 			<arg value="JJTree.jj" />
 		</java>
 
@@ -122,6 +125,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 		<!-- Generate the Condition Parser -->
 		<java classname="${javacc-bootstrap-class}" classpath="${bootstrap-jar}" dir="${basedir}/src/main/javacc" fork="true">
+			<arg value="-OUTPUT_DIRECTORY=${basedir}/${utils-generated-src}" />
 			<arg value="ConditionParser.jj" />
 		</java>
 
@@ -222,7 +226,6 @@ THE POSSIBILITY OF SUCH DAMAGE.
 		</javac>
 
 		<junit printsummary="yes" haltonfailure="no">
-
 			<classpath>
 				<pathelement location="junit" />
 				<pathelement location="target/javacc.jar" />
