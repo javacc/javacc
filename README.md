@@ -26,7 +26,7 @@ Learn more about JavaCC at [https://javacc.org/](https://javacc.org/)
 
 * The [lexical analyzer](https://en.wikipedia.org/wiki/Lexical_analysis) of JavaCC can handle full Unicode input, and lexical specifications may also include any Unicode character. This facilitates descriptions of language elements such as Java identifiers that allow certain Unicode characters (that are not ASCII), but not others.
 
-* JavaCC offers [Lex](https://en.wikipedia.org/wiki/Lex_(software)-like lexical state and lexical action capabilities. Specific aspects in JavaCC that are superior to other tools are the first class status it offers concepts such as `TOKEN`, `MORE`, `SKIP` and state changes. This allows cleaner specifications as well as better error and warning messages from JavaCC.
+* JavaCC offers [Lex](https://en.wikipedia.org/wiki/Lex_(software))-like lexical state and lexical action capabilities. Specific aspects in JavaCC that are superior to other tools are the first class status it offers concepts such as `TOKEN`, `MORE`, `SKIP` and state changes. This allows cleaner specifications as well as better error and warning messages from JavaCC.
 
 * Tokens that are defined as *special tokens* in the lexical specification are ignored during parsing, but these tokens are available for processing by the tools. A useful application of this is in the processing of comments.
 
@@ -52,11 +52,11 @@ This example recognizes matching braces followed by zero or more line terminator
 
 Examples of legal strings in this grammar are:
 
-  `"{}"`, `"{{{{{}}}}}"`, etc.
+  `"{}"`, `"{{{{{}}}}}"` etc.
 
 Examples of illegal strings are:
 
-  `"{{{{"`, `"{}{}"`, `"{}}"`, `"{{}{}}"`, `"{ }"`, `"{x}"`, etc.
+  `"{{{{"`, `"{}{}"`, `"{}}"`, `"{{}{}}"`, `"{ }"`, `"{x}"` etc.
 
 Grammar
 ```
@@ -92,31 +92,31 @@ void MatchedBraces() :
 
 Output
 ```
-	$ java Example
-	{{}}<return>
-	<control-d>
+$ java Example
+{{}}<return>
+<control-d>
 
-	$ java Example
-	{x<return>
-	Lexical error at line 1, column 2.  Encountered: "x"
-	TokenMgrError: Lexical error at line 1, column 2.  Encountered: "x" (120), after : ""
-	        at ExampleTokenManager.getNextToken(ExampleTokenManager.java:146)
-	        at Example.getToken(Example.java:140)
-	        at Example.MatchedBraces(Example.java:51)
-	        at Example.Input(Example.java:10)
-	        at Example.main(Example.java:6)
+$ java Example
+{x<return>
+Lexical error at line 1, column 2.  Encountered: "x"
+TokenMgrError: Lexical error at line 1, column 2.  Encountered: "x" (120), after : ""
+        at ExampleTokenManager.getNextToken(ExampleTokenManager.java:146)
+        at Example.getToken(Example.java:140)
+        at Example.MatchedBraces(Example.java:51)
+        at Example.Input(Example.java:10)
+        at Example.main(Example.java:6)
 
-	$ java Example
-	{}}<return>
-	ParseException: Encountered "}" at line 1, column 3.
-	Was expecting one of:
-	    <EOF>
-	    "\n" ...
-	    "\r" ...
-	        at Example.generateParseException(Example.java:184)
-	        at Example.jj_consume_token(Example.java:126)
-	        at Example.Input(Example.java:32)
-	        at Example.main(Example.java:6)
+$ java Example
+{}}<return>
+ParseException: Encountered "}" at line 1, column 3.
+Was expecting one of:
+    <EOF>
+    "\n" ...
+    "\r" ...
+        at Example.generateParseException(Example.java:184)
+        at Example.jj_consume_token(Example.java:126)
+        at Example.Input(Example.java:32)
+        at Example.main(Example.java:6)
 ```
 
 ## Building JavaCC from Source
@@ -124,7 +124,7 @@ Output
 Prerequisites for building JavaCC:
 
 * Git
-* Ant (we require version 1.5.3 or above - you can get ant from [http://ant.apache.org](http://ant.apache.org)
+* Ant (we require version 1.5.3 or above - you can get ant from [http://ant.apache.org](http://ant.apache.org))
 * Maven
 * Java 8 (Java 9 and 10 are not yet supported)
 
@@ -186,7 +186,7 @@ Contact the developers and community on the [Google user group](https://groups.g
 
 ## Documentation
 
-The documentation of JavaCC is located on the website: [https://javacc.org](https://javacc.org) or in the `docs/` directory of the source code.
+The documentation of JavaCC is located on the website [https://javacc.org](https://javacc.org) or in the `www/` directory of the source code.
 
 
 <!---
@@ -211,7 +211,6 @@ JavaCC is used by applications in many companies and enterprises around the glob
 
 
 ## About
-wq
 
 JavaCC was originally created at Sun Microsystems Inc. by [Sreeni Viswanadha](https://github.com/kaikalur) and [Sriram Sankar](https://twitter.com/sankarsearch).
 As an open source project, it is now maintained by the developer community, which includes the original authors and [Chris Ainsley](https://github.com/ainslec), [Tim Pizney](https://github.com/timp) and [Francis Andre](https://github.com/zosrothko).
