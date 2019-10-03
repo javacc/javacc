@@ -16,6 +16,7 @@ build-eclipse
 
 bin/
 classes/
+.settings/
 src/main/generated-sources/
 test.tmp/
 tmp/
