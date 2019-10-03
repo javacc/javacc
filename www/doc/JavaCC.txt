@@ -130,15 +130,16 @@ TOKENS
 }
 
 /* JAVA LITERALS */<DEFAULT> TOKEN : {
-<INTEGER_LITERAL: <DECIMAL_LITERAL> (["l","L"])? | <HEX_LITERAL> (["l","L"])? | <OCTAL_LITERAL> (["l","L"])?>
-| <#DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])*>
-| <#HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+>
-| <#OCTAL_LITERAL: "0" (["0"-"7"])*>
+<INTEGER_LITERAL: <DECIMAL_LITERAL> (["l","L"])? | <HEX_LITERAL> (["l","L"])? | <OCTAL_LITERAL> (["l","L"])? | <BINARY_LITERAL> (["l","L"])?>
+| <#DECIMAL_LITERAL: ["1"-"9"] (("_")* ["0"-"9"])*>
+| <#HEX_LITERAL: "0" ["x","X"] ["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])*>
+| <#OCTAL_LITERAL: "0" (("_")* ["0"-"7"])*>
+| <#BINARY_LITERAL: "0" ["b","B"] ["0","1"] (("_")* ["0","1"])*>
 | <FLOATING_POINT_LITERAL: <DECIMAL_FLOATING_POINT_LITERAL> | <HEXADECIMAL_FLOATING_POINT_LITERAL>>
-| <#DECIMAL_FLOATING_POINT_LITERAL: (["0"-"9"])+ "." (["0"-"9"])* (<DECIMAL_EXPONENT>)? (["f","F","d","D"])? | "." (["0"-"9"])+ (<DECIMAL_EXPONENT>)? (["f","F","d","D"])? | (["0"-"9"])+ <DECIMAL_EXPONENT> (["f","F","d","D"])? | (["0"-"9"])+ (<DECIMAL_EXPONENT>)? ["f","F","d","D"]>
-| <#DECIMAL_EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+>
-| <#HEXADECIMAL_FLOATING_POINT_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ (".")? <HEXADECIMAL_EXPONENT> (["f","F","d","D"])? | "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])* "." (["0"-"9","a"-"f","A"-"F"])+ <HEXADECIMAL_EXPONENT> (["f","F","d","D"])?>
-| <#HEXADECIMAL_EXPONENT: ["p","P"] (["+","-"])? (["0"-"9"])+>
+| <#DECIMAL_FLOATING_POINT_LITERAL: ["0"-"9"] (("_")* ["0"-"9"])* "." (["0"-"9"] (("_")* ["0"-"9"])*)? (<DECIMAL_EXPONENT>)? (["f","F","d","D"])? | "." ["0"-"9"] (("_")* ["0"-"9"])* (<DECIMAL_EXPONENT>)? (["f","F","d","D"])? | ["0"-"9"] (("_")* ["0"-"9"])* <DECIMAL_EXPONENT> (["f","F","d","D"])? | ["0"-"9"] (("_")* ["0"-"9"])* (<DECIMAL_EXPONENT>)? ["f","F","d","D"]>
+| <#DECIMAL_EXPONENT: ["e","E"] (["+","-"])? ["0"-"9"] (("_")* ["0"-"9"])*>
+| <#HEXADECIMAL_FLOATING_POINT_LITERAL: "0" ["x","X"] ["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])* (".")? <HEXADECIMAL_EXPONENT> (["f","F","d","D"])? | "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])*)? "." ["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])* <HEXADECIMAL_EXPONENT> (["f","F","d","D"])?>
+| <#HEXADECIMAL_EXPONENT: ["p","P"] (["+","-"])? ["0"-"9"] (("_")* ["0"-"9"])*>
 | <CHARACTER_LITERAL: "\'" (~["\'","\\","\n","\r"] | "\\" (["n","t","b","r","f","\\","\'","\""] | ["0"-"7"] (["0"-"7"])? | ["0"-"3"] ["0"-"7"] ["0"-"7"])) "\'">
 | <STRING_LITERAL: "\"" (~["\"","\\","\n","\r"] | "\\" (["n","t","b","r","f","\\","\'","\""] | ["0"-"7"] (["0"-"7"])? | ["0"-"3"] ["0"-"7"] ["0"-"7"]))* "\"">
 }
@@ -262,7 +263,7 @@ NON-TERMINALS
 /*
  * The following production defines Java identifiers - it
  * includes the reserved words of JavaCC also.
- */	JavaIdentifier	:=	( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "PARSER_BEGIN" | "PARSER_END" | "JAVACODE" | "TOKEN" | "SPECIAL_TOKEN" | "MORE" | "SKIP" | "TOKEN_MGR_DECLS" | "EOF" | "DCL_PARSER_BEGIN" | "DCL_PARSER_END" | "INC_PARSER_BEGIN" | "INC_PARSER_END" | "DEF_PARSER_BEGIN" | "DEF_PARSER_END" )
+ */	JavaIdentifier	:=	( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "PARSER_BEGIN" | "PARSER_END" | "JAVACODE" | "TOKEN" | "SPECIAL_TOKEN" | "MORE" | "SKIP" | "TOKEN_MGR_DECLS" | "EOF" | "template" | "DCL_PARSER_BEGIN" | "DCL_PARSER_END" | "INC_PARSER_BEGIN" | "INC_PARSER_END" | "DEF_PARSER_BEGIN" | "DEF_PARSER_END" )
 /*
  * Program structuring syntax follows.
  */	CompilationUnit	:=	( PackageDeclaration )? ( ImportDeclaration )* ( TypeDeclaration )*
@@ -277,14 +278,14 @@ NON-TERMINALS
  * Declaration syntax follows.
  */	TypeDeclaration	:=	";"
 		|	Modifiers ( ClassOrInterfaceDeclaration | EnumDeclaration | AnnotationTypeDeclaration )
-	ClassOrInterfaceDeclaration	:=	( "class" | "interface" ) <IDENTIFIER> ( TypeParameters )? ( ExtendsList )? ( ImplementsList )? ClassOrInterfaceBody
+	ClassOrInterfaceDeclaration	:=	( "class" | "interface" ) JavaIdentifier ( TypeParameters )? ( ExtendsList )? ( ImplementsList )? ClassOrInterfaceBody
 	ExtendsList	:=	"extends" ClassOrInterfaceType ( "," ClassOrInterfaceType )*
 	ImplementsList	:=	"implements" ClassOrInterfaceType ( "," ClassOrInterfaceType )*
-	EnumDeclaration	:=	"enum" <IDENTIFIER> ( ImplementsList )? EnumBody
+	EnumDeclaration	:=	"enum" JavaIdentifier ( ImplementsList )? EnumBody
 	EnumBody	:=	"{" ( EnumConstant ( "," EnumConstant )* )? ( "," )? ( ";" ( ClassOrInterfaceBodyDeclaration )* )? "}"
-	EnumConstant	:=	Modifiers <IDENTIFIER> ( Arguments )? ( ClassOrInterfaceBody )?
+	EnumConstant	:=	Modifiers JavaIdentifier ( Arguments )? ( ClassOrInterfaceBody )?
 	TypeParameters	:=	"<" TypeParameter ( "," TypeParameter )* ">"
-	TypeParameter	:=	<IDENTIFIER> ( TypeBound )?
+	TypeParameter	:=	JavaIdentifier ( TypeBound )?
 	TypeBound	:=	"extends" ClassOrInterfaceType ( "&" ClassOrInterfaceType )*
 	ClassOrInterfaceBody	:=	"{" ( ClassOrInterfaceBodyDeclaration )* "}"
 	ClassOrInterfaceBodyDeclaration	:=	Initializer
@@ -292,15 +293,15 @@ NON-TERMINALS
 		|	";"
 	FieldDeclaration	:=	Type VariableDeclarator ( "," VariableDeclarator )* ";"
 	VariableDeclarator	:=	VariableDeclaratorId ( "=" VariableInitializer )?
-	VariableDeclaratorId	:=	<IDENTIFIER> ( "[" "]" )*
+	VariableDeclaratorId	:=	JavaIdentifier ( "[" "]" )*
 	VariableInitializer	:=	ArrayInitializer
 		|	Expression
 	ArrayInitializer	:=	"{" ( VariableInitializer ( "," VariableInitializer )* )? ( "," )? "}"
 	MethodDeclaration	:=	( TypeParameters )? ResultType MethodDeclarator ( "throws" NameList )? ( Block | ";" )
-	MethodDeclarator	:=	<IDENTIFIER> FormalParameters ( "[" "]" )*
+	MethodDeclarator	:=	JavaIdentifier FormalParameters ( "[" "]" )*
 	FormalParameters	:=	"(" ( FormalParameter ( "," FormalParameter )* )? ")"
 	FormalParameter	:=	Modifiers Type ( ( "&" | "*" ) | "..." )? VariableDeclaratorId
-	ConstructorDeclaration	:=	( TypeParameters )? <IDENTIFIER> FormalParameters ( "throws" NameList )? "{" ( ExplicitConstructorInvocation )? ( BlockStatement )* "}"
+	ConstructorDeclaration	:=	( TypeParameters )? JavaIdentifier FormalParameters ( "throws" NameList )? "{" ( ExplicitConstructorInvocation )? ( BlockStatement )* "}"
 	ExplicitConstructorInvocation	:=	"this" Arguments ";"
 		|	( PrimaryExpression "." )? "super" Arguments ";"
 	Initializer	:=	( "static" )? Block
@@ -313,8 +314,8 @@ NON-TERMINALS
 	Template	:=	"template" "<" TemplateBase ( "," TemplateBase )* ">"
 	TemplateBase	:=	TemplatePack ( "..." )? <IDENTIFIER>
 	TemplatePack	:=	( "class" | "typename" )
-	ClassOrInterfaceType	:=	<IDENTIFIER> ( TypeArguments )? ( ( "." | "::" ) <IDENTIFIER> ( TypeArguments )? )*
-	TypeArguments	:=	"<" TypeArgument ( "," TypeArgument ( "..." )? )* ">"
+	ClassOrInterfaceType	:=	( "::" )? <IDENTIFIER> ( TypeArguments )? ( ( "." | "::" ) <IDENTIFIER> ( TypeArguments )? )*
+	TypeArguments	:=	"<" ( TypeArgument ( "," TypeArgument ( "..." )? )* )? ">"
 	TypeArgument	:=	ReferenceType
 		|	"?" ( WildcardBounds )?
 	WildcardBounds	:=	"extends" ReferenceType
@@ -371,15 +372,15 @@ NON-TERMINALS
 // this.
 	CastLookahead	:=	"(" PrimitiveType
 		|	"(" Type "[" "]"
-		|	"(" Type ")" ( "~" | "!" | "(" | <IDENTIFIER> | "this" | "super" | "new" | Literal )
+		|	"(" Type ")" ( "~" | "!" | "(" | JavaIdentifier | "this" | "super" | "new" | Literal )
 	PostfixExpression	:=	PrimaryExpression ( "++" | "--" )?
 	CastExpression	:=	"(" Type ")" UnaryExpression
 		|	"(" Type ")" UnaryExpressionNotPlusMinus
 	PrimaryExpression	:=	PrimaryPrefix ( PrimarySuffix )*
-	MemberSelector	:=	"." TypeArguments <IDENTIFIER>
+	MemberSelector	:=	"." TypeArguments JavaIdentifier
 	PrimaryPrefix	:=	Literal
 		|	"this"
-		|	"super" "." <IDENTIFIER>
+		|	"super" "." JavaIdentifier
 		|	"(" Expression ")"
 		|	AllocationExpression
 		|	ResultType "." "class"
@@ -388,7 +389,7 @@ NON-TERMINALS
 		|	"." AllocationExpression
 		|	MemberSelector
 		|	"[" Expression "]"
-		|	"." <IDENTIFIER>
+		|	"." JavaIdentifier
 		|	Arguments
 	Literal	:=	<INTEGER_LITERAL>
 		|	<FLOATING_POINT_LITERAL>
@@ -429,7 +430,7 @@ NON-TERMINALS
 		|	SynchronizedStatement
 		|	TryStatement
 	AssertStatement	:=	"assert" Expression ( ":" Expression )? ";"
-	LabeledStatement	:=	<IDENTIFIER> ":" Statement
+	LabeledStatement	:=	JavaIdentifier ":" Statement
 	Block	:=	"{" ( BlockStatement )* "}"
 	BlockStatement	:=	LocalVariableDeclaration ";"
 		|	Statement
@@ -445,17 +446,19 @@ NON-TERMINALS
 	IfStatement	:=	"if" "(" Expression ")" Statement ( "else" Statement )?
 	WhileStatement	:=	"while" "(" Expression ")" Statement
 	DoStatement	:=	"do" Statement "while" "(" Expression ")" ";"
-	ForStatement	:=	"for" "(" ( Modifiers Type <IDENTIFIER> ":" Expression | ( ForInit )? ";" ( Expression )? ";" ( ForUpdate )? ) ")" Statement
+	ForStatement	:=	"for" "(" ( Modifiers Type JavaIdentifier ":" Expression | ( ForInit )? ";" ( Expression )? ";" ( ForUpdate )? ) ")" Statement
 	ForInit	:=	LocalVariableDeclaration
 		|	StatementExpressionList
 	StatementExpressionList	:=	StatementExpression ( "," StatementExpression )*
 	ForUpdate	:=	StatementExpressionList
-	BreakStatement	:=	"break" ( <IDENTIFIER> )? ";"
-	ContinueStatement	:=	"continue" ( <IDENTIFIER> )? ";"
+	BreakStatement	:=	"break" ( JavaIdentifier )? ";"
+	ContinueStatement	:=	"continue" ( JavaIdentifier )? ";"
 	ReturnStatement	:=	"return" ( Expression )? ";"
 	ThrowStatement	:=	"throw" Expression ";"
 	SynchronizedStatement	:=	"synchronized" "(" Expression ")" Block
-	TryStatement	:=	"try" Block ( "catch" "(" FormalParameter ")" Block )* ( "finally" Block )?
+	ResourceDeclaration	:=	Type VariableDeclaratorId "=" Expression
+	CatchParameter	:=	Modifiers Type ( ( "&" | "*" ) | "..." )? ( "|" Type )* VariableDeclaratorId
+	TryStatement	:=	"try" ( "(" ResourceDeclaration ( ";" ResourceDeclaration )* ( ";" )? ")" )? Block ( "catch" "(" CatchParameter ")" Block )* ( "finally" Block )?
 /* We use productions to match >>>, >> and > so that we can keep the
  * type declaration syntax with generics clean
  */	RUNSIGNEDSHIFT	:=	( ">" ">" ">" )
@@ -467,14 +470,14 @@ NON-TERMINALS
 	MarkerAnnotation	:=	"@" Name
 	SingleMemberAnnotation	:=	"@" Name "(" MemberValue ")"
 	MemberValuePairs	:=	MemberValuePair ( "," MemberValuePair )*
-	MemberValuePair	:=	<IDENTIFIER> "=" MemberValue
+	MemberValuePair	:=	JavaIdentifier "=" MemberValue
 	MemberValue	:=	Annotation
 		|	MemberValueArrayInitializer
 		|	ConditionalExpression
 	MemberValueArrayInitializer	:=	"{" MemberValue ( "," MemberValue )* ( "," )? "}"
-/* Annotation Types. */	AnnotationTypeDeclaration	:=	"@" "interface" <IDENTIFIER> AnnotationTypeBody
+/* Annotation Types. */	AnnotationTypeDeclaration	:=	"@" "interface" JavaIdentifier AnnotationTypeBody
 	AnnotationTypeBody	:=	"{" ( AnnotationTypeMemberDeclaration )* "}"
-	AnnotationTypeMemberDeclaration	:=	Modifiers ( Type <IDENTIFIER> "(" ")" ( DefaultValue )? ";" | ClassOrInterfaceDeclaration | EnumDeclaration | AnnotationTypeDeclaration | FieldDeclaration )
+	AnnotationTypeMemberDeclaration	:=	Modifiers ( Type JavaIdentifier "(" ")" ( DefaultValue )? ";" | ClassOrInterfaceDeclaration | EnumDeclaration | AnnotationTypeDeclaration | FieldDeclaration )
 		|	( ";" )
 	DefaultValue	:=	"default" MemberValue
 
