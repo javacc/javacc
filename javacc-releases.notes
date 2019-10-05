@@ -45,17 +45,24 @@ THE FOLLOWING INTERMEDIATE VERSIONS:
 ===================================================================
 MODIFICATIONS IN VERSION 7.0.5
 ===================================================================
+#42: new README.md file.
+#92: Avoid warning of unused import in generated ParserTokenManager.
+#99: LookaheadSuccess creation performance improved.
+#75: Allow empty type parameters in Java code of grammar files.
+#71: Add support for Java7 language features.
 
+Removing IDE specific files.
+Declare trace_indent only if debug parser is enabled.
 
 ===================================================================
 MODIFICATIONS IN VERSION 7.0.4
 ===================================================================
-No notes
+Internal refactoring
 
 ===================================================================
 MODIFICATIONS IN VERSION 7.0.3
 ===================================================================
-No notes
+Internal refactoring
 
 ===================================================================
 MODIFICATIONS IN VERSION 7.0.2
