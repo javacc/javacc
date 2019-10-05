@@ -57,11 +57,11 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 	<property name="javacc" value="${target-folder}/javacc.jar" />
 
-	<property name="javacc-jar" value="javacc-${version}.jar" />
+	<property name="javacc-vith-version" value="javacc-${version}.jar" />
 	<property name="javacc-sources-jar" value="javacc-${version}-sources.jar" />
 	<property name="javacc-javadoc-jar" value="javacc-${version}-javadoc.jar" />
 
-	<property name="javacc-path" value="${target-folder}/${javacc-jar}" />
+	<property name="javacc-path" value="${target-folder}/${javacc-vith-version}" />
 	<property name="javacc-sources-path" value="${target-folder}/${javacc-sources-jar}" />
 	<property name="javacc-javadoc-path" value="${target-folder}/${javacc-javadoc-jar}" />
 
