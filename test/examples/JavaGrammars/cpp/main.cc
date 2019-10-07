@@ -8,7 +8,6 @@
 #include "gen/CharStream.h"
 #include "gen/JavaParser.h"
 #include "gen/JavaParserTokenManager.h"
-#include "gen/JavaParserTree.h"
 
 using namespace java::parser;
 using namespace std;
