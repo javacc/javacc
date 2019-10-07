@@ -1,13 +1,20 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.javacc</groupId>
-    <artifactId>test</artifactId>
-    <version>8.0.0</version>
-  </parent>
-  <groupId>org.javacc.test</groupId>
-  <artifactId>java</artifactId>
-  <packaging>pom</packaging>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.javacc</groupId>
+		<artifactId>test</artifactId>
+		<version>8.0.0</version>
+	</parent>
+	<groupId>org.javacc.test</groupId>
+	<artifactId>java</artifactId>
+	<packaging>pom</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>org.javacc.codegen</groupId>
+			<artifactId>java</artifactId>
+		</dependency>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -386,11 +393,11 @@
 									</fileset>
 								</copy>
 								<java failonerror="true" fork="true" classname="jjtree" classpathref="javacc-classpath">
-									<arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer" /> 
+									<arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer" />
 									<arg line="../examples/VTransformer/Java1.1.jjt" />
 								</java>
 								<java failonerror="true" fork="true" classname="javacc" classpathref="javacc-classpath">
-									<arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer" /> 
+									<arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer" />
 									<arg line="-CODE_GENERATOR=Java" />
 									<arg line="test.tmp/VTransformer/Java1.1.jj" />
 								</java>

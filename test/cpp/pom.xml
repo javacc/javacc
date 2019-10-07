@@ -8,4 +8,10 @@
   <groupId>org.javacc.test</groupId>
   <artifactId>cpp</artifactId>
   <packaging>pom</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>org.javacc.codegen</groupId>
+			<artifactId>cpp</artifactId>
+		</dependency>
+	</dependencies>
 </project>
