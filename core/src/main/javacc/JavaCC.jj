@@ -39,7 +39,6 @@
 
 options {
   JAVA_UNICODE_ESCAPE = true;
-  OUTPUT_DIRECTORY = "../generated-sources/org/javacc/parser";
   STATIC=false;
 }
 
@@ -1998,9 +1997,10 @@ void Initializer():
 void Type():
 {}
 {
-   LOOKAHEAD(2) ReferenceType()
- |
-   PrimitiveType()
+   [ "const" ]
+   ( LOOKAHEAD(2) ReferenceType()
+   | PrimitiveType()
+   )
 }
 
 void ReferenceType():
@@ -2112,7 +2112,7 @@ void ResultType(List tokens) :
 (
   "void" [ "*" ]
 |
-  [ "const" ] Type() [ "*" | "&" ]
+  Type() [ "*" | "&" ]
 )
 	{
 	  Token last = getToken(0);
