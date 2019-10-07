@@ -27,7 +27,6 @@
  */
 
 PARSER_BEGIN(IDLParser)
-package idl;
 
 public class IDLParser {
 
