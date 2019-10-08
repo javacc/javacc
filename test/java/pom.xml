@@ -111,10 +111,6 @@
 									</fileset>
 								</copy>
 								<java failonerror="true" fork="true" classname="javacc" classpathref="javacc-classpath">
-									<classpath>
-										<pathelement location="../parser/target/parser-8.0.0.jar" />
-										<pathelement location="../codegen/java/target/java-8.0.0.jar" />
-									</classpath>
 									<arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion" />
 									<arg line="-CODE_GENERATOR=Java" />
 									<arg line="../examples/GUIParsing/TokenMgrVersion/CalcInput.jj" />
