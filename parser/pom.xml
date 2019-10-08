@@ -11,7 +11,7 @@
 	</parent>
 
 	<groupId>org.javacc</groupId>
-	<artifactId>core</artifactId>
+	<artifactId>parser</artifactId>
 	<packaging>jar</packaging>
 
 	<name>JavaCC parser</name>

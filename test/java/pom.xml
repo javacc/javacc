@@ -18,6 +18,23 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>javacc-maven-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>jcc</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>javacc</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>../test/exceptions</sourceDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.8</version>
@@ -43,7 +60,7 @@
 								<!-- Place any ant task here. You can add anything you can add between <target> and </target> in a build.xml. -->
 
 								<path id="javacc-classpath">
-									<pathelement location="../../core/target/core-8.0.0.jar" />
+									<pathelement location="../../parser/target/parser-8.0.0.jar" />
 									<pathelement location="../../codegen/java/target/java-8.0.0.jar" />
 								</path>
 
@@ -95,7 +112,7 @@
 								</copy>
 								<java failonerror="true" fork="true" classname="javacc" classpathref="javacc-classpath">
 									<classpath>
-										<pathelement location="../core/target/core-8.0.0.jar" />
+										<pathelement location="../parser/target/parser-8.0.0.jar" />
 										<pathelement location="../codegen/java/target/java-8.0.0.jar" />
 									</classpath>
 									<arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion" />
