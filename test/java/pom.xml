@@ -414,4 +414,5 @@
 
 		</plugins>
 	</build>
+	<name>JavaCC default java code generator tests </name>
 </project>

@@ -14,4 +14,5 @@
 			<artifactId>csharp</artifactId>
 		</dependency>
 	</dependencies>
+	<name>JavaCC default c# code generator tests</name>
 </project>
