@@ -4,7 +4,7 @@ theme: jekyll-theme-cayman
 show_downloads: true
 
 # Name of website
-title: My website
+title: JavaCC
 
 # Short description of your site
-description: A virtual proof that I'm awesome
+description: JavaCC is an open source compiler compiler. It takes a grammar specification as input and produces a standalone parser written in Java.
