@@ -6,16 +6,34 @@ There are many ways to write the lexical specification for a grammar, but the pe
 
 Here are a few tips for writing good lexical specifications:
 
-| Tip  | Explanation |
-| :--- | :---        |
-| Try to specify as many String literals as possible. | These are recognized by a Deterministic Finite Automata (DFA), which is much faster than the Non-deterministic Finite Automata (NFA) needed to recognize other kinds of complex regular expressions.<br><br>For example, to skip blanks / tabs / new lines:<br>
-<pre lang="java">
-SKIP : { " " | "\t" | "\n" }
-</pre>
-<br>is more efficient than doing:<br>
-```java
-SKIP : { < ([" ", "\t", "\n"])+ > }```
-<br>Because in the first case you only have string literals, it will generate a DFA whereas for the second case it will generate an NFA. |
+<table>
+<tr>
+  <td>Tip</td>
+  <td>Explanation</td>
+</tr>
+
+<tr>
+  <td>Try to specify as many String literals as possible.</td>
+  <td>
+  These are recognized by a Deterministic Finite Automata (DFA), which is much faster than the Non-deterministic Finite Automata (NFA) needed to recognize other kinds of complex regular expressions.<br>
+  <br>
+  For example, to skip blanks / tabs / new lines:<br>
+  <pre lang="java">
+  SKIP : { " " | "\t" | "\n" }
+  </pre>
+  <br>
+  is more efficient than doing:<br>
+  <pre lang="java">
+  SKIP : { < ([" ", "\t", "\n"])+ > }
+  </pre>
+  <br>
+  Because in the first case you only have string literals, it will generate a DFA whereas for the second case it will generate an NFA.
+  </td>
+</tr>
+</table>
+
+
+
 | Try to use the pattern ~[] by itself as much as possible. | For example, doing
 
 ```java
