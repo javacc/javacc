@@ -9,9 +9,9 @@ Here are a few tips for writing good lexical specifications:
 | Tip  | Explanation |
 | :--- | :---        |
 | Try to specify as many String literals as possible. | These are recognized by a Deterministic Finite Automata (DFA), which is much faster than the Non-deterministic Finite Automata (NFA) needed to recognize other kinds of complex regular expressions.<br><br>For example, to skip blanks / tabs / new lines:<br>
-```java
+<pre lang="java">
 SKIP : { " " | "\t" | "\n" }
-```
+</pre>
 <br>is more efficient than doing:<br>
 ```java
 SKIP : { < ([" ", "\t", "\n"])+ > }```
