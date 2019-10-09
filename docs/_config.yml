@@ -7,4 +7,4 @@ show_downloads: true
 title: JavaCC
 
 # Short description of your site
-description: JavaCC is an open source compiler compiler. It takes a grammar specification as input and produces a standalone parser written in Java.
+description: JavaCC is an open source compiler compiler
