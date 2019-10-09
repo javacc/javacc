@@ -22,10 +22,10 @@ The regular expression type specifies what action to take when a regular express
 
 Type | Action
 :--- | :---
-SKIP | Simply throw away the matched string (after executing any lexical action).
-MORE | Continue to whatever the next state is, taking the matched string along. This string will be a prefix of the new matched string.
-TOKEN | Create a token using the matched string and send it to the parser (or any caller).
-SPECIAL_TOKEN | Creates a special token that does not participate in parsing. Already described earlier. *N.B. The mechanism of accessing special tokens is at the end of this page.*
+**`SKIP`** | Simply throw away the matched string (after executing any lexical action).
+**`MORE`** | Continue to whatever the next state is, taking the matched string along. This string will be a prefix of the new matched string.
+**`TOKEN`** | Create a token using the matched string and send it to the parser (or any caller).
+**`SPECIAL_TOKEN`** | Creates a special token that does not participate in parsing. Already described earlier. *N.B. The mechanism of accessing special tokens is at the end of this page.*
 
 Whenever the end of file `<EOF>` is detected it causes the creation of an `<EOF>` token, regardless of the current state of the lexical analyzer. However, if an `<EOF>` is detected in the middle of a match for a regular expression - or immediately after a MORE regular expression has been matched - an error is reported.
 
@@ -106,7 +106,7 @@ This variable may be used only in actions associated with `TOKEN` and `SPECIAL_T
 #### Example
 
 If we modify the last regular expression specification of the above example to:
-```
+```java
 <S2> TOKEN :
 {
   "cd" { matchedToken.image = image.toString(); } : DEFAULT
@@ -204,18 +204,18 @@ This field points to the special token immediately prior to the current token (s
 Suppose you wish to print all special tokens prior to the regular token `t` (but only those that are after the regular token before `t`):
 
 ```java
-// if there are no special tokens returns control to the caller
+// if there are no special tokens return control to the caller
 if (t.specialToken == null) {
   return;
 }
 
-// otherwise walk back the special token chain until it reaches the first special token after the previous regular token
+// walk back the special token chain until it reaches the first special token after the previous regular token
 Token tmp_t = t.specialToken;
 while (tmp_t.specialToken != null) {
   tmp_t = tmp_t.specialToken;
 }
 
-// now walk the special token chain in the forward direction printing them in the process
+// now walk the special token chain forward and print them in the process
 while (tmp_t != null) {
   System.out.println(tmp_t.image);
   tmp_t = tmp_t.next;
