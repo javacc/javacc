@@ -10,8 +10,6 @@ All regular expressions that occur as expansion units in the grammar are conside
 
 ## Token matching
 
-A token is matched as follows:
-
 All regular expressions in the current lexical state are considered as potential match candidates. The token manager consumes the maximum number of characters from the input stream possible that match one of these regular expressions. That is, the token manager prefers the longest possible match. If there are multiple longest matches of the same length, the regular expression that is matched is the one with the earliest order of occurrence in the grammar file.
 
 As mentioned above, the token manager is in exactly one state at any moment. At this moment, the token manager only considers the regular expressions defined in this state for matching purposes. After a match, one can specify an action to be executed as well as a new lexical state to move to. If a new lexical state is not specified, the token manager remains in the current state.
@@ -22,10 +20,10 @@ The regular expression type specifies what action to take when a regular express
 
 Type | Action
 :--- | :---
-**`SKIP`** | Simply throw away the matched string (after executing any lexical action).
-**`MORE`** | Continue to whatever the next state is, taking the matched string along. This string will be a prefix of the new matched string.
-**`TOKEN`** | Create a token using the matched string and send it to the parser (or any caller).
-**`SPECIAL_TOKEN`** | Creates a special token that does not participate in parsing. Already described earlier. *N.B. The mechanism of accessing special tokens is at the end of this page.*
+`SKIP` | Simply throw away the matched string (after executing any lexical action).
+`MORE` | Continue to whatever the next state is, taking the matched string along. This string will be a prefix of the new matched string.
+`TOKEN` | Create a token using the matched string and send it to the parser (or any caller).
+`SPECIAL_TOKEN` | Creates a special token that does not participate in parsing. Already described earlier. *N.B. The mechanism of accessing special tokens is at the end of this page.*
 
 Whenever the end of file `<EOF>` is detected it causes the creation of an `<EOF>` token, regardless of the current state of the lexical analyzer. However, if an `<EOF>` is detected in the middle of a match for a regular expression - or immediately after a MORE regular expression has been matched - an error is reported.
 

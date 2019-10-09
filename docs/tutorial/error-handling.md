@@ -9,8 +9,8 @@ JavaCC supports two exception types:
 
 | Exception Type | Description |
 | :---           | :---        |
-| **`TokenMgrError`** | Whenever the token manager detects a problem, it throws the exception `TokenMgrError`. |
-| **`ParseException`** | Whenever the parser detects a problem, it throws the exception `ParseException`. |
+| `TokenMgrError` | Whenever the token manager detects a problem, it throws the exception `TokenMgrError`. |
+| `ParseException` | Whenever the parser detects a problem, it throws the exception `ParseException`. |
 
 `TokenMgrError` is a subclass of `Error` while `ParseException` is a subclass of `Exception`.
 

@@ -8,7 +8,7 @@ Here are a few tips for writing good lexical specifications:
 
 | Tip  | Explanation |
 | :--- | :---        |
-| Try to specify as many String literals as possible. | These are recognized by a Deterministic Finite Automata (DFA), which is much faster than the Non-deterministic Finite Automata (NFA) needed to recognize other kinds of complex regular expressions.
+| Try to specify as many String literals as possible. | <br>These are recognized by a Deterministic Finite Automata (DFA), which is much faster than the Non-deterministic Finite Automata (NFA) needed to recognize other kinds of complex regular expressions.
 
 For example, to skip blanks / tabs / new lines:
 
@@ -22,7 +22,7 @@ is more efficient than doing:
 SKIP : { < ([" ", "\t", "\n"])+ > }
 ```
 
-Because in the first case you only have string literals, it will generate a DFA whereas for the second case it will generate an NFA. |
+Because in the first case you only have string literals, it will generate a DFA whereas for the second case it will generate an NFA. </br>|
 | Try to use the pattern ~[] by itself as much as possible. | For example, doing
 
 ```java

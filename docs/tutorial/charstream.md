@@ -10,21 +10,17 @@ There are 4 different types of `CharStream` classes that are generated based on 
 
 | Type | Options | Description |
 | :--- | :---    | :---        |
-| **`ASCII_CharStream`** | Generated when neither of the two options - `UNICODE_INPUT` or `JAVA_UNICODE_ESCAPE` is set. | This class treats the input as a stream of 1-byte (`ISO-LATIN1`) characters. Note that this class can also be used to parse binary files. It just reads a byte and returns it as a 16 bit quantity to the lexical analyzer. So any character returned by this class will be in the range `\u0000`-`\u00ff`. |
-| **`ASCII_UCodeESC_CharStream`** | Generated when the option `JAVA_UNICODE_ESCAPE` is set and the `UNICODE_INPUT` option is not set. | This class treats the input as a stream of 1-byte characters. However, the special escape sequence:
-
+| `ASCII_CharStream` | Generated when neither of the two options - `UNICODE_INPUT` or `JAVA_UNICODE_ESCAPE` is set. | This class treats the input as a stream of 1-byte (`ISO-LATIN1`) characters. Note that this class can also be used to parse binary files. It just reads a byte and returns it as a 16 bit quantity to the lexical analyzer. So any character returned by this class will be in the range `\u0000`-`\u00ff`. |
+| `ASCII_UCodeESC_CharStream` | Generated when the option `JAVA_UNICODE_ESCAPE` is set and the `UNICODE_INPUT` option is not set. | This class treats the input as a stream of 1-byte characters. However, the special escape sequence:
 ```java
 ("\\\\")* "\\" ("u")+ // odd number of backslashes followed by one or more u's
 ```
-
 is treated as a tag indicating that the next 4 bytes following the tag will be hexadecimal digits forming a 4-digit hex number whose value will be treated as the value of the character at the position indicated by the first backslash. Note that this value can be anything in the range `0x0`-`0xffff`. |
-| **`UCode_CharStream`** | Generated when the option `UNICODE_INPUT` is set and the option `JAVA_UNICODE_ESCAPE` is not set. | This class treats the input as a stream of 2-byte characters. So it reads 2 bytes `b1` and `b2` and returns them as a single character using the expression `b1 << 8 | b2` assuming big-endian order. So in particular all the characters in the range `0x00`-`0xff` are assumed to be stored as 2 bytes with the first (higher-order) byte being `0`. |
+| `UCode_CharStream` | Generated when the option `UNICODE_INPUT` is set and the option `JAVA_UNICODE_ESCAPE` is not set. | This class treats the input as a stream of 2-byte characters. So it reads 2 bytes `b1` and `b2` and returns them as a single character using the expression `b1 << 8 | b2` assuming big-endian order. So in particular all the characters in the range `0x00`-`0xff` are assumed to be stored as 2 bytes with the first (higher-order) byte being `0`. |
 | **`UCode_UCodeESC_CharStream`** | Generated when both the options `UNICODE_INPUT` and `JAVA_UNICODE_ESCAPE` are set. | This class input is a stream of 2-byte characters (just like the `UCode_CharStream` class) and the special escape sequence:
-
 ```java
 ("\\\\")* "\\" ("u")+ // odd number of backslashes followed by one or more u's
 ```
-
 is treated as a tag indicating that the next 4 2-byte characters following the tag will be hexadecimal digits forming a 4-digit hex number whose value will be treated as the value of the character at the position indicated by the first backslash. Note that this value can be any value in the range `0x0`-`0xffff`. Also note that the backslash(es) and u(s) are all assumed to be given as 2-byte characters (with the higher order byte value being `0`). |
 
 *N.B. None of the above classes can be used to read characters in a mixed mode, i.e. some characters given as 1-byte characters and others as 2-byte characters. To do this, you need to set the `USER_CHAR_STREAM` option to `true` and define your own `CharStream`.*
@@ -152,5 +148,6 @@ public void ReInit(java.io.InputStream dstream, int startline, int startcolumn, 
  * line and column numbers for all the characters in the lookahead buffer.
  */
 public void adjustBeginLineColumn(int newLine, int newCol)
+```
 
 <section class="nextButton"><a href="error-handling.md">Error Handling></a></section>
