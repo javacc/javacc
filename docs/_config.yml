@@ -8,3 +8,7 @@ title: JavaCC
 
 # Short description of your site
 description: JavaCC is an open source compiler compiler
+
+github:
+  zip_url: https://github.com/javacc/javacc/archive/7.0.4.zip
+  tar_url: https://github.com/javacc/javacc/archive/7.0.4.tar.gz
