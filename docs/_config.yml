@@ -1,5 +1,6 @@
-# --- General options --- #
+theme: jekyll-theme-cayman
 
+# --- General options --- #
 show_downloads: true
 
 # Name of website
