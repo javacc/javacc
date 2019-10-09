@@ -18,13 +18,15 @@ Here are a few tips for writing good lexical specifications:
     These are recognized by a Deterministic Finite Automata (DFA), which is much faster than the Non-deterministic Finite Automata (NFA) needed to recognize other kinds of complex regular expressions.<br>
     <br>
     For example, to skip blanks / tabs / new lines:<br>
-    <pre lang="java">
+
+    ```java
     SKIP : { " " | "\t" | "\n" }
-    </pre>
+    ```
     is more efficient than doing:<br>
-    <pre lang="java">
+
+    ```java
     SKIP : { < ([" ", "\t", "\n"])+ > }
-    </pre>
+    ```
     Because in the first case you only have string literals, it will generate a DFA whereas for the second case it will generate an NFA.
   </td>
 </tr>
