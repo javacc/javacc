@@ -129,12 +129,12 @@ The two ways in which you make the choice decisions work properly are:
 
 There are 4 types of choice points in JavaCC:
 
-| Expansion                                   | Description       |
-| :-----------------------------------------: | :---------------- |
-| <p><code>( exp1 \| exp2 \| ... )</code></p>{width=200px} | The generated parser must somehow determine which of `exp1`, `exp2` etc to select to continue parsing. |
-| <p><code>( exp )?</code></p>{width=200px}   | The generated parser must somehow determine whether to choose `exp` or to continue beyond the `( exp )?` without choosing `exp`. *N.B. Note: `( exp )?` may also be written as `[ exp ]`*. |
-| <p><code>( exp )*</code></p>{width=200px}   | The generated parser must do the same thing as in the previous case, and furthermore, after each time a successful match of `exp` (if `exp` was chosen) is completed, this choice determination must be made again. |
-| <p><code>( exp )+</code></p> {width=200px}  | This is essentially similar to the previous case with a mandatory first match to `exp`. |
+| Expansion                                                   | Description |
+| :---------------------------------------------------------: | :--- |
+| <p><code>( exp1 \| exp2 \| ... )</code></p>                 | The generated parser must somehow determine which of `exp1`, `exp2` etc to select to continue parsing. |
+| <p><code>( exp )?</code></p>                                | The generated parser must somehow determine whether to choose `exp` or to continue beyond the `( exp )?` without choosing `exp`. *N.B. Note: `( exp )?` may also be written as `[ exp ]`*. |
+| <p><code>( exp )*</code></p>                                | The generated parser must do the same thing as in the previous case, and furthermore, after each time a successful match of `exp` (if `exp` was chosen) is completed, this choice determination must be made again. |
+| <p><code>( exp )+</code></p>                                | This is essentially similar to the previous case with a mandatory first match to `exp`. |
 
 Remember that token specifications that occur within angular brackets `<...>` also have choice points. But these choices are made in different ways and are the subject of a different tutorial.
 
