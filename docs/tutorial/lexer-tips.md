@@ -138,6 +138,6 @@ Best practise is to set the `IGNORE_CASE` option at the grammar level. If that i
 --------------------------------------------------------------------------------
 You're done with the JavaCC tutorials!
 
-<section class="nextButton"><a href="index.md">BACK >></a></section>
+[TOC >>](tutorials.md)
 
 <br>

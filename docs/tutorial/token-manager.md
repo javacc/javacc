@@ -235,6 +235,6 @@ while (tmp_t != null) {
 <br>
 --------------------------------------------------------------------------------
 
-<section class="nextButton"><a href="lookahead.md">CONTINUE >></a></section>
+[CONTINUE >>](lookahead.md)
 
 <br>

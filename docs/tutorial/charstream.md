@@ -156,6 +156,6 @@ public void adjustBeginLineColumn(int newLine, int newCol)
 <br>
 --------------------------------------------------------------------------------
 
-<section class="nextButton"><a href="error-handling.md">CONTINUE >></a></section>
+[CONTINUE >>](error-handling.md)
 
 <br>

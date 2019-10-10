@@ -663,6 +663,6 @@ To be done.
 <br>
 --------------------------------------------------------------------------------
 
-<section class="nextButton"><a href="charstream.md">CONTINUE >></a></section>
+[CONTINUE >>](charstream.md)
 
 <br>

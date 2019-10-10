@@ -169,6 +169,6 @@ Note that in the second version of the example, we essentially copied the code o
 <br>
 --------------------------------------------------------------------------------
 
-<section class="nextButton"><a href="lexer-tips.md">CONTINUE >></a></section>
+[CONTINUE >>](lexer-tips.md)
 
 <br>
