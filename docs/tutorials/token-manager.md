@@ -1,4 +1,4 @@
-[JavaCC](../index.md) > [Tutorials](index.md) > Token Manager
+[Home](../index.md) > [Tutorials](index.md) > Token Manager
 
 ---
 

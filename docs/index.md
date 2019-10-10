@@ -1,6 +1,3 @@
-[JavaCC](../index.md)
-
----
 
 <br>
 

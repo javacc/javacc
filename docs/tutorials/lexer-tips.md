@@ -1,4 +1,4 @@
-[JavaCC](../index.md) > [Tutorials](index.md) > Lexer Tips
+[Home](../index.md) > [Tutorials](index.md) > Lexer Tips
 
 --------------------------------------------------------------------------------
 
@@ -139,6 +139,6 @@ Best practise is to set the `IGNORE_CASE` option at the grammar level. If that i
 
 You're done with the JavaCC tutorials!
 
-[BACK TO INDEX >>](index.md)
+[HOME >>](../index.md)
 
 <br>

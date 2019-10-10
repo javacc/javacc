@@ -1,4 +1,4 @@
-[JavaCC](../index.md) > [Tutorials](index.md) > Lookahead
+[Home](../index.md) > [Tutorials](index.md) > Lookahead
 
 ---
 

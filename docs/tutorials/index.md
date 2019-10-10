@@ -1,4 +1,4 @@
-[JavaCC](../index.md) > [Tutorials](index.md) > Index
+[Home](../index.md) > [Tutorials](index.md) > Index
 
 ---
 

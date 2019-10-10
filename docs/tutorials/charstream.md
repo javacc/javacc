@@ -1,4 +1,4 @@
-[JavaCC](../index.md) > [Tutorials](index.md) > CharStream
+[Home](../index.md) > [Tutorials](index.md) > CharStream
 
 ---
 
