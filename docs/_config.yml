@@ -13,5 +13,6 @@ version: 7.0.4
 
 # Site URLs
 github:
-  zip_url: https://github.com/javacc/javacc/archive/[site.version].zip
-  tar_url: https://github.com/javacc/javacc/archive/{{ site.version }}.tar.gz
+  contributors_url: https://github.com/javacc/javacc/graphs/contributors
+  zip_url: https://github.com/javacc/javacc/archive/7.0.4.zip
+  tar_url: https://github.com/javacc/javacc/archive/7.0.4.tar.gz
