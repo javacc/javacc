@@ -1,4 +1,4 @@
-[Home](../index.md) > Release Notes
+[Home](index.md) > Release Notes
 
 ---
 
@@ -1243,6 +1243,6 @@ You can supply a different file name with this option.
 
 ---
 
-[HOME >>](index.md)
+[HOME](index.md)
 
 <br>

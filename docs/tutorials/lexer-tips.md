@@ -139,6 +139,6 @@ Best practise is to set the `IGNORE_CASE` option at the grammar level. If that i
 
 You're done with the JavaCC tutorials!
 
-[HOME >>](../index.md)
+[HOME](../index.md)
 
 <br>
