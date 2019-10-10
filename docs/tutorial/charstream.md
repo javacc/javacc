@@ -15,15 +15,12 @@ There are 4 different types of `CharStream` classes that are generated based on 
 | Type | Options | Description |
 | :--- | :---    | :---        |
 | <p><code>ASCII_CharStream</p></code> | Generated when neither of the two options - `UNICODE_INPUT` or `JAVA_UNICODE_ESCAPE` is set. | This class treats the input as a stream of 1-byte (`ISO-LATIN1`) characters. Note that this class can also be used to parse binary files. It just reads a byte and returns it as a 16 bit quantity to the lexical analyzer. So any character returned by this class will be in the range `\u0000`-`\u00ff`. |
-
 | <p><code>ASCII_UCodeESC_CharStream</p></code> | Generated when the option `JAVA_UNICODE_ESCAPE` is set and the `UNICODE_INPUT` option is not set. | This class treats the input as a stream of 1-byte characters. However, the special escape sequence:
 
 <p><code>("\\\\")* "\\" ("u")+ // odd number of backslashes followed by one or more u's</p></code>
 
 is treated as a tag indicating that the next 4 bytes following the tag will be hexadecimal digits forming a 4-digit hex number whose value will be treated as the value of the character at the position indicated by the first backslash. Note that this value can be anything in the range `0x0`-`0xffff`. |
-
 | <p><code>UCode_CharStream</p></code> | Generated when the option `UNICODE_INPUT` is set and the option `JAVA_UNICODE_ESCAPE` is not set. | This class treats the input as a stream of 2-byte characters. So it reads 2 bytes `b1` and `b2` and returns them as a single character using the expression `b1 << 8 | b2` assuming big-endian order. So in particular all the characters in the range `0x00`-`0xff` are assumed to be stored as 2 bytes with the first (higher-order) byte being `0`. |
-
 | <p><code>UCode_UCodeESC_CharStream</p></code> | Generated when both the options `UNICODE_INPUT` and `JAVA_UNICODE_ESCAPE` are set. | This class input is a stream of 2-byte characters (just like the `UCode_CharStream` class) and the special escape sequence:
 ```java
 ("\\\\")* "\\" ("u")+ // odd number of backslashes followed by one or more u's
