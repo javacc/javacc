@@ -13,9 +13,9 @@ This tutorial refers to examples that are available in the source code on [GitHu
   * [Choice points in JavaCC grammars](#choice-points)
   * [Default choice determination algorithm](#default-choice)
 - [**`LOOKAHEAD` Specification**](#specification)
-  * [Multi-token `LOOKAHEAD` specifications](#multi-token)
-  * [Setting a global `LOOKAHEAD` specification](#global)
-  * [Setting a local `LOOKAHEAD` specification](#local)
+  * [Multi-token `LOOKAHEAD`](#multi-token)
+  * [Setting a global `LOOKAHEAD`](#global)
+  * [Setting a local `LOOKAHEAD`](#local)
   * [Syntactic `LOOKAHEAD`](#syntactic)
   * [Semantic `LOOKAHEAD`](#semantic)
   * [General structure of `LOOKAHEAD`](#general)
@@ -51,8 +51,8 @@ abcc
 
 The general way to perform this match is to walk through the grammar based on the string as follows (here we use `abc` as the input string):
 
-| Step | Description |
-| :--- | :--- |
+| Step  | Description |
+| :---: | :--- |
 | 1 | There is only one choice here - the first input character must be `a` and since that is indeed the case, we are OK.|
 | 2 | We now proceed on to non-terminal BC. Again there is only one choice for the next input character - it must be `b`. The input matches this one too, so we are still OK.|
 | 3 | We now come to a *choice point* in the grammar. We can either go inside the `[...]` and match it, or ignore it altogether. We decide to go inside. So the next input character must be a `c`. We are again OK.|
@@ -131,7 +131,8 @@ There are 4 types of choice points in JavaCC:
 
 | Expansion | Description |
 | :--- | :--- |
-| <pre>`( exp1 | exp2 | ... )`</pre> | The generated parser must somehow determine which of `exp1`, `exp2` etc to select to continue parsing. |
+| <pre>( exp1 | exp2 | ... )</pre> | The generated parser must somehow determine which of `exp1`, `exp2` etc to select to continue parsing. |
+| <pre>```( exp1 | exp2 | ... )```</pre> | The generated parser must somehow determine which of `exp1`, `exp2` etc to select to continue parsing. |
 | <pre>`( exp )?`</pre> | The generated parser must somehow determine whether to choose `exp` or to continue beyond the `( exp )?` without choosing `exp`. *N.B. Note: `( exp )?` may also be written as `[ exp ]`*. |
 | <pre>`( exp )*`</pre> | The generated parser must do the same thing as in the previous case, and furthermore, after each time a successful match of `exp` (if `exp` was chosen) is completed, this choice determination must be made again. |
 | <pre>`( exp )+`</pre> | This is essentially similar to the previous case with a mandatory first match to `exp`. |
