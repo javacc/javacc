@@ -6,18 +6,21 @@ This section presents a few tips for writing good lexical specifications.
 
 ## <a name="toc"></a>Table of Contents
 
-- [Tips for Writing JavaCC Lexical Specifications](#tips)
-* [Use string literals as much as possible](#tip1)
-* [Avoid string literals for the same token](#tip2)
-* [Order string literals by length](#tip3)
-* [Use `~[]` by itself](#tip4)
-* [Minimise use of lexical states](#tip5)
-* [Avoid using `IGNORE_CASE` selectively](#tip6)
-* [Use `SKIP` as much as possible](#tip7)
-* [Avoid using `SKIP` with lexical actions and state changes](#tip8)
-* [Avoid using `MORE` if possible](#tip9)
+- [**String Literals**](#string-literals)
+  * [Use string literals as much as possible](#tip1)
+  * [Avoid string literals for the same token](#tip2)
+  * [Order string literals by length](#tip3)
+- [**Lexical States**](#lexical-states)
+  * [Minimise use of lexical states](#tip4)
+  * [Use `SKIP` as much as possible](#tip5)
+  * [Avoid using `SKIP` with lexical actions and state changes](#tip6)
+  * [Avoid using `MORE` if possible](#tip7)
+- [**Other**](#other)
+  * [Use `~[]` by itself](#tip8)
+  * [Avoid using `IGNORE_CASE` selectively](#tip9)
 
-## <a name="tips"></a>Tips for Writing JavaCC Lexical Specifications
+
+## <a name="string-literals"></a>String Literals
 
 ### <a name="tip1"></a>Use string literals as much as possible
 
@@ -76,7 +79,36 @@ Specify all string literals in order of increasing length, i.e. all shorter stri
 
 This will help optimizing the bit vectors needed for string literals.
 
-### <a name="tip4"></a>Use `~[]` by itself
+
+## <a name="lexical-states"></a>Lexical States
+
+### <a name="tip4"></a>Minimise use of lexical states
+
+Try to minimize the use of lexical states.
+
+When using them, try to move all your complex regular expressions into a single lexical state, leaving others to just recognize simple string literals.
+
+### <a name="tip5"></a>Use `SKIP` as much as possible
+
+Try to `SKIP` as much possible if you don't care about certain patterns.
+
+Here, you have to be a bit careful about `EOF`. Seeing an `EOF` after `SKIP` is fine whereas, seeing an `EOF` after a `MORE` is a lexical error.
+
+### <a name="tip6"></a>Avoid using `SKIP` with lexical actions and state changes
+
+Try to avoid lexical actions and lexical state changes with `SKIP` specifications, especially for single character `SKIP`'s like ` `, `\t`, `\n` etc).
+
+For such cases, a simple loop is generated to eat up the `SKIP`'ed single characters. So, if there is a lexical action or state change associated with this, it is not possible to it this way.
+
+### <a name="tip7"></a>Avoid using `MORE` if possible
+
+Try to avoid specifying lexical actions with `MORE` specifications.
+
+Generally every `MORE` should end up in a `TOKEN` (or `SPECIAL_TOKEN`) finally so you can do the action there at the `TOKEN` level, if it is possible.
+
+## <a name="other"></a>Other
+
+### <a name="tip8"></a>Use `~[]` by itself
 
 Try to use the pattern `~[]` by itself as much as possible.
 
@@ -93,38 +125,11 @@ TOKEN : { < (~[])+ > }
 
 Of course, if your grammar dictates that one of these cannot be used, then you don't have a choice, but try to use `< ~[] >` as much as possible.
 
-### <a name="tip5"></a>Minimise use of lexical states
-
-Try to minimize the use of lexical states.
-
-When using them, try to move all your complex regular expressions into a single lexical state, leaving others to just recognize simple string literals.
-
-### <a name="tip6"></a>Avoid using `IGNORE_CASE` selectively
+### <a name="tip9"></a>Avoid using `IGNORE_CASE` selectively
 
 There is heavy performance penalty for setting `IGNORE_CASE` for some regular expressions and not for others in the same lexical state.
 
 Best practise is to set the `IGNORE_CASE` option at the grammar level. If that is not possible, then try to have it set for *all* regular expressions in a lexical state.
-
-### <a name="tip7"></a>Use `SKIP` as much as possible
-
-Try to `SKIP` as much possible if you don't care about certain patterns.
-
-Here, you have to be a bit careful about `EOF`. Seeing an `EOF` after `SKIP` is fine whereas, seeing an `EOF` after a `MORE` is a lexical error.
-
-### <a name="tip8"></a>Avoid using `SKIP` with lexical actions and state changes
-
-Try to avoid lexical actions and lexical state changes with `SKIP` specifications, especially for single character `SKIP`'s like ` `, `\t`, `\n` etc).
-
-For such cases, a simple loop is generated to eat up the `SKIP`'ed single characters. So, if there is a lexical action or state change associated with this, it is not possible to it this way.
-
-### <a name="tip9"></a>Avoid using `MORE` if possible
-
-Try to avoid specifying lexical actions with `MORE` specifications.
-
-Generally every `MORE` should end up in a `TOKEN` (or `SPECIAL_TOKEN`) finally so you can do the action there at the `TOKEN` level, if it is possible.
-
-
-
 
 --------------------------------------------------------------------------------
 
