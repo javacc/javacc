@@ -131,8 +131,8 @@ There are 4 types of choice points in JavaCC:
 
 | Expansion | Description |
 | :--- | :--- |
-| <pre>( exp1 | exp2 | ... )</pre> | The generated parser must somehow determine which of `exp1`, `exp2` etc to select to continue parsing. |
-| <pre>```( exp1 | exp2 | ... )```</pre> | The generated parser must somehow determine which of `exp1`, `exp2` etc to select to continue parsing. |
+| <p>( exp1 \| exp2 \| ... )</p> | The generated parser must somehow determine which of `exp1`, `exp2` etc to select to continue parsing. |
+| <p><code>( exp1 \| exp2 \| ... )</code></p> | The generated parser must somehow determine which of `exp1`, `exp2` etc to select to continue parsing. |
 | <pre>`( exp )?`</pre> | The generated parser must somehow determine whether to choose `exp` or to continue beyond the `( exp )?` without choosing `exp`. *N.B. Note: `( exp )?` may also be written as `[ exp ]`*. |
 | <pre>`( exp )*`</pre> | The generated parser must do the same thing as in the previous case, and furthermore, after each time a successful match of `exp` (if `exp` was chosen) is completed, this choice determination must be made again. |
 | <pre>`( exp )+`</pre> | This is essentially similar to the previous case with a mandatory first match to `exp`. |
