@@ -784,19 +784,12 @@
 	<reporting>
 		<plugins>
 			<plugin>
-				<groupId>net.java.dev.javacc</groupId>
-				<artifactId>javacc-maven-plugin</artifactId>
-				<configuration>
-					<sourceDirectory>src/main/java/org/javacc/parser</sourceDirectory>
-					<packageName>org.javacc.parser</packageName>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.12.0</version>
 				<configuration>
 					<rulesets>
-						<ruleset>/rulesets/basic.xml</ruleset>
+						<ruleset>/rulesets/java/maven-pmd-plugin-default.xml</ruleset>
 					</rulesets>
 					<minmemory>128m</minmemory>
 					<maxmemory>256m</maxmemory>
@@ -826,13 +819,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jxr-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<configuration>
-				</configuration>
-				<!-- <configuration> <minmemory>128m</minmemory> <maxmemory>512m</maxmemory> <level>protected</level> <verbose>true</verbose> </configuration> -->
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
