@@ -6,9 +6,6 @@
 
 - [JavaCC Release Notes](#javacc)
   * [Latest release](#javacc-7.0.5)
-  <details>
-    <summary>Previous releases</summary>
-
     [7.0.4](#javacc-7.0.4)
     [7.0.3](#javacc-7.0.3)
     [7.0.2](#javacc-7.0.2)
@@ -44,12 +41,8 @@
     [0.6.-8](#javacc-0.6.-8)
     [0.6.-9](#javacc-0.6.-9)
     [0.6.-10](#javacc-0.6.-10)
-  </details>
 - [JJTree Release Notes](#jjtree)
   * [Latest release](#jjtree-7.0.5)
-  <details>
-    <summary>Previous releases</summary>
-
     [6.0](#jjtree-6.0)
     [4.2](#jjtree-4.2)
     [4.3](#jjtree-4.2)
@@ -65,12 +58,8 @@
     [0.2.4](#jjtree-0.2.4)
     [0.2.3](#jjtree-0.2.3)
     [0.2.2](#jjtree-0.2.2)
-  </details>
 - [JJDoc Release Notes](#jjdoc)
   * [Latest release](#7.0.5)
-  <details>
-    <summary>Previous releases</summary>
-
     [0.1.6](#jjdoc-0.1.6)
     [0.1.5](#jjdoc-0.1.5)
     [0.1.4](#jjdoc-0.1.4)
@@ -78,7 +67,6 @@
     [0.1.2](#jjdoc-0.1.2)
     [0.1.1](#jjdoc-0.1.1)
     [0.1](#jjdoc-0.1)    
-    <details>
 
 ## <a name="javacc"></a>
 <details>
@@ -679,9 +667,13 @@ Removed all the references to System.out.println in the \*CharStream
 classes.  Now all these are thrown as Error objects.
 
 Fixed a very old problem with giving input from System.in.
-<details>
+</details>
 
 ## <a name="jjtree">JJTree Release Notes</a>
+
+<details>
+  <summary>JJTree Release Notes</summary>
+
 
 ---
 MODIFICATIONS IN VERSION <a name="jjtree-6.0">6.0</a>
@@ -1016,8 +1008,15 @@ iterate over the children.
 
 Two new options have been added: OUTPUT_FILE and NODE_DEFAULT_VOID.
 
+</details>
 
 ## <a name="jjdoc">JJDoc Release Notes</a>
+
+<details>
+  <summary>JJTree Release Notes</summary>
+
+
+
 
 ---
 MODIFICATIONS IN VERSION <a name="jjdoc-0.1.6">0.1.6</a>
@@ -1096,6 +1095,7 @@ The default behavior is to put the JJDoc output into a file with
 either .html or .txt added as a suffix to the input file's base name.
 You can supply a different file name with this option.
 
+</details>
 
 
 <br>
