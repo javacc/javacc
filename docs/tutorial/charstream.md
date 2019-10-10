@@ -1,6 +1,6 @@
 [JavaCC > Tutorials](tutorials.md)
 
---------------------------------------------------------------------------------
+---
 
 # CharStream
 
@@ -154,7 +154,7 @@ public void ReInit(java.io.InputStream dstream, int startline, int startcolumn, 
 public void adjustBeginLineColumn(int newLine, int newCol)
 ```
 <br>
---------------------------------------------------------------------------------
+---
 
 [NEXT >>](error-handling.md)
 
