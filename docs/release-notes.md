@@ -725,6 +725,7 @@ Removed all the references to System.out.println in the \*CharStream
 classes.  Now all these are thrown as Error objects.
 
 Fixed a very old problem with giving input from System.in.
+
 </details>
 
 ### <a name="jjtree">JJTree</a>
