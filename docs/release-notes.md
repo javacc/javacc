@@ -2,9 +2,9 @@
 
 ---
 
-## <a name="downloads">Downloads</a>
+## <a name="downloads"></a>Downloads
 
-### <a name="stable">All stable releases</a>
+### <a name="stable"></a>All stable releases
 
 JavaCC 7.0.4 is our latest stable release.
 
@@ -26,9 +26,9 @@ All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/
 
 <br>
 
-## <a name="notes">Releases Notes</a>
+## <a name="notes"></a>Releases Notes
 
-### <a name="notes">JavaCC</a>
+### <a name="notes"></a>JavaCC
 
 <details>
 <summary>Click to expand</summary>
@@ -36,6 +36,7 @@ All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/
 <br>
 
 ### VERSION HISTORY
+
 ---
 
 THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEASE OF VERSION 0.5 IN OCTOBER, 1996.
@@ -80,6 +81,7 @@ THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEA
 <br>
 
 ### MODIFICATIONS IN VERSION <a name="javacc-7.0.5">7.0.5</a>
+
 ---
 
 * \#42: new README.md file.
@@ -737,6 +739,7 @@ Fixed a very old problem with giving input from System.in.
 <br>
 
 ### VERSION HISTORY
+
 ---
 
 THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEASE OF VERSION 0.2.2.
@@ -1036,10 +1039,7 @@ by references to the special identifier jjtThis.
 
 ---
 
-Made appropriate internal <br>
-
-### MODIFICATIONS for the JavaCC 0.7 parse error
-exceptions.
+Made appropriate internal modifications for the JavaCC 0.7 parse error exceptions.
 
 <br>
 
@@ -1132,6 +1132,7 @@ Two new options have been added: OUTPUT_FILE and NODE_DEFAULT_VOID.
 <br>
 
 ### VERSION HISTORY
+
 ---
 
 THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEASE OF VERSION 0.1.
@@ -1178,11 +1179,7 @@ Now accepts JavaCC try/catch/finally blocks.
 
 ---
 
-
-Made appropriate internal <br>
-
-### MODIFICATIONS for the JavaCC 0.7 parse error
-exceptions.
+Made appropriate internal modifications for the JavaCC 0.7 parse error exceptions.
 
 <br>
 
