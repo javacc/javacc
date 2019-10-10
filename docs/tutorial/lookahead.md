@@ -1,6 +1,19 @@
+[JavaCC > Tutorials](tutorials.md)
+
+--------------------------------------------------------------------------------
+
 # Lookahead
 
 This tutorial refers to examples that are available in the `lookahead/` directory under the `examples/` directory of the release.
+
+## <a name="toc"></a>Table of Contents
+
+- [**What is `LOOKAHEAD`?**](#what-is)
+  * [Token matching](#token-matching)
+- [**Lexical Actions**](#lexical-actions)
+  * [Variables within lexical actions](#variables)
+  * [Access to class level declarations within lexical actions](#class-declarations)
+- [**Special Tokens**](#special-tokens)
 
 ## What is `LOOKAHEAD`?
 
@@ -647,5 +660,9 @@ To be done.
 
 To be done.
 -->
+<br>
+--------------------------------------------------------------------------------
 
-<section class="nextButton"><a href="charstream.md">CharStream></a></section>
+<section class="nextButton"><a href="charstream.md">CONTINUE >></a></section>
+
+<br>

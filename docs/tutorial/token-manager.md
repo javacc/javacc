@@ -1,3 +1,7 @@
+[JavaCC > Tutorials](tutorials.md)
+
+--------------------------------------------------------------------------------
+
 # Token Manager
 
 ## <a name="toc"></a>Table of Contents
@@ -23,7 +27,7 @@ All regular expressions in the current lexical state are considered as potential
 
 As mentioned above, the token manager is in exactly one state at any moment. At this moment, the token manager only considers the regular expressions defined in this state for matching purposes. After a match, one can specify an action to be executed as well as a new lexical state to move to. If a new lexical state is not specified, the token manager remains in the current state.
 
-## <a name="lexical-actions"></a>Lexical actions
+## <a name="lexical-actions"></a>Lexical Actions
 
 The regular expression type specifies what action to take when a regular expression has been successfully matched:
 
@@ -32,7 +36,7 @@ Type | Action
 `SKIP` | Simply throw away the matched string (after executing any lexical action).
 `MORE` | Continue to whatever the next state is, taking the matched string along. This string will be a prefix of the new matched string.
 `TOKEN` | Create a token using the matched string and send it to the parser (or any caller).
-`SPECIAL_TOKEN` | Creates a special token that does not participate in parsing. Already described earlier. *N.B. The mechanism of accessing special tokens is at the end of this page.*
+`SPECIAL_TOKEN` | Creates a special token that does not participate in parsing. Already described earlier. <br> *N.B. The mechanism of accessing special tokens is at the end of this page.*
 
 Whenever the end of file `<EOF>` is detected it causes the creation of an `<EOF>` token, regardless of the current state of the lexical analyzer. However, if an `<EOF>` is detected in the middle of a match for a regular expression - or immediately after a MORE regular expression has been matched - an error is reported.
 
@@ -52,7 +56,7 @@ The `image` variable (different from the `image` field of the matched token) is 
 
 If you make changes to `image`, this change is passed on to subsequent matches (if the current match is a `MORE`). The content of `image` *does not* automatically get assigned to the `image` field of the matched token. If you wish this to happen, you must explicitly assign it in a lexical action of a `TOKEN` or `SPECIAL_TOKEN` regular expression.
 
-#### Example
+#### Example 1
 
 ```java
 <DEFAULT> MORE : { "a" : S1 }
@@ -83,7 +87,7 @@ At ^3: "aBcd"
 
 This is the length of the current match (it is not cumulative over `MORE`'s). You should not modify this variable.
 
-#### Example
+#### Example 2
 
 Using the same example as above, the values of `lengthOfMatch` are:
 ```
@@ -110,7 +114,7 @@ The stream is currently at the last character consumed for this match. Methods o
 
 This variable may be used only in actions associated with `TOKEN` and `SPECIAL_TOKEN` regular expressions. This is set to be the token that will get returned to the parser. You may change this variable and thereby cause the changed token to be returned to the parser instead of the original one. It is here that you can assign the value of variable `image` to `matchedToken.image`. Typically that's how your changes to `image` has effect outside of the lexical actions.
 
-#### Example
+#### Example 3
 
 If we modify the last regular expression specification of the above example to:
 ```java
@@ -159,7 +163,7 @@ SKIP :
 }
 ```
 
-#### Example 2: String literals with actions to print the length of the string
+#### Example 2 - String literals with actions to print the length of the `String`
 
 ```java
 TOKEN_MGR_DECLS :
@@ -228,5 +232,9 @@ while (tmp_t != null) {
   tmp_t = tmp_t.next;
 }
 ```
+<br>
+--------------------------------------------------------------------------------
 
-<section class="nextButton"><a href="lookahead.md">Lookahead></a></section>
+<section class="nextButton"><a href="lookahead.md">CONTINUE >></a></section>
+
+<br>

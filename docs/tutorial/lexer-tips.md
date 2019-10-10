@@ -1,3 +1,7 @@
+[JavaCC > Tutorials](tutorials.md)
+
+--------------------------------------------------------------------------------
+
 # Lexer Tips
 
 There are many ways to write the lexical specification for a grammar, but the performance of the generated token manager can vary significantly depending on how you do this.
@@ -130,7 +134,10 @@ Of course, if your grammar dictates that one of these cannot be used, then you d
 There is heavy performance penalty for setting `IGNORE_CASE` for some regular expressions and not for others in the same lexical state.
 
 Best practise is to set the `IGNORE_CASE` option at the grammar level. If that is not possible, then try to have it set for *all* regular expressions in a lexical state.
-
+<br>
 --------------------------------------------------------------------------------
+You're done with the JavaCC tutorials!
 
-You're done with the JavaCC tutorials! Next, we suggest working through the <a href="examples.md">Examples></a>.
+<section class="nextButton"><a href="index.md">BACK >></a></section>
+
+<br>

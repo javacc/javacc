@@ -1,3 +1,7 @@
+[JavaCC > Tutorials](tutorials.md)
+
+--------------------------------------------------------------------------------
+
 # CharStream
 
 This tutorial describes the `CharStream` classes including their usage, constructors and methods.
@@ -149,5 +153,9 @@ public void ReInit(java.io.InputStream dstream, int startline, int startcolumn, 
  */
 public void adjustBeginLineColumn(int newLine, int newCol)
 ```
+<br>
+--------------------------------------------------------------------------------
 
-<section class="nextButton"><a href="error-handling.md">Error Handling></a></section>
+<section class="nextButton"><a href="error-handling.md">CONTINUE >></a></section>
+
+<br>

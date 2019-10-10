@@ -1,3 +1,7 @@
+[JavaCC > Tutorials](tutorials.md)
+
+--------------------------------------------------------------------------------
+
 # Error Handling
 
 This tutorial describes the error recovery features in JavaCC.
@@ -162,5 +166,9 @@ void Stm() :
 It is best to avoid placing too much Java code in the `catch` and `finally` blocks since it overwhelms the grammar reader - it is best to define methods that you can then from the `catch` blocks.
 
 Note that in the second version of the example, we essentially copied the code out of the implementation of `error_skipto`. But we left out the first statement - the call to `generateParseException()`. In this case, the `catch` block already provides us with the exception. Even if you did call this method, you will get back an identical object.
+<br>
+--------------------------------------------------------------------------------
 
-<section class="nextButton"><a href="lexer-tips.md">Lexer Tips></a></section>
+<section class="nextButton"><a href="lexer-tips.md">CONTINUE >></a></section>
+
+<br>
