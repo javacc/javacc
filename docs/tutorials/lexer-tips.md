@@ -16,12 +16,12 @@ This section presents a few tips for writing good lexical specifications.
   * [Order string literals by length](#tip3)
 - [**Lexical States**](#lexical-states)
   * [Minimise use of lexical states](#tip4)
-  * [Use `SKIP` as much as possible](#tip5)
-  * [Avoid using `SKIP` with lexical actions and state changes](#tip6)
-  * [Avoid using `MORE` if possible](#tip7)
+  * [Use SKIP as much as possible](#tip5)
+  * [Avoid using SKIP with lexical actions and state changes](#tip6)
+  * [Avoid using MORE if possible](#tip7)
 - [**Other**](#other)
-  * [Use `~[]` by itself](#tip8)
-  * [Avoid using `IGNORE_CASE` selectively](#tip9)
+  * [Use ~[] by itself](#tip8)
+  * [Avoid using IGNORE_CASE selectively](#tip9)
 
 
 ## <a name="string-literals"></a>String Literals
@@ -92,19 +92,19 @@ Try to minimize the use of lexical states.
 
 When using them, try to move all your complex regular expressions into a single lexical state, leaving others to just recognize simple string literals.
 
-### <a name="tip5"></a>Use `SKIP` as much as possible
+### <a name="tip5"></a>Use SKIP as much as possible
 
 Try to `SKIP` as much possible if you don't care about certain patterns.
 
 Here, you have to be a bit careful about `EOF`. Seeing an `EOF` after `SKIP` is fine whereas, seeing an `EOF` after a `MORE` is a lexical error.
 
-### <a name="tip6"></a>Avoid using `SKIP` with lexical actions and state changes
+### <a name="tip6"></a>Avoid using SKIP with lexical actions and state changes
 
 Try to avoid lexical actions and lexical state changes with `SKIP` specifications, especially for single character `SKIP`'s like ` `, `\t`, `\n` etc).
 
 For such cases, a simple loop is generated to eat up the `SKIP`'ed single characters. So, if there is a lexical action or state change associated with this, it is not possible to it this way.
 
-### <a name="tip7"></a>Avoid using `MORE` if possible
+### <a name="tip7"></a>Avoid using MORE if possible
 
 Try to avoid specifying lexical actions with `MORE` specifications.
 
@@ -129,7 +129,7 @@ TOKEN : { < (~[])+ > }
 
 Of course, if your grammar dictates that one of these cannot be used, then you don't have a choice, but try to use `< ~[] >` as much as possible.
 
-### <a name="tip9"></a>Avoid using `IGNORE_CASE` selectively
+### <a name="tip9"></a>Avoid using IGNORE_CASE selectively
 
 There is heavy performance penalty for setting `IGNORE_CASE` for some regular expressions and not for others in the same lexical state.
 

@@ -8,7 +8,7 @@ This tutorial describes the `CharStream` classes including their usage, construc
 
 *N.B. Some details may not be relevant for the `CharStream` interface (to be used with `USER_CHAR_STREAM`).*
 
-## `CharStream` Classes
+## CharStream Classes
 
 There are 4 different types of `CharStream` classes that are generated based on combinations of various options.
 
