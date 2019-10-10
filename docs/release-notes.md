@@ -10,30 +10,30 @@
 
 JavaCC 7.0.4 is our latest stable release.
 
-* JavaCC 7.0.4 - 2018-09-17 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.4.zip), Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.4.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.4.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.4-javadoc.jar), [Release Notes](#javacc-7.0.5))
+* JavaCC 7.0.4 - 2018-09-17 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.4.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.4.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.4.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.4-javadoc.jar), [Release Notes](#javacc-7.0.5))
 
 ### <a name="stable">All stable releases</a>
 
 All JavaCC releases are available via https://github.com/javacc/javacc/releases and https://mvnrepository.com/artifact/net.java.dev.javacc/javacc including checksums and cryptographic signatures. At the time of writing, this includes the following versions:
 
-* JavaCC 7.0.3 - 2017-11-06 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.3.zip), Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.3.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.3/javacc-7.0.3.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.3/javacc-7.0.3-javadoc.jar), [Release Notes](#javacc-7.0.3))
+* JavaCC 7.0.3 - 2017-11-06 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.3.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.3.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.3/javacc-7.0.3.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.3/javacc-7.0.3-javadoc.jar), [Release Notes](#javacc-7.0.3))
 
-* JavaCC 7.0.2 - 2017-02-07 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.2.zip), Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.2.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.2/javacc-7.0.2.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.2/javacc-7.0.2-javadoc.jar), [Release Notes](#javacc-7.0.2))
+* JavaCC 7.0.2 - 2017-02-07 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.2.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.2.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.2/javacc-7.0.2.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.2/javacc-7.0.2-javadoc.jar), [Release Notes](#javacc-7.0.2))
 
-* JavaCC 7.0.1 - 2017-01-01 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.1.zip), Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.1.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.1/javacc-7.0.1.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.1/javacc-7.0.1-javadoc.jar), [Release Notes](#javacc-7.0.1))
+* JavaCC 7.0.1 - 2017-01-01 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.1.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.1.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.1/javacc-7.0.1.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.1/javacc-7.0.1-javadoc.jar), [Release Notes](#javacc-7.0.1))
 
-* JavaCC 7.0.0 - 2016-12-17 ([Source (zip)](https://github.com/javacc/javacc/archive/release_7_0_0.zip), Source (tar.gz)](https://github.com/javacc/javacc/archive/release_7_0_0.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.0/javacc-7.0.0.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.0/javacc-7.0.0-javadoc.jar), [Release Notes](#javacc-7.0.0))
+* JavaCC 7.0.0 - 2016-12-17 ([Source (zip)](https://github.com/javacc/javacc/archive/release_7_0_0.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/release_7_0_0.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.0/javacc-7.0.0.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.0/javacc-7.0.0-javadoc.jar), [Release Notes](#javacc-7.0.0))
 
-* JavaCC 6.1.2 - 2014-05-08 ([Source (zip)](https://github.com/javacc/javacc/archive/release_6.1.2.zip), Source (tar.gz)](https://github.com/javacc/javacc/archive/release_6.1.2.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/6.1.2/javacc-6.1.2.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/6.1.2/javacc-6.1.2-javadoc.jar), [Release Notes](#javacc-6.1.2))
+* JavaCC 6.1.2 - 2014-05-08 ([Source (zip)](https://github.com/javacc/javacc/archive/release_6.1.2.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/release_6.1.2.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/6.1.2/javacc-6.1.2.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/6.1.2/javacc-6.1.2-javadoc.jar), [Release Notes](#javacc-6.1.2))
 
-* JavaCC 6.1.1 - 2014-05-04 ([Source (zip)](https://github.com/javacc/javacc/archive/release_6.1.1.zip), Source (tar.gz)](https://github.com/javacc/javacc/archive/release_6.1.1.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/6.1.1/javacc-6.1.1.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/6.1.1/javacc-6.1.1-javadoc.jar), [Release Notes](#javacc-6.1.1))
+* JavaCC 6.1.1 - 2014-05-04 ([Source (zip)](https://github.com/javacc/javacc/archive/release_6.1.1.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/release_6.1.1.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/6.1.1/javacc-6.1.1.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/6.1.1/javacc-6.1.1-javadoc.jar), [Release Notes](#javacc-6.1.1))
 
-* JavaCC 6.1.0 - 2014-04-30 ([Source (zip)](https://github.com/javacc/javacc/archive/release_6_1_0.zip), Source (tar.gz)](https://github.com/javacc/javacc/archive/release_6_1_0.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/6.1.0/javacc-6.1.0.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/6.1.0/javacc-6.1.0-javadoc.jar), [Release Notes](#javacc-6.1.0))
+* JavaCC 6.1.0 - 2014-04-30 ([Source (zip)](https://github.com/javacc/javacc/archive/release_6_1_0.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/release_6_1_0.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/6.1.0/javacc-6.1.0.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/6.1.0/javacc-6.1.0-javadoc.jar), [Release Notes](#javacc-6.1.0))
 
 
 ## <a name="notes">Releases Notes</a>
 
-### <a name="notes">JavaCC release notes</a>
+### <a name="notes">JavaCC</a>
 <details>
 <summary>Click to expand</summary>
 
@@ -732,7 +732,7 @@ classes.  Now all these are thrown as Error objects.
 Fixed a very old problem with giving input from System.in.
 </details>
 
-### <a name="jjtree">JJTree release notes</a>
+### <a name="jjtree">JJTree</a>
 
 <details>
   <summary>Click to expand</summary>
@@ -1127,7 +1127,7 @@ Two new options have been added: OUTPUT_FILE and NODE_DEFAULT_VOID.
 
 </details>
 
-### <a name="jjdoc">JJDoc release notes</a>
+### <a name="jjdoc">JJDoc</a>
 
 <details>
 <summary>Click to expand</summary>
