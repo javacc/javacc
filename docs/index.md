@@ -1,3 +1,3 @@
 # Index
 
-[Tutorials](/tutorial/tutorial.md)
+[Tutorials](tutorial/tutorial.md)
