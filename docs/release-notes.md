@@ -14,7 +14,9 @@ JavaCC 7.0.4 is our latest stable release.
 
 ### <a name="stable">All stable releases</a>
 
-All JavaCC releases are available via https://github.com/javacc/javacc/releases and https://mvnrepository.com/artifact/net.java.dev.javacc/javacc including checksums and cryptographic signatures. At the time of writing, this includes the following versions:
+All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures. At the time of writing, this includes the following versions:
+
+#### 7.0.x
 
 * JavaCC 7.0.3 - 2017-11-06 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.3.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.3.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.3/javacc-7.0.3.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.3/javacc-7.0.3-javadoc.jar), [Release Notes](#javacc-7.0.3))
 
@@ -23,6 +25,8 @@ All JavaCC releases are available via https://github.com/javacc/javacc/releases 
 * JavaCC 7.0.1 - 2017-01-01 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.1.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.1.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.1/javacc-7.0.1.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.1/javacc-7.0.1-javadoc.jar), [Release Notes](#javacc-7.0.1))
 
 * JavaCC 7.0.0 - 2016-12-17 ([Source (zip)](https://github.com/javacc/javacc/archive/release_7_0_0.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/release_7_0_0.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.0/javacc-7.0.0.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.0/javacc-7.0.0-javadoc.jar), [Release Notes](#javacc-7.0.0))
+
+#### 6.0.x
 
 * JavaCC 6.1.2 - 2014-05-08 ([Source (zip)](https://github.com/javacc/javacc/archive/release_6.1.2.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/release_6.1.2.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/6.1.2/javacc-6.1.2.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/6.1.2/javacc-6.1.2-javadoc.jar), [Release Notes](#javacc-6.1.2))
 
