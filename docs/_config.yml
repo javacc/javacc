@@ -1,4 +1,5 @@
-theme: jekyll-theme-cayman
+# theme: jekyll-theme-cayman
+theme: minima
 
 # --- General options --- #
 show_downloads: true
