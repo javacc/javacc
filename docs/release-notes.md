@@ -571,7 +571,7 @@ notes for more information.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre5"></a0.7-pre5
+### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre5"></a>0.7-pre5
 
 ---
 
@@ -619,7 +619,7 @@ Fixed an array index out of bounds bug in the token manager.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre4"></a0.7-pre4
+### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre4"></a>0.7-pre4
 
 ---
 
@@ -630,7 +630,7 @@ than simple ignore the actions.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre3"></a0.7-pre3
+### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre3"></a>0.7-pre3
 
 ---
 
@@ -675,7 +675,7 @@ Added a toString method to the Token class to return the image.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre2"></a0.7-pre2
+### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre2"></a>0.7-pre2
 
 ---
 
@@ -724,7 +724,7 @@ classes.  Now all these are thrown as Error objects.
 
 Fixed a very old problem with giving input from System.in.
 
-### <a name="jjtree"></aJJTree
+### <a name="jjtree"></a>JJTree
 
 ### VERSION HISTORY
 
@@ -750,7 +750,7 @@ THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEA
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-6.0"></a6.0
+### MODIFICATIONS IN VERSION <a name="jjtree-6.0"></a>6.0
 
 ---
 
@@ -771,7 +771,7 @@ Added the new option:
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-4.2"></a4.2
+### MODIFICATIONS IN VERSION <a name="jjtree-4.2"></a>4.2
 
 ---
 
@@ -783,7 +783,7 @@ https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=targe
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-4.1"></a4.1
+### MODIFICATIONS IN VERSION <a name="jjtree-4.1"></a>4.1
 
 ---
 
@@ -795,7 +795,7 @@ https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=targe
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-4.0"></a4.0
+### MODIFICATIONS IN VERSION <a name="jjtree-4.0"></a>4.0
 
 ---
 
@@ -806,7 +806,7 @@ usage.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre6"></a0.3-pre6
+### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre6"></a>0.3-pre6
 
 ---
 
@@ -814,7 +814,7 @@ Fixed bug where Writers were not being closed correctly.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre5"></a0.3-pre5
+### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre5"></a>0.3-pre5
 
 ---
 
@@ -828,7 +828,7 @@ the declaration of the field.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre4"></a0.3-pre4
+### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre4"></a>0.3-pre4
 
 ---
 
@@ -866,7 +866,7 @@ prepared to change your code again later.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre3"></a0.3-pre3
+### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre3"></a>0.3-pre3
 
 ---
 
@@ -918,7 +918,7 @@ where access to arbitrary properties is disallowed.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre2"></a0.3-pre2
+### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre2"></a>0.3-pre2
 
 ---
 
@@ -951,7 +951,7 @@ static parsers.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre1"></a0.3-pre1
+### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre1"></a>0.3-pre1
 
 ---
 
@@ -1023,7 +1023,7 @@ by references to the special identifier jjtThis.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.2.6"></a0.2.6
+### MODIFICATIONS IN VERSION <a name="jjtree-0.2.6"></a>0.2.6
 
 ---
 
@@ -1031,7 +1031,7 @@ Made appropriate internal modifications for the JavaCC 0.7 parse error exception
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.2.5"></a0.2.5
+### MODIFICATIONS IN VERSION <a name="jjtree-0.2.5"></a>0.2.5
 
 ---
 
@@ -1040,7 +1040,7 @@ place for final user actions.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.2.4"></a0.2.4
+### MODIFICATIONS IN VERSION <a name="jjtree-0.2.4"></a>0.2.4
 
 ---
 
@@ -1055,7 +1055,7 @@ bad code. For example,
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.2.3"></a0.2.3
+### MODIFICATIONS IN VERSION <a name="jjtree-0.2.3"></a>0.2.3
 
 ---
 
@@ -1092,7 +1092,7 @@ where there is more than one JJTree parser in the same package.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.2.2"></a0.2.2
+### MODIFICATIONS IN VERSION <a name="jjtree-0.2.2"></a>0.2.2
 
 ---
 
@@ -1111,7 +1111,7 @@ iterate over the children.
 Two new options have been added: OUTPUT_FILE and NODE_DEFAULT_VOID.
 
 
-### <a name="jjdoc"></aJJDoc
+### <a name="jjdoc"></a>JJDoc
 
 ### VERSION HISTORY
 
@@ -1129,7 +1129,7 @@ THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEA
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.6"></a0.1.6
+### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.6"></a>0.1.6
 
 ---
 
@@ -1139,7 +1139,7 @@ Existing Generator becomes TextGenerator.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.5"></a0.1.5
+### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.5"></a>0.1.5
 
 ---
 
@@ -1149,7 +1149,7 @@ Added the "CSS" option.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.4"></a0.1.4
+### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.4"></a>0.1.4
 
 ---
 
@@ -1157,7 +1157,7 @@ Now accepts JavaCC try/catch/finally blocks.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.3"></a0.1.3
+### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.3"></a>0.1.3
 
 ---
 
@@ -1165,7 +1165,7 @@ Made appropriate internal modifications for the JavaCC 0.7 parse error exception
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.2"></a0.1.2
+### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.2"></a>0.1.2
 
 ---
 
@@ -1173,7 +1173,7 @@ Fixed bug where ()+ expansions were being reported as ()\*.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.1"></a0.1.1
+### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.1"></a>0.1.1
 
 ---
 
@@ -1187,7 +1187,7 @@ with the preceding production in one table HTML mode.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1"></a0.1
+### MODIFICATIONS IN VERSION <a name="jjdoc-0.1"></a>0.1
 
 ---
 
