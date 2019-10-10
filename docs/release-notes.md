@@ -2,8 +2,6 @@
 
 ---
 
-<br>
-
 ## <a name="downloads">Downloads</a>
 
 ### <a name="stable">All stable releases</a>
