@@ -54,28 +54,28 @@ THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEA
 * [2.0](#javacc-2.0)
 * [1.2](#javacc-1.2)
 * [1.0](#javacc-1.0)
-* [0.8pre2](#javacc-0.8pre2)
-* [0.8pre1](#javacc-0.8pre1)
+* [0.8-pre2](#javacc-0.8-pre2)
+* [0.8-pre1](#javacc-0.8-pre1)
 * [0.7.1](#javacc-0.7.1)
 * [0.7](#javacc-0.7)
-* [0.7pre7](#javacc-0.7pre7)
-* [0.7pre6](#javacc-0.7pre6)
-* [0.7pre5](#javacc-0.7pre5)
-* [0.7pre4](#javacc-0.7pre4)
-* [0.7pre3](#javacc-0.7pre3)
-* [0.7pre2](#javacc-0.7pre2)
-* [0.7pre1](#javacc-0.7pre1)
+* [0.7-pre7](#javacc-0.7-pre7)
+* [0.7-pre6](#javacc-0.7-pre6)
+* [0.7-pre5](#javacc-0.7-pre5)
+* [0.7-pre4](#javacc-0.7-pre4)
+* [0.7-pre3](#javacc-0.7-pre3)
+* [0.7-pre2](#javacc-0.7-pre2)
+* [0.7-pre1](#javacc-0.7-pre1)
 * [0.6.1](#javacc-0.6.1)
 * [0.6](#javacc-0.6)
-* [0.6(Beta2)](#javacc-0.6-Beta2)
-* [0.6(Beta1)](#javacc-0.6-Beta1)
+* [0.6 (Beta2)](#javacc-0.6-Beta2)
+* [0.6 (Beta1)](#javacc-0.6-Beta1)
 * [0.6.-8](#javacc-0.6.-8)
 * [0.6.-9](#javacc-0.6.-9)
 * [0.6.-10](#javacc-0.6.-10)
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.5">7.0.5</a>
+### MODIFICATIONS IN VERSION <a name="javacc-7.0.5"></a>7.0.5
 
 ---
 
@@ -92,7 +92,7 @@ Build with Maven is working again.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.4">7.0.4</a>
+### MODIFICATIONS IN VERSION <a name="javacc-7.0.4"></a>7.0.4
 
 ---
 
@@ -100,7 +100,7 @@ Internal refactoring
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.3">7.0.3</a>
+### MODIFICATIONS IN VERSION <a name="javacc-7.0.3"></a>7.0.3
 
 ---
 
@@ -108,7 +108,7 @@ Internal refactoring
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.2">7.0.2</a>
+### MODIFICATIONS IN VERSION <a name="javacc-7.0.2"></a>7.0.2
 
 ---
 
@@ -118,7 +118,7 @@ resolving the overloaded function name.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.1">7.0.1</a>
+### MODIFICATIONS IN VERSION <a name="javacc-7.0.1"></a>7.0.1
 
 ---
 
@@ -129,7 +129,7 @@ Refactoring of the build process.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.0">7.0.0</a>
+### MODIFICATIONS IN VERSION <a name="javacc-7.0.0"></a>7.0.0
 
 ---
 
@@ -142,7 +142,7 @@ The c++ generation has been refactored.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-6.1.2">6.1.2</a>
+### MODIFICATIONS IN VERSION <a name="javacc-6.1.2"></a>6.1.2
 
 ---
 
@@ -162,7 +162,7 @@ refactoring of the generated code. Main features/fixes added are
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-6.0">6.0</a>
+### MODIFICATIONS IN VERSION <a name="javacc-6.0"></a>6.0
 
 ---
 
@@ -202,7 +202,7 @@ Added new options relevant to C++:
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-4.2">4.2</a>
+### MODIFICATIONS IN VERSION <a name="javacc-4.2"></a>4.2
 
 ---
 
@@ -214,7 +214,7 @@ https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=targe
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-4.1">4.1</a>
+### MODIFICATIONS IN VERSION <a name="javacc-4.1"></a>4.1
 
 ---
 
@@ -226,7 +226,7 @@ https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=targe
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-4.0">4.0</a>
+### MODIFICATIONS IN VERSION <a name="javacc-4.0"></a>4.0
 
 ---
 
@@ -240,7 +240,7 @@ JAVACODE and BNF productions take optional access modifiers.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-3.2">3.2</a>
+### MODIFICATIONS IN VERSION <a name="javacc-3.2"></a>3.2
 
 ---
 
@@ -254,7 +254,7 @@ In particular, the generated code should now compile with JDK 1.5 (Tiger)
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-3.1">3.1</a>
+### MODIFICATIONS IN VERSION <a name="javacc-3.1"></a>3.1
 
 ---
 
@@ -263,7 +263,7 @@ Fixed the copyright text in the source files.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-3.0">3.0</a>
+### MODIFICATIONS IN VERSION <a name="javacc-3.0"></a>3.0
 
 ---
 
@@ -277,7 +277,7 @@ that there is no code size issue. This is a recently reported bug.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-2.1">2.1</a>
+### MODIFICATIONS IN VERSION <a name="javacc-2.1"></a>2.1
 
 ---
 
@@ -329,7 +329,7 @@ USER_CHAR_STREAM option, then you don't need to change anything.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-2.0">2.0</a>
+### MODIFICATIONS IN VERSION <a name="javacc-2.0"></a>2.0
 
 ---
 
@@ -350,7 +350,7 @@ Fixed some minor bugs.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-1.2">1.2</a>
+### MODIFICATIONS IN VERSION <a name="javacc-1.2"></a>1.2
 
 ---
 
@@ -398,7 +398,7 @@ files, without going through hoops as in the old versions.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-1.0">1.0</a>
+### MODIFICATIONS IN VERSION <a name="javacc-1.0"></a>1.0
 
 ---
 
@@ -408,7 +408,7 @@ Many other bug fixes.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-0.8pre2">0.8pre2</a>
+### MODIFICATIONS IN VERSION <a name="javacc-0.8-pre2"></a>0.8-pre2
 
 ---
 
@@ -416,7 +416,7 @@ Mainly bug fixes.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-0.8pre1">0.8pre1</a>
+### MODIFICATIONS IN VERSION <a name="javacc-0.8-pre1"></a>0.8-pre1
 
 ---
 
@@ -434,7 +434,7 @@ Generate inner classes instead of top level classes where appropriate.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-0.7.1">0.7.1</a>
+### MODIFICATIONS IN VERSION <a name="javacc-0.7.1"></a>0.7.1
 
 ---
 
@@ -448,7 +448,7 @@ when USER_TOKEN_MANAGER was set to true.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-0.7">0.7</a>
+### MODIFICATIONS IN VERSION <a name="javacc-0.7"></a>0.7
 
 ---
 
@@ -478,7 +478,7 @@ has improved since Version 0.5.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-0.7pre7">0.7pre7</a>
+### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre7"></a>0.7-pre7
 
 ---
 
@@ -517,7 +517,7 @@ UCode\*.java files when STATIC flag is set.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-0.7pre6">0.7pre6</a>
+### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre6"></a>0.7-pre6
 
 ---
 
@@ -571,7 +571,7 @@ notes for more information.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-0.7pre5">0.7pre5</a>
+### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre5"></a0.7-pre5
 
 ---
 
@@ -619,7 +619,7 @@ Fixed an array index out of bounds bug in the token manager.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-0.7pre4">0.7pre4</a>
+### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre4"></a0.7-pre4
 
 ---
 
@@ -630,7 +630,7 @@ than simple ignore the actions.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-0.7pre3">0.7pre3</a>
+### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre3"></a0.7-pre3
 
 ---
 
@@ -675,7 +675,7 @@ Added a toString method to the Token class to return the image.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-0.7pre2">0.7pre2</a>
+### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre2"></a0.7-pre2
 
 ---
 
@@ -724,7 +724,7 @@ classes.  Now all these are thrown as Error objects.
 
 Fixed a very old problem with giving input from System.in.
 
-### <a name="jjtree">JJTree</a>
+### <a name="jjtree"></aJJTree
 
 ### VERSION HISTORY
 
@@ -736,12 +736,12 @@ THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEA
 * [4.2](#jjtree-4.2)
 * [4.3](#jjtree-4.2)
 * [4.0](#jjtree-4.0)
-* [0.3pre6](#jjtree-0.3pre6)
-* [0.3pre5](#jjtree-0.3pre5)
-* [0.3pre4](#jjtree-0.3pre4)
-* [0.3pre3](#jjtree-0.3pre3)
-* [0.3pre2](#jjtree-0.3pre2)
-* [0.3pre1](#jjtree-0.3pre1)
+* [0.3-pre6](#jjtree-0.3-pre6)
+* [0.3-pre5](#jjtree-0.3-pre5)
+* [0.3-pre4](#jjtree-0.3-pre4)
+* [0.3-pre3](#jjtree-0.3-pre3)
+* [0.3-pre2](#jjtree-0.3-pre2)
+* [0.3-pre1](#jjtree-0.3-pre1)
 * [0.2.6](#jjtree-0.2.6)
 * [0.2.5](#jjtree-0.2.5)
 * [0.2.4](#jjtree-0.2.4)
@@ -750,7 +750,7 @@ THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEA
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-6.0">6.0</a>
+### MODIFICATIONS IN VERSION <a name="jjtree-6.0"></a6.0
 
 ---
 
@@ -771,7 +771,7 @@ Added the new option:
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-4.2">4.2</a>
+### MODIFICATIONS IN VERSION <a name="jjtree-4.2"></a4.2
 
 ---
 
@@ -783,7 +783,7 @@ https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=targe
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-4.1">4.1</a>
+### MODIFICATIONS IN VERSION <a name="jjtree-4.1"></a4.1
 
 ---
 
@@ -795,7 +795,7 @@ https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=targe
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-4.0">4.0</a>
+### MODIFICATIONS IN VERSION <a name="jjtree-4.0"></a4.0
 
 ---
 
@@ -806,7 +806,7 @@ usage.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3pre6">0.3pre6</a>
+### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre6"></a0.3-pre6
 
 ---
 
@@ -814,7 +814,7 @@ Fixed bug where Writers were not being closed correctly.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3pre5">0.3pre5</a>
+### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre5"></a0.3-pre5
 
 ---
 
@@ -828,7 +828,7 @@ the declaration of the field.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3pre4">0.3pre4</a>
+### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre4"></a0.3-pre4
 
 ---
 
@@ -866,7 +866,7 @@ prepared to change your code again later.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3pre3">0.3pre3</a>
+### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre3"></a0.3-pre3
 
 ---
 
@@ -918,7 +918,7 @@ where access to arbitrary properties is disallowed.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3pre2">0.3pre2</a>
+### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre2"></a0.3-pre2
 
 ---
 
@@ -951,7 +951,7 @@ static parsers.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3pre1">0.3pre1</a>
+### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre1"></a0.3-pre1
 
 ---
 
@@ -1023,7 +1023,7 @@ by references to the special identifier jjtThis.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.2.6">0.2.6</a>
+### MODIFICATIONS IN VERSION <a name="jjtree-0.2.6"></a0.2.6
 
 ---
 
@@ -1031,7 +1031,7 @@ Made appropriate internal modifications for the JavaCC 0.7 parse error exception
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.2.5">0.2.5</a>
+### MODIFICATIONS IN VERSION <a name="jjtree-0.2.5"></a0.2.5
 
 ---
 
@@ -1040,7 +1040,7 @@ place for final user actions.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.2.4">0.2.4</a>
+### MODIFICATIONS IN VERSION <a name="jjtree-0.2.4"></a0.2.4
 
 ---
 
@@ -1055,7 +1055,7 @@ bad code. For example,
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.2.3">0.2.3</a>
+### MODIFICATIONS IN VERSION <a name="jjtree-0.2.3"></a0.2.3
 
 ---
 
@@ -1092,7 +1092,7 @@ where there is more than one JJTree parser in the same package.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjtree-0.2.2">0.2.2</a>
+### MODIFICATIONS IN VERSION <a name="jjtree-0.2.2"></a0.2.2
 
 ---
 
@@ -1111,7 +1111,7 @@ iterate over the children.
 Two new options have been added: OUTPUT_FILE and NODE_DEFAULT_VOID.
 
 
-### <a name="jjdoc">JJDoc</a>
+### <a name="jjdoc"></aJJDoc
 
 ### VERSION HISTORY
 
@@ -1129,7 +1129,7 @@ THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEA
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.6">0.1.6</a>
+### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.6"></a0.1.6
 
 ---
 
@@ -1139,7 +1139,7 @@ Existing Generator becomes TextGenerator.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.5">0.1.5</a>
+### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.5"></a0.1.5
 
 ---
 
@@ -1149,7 +1149,7 @@ Added the "CSS" option.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.4">0.1.4</a>
+### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.4"></a0.1.4
 
 ---
 
@@ -1157,7 +1157,7 @@ Now accepts JavaCC try/catch/finally blocks.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.3">0.1.3</a>
+### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.3"></a0.1.3
 
 ---
 
@@ -1165,7 +1165,7 @@ Made appropriate internal modifications for the JavaCC 0.7 parse error exception
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.2">0.1.2</a>
+### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.2"></a0.1.2
 
 ---
 
@@ -1173,7 +1173,7 @@ Fixed bug where ()+ expansions were being reported as ()\*.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.1">0.1.1</a>
+### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.1"></a0.1.1
 
 ---
 
@@ -1187,7 +1187,7 @@ with the preceding production in one table HTML mode.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1">0.1</a>
+### MODIFICATIONS IN VERSION <a name="jjdoc-0.1"></a0.1
 
 ---
 
@@ -1216,11 +1216,7 @@ The default behavior is to put the JJDoc output into a file with
 either .html or .txt added as a suffix to the input file's base name.
 You can supply a different file name with this option.
 
-</details>
-
-
 <br>
-
 
 ---
 
