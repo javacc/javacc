@@ -4,7 +4,7 @@
 
 *   Table of Contents
 
-    *   [1. Token Manager](token-manager.md)
+  ..1. [Token Manager](token-manager.md)
 
     *   [2. Lookahead](lookahead.md)
 
