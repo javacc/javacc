@@ -104,8 +104,6 @@
 	<properties>
 		<ossrh-server-id>ossrh</ossrh-server-id>
 		<ossrh-staging-repository-url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</ossrh-staging-repository-url>
-		<javacc-javadoc-path>a</javacc-javadoc-path>
-		<javacc-sources-path>a</javacc-sources-path>
 		<ossrh-snapshots-repository-url>https://oss.sonatype.org/content/repositories/snapshots/</ossrh-snapshots-repository-url>
 	</properties>
  
