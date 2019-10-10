@@ -105,8 +105,10 @@
 		<ossrh-server-id>ossrh</ossrh-server-id>
 		<ossrh-staging-repository-url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</ossrh-staging-repository-url>
 		<ossrh-snapshots-repository-url>https://oss.sonatype.org/content/repositories/snapshots/</ossrh-snapshots-repository-url>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
 	</properties>
- 
+
 	<distributionManagement>
 		<repository>
 			<id>ossrh</id>
@@ -115,7 +117,7 @@
 		</repository>
 	</distributionManagement>
 
- 
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -154,9 +156,39 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>javacc-maven-plugin</artifactId>
+					<version>2.6</version>
+				</plugin>
+				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-gpg-plugin</artifactId>
-					<version>1.5</version>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.22.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>cobertura-maven-plugin</artifactId>
+					<version>2.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>3.1.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>3.1.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>2.8.2</version>
+				</plugin>
+				<plugin>
+					<groupId>org.sonatype.plugins</groupId>
+					<artifactId>nexus-staging-maven-plugin</artifactId>
+					<version>1.5.1</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
@@ -412,7 +444,7 @@
 								</java>
 								<javac fork="true" srcdir="test.tmp/GUIParsing/TokenMgrVersion" />
 								 -->
-								 <echo />
+								<echo />
 								<copy todir="test.tmp/Interpreter">
 									<fileset dir="examples/Interpreter">
 										<include name="*.java" />
@@ -681,7 +713,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.0</version>
 				<executions>
 					<execution>
 						<goals>
@@ -692,29 +723,7 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-gpg-plugin</artifactId>
-				<executions>
-<!-- 
-					<execution>
-						<id>sign and deploy the main artifact</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sign-and-deploy-file</goal>
-						</goals>
-						<configuration>
-							<file>target/javacc-${project.version}.jar</file>
-							<url>${ossrh-staging-repository-url}</url>
-							<repositoryId>ossrh</repositoryId>
-							<pomFile>pom.xml</pomFile>
-						</configuration>
-					</execution>
- -->
- 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>3.1.0</version>
 				<executions>
 					<execution>
 						<id>generate sources jar</id>
@@ -727,7 +736,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.1.1</version>
 				<executions>
 					<execution>
 						<id>generate javadoc jar</id>
@@ -737,38 +745,39 @@
 					</execution>
 				</executions>
 				<configuration>
-					<minmemory>128m</minmemory> <maxmemory>512m</maxmemory>
-					<level>protected</level><doclint>none</doclint>
+					<minmemory>128m</minmemory>
+					<maxmemory>512m</maxmemory>
+					<level>protected</level>
+					<doclint>none</doclint>
 					<quiet>true</quiet>
 				</configuration>
 			</plugin>
 
 			<plugin>
-			   <groupId>org.apache.maven.plugins</groupId>
-			   <artifactId>maven-deploy-plugin</artifactId>
-			   <configuration>
-			      <skip>true</skip>
-			   </configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
 			</plugin>
 
 			<plugin>
-			   <groupId>org.sonatype.plugins</groupId>
-			   <artifactId>nexus-staging-maven-plugin</artifactId>
-			   <version>1.5.1</version>
-			   <executions>
-			      <execution>
-			         <id>default-deploy</id>
-			         <phase>deploy</phase>
-			         <goals>
-			            <goal>deploy</goal>
-			         </goals>
-			      </execution>
-			   </executions>
-			   <configuration>
-			      <serverId>${ossrh-server-id}</serverId>
-			      <nexusUrl>${ossrh-snapshots-repository-url}</nexusUrl>
-			      <skipStaging>true</skipStaging>
-			   </configuration>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>default-deploy</id>
+						<phase>deploy</phase>
+						<goals>
+							<goal>deploy</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<serverId>${ossrh-server-id}</serverId>
+					<nexusUrl>${ossrh-snapshots-repository-url}</nexusUrl>
+					<skipStaging>true</skipStaging>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -821,16 +830,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.1.1</version>
-				<reportSets>
-					<reportSet>
-						<reports>
-							<report>
-								foo.txt
-							</report>
-						</reports>
-					</reportSet>
-				</reportSets>
 				<configuration>
 				</configuration>
 				<!-- <configuration> <minmemory>128m</minmemory> <maxmemory>512m</maxmemory> <level>protected</level> <verbose>true</verbose> </configuration> -->
@@ -838,7 +837,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
-				<version>2.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
