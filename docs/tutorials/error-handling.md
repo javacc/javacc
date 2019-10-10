@@ -1,8 +1,6 @@
-[JavaCC > Tutorials](index.md)
+[JavaCC](../index.md) > [Tutorials](index.md) > Error Handling
 
 ---
-
-# Error Handling
 
 This tutorial describes the error recovery features in JavaCC.
 

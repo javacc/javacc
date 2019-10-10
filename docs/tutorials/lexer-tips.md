@@ -1,14 +1,12 @@
-[JavaCC > Tutorials](index.md)
+[JavaCC](../index.md) > [Tutorials](index.md) > Lexer Tips
 
 --------------------------------------------------------------------------------
-
-# Lexer Tips
 
 There are many ways to write the lexical specification for a grammar, but the performance of the generated token manager can vary significantly depending on how you do this.
 
 This section presents a few tips for writing good lexical specifications.
 
-## <a name="toc"></a>Table of Contents
+### <a name="toc"></a>Table of Contents
 
 - [**String Literals**](#string-literals)
   * [Use string literals as much as possible](#tip1)

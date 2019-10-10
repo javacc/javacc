@@ -1,10 +1,10 @@
-[JavaCC > Tutorials](index.md)
+[JavaCC](../index.md) > [Tutorials](index.md) > Token Manager
 
 ---
 
-# Token Manager
+This tutorial describes the JavaCC token manager. It covers lexical states, lexical actions, and the use of `SPECIAL_TOKEN`s.
 
-## <a name="toc"></a>Table of Contents
+### <a name="toc"></a>Table of Contents
 
 - [**Lexical States**](#lexical-states)
   * [Token matching](#token-matching)

@@ -1,8 +1,6 @@
-[JavaCC > Tutorials](index.md)
+[JavaCC](../index.md) > [Tutorials](index.md) > CharStream
 
 ---
-
-# CharStream
 
 This tutorial describes the `CharStream` classes including their usage, constructors and methods.
 

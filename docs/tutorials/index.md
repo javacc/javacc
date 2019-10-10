@@ -1,10 +1,10 @@
-[JavaCC](../index.md) > [Tutorials](index.md)
+[JavaCC](../index.md) > [Tutorials](index.md) > Index
 
 ---
 
 <br>
 
-*   Table of Contents
+*   JavaCC Tutorials
 
     *   [1. Token Manager](token-manager.md)
 
