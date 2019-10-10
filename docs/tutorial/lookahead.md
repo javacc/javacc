@@ -129,7 +129,7 @@ The two ways in which you make the choice decisions work properly are:
 
 There are 4 types of choice points in JavaCC:
 
-| Expansion                                                   | Description |
+| Expansion &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | Description |
 | :---------------------------------------------------------: | :--- |
 | <p><code>( exp1 \| exp2 \| ... )</code></p>                 | The generated parser must somehow determine which of `exp1`, `exp2` etc to select to continue parsing. |
 | <p><code>( exp )?</code></p>                                | The generated parser must somehow determine whether to choose `exp` or to continue beyond the `( exp )?` without choosing `exp`. *N.B. Note: `( exp )?` may also be written as `[ exp ]`*. |
