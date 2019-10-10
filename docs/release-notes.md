@@ -29,6 +29,7 @@ All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/
 ## <a name="notes">Releases Notes</a>
 
 ### <a name="notes">JavaCC</a>
+
 <details>
 <summary>Click to expand</summary>
 
