@@ -206,7 +206,7 @@ Added new options relevant to C++:
 
 ---
 
-Release 4.2 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.2)
+Release 4.2 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.2).
 
 <br>
 
@@ -214,7 +214,7 @@ Release 4.2 is a maintenance release, incorporating a number of bug fixes and en
 
 ---
 
-Release 4.1 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.1)
+Release 4.1 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.1).
 
 <br>
 
@@ -282,15 +282,19 @@ about giving error messages etc.
 
 API Changes: JavaCC no longer generates one of the 4 stream classes:
 
-      ASCII_CharStream
-      ASCII_UCodeESC_CharStream
-      UCode_CharStream
-      UCode_UCodeESC_CharStream
+```java
+ASCII_CharStream
+ASCII_UCodeESC_CharStream
+UCode_CharStream
+UCode_UCodeESC_CharStream
+```
 
 In stead, it now supports two kinds of streams:
 
-      SimpleCharStream
-      JavaCharStream
+```java
+SimpleCharStream
+JavaCharStream
+```
 
 Both can be instantiated using a Reader object.
 
@@ -308,11 +312,8 @@ Porting old grammars:
 
 Just replace Stream class names as follows -
 
-    if you are using ASCII_CharStream or UCode_CharStream,
-    change it to SimpleCharStream
-
-    if you are using ASCII_UCodeESC_CharStream or UCode_UCodeESC_CharStream,
-    change it to JavaCharStream
+* if you are using ASCII_CharStream or UCode_CharStream, change it to SimpleCharStream
+* if you are using ASCII_UCodeESC_CharStream or UCode_UCodeESC_CharStream, change it to JavaCharStream
 
 The APIs remain the same.
 
@@ -767,7 +768,7 @@ Added the new option:
 
 ---
 
-Release 4.2 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.2)
+Release 4.2 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.2).
 
 <br>
 
@@ -775,7 +776,7 @@ Release 4.2 is a maintenance release, incorporating a number of bug fixes and en
 
 ---
 
-Release 4.1 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.1)
+Release 4.1 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.1).
 
 <br>
 
@@ -1034,7 +1035,7 @@ Fixed a bug where a node decoration directly on an action generated
 bad code. For example,
 
 ```java
-	{} #MyNode
+{} #MyNode
 ```
 
 <br>
@@ -1179,7 +1180,9 @@ JJDoc takes a JavaCC parser specification and produces documentation
 for the BNF grammar.  It can operate in three modes, determined by
 command line options.
 
-    TEXT                   (default false)
+```java
+TEXT                   (default false)
+```
 
 Setting TEXT to true causes JJDoc to generate a plain text format
 description of the BNF.  Some formatting is done via tab characters,
@@ -1188,13 +1191,17 @@ but the intention is to leave it as plain as possible.
 The default value of TEXT causes JJDoc to generate a hyperlinked HTML
 document.
 
-    ONE_TABLE              (default true)
+```java
+ONE_TABLE              (default true)
+```
 
 The default value of ONE_TABLE is used to generate a single HTML table
 for the BNF.  Setting it to false will produce one table for every
 production in the grammar.
 
-    OUTPUT_FILE
+```java
+OUTPUT_FILE
+```
 
 The default behavior is to put the JJDoc output into a file with
 either .html or .txt added as a suffix to the input file's base name.
