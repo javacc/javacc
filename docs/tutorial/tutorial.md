@@ -17,6 +17,8 @@
 <br>
 --------------------------------------------------------------------------------
 
-<section class="nextButton"><a href="token-manager.md">START \>\></a></section>
+<div style="text-align: right">
+  <section class="nextButton"><a href="token-manager.md">START</a></section>
+</div>
 
 <br>
