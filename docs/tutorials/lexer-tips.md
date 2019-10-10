@@ -1,4 +1,4 @@
-[JavaCC > Tutorials](tutorials.md)
+[JavaCC > Tutorials](index.md)
 
 --------------------------------------------------------------------------------
 
@@ -141,6 +141,6 @@ Best practise is to set the `IGNORE_CASE` option at the grammar level. If that i
 
 You're done with the JavaCC tutorials!
 
-[BACK TO TOC >>](tutorials.md)
+[BACK TO INDEX >>](index.md)
 
 <br>
