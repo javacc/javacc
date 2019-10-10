@@ -22,11 +22,13 @@ Here are a few tips for writing good lexical specifications:
     ```java
     SKIP : { " " | "\t" | "\n" }
     ```
+
     is more efficient than doing:<br>
 
     ```java
     SKIP : { < ([" ", "\t", "\n"])+ > }
     ```
+
     Because in the first case you only have string literals, it will generate a DFA whereas for the second case it will generate an NFA.
   </td>
 </tr>
