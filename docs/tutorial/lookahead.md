@@ -4,7 +4,7 @@
 
 # Lookahead
 
-This tutorial refers to examples that are available in the `lookahead/` directory under the `examples/` directory of the release.
+This tutorial refers to examples that are available in the source code on [GitHub](https://github.com/javacc/javacc/tree/master/examples/Lookahead).
 
 ## <a name="toc"></a>Table of Contents
 
@@ -21,7 +21,7 @@ The job of a parser is to read an input stream and determine whether or not the 
 
 This determination in its most general form can be quite time consuming.
 
-#### `Example1.jj`
+#### <a name="example1"></a>Example 1
 
 ```java
 void Input() :
@@ -55,8 +55,6 @@ The general way to perform this match is to walk through the grammar based on th
 7. We realize we have reached the end of the grammar (end of non-terminal `Input`) successfully. This means we have successfully matched the string `abc` to the grammar.
 
 As the above example indicates, the general problem of matching an input with a grammar may result in large amounts of backtracking and making new choices and this can consume a lot of time. The amount of time taken can also be a function of how the grammar is written. Note that many grammars can be written to cover the same set of inputs - or the same language, i.e. there can be multiple equivalent grammars for the same input language.
-
-#### Example1.jj
 
 The following grammar would speed up the parsing of the same language as compared to the previous grammar:
 
@@ -137,7 +135,7 @@ Remember that token specifications that occur within angular brackets `<...>` al
 
 The default choice determination algorithm looks ahead 1 token in the input stream and uses this to help make its choice at choice points. The following examples will describe the default algorithm fully.
 
-#### Example2.jj
+#### <a name="example2"></a>Example 2
 
 Consider the following grammar:
 
@@ -169,7 +167,7 @@ if (next token is <ID>) {
 
 In the above example, the grammar has been written such that the default choice determination algorithm does the right thing. Another thing to note is that the choice determination algorithm works in a top to bottom order - if `Choice 1` was selected, the other choices are not even considered. While this is not an issue in this example (except for performance) it will become important when local ambiguities require the insertion of `LOOKAHEAD` hints.
 
-#### Example3.jj
+#### <a name="example3"></a>Example 3
 
 Consider the modified grammar:
 
@@ -189,7 +187,7 @@ void basic_expr() :
 
 Then the default algorithm will always choose `Choice 1` when the next input token is `<ID>` and never choose `Choice 4` even if the token following `<ID>` is a `.`.
 
-You can try running the parser generated from `Example3.jj` on the input `id1.id2`. It will complain that it encountered a `.` when it was expecting a `(`.
+You can try running the parser generated from [Example 3](#example3) on the input `id1.id2`. It will complain that it encountered a `.` when it was expecting a `(`.
 
 *N.B. When you built the parser, it would have given you the following warning message:*
 
@@ -202,7 +200,7 @@ Warning: Choice conflict involving two expansions at
 
 JavaCC detected a situation in the grammar which may cause the default lookahead algorithm to do strange things. The generated parser will still work using the default lookahead algorithm, but it may not do what you expect of it.
 
-#### Example4.jj
+#### <a name="example4"></a>Example 4
 
 Now consider the following grammar:
 
@@ -228,7 +226,7 @@ while (next token is ",") {
 
 In the above example, note that the choice determination algorithm does not look beyond the `(...)*` construct to make its decision.
 
-#### Example5.jj
+#### <a name="example5"></a>Example 5
 
 Suppose there was another production in that same grammar as follows:
 
@@ -268,9 +266,9 @@ When you get these warning messages, you can do one of two things.
 
 You can modify your grammar so that the warning messages go away. That is, you can attempt to make your grammar `LL(1)` by making some changes to it.
 
-#### Example6.jj
+#### <a name="example6"></a>Example 6
 
-The following grammar shows how you how to change `Example3.jj` to make it `LL(1)`:
+The following grammar shows how you how to change [Example 3](#example3) to make it `LL(1)`:
 
 ```java
 void basic_expr() :
@@ -286,9 +284,9 @@ void basic_expr() :
 
 What we have done here is to refactor the fourth choice into the first choice. Note how we have placed their common first token `<ID>` outside the parentheses, and then within the parentheses we have yet another choice which can now be performed by looking at only one token in the input stream and comparing it with `(` and `.`. This process of modifying grammars to make them `LL(1)` is called *left factoring*.
 
-#### Example7.jj
+#### <a name="example7"></a>Example 7
 
-The following grammar shows how `Example5.jj` may be changed to make it `LL(1)`:
+The following grammar shows how [Example 5](#example5) may be changed to make it `LL(1)`:
 
 ```java
 void funny_list() :
@@ -310,7 +308,7 @@ A design decision must be made to determine if `Option 1` or `Option 2` is the r
 
 Sometimes `Option 2` is the only choice - especially in the presence of user actions.
 
-Suppose `Example3.jj` contained actions as shown below:
+Suppose [Example 3](#example3) contained actions as shown below:
 
 ```java
 void basic_expr() :
@@ -333,7 +331,7 @@ Since the actions are different, left-factoring cannot be performed.
 
 You can set a global `LOOKAHEAD` specification by using the option `LOOKAHEAD` either from the command line, or at the beginning of the grammar file in the options section. The value of this option is an integer which is the number of tokens to look ahead when making choice decisions. As you may have guessed, the default value of this option is `1` - which derives the default `LOOKAHEAD` algorithm described above.
 
-Suppose you set the value of this option to `2`. Then the `LOOKAHEAD` algorithm derived from this looks at two tokens (instead of just one token) before making a choice decision. Hence, in `Example3.jj`, `Choice 1` will be taken only if the next two tokens are `<ID>` and `(`, while `Choice 4` will be taken only if the next two tokens are `<ID>` and `.`. Hence, the parser will now work properly for `Example3.jj`. Similarly, the problem with `Example5.jj` also goes away since the parser goes into the `(...)*` construct only when the next two tokens are `,` and `<ID>`.
+Suppose you set the value of this option to `2`. Then the `LOOKAHEAD` algorithm derived from this looks at two tokens (instead of just one token) before making a choice decision. Hence, in [Example 3](#example3), `Choice 1` will be taken only if the next two tokens are `<ID>` and `(`, while `Choice 4` will be taken only if the next two tokens are `<ID>` and `.`. Hence, the parser will now work properly for [Example 3](#example3). Similarly, the problem with [Example 5](#example5) also goes away since the parser goes into the `(...)*` construct only when the next two tokens are `,` and `<ID>`.
 
 By setting the global `LOOKAHEAD` to `2` the parsing algorithm essentially becomes `LL(2)`. Since you can set the global `LOOKAHEAD` to any value, parsers generated by JavaCC are called `LL(k)` parsers.
 
@@ -341,9 +339,9 @@ By setting the global `LOOKAHEAD` to `2` the parsing algorithm essentially becom
 
 You can also set a local `LOOKAHEAD` specification that affects only a specific choice point. This way, the majority of the grammar can remain `LL(1)` and hence perform better, while at the same time one gets the flexibility of `LL(k)` grammars.
 
-### Example8.jj
+#### <a name="example8"></a>Example 8
 
-Here's how `Example3.jj` is modified with local `LOOKAHEAD` to fix the choice ambiguity problem:
+Here's how [Example 3](#example3) is modified with local `LOOKAHEAD` to fix the choice ambiguity problem:
 
 ```java
 void basic_expr() :
@@ -376,9 +374,9 @@ if (next 2 tokens are <ID> and "(" ) {
 }
 ```
 
-#### Example9.jj
+#### <a name="example9"></a>Example 9
 
-Similarily, `Example5.jj` can be modified as shown below:
+Similarily, [Example 5](#example5) can be modified as shown below:
 
 ```java
 void identifier_list() :
@@ -405,7 +403,7 @@ Most grammars are predominantly `LL(1)`, hence you will be unnecessarily degradi
 You should also keep in mind that the warning messages JavaCC prints when it detects ambiguities at choice points (such as the two messages shown earlier) simply tells you that the specified choice points are not `LL(1)`. JavaCC does not verify the correctness of your local `LOOKAHEAD` specification - it assumes you know what you are doing.
 
 
-### Example10.jj
+#### <a name="example10"></a>Example 10
 
 JavaCC cannot verify the correctness of local `LOOKAHEAD`'s as the following example of `if` statements illustrates:
 
@@ -558,7 +556,7 @@ When such a limit is not specified, it defaults to the largest integer value (`2
 
 ## Semantic `LOOKAHEAD`
 
-Let us go back to `Example1.jj`:
+Let us go back to [Example 1](#example1):
 
 ```java
 void Input() :
