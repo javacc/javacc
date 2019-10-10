@@ -8,9 +8,9 @@
 
 ### <a name="stable">All stable releases</a>
 
-All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
-
 JavaCC 7.0.4 is our latest stable release.
+
+All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
 #### 7.0.x
 
@@ -1245,6 +1245,6 @@ You can supply a different file name with this option.
 
 ---
 
-[HOME >>](../index.md)
+[HOME >>](index.md)
 
 <br>
