@@ -138,6 +138,6 @@ Best practise is to set the `IGNORE_CASE` option at the grammar level. If that i
 --------------------------------------------------------------------------------
 You're done with the JavaCC tutorials!
 
-[TOC >>](tutorials.md)
+[BACK TO TOC >>](tutorials.md)
 
 <br>

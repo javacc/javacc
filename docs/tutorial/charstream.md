@@ -156,6 +156,6 @@ public void adjustBeginLineColumn(int newLine, int newCol)
 <br>
 --------------------------------------------------------------------------------
 
-[CONTINUE >>](error-handling.md)
+[NEXT >>](error-handling.md)
 
 <br>
