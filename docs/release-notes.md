@@ -206,11 +206,7 @@ Added new options relevant to C++:
 
 ---
 
-Release 4.2 is a maintenance release, incorporating a number of bug
-fixes and enhancements. For a complete list, please see the
-issue tracker:
-
-https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.2
+Release 4.2 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.2)
 
 <br>
 
@@ -218,11 +214,7 @@ https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=targe
 
 ---
 
-Release 4.1 is a maintenance release, incorporating a number of bug
-fixes and enhancements. For a complete list, please see the
-issue tracker:
-
-https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.1
+Release 4.1 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.1)
 
 <br>
 
@@ -694,7 +686,7 @@ parser methods now throw only ParseException by default.  You can now
 specify a "throws" clause with your non-terminals to add other
 exceptions to this list explicitly.  Please see the help web page at:
 
-http://www.suntest.com/JavaCCBeta/newerrorhandling.html
+[http://www.suntest.com/JavaCCBeta/newerrorhandling.html](http://www.suntest.com/JavaCCBeta/newerrorhandling.html)
 
 for complete information on error recovery.
 
@@ -775,11 +767,7 @@ Added the new option:
 
 ---
 
-Release 4.2 is a maintenance release, incorporating a number of bug
-fixes and enhancements. For a complete list, please see the
-issue tracker:
-
-https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.2
+Release 4.2 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.2)
 
 <br>
 
@@ -787,11 +775,7 @@ https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=targe
 
 ---
 
-Release 4.1 is a maintenance release, incorporating a number of bug
-fixes and enhancements. For a complete list, please see the
-issue tracker:
-
-https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.1
+Release 4.1 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.1)
 
 <br>
 
