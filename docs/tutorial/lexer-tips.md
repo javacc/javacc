@@ -135,9 +135,11 @@ There is heavy performance penalty for setting `IGNORE_CASE` for some regular ex
 
 Best practise is to set the `IGNORE_CASE` option at the grammar level. If that is not possible, then try to have it set for *all* regular expressions in a lexical state.
 
-You're done with the JavaCC tutorials!
 <br>
+
 ---
+
+You're done with the JavaCC tutorials!
 
 [BACK TO TOC >>](tutorials.md)
 

@@ -8,14 +8,19 @@ This tutorial refers to examples that are available in the source code on [GitHu
 
 ## <a name="toc"></a>Table of Contents
 
-- [**What is `LOOKAHEAD`?**](#what-is)
-  * [Token matching](#token-matching)
-- [**Lexical Actions**](#lexical-actions)
-  * [Variables within lexical actions](#variables)
-  * [Access to class level declarations within lexical actions](#class-declarations)
-- [**Special Tokens**](#special-tokens)
+- [**What is a `LOOKAHEAD`?**](#what-is)
+  * [Avoiding backtracking](#backtracking)
+  * [Choice points in JavaCC grammars](#choice-points)
+  * [Default choice determination algorithm](#default-choice)
+- [**`LOOKAHEAD` Specification**](#specification)
+  * [Multi-token `LOOKAHEAD` specifications](#multi-token)
+  * [Setting a global `LOOKAHEAD` specification](#global)
+  * [Setting a local `LOOKAHEAD` specification](#local)
+  * [Syntactic `LOOKAHEAD`](#syntactic)
+  * [Semantic `LOOKAHEAD`](#semantic)
+  * [General structure of `LOOKAHEAD`](#general)
 
-## What is `LOOKAHEAD`?
+## <a name="what-is"></a>What is a `LOOKAHEAD`?
 
 The job of a parser is to read an input stream and determine whether or not the input stream conforms to the grammar.
 
@@ -46,13 +51,15 @@ abcc
 
 The general way to perform this match is to walk through the grammar based on the string as follows (here we use `abc` as the input string):
 
-1. There is only one choice here - the first input character must be `a` and since that is indeed the case, we are OK.
-2. We now proceed on to non-terminal BC. Again there is only one choice for the next input character - it must be `b`. The input matches this one too, so we are still OK.
-3. We now come to a *choice point* in the grammar. We can either go inside the `[...]` and match it, or ignore it altogether. We decide to go inside. So the next input character must be a `c`. We are again OK.
-4. Now we have completed with non-terminal BC and go back to non-terminal `Input`. Now the grammar says the next character must be yet another `c`. But there are no more input characters, so we have a problem.
-5. When we have such a problem in the general case, we conclude that we may have made a bad choice somewhere. In this case, we made a bad choice in step [3]. So we retrace our steps back to step [3] and make another choice and try that. This process is called *backtracking*.
-6. We have now backtracked and made the other choice we could have made at step [3] - namely, ignore the `[...]`. Now we have completed with non-terminal BC and go back to non-terminal `Input`. Now the grammar says the next character must be yet another `c`. The next input character is a `c`, so we are OK now.
-7. We realize we have reached the end of the grammar (end of non-terminal `Input`) successfully. This means we have successfully matched the string `abc` to the grammar.
+| Step | Description |
+| :--- | :--- |
+| 1 | There is only one choice here - the first input character must be `a` and since that is indeed the case, we are OK.|
+| 2 | We now proceed on to non-terminal BC. Again there is only one choice for the next input character - it must be `b`. The input matches this one too, so we are still OK.|
+| 3 | We now come to a *choice point* in the grammar. We can either go inside the `[...]` and match it, or ignore it altogether. We decide to go inside. So the next input character must be a `c`. We are again OK.|
+| 4 | Now we have completed with non-terminal BC and go back to non-terminal `Input`. Now the grammar says the next character must be yet another `c`. But there are no more input characters, so we have a problem.|
+| 5 | When we have such a problem in the general case, we conclude that we may have made a bad choice somewhere. In this case, we made a bad choice in step [3]. So we retrace our steps back to step [3] and make another choice and try that. This process is called *backtracking*.|
+| 6 | We have now backtracked and made the other choice we could have made at step [3] - namely, ignore the `[...]`. Now we have completed with non-terminal BC and go back to non-terminal `Input`. Now the grammar says the next character must be yet another `c`. The next input character is a `c`, so we are OK now.|
+| 7 | We realize we have reached the end of the grammar (end of non-terminal `Input`) successfully. This means we have successfully matched the string `abc` to the grammar.|
 
 As the above example indicates, the general problem of matching an input with a grammar may result in large amounts of backtracking and making new choices and this can consume a lot of time. The amount of time taken can also be a function of how the grammar is written. Note that many grammars can be written to cover the same set of inputs - or the same language, i.e. there can be multiple equivalent grammars for the same input language.
 
@@ -102,7 +109,7 @@ void BC2() :
 
 This grammar can match `abcc` in two ways, and is therefore considered *ambiguous*.
 
-### Avoiding backtracking
+### <a name="backtracking"></a>Avoiding backtracking
 
 The performance hit from such backtracking is unacceptable for most systems that include a parser. Hence most parsers do not backtrack in this general manner - or do not backtrack at all. Rather, they make decisions at choice points based on limited information and then commit to it.
 
@@ -118,20 +125,20 @@ The two ways in which you make the choice decisions work properly are:
 2. Insert hints at the more complicated choice points to help the parser make the right choices.
 
 
-## Choice Points in JavaCC Grammars
+### <a name="choice-points"></a>Choice points in JavaCC grammars
 
 There are 4 types of choice points in JavaCC:
 
-Expansion | Description
-:--- | :---
-`( exp1 | exp2 | ... )` | The generated parser must somehow determine which of `exp1`, `exp2` etc to select to continue parsing.
-`( exp )?` | The generated parser must somehow determine whether to choose `exp` or to continue beyond the `( exp )?` without choosing `exp`. *N.B. Note: `( exp )?` may also be written as `[ exp ]`*.
-`( exp )*` | The generated parser must do the same thing as in the previous case, and furthermore, after each time a successful match of `exp` (if `exp` was chosen) is completed, this choice determination must be made again.
-`( exp )+` | This is essentially similar to the previous case with a mandatory first match to `exp`.
+| Expansion | Description |
+| :--- | :--- |
+| <pre>`( exp1 | exp2 | ... )`</pre> | The generated parser must somehow determine which of `exp1`, `exp2` etc to select to continue parsing. |
+| <pre>`( exp )?`</pre> | The generated parser must somehow determine whether to choose `exp` or to continue beyond the `( exp )?` without choosing `exp`. *N.B. Note: `( exp )?` may also be written as `[ exp ]`*. |
+| <pre>`( exp )*`</pre> | The generated parser must do the same thing as in the previous case, and furthermore, after each time a successful match of `exp` (if `exp` was chosen) is completed, this choice determination must be made again. |
+| <pre>`( exp )+`</pre> | This is essentially similar to the previous case with a mandatory first match to `exp`. |
 
 Remember that token specifications that occur within angular brackets `<...>` also have choice points. But these choices are made in different ways and are the subject of a different tutorial.
 
-## Default Choice Determination Algorithm
+### <a name="default-choice"></a>Default choice determination algorithm
 
 The default choice determination algorithm looks ahead 1 token in the input stream and uses this to help make its choice at choice points. The following examples will describe the default algorithm fully.
 
@@ -255,14 +262,15 @@ JavaCC detected a situation in the grammar which may cause the default lookahead
 
 We have shown examples of two kinds of choice points in the examples above - `exp1 | exp2 | ...`, and `(exp)*`. The other two types of choice points `(exp)+` and `(exp)?` behave similarly to `(exp)*` so it is not necessary to provide further examples of their use.
 
+## <a name="specification"></a>`LOOKAHEAD` Specification
 
-## Multiple Token `LOOKAHEAD` Specifications
+### <a name="multi-token"></a>Multi-token `LOOKAHEAD` specifications
 
 So far, we have described the default lookahead algorithm of the generated parsers. In the majority of situations, the default algorithm works just fine. In situations where it does not work well, JavaCC provides you with warning messages like the ones shown above. If you have a grammar that goes through JavaCC without producing any warnings, then the grammar is a `LL(1)` grammar. Essentially, `LL(1)` grammars are those that can be handled by top-down parsers (such as those generated by JavaCC) using at most one token of `LOOKAHEAD`.
 
 When you get these warning messages, you can do one of two things.
 
-### Option 1
+#### Option 1 - Grammar modification
 
 You can modify your grammar so that the warning messages go away. That is, you can attempt to make your grammar `LL(1)` by making some changes to it.
 
@@ -298,7 +306,7 @@ void funny_list() :
 
 *N.B. This change is somewhat more drastic.*
 
-## Option 2
+### Option 2 - Parser hints
 
 You can provide the generated parser with some hints to help it out in the non-`LL(1)` situations that the warning messages bring to your attention.
 
@@ -327,7 +335,7 @@ void basic_expr() :
 Since the actions are different, left-factoring cannot be performed.
 
 
-## Setting a Global `LOOKAHEAD` Specification
+### <a name="global"></a>Setting a global `LOOKAHEAD` specification
 
 You can set a global `LOOKAHEAD` specification by using the option `LOOKAHEAD` either from the command line, or at the beginning of the grammar file in the options section. The value of this option is an integer which is the number of tokens to look ahead when making choice decisions. As you may have guessed, the default value of this option is `1` - which derives the default `LOOKAHEAD` algorithm described above.
 
@@ -335,7 +343,7 @@ Suppose you set the value of this option to `2`. Then the `LOOKAHEAD` algorithm 
 
 By setting the global `LOOKAHEAD` to `2` the parsing algorithm essentially becomes `LL(2)`. Since you can set the global `LOOKAHEAD` to any value, parsers generated by JavaCC are called `LL(k)` parsers.
 
-## Setting a Local `LOOKAHEAD` Specification
+## <a name="local"></a>Setting a local `LOOKAHEAD` specification
 
 You can also set a local `LOOKAHEAD` specification that affects only a specific choice point. This way, the majority of the grammar can remain `LL(1)` and hence perform better, while at the same time one gets the flexibility of `LL(k)` grammars.
 
@@ -450,7 +458,7 @@ void IfStm() :
 
 To force `LOOKAHEAD` ambiguity checking in such instances, set the option `FORCE_LA_CHECK` to `true`.
 
-## Syntactic `LOOKAHEAD`
+### <a name="syntactic"></a>Syntactic `LOOKAHEAD`
 
 Consider the following production taken from the Java grammar:
 
@@ -554,7 +562,7 @@ In this case, the `LOOKAHEAD` determination is not permitted to go beyond `10` t
 
 When such a limit is not specified, it defaults to the largest integer value (`2147483647`).
 
-## Semantic `LOOKAHEAD`
+### <a name="semantic"></a>Semantic `LOOKAHEAD`
 
 Let us go back to [Example 1](#example1):
 
@@ -616,7 +624,7 @@ void BC() :
 
 Recognize the first `c` using syntactic `LOOKAHEAD` and the absence of the second using semantic `LOOKAHEAD`.
 
-## General Structure of `LOOKAHEAD`
+### <a name="general"></a>General structure of `LOOKAHEAD`
 
 We've pretty much covered the various aspects of `LOOKAHEAD` in the previous sections. We shall now present a formal language reference for `LOOKAHEAD` in JavaCC.
 
@@ -659,6 +667,7 @@ To be done.
 To be done.
 -->
 <br>
+
 ---
 
 [NEXT >>](charstream.md)
