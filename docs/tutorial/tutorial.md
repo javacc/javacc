@@ -17,6 +17,6 @@
 <br>
 --------------------------------------------------------------------------------
 
-<section class="nextButton"><a href="token-manager.md">START >></a></section>
+<section class="nextButton"><a href="token-manager.md">START \>\></a></section>
 
 <br>
