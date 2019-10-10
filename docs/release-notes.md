@@ -1,71 +1,8 @@
 [JavaCC](../index.md) > Release Notes
 
-
 ---
 
-- [JavaCC Release Notes](#javacc)
-  * [Latest release](#javacc-7.0.5)
-    [7.0.4](#javacc-7.0.4)
-    [7.0.3](#javacc-7.0.3)
-    [7.0.2](#javacc-7.0.2)
-    [7.0.1](#javacc-7.0.1)
-    [7.0.0](#javacc-7.0.0)
-    [6.1.2](#javacc-6.1.2)
-    [6.0](#javacc-6.0)
-    [4.2](#javacc-4.2)
-    [4.1](#javacc-4.1)
-    [4.0](#javacc-4.0)
-    [3.2](#javacc-3.2)
-    [3.1](#javacc-3.1)
-    [3.0](#javacc-3.0)
-    [2.1](#javacc-2.1)
-    [2.0](#javacc-2.0)
-    [1.2](#javacc-1.2)
-    [1.0](#javacc-1.0)
-    [0.8pre2](#javacc-0.8pre2)
-    [0.8pre1](#javacc-0.8pre1)
-    [0.7.1](#javacc-0.7.1)
-    [0.7](#javacc-0.7)
-    [0.7pre7](#javacc-0.7pre7)
-    [0.7pre6](#javacc-0.7pre6)
-    [0.7pre5](#javacc-0.7pre5)
-    [0.7pre4](#javacc-0.7pre4)
-    [0.7pre3](#javacc-0.7pre3)
-    [0.7pre2](#javacc-0.7pre2)
-    [0.7pre1](#javacc-0.7pre1)
-    [0.6.1](#javacc-0.6.1)
-    [0.6](#javacc-0.6)
-    [0.6(Beta2)](#javacc-0.6-Beta2)
-    [0.6(Beta1)](#javacc-0.6-Beta1)
-    [0.6.-8](#javacc-0.6.-8)
-    [0.6.-9](#javacc-0.6.-9)
-    [0.6.-10](#javacc-0.6.-10)
-- [JJTree Release Notes](#jjtree)
-  * [Latest release](#jjtree-7.0.5)
-    [6.0](#jjtree-6.0)
-    [4.2](#jjtree-4.2)
-    [4.3](#jjtree-4.2)
-    [4.0](#jjtree-4.0)
-    [0.3pre6](#jjtree-0.3pre6)
-    [0.3pre5](#jjtree-0.3pre5)
-    [0.3pre4](#jjtree-0.3pre4)
-    [0.3pre3](#jjtree-0.3pre3)
-    [0.3pre2](#jjtree-0.3pre2)
-    [0.3pre1](#jjtree-0.3pre1)
-    [0.2.6](#jjtree-0.2.6)
-    [0.2.5](#jjtree-0.2.5)
-    [0.2.4](#jjtree-0.2.4)
-    [0.2.3](#jjtree-0.2.3)
-    [0.2.2](#jjtree-0.2.2)
-- [JJDoc Release Notes](#jjdoc)
-  * [Latest release](#7.0.5)
-    [0.1.6](#jjdoc-0.1.6)
-    [0.1.5](#jjdoc-0.1.5)
-    [0.1.4](#jjdoc-0.1.4)
-    [0.1.3](#jjdoc-0.1.3)
-    [0.1.2](#jjdoc-0.1.2)
-    [0.1.1](#jjdoc-0.1.1)
-    [0.1](#jjdoc-0.1)    
+<br>
 
 ## <a name="javacc">JavaCC Release Notes</a>
 <details>
@@ -73,7 +10,49 @@
 
 <br>
 
+### VERSIONS
+---
+
 THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEASE OF VERSION 0.5 IN OCTOBER, 1996.
+
+AS NOTED HERE, DURING THE TRANSITION FROM 0.5 TO 4.0, THERE HAVE BEEN THE FOLLOWING INTERMEDIATE VERSIONS:
+
+* [7.0.5](#javacc-7.0.5)
+* [7.0.4](#javacc-7.0.4)
+* [7.0.3](#javacc-7.0.3)
+* [7.0.2](#javacc-7.0.2)
+* [7.0.1](#javacc-7.0.1)
+* [7.0.0](#javacc-7.0.0)
+* [6.1.2](#javacc-6.1.2)
+* [6.0](#javacc-6.0)
+* [4.2](#javacc-4.2)
+* [4.1](#javacc-4.1)
+* [4.0](#javacc-4.0)
+* [3.2](#javacc-3.2)
+* [3.1](#javacc-3.1)
+* [3.0](#javacc-3.0)
+* [2.1](#javacc-2.1)
+* [2.0](#javacc-2.0)
+* [1.2](#javacc-1.2)
+* [1.0](#javacc-1.0)
+* [0.8pre2](#javacc-0.8pre2)
+* [0.8pre1](#javacc-0.8pre1)
+* [0.7.1](#javacc-0.7.1)
+* [0.7](#javacc-0.7)
+* [0.7pre7](#javacc-0.7pre7)
+* [0.7pre6](#javacc-0.7pre6)
+* [0.7pre5](#javacc-0.7pre5)
+* [0.7pre4](#javacc-0.7pre4)
+* [0.7pre3](#javacc-0.7pre3)
+* [0.7pre2](#javacc-0.7pre2)
+* [0.7pre1](#javacc-0.7pre1)
+* [0.6.1](#javacc-0.6.1)
+* [0.6](#javacc-0.6)
+* [0.6(Beta2)](#javacc-0.6-Beta2)
+* [0.6(Beta1)](#javacc-0.6-Beta1)
+* [0.6.-8](#javacc-0.6.-8)
+* [0.6.-9](#javacc-0.6.-9)
+* [0.6.-10](#javacc-0.6.-10)
 
 <br>
 
@@ -731,6 +710,28 @@ Fixed a very old problem with giving input from System.in.
 <details>
   <summary>Click to expand</summary>
 
+<br>
+
+### VERSIONS
+---
+
+THERE HAVE BEEN THE FOLLOWING INTERMEDIATE VERSIONS:
+
+* [6.0](#jjtree-6.0)
+* [4.2](#jjtree-4.2)
+* [4.3](#jjtree-4.2)
+* [4.0](#jjtree-4.0)
+* [0.3pre6](#jjtree-0.3pre6)
+* [0.3pre5](#jjtree-0.3pre5)
+* [0.3pre4](#jjtree-0.3pre4)
+* [0.3pre3](#jjtree-0.3pre3)
+* [0.3pre2](#jjtree-0.3pre2)
+* [0.3pre1](#jjtree-0.3pre1)
+* [0.2.6](#jjtree-0.2.6)
+* [0.2.5](#jjtree-0.2.5)
+* [0.2.4](#jjtree-0.2.4)
+* [0.2.3](#jjtree-0.2.3)
+* [0.2.2](#jjtree-0.2.2)
 
 <br>
 
@@ -1104,6 +1105,20 @@ Two new options have been added: OUTPUT_FILE and NODE_DEFAULT_VOID.
 <details>
 <summary>Click to expand</summary>
 
+<br>
+
+### VERSIONS
+---
+
+THERE HAVE BEEN THE FOLLOWING INTERMEDIATE VERSIONS:
+
+* [0.1.6](#jjdoc-0.1.6)
+* [0.1.5](#jjdoc-0.1.5)
+* [0.1.4](#jjdoc-0.1.4)
+* [0.1.3](#jjdoc-0.1.3)
+* [0.1.2](#jjdoc-0.1.2)
+* [0.1.1](#jjdoc-0.1.1)
+* [0.1](#jjdoc-0.1)
 
 <br>
 
