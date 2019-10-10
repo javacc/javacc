@@ -30,11 +30,6 @@ All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/
 
 ### <a name="notes"></a>JavaCC
 
-<details>
-<summary>Click to expand</summary>
-
-<br>
-
 ### VERSION HISTORY
 
 ---
@@ -729,14 +724,7 @@ classes.  Now all these are thrown as Error objects.
 
 Fixed a very old problem with giving input from System.in.
 
-</details>
-
 ### <a name="jjtree">JJTree</a>
-
-<details>
-  <summary>Click to expand</summary>
-
-<br>
 
 ### VERSION HISTORY
 
@@ -1122,14 +1110,8 @@ iterate over the children.
 
 Two new options have been added: OUTPUT_FILE and NODE_DEFAULT_VOID.
 
-</details>
 
 ### <a name="jjdoc">JJDoc</a>
-
-<details>
-<summary>Click to expand</summary>
-
-<br>
 
 ### VERSION HISTORY
 
