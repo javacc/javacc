@@ -1,14 +1,17 @@
-theme: jekyll-theme-cayman
-
 # --- General options --- #
+theme: jekyll-theme-cayman
 show_downloads: true
 
 # Name of website
 title: JavaCC
 
-# Short description of your site
+# Short description of the site
 description: JavaCC is an open source compiler compiler
 
+# Latest release
+version: 7.0.4
+
+# Site URLs
 github:
-  zip_url: https://github.com/javacc/javacc/archive/7.0.4.zip
-  tar_url: https://github.com/javacc/javacc/archive/7.0.4.tar.gz
+  zip_url: https://github.com/javacc/javacc/archive/[site.version].zip
+  tar_url: https://github.com/javacc/javacc/archive/{{ site.version }}.tar.gz
