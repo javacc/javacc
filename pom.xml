@@ -93,6 +93,39 @@
 			<organizationUrl>https://github.com/Kampbell/</organizationUrl>
 		</developer>
 	</developers>
+	<contributors>
+		<contributor>
+			<name>Markus Brigl</name>
+			<email></email>
+		</contributor>
+		<contributor>
+			<name>Martin Swanson</name>
+		</contributor>
+		<contributor>
+			<name>Anton Rybochkin</name>
+		</contributor>
+		<contributor>
+			<name>Jean-Bernard DAMIANO</name>
+		</contributor>
+		<contributor>
+			<name>Dusan Malusev</name>
+		</contributor>
+		<contributor>
+			<name>Dave Benson</name>
+		</contributor>
+		<contributor>
+			<name>Eric Spishak-Thomas</name>
+		</contributor>
+		<contributor>
+			<name>Roman Leventov</name>
+		</contributor>
+		<contributor>
+			<name>Philip Helger</name>
+		</contributor>
+		<contributor>
+			<name>Eitan Adler</name>
+		</contributor>
+	</contributors>
 	<licenses>
 		<license>
 			<name>Berkeley Software Distribution (BSD) License</name>
