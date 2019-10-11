@@ -294,6 +294,7 @@
 					</includes>
 					<excludes>
 					</excludes>
+					<argLine>-noverify</argLine>
 				</configuration>
 			</plugin>
 			<plugin>
