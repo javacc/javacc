@@ -7,15 +7,13 @@ Created from:
 
 # JavaCC
 
-Java Compiler Compiler (JavaCC) is the most popular parser generator for use with Java applications. A parser generator is
-a tool that reads a grammar specification and converts it to a Java program that can recognize matches to the grammar.
+Java Compiler Compiler (JavaCC) is the most popular parser generator for use with Java applications. A parser generator is a tool that reads a grammar specification and converts it to a Java program that can recognize matches to the grammar.
 
-In addition to the parser generator itself, JavaCC provides other standard capabilities related to parser generation such as tree building (via a tool called JJTree included with JavaCC), actions, debugging, etc.
+In addition to the parser generator itself, JavaCC provides other standard capabilities related to parser generation such as tree building (via a tool called JJTree included with JavaCC), actions and debugging.
 
-All you need to run the application, once installed, is a Java Runtime Environment (JRE).
+All you need to run a JavaCC parser, once generated, is a Java Runtime Environment (JRE).
 
-This README is meant as a brief overview of the core features and how to set things up to get yourself started with JavaCC. For a fully detailed documentation, please
-see [https://javacc.org/](https://javacc.org/).
+This README is meant as a brief overview of the core features and how to set things up to get yourself started with JavaCC. For a fully detailed documentation, please see [https://javacc.org/](https://javacc.org/).
 
 ## <a name="toc"></a>Table of Contents
 
@@ -190,13 +188,6 @@ Check out our [Setting up IntelliJ](https://ci.apache.org/projects/flink/flink-d
 
 #### Eclipse IDE
 
-<!---
-**NOTE:** From our experience, this setup does not work with Flink
-due to deficiencies of the old Eclipse version bundled with Scala IDE 3.0.3 or
-due to version incompatibilities with the bundled Scala version in Scala IDE 4.4.1.
-
-**We recommend to use IntelliJ instead (see above)**
--->
 * Eclipse download: [https://www.eclipse.org/ide/](https://www.eclipse.org/ide/)
 * Eclipse JavaCC Plugin: [https://marketplace.eclipse.org/content/javacc-eclipse-plug](https://marketplace.eclipse.org/content/javacc-eclipse-plug)
 
@@ -302,7 +293,7 @@ https://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow/
 
 ## <a name="license"></a>License
 
-JavaCC is an open source project release under the BSD License 2.0. The JavaCC project was originally developed at Sun Microsystems Inc. by [Sreeni Viswanadha](https://github.com/kaikalur) and [Sriram Sankar](https://twitter.com/sankarsearch).
+JavaCC is an open source project released under the BSD License 2.0. The JavaCC project was originally developed at Sun Microsystems Inc. by [Sreeni Viswanadha](https://github.com/kaikalur) and [Sriram Sankar](https://twitter.com/sankarsearch).
 
 
 ***

@@ -18,6 +18,6 @@
 
 ---
 
-[NEXT >>](token-manager.md)
+[BEGIN >>](token-manager.md)
 
 <br>
