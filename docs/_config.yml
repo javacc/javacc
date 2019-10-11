@@ -6,13 +6,13 @@ show_downloads: true
 title: JavaCC
 
 # Short description of the site
-description: JavaCC is an open source compiler compiler
+description: The most popular parser generator for use with Java applications.
 
 # Latest release
-version: 7.0.4
+version: 7.0.5
 
 # Site URLs
 github:
   contributors_url: https://github.com/javacc/javacc/graphs/contributors
-  zip_url: https://github.com/javacc/javacc/archive/7.0.4.zip
-  tar_url: https://github.com/javacc/javacc/archive/7.0.4.tar.gz
+  zip_url: https://github.com/javacc/javacc/archive/7.0.5.zip
+  tar_url: https://github.com/javacc/javacc/archive/7.0.5.tar.gz

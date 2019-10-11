@@ -19,6 +19,7 @@
 
 This FAQ is based on a [previous version](http://www.engr.mun.ca/~theo/JavaCC−FAQ) written by [Theodore S. Norvell](mailto:theo@mun.ca) with help from Ken Beesley, Leonardo Bueno, Paul Cager, Tom Copeland, Tom Davies, Brian Goetz, Roedy Green, John Kristian, Tony LaPaso, Eric Nickell, Andreas Papasalouros, Phil Robare, Alan Rooks, David Rosenstrauch, Sriram Sankar, Sreeni Viswanadha, and Michael Welle.
 
+
 Contents
 1  General Information on JavaCC and Parsing
     1.1  Recent changes to the FAQ
@@ -112,11 +113,16 @@ In citing or linking to this FAQ, please use the following URI:
 
 ### What is JavaCC?
 
-JavaCC stands for *the Java Compiler Compiler* - it is a parser generator and lexical analyzer generator. This technology originated to make programming language implementation easier - hence the term *compiler compiler*.
+Java Compiler Compiler (JavaCC) is the most popular parser generator for use with Java applications. A parser generator is
+a tool that reads a grammar specification and converts it to a Java program that can recognize matches to the grammar.
 
-JavaCC is particularly useful when you have to write code to deal with an input format that has a complex structure, when hand-crafting a parser without the help of a parser generator would be a difficult job. JavaCC reads a description of the language (expressed in [Extended BNF](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form) and generates Java code that can read and analyze that language.
+In addition to the parser generator itself, JavaCC provides other standard capabilities related to parser generation such as tree building (via a tool called JJTree included with JavaCC), actions, debugging, etc.
 
-Figures following diagram shows the relationship between a JavaCC generated lexical analyzer (called a *token manager* in JavaCC parlance) and a JavaCC generated parser. The diagrams show the C programming language as the input, but JavaCC can handle any language (and not only programming languages) if you can describe the rules of the language to JavaCC.
+All you need to run a JavaCC parser, once generated, is a Java Runtime Environment (JRE).
+
+JavaCC is particularly useful when you have to write code to deal with an input format that has a complex structure, when hand-crafting a parser without the help of a parser generator would be a difficult job. JavaCC reads a description of the language specification (expressed in [Extended BNF](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form)) and generates Java code that can read and analyze that language.
+
+The following diagram shows the relationship between a JavaCC generated lexical analyzer (called a *token manager* in JavaCC parlance) and a JavaCC generated parser. The diagrams show the C programming language as the input, but JavaCC can handle any language (and not only programming languages) if you can describe the rules of the language to JavaCC.
 
 TODO
 #### diagram 1
@@ -149,15 +155,15 @@ JavaCC has been used to create many types of parsers.
 
 ###  Where can I get JavaCC?
 
-JavaCC is available on [[https://javacc.org/](https://javacc.org/)] and is released under a permissive BSD 2.0 licence.  
-
-JavaCC is redistributable and there there are essentially no restrictions on the use of JavaCC. You may use the Java files that JavaCC produces in any way, including incorporating them into a commercial product.
+JavaCC is available on [[https://javacc.org/](https://javacc.org/)].  
 
 ### Is the source code and documentation for JavaCC publicly available?
 
-Yes. As of June 2003, JavaCC is open source.
+Yes. The source code and documentation can be found on [GitHub](https://github.com/javacc).
 
-The source code and documentation can be found on [GitHub](https://github.com/javacc).
+As of June 2003, JavaCC is an open source project release under the BSD License 2.0.
+
+JavaCC is redistributable and there there are essentially no restrictions on the use of JavaCC. You may use the Java files that JavaCC produces in any way, including incorporating them into a commercial product.
 
 ### Where can I find books, articles, or tutorials on JavaCC?
 
@@ -184,29 +190,35 @@ The source code and documentation can be found on [GitHub](https://github.com/ja
 * Alfred V. Aho, Monica S. Lam, Ravi Sethi and Jeffrey D. Ullman., Compilers: Principles, Techniques, and Tools, 2nd Edition, Addison-Wesley, 2006, ISBN 0-3211314-3-6 ([order hard copy](https://www.amazon.com/Generating-Parsers-JavaCC-Easy-Use/dp/0976221438), [pdf](https://github.com/germanoa/compiladores/blob/master/doc/ebook/Compilers%20Principles%2C%20Techniques%2C%20and%20Tools%20-%202nd%20Edition%20-%20Alfred%20V.%20Aho.pdf)).
 * Charles N. Fischer and Richard J. Leblanc, Jr., Crafting a Compiler with C., Pearson, 1991. ISBN 0-8053216-6-7 ([order hard copy](https://www.amazon.co.uk/Crafting-Compiler-Charles-N-Fischer/dp/0805321667)).
 
-### 1.12  Are there publicly available grammars?
+### Are there publicly available grammars?
 
 TODO
 
 Yes. Roedy Green maintains the JavaCC Grammar Repository, which was originally created by Donwon Lee. There used to be a repository at java.net, but I can't find it any more.
 
+### Is there a newsgroup or mailing list?
+
+Yes. You can contact the community on the [Google user group](https://groups.google.com/forum/#!forum/javacc-users) or email us at [JavaCC Support](mailto:support@javacc.org) if you need any help.
+
+Please [open an issue](https://github.com/javacc/javacc/issues) if you found a bug in JavaCC.
+
+### Should I send my questions to the Google group?
+
+For questions relating to JavaCC, JJTree, or JTB that are not already covered in the FAQ, please use the [Google user group](https://groups.google.com/forum/#!forum/javacc-users). You will need to request to join the group.
+
+For questions relating to development please join our [Slack channel](https://javacc.slack.com/).
+
+The Google group and Slack channel are not suitable for discussing the Java programming language or javac (the Java compiler), or any other topic that does not relate directly to JavaCC.
+
+Questions on parsing theory or parser generation in general might be better addressed to the [comp.compilers](https://groups.google.com/forum/#!forum/comp.compilers) Google group.
+
+### Who wrote JavaCC and who maintains it?
+
+The JavaCC project was originally developed at Sun Microsystems Inc. by [Sreeni Viswanadha](https://github.com/kaikalur) and [Sriram Sankar](https://twitter.com/sankarsearch).
+
+It is maintained by the [developer community](https://github.com/javacc/javacc/graphs/contributors) which includes the original authors and [Chris Ainsley](https://github.com/ainslec), [Tim Pizney](https://github.com/timp) and [Francis Andre](https://github.com/zosrothko).
 
 
-Alfred V. Aho, Monica S. Lam, Ravi Sethi and Jeffrey D. Ullman, Compilers: Principles, Techniques, and Tools, 2nd Edition, Addison-Wesley, 2006.
-Charles N. Fischer and Richard J. Leblanc, Jr., Crafting a Compiler With C, Addison-Wesley, 1991.
-
-1.14  Is there a newsgroup or mailing list?
-comp.compilers.tools.javacc is a usenet newsgroup for discussing the JavaCC and related technologies, like JJTree and JTB.
-There is also a mail-list at java.net. To sign up for this list you must first register as a java.net user, second join the JavaCC project, and then request to be added to the " users" mail-list.
-The mailing list and comp.compilers.tools.javacc are not currently gatewayed.
-1.15  Should I send my question to the newsgroup or mailing list?
-Yes, but only if your question relates in some way to JavaCC, JJTree, or JTB.
-The newsgroup and mailing list are not suitable fora for discussing the Java programming language or javac, which is Sun's Java compiler, or any other topic that does not relate directly to the Java Compiler Compiler.
-Questions on parsing theory or parser generation in general might be better addressed to comp.compilers.
-Questions directly answered in the FAQ need not be asked again in the newgroup or mailing list.
-1.16  Who wrote JavaCC and who maintains it?
-JavaCC was created by Sreeni Viswanadha and Sriram Sankar when they worked for Sun. They are continuing to improve it.
-Since JavaCC is now open source, it is being maintained by its developer community. Luckly this includes the original authors.
 Chapter 2
 Common Issues
 2.1  What files does JavaCC produce?
