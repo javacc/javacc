@@ -36,3 +36,4 @@ dist/
 dist/
 /ant.log
 /mvn.log
+/cobertura.ser
