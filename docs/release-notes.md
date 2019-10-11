@@ -6,13 +6,14 @@
 
 ### <a name="stable"></a>All stable releases
 
-JavaCC 7.0.4 is our latest stable release.
+JavaCC 7.0.5 is our latest stable release.
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
 #### 7.0.x
 
-* JavaCC 7.0.4 - 2018-09-17 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.4.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.4.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.4.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.4-javadoc.jar), [Release Notes](#javacc-7.0.5))
+* JavaCC 7.0.5 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.5.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.5.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.5-javadoc.jar), [Release Notes](#javacc-7.0.5))
+* JavaCC 7.0.4 - 2018-09-17 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.4.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.4.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.4.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.4-javadoc.jar), [Release Notes](#javacc-7.0.4))
 * JavaCC 7.0.3 - 2017-11-06 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.3.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.3.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.3/javacc-7.0.3.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.3/javacc-7.0.3-javadoc.jar), [Release Notes](#javacc-7.0.3))
 * JavaCC 7.0.2 - 2017-02-07 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.2.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.2.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.2/javacc-7.0.2.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.2/javacc-7.0.2-javadoc.jar), [Release Notes](#javacc-7.0.2))
 * JavaCC 7.0.1 - 2017-01-01 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.1.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.1.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.1/javacc-7.0.1.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.1/javacc-7.0.1-javadoc.jar), [Release Notes](#javacc-7.0.1))
@@ -80,10 +81,11 @@ THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEA
 ---
 
 * \#42: new README.md file.
+* \#71: Add support for Java7 language features.
+* \#75: Allow empty type parameters in Java code of grammar files.
+* \#77: javacc.org is out of date.
 * \#92: Avoid warning of unused import in generated ParserTokenManager.
 * \#99: LookaheadSuccess creation performance improved.
-* \#75: Allow empty type parameters in Java code of grammar files.
-* \#71: Add support for Java7 language features.
 
 Removing IDE specific files.
 Declare trace_indent only if debug parser is enabled.
