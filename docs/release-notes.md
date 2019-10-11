@@ -37,24 +37,44 @@ All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/
 
 THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEASE OF VERSION 0.5 IN OCTOBER, 1996.
 
+#### 7.0.x
+
 * [7.0.5](#javacc-7.0.5)
 * [7.0.4](#javacc-7.0.4)
 * [7.0.3](#javacc-7.0.3)
 * [7.0.2](#javacc-7.0.2)
 * [7.0.1](#javacc-7.0.1)
 * [7.0.0](#javacc-7.0.0)
+
+#### 6.0.x
+
 * [6.1.2](#javacc-6.1.2)
-* [6.0](#javacc-6.0)
+* [6.0.0](#javacc-6.0.0)
+
+#### 4.x
+
 * [4.2](#javacc-4.2)
 * [4.1](#javacc-4.1)
 * [4.0](#javacc-4.0)
+
+#### 3.x
+
 * [3.2](#javacc-3.2)
 * [3.1](#javacc-3.1)
 * [3.0](#javacc-3.0)
+
+#### 2.x
+
 * [2.1](#javacc-2.1)
 * [2.0](#javacc-2.0)
+
+#### 1.x
+
 * [1.2](#javacc-1.2)
 * [1.0](#javacc-1.0)
+
+#### 0.x
+
 * [0.8-pre2](#javacc-0.8-pre2)
 * [0.8-pre1](#javacc-0.8-pre1)
 * [0.7.1](#javacc-0.7.1)
@@ -164,7 +184,7 @@ refactoring of the generated code. Main features/fixes added are
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-6.0"></a>6.0
+### MODIFICATIONS IN VERSION <a name="javacc-6.0.0"></a>6.0.0
 
 ---
 
@@ -727,10 +747,18 @@ Fixed a very old problem with giving input from System.in.
 
 THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEASE OF VERSION 0.2.2.
 
+#### 6.x
+
 * [6.0](#jjtree-6.0)
+
+#### 4.x
+
 * [4.2](#jjtree-4.2)
 * [4.3](#jjtree-4.2)
 * [4.0](#jjtree-4.0)
+
+#### 0.x
+
 * [0.3-pre6](#jjtree-0.3-pre6)
 * [0.3-pre5](#jjtree-0.3-pre5)
 * [0.3-pre4](#jjtree-0.3-pre4)
@@ -1106,13 +1134,15 @@ Two new options have been added: OUTPUT_FILE and NODE_DEFAULT_VOID.
 
 THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEASE OF VERSION 0.1.
 
+#### 0.1.x
+
 * [0.1.6](#jjdoc-0.1.6)
 * [0.1.5](#jjdoc-0.1.5)
 * [0.1.4](#jjdoc-0.1.4)
 * [0.1.3](#jjdoc-0.1.3)
 * [0.1.2](#jjdoc-0.1.2)
 * [0.1.1](#jjdoc-0.1.1)
-* [0.1](#jjdoc-0.1)
+* [0.1.0](#jjdoc-0.1.0)
 
 <br>
 
@@ -1174,7 +1204,7 @@ with the preceding production in one table HTML mode.
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1"></a>0.1
+### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.0"></a>0.1.0
 
 ---
 
