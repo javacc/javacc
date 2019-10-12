@@ -116,12 +116,17 @@
 	</repositories>
 
 	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.javacc</groupId>
+				<artifactId>parser</artifactId>
+				<version>8.0.0</version>
+			</dependency>
 			<dependency>
 				<groupId>org.javacc.codegen</groupId>
 				<artifactId>csharp</artifactId>
@@ -159,6 +164,15 @@
 
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.javacc</groupId>
+					<artifactId>javacc-maven-plugin</artifactId>
+					<version>2.6</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 <!-- 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
