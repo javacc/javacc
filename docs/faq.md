@@ -101,9 +101,9 @@ JavaCC is particularly useful when you have to write code to deal with an input 
 
 The following diagram shows the relationship between a JavaCC generated lexical analyzer (called a *token manager* in JavaCC parlance) and a JavaCC generated parser. The diagrams show the C programming language as the input, but JavaCC can handle any language (and not only programming languages) if you can describe the rules of the language to JavaCC.
 
-TODO
-#### diagram 1
-*The token manager converts a sequence of characters to a sequence of `Token` objects, and the parser analyzes the sequence of tokens.*
+#### JavaCC design
+
+![The token manager converts a sequence of characters to a sequence of `Token` objects, and the parser analyzes the sequence of tokens.](assets/img/javacc-design.png)
 
 The token manager reads in a sequence of characters and produces a sequence of objects called *tokens*. The rules used to break the sequence of characters into a sequence of tokens depends on the language - they are supplied by the user as a collection of *regular expressions*.
 
@@ -673,7 +673,7 @@ Use `~[]`.
 
 ---
 
-You might be tempted to use `( ~[] )+`. This will match all characters up to the end of the file provided there are more than zero, which is likely not what you want (see [What if the chosen regular expression matches more than one prefix?](#question-3.4)). Usually, what you really want is to match all characters up to either the end of the file or some stopping point.
+You might be tempted to use `(~[])+`. This will match all characters up to the end of the file provided there are more than zero, which is likely not what you want (see [What if the chosen regular expression matches more than one prefix?](#question-3.4)). Usually, what you really want is to match all characters up to either the end of the file or some stopping point.
 
 Consider a scripting language in which scripts are embedded in an otherwise uninterpreted text file set off by `" < < "` and `" > > "` tokens. Between the start of the file or a `" > > "` and the next `" < < "` or the end of file we need to match an arbitrarily long sequence that does not contain two `" < "` characters in a row.
 
@@ -1338,7 +1338,7 @@ Keep in mind that the token manager may be significantly ahead of the parser (ow
 
 ---
 
-The answer lies in the fact that you can use `SwitchTo` in a lexical action (see [Can the parser force a switch to a new lexical state?](#3.12) and [What is a lexical action?](#question-3.16)). This technique might be useful for a number of things, but the example that keeps coming up is nested comments.
+The answer lies in the fact that you can use `SwitchTo` in a lexical action (see [Can the parser force a switch to a new lexical state?](#question-3.12) and [What is a lexical action?](#question-3.16)). This technique might be useful for a number of things, but the example that keeps coming up is nested comments.
 
 Consider a language where comment start with `(*` and end with `*)` but can be nested so that:
 
@@ -2046,7 +2046,7 @@ Finally, consider the two occurrences of the complex regular expression `< (["0"
 
 ---
 
-First read [What does it mean to put a regular expression within a BNF production?](#question-4.16).
+If you haven't already, it is worth reading [What does it mean to put a regular expression within a BNF production?](#question-4.16).
 
 For regular expressions that are simply strings, you might as well put them directly into the BNF productions, and not bother with defining them in a regular expression production<sup>[8](#footnote-8)</sup>.
 
@@ -2183,7 +2183,7 @@ if if = then then then = else ; else else = if ;
 
 Sometimes you want `if`, `then`, and `else` to act like keywords and sometimes like identifiers.
 
-This is a special case of a more general problem discussed in [How do I make a character sequence match more than one type of token?](#).
+This is a special case of a more general problem discussed in [How do I make a character sequence match more than one type of token?](#question-3.6).
 
 For a more modern example - parsing URLs - we might want to treat the word `http` as a keyword, but we don't want to prevent it being used as a host name or a path segment.
 
