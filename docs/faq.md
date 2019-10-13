@@ -43,7 +43,7 @@
   * [How do I throw a ParseException instead of a TokenMgrError?](#question-3.19)
   * [Why are line and column numbers not recorded?](#question-3.20)
   * [Can I process Unicode?](#question-3.21)
-- [**The Parser and Lookahead**](#parser-and-lookhead)
+- [**The Parser and Lookahead**](#parser-and-lookahead)
   * [Where should I draw the line between lexical analysis and parsing?](#question-4.1)
   * [What is recursive descent parsing?](#question-4.2)
   * [What is left-recursion and why can't I use it?](#question-4.3)
@@ -107,7 +107,7 @@ TODO
 
 The token manager reads in a sequence of characters and produces a sequence of objects called *tokens*. The rules used to break the sequence of characters into a sequence of tokens depends on the language - they are supplied by the user as a collection of *regular expressions*.
 
-The parser consumes a sequence of tokens, analyses its structure, and produces an output defined by the user - JavaCC is completely flexible in this regard <sup>[1](#footnote-1)</sup>. The diagram shows an *abstract syntax tree*, but you might want to produce, say, a number (if you are writing a calculator), a file of assembly language (if you were writing a one-pass compiler), a modified sequence of characters (if you were writing a text processing application), and so on.
+The parser consumes a sequence of tokens, analyses its structure, and produces an output defined by the user - JavaCC is completely flexible in this regard<sup>[1](#footnote-1)</sup>. The diagram shows an *abstract syntax tree*, but you might want to produce, say, a number (if you are writing a calculator), a file of assembly language (if you were writing a one-pass compiler), a modified sequence of characters (if you were writing a text processing application), and so on.
 
 The user defines a collection of *Extended BNF production rules* that JavaCC uses to generate the parser as a Java class. These production rules can be annotated with snippets of Java code, which is how the programmer tells the parser what to output produce.
 
@@ -169,7 +169,7 @@ JavaCC is redistributable and there are essentially no restrictions on the use o
 
 #### Tutorials
 
-* JavaCC [tutorials](https://github.com/javacc/javacc/tree/master/docs/turorials/).
+* JavaCC [tutorials](tutorials/index.md).
 * [Introduction to JavaCC](https://www.engr.mun.ca/~theo/JavaCC-Tutorial/javacc-tutorial.pdf) by Theodore S. Norvell.
 * [Incorporating language processing into Java applications: a JavaCC tutorial](https://ieeexplore.ieee.org/document/1309649) by Viswanathan Kodaganallur.
 
@@ -182,7 +182,7 @@ JavaCC is redistributable and there are essentially no restrictions on the use o
 
 #### Parsing theory
 
-* Alfred V. Aho, Monica S. Lam, Ravi Sethi and Jeffrey D. Ullman, Compilers: Principles, Techniques, and Tools, 2nd Edition, Addison-Wesley, 2006, ISBN 0-3211314-3-6 ([book](https://www.amazon.com/Generating-Parsers-JavaCC-Easy-Use/dp/0976221438), [pdf](https://github.com/germanoa/compiladores/blob/master/doc/ebook/Compilers%20Principles%2C%20Techniques%2C%20and%20Tools%20-%202nd%20Edition%20-%20Alfred%20V.%20Aho.pdf)).
+* Alfred V. Aho, Monica S. Lam, Ravi Sethi and Jeffrey D. Ullman, Compilers: Principles, Techniques, and Tools, 2nd Edition, Addison-Wesley, 2006, ISBN 0-3211314-3-6 ([book](https://www.amazon.co.uk/Compilers-Principles-Techniques-Tools-2nd/dp/0321131436), [pdf](https://github.com/germanoa/compiladores/blob/master/doc/ebook/Compilers%20Principles%2C%20Techniques%2C%20and%20Tools%20-%202nd%20Edition%20-%20Alfred%20V.%20Aho.pdf)).
 * Charles N. Fischer and Richard J. Leblanc, Jr., Crafting a Compiler with C., Pearson, 1991. ISBN 0-8053216-6-7 ([book](https://www.amazon.co.uk/Crafting-Compiler-Charles-N-Fischer/dp/0805321667)).
 
 <br>
@@ -193,7 +193,7 @@ JavaCC is redistributable and there are essentially no restrictions on the use o
 
 TODO
 
-Yes. Roedy Green maintains the JavaCC Grammar Repository, which was originally created by Donwon Lee. There used to be a repository at java.net, but I can't find it any more.
+Yes. Please see the JavaCC [grammar repository](http://mindprod.com/jgloss/javacc.html).
 
 <br>
 
@@ -314,7 +314,7 @@ The Ant task only invokes JavaCC if the grammar file is newer than the generated
 Assuming you have installed JavaCC in `/usr/local/` on a Unix machine, a simple step will look like:
 
 ```xml
-< javacc target="${sampleDir}/SimpleExamples/SimpleExample.jj"
+<javacc target="${sampleDir}/SimpleExamples/SimpleExample.jj"
         outputdirectory="${sampleDir}/SimpleExamples/java"
         javacchome="/usr/local/javacc/7.0.5"
 />
@@ -325,7 +325,7 @@ Ant makes it easy to put the generated files in a separate directory. The `javac
 This will need to be followed by a `javac` step to compile the generated files.
 
 ```xml
-< javac srcdir="${sampleDir}/SimpleLevels/java"
+<javac srcdir="${sampleDir}/SimpleLevels/java"
         destdir="${sampleDir}/SimpleLevels/classes"
 />
 ```
@@ -410,7 +410,7 @@ Whitespace and comments are typically discarded, so the tokens are then:
 "int", "main", "(", ")", "{", "return", "0", ";", "}"
 ```
 
-Each token is classified as one of a finite set of *types* <sup>[2](#footnote-2)</sup>. For example, the tokens above could be classified as, respectively,
+Each token is classified as one of a finite set of *types*<sup>[2](#footnote-2)</sup>. For example, the tokens above could be classified as, respectively,
 
 ```java
 KWINT, ID, LPAR, RPAR, LBRACE, KWRETURN, OCTALCONST, SEMICOLON, RBRACE
@@ -563,7 +563,7 @@ TOKEN : {
 
 you might expect the token manager to interpret `y` as an `A` if the parser *expects* an `A` and as a `B` if the parser *expects* a `B`.
 
-This is not how JavaCC works <sup>[3](#footnote-3)</sup>. As discussed previously, the first match wins (see [What if more than one regular expression matches a prefix of the remaining input?](#question-3.3)).
+This is not how JavaCC works<sup>[3](#footnote-3)</sup>. As discussed previously, the first match wins (see [What if more than one regular expression matches a prefix of the remaining input?](#question-3.3)).
 
 So what do you do? Let's consider the more general situation where `a` and `b` are regular expressions, and we have the following token definitions:
 
@@ -655,10 +655,9 @@ Token b() : {
 
 This idea can be generalized to any number of overlapping sets.
 
-TODO
 There are two other approaches that might also be tried - one involves lexical states and the other involves semantic actions.
 
-All three approaches are discussed in [How do I deal with keywords that aren't reserved?](#questions-4.19) which considers a special case of the problem discussed here.
+All three approaches are discussed in [How do I deal with keywords that aren't reserved?](#question-4.19) which considers a special case of the problem discussed here.
 
 <br>
 
@@ -670,11 +669,11 @@ Use `~[]`.
 
 <br>
 
-### <a name="question-3.8"></a>Should I use ( ~[] )+ to match an arbitrarily long sequence of characters?
+### <a name="question-3.8"></a>Should I use (~[])+ to match an arbitrarily long sequence of characters?
 
 ---
 
-You might be tempted to use `( ~[] )+`. This will match all characters up to the end of the file provided there are more than zero, which is likely not what you want (see [What if the chosen regular expression matches more than one prefix?](#questions-3.4)). Usually, what you really want is to match all characters up to either the end of the file or some stopping point.
+You might be tempted to use `( ~[] )+`. This will match all characters up to the end of the file provided there are more than zero, which is likely not what you want (see [What if the chosen regular expression matches more than one prefix?](#question-3.4)). Usually, what you really want is to match all characters up to either the end of the file or some stopping point.
 
 Consider a scripting language in which scripts are embedded in an otherwise uninterpreted text file set off by `" < < "` and `" > > "` tokens. Between the start of the file or a `" > > "` and the next `" < < "` or the end of file we need to match an arbitrarily long sequence that does not contain two `" < "` characters in a row.
 
@@ -684,7 +683,7 @@ We could use a regular expression:
 (~[" < "]| " < "~[" < "])+
 ```
 
-We don't want to match this regular expression within a script and so we would use lexical states to separate tokenizing within scripts from tokenizing outside of scripts (see [What are lexical states?](#questions-3.11)).
+We don't want to match this regular expression within a script and so we would use lexical states to separate tokenizing within scripts from tokenizing outside of scripts (see [What are lexical states?](#question-3.11)).
 
 A simpler method uses `~[]` and moves the repetition up to the grammar level. Note that the `TEXT` tokens are all exactly one character long.
 
@@ -770,8 +769,7 @@ To solve this problem, we could use two lexical states - one for regular Java to
 We can use the following productions:
 
 ```java
-// when /** is seen in the DEFAULT state
-// switch to the IN_JAVADOC_COMMENT state
+// when /** is seen in the DEFAULT state, switch to the IN_JAVADOC_COMMENT state
 TOKEN : {
   < STARTDOC : "/**" > : IN_JAVADOC_COMMENT
 }
@@ -783,8 +781,7 @@ TOKEN : {
 }
 ...
 
-// when */ is seen in the IN_JAVADOC_COMMENT state
-// switch back to the DEFAULT state
+// when */ is seen in the IN_JAVADOC_COMMENT state, switch back to the DEFAULT state
 < IN_JAVADOC_COMMENT > TOKEN : {
   < ENDDOC: "*/" > : DEFAULT
 }
@@ -802,11 +799,10 @@ Suppose you want to skip C style comments. You could write a regular expression 
 SKIP : {  < "/*"(~["*"])* "*"(~["/"] (~["*"])* "*")* "/" > }
 ```
 
-But how confident are we that this is right? <sup>[4](#footnote-4)</sup> The following version uses a lexical state called `IN_COMMENT` to make things much clearer:
+But how confident are we that this is right?<sup>[4](#footnote-4)</sup> The following version uses a lexical state called `IN_COMMENT` to make things much clearer:
 
 ```java
-// when /* is seen in the DEFAULT state
-// skip it and switch to the IN_COMMENT state
+// when /* is seen in the DEFAULT state, skip it and switch to the IN_COMMENT state
 SKIP : {
   "/*": IN_COMMENT
 }
@@ -816,8 +812,7 @@ SKIP : {
   < ~[] >
 }
 
-// when */ is seen in the IN_COMMENT state
-// skip it and switch back to the DEFAULT state
+// when */ is seen in the IN_COMMENT state, skip it and switch back to the DEFAULT state
 < IN_COMMENT > SKIP : {
   "*/": DEFAULT
 }
@@ -833,7 +828,7 @@ i = j //* p;
 
 Assuming that there are no occurrences of `*/` later in the file, this is an error (since a comment starts, but doesn't end) and should be diagnosed. If we use a single, complex regular expression to find comments, then the lexical error will be missed and, in this example at least, a syntactically correct sequence of seven tokens will be found.
 
-If we use the lexical states approach then the behaviour is different (although again incorrect) as the comment will be skipped - an `EOF` token will be produced after the token for `j` and no error will be reported by the token manager <sup>[5](#footnote-5)</sup>.
+If we use the lexical states approach then the behaviour is different (although again incorrect) as the comment will be skipped - an `EOF` token will be produced after the token for `j` and no error will be reported by the token manager<sup>[5](#footnote-5)</sup>.
 
 We can correct the lexical states approach with the use of `MORE` (see [What is MORE?](#question-3.14)).
 
@@ -1260,11 +1255,10 @@ Regular expression productions are classified as one of four types (`TOKEN`, `SK
 
 Note that if the end of the input is encountered when the token manager is looking for more of a token, then a `TokenMgrError` is thrown. The assumption made by JavaCC is that the `EOF` token should correspond exactly to the end of the input, not to some characters leading up to the end of the input.
 
-Let's revisit and fix the comment example from [What are lexical states?](#questions-3.11). The problem was that unterminated comments were simply skipped rather than producing an error. We can correct this problem using `MORE` productions to combine the entire comment into a single token.
+Let's revisit and fix the comment example from [What are lexical states?](#question-3.11). The problem was that unterminated comments were simply skipped rather than producing an error. We can correct this problem using `MORE` productions to combine the entire comment into a single token.
 
 ```java
-// when /* is seen in the DEFAULT state
-// skip it and switch to the IN_COMMENT state
+// when /* is seen in the DEFAULT state, skip it and switch to the IN_COMMENT state
 MORE : {
   "/*": IN_COMMENT
 }
@@ -1274,8 +1268,7 @@ MORE : {
   < ~[] >
 }
 
-// when */ is seen in the IN_COMMENT state
-// skip it and switch back to the DEFAULT state
+// when */ is seen in the IN_COMMENT state, skip it and switch back to the DEFAULT state
 < IN_COMMENT > SKIP : {
   "*/": DEFAULT
 }
@@ -1619,7 +1612,7 @@ The former production is useful if there is a semantic action associated with th
 
 ---
 
-To use JavaCC effectively you have to understand how it looks ahead in the token stream to decide what to do. As a starting point, you should read the [lookahead tutorial](https://javacc.github.io/javacc/tutorials/lookahead.html) in the JavaCC documentation.
+To use JavaCC effectively you have to understand how it looks ahead in the token stream to decide what to do. As a starting point, you should read the [lookahead tutorial](tutorials/lookahead.md) in the JavaCC documentation.
 
 The following questions of the FAQ address some common problems and misconceptions about lookahead.
 
@@ -1751,7 +1744,7 @@ void statement() : {} {
 }
 ```
 
-Because an `ELSE` token could legitimately follow a statement, there is a conflict. The fact that an `ELSE` appears next is not enough to indicate that the optional `< ELSE > statement()` should be parsed, therefore there is a conflict. In fact, this conflict arises from an actual ambiguity in the grammar <sup>[6](#footnote-6)</sup>, in that there are two ways to parse a statement like:
+Because an `ELSE` token could legitimately follow a statement, there is a conflict. The fact that an `ELSE` appears next is not enough to indicate that the optional `< ELSE > statement()` should be parsed, therefore there is a conflict. In fact, this conflict arises from an actual ambiguity in the grammar<sup>[6](#footnote-6)</sup>, in that there are two ways to parse a statement like:
 
 ```java
 if c > d then if c < d then q := 1 else q := 2
@@ -2041,7 +2034,7 @@ void nonterm() : {} {
 }
 ```
 
-In general terms, when a regular expression is a Java string and identical to a regular expression occurring in a regular expression production <sup>[7](#footnote-7)</sup>, then the Java string is interchangeable with the token type from the regular expression production.
+In general terms, when a regular expression is a Java string and identical to a regular expression occurring in a regular expression production<sup>[7](#footnote-7)</sup>, then the Java string is interchangeable with the token type from the regular expression production.
 
 When a regular expression is a Java string but there is no corresponding regular expression production, then JavaCC essentially makes up a corresponding regular expression production. This is shown by the `def` which becomes an anonymous regular expression production. Note that all occurrences of the same string end up represented by a single regular expression production.
 
@@ -2055,7 +2048,7 @@ Finally, consider the two occurrences of the complex regular expression `< (["0"
 
 First read [What does it mean to put a regular expression within a BNF production?](#question-4.16).
 
-For regular expressions that are simply strings, you might as well put them directly into the BNF productions, and not bother with defining them in a regular expression production <sup>[8](#footnote-8)</sup>.
+For regular expressions that are simply strings, you might as well put them directly into the BNF productions, and not bother with defining them in a regular expression production<sup>[8](#footnote-8)</sup>.
 
 For more complex regular expressions, it is best to give them a name using a regular expression production. There are two reasons for this:
 
@@ -2194,7 +2187,7 @@ This is a special case of a more general problem discussed in [How do I make a c
 
 For a more modern example - parsing URLs - we might want to treat the word `http` as a keyword, but we don't want to prevent it being used as a host name or a path segment.
 
-Suppose we write the following productions <sup>[9](#footnote-9)</sup>:
+Suppose we write the following productions<sup>[9](#footnote-9)</sup>:
 
 ```java
 TOKEN : {
@@ -2251,9 +2244,9 @@ The added semantic lookahead ensures that the URL really begins with a `LABEL` w
 
 3. Use lexical states.
 
-The idea here is to use a different lexical state when the word is reserved and when it isn't (see [What are lexical states?](#questions-3.11)).
+The idea here is to use a different lexical state when the word is reserved and when it isn't (see [What are lexical states?](#question-3.11)).
 
-We can make `http` reserved in the default lexical state, but not reserved when a label is expected. In the example this is easy because it is clear when a label is expected - after a `//` and after a `.` <sup>[10](#footnote-10)</sup>. Therefore we can refactor the regular expression productions as:
+We can make `http` reserved in the default lexical state, but not reserved when a label is expected. In the example this is easy because it is clear when a label is expected - after a `//` and after a `.`<sup>[10](#footnote-10)</sup>. Therefore we can refactor the regular expression productions as:
 
 ```java
 TOKEN : {  
@@ -2454,11 +2447,7 @@ Please see the [Java Tree Builder](http://compilers.cs.ucla.edu/jtb/) website.
 
 ---
 
-TODO - add repo
-
-First look in Dongwon Lee and Roedy Green's JavaCC Grammar Repository.
-
-Then ask the user group.
+Please see the JavaCC [grammar repository](http://mindprod.com/jgloss/javacc.html).
 
 <br>
 
@@ -2480,7 +2469,7 @@ Lots of users who want to write an interpreter for a programming language like t
 
 It's a sensible idea, but JavaCC will not make this approach easy. It may be easier to translate to an intermediate code during parsing and then execute the intermediate code. A tree makes a convenient intermediate code. Consider using JJTree or JTB (see [JJTree and JTB](#jjtree-and-jtb)).
 
-If you still want to back up the token manager, you can tokenize the entire file to capture the tokens in a list (see [How do I capture and traverse a sequence of tokens?](#questions-5.2)) or, better still, a vector. Then write a custom token manager that delivers this captured sequence of tokens, and allows backing up.
+If you still want to back up the token manager, you can tokenize the entire file to capture the tokens in a list (see [How do I capture and traverse a sequence of tokens?](#question-5.2)) or, better still, a vector. Then write a custom token manager that delivers this captured sequence of tokens, and allows backing up.
 
 <br>
 
@@ -2582,21 +2571,13 @@ If your language is totally unsuitable for top-down parsing, you'll be happier w
 
 ## <a name="footnotes"></a>Footnotes
 
-1. <a name="footnote-1"></a>Another way of looking at it is that JavaCC is of little help in this regard. However, if you want to produce trees there are two tools, based on JavaCC, that are less flexible and more helpful, these are JJTree and JTB (see [JJTree and JTB](#jjtree-and-jtb)).
+1. <a name="footnote-1"></a>Another way of looking at it is that JavaCC is of little help in this regard. However, if you want to produce trees there are two tools (based on JavaCC) that are less flexible and more helpful - these are JJTree and JTB (see [JJTree and JTB](#jjtree-and-jtb)).
 
 2. <a name="footnote-2"></a>JavaCC's terminology here is a bit unusual. The conventional name for what JavaCC calls a *token type* is *terminal* and the set of all token types is the *alphabet* of the EBNF grammar.
 
-3. <a name="footnote-3"></a>It is also an idea that leaves some open questions. What should the token manager do if the parser would accept either an `A` or a `B`? How do we write a parser for a language with reserved words? 
+3. <a name="footnote-3"></a>This idea leaves some open questions. What should the token manager do if the parser would accept either an `A` or a `B`? How do we write a parser for a language with reserved words?
 
-4. <a name="footnote-4"></a>This example is taken from `examples/JJTreeExamples/eg4.jjt`
-
-Your maintainer inspected it carefully before copying it into another `.jjt` file. As testing revealed, it is not, however, correct. My first attempt to fix it also proved wrong. All of which shows that even the experts can be befuddled by complex regular expressions, sometimes. Can you spot the error?
-
-I obtained the following regular expression by systematically converting a deterministic finite automaton to a regular expression. I think it is correct.
-
-```java
-"/*" (~["*"])* "*" (~["*","/"] (~["*"])* "*" | "*")* "/"
-```
+4. <a name="footnote-4"></a>This example is taken from `examples/JJTreeExamples/eg4.jjt`, however it is not correct. A better example is `"/*" (~["*"])* "*" (~["*","/"] (~["*"])* "*" | "*")* "/"`.
 
 5. <a name="footnote-5"></a>The rule that an `EOF` token is produced at the end of the file applies regardless of the lexical state.
 
@@ -2606,9 +2587,9 @@ I obtained the following regular expression by systematically converting a deter
 
 8. <a name="footnote-8"></a>There are still a few reasons to use a regular expression production. One is if you are using lexical states other than `DEFAULT`. Another is if you want to ignore the case of a word. Also, some people just like to have an alphabetical list of their keywords somewhere.
 
-9. <a name="footnote-9"></a>This example is based on a simplified version of the syntax for HTTP URLs in [RFC:2616 of the IETF by R. Fielding, et. al](https://www.ietf.org/rfc/rfc2616.txt).
+9. <a name="footnote-9"></a>This example is based on a simplified version of the syntax for HTTP URLs in [RFC:2616](https://www.ietf.org/rfc/rfc2616.txt) of the IETF by R. Fielding, et. al.
 
-10.<a name="footnote-10"></a>We are also assuming that double slashes and dots are always followed by labels in a syntactically correct input stream.
+10. <a name="footnote-10"></a>We are assuming that double slashes and dots are always followed by labels in a syntactically correct input stream.
 
 <br>
 
