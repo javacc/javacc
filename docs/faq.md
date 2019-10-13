@@ -29,7 +29,7 @@
   * [What if no regular expression matches a prefix of the remaining input?](#question-3.5)
   * [How do I make a character sequence match more than one type of token?](#question-3.6)
   * [How do I match any character?](#question-3.7)
-  * [Should I use ( ~[] )+ to match an arbitrarily long sequence of characters?](#question-3.8)
+  * [Should I use (~[])+ to match an arbitrarily long sequence of characters?](#question-3.8)
   * [How do I match exactly n repetitions of a regular expression?](#question-3.9)
   * [What are TOKEN, SKIP, and SPECIAL_TOKEN?](#question-3.10)
   * [What are lexical states?](#question-3.11)
@@ -44,89 +44,52 @@
   * [Why are line and column numbers not recorded?](#question-3.20)
   * [Can I process Unicode?](#question-3.21)
 - [**The Parser and Lookahead**](#parser)
-  * [](#question-4.1)
-  * [](#question-4.2)
-  * [](#question-4.3)
-  * [](#question-4.4)
-  * [](#question-4.5)
-  * [](#question-4.6)
-  * [](#question-4.7)
-  * [](#question-4.8)
-  * [](#question-4.9)
-  * [](#question-4.10)
-  * [](#question-4.11)
-  * [](#question-4.12)
-  * [](#question-4.13)
-  * [](#question-4.14)
-  * [](#question-4.15)
-  * [](#question-4.16)
-  * [](#question-4.17)
-  * [](#question-4.18)
-  * [](#question-4.19)
-  * [](#question-4.20)
+  * [Where should I draw the line between lexical analysis and parsing?](#question-4.1)
+  * [What is recursive descent parsing?](#question-4.2)
+  * [What is left-recursion and why can't I use it?](#question-4.3)
+  * [How do I match an empty sequence of tokens?](#question-4.4)
+  * [What is "lookahead"?](#question-4.5)
+  * [I get a message saying "Warning: Choice Conflict ... " what should I do?](#question-4.6)
+  * [I added a LOOKAHEAD specification and the warning went away, does that mean I fixed the problem?](#question-4.7)
+  * [Are nested syntactic lookahead specifications evaluated during syntactic lookahead?](#question-4.8)
+  * [Are parameters passed during syntactic lookahead?](#question-4.9)
+  * [Are semantic actions executed during syntactic lookahead?](#question-4.10)
+  * [Is semantic lookahead evaluated during syntactic lookahead?](#question-4.11)
+  * [Can local variables (including parameters) be used in semantic lookahead?](#question-4.12)
+  * [How does JavaCC differ from standard LL(1) parsing?](#question-4.13)
+  * [How do I communicate from the parser to the token manager?](#question-4.14)
+  * [How do I communicate from the token manager to the parser?](#question-4.15)
+  * [What does it mean to put a regular expression within a BNF production?](#question-4.16)
+  * [When should regular expressions be put directly into a BNF production?](#question-4.17)
+  * [How do I parse a sequence without allowing duplications?](#question-4.18)
+  * [How do I deal with keywords that aren't reserved?](#question-4.19)
+  * [There's an error in the input, so why doesn't my parser throw a ParseException?](#question-4.20)
 - [**Semantic Actions**](#semantic-actions)
-  * [](#question-5.1)
-  * [](#question-5.2)
-  * [](#question-5.3)
+  * [I've written a parser, why doesn't it do anything?](#question-5.1)
+  * [How do I capture and traverse a sequence of tokens?](#question-5.2)
+  * [Why does my parser use so much space?](#question-5.3)
 - [**JJTree and JTB**](#jjtree-and-jtb)
-  * [](#question-6.1)
-  * [](#question-6.2)
-  * [](#question-6.3)
+  * [What are JJTree and JTB?](#question-6.1)
+  * [Where can I get JJTree?](#question-6.2)
+  * [Where can I get JTB?](#question-6.3)
 - [**Applications of JavaCC**](#applications)
-  * [](#question-7.1)
-  * [](#question-7.2)
-  * [](#question-7.3)
+  * [Where can I find a parser for X?](#question-7.1)
+  * [How do I parse arithmetic expressions?](#question-7.2)
+  * [I'm writing a programming language interpreter, how do I deal with loops?](#question-7.3)
 - [**Comparing JavaCC**](#comparing)
-  * [](#question-8.1)
-  * [](#question-8.2)
-  * [](#question-8.3)
+  * [Since LL(1) ⊂ LALR(1), wouldn't a tool based on LALR parsing be better?](#question-8.1)
+  * [How does JavaCC compare with Lex and Flex?](#question-8.2)
+  * [How does JavaCC compare with other Yacc and Bison?](#question-8.3)
+- [**Footnotes**](#footnotes)
 - [**Acknowledgments**](#acknowledgments)
 
-### Where should I draw the line between lexical analysis and parsing?
-### What is recursive descent parsing?
-### How do I match an empty sequence of tokens?
-### What is "lookahead"?
-### I added a LOOKAHEAD specification and the warning went away, does that mean ### Are nested syntactic lookahead specifications evaluated during syntactic lookahead?
-### Are parameters passed during syntactic lookahead?
-### Are semantic actions executed during syntactic lookahead?
-### Is semantic lookahead evaluated during syntactic lookahead?
-### Can local variables (including parameters) be used in semantic lookahead?
-### How does JavaCC differ from standard LL(1) parsing?
-### How do I communicate from the parser to the token manager?
-### How do I communicate from the token manager to the parser?
-### What does it mean to put a regular expression within a BNF production?
-### When should regular expressions be put directly into a BNF production?
-### How do I parse a sequence without allowing duplications?
-### How do I deal with keywords that aren't reserved?
-### There's an error in the input, so why doesn't my parser throw a ParseException?
-
-## Semantic Actions
-
-### I've written a parser, but it doesn't do anything?
-### How do I capture and traverse a sequence of tokens?
-### Why does my parser use so much space?
-
-## JJTree and JTB
-
-### What are JJTree and JTB?
-### Where can I find JJTree?
-### Where can I find JTB?
-
-## Applications of JavaCC
-
-### Where can I find a parser for X?
-### How do I parse arithmetic expressions?
-### I'm writing a programming language interpreter, how do I deal with loops?
-
-## Comparing JavaCC with other tools
-### Since LL(1) ⊂ LALR(1), wouldn't a tool based on LALR parsing be better?
-### How does JavaCC compare with Lex and Flex?
-### How does JavaCC compare with other Yacc and Bison?
-
+<br>
 
 ## General Information
 
 ### What is JavaCC?
+
+---
 
 Java Compiler Compiler (JavaCC) is the most popular parser generator for use with Java applications. A parser generator is a tool that reads a grammar specification and converts it to a Java program that can recognize matches to the grammar.
 
@@ -148,7 +111,11 @@ The parser consumes a sequence of tokens, analyses its structure, and produces a
 
 The user defines a collection of *Extended BNF production rules* that JavaCC uses to generate the parser as a Java class. These production rules can be annotated with snippets of Java code, which is how the programmer tells the parser what to output produce.
 
+<br>
+
 ### What is JavaCC used for?
+
+---
 
 JavaCC has been used to create many types of parsers based on formal and proprietary specifications.
 
@@ -167,11 +134,19 @@ JavaCC has been used to create many types of parsers based on formal and proprie
 
 * JavaCC does not generate output languages. However, once you have a tree structure, it is straightforward to generate output from it.
 
+<br>
+
 ###  Where can I get JavaCC?
+
+---
 
 JavaCC is available from [https://javacc.org/](https://javacc.org/).  
 
+<br>
+
 ### Is the source code and documentation for JavaCC publicly available?
+
+---
 
 Yes. The source code and documentation is available on [GitHub](https://github.com/javacc).
 
@@ -179,7 +154,11 @@ As of June 2003, JavaCC is an open source project released under the BSD License
 
 JavaCC is redistributable and there are essentially no restrictions on the use of JavaCC. You may use the Java files that JavaCC produces in any way, including incorporating them into a commercial product.
 
+<br>
+
 ### Where can I find books, articles, or tutorials on JavaCC?
+
+---
 
 #### Books
 
@@ -204,19 +183,31 @@ JavaCC is redistributable and there are essentially no restrictions on the use o
 * Alfred V. Aho, Monica S. Lam, Ravi Sethi and Jeffrey D. Ullman, Compilers: Principles, Techniques, and Tools, 2nd Edition, Addison-Wesley, 2006, ISBN 0-3211314-3-6 ([book](https://www.amazon.com/Generating-Parsers-JavaCC-Easy-Use/dp/0976221438), [pdf](https://github.com/germanoa/compiladores/blob/master/doc/ebook/Compilers%20Principles%2C%20Techniques%2C%20and%20Tools%20-%202nd%20Edition%20-%20Alfred%20V.%20Aho.pdf)).
 * Charles N. Fischer and Richard J. Leblanc, Jr., Crafting a Compiler with C., Pearson, 1991. ISBN 0-8053216-6-7 ([book](https://www.amazon.co.uk/Crafting-Compiler-Charles-N-Fischer/dp/0805321667)).
 
+<br>
+
 ### Are there publicly available grammars?
+
+---
 
 TODO
 
 Yes. Roedy Green maintains the JavaCC Grammar Repository, which was originally created by Donwon Lee. There used to be a repository at java.net, but I can't find it any more.
 
+<br>
+
 ### Is there a user group or mailing list?
+
+---
 
 Yes. You can contact the JavaCC on the [Google user group](https://groups.google.com/forum/#!forum/javacc-users) or email us at [JavaCC Support](mailto:support@javacc.org) if you need any help.
 
 If you found a bug in JavaCC, please [open an issue](https://github.com/javacc/javacc/issues).
 
+<br>
+
 ### Should I send my questions to the user group?
+
+---
 
 For questions relating to JavaCC, JJTree, or JTB that are not already covered in the documentation or this FAQ, please use the [Google user group](https://groups.google.com/forum/#!forum/javacc-users). You need to register to join the group.
 
@@ -226,16 +217,23 @@ The Google group and Slack channel are not suitable for discussing the Java prog
 
 General questions on parser generation or parsing theory should be addressed to the [comp.compilers](https://groups.google.com/forum/#!forum/comp.compilers) Google group.
 
+<br>
+
 ### Who wrote JavaCC and who maintains it?
+
+---
 
 The JavaCC project was originally developed at Sun Microsystems Inc. by [Sreeni Viswanadha](https://github.com/kaikalur) and [Sriram Sankar](https://twitter.com/sankarsearch).
 
 It is maintained by the [developer community](https://github.com/javacc/javacc/graphs/contributors) which includes the original authors and [Chris Ainsley](https://github.com/ainslec), [Tim Pizney](https://github.com/timp) and [Francis Andre](https://github.com/zosrothko).
 
+<br>
 
 ## Common Issues
 
 ### What files does JavaCC generate?
+
+---
 
 JavaCC is a program generator. It reads a `.jj` file and, if that `.jj` file is error free, produces a number of Java source files. With the default options it will generate the following files:
 
@@ -271,7 +269,11 @@ The boilerplate files will only be produced if they don't already exist. There a
 1. If you make any changes that might require changes to these files, you should delete them prior to running JavaCC (see [I changed option X, why am I having trouble?](#question-2.3)).
 2. If you really want to, you can modify these files and be sure that JavaCC won't overwrite them (see [Can I modify the generated files?](#question-2.2)).
 
+<br>
+
 ### Can I modify the generated files?
+
+---
 
 Modifying any generated files should generally be avoided, since some day you will likely want to regenerate them and then you'll have to re-modify them.
 
@@ -279,15 +281,27 @@ That said, modifying the `Token.java`, `ParseException.java` and `TokenMgrError.
 
 The custom files (`XXX.java`, `XXXTokenManager.java`, and `XXXConstants.java`) are generated every time you run JavaCC. Modifying any of the custom files is generally a very bad idea, as you'll have to modify them again after any change to the grammar specification.
 
+<br>
+
 ### I changed option X, why am I having trouble?
+
+---
 
 This issue usually comes up when the `STATIC` option is changed - JavaCC needs to generate new files, but it will not generate boilerplate files unless they aren't there already. Try deleting all files generated by JavaCC (see [What files does JavaCC generate?](#question-2.1)) and then re-running JavaCC.
 
+<br>
+
 ### How do I put the generated classes in a package?
+
+---
 
 Put a package declaration right after the `PARSER_BEGIN(XXX)` declaration in the `.jj` file.
 
+<br>
+
 ### How do I use JavaCC with Ant?
+
+---
 
 1. Download and install Ant from [http://ant.apache.org](http://ant.apache.org) (we require version 1.5.3 or above). This comes with a pre-built JavaCC step documented under the *Optional Tasks* category.
 
@@ -343,7 +357,11 @@ A complete `build.xml` file is as follows:
 </project>
 ```
 
+<br>
+
 ###  Can I use JavaCC with my IDE?
+
+---
 
 #### IntelliJ IDEA
 
@@ -357,10 +375,13 @@ The IntelliJ IDE supports Ant and Maven out of the box and offers a plugin for J
 * Eclipse download: [https://www.eclipse.org/ide/](https://www.eclipse.org/ide/)
 * Eclipse JavaCC Plugin: [https://marketplace.eclipse.org/content/javacc-eclipse-plug](https://marketplace.eclipse.org/content/javacc-eclipse-plug)
 
+<br>
 
 ## The Token Manager
 
 ### What is a token manager?
+
+---
 
 In conventional compiler terminology, a token manager is a *lexical analyzer*. The token manager analyzes the input stream of characters, breaking it up into chunks called tokens and assigning each token a *type*.
 
@@ -402,7 +423,11 @@ Each token is represented by an object of class `Token`, each with the following
 
 This sequence of `Token` objects is produced based on regular expressions defined in the `.jj` file. The sequence is usually sent on to a parser for further processing.
 
+<br>
+
 ### Can I read from a String instead of a file?
+
+---
 
 Yes. You can do this with a `java.io.StringReader` as follows:
 
@@ -426,7 +451,11 @@ public class MyApp {
 }
 ```
 
+<br>
+
 ### What if more than one regular expression matches a prefix of the remaining input?
+
+---
 
 #### Definition
 
@@ -497,15 +526,27 @@ Then the maximal munch rule is no help, since both rules match a prefix of lengt
 
 In this case the KWINT production is preferred (by Rule 3) because it comes first in the `.jj` file.
 
+<br>
+
 ### What if the chosen regular expression matches more than one prefix?
+
+---
 
 Then the longest prefix is used. That is, the token's image will be the longest prefix of the input that matches the chosen regular expression.
 
+<br>
+
 ### What if no regular expression matches a prefix of the remaining input?
+
+---
 
 If the remaining input is empty, an `EOF` token is generated. Otherwise, a `TokenMgrError` is thrown.
 
+<br>
+
 ### How do I make a character sequence match more than one type of token?
+
+---
 
 A common misapprehension is that the token manager will make its decisions based on what the parser expects. Given the following token definitions:
 
@@ -617,11 +658,19 @@ There are two other approaches that might also be tried - one involves lexical s
 
 All three approaches are discussed in [How do I deal with keywords that aren't reserved?](#) which considers a special case of the problem discussed here.
 
+<br>
+
 ### How do I match any character?
+
+---
 
 Use `~[]`.
 
+<br>
+
 ### Should I use ( ~[] )+ to match an arbitrarily long sequence of characters?
+
+---
 
 You might be tempted to use `( ~[] )+`. This will match all characters up to the end of the file provided there are more than zero, which is likely not what you want (see [What if the chosen regular expression matches a prefix in more than one way?](#)). Usually, what you really want is to match all characters up to either the end of the file or some stopping point.
 
@@ -669,7 +718,11 @@ void text() : {}
 }
 ```
 
+<br>
+
 ### How do I match exactly n repetitions of a regular expression?
+
+---
 
 If `X` is the regular expression and `n` is an integer constant, write:
 
@@ -687,7 +740,11 @@ This syntax applies only to the tokenizer, it can't be used for parsing.
 
 Note that this syntax is implemented essentially as a macro, so `(X){3}` is implemented the same as `(X)(X)(X)` is. Therefore, you should use it with discretion - aware that it can lead to a big generated tokenizer.
 
+<br>
+
 ### What are TOKEN, SKIP, and SPECIAL_TOKEN?
+
+---
 
 Regular expression productions are classified as one of four types:
 
@@ -696,7 +753,11 @@ Regular expression productions are classified as one of four types:
 3. `SPECIAL_TOKEN` means that when the production is applied a `Token` object should be created but it should not be passed to the parser. Each of these *special tokens* can be accessed from the next `Token` produced (whether special or not), via its `specialToken` field.
 4. `MORE` is discussed in [What is MORE?](#).
 
+<br>
+
 ### What are lexical states?
+
+---
 
 Lexical states allow you to bring different sets of regular expression productions in-to and out-of effect.
 
@@ -774,7 +835,11 @@ If we use the lexical states approach then the behaviour is different (although 
 
 We can correct the lexical states approach with the use of `MORE` (see [What is MORE?](#)).
 
+<br>
+
 ### Can the parser force a switch to a new lexical state?
+
+---
 
 Yes, but it is very easy to create bugs by doing so. You can call the token manager's method `SwitchTo` from within a semantic action in the parser like this:
 
@@ -792,7 +857,11 @@ If you are going to force a state change from the parser be sure that at that po
 
 If you ever feel tempted to call `SwitchTo` from the parser, stop and try to think of an alternative method that is harder to get wrong.
 
+<br>
+
 ### Is there a way to make SwitchTo safer?
+
+---
 
 Yes. The following code makes sure that when a `SwitchTo` is done any queued tokens are removed from the queue.
 
@@ -1177,7 +1246,11 @@ public final class BackupCharStream implements CharStream {
 }
 ```
 
+<br>
+
 ### What is MORE?
+
+---
 
 Regular expression productions are classified as one of four types (`TOKEN`, `SKIP`, and `SPECIAL_TOKEN` are discussed in [What are TOKEN, SKIP, and SPECIAL_TOKEN?](#)).
 
@@ -1208,7 +1281,11 @@ MORE : {
 
 Suppose that a file ends with `/*a`. Then no token can be recognized because the end of file is found when the token manager only has a partly recognized token. Instead a `TokenMgrError` will be thrown.
 
+<br>
+
 ### Why do the example Java and C++ token managers report an error when the last line of a file is a single line comment?
+
+---
 
 The file is likely missing a newline character (or the equivalent) at the end of the last line.
 
@@ -1240,7 +1317,11 @@ SPECIAL_TOKEN : {
 }
 ```
 
+<br>
+
 ### What is a lexical action?
+
+---
 
 Sometimes you want some piece of Java code to be executed immediately after a token is matched. Lexical actions are placed immediately after the regular expression in a regular expression production.
 
@@ -1256,7 +1337,11 @@ The Java statement `{ tabcount += 1; }` will be executed after the production is
 
 Keep in mind that the token manager may be significantly ahead of the parser (owing to syntactic lookahead), so using lexical actions to communicate from the token manager to the parser requires care (see [How do I communicate from the token manager to the parser?](#)).
 
+<br>
+
 ### How do I tokenize nested comments?
+
+---
 
 The answer lies in the fact that you can use `SwitchTo` in a lexical action (see [Can the parser force a switch to a new lexical state?](#) and [What is a lexical action?](#)). This technique might be useful for a number of things, but the example that keeps coming up is nested comments.
 
@@ -1315,7 +1400,11 @@ Finally a rule is needed to mop up all the other characters in the comment:
 
 For this problem only a counter was required. For more complex problems one might use a stack of states. The lexer combined with a stack of states has the expressive power of a deterministic push-down automata (DPDA), which is to say you can solve a lot of problems with this technique.
 
+<br>
+
 ### What is a common token action?
+
+---
 
 A common token action is simply a subroutine that is called after each token is matched. Note that this does not apply to *skipped tokens* nor to *special tokens* (see [What are TOKEN, SKIP, and SPECIAL_TOKEN?](#)).
 
@@ -1338,7 +1427,11 @@ TOKEN_MGR_DECLS : {
 }
 ```
 
+<br>
+
 ### How do I throw a ParseException instead of a TokenMgrError?
+
+---
 
 If you don't want any `TokenMgrErrors` being thrown, try putting a regular expression production at the very end of your `.jj` file that will match any character:
 
@@ -1351,11 +1444,19 @@ If you don't want any `TokenMgrErrors` being thrown, try putting a regular expre
 
 However, this may not do the trick - if you use `MORE`, it may be hard to avoid `TokenMgrErrors` altogether. It is best to make a policy of catching `TokenMgrErrors` as well as `ParseExceptions` whenever you call an entry point to the parser.
 
+<br>
+
 ### Why are line and column numbers not recorded?
+
+---
 
 Since version 2.1 you have the option that the line and column numbers will not be recorded in the `Token` objects. The option is called `KEEP_LINE_COLUMN`. The default is `true`, so not knowing about this option shouldn't hurt you.
 
+<br>
+
 ### Can I process Unicode?
+
+---
 
 Yes. The following is a summary of the detailed account of [Instantiating JavaCC Tokenizers/Parsers to Read from Unicode Source Files](http://www.krbeesley.com/PDF/javacc_unicode.pdf).
 
@@ -1397,13 +1498,21 @@ public class MyApp {
 
 Since JavaCC 4.0 there are constructors that take an encoding as an argument.
 
+<br>
+
 ## The Parser and Lookahead
 
 ### Where should I draw the line between lexical analysis and parsing?
 
+---
+
 This question is dependant on the application. A lot of simple applications only require a token manager. However, many people try to do too much with the lexical analyzer, for example they try to write an expression parser using only the lexical analyzer.
 
+<br>
+
 ### What is recursive descent parsing?
+
+---
 
 JavaCC's generated parser classes work by the method of *recursive descent*. This means that each BNF production in the `.jj` file is translated into a subroutine with roughly the following mandate:
 
@@ -1413,7 +1522,11 @@ ELSE throw a ParseException
 
 The actual prefix matched is not arbitrary but is determined by the rules of JavaCC.
 
+<br>
+
 ### What is left-recursion and why can't I use it?
+
+---
 
 Left-recursion is when a non-terminal contains a recursive reference to itself that is not preceded by something that will consume tokens.
 
@@ -1470,7 +1583,11 @@ void A1() : {} {
 
 where `A1` is a new production. General methods for left-recursion removal can be found in any text book on compiling.
 
+<br>
+
 ### How do I match an empty sequence of tokens?
+
+---
 
 Use `{}`. Usually you can use optional clauses to avoid the need.
 
@@ -1494,13 +1611,21 @@ void A() : {} {
 
 The former production is useful if there is a semantic action associated with the empty alternative.
 
+<br>
+
 ### What is "lookahead"?
+
+---
 
 To use JavaCC effectively you have to understand how it looks ahead in the token stream to decide what to do. As a starting point, you should read the [lookahead tutorial](https://javacc.github.io/javacc/tutorials/lookahead.html) in the JavaCC documentation.
 
 The following questions of the FAQ address some common problems and misconceptions about lookahead.
 
-### I get a message saying "Warning: Choice Conflict ... "; what should I do?
+<br>
+
+### I get a message saying "Warning: Choice Conflict ... " what should I do?
+
+---
 
 Some of JavaCC's most common error messages go something like this:
 
@@ -1648,7 +1773,11 @@ void statement() : {} {}
 
 If you get a warning, first try rewriting the grammar so that a lookahead of `1` will suffice. Only if that is impossible or inadvisable should you resort to adding lookahead specifications.
 
+<br>
+
 ### I added a LOOKAHEAD specification and the warning went away, does that mean I fixed the problem?
+
+---
 
 No. JavaCC will not report choice conflict warnings if you use a `LOOKAHEAD` specification. The absence of a warning doesn't mean that you've solved the problem correctly, it just means that you added a `LOOKAHEAD` specification.
 
@@ -1665,7 +1794,11 @@ void eg() : {} {
 
 Clearly the lookahead is insufficient (`LOOKAHEAD (3)` would do the trick), but JavaCC produces no warning. When you add a `LOOKAHEAD` specification, JavaCC assumes you know what you are doing and suppresses any warnings.
 
+<br>
+
 ### Are nested syntactic lookahead specifications evaluated during syntactic lookahead?
+
+---
 
 No.
 
@@ -1754,19 +1887,35 @@ That is to say:
 
 In some cases to accomplish this you can put the *longer* choice first (that is, the choice that doesn't include prefixes of the other). In other cases you can use distributivity to lengthen the choices.
 
+<br>
+
 ### Are parameters passed during syntactic lookahead?
 
+---
+
 No.
+
+<br>
 
 ### Are semantic actions executed during syntactic lookahead?
 
+---
+
 No.
+
+<br>
 
 ### Is semantic lookahead evaluated during syntactic lookahead?
 
+---
+
 Yes. It is also evaluated during evaluation of `LOOKAHEAD( n )` for `n > 1`.
 
+<br>
+
 ### Can local variables (including parameters) be used in semantic lookahead?
+
+---
 
 Yes, to a point.
 
@@ -1776,11 +1925,19 @@ So if you use local variables in a semantic lookahead specification within the B
 
 This is a case of three rights not making a right! It is right that semantic lookahead is evaluated during syntactic lookahead, it is right (or at least useful) that local variables can be mentioned in semantic lookahead, and it is right that local variables do not exist during syntactic lookahead. Yet putting these three features together tricks JavaCC into producing uncompilable code. Perhaps a future version of JavaCC will put these interacting features on a firmer footing.
 
+<br>
+
 ### How does JavaCC differ from standard LL(1) parsing?
+
+---
 
 First of all, JavaCC is more flexible. It lets you use multi-token lookahead, syntactic lookahead, and semantic lookahead. If you don't use these features, you'll find that JavaCC is only subtly different from an `LL(1)` parser (it does not calculate *follow sets* in the standard way, and cannot do so as JavaCC has no idea what your starting non-terminal will be).
 
+<br>
+
 ### How do I communicate from the parser to the token manager?
+
+---
 
 It is usually a bad idea to try to have the parser try to influence the way the token manager does its job. The reason is that the token manager may produce tokens long before the parser consumes them. This is a result of lookahead.
 
@@ -1813,7 +1970,11 @@ If the next statement is something like:
 
 The lookahead will fail since the semantic action putting `T` in the symbol table will not be done during the lookahead. Fortunately, in C there should be no need to do a syntactic lookahead on statements.
 
+<br>
+
 ### How do I communicate from the token manager to the parser?
+
+---
 
 As with communication between from the parser to the token manager, this can be tricky because the token manager is often well ahead of the parser.
 
@@ -1821,7 +1982,11 @@ For example, if you calculate the value associated with a particular token type 
 
 Another solution is to use a table. For example, in dealing with `#line` directives in C or C++, you can have the token manager fill a table indicating on which physical lines the `#line` directives occur and what the value given by the `#line` is. Then the parser can use this table to calculate the *source line number* from the physical line numbers stored in the `Tokens`.
 
+<br>
+
 ### What does it mean to put a regular expression within a BNF production?
+
+---
 
 It is possible to embed a regular expression within a BNF production.
 
@@ -1880,7 +2045,11 @@ When a regular expression is a Java string but there is no corresponding regular
 
 Finally, consider the two occurrences of the complex regular expression `< (["0"-"9"])+ >`. Each one is turned into a different regular expression production. This spells trouble, as the `ANON2` regular expression production will never succeed (see [What if more than one regular expression matches a prefix of the remaining input?](#) and [When should regular expressions be put directly into a BNF production?](#)).
 
+<br>
+
 ### When should regular expressions be put directly into a BNF production?
+
+---
 
 First read [What does it mean to put a regular expression within a BNF production?](#).
 
@@ -1934,7 +2103,11 @@ void letter_number_letters() : {
 
 and it might be easier to see the error. On a string like `z7d` the token manager will find a `LETTER`, a `NUMBER` and then another `LETTER` - the BNF production can not succeed (see [What if more than one regular expression matches a prefix of the remaining input?](#)).
 
+<br>
+
 ### How do I parse a sequence without allowing duplications?
+
+---
 
 This turns out to be a bit tricky. You could list all the alternatives. Say you want `A`, `B`, `C`, each optionally, in any order with no duplications - there are only 16 possibilities:
 
@@ -1999,7 +2172,11 @@ When the input is two `A`'s followed by two `B`'s, the second choice should be t
 
 If you use the second version of `abc` then the first choice is taken, since syntactically `abc` is `( < A > | < B > | < C > )*`.
 
+<br>
+
 ### How do I deal with keywords that aren't reserved?
+
+---
 
 In Java, C++, and many other languages, keywords like `int`, `if`, `throw` and so on are reserved, meaning that you can't use them for any purpose other than that defined by the language - in particular you can use them for variable names, function names, class names etc. In some applications, keywords are not reserved.
 
@@ -2102,17 +2279,29 @@ void host() : {} {
 }
 ```
 
+<br>
+
 ### There's an error in the input, so why doesn't my parser throw a ParseException?
+
+---
 
 You may have omitted the `< EOF >` in the production for your start non-terminal.
 
+<br>
+
 ## Semantic Actions
 
-### I've written a parser, but it doesn't do anything?
+### I've written a parser, why doesn't it do anything?
+
+---
 
 You need to add semantic actions. Semantic actions are bits of Java code that get executed as the parser is parsing.
 
+<br>
+
 ### How do I capture and traverse a sequence of tokens?
+
+---
 
 Each `Token` object has a pointer to the next `Token` object. More precisely, there are two kinds of `Token` objects:
 
@@ -2200,7 +2389,11 @@ class TokenList {
 
 If you want to capture and print a whole file, don't forget about the special tokens that precede the `EOF` token.
 
+<br>
+
 ### Why does my parser use so much space?
+
+---
 
 One reason might be that you saved a pointer to a `Token` like this.
 
@@ -2225,23 +2418,39 @@ The variable `name` is last used in the call to `println` but it remains on the 
 
 That token has a `next` field that points to the next token and that one has a `next` field and so on. So all the tokens from the `ID` to the end of the class body cannot be garbage collected until the subroutine returns. The solution is simple - add `name = null;` after the final use of the `Token` variable and hope that your compiler doesn't optimize away this *dead code*.
 
+<br>
+
 ## JJTree and JTB
 
 ### What are JJTree and JTB?
 
+---
+
 These are preprocessors that produce `.jj` files. The `.jj` files produced will generate parsers that produce trees.
 
-### Where can I find JJTree?
+<br>
+
+### Where can I get JJTree?
+
+---
 
 JJTree comes with JavaCC (see [Where can I get JavaCC?](#)).
 
-### Where can I find JTB?
+<br>
+
+### Where can I get JTB?
+
+---
 
 Please see the [Java Tree Builder](http://compilers.cs.ucla.edu/jtb/) website.
+
+<br>
 
 ## Applications of JavaCC
 
 ### Where can I find a parser for X?
+
+---
 
 TODO - add repo
 
@@ -2249,13 +2458,21 @@ First look in Dongwon Lee and Roedy Green's JavaCC Grammar Repository.
 
 Then ask the user group.
 
+<br>
+
 ### How do I parse arithmetic expressions?
+
+---
 
 See the examples that come with JavaCC.
 See any text on compiling.
 See Parsing Expressions by Recursive Descent and a tutorial by Theodore Norvell.
 
+<br>
+
 ### I'm writing a programming language interpreter, how do I deal with loops?
+
+---
 
 Lots of users who want to write an interpreter for a programming language like to start with a calculator that evaluates expressions during parsing. Then they add, say, assignments and if-then-else statements, and all goes well. Then they want to add loops. Having committed to the idea that they are evaluating while parsing they want to know how to back up the token manager so that loop bodies can be re-parsed, and thus re-evaluated, over and over again.
 
@@ -2263,11 +2480,13 @@ It's a sensible idea, but JavaCC will not make this approach easy. It may be eas
 
 If you still want to back up the token manager, you can tokenize the entire file to capture the tokens in a list (see [How do I capture and traverse a sequence of tokens?](#)) or, better still, a vector. Then write a custom token manager that delivers this captured sequence of tokens, and allows backing up.
 
+<br>
+
 ## Comparing JavaCC with other tools
 
-[TODO]. Your maintainer would welcome comparisons with ANTLR, CUP, JLex, JFlex, and any others that users can contribute. My limited understanding is that CUP is similar to Yacc and Bison, and that JLex and JFlex are similar to Lex and Flex.
-
 ### Since LL(1) ⊂ LALR(1), wouldn't a tool based on LALR parsing be better?
+
+---
 
 It is true that there are strictly more languages that can be described by `LALR(1)` grammars than by `LL(1)` grammars. Furthermore, almost every parsing problem that arises in programming languages has an `LALR(1)` solution and the same can not be said for `LL(1)`.
 
@@ -2283,7 +2502,11 @@ The theoretical result is that there is no `LL(1)` grammar that can handle the c
 
 Experienced users ignore this result. Both users of `LALR(1)` based parser generator (such as Yacc) and users of `LL(1)` based parser generators (such as JavaCC) generally use the same ambiguous set of grammar rules, which is neither `LALR(1)` nor `LL(1)` and use other mechanisms to resolve the ambiguity.
 
+<br>
+
 ### How does JavaCC compare with Lex and Flex?
+
+---
 
 Lex is the lexical analyzer supplied for many years with most versions of Unix. Flex is a freely distributable relative associated with the GNU project.
 
@@ -2311,7 +2534,11 @@ However, JavaCC does have some nice features that Lex and Flex lack:
 * `MORE` rules.
 * `SPECIAL_TOKEN` rules.
 
+<br>
+
 ### How does JavaCC compare with other Yacc and Bison?
+
+---
 
 Yacc is a parser generator developed at Bell labs. Bison is a freely distributable reimplementation associated with the GNU project. Yacc and Bison produce C whereas JavaCC produces Java.
 
@@ -2349,7 +2576,9 @@ As the example above shows, Yacc has no problems with left-recursive productions
 
 If your language is totally unsuitable for top-down parsing, you'll be happier with a bottom-up parser like Yacc or Bison. However, if your language can be parsed top-down without too many appeals to lookahead, then JavaCC's combination of EBNF and parameters can make life much more enjoyable.
 
-Footnotes:
+<br>
+
+## <a name="footnotes"></a>Footnotes
 
 1. Another way of looking at it is that JavaCC is of little help in this regard. However, if you want to produce trees there are two tools, based on JavaCC, that are less flexible and more helpful, these are JJTree and JTB (see [JJTree and JTB](#jjtree-and-jtb)).
 
@@ -2378,6 +2607,8 @@ I obtained the following regular expression by systematically converting a deter
 9. This example is based on a simplified version of the syntax for HTTP URLs in [RFC:2616 of the IETF by R. Fielding, et. al](https://www.ietf.org/rfc/rfc2616.txt).
 
 10. We are also assuming that double slashes and dots are always followed by labels in a syntactically correct input stream.
+
+<br>
 
 ## <a name="acknowledgments"></a>Acknowledgments
 
