@@ -6,13 +6,13 @@ This example recognizes matching braces followed by zero or more line terminator
 
 Examples of legal strings in this grammar are:
 
-```java
+```
 "{}", "{{{{{}}}}}" // ... etc
 ```
 
 Examples of illegal strings are:
 
-```java
+```
 "{{{{", "{}{}", "{}}", "{{}{}}", "{ }", "{x}" // ... etc
 ```
 
