@@ -107,7 +107,7 @@ TODO
 
 The token manager reads in a sequence of characters and produces a sequence of objects called *tokens*. The rules used to break the sequence of characters into a sequence of tokens depends on the language - they are supplied by the user as a collection of *regular expressions*.
 
-The parser consumes a sequence of tokens, analyses its structure, and produces an output defined by the user - JavaCC is completely flexible in this regard<sup>[1](#footnote-1)</sup>. The diagram shows an *abstract syntax tree*, but you might want to produce, say, a number (if you are writing a calculator), a file of assembly language (if you were writing a one-pass compiler), a modified sequence of characters (if you were writing a text processing application), and so on.
+The parser consumes a sequence of tokens, analyses its structure, and produces an output defined by the user - JavaCC is completely flexible in this regard <sup>[1](#footnote-1)</sup>. The diagram shows an *abstract syntax tree*, but you might want to produce, say, a number (if you are writing a calculator), a file of assembly language (if you were writing a one-pass compiler), a modified sequence of characters (if you were writing a text processing application), and so on.
 
 The user defines a collection of *Extended BNF production rules* that JavaCC uses to generate the parser as a Java class. These production rules can be annotated with snippets of Java code, which is how the programmer tells the parser what to output produce.
 
@@ -410,7 +410,7 @@ Whitespace and comments are typically discarded, so the tokens are then:
 "int", "main", "(", ")", "{", "return", "0", ";", "}"
 ```
 
-Each token is classified as one of a finite set of *types*. For example, the tokens above could be classified as, respectively,
+Each token is classified as one of a finite set of *types* <sup>[2](#footnote-2)</sup>. For example, the tokens above could be classified as, respectively,
 
 ```java
 KWINT, ID, LPAR, RPAR, LBRACE, KWRETURN, OCTALCONST, SEMICOLON, RBRACE
@@ -563,7 +563,7 @@ TOKEN : {
 
 you might expect the token manager to interpret `y` as an `A` if the parser *expects* an `A` and as a `B` if the parser *expects* a `B`.
 
-This is not how JavaCC works. As discussed previously, the first match wins (see [What if more than one regular expression matches a prefix of the remaining input?](#question-3.3)).
+This is not how JavaCC works <sup>[3](#footnote-3)</sup>. As discussed previously, the first match wins (see [What if more than one regular expression matches a prefix of the remaining input?](#question-3.3)).
 
 So what do you do? Let's consider the more general situation where `a` and `b` are regular expressions, and we have the following token definitions:
 
@@ -802,7 +802,7 @@ Suppose you want to skip C style comments. You could write a regular expression 
 SKIP : {  < "/*"(~["*"])* "*"(~["/"] (~["*"])* "*")* "/" > }
 ```
 
-But how confident are you that this is right? The following version uses a lexical state called `IN_COMMENT` to make things much clearer:
+But how confident are we that this is right? <sup>[4](#footnote-4)</sup> The following version uses a lexical state called `IN_COMMENT` to make things much clearer:
 
 ```java
 // when /* is seen in the DEFAULT state
@@ -833,7 +833,7 @@ i = j //* p;
 
 Assuming that there are no occurrences of `*/` later in the file, this is an error (since a comment starts, but doesn't end) and should be diagnosed. If we use a single, complex regular expression to find comments, then the lexical error will be missed and, in this example at least, a syntactically correct sequence of seven tokens will be found.
 
-If we use the lexical states approach then the behaviour is different (although again incorrect) as the comment will be skipped - an `EOF` token will be produced after the token for `j` and no error will be reported by the token manager.
+If we use the lexical states approach then the behaviour is different (although again incorrect) as the comment will be skipped - an `EOF` token will be produced after the token for `j` and no error will be reported by the token manager <sup>[5](#footnote-5)</sup>.
 
 We can correct the lexical states approach with the use of `MORE` (see [What is MORE?](#question-3.14)).
 
@@ -1751,7 +1751,7 @@ void statement() : {} {
 }
 ```
 
-Because an `ELSE` token could legitimately follow a statement, there is a conflict. The fact that an `ELSE` appears next is not enough to indicate that the optional `< ELSE > statement()` should be parsed, therefore there is a conflict. In fact, this conflict arises from an actual ambiguity in the grammar, in that there are two ways to parse a statement like:
+Because an `ELSE` token could legitimately follow a statement, there is a conflict. The fact that an `ELSE` appears next is not enough to indicate that the optional `< ELSE > statement()` should be parsed, therefore there is a conflict. In fact, this conflict arises from an actual ambiguity in the grammar <sup>[6](#footnote-6)</sup>, in that there are two ways to parse a statement like:
 
 ```java
 if c > d then if c < d then q := 1 else q := 2
@@ -2041,7 +2041,7 @@ void nonterm() : {} {
 }
 ```
 
-In general terms, when a regular expression is a Java string and identical to a regular expression occurring in a regular expression production, then the Java string is interchangeable with the token type from the regular expression production.
+In general terms, when a regular expression is a Java string and identical to a regular expression occurring in a regular expression production <sup>[7](#footnote-7)</sup>, then the Java string is interchangeable with the token type from the regular expression production.
 
 When a regular expression is a Java string but there is no corresponding regular expression production, then JavaCC essentially makes up a corresponding regular expression production. This is shown by the `def` which becomes an anonymous regular expression production. Note that all occurrences of the same string end up represented by a single regular expression production.
 
@@ -2055,7 +2055,7 @@ Finally, consider the two occurrences of the complex regular expression `< (["0"
 
 First read [What does it mean to put a regular expression within a BNF production?](#question-4.16).
 
-For regular expressions that are simply strings, you might as well put them directly into the BNF productions, and not bother with defining them in a regular expression production.
+For regular expressions that are simply strings, you might as well put them directly into the BNF productions, and not bother with defining them in a regular expression production <sup>[8](#footnote-8)</sup>.
 
 For more complex regular expressions, it is best to give them a name using a regular expression production. There are two reasons for this:
 
@@ -2194,7 +2194,7 @@ This is a special case of a more general problem discussed in [How do I make a c
 
 For a more modern example - parsing URLs - we might want to treat the word `http` as a keyword, but we don't want to prevent it being used as a host name or a path segment.
 
-Suppose we write the following productions:
+Suppose we write the following productions <sup>[9](#footnote-9)</sup>:
 
 ```java
 TOKEN : {
@@ -2253,7 +2253,7 @@ The added semantic lookahead ensures that the URL really begins with a `LABEL` w
 
 The idea here is to use a different lexical state when the word is reserved and when it isn't (see [What are lexical states?](#questions-3.11)).
 
-We can make `http` reserved in the default lexical state, but not reserved when a label is expected. In the example this is easy because it is clear when a label is expected - after a `//` and after a `.`. Therefore we can refactor the regular expression productions as:
+We can make `http` reserved in the default lexical state, but not reserved when a label is expected. In the example this is easy because it is clear when a label is expected - after a `//` and after a `.` <sup>[10](#footnote-10)</sup>. Therefore we can refactor the regular expression productions as:
 
 ```java
 TOKEN : {  
@@ -2582,13 +2582,13 @@ If your language is totally unsuitable for top-down parsing, you'll be happier w
 
 ## <a name="footnotes"></a>Footnotes
 
-<a name="footnote-1">1.</a> Another way of looking at it is that JavaCC is of little help in this regard. However, if you want to produce trees there are two tools, based on JavaCC, that are less flexible and more helpful, these are JJTree and JTB (see [JJTree and JTB](#jjtree-and-jtb)).
+1. <a name="footnote-1"></a>Another way of looking at it is that JavaCC is of little help in this regard. However, if you want to produce trees there are two tools, based on JavaCC, that are less flexible and more helpful, these are JJTree and JTB (see [JJTree and JTB](#jjtree-and-jtb)).
 
-2. JavaCC's terminology here is a bit unusual. The conventional name for what JavaCC calls a *token type* is *terminal* and the set of all token types is the *alphabet* of the EBNF grammar.
+2. <a name="footnote-2"></a>JavaCC's terminology here is a bit unusual. The conventional name for what JavaCC calls a *token type* is *terminal* and the set of all token types is the *alphabet* of the EBNF grammar.
 
-3. It is also an idea that leaves some open questions. What should the token manager do if the parser would accept either an `A` or a `B`? How do we write a parser for a language with reserved words?
+3. <a name="footnote-3"></a>It is also an idea that leaves some open questions. What should the token manager do if the parser would accept either an `A` or a `B`? How do we write a parser for a language with reserved words? 
 
-4. This example is taken from `examples/JJTreeExamples/eg4.jjt`
+4. <a name="footnote-4"></a>This example is taken from `examples/JJTreeExamples/eg4.jjt`
 
 Your maintainer inspected it carefully before copying it into another `.jjt` file. As testing revealed, it is not, however, correct. My first attempt to fix it also proved wrong. All of which shows that even the experts can be befuddled by complex regular expressions, sometimes. Can you spot the error?
 
@@ -2598,17 +2598,17 @@ I obtained the following regular expression by systematically converting a deter
 "/*" (~["*"])* "*" (~["*","/"] (~["*"])* "*" | "*")* "/"
 ```
 
-5. The rule that an `EOF` token is produced at the end of the file applies regardless of the lexical state.
+5. <a name="footnote-5"></a>The rule that an `EOF` token is produced at the end of the file applies regardless of the lexical state.
 
-6. This particular example is well known to be resistant to refactoring the grammar so that a lookahead of `1` will suffice. It is possible to remove the ambiguity. You can write a `LR(1)` grammar that solves the problem, but it is an ugly grammar, and in any case unsuitable for JavaCC. You cannot write an `LL(1)` grammar to solve the problem.
+6. <a name="footnote-6"></a>This particular example is well known to be resistant to refactoring the grammar so that a lookahead of `1` will suffice. It is possible to remove the ambiguity. You can write a `LR(1)` grammar that solves the problem, but it is an ugly grammar, and in any case unsuitable for JavaCC. You cannot write an `LL(1)` grammar to solve the problem.
 
-7. And provided that regular expression applies in the `DEFAULT` lexical state.
+7. <a name="footnote-7"></a>And provided that regular expression applies in the `DEFAULT` lexical state.
 
-8. There are still a few reasons to use a regular expression production. One is if you are using lexical states other than `DEFAULT`. Another is if you want to ignore the case of a word. Also, some people just like to have an alphabetical list of their keywords somewhere.
+8. <a name="footnote-8"></a>There are still a few reasons to use a regular expression production. One is if you are using lexical states other than `DEFAULT`. Another is if you want to ignore the case of a word. Also, some people just like to have an alphabetical list of their keywords somewhere.
 
-9. This example is based on a simplified version of the syntax for HTTP URLs in [RFC:2616 of the IETF by R. Fielding, et. al](https://www.ietf.org/rfc/rfc2616.txt).
+9. <a name="footnote-9"></a>This example is based on a simplified version of the syntax for HTTP URLs in [RFC:2616 of the IETF by R. Fielding, et. al](https://www.ietf.org/rfc/rfc2616.txt).
 
-10. We are also assuming that double slashes and dots are always followed by labels in a syntactically correct input stream.
+10.<a name="footnote-10"></a>We are also assuming that double slashes and dots are always followed by labels in a syntactically correct input stream.
 
 <br>
 
