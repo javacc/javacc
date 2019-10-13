@@ -2601,6 +2601,6 @@ This FAQ is based on a [previous version](http://www.engr.mun.ca/~theo/JavaCC-FA
 
 ---
 
-[HOME](index.md)
+[Home](index.md)
 
 <br>
