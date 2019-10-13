@@ -1,4 +1,4 @@
-[Home](index.md) > Example
+[Home](../index.md) > [Tutorials](index.md) > Example
 
 ---
 
@@ -6,14 +6,18 @@ This example recognizes matching braces followed by zero or more line terminator
 
 Examples of legal strings in this grammar are:
 
-  `"{}"`, `"{{{{{}}}}}"` etc.
+```java
+"{}", "{{{{{}}}}}" // ... etc
+```
 
 Examples of illegal strings are:
 
-  `"{{{{"`, `"{}{}"`, `"{}}"`, `"{{}{}}"`, `"{ }"`, `"{x}"` etc.
+```java
+  "{{{{", "{}{}", "{}}", "{{}{}}", "{ }", "{x}" // ... etc
+```
 
 #### Grammar
-```
+```java
 PARSER_BEGIN(Example)
 
 /** Simple brace matcher. */
@@ -45,11 +49,13 @@ void MatchedBraces() :
 ```
 
 #### Output
-```
+```java
 $ java Example
 {{}}<return>
 <control-d>
+```
 
+```java
 $ java Example
 {x<return>
 Lexical error at line 1, column 2.  Encountered: "x"
@@ -59,7 +65,9 @@ TokenMgrError: Lexical error at line 1, column 2.  Encountered: "x" (120), after
         at Example.MatchedBraces(Example.java:51)
         at Example.Input(Example.java:10)
         at Example.main(Example.java:6)
+```
 
+```java
 $ java Example
 {}}<return>
 ParseException: Encountered "}" at line 1, column 3.
@@ -77,6 +85,8 @@ Was expecting one of:
 
 ---
 
-[Home](index.md)
+You're done with the JavaCC tutorials!
+
+[Home](../index.md)
 
 <br>

@@ -5,22 +5,12 @@ Created from:
 * an example README.md file from https://github.com/apache/flink
 -->
 
-# JavaCC
-
-Java Compiler Compiler (JavaCC) is the most popular parser generator for use with Java applications. A parser generator is a tool that reads a grammar specification and converts it to a Java program that can recognize matches to the grammar.
-
-In addition to the parser generator itself, JavaCC provides other standard capabilities related to parser generation such as tree building (via a tool called JJTree included with JavaCC), actions and debugging.
-
-All you need to run a JavaCC parser, once generated, is a Java Runtime Environment (JRE).
-
 ## <a name="toc"></a>Table of Contents
 
 - [Introduction](#introduction)
 - [Getting Started](#getting-started)
    * [Building JavaCC from source](#building-from-source)
    * [Developing JavaCC](#developing)
-   * [Download](#download)
-   * [Binary distribution](#binary-distribution)
 - [Community](#community)
    * [Support](#support)
    * [Documentation](#documentation)
@@ -30,12 +20,20 @@ All you need to run a JavaCC parser, once generated, is a Java Runtime Environme
 
 ## <a name="overview"></a>Introduction
 
+Java Compiler Compiler (JavaCC) is the most popular parser generator for use with Java applications. A parser generator is a tool that reads a grammar specification and converts it to a Java program that can recognize matches to the grammar.
+
+In addition to the parser generator itself, JavaCC provides other standard capabilities related to parser generation such as tree building (via a tool called JJTree included with JavaCC), actions and debugging.
+
+All you need to run a JavaCC parser, once generated, is a Java Runtime Environment (JRE).
+
+### <a name="resources"></a>Resources
+
+The following links provide a description of the main features of JavaCC, detailed tutorials, the comprehensive FAQ, and the download area (source code, binaries, documentation and release notes).
+
 * [Features](features.md)
-* [Example](example.md)
 * [Tutorials](tutorials/index.md)
-* [Downloads](downloads.md)
-* [Release Notes](release-notes.md)
 * [FAQ](faq.md)
+* [Downloads](downloads.md)
 
 ## <a name="getting-started"></a>Getting Started
 
@@ -86,59 +84,6 @@ Check out our [Setting up IntelliJ](https://ci.apache.org/projects/flink/flink-d
 
 * Eclipse download: [https://www.eclipse.org/ide/](https://www.eclipse.org/ide/)
 * Eclipse JavaCC Plugin: [https://marketplace.eclipse.org/content/javacc-eclipse-plug](https://marketplace.eclipse.org/content/javacc-eclipse-plug)
-
-### <a name="download"></a>Download
-
-You can download JavaCC distributions from the release pages on [GitHub](https://github.com/javacc/javacc/releases).
-
-To install JavaCC, navigate to the download directory and type:
-
-```
-$ unzip javacc-7.0.5.zip
-or
-$ tar xvf javacc-7.0.5.tar.gz
-```
-
-Once you have completed installation add the `bin/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
-
-### <a name="binary-distribution"></a>Binary distribution
-
-You can access binaries on [Maven Central](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc).
-
-The binary distribution contains the JavaCC, JJTree and JJDoc sources, launcher scripts, example grammars and documentation. It also contains a bootstrap version of JavaCC needed to build JavaCC.
-
-On Unix-based systems, you need to make sure the files in the `bin/` directory of the distribution are in your path.
-
-<!---
-#### Maven
-
-Add the following dependency to your `pom.xml` file.
-
-```
-<dependency>
-    <groupId>net.java.dev.javacc</groupId>
-    <artifactId>javacc</artifactId>
-    <version>7.0.4</version>
-</dependency>
-```
-
-#### Gradle
-
-Add the following to your `build.gradle` file.
-
-```
-repositories {
-    mavenLocal()
-    maven {
-        url = 'https://mvnrepository.com/artifact/net.java.dev.javacc/javacc'
-    }
-}
-
-dependencies {
-    compile group: 'net.java.dev.javacc', name: 'javacc', version: '7.0.4'
-}
-```
--->
 
 ## <a name="community"></a>Community
 
