@@ -30,6 +30,7 @@
 options {
   MULTI=true;
   KEEP_LINE_COLUMN = false;
+  CODE_GENERATOR="Java";
 }
 
 PARSER_BEGIN(Eg2)

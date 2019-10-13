@@ -12,5 +12,8 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>CORBA-IDL</module>
+		<module>GUIParsing</module>
+		<module>Interpreter</module>
+		<module>JavaCCGrammar</module>
 	</modules>
 </project>

@@ -30,6 +30,7 @@
 options {
   USER_CHAR_STREAM = true;
   BUILD_PARSER = false;
+  CODE_GENERATOR="Java";
 }
 
 PARSER_BEGIN(CalcInputParser)

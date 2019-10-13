@@ -31,6 +31,7 @@ options {
   MULTI=true;
   VISITOR=true;
   NODE_DEFAULT_VOID=true;
+  CODE_GENERATOR="Java";
 }
 
 PARSER_BEGIN(Eg4)

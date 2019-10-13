@@ -38,6 +38,7 @@
 options {
   JAVA_UNICODE_ESCAPE = true;
   STATIC = false;
+  CODE_GENERATOR = "Java";
 }
 
 PARSER_BEGIN(JavaParser)

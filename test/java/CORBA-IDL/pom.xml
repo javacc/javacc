@@ -36,14 +36,15 @@
 						<goals>
 							<goal>java</goal>
 						</goals>
-						<configuration>
-							<mainClass>IDLParserMain</mainClass>
-							<arguments>
-								<argument>../../examples/CORBA-IDL/Hello.idl</argument>
-							</arguments>
-						</configuration>
 					</execution>
 				</executions>
+				<configuration>
+					<mainClass>IDLParserMain</mainClass>
+					<arguments>
+						<argument>../examples/CORBA-IDL/Hello.idl</argument>
+					</arguments>
+				</configuration>
+
 			</plugin>
 		</plugins>
 	</build>

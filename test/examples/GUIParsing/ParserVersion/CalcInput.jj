@@ -29,6 +29,7 @@
 
 options {
   USER_TOKEN_MANAGER = true;
+  CODE_GENERATOR="Java";
 }
 
 PARSER_BEGIN(CalcInputParser)

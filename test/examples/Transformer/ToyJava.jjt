@@ -31,6 +31,7 @@ options {
   MULTI = true;
   NODE_DEFAULT_VOID = true;
   JAVA_UNICODE_ESCAPE = true;
+  CODE_GENERATOR="Java";
 }
 
 PARSER_BEGIN(ToyParser)

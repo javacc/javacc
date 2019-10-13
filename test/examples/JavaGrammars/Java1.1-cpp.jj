@@ -30,6 +30,7 @@
 options {
   JAVA_UNICODE_ESCAPE = true;
   output_language = "c++";
+  CODE_GENERATOR="C++";
 }
 
 PARSER_BEGIN(JavaParser)
