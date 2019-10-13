@@ -193,8 +193,6 @@ JavaCC is redistributable and there are essentially no restrictions on the use o
 
 ---
 
-TODO
-
 Yes. Please see the JavaCC [grammar repository](http://mindprod.com/jgloss/javacc.html).
 
 <br>
