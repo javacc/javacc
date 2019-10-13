@@ -29,7 +29,6 @@ This README is meant as a brief overview of the core features and how to set thi
    * [Support](#support)
    * [Documentation](#documentation)
    * [Powered by JavaCC](#powered-by)
-<!--- - [Contributing](#contributing) -->
 - [License](#license)
 
 ## <a name="overview"></a>Overview

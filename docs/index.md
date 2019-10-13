@@ -5,40 +5,62 @@ Created from:
 * an example README.md file from https://github.com/apache/flink
 -->
 
-## <a name="toc"></a>Contents
-
-- [Introduction](#introduction)
-- [Getting Started](#getting-started)
-   * [Building JavaCC from source](#building-from-source)
-   * [Developing JavaCC](#developing)
-- [Community](#community)
-   * [Support](#support)
-   * [Documentation](#documentation)
-   * [Powered by JavaCC](#powered-by)
-- [License](#license)
-
-## <a name="overview"></a>Introduction
-
 Java Compiler Compiler (JavaCC) is the most popular parser generator for use with Java applications. A parser generator is a tool that reads a grammar specification and converts it to a Java program that can recognize matches to the grammar.
 
 In addition to the parser generator itself, JavaCC provides other standard capabilities related to parser generation such as tree building (via a tool called JJTree included with JavaCC), actions and debugging.
 
 All you need to run a JavaCC parser, once generated, is a Java Runtime Environment (JRE).
 
-### <a name="resources"></a>Resources
+## <a name="toc"></a>Contents
 
-The following links provide a description of the main features of JavaCC, detailed tutorials, the comprehensive FAQ, and the download area (source code, binaries, documentation and release notes).
-
-* [Features](features.md)
-* [Tutorials](tutorials/index.md)
-* [FAQ](faq.md)
-* [Downloads](downloads.md)
+- [Introduction](#introduction)
+  * [Features](features.md)
+  * [Tutorials](tutorials/index.md)
+  * [FAQ](faq.md)
+- [Getting Started](#getting-started)
+  * [Downloads](#downloads)
+  * [Quickstart](#quickstart)
+  * [Building JavaCC from source](#building-from-source)
+  * [Developing JavaCC](#developing)
+- [Community](#community)
+  * [Support](#support)
+  * [Documentation](#documentation)
+  * [Powered by JavaCC](#powered-by)
+- [License](#license)
 
 ## <a name="getting-started"></a>Getting Started
 
 Follow the steps here to get started with JavaCC.
 
 This guide will walk you through locally building the project, running an existing example, and setup to start developing and testing your own JavaCC application.
+
+### <a name="downloads"></a>Downloads
+
+JavaCC 7.0.5 is our latest stable release.
+
+* JavaCC 7.0.5 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.5.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.5.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.5-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.5))
+
+For previous releases, please see [stable releases](downloads.md).
+
+All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
+
+#### <a name="installation"></a>Installation
+
+To install JavaCC, navigate to the download directory and type:
+
+```
+$ unzip javacc-7.0.5.zip
+or
+$ tar xvf javacc-7.0.5.tar.gz
+```
+
+Once you have completed installation add the `bin/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
+
+#### <a name="binary-distribution"></a>Binary distribution
+
+The binary distributions contain the JavaCC, JJTree and JJDoc sources, launcher scripts, example grammars and documentation. It also contains a bootstrap version of JavaCC needed to build JavaCC.
+
+On Unix-based systems, you need to make sure the files in the `bin/` directory of the distribution are in your path.
 
 ### <a name="building-from-source"></a>Building JavaCC from source
 
@@ -57,6 +79,9 @@ $ ant
 
 This will build the `javacc.jar` file in the `target/` directory
 
+### <a name="quickstart"></a>Quickstart
+
+TODO
 
 ### <a name="developing"></a>Developing JavaCC
 

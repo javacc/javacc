@@ -49,13 +49,18 @@ void MatchedBraces() :
 ```
 
 #### Output
+
+1. The parser processes the string `{{}}` successfully.
+
 ```java
 $ java Example
 {{}}<return>
 <control-d>
 ```
 
-```java
+2. The parser tries to process the string `{x` but throws a `TokenMgrError`.
+
+```
 $ java Example
 {x<return>
 Lexical error at line 1, column 2.  Encountered: "x"
@@ -67,7 +72,9 @@ TokenMgrError: Lexical error at line 1, column 2.  Encountered: "x" (120), after
         at Example.main(Example.java:6)
 ```
 
-```java
+3. The parser tries to process the string `{}}` but throws a `ParseException`.
+
+```
 $ java Example
 {}}<return>
 ParseException: Encountered "}" at line 1, column 3.
