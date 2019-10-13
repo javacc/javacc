@@ -103,7 +103,8 @@ The following diagram shows the relationship between a JavaCC generated lexical 
 
 #### JavaCC design
 
-![The token manager converts a sequence of characters to a sequence of `Token` objects, and the parser analyzes the sequence of tokens.](assets/img/javacc-design.png)
+![](assets/img/javacc-design.png)
+*The token manager converts a sequence of characters to a sequence of `Token` objects, and the parser analyzes the sequence of tokens.*
 
 The token manager reads in a sequence of characters and produces a sequence of objects called *tokens*. The rules used to break the sequence of characters into a sequence of tokens depends on the language - they are supplied by the user as a collection of *regular expressions*.
 
