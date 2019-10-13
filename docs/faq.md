@@ -103,12 +103,13 @@ The following diagram shows the relationship between a JavaCC generated lexical 
 
 #### JavaCC design
 
-![](assets/img/javacc-design.png)
-*The token manager converts a sequence of characters to a sequence of `Token` objects, and the parser analyzes the sequence of tokens.*
-
 The token manager reads in a sequence of characters and produces a sequence of objects called *tokens*. The rules used to break the sequence of characters into a sequence of tokens depends on the language - they are supplied by the user as a collection of *regular expressions*.
 
-The parser consumes a sequence of tokens, analyses its structure, and produces an output defined by the user - JavaCC is completely flexible in this regard<sup>[1](#footnote-1)</sup>. The diagram shows an *abstract syntax tree*, but you might want to produce, say, a number (if you are writing a calculator), a file of assembly language (if you were writing a one-pass compiler), a modified sequence of characters (if you were writing a text processing application), and so on.
+The parser consumes a sequence of tokens, analyses its structure, and produces an output defined by the user - JavaCC is completely flexible in this regard<sup>[1](#footnote-1)</sup>.
+
+![](assets/img/javacc-design.png)
+
+The diagram shows an *abstract syntax tree*, but you might want to produce, say, a number (if you are writing a calculator), a file of assembly language (if you were writing a one-pass compiler), a modified sequence of characters (if you were writing a text processing application), and so on.
 
 The user defines a collection of *Extended BNF production rules* that JavaCC uses to generate the parser as a Java class. These production rules can be annotated with snippets of Java code, which is how the programmer tells the parser what to output produce.
 
