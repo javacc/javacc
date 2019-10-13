@@ -4,7 +4,7 @@
 
 This tutorial refers to examples that are available in the source code on [GitHub](https://github.com/javacc/javacc/tree/master/examples/Lookahead).
 
-### <a name="toc"></a>Table of Contents
+### <a name="toc"></a>Contents
 
 - [**What is a LOOKAHEAD?**](#what-is)
   * [Avoiding backtracking](#backtracking)

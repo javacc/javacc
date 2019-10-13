@@ -15,7 +15,7 @@ All you need to run a JavaCC parser, once generated, is a Java Runtime Environme
 
 This README is meant as a brief overview of the core features and how to set things up to get yourself started with JavaCC. For a fully detailed documentation, please see [https://javacc.org/](https://javacc.org/).
 
-## <a name="toc"></a>Table of Contents
+## <a name="toc"></a>Contents
 
 - [Overview](#overview)
    * [Features](#features)

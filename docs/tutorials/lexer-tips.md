@@ -6,7 +6,7 @@ There are many ways to write the lexical specification for a grammar, but the pe
 
 This section presents a few tips for writing good lexical specifications.
 
-### <a name="toc"></a>Table of Contents
+### <a name="toc"></a>Contents
 
 - [**String Literals**](#string-literals)
   * [Use string literals as much as possible](#tip1)

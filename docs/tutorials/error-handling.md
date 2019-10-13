@@ -4,7 +4,6 @@
 
 This tutorial describes the error recovery features in JavaCC.
 
-
 ## Exception Classes
 
 JavaCC supports two exception types:

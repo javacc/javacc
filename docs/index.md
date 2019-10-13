@@ -5,7 +5,7 @@ Created from:
 * an example README.md file from https://github.com/apache/flink
 -->
 
-## <a name="toc"></a>Table of Contents
+## <a name="toc"></a>Contents
 
 - [Introduction](#introduction)
 - [Getting Started](#getting-started)
@@ -15,7 +15,6 @@ Created from:
    * [Support](#support)
    * [Documentation](#documentation)
    * [Powered by JavaCC](#powered-by)
-<!--- - [Contributing](#contributing) -->
 - [License](#license)
 
 ## <a name="overview"></a>Introduction

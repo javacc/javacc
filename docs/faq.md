@@ -2,7 +2,7 @@
 
 ---
 
-### <a name="toc"></a>Table of Contents
+### <a name="toc"></a>Contents
 
 - [**General Information**](#general-information)
   * [What is JavaCC?](#question-1.1)
