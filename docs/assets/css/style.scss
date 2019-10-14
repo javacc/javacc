@@ -1,16 +1,16 @@
 ---
 ---
 
+table td {
+  padding:0.5rem 1rem;
+  border:1px;
+  solid: #ffffff;
+}
+
 @import "{{ site.theme }}";
 
 table#bnf {
   background-color: #ffffff;
   border-color: #000000;
   border: 1;
-}
-
-table td {
-  padding:0.5rem 1rem;
-  border:1px;
-  solid: #ffffff;
 }
