@@ -34,6 +34,15 @@ TOKEN_MGR_DECLS
 
 Any Java entities used in the grammar rules that follow appear italicized with the prefix `java_` (e.g. `java_compilation_unit`).
 
+<table>
+<tr>
+<td align="right" valign="baseline"><a name="prod2">javacc_options</a></td>
+<td align="center" valign="baseline">::=</td>
+<td align="left" valign="baseline">[ "<a name="options">options</a>" "{" ( <a href="#prod6">option_binding</a> )* "}" ]</td>
+</tr>
+</table>
+
+
 ```java
 javacc_input ::= <pre><a href="#javacc-options">javacc_options</a></pre>
                  "PARSER_BEGIN" "(" <IDENTIFIER> ")"
