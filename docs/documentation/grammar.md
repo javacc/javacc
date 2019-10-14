@@ -6,14 +6,34 @@ This page contains the complete syntax of the JavaCC grammar files with detailed
 
 ### <a name="toc"></a>Contents
 
-- [**Blah**](#blah)
-  * [Conventions](#conventions)
+- [**Conventions**](#conventions)
   * [File structure](#file-structure)
-  * [Options](#options)
+- [**Options**](#javacc-options)
+  * [javacc_options](#javacc-options)
+  * [option_binding](#option-binding)
+- [**Grammar**](#grammar)
+  * [production](#production)
+  * [javacode_production](#javacode-production)
+  * [bnf_production](#bnf-production)
+  * [regular_expr_production](#regular-expr-production)
+  * [token_manager_decls](#token-manager-decls)
+  * [lexical_state_list](#lexical-state-list)
+  * [regexpr_kind](#regexpr-kind)
+  * [regexpr_spec](#regexpr-spec)
+  * [expansion_choices](#expansion_choices)
+  * [expansion](#expansion)
+  * [expansion_unit](#expansion-unit)
+  * [local_lookahead](#local-lookahead)
+  * [regular_expression](#regular-expression)
+  * [complex_regular_expression_choices](#complex-regular-expression-choices)
+  * [complex_regular_expression](#complex-regular-expression)
+  * [complex_regular_expression_unit](#complex-regular-expression-unit)
+  * [character_list](#character-list)
+  * [character_descriptor](#character-descriptor)
 
-## <a name="blah"></a>Blah
+## <a name="conventions"></a>Conventions
 
-### <a name="conventions"></a>Conventions
+---
 
 1. Tokens in the grammar files follow the same conventions as for the Java programming language. Hence identifiers, strings, characters, etc. used in the grammars are the same as Java identifiers, Java strings, Java characters, etc.
 
@@ -39,7 +59,9 @@ TOKEN
 TOKEN_MGR_DECLS
 ```
 
-### <a name="file-structure"></a>File structure
+## <a name="file-structure"></a>File structure
+
+---
 
 The structure of JavaCC grammar files is defined as follows:
 
@@ -85,7 +107,7 @@ javacc_input ::= javacc_options
 *N.B. Any Java entities used in the grammar rules that follow appear italicized with the prefix `java_` (e.g. `java_compilation_unit`)*.
 -->
 
-The grammar file starts with a list of options (which is optional). This is then followed by a Java compilation unit enclosed between `PARSER_BEGIN(name)` and `PARSER_END(name)`. After this is a list of grammar productions (both [options](#) and [productions](#) are described below).
+The grammar file starts with a list of options (which is optional). This is then followed by a Java compilation unit enclosed between `PARSER_BEGIN(name)` and `PARSER_END(name)`. After this is a list of grammar productions (both [options](#javacc-options) and [productions](#production) are described below).
 
 The name that follows `PARSER_BEGIN` and `PARSER_END` must be the same and this identifies the name of the generated parser. For example, if name is `MyParser`, then the following files are generated:
 
@@ -123,7 +145,7 @@ class parser_name ... {
 // ...
 ```
 
-The generated parser includes a public method declaration corresponding to each non-terminal (see [javacode_production](#) and [bnf_production](#) in the grammar file. Parsing with respect to a non-terminal is achieved by calling the method corresponding to that non-terminal. Unlike Yacc, there is no single start symbol in JavaCC - one can parse with respect to any non-terminal in the grammar.
+The generated parser includes a public method declaration corresponding to each non-terminal (see [javacode_production](#javacode-production) and [bnf_production](#bnf-production) in the grammar file. Parsing with respect to a non-terminal is achieved by calling the method corresponding to that non-terminal. Unlike Yacc, there is no single start symbol in JavaCC - one can parse with respect to any non-terminal in the grammar.
 
 The generated token manager provides one public method:
 
@@ -133,10 +155,13 @@ Token getNextToken() throws ParseError;
 
 For more details on how this method may be used, please refer to the [JavaCC API](#javacc-api) documentation.
 
+## <a name="options"></a>Options
 
-### <a name="options"></a>Options
+Options may be specified either in the grammar file or from the [command line](cli.md). If the option is set from the command line, that takes precedence.
 
-Options may be specified either in the grammar file or from the command line. If the option is set from the command line, that takes precedence.
+### <a name="javacc-options"></a>javacc_options
+
+---
 
 ```java
 javacc_options ::= [ "options" "{" ( option-binding )*; "}" ]
@@ -145,6 +170,10 @@ javacc_options ::= [ "options" "{" ( option-binding )*; "}" ]
 If present, the options start with the reserved word `options` followed by a list of one or more option bindings within braces. Each option binding specifies the setting of one option. The same option may not be set multiple times.
 
 Option names are not case-sensitive.
+
+### <a name="option-binding"></a>option_binding
+
+---
 
 ```java
 option_binding ::= "BUILD_PARSER" "=" java_boolean_literal ";"
@@ -201,7 +230,11 @@ option_binding ::= "BUILD_PARSER" "=" java_boolean_literal ";"
 | USER_TOKEN_MANAGER | `boolean` | `false` | The default action is to generate a token manager that works on the specified grammar tokens. If this option is set to `true`, then the parser is generated to accept tokens from any token manager of type `TokenManager` - this interface is generated into the generated parser directory. |
 
 
-### <a name="productions"></a>Productions
+## <a name="grammar"></a>Grammar
+
+### <a name="production"></a>production
+
+---
 
 ```java
 production ::= javacode_production
@@ -211,11 +244,13 @@ production ::= javacode_production
 ```
 
 There are four kinds of productions in JavaCC.
-* `javacode_production` and `bnf_production` are used to define the grammar from which the parser is generated.
-* `regular_expr_production` is used to define the grammar tokens - the token manager is generated from this information (as well as from inline token specifications in the parser grammar).
-* `token_manager_decls` is used to introduce declarations that get inserted into the generated token manager.
+* [javacode_production](#javacode-production) and [bnf_production](#bnf-production) are used to define the grammar from which the parser is generated.
+* [regular_expr_production](#regular-expr-production) is used to define the grammar tokens - the token manager is generated from this information (as well as from inline token specifications in the parser grammar).
+* [token_manager_decls](#token-manager-decls) is used to introduce declarations that get inserted into the generated token manager.
 
-#### JAVACODE
+### <a name="javacode-production"></a>javacode_production
+
+---
 
 ```java
 javacode_production ::= "JAVACODE"
@@ -244,7 +279,7 @@ void skip_to_matching_brace() {
 }
 ```
 
-Care must be taken when using `JAVACODE` productions. While you can say pretty much what you want with these productions, JavaCC simply considers it a black box (that somehow performs its parsing task). This becomes a problem when `JAVACODE` productions appear at choice points. For example, if the above `JAVACODE` production was referred to from the following production:
+Care must be taken when using `JAVACODE` productions. While you can say pretty much what you want with these productions, JavaCC simply considers it a black box (that somehow performs its parsing task). This becomes a problem when `JAVACODE` productions appear at [choice points](../tutorians/lookahead.md). For example, if the above `JAVACODE` production was referred to from the following production:
 
 ```java
 void NT() : {
@@ -282,7 +317,9 @@ void NT() : {
 
 The default access modifier for `JAVACODE` productions is package `private`.
 
-#### BNF
+### <a name="bnf-production"></a>bnf_production
+
+---
 
 ```java
 bnf_production ::= java_access_modifier java_return_type java_identifier "(" java_parameter_list ")" ":"
@@ -294,161 +331,287 @@ The `BNF` production is the standard production used in specifying JavaCC gramma
 
 There are two parts on the right hand side of an `BNF` production. The first part is a set of arbitrary Java declarations and code (the Java block). This code is generated at the beginning of the method generated for the Java non-terminal. Hence, every time this non-terminal is used in the parsing process, these declarations and code are executed. The declarations in this part are visible to all Java code in actions in the `BNF` expansions. JavaCC does not do any processing of these declarations and code, except to skip to the matching ending brace, collecting all text encountered on the way. Hence, a Java compiler can detect errors in this code that has been processed by JavaCC.
 
-The second part of the right hand side are the `BNF` expansions. This is described later.
+The second part of the right hand side are the `BNF` expansions. This is described in [expansion_choices](#expansion-choices).
 
-### Regular Expression
+### <a name="regular-expr-production"></a>regular_expr_production
 
-regular_expr_production	::=	[ lexical_state_list ]
-regexpr_kind [ "[" "IGNORE_CASE" "]" ] ":"
-"{" regexpr_spec ( "|" regexpr_spec )* "}"
-A regular expression production is used to define lexical entities that get processed by the generated token manager. A detailed description of how the token manager works is provided in this minitutorial (click here). This page describes the syntactic aspects of specifying lexical entities, while the minitutorial describes how these syntactic constructs tie in with how the token manager actually works.
+---
 
-A regular expression production starts with a specification of the lexical states for which it applies (the lexical state list). There is a standard lexical state called "DEFAULT". If the lexical state list is omitted, the regular expression production applies to the lexical state "DEFAULT".
+```java
+regular_expr_production ::= [ lexical_state_list ]
+                            regexpr_kind [ "[" "IGNORE_CASE" "]" ] ":"
+                            "{" regexpr_spec ( "|" regexpr_spec )* "}"
+```
 
-Following this is a description of what kind of regular expression production this is (see below for what this means).
+A regular expression production is used to define lexical entities that get processed by the generated token manager. A detailed description of how the token manager works is provided in the [tutorial](../tutorials/token-manager.md). This page describes the syntactic aspects of specifying lexical entities, while the tutorial describes how these syntactic constructs tie in with how the token manager actually works.
 
-After this is an optional "[IGNORE_CASE]". If this is present, the regular expression production is case insensitive - it has the same effect as the IGNORE_CASE option, except that in this case it applies locally to this regular expression production.
+A regular expression production starts with a specification of the lexical states for which it applies (the [lexical state list](#lexical-state-list)). There is a standard lexical state called `DEFAULT`. If the lexical state list is omitted, the regular expression production applies to the lexical state `DEFAULT`.
+
+Following this is a description of what kind of regular expression production this is (see [regexpr_kind](#regexpr-kind)).
+
+After this is an optional `[IGNORE_CASE]`. If this is present, the regular expression production is case insensitive - it has the same effect as the `IGNORE_CASE` option, except that in this case it applies locally to this regular expression production.
 
 This is then followed by a list of regular expression specifications that describe in more detail the lexical entities of this regular expression production.
 
-token_manager_decls	::=	"TOKEN_MGR_DECLS" ":" java_block
-The token manager declarations starts with the reserved word "TOKEN_MGR_DECLS" followed by a ":" and then a set of Java declarations and statements (the Java block). These declarations and statements are written into the generated token manager and are accessible from within lexical actions. See the minitutorial on the token manager for more details.
+### <a name="token-manager-decls"></a>token_manager_decls
+
+---
+
+```java
+token_manager_decls ::= "TOKEN_MGR_DECLS" ":" java_block
+```
+
+The token manager declarations starts with the reserved word `TOKEN_MGR_DECLS` followed by a `:` and then a set of Java declarations and statements (the Java block). These declarations and statements are written into the generated token manager and are accessible from within [lexical actions](#regexpr-spec).
 
 There can only be one token manager declaration in a JavaCC grammar file.
 
-lexical_state_list	::=	"<" "*" ">"
-|	"<" java_identifier ( "," java_identifier )* ">"
-The lexical state list describes the set of lexical states for which the corresponding regular expression production applies. If this is written as "<*>", the regular expression production applies to all lexical states. Otherwise, it applies to all the lexical states in the identifier list within the angular brackets.
+### <a name="lexical-state-list"></a>lexical_state_list
 
-regexpr_kind	::=	"TOKEN"
-|	"SPECIAL_TOKEN"
-|	"SKIP"
-|	"MORE"
-This specifies the kind of regular expression production. There are four kinds:
+---
 
-TOKEN: The regular expressions in this regular expression production describe tokens in the grammar. The token manager creates a Token object for each match of such a regular expression and returns it to the parser.
-SPECIAL_TOKEN: The regular expressions in this regular expression production describe special tokens. Special tokens are like tokens, except that they do not have significance during parsing - that is the `BNF` productions ignore them. Special tokens are, however, still passed on to the parser so that parser actions can access them. Special tokens are passed to the parser by linking them to neighboring real tokens using the field "specialToken" in the Token class. Special tokens are useful in the processing of lexical entities such as comments which have no significance to parsing, but still are an important part of the input file. See the minitutorial on the token manager for more details of special token handling.
-SKIP: Matches to regular expressions in this regular expression production are simply skipped (ignored) by the token manager.
-MORE: Sometimes it is useful to gradually build up a token to be passed on to the parser. Matches to this kind of regular expression are stored in a buffer until the next TOKEN or SPECIAL_TOKEN match. Then all the matches in the buffer and the final TOKEN/SPECIAL_TOKEN match are concatenated together to form one TOKEN/SPECIAL_TOKEN that is passed on to the parser. If a match to a SKIP regular expression follows a sequence of MORE matches, the contents of the buffer is discarded.
-regexpr_spec	::=	regular_expression [ java_block ] [ ":" java_identifier ]
-The regular expression specification begins the actual description of the lexical entities that are part of this regular expression production. Each regular expression production may contain any number of regular expression specifications.
+```java
+lexical_state_list ::= "<" "*" ">"
+                     | "<" java_identifier ( "," java_identifier )* ">"
+```
 
-Each regular expression specification contains a regular expression followed by a Java block (the lexical action) which is optional. This is then followed by an identifier of a lexical state (which is also optional). Whenever this regular expression is matched, the lexical action (if any) gets executed, followed by any common token actions. Then the action depending on the regular expression production kind is taken. Finally, if a lexical state is specified, the token manager moves to that lexical state for further processing (the token manager starts initially in the state "DEFAULT").
+The lexical state list describes the set of lexical states for which the corresponding [regular expression production](#regular-expr-production) applies. If this is written as `<*>`, the regular expression production applies to all lexical states. Otherwise, it applies to all the lexical states in the identifier list within the angular brackets.
 
-expansion_choices	::=	expansion ( "|" expansion )*
-Expansion choices are written as a list of one or more expansions separated by "|"s. The set of legal parses allowed by an expansion choice is a legal parse of any one of the contained expansions.
+### <a name="regexpr-kind"></a>regexpr_kind
 
+---
+
+```java
+regexpr_kind ::= "TOKEN"
+               | "SPECIAL_TOKEN"
+               | "SKIP"
+               | "MORE"
+```
+
+This specifies the type of [regular expression production](#regular-expr-production). There are four types:
+
+| Type | Description |
+| :--- | :--- |
+| `TOKEN` | The regular expressions in this regular expression production describe tokens in the grammar. The token manager creates a `Token` object for each match of such a regular expression and returns it to the parser. |
+| `SPECIAL_TOKEN` | The regular expressions in this regular expression production describe special tokens. Special tokens are like tokens, except that they do not have significance during parsing - that is the `BNF` productions ignore them. Special tokens are, however, still passed on to the parser so that parser actions can access them. Special tokens are passed to the parser by linking them to neighbouring real tokens using the field `specialToken` in the `Token` class. Special tokens are useful in the processing of lexical entities such as comments which have no significance to parsing, but still are an important part of the input file. |
+| `SKIP` | Matches to regular expressions in this regular expression production are simply skipped (ignored) by the token manager. |
+| `MORE` | Sometimes it is useful to gradually build up a token to be passed on to the parser. Matches to this kind of regular expression are stored in a buffer until the next `TOKEN` or `SPECIAL_TOKEN` match. Then all the matches in the buffer and the final `TOKEN/SPECIAL_TOKEN` match are concatenated together to form one `TOKEN/SPECIAL_TOKEN` that is passed on to the parser. If a match to a `SKIP` regular expression follows a sequence of `MORE` matches, the contents of the buffer is discarded. |
+
+### <a name="regexpr-spec"></a>regexpr_spec
+
+---
+
+```java
+regexpr_spec ::= regular_expression [ java_block ] [ ":" java_identifier ]
+```
+
+The regular expression specification begins the actual description of the lexical entities that are part of this [regular expression production](#regular-expr-production). Each regular expression production may contain any number of regular expression specifications.
+
+Each regular expression specification contains a regular expression followed by a Java block (the lexical action) which is optional. This is then followed by an identifier of a lexical state (which is also optional). Whenever this regular expression is matched, the lexical action (if any) gets executed, followed by any common token actions. Then the action depending on the [regular expression production kind](#regexpr-kind) is taken. Finally, if a lexical state is specified, the token manager moves to that lexical state for further processing (the token manager starts initially in the state `DEFAULT`).
+
+### <a name="expansion-choices"></a>expansion_choices
+
+---
+
+```java
+expansion_choices ::= expansion ( "|" expansion )*
+```
+
+Expansion choices are written as a list of one or more expansions separated by `|`'s. The set of legal parses allowed by an expansion choice is a legal parse of any one of the contained expansions.
+
+### <a name="expansion"></a>expansion
+
+---
+
+```java
 expansion	::=	( expansion_unit )*
+```
+
 An expansion is written as a sequence of expansion units. A concatenation of legal parses of the expansion units is a legal parse of the expansion.
 
-For example, the expansion "{" decls() "}" consists of three expansion units - "{", decls(), and "}". A match for the expansion is a concatenation of the matches for the individual expansion units - in this case, that would be any string that begins with a "{", ends with a "}", and contains a match for decls() in between.
+For example, the expansion `{` `decls()` `}` consists of three expansion units - `{`, `decls()`, and `}`. A match for the expansion is a concatenation of the matches for the individual expansion units - in this case, that would be any string that begins with a `{`, ends with a `}`, and contains a match for `decls()` in between.
 
-expansion_unit	::=	local_lookahead
-|	java_block
-|	"(" expansion_choices ")" [ "+" | "*" | "?" ]
-|	"[" expansion_choices "]"
-|	[ java_assignment_lhs "=" ] regular_expression
-|	[ java_assignment_lhs "=" ] java_identifier "(" java_expression_list ")"
-An expansion unit can be a local LOOKAHEAD specification. This instructs the generated parser on how to make choices at choice points. For details on how LOOKAHEAD specifications work and how to write LOOKAHEAD specifications, click here to visit the minitutorial on LOOKAHEAD.
+### <a name="expansion-unit"></a>expansion_unit
 
-An expansion unit can be a set of Java declarations and code enclosed within braces (the Java block). These are also called parser actions. This is generated into the method parsing the non-terminal at the appropriate location. This block is executed whenever the parsing process crosses this point successfully. When JavaCC processes the Java block, it does not perform any detailed syntax or semantic checking. Hence it is possible that the Java compiler will find errors in your actions that have been processed by JavaCC. Actions are not executed during lookahead evaluation.
+---
 
-An expansion unit can be a parenthesized set of one or more expansion choices. In which case, a legal parse of the expansion unit is any legal parse of the nested expansion choices. The parenthesized set of expansion choices can be suffixed (optionally) by:
+```java
+expansion_unit ::= local_lookahead
+                 | java_block
+                 | "(" expansion_choices ")" [ "+" | "*" | "?" ]
+                 | "[" expansion_choices "]"
+                 | [ java_assignment_lhs "=" ] regular_expression
+                 | [ java_assignment_lhs "=" ] java_identifier "(" java_expression_list ")"
+```
 
-"+": Then any legal parse of the expansion unit is one or more repetitions of a legal parse of the parenthesized set of expansion choices.
-"*": Then any legal parse of the expansion unit is zero or more repetitions of a legal parse of the parenthesized set of expansion choices.
-"?": Then a legal parse of the expansion unit is either the empty token sequence or any legal parse of the nested expansion choices. An alternate syntax for this construct is to enclose the expansion choices within brackets "[...]".
-An expansion unit can be a regular expression. Then a legal parse of the expansion unit is any token that matches this regular expression. When a regular expression is matched, it creates an object of type Token. This object can be accessed by assigning it to a variable by prefixing the regular expression with "variable =". In general, you may have any valid Java assignment left-hand side to the left of the "=". This assignment is not performed during lookahead evaluation.
+An expansion unit can be a [local lookahead](#local-lookahead) specification. This instructs the generated parser on how to make choices at choice points. For details on how `LOOKAHEAD` specifications work and how to write `LOOKAHEAD` specifications see the `LOOKAHEAD` [tutorial](../tutorials/lookahead.md).
 
-An expansion unit can be a non-terminal (the last choice in the syntax above). In which case, it takes the form of a method call with the non-terminal name used as the name of the method. A successful parse of the non-terminal causes the parameters placed in the method call to be operated on and a value returned (in case the non-terminal was not declared to be of type "void"). The return value can be assigned (optionally) to a variable by prefixing the regular expression with "variable =". In general, you may have any valid Java assignment left-hand side to the left of the "=". This assignment is not performed during lookahead evaluation. Non-terminals may not be used in an expansion in a manner that introduces left-recursion. JavaCC checks this for you.
+An expansion unit can be a set of Java declarations and code enclosed within braces (the Java block). These are also called parser actions. This is generated into the method parsing the non-terminal at the appropriate location. This block is executed whenever the parsing process crosses this point successfully. When JavaCC processes the Java block, it does not perform any detailed syntax or semantic checking. Hence it is possible that the Java compiler will find errors in your actions that have been processed by JavaCC. *Actions are not executed during lookahead evaluation*.
 
-local_lookahead	::=	"LOOKAHEAD" "(" [ java_integer_literal ] [ "," ] [ expansion_choices ] [ "," ] [ "{" java_expression "}" ] ")"
-A local lookahead specification is used to influence the way the generated parser makes choices at the various choice points in the grammar. A local lookahead specification starts with the reserved word "LOOKAHEAD" followed by a set of lookahead constraints within parentheses. There are three different kinds of lookahead constraints - a lookahead limit (the integer literal), a syntactic lookahead (the expansion choices), and a semantic lookahead (the expression within braces). At least one lookahead constraint must be present. If more than one lookahead constraint is present, they must be separated by commas.
+An expansion unit can be a parenthesized set of one or more [expansion choices](#expansion-choices). In which case, a legal parse of the expansion unit is any legal parse of the nested expansion choices. The parenthesized set of expansion choices can be suffixed (optionally) by:
 
-For a detailed description of how lookahead works, please click here to visit the minitutorial on LOOKAHEAD. A brief description of each kind of lookahead constraint is given below:
+| Suffix | Description |
+| :--- | :--- |
+| `+` | Then any legal parse of the expansion unit is one or more repetitions of a legal parse of the parenthesized set of expansion choices.|
+| `*` | Then any legal parse of the expansion unit is zero or more repetitions of a legal parse of the parenthesized set of expansion choices.|
+| `?` | Then a legal parse of the expansion unit is either the empty token sequence or any legal parse of the nested expansion choices. An alternate syntax for this construct is to enclose the expansion choices within brackets `[...]`.|
 
-Lookahead Limit: This is the maximum number of tokens of lookahead that may be used for choice determination purposes. This overrides the default value which is specified by the LOOKAHEAD option. This lookahead limit applies only to the choice point at the location of the local lookahead specification. If the local lookahead specification is not at a choice point, the lookahead limit (if any) is ignored.
-Syntactic Lookahead: This is an expansion (or expansion choices) that is used for the purpose of determining whether or not the particular choice that this local lookahead specification applies to is to be taken. If this was not provided, the parser uses the expansion to be selected during lookahead determination. If the local lookahead specification is not at a choice point, the syntactic lookahead (if any) is ignored.
-Semantic Lookahead: This is a boolean expression that is evaluated whenever the parser crosses this point during parsing. If the expression evaluates to true, the parsing continues normally. If the expression evaluates to false and the local lookahead specification is at a choice point, the current choice is not taken and the next choice is considered. If the expression evaluates to false and the local lookahead specification is not at a choice point, then parsing aborts with a parse error. Unlike the other two lookahead constraints that are ignored at non-choice points, semantic lookahead is always evaluated. In fact, semantic lookahead is even evaluated if it is encountered during the evaluation of some other syntactic lookahead check (for more details click here to visit the minitutorial on LOOKAHEAD).
-Default values for lookahead constraints: If a local lookahead specification has been provided, but not all lookahead constraints have been included, then the missing ones are assigned default values as follows:
+An expansion unit can be a [regular expression](#regular-expression). Then a legal parse of the expansion unit is any token that matches this regular expression. When a regular expression is matched, it creates an object of type `Token`. This object can be accessed by assigning it to a variable by prefixing the regular expression with `variable =`. In general, you may have any valid Java assignment left-hand side to the left of the `=`. *This assignment is not performed during lookahead evaluation*.
 
-If the lookahead limit is not provided and if the syntactic lookahead is provided, then the lookahead limit defaults to the largest integer value (2147483647). This essentially implements "infinite lookahead" - namely, look ahead as many tokens as necessary to match the syntactic lookahead that has been provided.
-If neither the lookahead limit nor the syntactic lookahead has been provided (which means the semantic lookahead is provided), the lookahead limit defaults to 0. This means that syntactic lookahead is not performed (it passes trivially), and only semantic lookahead is performed.
-If the syntactic lookahead is not provided, it defaults to the choice to which the local lookahead specification applies. If the local lookahead specification is not at a choice point, then the syntactic lookahead is ignored - hence a default value is not relevant.
-If the semantic lookahead is not provided, it defaults to the boolean expression "true". That is, it trivially passes.
-regular_expression	::=	java_string_literal
-|	"<" [ [ "#" ] java_identifier ":" ] complex_regular_expression_choices ">"
-|	"<" java_identifier ">"
-|	"<" "EOF" ">"
+An expansion unit can be a non-terminal (the last choice in the syntax above). In which case, it takes the form of a method call with the non-terminal name used as the name of the method. A successful parse of the non-terminal causes the parameters placed in the method call to be operated on and a value returned (in case the non-terminal was not declared to be of type `void`). The return value can be assigned (optionally) to a variable by prefixing the regular expression with `variable =`. In general, you may have any valid Java assignment left-hand side to the left of the `=`. *This assignment is not performed during lookahead evaluation*. Non-terminals may not be used in an expansion in a manner that introduces left-recursion. JavaCC checks this for you.
+
+### <a name="local-lookahead"></a>local_lookahead
+
+---
+
+```java
+local_lookahead ::= "LOOKAHEAD" "(" [ java_integer_literal ] [ "," ] [ expansion_choices ] [ "," ] [ "{"    java_expression "}" ] ")"
+```
+
+A local lookahead specification is used to influence the way the generated parser makes choices at the various choice points in the grammar. A local lookahead specification starts with the reserved word `LOOKAHEAD` followed by a set of lookahead constraints within parentheses. There are three different kinds of lookahead constraints - a lookahead limit (the integer literal), a syntactic lookahead (the expansion choices), and a semantic lookahead (the expression within braces). At least one lookahead constraint must be present. If more than one lookahead constraint is present, they must be separated by commas.
+
+For a detailed description of how lookahead works, please click here to visit the `LOOKAHEAD` [tutorial](../tutorials/lookahead.md). A brief description of each kind of lookahead constraint is given below:
+
+| Constraint | Description |
+| :--- | :--- |
+| Lookahead Limit | This is the maximum number of tokens of lookahead that may be used for choice determination purposes. This overrides the default value which is specified by the LOOKAHEAD option. This lookahead limit applies only to the choice point at the location of the local lookahead specification. If the local lookahead specification is not at a choice point, the lookahead limit (if any) is ignored.|
+| Syntactic Lookahead | This is an expansion (or expansion choices) that is used for the purpose of determining whether or not the particular choice that this local lookahead specification applies to is to be taken. If this was not provided, the parser uses the expansion to be selected during lookahead determination. If the local lookahead specification is not at a choice point, the syntactic lookahead (if any) is ignored.|
+| Semantic Lookahead | This is a boolean expression that is evaluated whenever the parser crosses this point during parsing. If the expression evaluates to true, the parsing continues normally. If the expression evaluates to false and the local lookahead specification is at a choice point, the current choice is not taken and the next choice is considered. If the expression evaluates to false and the local lookahead specification is not at a choice point, then parsing aborts with a parse error. Unlike the other two lookahead constraints that are ignored at non-choice points, semantic lookahead is always evaluated. In fact, semantic lookahead is even evaluated if it is encountered during the evaluation of some other syntactic lookahead check.|
+
+#### Default values for lookahead constraints
+
+If a local lookahead specification has been provided, but not all lookahead constraints have been included, then the missing ones are assigned default values as follows:
+
+* If the lookahead limit is not provided and if the syntactic lookahead is provided, then the lookahead limit defaults to the largest integer value (`2147483647`). This essentially implements `infinite lookahead` - namely, look ahead as many tokens as necessary to match the syntactic lookahead that has been provided.
+
+* If neither the lookahead limit nor the syntactic lookahead has been provided (which means the semantic lookahead is provided), the lookahead limit defaults to `0`. This means that syntactic lookahead is not performed (it passes trivially), and only semantic lookahead is performed.
+
+* If the syntactic lookahead is not provided, it defaults to the choice to which the local lookahead specification applies. If the local lookahead specification is not at a choice point, then the syntactic lookahead is ignored - hence a default value is not relevant.
+
+* If the semantic lookahead is not provided, it defaults to the boolean expression `true`. That is, it trivially passes.
+
+### <a name="regular-expression"></a>regular_expression
+
+---
+
+```java
+regular_expression ::= java_string_literal
+                     | "<" [ [ "#" ] java_identifier ":" ] complex_regular_expression_choices ">"
+                     | "<" java_identifier ">"
+                     | "<" "EOF" ">"
+```
+
 There are two places in a grammar files where regular expressions may be written:
 
-Within a regular expression specification (part of a regular expression production),
-As an expansion unit with an expansion. When a regular expression is used in this manner, it is as if the regular expression were defined in the following manner at this location and then referred to by its label from the expansion unit:
-    <DEFAULT> TOKEN :
-    {
-      regular expression
-    }
-That is, this usage of regular expression can be rewritten using the other kind of usage.
-The complete details of regular expression matching by the token manager is available in the minitutorial on the token manager. The description of the syntactic constructs follows.
+1. Within a [regular expression specification](#regexpr_spec) (part of a [regular expression production](#regular-expr-production)),
 
-The first kind of regular expression is a string literal. The input being parsed matches this regular expression if the token manager is in a lexical state for which this regular expression applies and the next set of characters in the input stream is the same (possibly with case ignored) as this string literal.
+2. As an [expansion unit](#expansion-unit) with an [expansion](#expansion). When a regular expression is used in this manner, it is as if the regular expression were defined in the following manner at this location and then referred to by its label from the expansion unit:
 
-A regular expression may also be a more complex regular expression using which more involved regular expression (than string literals can be defined). Such a regular expression is placed within angular brackets "<...>", and may be labeled optionally with an identifier. This label may be used to refer to this regular expression from expansion units or from within other regular expressions. If the label is preceded by a "#", then this regular expression may not be referred to from expansion units, but only from within other regular expressions. When the "#" is present, the regular expression is referred to as a "private regular expression".
+```java
+<DEFAULT> TOKEN :
+{
+  regular expression
+}
+```
 
-A regular expression may be a reference to some other labeled regular expression in which case it is written as the label enclosed in angular brackets "<...>".
+That is, this usage of regular expression can be rewritten using the other kind of usage. The complete details of regular expression matching by the token manager is available in the token manager [tutorial](../tutorials/token-manager.md). The description of the syntactic constructs follows.
 
-Finally, a regular expression may be a reference to the predefined regular expression "<EOF>" which is matched by the end of file.
+1. The first kind of regular expression is a string literal. The input being parsed matches this regular expression if the token manager is in a [lexical state](#regular-expr-production) for which this regular expression applies and the next set of characters in the input stream is the same (possibly with case ignored) as this string literal.
+
+2. A regular expression may also be a more [complex regular expression](#complex-regular-expression) using which more involved regular expression (than string literals can be defined). Such a regular expression is placed within angular brackets `<...>`, and may be labeled optionally with an identifier. This label may be used to refer to this regular expression from [expansion units](#expansion-unit) or from within other regular expressions. If the label is preceded by a `#`, then this regular expression may not be referred to from expansion units, but only from within other regular expressions. When the `#` is present, the regular expression is referred to as a *private regular expression*.
+
+3. A regular expression may be a reference to some other labeled regular expression in which case it is written as the label enclosed in angular brackets `<...>`.
+
+4. Finally, a regular expression may be a reference to the predefined regular expression `<EOF>` which is matched by the end of file.
 
 Private regular expressions are not matched as tokens by the token manager. Their purpose is solely to facilitate the definition of other more complex regular expressions.
 
 Consider the following example defining Java floating point literals:
 
-TOKEN :
-{
+```java
+TOKEN : {
   < FLOATING_POINT_LITERAL:
-        (["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)? (["f","F","d","D"])?
-      | "." (["0"-"9"])+ (<EXPONENT>)? (["f","F","d","D"])?
-      | (["0"-"9"])+ <EXPONENT> (["f","F","d","D"])?
-      | (["0"-"9"])+ (<EXPONENT>)? ["f","F","d","D"]
+      (["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)? (["f","F","d","D"])?
+    | "." (["0"-"9"])+ (<EXPONENT>)? (["f","F","d","D"])?
+    | (["0"-"9"])+ <EXPONENT> (["f","F","d","D"])?
+    | (["0"-"9"])+ (<EXPONENT>)? ["f","F","d","D"]
   >
-|
+  |
   < #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
 }
-In this example, the token FLOATING_POINT_LITERAL is defined using the definition of another token, namely, EXPONENT. The "#" before the label EXPONENT indicates that this exists solely for the purpose of defining other tokens (FLOATING_POINT_LITERAL in this case). The definition of FLOATING_POINT_LITERAL is not affected by the presence or absence of the "#". However, the token manager's behavior is. If the "#" is omitted, the token manager will erroneously recognize a string like E123 as a legal token of kind EXPONENT (instead of IDENTIFIER in the Java grammar).
+```
 
-complex_regular_expression_choices	::=	complex_regular_expression ( "|" complex_regular_expression )*
-Complex regular expression choices is made up of a list of one or more complex regular expressions separated by "|"s. A match for a complex regular expression choice is a match of any of its constituent complex regular expressions.
+In this example, the token `FLOATING_POINT_LITERAL` is defined using the definition of another token, namely, `EXPONENT`. The `#` before the label `EXPONENT` indicates that this exists solely for the purpose of defining other tokens (`FLOATING_POINT_LITERAL` in this case). The definition of `FLOATING_POINT_LITERAL` is not affected by the presence or absence of the `#`. However, the token manager's behavior is. If the `#` is omitted, the token manager will erroneously recognize a string like E123 as a legal token of kind `EXPONENT` (instead of `IDENTIFIER` in the Java grammar).
 
-complex_regular_expression	::=	( complex_regular_expression_unit )*
+### <a name="complex-regular-expression-choices"></a>complex_regular_expression_choices
+
+---
+
+```java
+complex_regular_expression_choices ::= complex_regular_expression ( "|" complex_regular_expression )*
+```
+
+Complex regular expression choices is made up of a list of one or more [complex regular expressions](#complex-regular-expression) separated by `|`s. A match for a complex regular expression choice is a match of any of its constituent complex regular expressions.
+
+### <a name="complex-regular-expression"></a>complex_regular_expression
+
+---
+
+```java
+complex_regular_expression ::= ( complex_regular_expression_unit )*
+```
+
 A complex regular expression is a sequence of complex regular expression units. A match for a complex regular expression is a concatenation of matches to the complex regular expression units.
 
+### <a name="complex-regular-expression-unit"></a>complex_regular_expression_unit
+
+---
+
+```java
 complex_regular_expression_unit	::=	java_string_literal
-|	"<" java_identifier ">"
-|	character_list
-|	"(" complex_regular_expression_choices ")" [ "+" | "*" | "?" ]
+                                  | "<" java_identifier ">"
+                                  | character_list
+                                  | "(" complex_regular_expression_choices ")" [ "+" | "*" | "?" ]
+```
+
 A complex regular expression unit can be a string literal, in which case there is exactly one match for this unit, namely, the string literal itself.
 
 A complex regular expression unit can be a reference to another regular expression. The other regular expression has to be labeled so that it can be referenced. The matches of this unit are all the matches of this other regular expression. Such references in regular expressions cannot introduce loops in the dependency between tokens.
 
-A complex regular expression unit can be a character list. A character list is a way of defining a set of characters. A match for this kind of complex regular expression unit is any character that is allowed by the character list.
+A complex regular expression unit can be a [character list](#character_list). A character list is a way of defining a set of characters. A match for this kind of complex regular expression unit is any character that is allowed by the character list.
 
 A complex regular expression unit can be a parenthesized set of complex regular expression choices. In this case, a legal match of the unit is any legal match of the nested choices. The parenthesized set of choices can be suffixed (optionally) by:
 
-"+": Then any legal match of the unit is one or more repetitions of a legal match of the parenthesized set of choices.
-"*": Then any legal match of the unit is zero or more repetitions of a legal match of the parenthesized set of choices.
-"?": Then a legal match of the unit is either the empty string or any legal match of the nested choices.
-Note that unlike the `BNF` expansions, the regular expression "[...]" is not equivalent to the regular expression "(...)?". This is because the [...] construct is used to describe character lists in regular expressions.
+| Suffix | Description |
+| :--- | :--- |
+| `+` | Then any legal match of the unit is one or more repetitions of a legal match of the parenthesized set of choices.|
+| `*` | Then any legal match of the unit is zero or more repetitions of a legal match of the parenthesized set of choices.|
+| `?` | Then a legal match of the unit is either the empty string or any legal match of the nested choices.
+Note that unlike the `BNF` expansions, the regular expression `[...]` is not equivalent to the regular expression `(...)?`. This is because the `[...]` construct is used to describe character lists in regular expressions. |
 
-character_list	::=	[ "~" ] "[" [ character_descriptor ( "," character_descriptor )* ] "]"
-A character list describes a set of characters. A legal match for a character list is any character in this set. A character list is a list of character descriptors separated by commas within square brackets. Each character descriptor describes a single character or a range of characters (see character descriptor below), and this is added to the set of characters of the character list. If the character list is prefixed by the "~" symbol, the set of characters it represents is any UNICODE character not in the specified set.
+### <a name="character_list"></a>character_list
 
-character_descriptor	::=	java_string_literal [ "-" java_string_literal ]
-A character descriptor can be a single character string literal, in which case it describes a singleton set containing that character; or it is two single character string literals separated by a "-", in which case, it describes the set of all characters in the range between and including these two characters.
+---
+
+```java
+character_list ::= [ "~" ] "[" [ character_descriptor ( "," character_descriptor )* ] "]"
+```
+
+A character list describes a set of characters. A legal match for a character list is any character in this set. A character list is a list of character descriptors separated by commas within square brackets. Each character descriptor describes a single character or a range of characters (see [character descriptor](#character-descriptor) below), and this is added to the set of characters of the character list. If the character list is prefixed by the `~` symbol, the set of characters it represents is any `UNICODE` character not in the specified set.
+
+### <a name="character_descriptor"></a>character_descriptor
+
+---
+
+```java
+character_descriptor ::= java_string_literal [ "-" java_string_literal ]
+```
+
+A character descriptor can be a single character string literal, in which case it describes a singleton set containing that character - or it is two single character string literals separated by a `-`, in which case, it describes the set of all characters in the range between and including these two characters.
 
 <br>
 
 ---
 
-[NEXT >>](error-handling.md)
+[NEXT >>](.md)
 
 <br>
