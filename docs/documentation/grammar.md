@@ -202,6 +202,8 @@ option_binding ::= "BUILD_PARSER" "=" java_boolean_literal ";"
                  | "USER_TOKEN_MANAGER" "=" java_boolean_literal ";"
 ```
 
+The following table describes the purpose of each option, along with the input type, and default values.
+
 | Option | Type | Default Value | Description |
 | :--- | :---: |:---: | :--- |
 | BUILD_PARSER | `boolean` | `true` | The default action is to generate the parser file (`MyParser.java` in the above example). When set to `false`, the parser file is not generated. Typically, this option is set to `false` when you wish to generate only the token manager and use it without the associated parser. |

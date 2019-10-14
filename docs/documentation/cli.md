@@ -70,7 +70,7 @@ ABOUT JavaCC:
     JavaCC is a parser generator for the Java programming language.
 ```
 
-Any option may be set either on the command line as shown above, or in the grammar file as described in the [JavaCC grammar](frammar.md). The effect is exactly the same.
+Any option may be set either on the command line as shown above, or in the grammar file as described in the [JavaCC grammar](grammar.md). The effect is exactly the same.
 
 If the same option is set in both the command line and the grammar file, then the option setting in the command line takes precedence.
 
