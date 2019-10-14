@@ -10,7 +10,6 @@ Examples of legal strings in this grammar are:
 
 Examples of illegal strings are:
 
-* {{{{
 * {}{}
 * }{}}
 * {{}{}}
