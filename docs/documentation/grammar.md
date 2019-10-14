@@ -4,7 +4,16 @@
 
 This page contains the complete syntax of the JavaCC grammar files with detailed explanations of each construct.
 
-#### Conventions
+### <a name="toc"></a>Contents
+
+- [**Blah**](#blah)
+  * [Conventions](#conventions)
+  * [File structure](#file-structure)
+  * [Options](#options)
+
+## <a name="blah"></a>Blah
+
+### <a name="conventions"></a>Conventions
 
 1. Tokens in the grammar files follow the same conventions as for the Java programming language. Hence identifiers, strings, characters, etc. used in the grammars are the same as Java identifiers, Java strings, Java characters, etc.
 
@@ -30,7 +39,7 @@ TOKEN
 TOKEN_MGR_DECLS
 ```
 
-#### File structure
+### <a name="file-structure"></a>File structure
 
 The structure of JavaCC grammar files is defined as follows:
 
@@ -124,13 +133,16 @@ Token getNextToken() throws ParseError;
 
 For more details on how this method may be used, please refer to the [JavaCC API](#javacc-api) documentation.
 
+
+### <a name="options"></a>Options
+
+Options may be specified either in the grammar file or from the command line. If the option is set from the command line, that takes precedence.
+
 ```java
 javacc_options ::= [ "options" "{" ( option-binding )*; "}" ]
 ```
 
-The options if present, starts with the reserved word `options` followed by a list of one or more option bindings within braces. Each option binding specifies the setting of one option. The same option may not be set multiple times.
-
-Options may be specified either here in the grammar file, or from the command line. If the option is set from the command line, that takes precedence.
+If present, the options start with the reserved word `options` followed by a list of one or more option bindings within braces. Each option binding specifies the setting of one option. The same option may not be set multiple times.
 
 Option names are not case-sensitive.
 
@@ -189,68 +201,102 @@ option_binding ::= "BUILD_PARSER" "=" java_boolean_literal ";"
 | USER_TOKEN_MANAGER | `boolean` | `false` | The default action is to generate a token manager that works on the specified grammar tokens. If this option is set to `true`, then the parser is generated to accept tokens from any token manager of type `TokenManager` - this interface is generated into the generated parser directory. |
 
 
-production	::=	javacode_production
-|	regular_expr_production
-|	bnf_production
-|	token_manager_decls
-There are four kinds of productions in JavaCC. javacode_production and bnf_production are used to define the grammar from which the parser is generated. regular_expr_production is used to define the grammar tokens - the token manager is generated from this information (as well as from inline token specifications in the parser grammar). token_manager_decls is used to introduce declarations that get inserted into the generated token manager.
+### <a name="productions"></a>Productions
 
-javacode_production	::=	"JAVACODE"
-java_access_modifier java_return_type java_identifier "(" java_parameter_list ")"
-java_block
-The JAVACODE production is a way to write Java code for some productions instead of the usual EBNF expansion. This is useful when there is the need to recognize something that is not context-free or for whatever reason is very difficult to write a grammar for. An example of the use of JAVACODE is shown below. In this example, the non-terminal "skip_to_matching_brace" consumes tokens in the input stream all the way up to a matching closing brace (the opening brace is assumed to have been just scanned):
+```java
+production ::= javacode_production
+             | regular_expr_production
+             | bnf_production
+             | token_manager_decls
+```
 
-    JAVACODE
-    void skip_to_matching_brace() {
-      Token tok;
-      int nesting = 1;
-      while (true) {
-        tok = getToken(1);
-        if (tok.kind == LBRACE) nesting++;
-        if (tok.kind == RBRACE) {
-          nesting--;
-          if (nesting == 0) break;
-        }
-        tok = getNextToken();
-      }
+There are four kinds of productions in JavaCC.
+* `javacode_production` and `bnf_production` are used to define the grammar from which the parser is generated.
+* `regular_expr_production` is used to define the grammar tokens - the token manager is generated from this information (as well as from inline token specifications in the parser grammar).
+* `token_manager_decls` is used to introduce declarations that get inserted into the generated token manager.
+
+#### JAVACODE
+
+```java
+javacode_production ::= "JAVACODE"
+                        java_access_modifier java_return_type java_identifier "(" java_parameter_list ")"
+                        java_block
+```
+
+The `JAVACODE` production is a way to write Java code for some productions instead of the usual EBNF expansion. This is useful when there is the need to recognize something that is not context-free or for whatever reason is very difficult to write a grammar for.
+
+An example of the use of `JAVACODE` is shown below. In this example, the non-terminal `skip_to_matching_brace` consumes tokens in the input stream all the way up to a matching closing brace (the opening brace is assumed to have been just scanned):
+
+```java
+JAVACODE
+void skip_to_matching_brace() {
+  Token tok;
+  int nesting = 1;
+  while (true) {
+    tok = getToken(1);
+    if (tok.kind == LBRACE) nesting++;
+    if (tok.kind == RBRACE) {
+      nesting--;
+      if (nesting == 0) break;
     }
-Care must be taken when using JAVACODE productions. While you can say pretty much what you want with these productions, JavaCC simply considers it a black box (that somehow performs its parsing task). This becomes a problem when JAVACODE productions appear at choice points. For example, if the above JAVACODE production was referred to from the following production:
-
-  void NT() :
-  {}
-  {
-    skip_to_matching_brace()
-  |
-    some_other_production()
+    tok = getNextToken();
   }
-Then JavaCC would not know how to choose between the two choices. On the other hand, if the JAVACODE production is used at a non-choice point as in the following example, there is no problem:
+}
+```
 
-  void NT() :
-  {}
-  {
-    "{" skip_to_matching_brace()
+Care must be taken when using `JAVACODE` productions. While you can say pretty much what you want with these productions, JavaCC simply considers it a black box (that somehow performs its parsing task). This becomes a problem when `JAVACODE` productions appear at choice points. For example, if the above `JAVACODE` production was referred to from the following production:
+
+```java
+void NT() : {
+}
+{
+  skip_to_matching_brace()
   |
-    "(" parameter_list() ")"
-  }
-JAVACODE productions at choice points may also be preceded by syntactic or semantic LOOKAHEAD, as in this example:
+  some_other_production()
+}
+```
 
-  void NT() :
-  {}
-  {
-    LOOKAHEAD( {errorOccurred} ) skip_to_matching_brace()
+Then JavaCC would not know how to choose between the two choices. On the other hand, if the `JAVACODE` production is used at a non-choice point as in the following example, there is no problem:
+
+```java
+void NT() : {
+}
+{
+  "{" skip_to_matching_brace()
   |
-    "(" parameter_list() ")"
-  }
-The default access modifier for JAVACODE productions is package private.
+  "(" parameter_list() ")"
+}
+```
 
-bnf_production	::=	java_access_modifier java_return_type java_identifier "(" java_parameter_list ")" ":"
-java_block
-"{" expansion_choices "}"
-The BNF production is the standard production used in specifying JavaCC grammars. Each BNF production has a left hand side which is a non-terminal specification. The BNF production then defines this non-terminal in terms of BNF expansions on the right hand side. The non-terminal is written exactly like a declared Java method. Since each non-terminal is translated into a method in the generated parser, this style of writing the non-terminal makes this association obvious. The name of the non-terminal is the name of the method, and the parameters and return value declared are the means to pass values up and down the parse tree. As will be seen later, non-terminals on the right hand sides of productions are written as method calls, so the passing of values up and down the tree are done using exactly the same paradigm as method call and return. The default access modifier for BNF productions is public.
+`JAVACODE` productions at choice points may also be preceded by syntactic or semantic `LOOKAHEAD`, as in this example:
 
-There are two parts on the right hand side of an BNF production. The first part is a set of arbitrary Java declarations and code (the Java block). This code is generated at the beginning of the method generated for the Java non-terminal. Hence, every time this non-terminal is used in the parsing process, these declarations and code are executed. The declarations in this part are visible to all Java code in actions in the BNF expansions. JavaCC does not do any processing of these declarations and code, except to skip to the matching ending brace, collecting all text encountered on the way. Hence, a Java compiler can detect errors in this code that has been processed by JavaCC.
+```java
+void NT() : {
+}
+{
+  LOOKAHEAD ( {errorOccurred} ) skip_to_matching_brace()
+  |
+  "(" parameter_list() ")"
+}
+```
 
-The second part of the right hand side are the BNF expansions. This is described later.
+The default access modifier for `JAVACODE` productions is package `private`.
+
+#### BNF
+
+```java
+bnf_production ::= java_access_modifier java_return_type java_identifier "(" java_parameter_list ")" ":"
+                   java_block
+                   "{" expansion_choices "}"
+```
+
+The `BNF` production is the standard production used in specifying JavaCC grammars. Each `BNF` production has a left hand side which is a non-terminal specification. The `BNF` production then defines this non-terminal in terms of `BNF` expansions on the right hand side. The non-terminal is written exactly like a declared Java method. Since each non-terminal is translated into a method in the generated parser, this style of writing the non-terminal makes this association obvious. The name of the non-terminal is the name of the method, and the parameters and return value declared are the means to pass values up and down the parse tree. As will be seen later, non-terminals on the right hand sides of productions are written as method calls, so the passing of values up and down the tree are done using exactly the same paradigm as method call and return. The default access modifier for `BNF` productions is `public`.
+
+There are two parts on the right hand side of an `BNF` production. The first part is a set of arbitrary Java declarations and code (the Java block). This code is generated at the beginning of the method generated for the Java non-terminal. Hence, every time this non-terminal is used in the parsing process, these declarations and code are executed. The declarations in this part are visible to all Java code in actions in the `BNF` expansions. JavaCC does not do any processing of these declarations and code, except to skip to the matching ending brace, collecting all text encountered on the way. Hence, a Java compiler can detect errors in this code that has been processed by JavaCC.
+
+The second part of the right hand side are the `BNF` expansions. This is described later.
+
+### Regular Expression
 
 regular_expr_production	::=	[ lexical_state_list ]
 regexpr_kind [ "[" "IGNORE_CASE" "]" ] ":"
@@ -281,7 +327,7 @@ regexpr_kind	::=	"TOKEN"
 This specifies the kind of regular expression production. There are four kinds:
 
 TOKEN: The regular expressions in this regular expression production describe tokens in the grammar. The token manager creates a Token object for each match of such a regular expression and returns it to the parser.
-SPECIAL_TOKEN: The regular expressions in this regular expression production describe special tokens. Special tokens are like tokens, except that they do not have significance during parsing - that is the BNF productions ignore them. Special tokens are, however, still passed on to the parser so that parser actions can access them. Special tokens are passed to the parser by linking them to neighboring real tokens using the field "specialToken" in the Token class. Special tokens are useful in the processing of lexical entities such as comments which have no significance to parsing, but still are an important part of the input file. See the minitutorial on the token manager for more details of special token handling.
+SPECIAL_TOKEN: The regular expressions in this regular expression production describe special tokens. Special tokens are like tokens, except that they do not have significance during parsing - that is the `BNF` productions ignore them. Special tokens are, however, still passed on to the parser so that parser actions can access them. Special tokens are passed to the parser by linking them to neighboring real tokens using the field "specialToken" in the Token class. Special tokens are useful in the processing of lexical entities such as comments which have no significance to parsing, but still are an important part of the input file. See the minitutorial on the token manager for more details of special token handling.
 SKIP: Matches to regular expressions in this regular expression production are simply skipped (ignored) by the token manager.
 MORE: Sometimes it is useful to gradually build up a token to be passed on to the parser. Matches to this kind of regular expression are stored in a buffer until the next TOKEN or SPECIAL_TOKEN match. Then all the matches in the buffer and the final TOKEN/SPECIAL_TOKEN match are concatenated together to form one TOKEN/SPECIAL_TOKEN that is passed on to the parser. If a match to a SKIP regular expression follows a sequence of MORE matches, the contents of the buffer is discarded.
 regexpr_spec	::=	regular_expression [ java_block ] [ ":" java_identifier ]
@@ -391,7 +437,7 @@ A complex regular expression unit can be a parenthesized set of complex regular 
 "+": Then any legal match of the unit is one or more repetitions of a legal match of the parenthesized set of choices.
 "*": Then any legal match of the unit is zero or more repetitions of a legal match of the parenthesized set of choices.
 "?": Then a legal match of the unit is either the empty string or any legal match of the nested choices.
-Note that unlike the BNF expansions, the regular expression "[...]" is not equivalent to the regular expression "(...)?". This is because the [...] construct is used to describe character lists in regular expressions.
+Note that unlike the `BNF` expansions, the regular expression "[...]" is not equivalent to the regular expression "(...)?". This is because the [...] construct is used to describe character lists in regular expressions.
 
 character_list	::=	[ "~" ] "[" [ character_descriptor ( "," character_descriptor )* ] "]"
 A character list describes a set of characters. A legal match for a character list is any character in this set. A character list is a list of character descriptors separated by commas within square brackets. Each character descriptor describes a single character or a range of characters (see character descriptor below), and this is added to the set of characters of the character list. If the character list is prefixed by the "~" symbol, the set of characters it represents is any UNICODE character not in the specified set.
