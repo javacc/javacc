@@ -34,23 +34,25 @@ TOKEN_MGR_DECLS
 
 Any Java entities used in the grammar rules that follow appear italicized with the prefix `java_` (e.g. `java_compilation_unit`).
 
-<table>
-<tr>
-<td align="right" valign="baseline"><a name="prod2">javacc_options</a></td>
-<td align="center" valign="baseline">::=</td>
-<td align="left" valign="baseline">[ "<a name="options">options</a>" "{" ( <a href="#prod6">option_binding</a> )* "}" ]</td>
-</tr>
-</table>
-
-
-```java
-javacc_input ::= <pre><a href="#javacc-options">javacc_options</a></pre>
+<code>
+javacc_input ::=     [javacc_options](#javacc-options)
                  "PARSER_BEGIN" "(" <IDENTIFIER> ")"
-                 <pre><i>java_compilation_unit</i></pre>
+                 java_compilation_unit
                  "PARSER_END" "(" <IDENTIFIER> ")"
                  ( production )*
                  <EOF>
-```
+</code>
+
+<code>
+[javacc_options](#javacc-options)
+    [javacc_options](#javacc-options)
+                 [javacc_options](#javacc-options)
+                 [javacc_options](#javacc-options)
+                 *italics*
+</code>
+
+
+
 
 The grammar file starts with a list of options (which is optional). This is then followed by a Java compilation unit enclosed between `PARSER_BEGIN(name)` and `PARSER_END(name)`. After this is a list of grammar productions. Options and productions are described later.
 
