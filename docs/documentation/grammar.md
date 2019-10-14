@@ -34,7 +34,7 @@ TOKEN_MGR_DECLS
 
 Any Java entities used in the grammar rules that follow appear italicized with the prefix `java_` (e.g. `java_compilation_unit`).
 
-<table id="bnf">
+<table id="bnf" cellspacing="0" cellpadding="0">
   <tr>
     <td>javacc_input ::=</td>
     <td><a href="#javacc-options">javacc_options</a></td>
@@ -49,9 +49,20 @@ Any Java entities used in the grammar rules that follow appear italicized with t
   </tr>
 </table>
 
-|  |  |
-| :--- | :--- |
-| javacc_input ::= | [javacc_options](#javacc-options)<br>"PARSER_BEGIN" "(" <IDENTIFIER> ")"<br>*java_compilation_unit*<br>"PARSER_END" "(" <IDENTIFIER> ")"<br>( production )\*<br><EOF> |
+<table id="bnf" border="0">
+  <tr>
+    <td>javacc_input ::=</td>
+    <td><a href="#javacc-options">javacc_options</a></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>"PARSER_BEGIN" "(" &lt;IDENTIFIER&gt; ")" </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td><i>java_compilation_unit</i></td>
+  </tr>
+</table>
 
 The grammar file starts with a list of options (which is optional). This is then followed by a Java compilation unit enclosed between `PARSER_BEGIN(name)` and `PARSER_END(name)`. After this is a list of grammar productions. Options and productions are described later.
 
