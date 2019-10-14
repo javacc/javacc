@@ -12,7 +12,6 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>java</module>
-		<module>cpp</module>
 		<module>csharp</module>
 	</modules>
 	<build>
