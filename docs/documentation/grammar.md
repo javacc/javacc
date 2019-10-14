@@ -45,7 +45,7 @@ Any Java entities used in the grammar rules that follow appear italicized with t
   </tr>
   <tr>
     <td></td>
-    <td>*java_compilation_unit*</td>
+    <td><i>java_compilation_unit</i></td>
   </tr>
 </table>
 
