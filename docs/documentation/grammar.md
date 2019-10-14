@@ -34,6 +34,16 @@ TOKEN_MGR_DECLS
 
 The structure of JavaCC grammar files is defined as follows:
 
+```java
+javacc_input ::= javacc_options
+                 "PARSER_BEGIN" "(" <IDENTIFIER> ")"
+                 java_compilation_unit
+                 "PARSER_END" "(" <IDENTIFIER> ")"
+                 ( production )*
+                 <EOF>
+```
+
+<!--- Render BNF with HTML table to preserve links and italics for Java entities
 <table id="bnf">
   <tr id="bnf">
     <td id="bnf">javacc_input ::=</td>
@@ -60,8 +70,11 @@ The structure of JavaCC grammar files is defined as follows:
     <td id="bnf">&lt;EOF&gt;</td>
   </tr>
 </table>
+-->
 
+<!---
 *N.B. Any Java entities used in the grammar rules that follow appear italicized with the prefix `java_` (e.g. `java_compilation_unit`)*.
+-->
 
 The grammar file starts with a list of options (which is optional). This is then followed by a Java compilation unit enclosed between `PARSER_BEGIN(name)` and `PARSER_END(name)`. After this is a list of grammar productions (both [options](#) and [productions](#) are described below).
 
@@ -111,12 +124,9 @@ Token getNextToken() throws ParseError;
 
 For more details on how this method may be used, please refer to the [JavaCC API](#javacc-api) documentation.
 
-<table id="bnf">
-  <tr id="bnf">
-    <td id="bnf">javacc_options ::=</td>
-    <td id="bnf">[ "options" "{" ( <a href="#option-binding">option-binding</a> )&#42; "}" ]</td>
-  </tr>
-</table>
+```java
+javacc_options ::= [ "options" "{" ( option-binding )*; "}" ]
+```
 
 The options if present, starts with the reserved word `options` followed by a list of one or more option bindings within braces. Each option binding specifies the setting of one option. The same option may not be set multiple times.
 
@@ -150,20 +160,6 @@ option_binding ::= "BUILD_PARSER" "=" java_boolean_literal ";"
                  | "USER_CHAR_STREAM" "=" java_boolean_literal ";"
                  | "USER_TOKEN_MANAGER" "=" java_boolean_literal ";"
 ```
-
-
-<table id="bnf">
-  <tr id="bnf">
-    <td id="bnf">option_binding ::=</td>
-    <td id="bnf">  "BUILD_PARSER" "=" java_boolean_literal ";"</td>
-  </tr>
-  <tr id="bnf">
-    <td id="bnf"></td>
-    <td id="bnf">| "BUILD_TOKEN_MANAGER" "=" java_boolean_literal ";"</td>
-  </tr>
-
-</table>
-
 
 | Option | Description |
 | :--- | :--- |
