@@ -13,6 +13,7 @@
 	<modules>
 		<module>java</module>
 		<module>csharp</module>
+		<module>cpp</module>
 	</modules>
 	<build>
 		<pluginManagement>
