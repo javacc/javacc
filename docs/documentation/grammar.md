@@ -51,8 +51,39 @@ javacc_input ::=     [javacc_options](#javacc-options)
                  *italics*
 </code>
 
+<pre>
+javacc_input ::=     [javacc_options](#javacc-options)
+                 "PARSER_BEGIN" "(" <IDENTIFIER> ")"
+                 java_compilation_unit
+                 "PARSER_END" "(" <IDENTIFIER> ")"
+                 ( production )*
+                 <EOF>
+</pre>
 
+<pre>
+[javacc_options](#javacc-options)
+    [javacc_options](#javacc-options)
+                 [javacc_options](#javacc-options)
+                 [javacc_options](#javacc-options)
+                 *italics*
+</pre>
 
+```
+javacc_input ::=     [javacc_options](#javacc-options)
+                 "PARSER_BEGIN" "(" <IDENTIFIER> ")"
+                 java_compilation_unit
+                 "PARSER_END" "(" <IDENTIFIER> ")"
+                 ( production )*
+                 <EOF>
+```
+
+```
+[javacc_options](#javacc-options)
+    [javacc_options](#javacc-options)
+                 [javacc_options](#javacc-options)
+                 [javacc_options](#javacc-options)
+                 *italics*
+```
 
 The grammar file starts with a list of options (which is optional). This is then followed by a Java compilation unit enclosed between `PARSER_BEGIN(name)` and `PARSER_END(name)`. After this is a list of grammar productions. Options and productions are described later.
 
