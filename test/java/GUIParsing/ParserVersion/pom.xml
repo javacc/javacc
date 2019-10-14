@@ -1,14 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.javacc.test</groupId>
-		<artifactId>java</artifactId>
-		<version>8.0.0</version>
-	</parent>
-	<name>JavaCC tests Java CORBA-IDL</name>
-	<groupId>org.javacc.test.java</groupId>
-	<artifactId>CORBA-IDL</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.javacc.test.java</groupId>
+    <artifactId>GUIParsing</artifactId>
+    <version>8.0.0</version>
+  </parent>
+  <groupId>org.javacc.test.java.guiparsing</groupId>
+  <artifactId>ParserVersion</artifactId>
 	<build>
 		<plugins>
 			<plugin>
@@ -22,7 +20,7 @@
 							<goal>javacc</goal>
 						</goals>
 						<configuration>
-							<sourceDirectory>../../examples/CORBA-IDL</sourceDirectory>
+							<sourceDirectory>../../../examples/GUIParsing/ParserVersion</sourceDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -49,4 +47,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	<name>JavaCC tests Java GUIParsing ParserVersion</name>
 </project>

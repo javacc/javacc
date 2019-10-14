@@ -6,6 +6,7 @@
 		<artifactId>java</artifactId>
 		<version>8.0.0</version>
 	</parent>
+	<name>JavaCC tests Java Interpreter</name>
 	<groupId>org.javacc.test.java</groupId>
 	<artifactId>Interpreter</artifactId>
 	<build>
@@ -62,5 +63,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<name>JavaCC tests Java Interpreter</name>
 </project>
