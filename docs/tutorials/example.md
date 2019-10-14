@@ -12,7 +12,6 @@ Examples of illegal strings are:
 
 * {}{}
 * }{}}
-* {{}{}}
 * { }
 * {x}
 
