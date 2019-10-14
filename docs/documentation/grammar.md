@@ -41,7 +41,7 @@ Any Java entities used in the grammar rules that follow appear italicized with t
   </tr>
   <tr>
     <td></td>
-    <td>"PARSER_BEGIN" "(" &ltIDENTIFIER&gt ")" </td>
+    <td>"PARSER_BEGIN" "(" &lt;IDENTIFIER&gt; ")" </td>
   </tr>
   <tr>
     <td></td>
