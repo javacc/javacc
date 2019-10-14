@@ -15,5 +15,6 @@
 		<module>GUIParsing</module>
 		<module>Interpreter</module>
 		<module>JavaCCGrammar</module>
+		<module>JJTreeExamples</module>
 	</modules>
 </project>
