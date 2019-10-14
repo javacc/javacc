@@ -48,4 +48,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	<name>JavaCC tests Java CORBA-IDL</name>
 </project>

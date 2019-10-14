@@ -7,5 +7,5 @@
   </parent>
   <groupId>org.javacc.test.java</groupId>
   <artifactId>GUIParsing</artifactId>
-  <name>GUIParsing</name>
+  <name>JavaCC tests Java GUIParsing</name>
 </project>

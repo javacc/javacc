@@ -47,4 +47,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	<name>JavaCC tests Java JJTreeExamples</name>
 </project>
