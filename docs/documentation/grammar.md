@@ -37,7 +37,7 @@ Any Java entities used in the grammar rules that follow appear italicized with t
 <table align="left" border="0">
     <tr>
       <td>javacc_input ::=</td>
-      <td>[javacc_options](#javacc-options)</td>
+      <td><a href="#javacc-options">javacc_options</a></td>
     </tr>
     <tr>
       <td></td>
