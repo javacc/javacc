@@ -18,6 +18,7 @@
 		<module>JavaCCGrammar</module>
 		<module>JJTreeExamples</module>
  -->
- 	</modules>
+ 	<module>MailProcessing</module>
+	</modules>
 	<name>JavaCC tests Java</name>
 </project>

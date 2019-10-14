@@ -2,13 +2,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.javacc.test.java</groupId>
-		<artifactId>GUIParsing</artifactId>
+		<groupId>org.javacc.test</groupId>
+		<artifactId>java</artifactId>
 		<version>8.0.0</version>
 	</parent>
-	<name>JavaCC tests Java GUIParsing TokenMgrVersion</name>
-	<groupId>org.javacc.test.java.guiparsing</groupId>
-	<artifactId>TokenMgrVersion</artifactId>
+	<name>JavaCC tests Java MailProcessing</name>
+	<groupId>org.javacc.test.java</groupId>
+	<artifactId>MailProcessing</artifactId>
 	<build>
 		<plugins>
 			<plugin>
@@ -22,7 +22,7 @@
 							<goal>javacc</goal>
 						</goals>
 						<configuration>
-							<sourceDirectory>../../../examples/GUIParsing/TokenMgrVersion</sourceDirectory>
+							<sourceDirectory>../../examples/MailProcessing</sourceDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -42,7 +42,7 @@
 				<configuration>
 					<mainClass>IDLParserMain</mainClass>
 					<arguments>
-						<argument>../../examples/CORBA-IDL/Hello.idl</argument>
+						<argument>../../examples/MailProcessing/sampleMailFile</argument>
 					</arguments>
 				</configuration>
 
