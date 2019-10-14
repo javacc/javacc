@@ -12,8 +12,8 @@ Examples of legal strings in this grammar are:
 
 Examples of illegal strings are:
 
-```java
-"{{{{", "{}{}", "}{}}", "{{}{}}", "{ }", "}}}}", "{x}" // ... etc
+```
+<pre>"{{{{", "{}{}", "}{}}", "{{}{}}", "{ }", "}}}}", "{x}" </pre>// ... etc
 ```
 
 #### Grammar
