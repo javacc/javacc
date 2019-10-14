@@ -4,13 +4,19 @@
 
 This page contains the complete syntax of the JavaCC grammar files with detailed explanations of each construct.
 
-Tokens in the grammar files follow the same conventions as for the Java programming language. Hence identifiers, strings, characters, etc. used in the grammars are the same as Java identifiers, Java strings, Java characters, etc.
+#### Conventions
 
-Whitespace in the grammar files also follows the same conventions as for the Java programming language. This includes the syntax for comments. Most comments present in the grammar files are generated into the generated parser/lexical analyzer.
+* Tokens in the grammar files follow the same conventions as for the Java programming language. Hence identifiers, strings, characters, etc. used in the grammars are the same as Java identifiers, Java strings, Java characters, etc.
 
-Grammar files are preprocessed for Unicode escapes just as Java files are (i.e., occurrences of strings such as `\uxxxx` - where `xxxx` is a hex value - are converted to the corresponding Unicode character before lexical analysis).
+* Whitespace in the grammar files also follows the same conventions as for the Java programming language. This includes the syntax for comments. Most comments present in the grammar files are generated into the generated parser/lexical analyzer.
 
-Exceptions to the above rules: The Java operators `<<`, `>>`, `>>>`, `<<=`, `>>=`, and `>>>=` are left out of JavaCC's input token list in order to allow convenient nested use of token specifications. Finally, the following are the additional reserved words in the JavaCC grammar files.
+* Grammar files are preprocessed for Unicode escapes just as Java files are (i.e., occurrences of strings such as `\uxxxx` - where `xxxx` is a hex value - are converted to the corresponding Unicode character before lexical analysis).
+
+Exceptions to the above rules:
+
+* The Java operators `<<`, `>>`, `>>>`, `<<=`, `>>=`, and `>>>=` are left out of JavaCC's input token list in order to allow convenient nested use of token specifications.
+
+* The following are the additional reserved words in the JavaCC grammar files:
 
 ```java
 EOF
@@ -29,9 +35,9 @@ TOKEN_MGR_DECLS
 Any Java entities used in the grammar rules that follow appear italicized with the prefix `java_` (e.g. `java_compilation_unit`).
 
 ```java
-javacc_input ::= javacc_options
+javacc_input ::= <pre><a href="#javacc-options">javacc_options</a></pre>
                  "PARSER_BEGIN" "(" <IDENTIFIER> ")"
-                 java_compilation_unit
+                 <pre><i>java_compilation_unit</i></pre>
                  "PARSER_END" "(" <IDENTIFIER> ")"
                  ( production )*
                  <EOF>
@@ -51,11 +57,11 @@ Between the `PARSER_BEGIN` and `PARSER_END` constructs is a regular Java compila
 
 ```java
 PARSER_BEGIN(parser_name)
+
+class parser_name ... {
   // ...
-  class parser_name ... {
-    // ...
-  }
-// ...
+}
+
 PARSER_END(parser_name)
 ```
 
@@ -66,11 +72,11 @@ If the compilation unit includes a package declaration, this is included in all 
 The generated parser file contains everything in the compilation unit and, in addition, contains the generated parser code that is included at the end of the parser class. For the above example, the generated parser will look like:
 
 ```java
-  // ...
-  class parser_name ... {
-    // generated parser is inserted here.
-  }
-  // ...
+// ...
+class parser_name ... {
+  // generated parser is inserted here.
+}
+// ...
 ```
 
 The generated parser includes a public method declaration corresponding to each non-terminal (see `javacode_production` and `bnf_production`) in the grammar file. Parsing with respect to a non-terminal is achieved by calling the method corresponding to that non-terminal. Unlike Yacc, there is no single start symbol in JavaCC - one can parse with respect to any non-terminal in the grammar.
