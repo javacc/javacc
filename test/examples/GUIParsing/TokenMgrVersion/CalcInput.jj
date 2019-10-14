@@ -35,8 +35,6 @@ options {
 
 PARSER_BEGIN(CalcInputParser)
 
-public class CalcInputParser {
-}
 
 PARSER_END(CalcInputParser)
 
