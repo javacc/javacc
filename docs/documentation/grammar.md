@@ -51,13 +51,7 @@ Any Java entities used in the grammar rules that follow appear italicized with t
 
 |  |  |
 | :--- | :--- |
-| javacc_input ::= | [javacc_options](#javacc-options) <br>
-"PARSER_BEGIN" "(" <IDENTIFIER> ")" <br>
-*java_compilation_unit* <br>
-"PARSER_END" "(" <IDENTIFIER> ")" <br>
-( production )\* <br>
-<EOF> <br>
-|
+| javacc_input ::= | [javacc_options](#javacc-options)<br>"PARSER_BEGIN" "(" <IDENTIFIER> ")"<br>*java_compilation_unit*<br>"PARSER_END" "(" <IDENTIFIER> ")"<br>( production )\*<br><EOF> |
 
 The grammar file starts with a list of options (which is optional). This is then followed by a Java compilation unit enclosed between `PARSER_BEGIN(name)` and `PARSER_END(name)`. After this is a list of grammar productions. Options and productions are described later.
 
