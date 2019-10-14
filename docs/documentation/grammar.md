@@ -6,17 +6,15 @@ This page contains the complete syntax of the JavaCC grammar files with detailed
 
 #### Conventions
 
-* Tokens in the grammar files follow the same conventions as for the Java programming language. Hence identifiers, strings, characters, etc. used in the grammars are the same as Java identifiers, Java strings, Java characters, etc.
+1. Tokens in the grammar files follow the same conventions as for the Java programming language. Hence identifiers, strings, characters, etc. used in the grammars are the same as Java identifiers, Java strings, Java characters, etc.
 
-* Whitespace in the grammar files also follows the same conventions as for the Java programming language. This includes the syntax for comments. Most comments present in the grammar files are generated into the generated parser/lexical analyzer.
+2. Whitespace in the grammar files also follows the same conventions as for the Java programming language. This includes the syntax for comments. Most comments present in the grammar files are generated into the generated parser/lexical analyzer.
 
-* Grammar files are preprocessed for Unicode escapes just as Java files are (i.e., occurrences of strings such as `\uxxxx` - where `xxxx` is a hex value - are converted to the corresponding Unicode character before lexical analysis).
+3. Grammar files are preprocessed for Unicode escapes just as Java files are (i.e., occurrences of strings such as `\uxxxx` - where `xxxx` is a hex value - are converted to the corresponding Unicode character before lexical analysis).
 
-Exceptions to the above rules:
+4. Exceptions to the above rules - the Java operators `<<`, `>>`, `>>>`, `<<=`, `>>=`, and `>>>=` are left out of JavaCC's input token list in order to allow convenient nested use of token specifications.
 
-* The Java operators `<<`, `>>`, `>>>`, `<<=`, `>>=`, and `>>>=` are left out of JavaCC's input token list in order to allow convenient nested use of token specifications.
-
-* The following are the additional reserved words in the JavaCC grammar files:
+5. The following are the additional reserved words in the JavaCC grammar files:
 
 ```java
 EOF
@@ -32,7 +30,9 @@ TOKEN
 TOKEN_MGR_DECLS
 ```
 
-Any Java entities used in the grammar rules that follow appear italicized with the prefix `java_` (e.g. `java_compilation_unit`).
+#### File structure
+
+The structure of JavaCC grammar files is defined as follows:
 
 <table id="bnf">
   <tr id="bnf">
@@ -47,9 +47,23 @@ Any Java entities used in the grammar rules that follow appear italicized with t
     <td id="bnf"></td>
     <td id="bnf"><i>java_compilation_unit</i></td>
   </tr>
+  <tr id="bnf">
+    <td id="bnf"></td>
+    <td id="bnf">"PARSER_END" "(" &lt;IDENTIFIER&gt; ")" </td>
+  </tr>
+  <tr id="bnf">
+    <td id="bnf"></td>
+    <td id="bnf">( production )&#42;</td>
+  </tr>
+  <tr id="bnf">
+    <td id="bnf"></td>
+    <td id="bnf">&lt;EOF&gt;</td>
+  </tr>
 </table>
 
-The grammar file starts with a list of options (which is optional). This is then followed by a Java compilation unit enclosed between `PARSER_BEGIN(name)` and `PARSER_END(name)`. After this is a list of grammar productions. Options and productions are described later.
+*N.B. Any Java entities used in the grammar rules that follow appear italicized with the prefix `java_` (e.g. `java_compilation_unit`)*.
+
+The grammar file starts with a list of options (which is optional). This is then followed by a Java compilation unit enclosed between `PARSER_BEGIN(name)` and `PARSER_END(name)`. After this is a list of grammar productions (both [options](#) and [productions](#) are described below).
 
 The name that follows `PARSER_BEGIN` and `PARSER_END` must be the same and this identifies the name of the generated parser. For example, if name is `MyParser`, then the following files are generated:
 
@@ -59,7 +73,9 @@ The name that follows `PARSER_BEGIN` and `PARSER_END` must be the same and this 
 
 Other files such as `Token.java`, `ParseException.java` etc are also generated. However, these files contain boilerplate code and are the same for any grammar and may be reused across grammars (provided the grammars use compatible options).
 
-Between the `PARSER_BEGIN` and `PARSER_END` constructs is a regular Java compilation unit (a compilation unit in Java lingo is the entire contents of a Java file). This may be any arbitrary Java compilation unit so long as it contains a class declaration whose name is the same as the name of the generated parser (`MyParser` in the above example). Hence, in general, this part of the grammar file looks like:
+Between the `PARSER_BEGIN` and `PARSER_END` constructs is a regular Java compilation unit (a compilation unit in Java terminology is the entire contents of a Java file). This may be any arbitrary Java compilation unit so long as it contains a class declaration whose name is the same as the name of the generated parser (`MyParser` in the above example).
+
+Hence, in general, this part of the grammar file looks like:
 
 ```java
 PARSER_BEGIN(parser_name)
@@ -85,7 +101,7 @@ class parser_name ... {
 // ...
 ```
 
-The generated parser includes a public method declaration corresponding to each non-terminal (see `javacode_production` and `bnf_production`) in the grammar file. Parsing with respect to a non-terminal is achieved by calling the method corresponding to that non-terminal. Unlike Yacc, there is no single start symbol in JavaCC - one can parse with respect to any non-terminal in the grammar.
+The generated parser includes a public method declaration corresponding to each non-terminal (see [javacode_production](#) and [bnf_production](#) in the grammar file. Parsing with respect to a non-terminal is achieved by calling the method corresponding to that non-terminal. Unlike Yacc, there is no single start symbol in JavaCC - one can parse with respect to any non-terminal in the grammar.
 
 The generated token manager provides one public method:
 
@@ -93,11 +109,14 @@ The generated token manager provides one public method:
 Token getNextToken() throws ParseError;
 ```
 
-For more details on how this method may be used, please read the description of the [JavaCC API](#javacc-api).
+For more details on how this method may be used, please refer to the [JavaCC API](#javacc-api) documentation.
 
-```java
-javacc_options	::=	[ "options" "{" ( option_binding )* "}" ]
-```
+<table id="bnf">
+  <tr id="bnf">
+    <td id="bnf">javacc_options ::=</td>
+    <td id="bnf">[ "options" "{" ( <a href="#option-binding">option-binding</a> )&#42; "}" ]</td>
+  </tr>
+</table>
 
 The options if present, starts with the reserved word `options` followed by a list of one or more option bindings within braces. Each option binding specifies the setting of one option. The same option may not be set multiple times.
 
@@ -131,6 +150,20 @@ option_binding ::= "BUILD_PARSER" "=" java_boolean_literal ";"
                  | "USER_CHAR_STREAM" "=" java_boolean_literal ";"
                  | "USER_TOKEN_MANAGER" "=" java_boolean_literal ";"
 ```
+
+
+<table id="bnf">
+  <tr id="bnf">
+    <td id="bnf">option_binding ::=</td>
+    <td id="bnf">  "BUILD_PARSER" "=" java_boolean_literal ";"</td>
+  </tr>
+  <tr id="bnf">
+    <td id="bnf"></td>
+    <td id="bnf">| "BUILD_TOKEN_MANAGER" "=" java_boolean_literal ";"</td>
+  </tr>
+
+</table>
+
 
 | Option | Description |
 | :--- | :--- |

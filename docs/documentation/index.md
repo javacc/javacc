@@ -10,7 +10,7 @@
 
 3. [CharStream](charstream.md)
 
-4. [Error Handling](error-handling.md)
+4. [JavaCC API](#javacc-api)
 
 5. [Lexer Tips](lexer-tips.md)
 
