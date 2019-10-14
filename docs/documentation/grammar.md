@@ -37,30 +37,15 @@ Any Java entities used in the grammar rules that follow appear italicized with t
 <table id="bnf">
   <tr id="bnf">
     <td id="bnf">javacc_input ::=</td>
-    <td><a href="#javacc-options">javacc_options</a></td>
+    <td id="bnf"><a href="#javacc-options">javacc_options</a></td>
+  </tr>
+  <tr id="bnf">
+    <td id="bnf"></td>
+    <td id="bnf">"PARSER_BEGIN" "(" &lt;IDENTIFIER&gt; ")" </td>
   </tr>
   <tr>
-    <td></td>
-    <td>"PARSER_BEGIN" "(" &lt;IDENTIFIER&gt; ")" </td>
-  </tr>
-  <tr>
-    <td></td>
-    <td><i>java_compilation_unit</i></td>
-  </tr>
-</table>
-
-<table id="bnf">
-  <tr>
-    <td>javacc_input ::=</td>
-    <td><a href="#javacc-options">javacc_options</a></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>"PARSER_BEGIN" "(" &lt;IDENTIFIER&gt; ")" </td>
-  </tr>
-  <tr>
-    <td></td>
-    <td><i>java_compilation_unit</i></td>
+    <td id="bnf"></td>
+    <td id="bnf"><i>java_compilation_unit</i></td>
   </tr>
 </table>
 
