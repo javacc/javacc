@@ -21,11 +21,12 @@ This README is meant as a brief overview of the core features and how to set thi
 
 - [Introduction](#introduction)
   * [Features](#features)
+  * [Example Grammar](#example)
   * [Tutorials](docs/tutorials/index.md)
   * [FAQ](docs/faq.md)
 - [Getting Started](#getting-started)
   * [Download & Installation](#download)
-  * [Building JavaCC from source](#building-from-source)
+  * [Building JavaCC from Source](#building-from-source)
   * [Developing JavaCC](#developing)
 - [Community](#community)
   * [Support](#support)
@@ -68,7 +69,7 @@ This README is meant as a brief overview of the core features and how to set thi
 * The JavaCC release includes a wide range of examples including Java and HTML grammars. The examples, along with their documentation, are a great way to get acquainted with JavaCC.
 
 
-### <a name="example"></a>Example
+### <a name="example"></a>Example Grammar
 
 This example recognizes matching braces followed by zero or more line terminators and then an end of file.
 
@@ -177,13 +178,13 @@ $ tar xvf javacc-5.0.tar.gz
 
 Once you have completed installation add the `bin/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
 
-#### <a name="binary-distribution"></a>Binary distribution
+#### <a name="binary-distribution"></a>Binary Distribution
 
 The binary distributions contain the JavaCC, JJTree and JJDoc sources, launcher scripts, example grammars and documentation. It also contains a bootstrap version of JavaCC needed to build JavaCC.
 
 On Unix-based systems, you need to make sure the files in the `bin/` directory of the distribution are in your path.
 
-### <a name="building-from-source"></a>Building JavaCC from source
+### <a name="building-from-source"></a>Building JavaCC from Source
 
 Prerequisites for building JavaCC:
 
