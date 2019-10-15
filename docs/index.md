@@ -19,7 +19,7 @@ All you need to run a JavaCC parser, once generated, is a Java Runtime Environme
 
 - [Introduction](#introduction)
   * [Features](#features)
-  * [Example Grammar](#example)
+  * [Example](#example)
   * [Tutorials](tutorials/index.md)
   * [FAQ](faq.md)
 - [Getting Started](#getting-started)
@@ -67,7 +67,7 @@ All you need to run a JavaCC parser, once generated, is a Java Runtime Environme
 * The JavaCC release includes a wide range of examples including Java and HTML grammars. The examples, along with their documentation, are a great way to get acquainted with JavaCC.
 
 
-### <a name="example"></a>Example Grammar
+### <a name="example"></a>Example
 
 This example recognizes matching braces followed by zero or more line terminators and then an end of file.
 
