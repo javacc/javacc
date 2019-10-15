@@ -2,10 +2,7 @@
 
 ---
 
-This page is a comprehensive list of all classes, methods, and variables available for use by a JavaCC user.
-
-These classes, methods, and variables are typically used from the actions that are embedded in a JavaCC grammar. In the sample code used below, it is assumed that the name of the generated parser is "TheParser".
-
+This page is a comprehensive list of all classes, methods, and variables available for use.
 
 ### <a name="toc"></a>Contents
 
@@ -24,6 +21,8 @@ These classes, methods, and variables are typically used from the actions that a
   * [Node interface](#node)
 
 ## <a name="javacc-api"></a>JavaCC API
+
+These classes, methods, and variables are typically used from the actions that are embedded in a JavaCC grammar. In the sample code used below, it is assumed that the name of the generated parser is `TheParser`.
 
 ### <a name="non-terminals"></a>Non-terminals in the input grammar
 
@@ -641,8 +640,10 @@ public Node jjtGetChild(int i);
 int jjtGetNumChildren();
 ```
 
+<br>
+
 ---
 
-[NEXT >>](api.md)
+[NEXT >>](jjtree.md)
 
 <br>

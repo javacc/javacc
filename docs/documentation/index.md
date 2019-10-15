@@ -12,9 +12,9 @@
 
 4. [JavaCC API](#api)
 
-5. [Lexer Tips](lexer-tips.md)
+5. [JJTree](jjtree.md)
 
-6. [Example](example.md)
+6. [JJDoc](jjdoc.md)
 
 <br>
 
