@@ -17,12 +17,12 @@ JJDoc can operate in several modes, determined by command line options.
 | `TEXT` | `false` | Setting `TEXT` to true causes JJDoc to generate a plain text format description of the `BNF`. Some formatting is done via tab characters, but the intention is to leave it as plain as possible. The default value of `TEXT` causes JJDoc to generate a hyperlinked HTML document.|
 | `BNF` | `false` | Setting BNF to true causes JJDoc to generate a pure BNF document.|
 | `ONE_TABLE` | `true` | The default value of ONE_TABLE is used to generate a single HTML table for the BNF. Setting it to false will produce one table for every production in the grammar.|
-| `OUTPUT_FILE` | `<Input file dir>` | The default behavior is to put the JJDoc output into a file with either .html or .txt added as a suffix to the input file's base name. You can supply a different file name with this option.|
-| `CSS` | `<CSS file name> | This option allows you to specify a `CSS` file name. If you supply a file name in this option it will appear in a `LINK` element in the `HEAD` section of the file. This option only applies to HTML output.|
+| `OUTPUT_FILE` | `<input dir>` | The default behavior is to put the JJDoc output into a file with either .html or .txt added as a suffix to the input file's base name. You can supply a different file name with this option.|
+| `CSS` | `<css file>` | This option allows you to specify a `CSS` file name. If you supply a file name in this option it will appear in a `LINK` element in the `HEAD` section of the file. This option only applies to HTML output.|
 
 Comments in the JavaCC source that immediately precede a production are passed through to the generated documentation.
 
-The results for JavaCC are given as [text](#javacc.txt) or [HTML](#javacc.html).
+The results for JavaCC are given as [text](javacc.txt) or [HTML](javacc.html).
 
 <br>
 
