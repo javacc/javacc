@@ -16,17 +16,16 @@ This page contains the complete syntax of the JavaCC grammar files with detailed
   * [Identifiers](#identifiers)
 - [**Non-Terminals**](#non-terminals)
   * [JavaCC grammar](#javacc-grammar)
-  * [Java grammar](#javacc-grammar)
-    * [Java grammar](#javacc-grammar)
-      * [Java identifiers](#java-identifiers)
-      * [Program structure](#program-structure)
-      * [Modifiers](#modifiers)
-      * [Declarations](#declarations)
-      * [Types](#types)
-      * [Expressions](#expressions)
-      * [Statements](#statements)
-      * [Annotations](#annotations)
-      * [Annotation types](#annotation-types)
+  * [Java grammar](#java-grammar)
+    * [Java identifiers](#java-identifiers)
+    * [Program structure](#program-structure)
+    * [Modifiers](#modifiers)
+    * [Declarations](#declarations)
+    * [Types](#types)
+    * [Expressions](#expressions)
+    * [Statements](#statements)
+    * [Annotations](#annotations)
+    * [Annotation types](#annotation-types)
 
 ## <a name="tokens"></a>Tokens
 
@@ -274,12 +273,11 @@ The following is the JavaCC token specification.
                   | <XORASSIGN: "^=">
                   | <REMASSIGN: "%=">
 }
-```
 
-```java
 /*
  * >'s need special attention due to generics syntax.
  */
+
 <DEFAULT> TOKEN : { <RUNSIGNEDSHIFT: ">>>"> : {
                   | <RSIGNEDSHIFT: ">>"> : {
                   | <GT: ">">
@@ -431,36 +429,50 @@ javacc_input ::= javacc_options
                  "PARSER_END" "(" identifier ")"
                  ( production )+
                  <EOF>
+```
 
+```java
 javacc_options ::= ( <IDENTIFIER> "{" ( option_binding )* "}" )?
+```
 
+```java
 option_binding ::= ( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "static" | "PARSER_BEGIN" )
                    "="
                    ( IntegerLiteral | BooleanLiteral | StringLiteral | StringList )
                    ";"
+                   ```
 
+                   ```java
 StringList ::= "(" StringLiteral ( "," StringLiteral )* ")"
+```
 
+```java
 production ::= javacode_production
              | cppcode_production
              | regular_expr_production
              | token_manager_decls
              | bnf_production
+             ```
 
+             ```java
 javacode_production ::= "JAVACODE"
                         AccessModifier
                         ResultType
                         identifier
                         FormalParameters ( "throws" Name ( "," Name )* )?
                         Block
+                        ```
 
+                        ```java
 cppcode_production ::= "CPPCODE"
                        AccessModifier
                        ResultType
                        identifier
                        FormalParameters ( "throws" Name ( "," Name )* )?
                        Block
+                       ```
 
+                       ```java
 bnf_production ::= AccessModifier
                    ResultType
                    identifier
@@ -468,36 +480,55 @@ bnf_production ::= AccessModifier
                    ":"
                    Block
                    "{" expansion_choices "}"
+                   ```
 
+                   ```java
 AccessModifier ::= ( "public" | "protected" | "private" )?
+```
 
+```java
 regular_expr_production ::= ( "<" "*" ">"
-                            | "<" <IDENTIFIER> ( "," <IDENTIFIER> )* ">"                           )?                     
+                            | "<" <IDENTIFIER> ( "," <IDENTIFIER> )* ">"
+                            )?                     
                             regexpr_kind ( "[" "IGNORE_CASE" "]" )? ":" "{"
                             regexpr_spec ( "|" regexpr_spec )* "}"
+                            ```
 
+                            ```java
 token_manager_decls ::= "TOKEN_MGR_DECLS" ":" ( ClassOrInterfaceBody )?
+```
 
+```java
 regexpr_kind ::= "TOKEN"
                | "SPECIAL_TOKEN"
                | "SKIP"
                | "MORE"
+               ```
 
+               ```java
 regexpr_spec ::= regular_expression
                  ( Block )?
                  ( ":" <IDENTIFIER> )?
+                 ```
 
+                 ```java
 expansion_choices ::= expansion ( "|" expansion )*
+```
 
+```java
 expansion ::= ( "LOOKAHEAD" "(" local_lookahead ")" )?
               ( expansion_unit )+
+              ```
 
+              ```java
 local_lookahead ::= ( IntegerLiteral )?
                     ( "," )?
                     ( expansion_choices )?
                     ( "," )?
                     ( "{" ( Expression )? "}" )?
+                    ```
 
+                    ```java
 expansion_unit ::= "LOOKAHEAD" "(" local_lookahead ")"
                  | Block
                  | "[" expansion_choices "]"
@@ -511,19 +542,27 @@ expansion_unit ::= "LOOKAHEAD" "(" local_lookahead ")"
                  )
                  | "(" expansion_choices ")"
                  ( "+" | "*" | "?" )?
+                 ```
 
+                 ```java
 regular_expression ::= StringLiteral
                      | <LANGLE: "<">
                        ( ( "#" )? identifier ":" )?
                        complex_regular_expression_choices <RANGLE: ">">
                      | "<" identifier ">"
                      | "<" "EOF" ">"
+                     ```
 
+                     ```java
 complex_regular_expression_choices ::= complex_regular_expression
                                        ( "|" complex_regular_expression )*
+                                       ```
 
+                                       ```java
 complex_regular_expression ::= ( complex_regular_expression_unit )+
+```
 
+```java
 complex_regular_expression_unit ::= StringLiteral
                                   | "<" identifier ">"
                                   | character_list
@@ -534,12 +573,19 @@ complex_regular_expression_unit ::= StringLiteral
                                     ( "," ( IntegerLiteral )? )?
                                     "}"
                                   )?
+                                  ```
 
+                                  ```java
 character_list ::= ( "~" )? "[" ( character_descriptor ( "," character_descriptor )* )? "]"
+```
 
+```java
 character_descriptor ::= StringLiteral ( "-" StringLiteral )?
+```
 
+```java
 identifier ::= <IDENTIFIER>
+```
 
 ### <a name="java-grammar"></a>Java Grammar
 
