@@ -5,7 +5,9 @@ Created from:
 * an example README.md file from https://github.com/apache/flink
 -->
 
-Java Compiler Compiler (JavaCC) is the most popular parser generator for use with Java applications. A parser generator is a tool that reads a grammar specification and converts it to a Java program that can recognize matches to the grammar.
+Java Compiler Compiler (JavaCC) is the most popular parser generator for use with Java applications.
+
+A parser generator is a tool that reads a grammar specification and converts it to a Java program that can recognize matches to the grammar.
 
 In addition to the parser generator itself, JavaCC provides other standard capabilities related to parser generation such as tree building (via a tool called JJTree included with JavaCC), actions and debugging.
 
@@ -15,6 +17,7 @@ All you need to run a JavaCC parser, once generated, is a Java Runtime Environme
 
 - [Introduction](#introduction)
   * [Features](features.md)
+  * [Documentation](documentation/index.md)
   * [Tutorials](tutorials/index.md)
   * [FAQ](faq.md)
 - [Getting Started](#getting-started)
@@ -40,7 +43,7 @@ JavaCC 7.0.5 is our latest stable release.
 
 * JavaCC 7.0.5 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.5.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.5.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.5-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.5))
 
-For previous releases, please see [stable releases](downloads.md).
+For all previous releases, please see [stable releases](downloads.md).
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
