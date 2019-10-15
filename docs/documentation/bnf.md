@@ -7,8 +7,26 @@ This page contains the complete syntax of the JavaCC grammar files with detailed
 ### <a name="toc"></a>Contents
 
 - [**Tokens**](#tokens)
+  * [Reserved words](#reserved-words)
+  * [Whitespace](#whitespace)
+  * [Comments](#comments)
+  * [Reserved words and literals](#reserved-and-literals)
+  * [Separators](#separators)
+  * [Operators](#operators)
+  * [Identifiers](#identifiers)
 - [**Non-Terminals**](#non-terminals)
-
+  * [JavaCC grammar](#javacc-grammar)
+  * [Java grammar](#javacc-grammar)
+    * [Java grammar](#javacc-grammar)
+      * [Java identifiers](#java-identifiers)
+      * [Program structure](#program-structure)
+      * [Modifiers](#modifiers)
+      * [Declarations](#declarations)
+      * [Types](#types)
+      * [Expressions](#expressions)
+      * [Statements](#statements)
+      * [Annotations](#annotations)
+      * [Annotation types](#annotation-types)
 
 ## <a name="tokens"></a>Tokens
 
@@ -18,7 +36,7 @@ The following is the JavaCC token specification.
 
 ```java
 /*
- * JavaCC reserved words: These are the only tokens in JavaCC but not in Java
+ * These are the only tokens in JavaCC but not in Java.
  */
 <DEFAULT> TOKEN : { <_LOOKAHEAD: "LOOKAHEAD">
                   | <_IGNORE_CASE: "IGNORE_CASE">
@@ -60,6 +78,8 @@ The following is the JavaCC token specification.
 }
 ```
 
+### <a name="comments"></a>Comments
+
 ```java
 /*
  * Comments
@@ -74,22 +94,20 @@ The following is the JavaCC token specification.
   <SINGLE_LINE_COMMENT: "\n" | "\r" | "\r\n"> : DEFAULT
 }
 
-
 <IN_FORMAL_COMMENT> SPECIAL : {
   <FORMAL_COMMENT: "*/"> : DEFAULT
 }
 
-
 <IN_MULTI_LINE_COMMENT> SPECIAL : {
   <MULTI_LINE_COMMENT: "*/"> : DEFAULT
 }
-
 
 <IN_SINGLE_LINE_COMMENT,IN_FORMAL_COMMENT,IN_MULTI_LINE_COMMENT> MORE : {
   <~[]>
 }
 ```
 
+### <a name="reserved-and-literals"></a>Reserved words and literals
 
 ```java
 /*
@@ -149,32 +167,58 @@ The following is the JavaCC token specification.
                   | <VOLATILE: "volatile">
                   | <WHILE: "while">
 }
+```
 
+```java
 /*
  * C++ reserved words and literals
  */
 <DEFAULT> TOKEN : { <TEMPLATE: "template">
                   | <TYPENAME: "typename">
 }
+```
 
+```java
 /*
  * Java literals
  */
 <DEFAULT> TOKEN : {
-  <INTEGER_LITERAL: <DECIMAL_LITERAL> (["l","L"])? | <HEX_LITERAL> (["l","L"])? | <OCTAL_LITERAL> (["l","L"])? | <BINARY_LITERAL> (["l","L"])?>
+    <INTEGER_LITERAL: <DECIMAL_LITERAL> (["l","L"])?
+  | <HEX_LITERAL> (["l","L"])?
+  | <OCTAL_LITERAL> (["l","L"])?
+  | <BINARY_LITERAL> (["l","L"])?>
   | <#DECIMAL_LITERAL: ["1"-"9"] (("_")* ["0"-"9"])*>
   | <#HEX_LITERAL: "0" ["x","X"] ["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])*>
   | <#OCTAL_LITERAL: "0" (("_")* ["0"-"7"])*>
   | <#BINARY_LITERAL: "0" ["b","B"] ["0","1"] (("_")* ["0","1"])*>
-  | <FLOATING_POINT_LITERAL: <DECIMAL_FLOATING_POINT_LITERAL> | <HEXADECIMAL_FLOATING_POINT_LITERAL>>
-  | <#DECIMAL_FLOATING_POINT_LITERAL: ["0"-"9"] (("_")* ["0"-"9"])* "." (["0"-"9"] (("_")* ["0"-"9"])*)? (<DECIMAL_EXPONENT>)? (["f","F","d","D"])? | "." ["0"-"9"] (("_")* ["0"-"9"])* (<DECIMAL_EXPONENT>)? (["f","F","d","D"])? | ["0"-"9"] (("_")* ["0"-"9"])* <DECIMAL_EXPONENT> (["f","F","d","D"])? | ["0"-"9"] (("_")* ["0"-"9"])* (<DECIMAL_EXPONENT>)? ["f","F","d","D"]>
+  | <FLOATING_POINT_LITERAL: <DECIMAL_FLOATING_POINT_LITERAL>
+  | <HEXADECIMAL_FLOATING_POINT_LITERAL>>
+  | <#DECIMAL_FLOATING_POINT_LITERAL:
+    ["0"-"9"] (("_")* ["0"-"9"])* "." (["0"-"9"] (("_")* ["0"-"9"])*)?
+    (<DECIMAL_EXPONENT>)? (["f","F","d","D"])?
+  | "." ["0"-"9"] (("_")* ["0"-"9"])* (<DECIMAL_EXPONENT>)? (["f","F","d","D"])?
+  | ["0"-"9"] (("_")* ["0"-"9"])* <DECIMAL_EXPONENT> (["f","F","d","D"])?
+  | ["0"-"9"] (("_")* ["0"-"9"])* (<DECIMAL_EXPONENT>)? ["f","F","d","D"]>
   | <#DECIMAL_EXPONENT: ["e","E"] (["+","-"])? ["0"-"9"] (("_")* ["0"-"9"])*>
-  | <#HEXADECIMAL_FLOATING_POINT_LITERAL: "0" ["x","X"] ["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])* (".")? <HEXADECIMAL_EXPONENT> (["f","F","d","D"])? | "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])*)? "." ["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])* <HEXADECIMAL_EXPONENT> (["f","F","d","D"])?>
+  | <#HEXADECIMAL_FLOATING_POINT_LITERAL:
+    "0" ["x","X"] ["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])* (".")?
+    <HEXADECIMAL_EXPONENT> (["f","F","d","D"])?
+  | "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])*)?
+    "." ["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])*
+    <HEXADECIMAL_EXPONENT> (["f","F","d","D"])?>
   | <#HEXADECIMAL_EXPONENT: ["p","P"] (["+","-"])? ["0"-"9"] (("_")* ["0"-"9"])*>
-  | <CHARACTER_LITERAL: "\'" (~["\'","\\","\n","\r"] | "\\" (["n","t","b","r","f","\\","\'","\""] | ["0"-"7"] (["0"-"7"])? | ["0"-"3"] ["0"-"7"] ["0"-"7"])) "\'">
-  | <STRING_LITERAL: "\"" (~["\"","\\","\n","\r"] | "\\" (["n","t","b","r","f","\\","\'","\""] | ["0"-"7"] (["0"-"7"])? | ["0"-"3"] ["0"-"7"] ["0"-"7"]))* "\"">
+  | <CHARACTER_LITERAL: "\'" (~["\'","\\","\n","\r"]
+  | "\\" (["n","t","b","r","f","\\","\'","\""]
+  | ["0"-"7"] (["0"-"7"])?
+  | ["0"-"3"] ["0"-"7"] ["0"-"7"])) "\'">
+  | <STRING_LITERAL: "\"" (~["\"","\\","\n","\r"]
+  | "\\" (["n","t","b","r","f","\\","\'","\""]
+  | ["0"-"7"] (["0"-"7"])?
+  | ["0"-"3"] ["0"-"7"] ["0"-"7"]))* "\"">
 }
 ```
+
+### <a name="separators"></a>Separators
 
 ```java
 /*
@@ -191,6 +235,8 @@ The following is the JavaCC token specification.
                   | <DOT: ".">
 }
 ```
+
+### <a name="operators"></a>Operators
 
 ```java
 /*
@@ -228,7 +274,9 @@ The following is the JavaCC token specification.
                   | <XORASSIGN: "^=">
                   | <REMASSIGN: "%=">
 }
+```
 
+```java
 /*
  * >'s need special attention due to generics syntax.
  */
@@ -237,6 +285,8 @@ The following is the JavaCC token specification.
                   | <GT: ">">
 }
 ```
+
+### <a name="identifiers"></a>Identifiers
 
 ```java
 /*
@@ -280,9 +330,10 @@ The following is the JavaCC token specification.
   "\u13a0"-"\u13f4","\u1401"-"\u166c","\u166f"-"\u1676","\u1681"-"\u169a","\u16a0"-"\u16ea",
   "\u1780"-"\u17b3","\u17db","\u1820"-"\u1877","\u1880"-"\u18a8","\u1e00"-"\u1e9b",
   "\u1ea0"-"\u1ef9","\u1f00"-"\u1f15","\u1f18"-"\u1f1d","\u1f20"-"\u1f45","\u1f48"-"\u1f4d",
-  "\u1f50"-"\u1f57","\u1f59","\u1f5b","\u1f5d","\u1f5f"-"\u1f7d","\u1f80"-"\u1fb4","\u1fb6"-"\u1fbc","\u1fbe","\u1fc2"-"\u1fc4","\u1fc6"-"\u1fcc","\u1fd0"-"\u1fd3","\u1fd6"-"\u1fdb",
-  "\u1fe0"-"\u1fec","\u1ff2"-"\u1ff4","\u1ff6"-"\u1ffc","\u203f"-"\u2040","\u207f",
-  "\u20a0"-"\u20af","\u2102","\u2107","\u210a"-"\u2113","\u2115","\u2119"-"\u211d",
+  "\u1f50"-"\u1f57","\u1f59","\u1f5b","\u1f5d","\u1f5f"-"\u1f7d","\u1f80"-"\u1fb4",
+  "\u1fb6"-"\u1fbc","\u1fbe","\u1fc2"-"\u1fc4","\u1fc6"-"\u1fcc","\u1fd0"-"\u1fd3",
+  "\u1fd6"-"\u1fdb","\u1fe0"-"\u1fec","\u1ff2"-"\u1ff4","\u1ff6"-"\u1ffc","\u203f"-"\u2040",
+  "\u207f","\u20a0"-"\u20af","\u2102","\u2107","\u210a"-"\u2113","\u2115","\u2119"-"\u211d",
   "\u2124","\u2126","\u2128","\u212a"-"\u212d","\u212f"-"\u2131","\u2133"-"\u2139",
   "\u2160"-"\u2183","\u3005"-"\u3007","\u3021"-"\u3029","\u3031"-"\u3035","\u3038"-"\u303a",
   "\u3041"-"\u3094","\u309d"-"\u309e","\u30a1"-"\u30fe","\u3105"-"\u312c","\u3131"-"\u318e",
@@ -330,14 +381,15 @@ The following is the JavaCC token specification.
   "\u0d82"-"\u0d83","\u0d85"-"\u0d96","\u0d9a"-"\u0db1","\u0db3"-"\u0dbb","\u0dbd",
   "\u0dc0"-"\u0dc6","\u0dca","\u0dcf"-"\u0dd4","\u0dd6","\u0dd8"-"\u0ddf","\u0df2"-"\u0df3",
   "\u0e01"-"\u0e3a","\u0e3f"-"\u0e4e","\u0e50"-"\u0e59","\u0e81"-"\u0e82","\u0e84",
-  "\u0e87"-"\u0e88","\u0e8a","\u0e8d","\u0e94"-"\u0e97","\u0e99"-"\u0e9f","\u0ea1"-"\u0ea3","\u0ea5","\u0ea7","\u0eaa"-"\u0eab","\u0ead"-"\u0eb9","\u0ebb"-"\u0ebd",
-  "\u0ec0"-"\u0ec4","\u0ec6","\u0ec8"-"\u0ecd","\u0ed0"-"\u0ed9","\u0edc"-"\u0edd","\u0f00",
-  "\u0f18"-"\u0f19","\u0f20"-"\u0f29","\u0f35","\u0f37","\u0f39","\u0f3e"-"\u0f47",
-  "\u0f49"-"\u0f6a","\u0f71"-"\u0f84","\u0f86"-"\u0f8b","\u0f90"-"\u0f97","\u0f99"-"\u0fbc",
-  "\u0fc6","\u1000"-"\u1021","\u1023"-"\u1027","\u1029"-"\u102a","\u102c"-"\u1032",
-  "\u1036"-"\u1039","\u1040"-"\u1049","\u1050"-"\u1059","\u10a0"-"\u10c5","\u10d0"-"\u10f6",
-  "\u1100"-"\u1159","\u115f"-"\u11a2","\u11a8"-"\u11f9","\u1200"-"\u1206","\u1208"-"\u1246",
-  "\u1248","\u124a"-"\u124d","\u1250"-"\u1256","\u1258","\u125a"-"\u125d","\u1260"-"\u1286",
+  "\u0e87"-"\u0e88","\u0e8a","\u0e8d","\u0e94"-"\u0e97","\u0e99"-"\u0e9f","\u0ea1"-"\u0ea3",
+  "\u0ea5","\u0ea7","\u0eaa"-"\u0eab","\u0ead"-"\u0eb9","\u0ebb"-"\u0ebd","\u0ec0"-"\u0ec4",
+  "\u0ec6","\u0ec8"-"\u0ecd","\u0ed0"-"\u0ed9","\u0edc"-"\u0edd","\u0f00","\u0f18"-"\u0f19",
+  "\u0f20"-"\u0f29","\u0f35","\u0f37","\u0f39","\u0f3e"-"\u0f47","\u0f49"-"\u0f6a",
+  "\u0f71"-"\u0f84","\u0f86"-"\u0f8b","\u0f90"-"\u0f97","\u0f99"-"\u0fbc","\u0fc6",
+  "\u1000"-"\u1021","\u1023"-"\u1027","\u1029"-"\u102a","\u102c"-"\u1032","\u1036"-"\u1039",
+  "\u1040"-"\u1049","\u1050"-"\u1059","\u10a0"-"\u10c5","\u10d0"-"\u10f6","\u1100"-"\u1159",
+  "\u115f"-"\u11a2","\u11a8"-"\u11f9","\u1200"-"\u1206","\u1208"-"\u1246","\u1248",
+  "\u124a"-"\u124d","\u1250"-"\u1256","\u1258","\u125a"-"\u125d","\u1260"-"\u1286",
   "\u1288","\u128a"-"\u128d","\u1290"-"\u12ae","\u12b0","\u12b2"-"\u12b5","\u12b8"-"\u12be",
   "\u12c0","\u12c2"-"\u12c5","\u12c8"-"\u12ce","\u12d0"-"\u12d6","\u12d8"-"\u12ee",
   "\u12f0"-"\u130e","\u1310","\u1312"-"\u1315","\u1318"-"\u131e","\u1320"-"\u1346",
@@ -366,24 +418,26 @@ The following is the JavaCC token specification.
 <DEFAULT> TOKEN : {
   <ACT_TOK: ~[]>
 }
-
 ```
 
 ## <a name="non-terminals"></a>Non-Terminals
 
+### <a name="javacc-grammar"></a>JavaCC grammar
+
 ```java
-javacc_input ::= javacc_options "PARSER_BEGIN" "(" identifier ")"
-                 CompilationUnit "PARSER_END" "(" identifier ")"
+javacc_input ::= javacc_options
+                 "PARSER_BEGIN" "(" identifier ")"
+                 CompilationUnit
+                 "PARSER_END" "(" identifier ")"
                  ( production )+
                  <EOF>
 
 javacc_options ::= ( <IDENTIFIER> "{" ( option_binding )* "}" )?
 
-option_binding ::=
-( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "static" | "PARSER_BEGIN" )
-"="
-( IntegerLiteral | BooleanLiteral | StringLiteral | StringList )
-";"
+option_binding ::= ( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "static" | "PARSER_BEGIN" )
+                   "="
+                   ( IntegerLiteral | BooleanLiteral | StringLiteral | StringList )
+                   ";"
 
 StringList ::= "(" StringLiteral ( "," StringLiteral )* ")"
 
@@ -393,29 +447,34 @@ production ::= javacode_production
              | token_manager_decls
              | bnf_production
 
-javacode_production ::= "JAVACODE" AccessModifier ResultType identifier FormalParameters (
-                          "throws" Name ( "," Name )*
-                        )?
+javacode_production ::= "JAVACODE"
+                        AccessModifier
+                        ResultType
+                        identifier
+                        FormalParameters ( "throws" Name ( "," Name )* )?
                         Block
 
-cppcode_production ::= "CPPCODE" AccessModifier ResultType identifier FormalParameters (
-                         "throws" Name ( "," Name )*
-                       )?
+cppcode_production ::= "CPPCODE"
+                       AccessModifier
+                       ResultType
+                       identifier
+                       FormalParameters ( "throws" Name ( "," Name )* )?
                        Block
 
-bnf_production ::= AccessModifier ResultType identifier FormalParameters (
-                     "throws" Name ( "," Name )*
-                     )?
-                     ":" Block "{" expansion_choices "}"
+bnf_production ::= AccessModifier
+                   ResultType
+                   identifier
+                   FormalParameters ( "throws" Name ( "," Name )* )?
+                   ":"
+                   Block
+                   "{" expansion_choices "}"
 
 AccessModifier ::= ( "public" | "protected" | "private" )?
 
-regular_expr_production ::= (
-  "<" "*" ">"
-| "<" <IDENTIFIER> ( "," <IDENTIFIER> )* ">"
-)?
-regexpr_kind ( "[" "IGNORE_CASE" "]" )? ":" "{"
-regexpr_spec ( "|" regexpr_spec )* "}"
+regular_expr_production ::= ( "<" "*" ">"
+                            | "<" <IDENTIFIER> ( "," <IDENTIFIER> )* ">"                           )?                     
+                            regexpr_kind ( "[" "IGNORE_CASE" "]" )? ":" "{"
+                            regexpr_spec ( "|" regexpr_spec )* "}"
 
 token_manager_decls ::= "TOKEN_MGR_DECLS" ":" ( ClassOrInterfaceBody )?
 
@@ -424,31 +483,41 @@ regexpr_kind ::= "TOKEN"
                | "SKIP"
                | "MORE"
 
-regexpr_spec ::= regular_expression ( Block )? ( ":" <IDENTIFIER> )?
+regexpr_spec ::= regular_expression
+                 ( Block )?
+                 ( ":" <IDENTIFIER> )?
 
 expansion_choices ::= expansion ( "|" expansion )*
 
-expansion ::= ( "LOOKAHEAD" "(" local_lookahead ")" )? ( expansion_unit )+
+expansion ::= ( "LOOKAHEAD" "(" local_lookahead ")" )?
+              ( expansion_unit )+
 
-local_lookahead ::= ( IntegerLiteral )? ( "," )? ( expansion_choices )?
-                    ( "," )? ( "{" ( Expression )? "}" )?
+local_lookahead ::= ( IntegerLiteral )?
+                    ( "," )?
+                    ( expansion_choices )?
+                    ( "," )?
+                    ( "{" ( Expression )? "}" )?
 
 expansion_unit ::= "LOOKAHEAD" "(" local_lookahead ")"
                  | Block
                  | "[" expansion_choices "]"
-                 | "try" "{" expansion_choices "}" (
-                  "catch" "(" ( Name <IDENTIFIER> )? ")" Block
-                 )* ( "finally" Block )?
-                 | ( PrimaryExpression "=" )? (
+                 | "try" "{" expansion_choices "}"
+                 ( "catch" "(" ( Name <IDENTIFIER> )? ")" Block )*
+                 ( "finally" Block )?
+                 | ( PrimaryExpression "=" )?
+                 (
                    identifier ( TypeArguments )? Arguments
                  | regular_expression ( "." <IDENTIFIER> )?
                  )
-                 | "(" expansion_choices ")" ( "+" | "*" | "?" )?
-                 regular_expression ::= StringLiteral
-                 | <LANGLE: "<"> ( ( "#" )? identifier ":" )?
-                   complex_regular_expression_choices <RANGLE: ">">
-                 | "<" identifier ">"
-                 | "<" "EOF" ">"
+                 | "(" expansion_choices ")"
+                 ( "+" | "*" | "?" )?
+
+regular_expression ::= StringLiteral
+                     | <LANGLE: "<">
+                       ( ( "#" )? identifier ":" )?
+                       complex_regular_expression_choices <RANGLE: ">">
+                     | "<" identifier ">"
+                     | "<" "EOF" ">"
 
 complex_regular_expression_choices ::= complex_regular_expression
                                        ( "|" complex_regular_expression )*
@@ -458,10 +527,11 @@ complex_regular_expression ::= ( complex_regular_expression_unit )+
 complex_regular_expression_unit ::= StringLiteral
                                   | "<" identifier ">"
                                   | character_list
-                                  | "(" complex_regular_expression_choices ")" (
-                                    "+" | "*" | "?" | "{" IntegerLiteral (
-                                      "," ( IntegerLiteral )?
-                                    )?
+                                  | "(" complex_regular_expression_choices ")"
+                                  (
+                                    "+" | "*" | "?" | "{"
+                                    IntegerLiteral
+                                    ( "," ( IntegerLiteral )? )?
                                     "}"
                                   )?
 
@@ -470,6 +540,12 @@ character_list ::= ( "~" )? "[" ( character_descriptor ( "," character_descripto
 character_descriptor ::= StringLiteral ( "-" StringLiteral )?
 
 identifier ::= <IDENTIFIER>
+
+### <a name="java-grammar"></a>Java Grammar
+
+The Java grammar is modified to use sequences of tokens for the missing tokens - those that include "<<" and ">>".
+
+#### <a name="java-identifiers"></a>Java identifiers
 
 /*
  * The following production defines Java identifiers - it includes the reserved words of JavaCC also.
@@ -496,14 +572,21 @@ JavaIdentifier ::= (
 | "DEF_PARSER_END"
 )
 
-/*
- * Program structuring syntax follows.
- */
-CompilationUnit ::= ( PackageDeclaration )? ( ImportDeclaration )* ( TypeDeclaration )*
+#### <a name="program-structure"></a>Program structure
+
+CompilationUnit ::= ( PackageDeclaration )?
+                    ( ImportDeclaration )*
+                    ( TypeDeclaration )*
 
 PackageDeclaration ::= Modifiers "package" Name ";"
 
-ImportDeclaration ::= "import" ( "static" )? Name ( "." "*" )? ";"
+ImportDeclaration ::= "import"
+                      ( "static" )?
+                      Name
+                      ( "." "*" )?
+                      ";"
+
+#### <a name="modifiers"></a>Modifiers
 
 /*
  * Modifiers - we match all modifiers in a single rule to reduce the chances of
@@ -527,15 +610,11 @@ Modifiers ::= (
   )
 )*
 
-/*
- * Declaration syntax follows.
- */
+#### <a name="declarations"></a>Declarations
+
 TypeDeclaration ::= ";"
                   | Modifiers
-                  (   ClassOrInterfaceDeclaration
-                    | EnumDeclaration
-                    | AnnotationTypeDeclaration
-                  )
+                  ( ClassOrInterfaceDeclaration | EnumDeclaration | AnnotationTypeDeclaration )
 
 ClassOrInterfaceDeclaration ::= ( "class" | "interface" )
                                 JavaIdentifier ( TypeParameters )?
@@ -543,22 +622,27 @@ ClassOrInterfaceDeclaration ::= ( "class" | "interface" )
                                 ( ImplementsList )?
                                 ClassOrInterfaceBody
 
-ExtendsList ::= "extends" ClassOrInterfaceType ( "," ClassOrInterfaceType )*
+ExtendsList ::= "extends"
+                ClassOrInterfaceType
+                ( "," ClassOrInterfaceType )*
 
-ImplementsList ::= "implements" ClassOrInterfaceType ( "," ClassOrInterfaceType )*
+ImplementsList ::= "implements"
+                   ClassOrInterfaceType
+                   ( "," ClassOrInterfaceType )*
 
-EnumDeclaration ::= "enum" JavaIdentifier ( ImplementsList )? EnumBody
+EnumDeclaration ::= "enum"
+                    JavaIdentifier
+                    ( ImplementsList )?
+                    EnumBody
 
-EnumBody ::= "{" (
-  EnumConstant ( "," EnumConstant )*
-)?
-( "," )?
-(
-  ";" ( ClassOrInterfaceBodyDeclaration )*
-)?
-"}"
+EnumBody ::= "{"
+             ( EnumConstant ( "," EnumConstant )* )?
+             ( "," )?
+             ( ";" ( ClassOrInterfaceBodyDeclaration )* )?
+             "}"
 
-EnumConstant ::= Modifiers JavaIdentifier
+EnumConstant ::= Modifiers
+                 JavaIdentifier
                  ( Arguments )?
                  ( ClassOrInterfaceBody )?
 
@@ -566,17 +650,20 @@ TypeParameters ::= "<" TypeParameter ( "," TypeParameter )* ">"
 
 TypeParameter ::= JavaIdentifier ( TypeBound )?
 
-TypeBound ::= "extends" ClassOrInterfaceType ( "&" ClassOrInterfaceType )*
+TypeBound ::= "extends"
+              ClassOrInterfaceType
+              ( "&" ClassOrInterfaceType )*
 
 ClassOrInterfaceBody ::= "{" ( ClassOrInterfaceBodyDeclaration )* "}"
 
 ClassOrInterfaceBodyDeclaration ::= Initializer
-                                  | Modifiers (
-                                      ClassOrInterfaceDeclaration
-                                    | EnumDeclaration
-                                    | ConstructorDeclaration
-                                    | FieldDeclaration
-                                    | MethodDeclaration
+                                  | Modifiers
+                                  (
+                                    ClassOrInterfaceDeclaration
+                                  | EnumDeclaration
+                                  | ConstructorDeclaration
+                                  | FieldDeclaration
+                                  | MethodDeclaration
                                   )
                                   | ";"
 
@@ -589,7 +676,10 @@ VariableDeclaratorId ::= JavaIdentifier ( "[" "]" )*
 VariableInitializer ::= ArrayInitializer
                       | Expression
 
-ArrayInitializer ::= "{" ( VariableInitializer ( "," VariableInitializer )* )? ( "," )? "}"
+ArrayInitializer ::= "{"
+                     ( VariableInitializer ( "," VariableInitializer )* )?
+                     ( "," )?
+                     "}"
 
 MethodDeclaration ::= ( TypeParameters )?
                       ResultType
@@ -601,7 +691,10 @@ MethodDeclarator ::= JavaIdentifier FormalParameters ( "[" "]" )*
 
 FormalParameters ::= "(" ( FormalParameter ( "," FormalParameter )* )? ")"
 
-FormalParameter ::= Modifiers Type ( ( "&" | "*" ) | "..." )? VariableDeclaratorId
+FormalParameter ::= Modifiers
+                    Type
+                    ( ( "&" | "*" ) | "..." )?
+                    VariableDeclaratorId
 
 ConstructorDeclaration ::= ( TypeParameters )?
                            JavaIdentifier
@@ -617,16 +710,21 @@ ExplicitConstructorInvocation ::= "this" Arguments ";"
 
 Initializer ::= ( "static" )? Block
 
+#### <a name="types"></a>Types
+
 /*
  * Type, name and expression syntax follows.
  */
-Type ::= ReferenceType
-       | PrimitiveType
+Type ::= ReferenceType | PrimitiveType
 
 ReferenceType ::= PrimitiveType ( "[" "]" )+
                 | ( ( Template )? ClassOrInterfaceType ) ( "[" "]" )*
 
-Template ::= "template" "<" TemplateBase ( "," TemplateBase )* ">"
+Template ::= "template"
+             "<"
+             TemplateBase
+             ( "," TemplateBase )*
+             ">"
 
 TemplateBase ::= TemplatePack ( "..." )? <IDENTIFIER>
 
@@ -635,17 +733,23 @@ TemplatePack ::= ( "class" | "typename" )
 ClassOrInterfaceType ::= ( "::" )?
                          <IDENTIFIER>
                          ( TypeArguments )?
-                         ( ( "." | "::" )
-                         <IDENTIFIER>
-                         ( TypeArguments )? )*
+                         (
+                           ( "." | "::" )
+                           <IDENTIFIER>
+                           ( TypeArguments )?
+                         )*
 
-TypeArguments ::= "<" ( TypeArgument ( "," TypeArgument ( "..." )? )* )? ">"
+TypeArguments ::= "<"
+                  ( TypeArgument
+                    ( "," TypeArgument
+                      ( "..." )?
+                    )*
+                  )?
+                  ">"
 
-TypeArgument ::= ReferenceType
-               | "?" ( WildcardBounds )?
+TypeArgument ::= ReferenceType | "?" ( WildcardBounds )?
 
-WildcardBounds ::= "extends" ReferenceType
-                 | "super" ReferenceType
+WildcardBounds ::= "extends" ReferenceType | "super" ReferenceType
 
 PrimitiveType ::= "boolean"
                 | "char"
@@ -656,15 +760,15 @@ PrimitiveType ::= "boolean"
                 | "float"
                 | "double"
 
-ResultType ::= ( "void" ( "*" )? | ( "const" )? Type ( "*" | "&" )? )
+ResultType ::= ( "void" ( "*" )?
+               | ( "const" )? Type ( "*" | "&" )? )
 
 Name ::= JavaIdentifier ( "." JavaIdentifier )*
 
 NameList ::= Name ( "," Name )*
 
-/*
- * Expression syntax follows.
- */
+#### <a name="expressions"></a>Expressions
+
 Expression ::= ConditionalExpression ( AssignmentOperator Expression )?
 
 AssignmentOperator ::= "="
@@ -698,9 +802,17 @@ InstanceOfExpression ::= RelationalExpression ( "instanceof" Type )?
 
 RelationalExpression ::= ShiftExpression ( ( "<" | ">" | "<=" | ">=" ) ShiftExpression )*
 
-ShiftExpression ::= AdditiveExpression ( ( "<<" | RSIGNEDSHIFT | RUNSIGNEDSHIFT ) AdditiveExpression )*
+ShiftExpression ::= AdditiveExpression
+                    (
+                      ( "<<" | RSIGNEDSHIFT | RUNSIGNEDSHIFT )
+                      AdditiveExpression
+                    )*
 
-AdditiveExpression ::= MultiplicativeExpression ( ( "+" | "-" ) MultiplicativeExpression )*
+AdditiveExpression ::= MultiplicativeExpression
+                       (
+                         ( "+" | "-" )
+                         MultiplicativeExpression
+                       )*
 
 MultiplicativeExpression ::= UnaryExpression ( ( "*" | "/" | "%" ) UnaryExpression )*
 
@@ -725,16 +837,8 @@ UnaryExpressionNotPlusMinus ::= ( "~" | "!" )
  */
 CastLookahead ::= "(" PrimitiveType
                 | "(" Type "[" "]"
-                | "(" Type ")" (
-                    "~"
-                  | "!"
-                  | "("
-                  | JavaIdentifier
-                  | "this"
-                  | "super"
-                  | "new"
-                  | Literal
-                )
+                | "(" Type ")"
+                ( "~" | "!" | "(" | JavaIdentifier | "this" | "super" | "new" | Literal )
 
 PostfixExpression ::= PrimaryExpression ( "++" | "--" )?
 
@@ -780,21 +884,20 @@ Arguments ::= "(" ( ArgumentList )? ")"
 ArgumentList ::= Expression ( "," Expression )*
 
 AllocationExpression ::= "new" PrimitiveType ArrayDimsAndInits
-                       | "new" ClassOrInterfaceType ( TypeArguments )? (
-                            ArrayDimsAndInits
-                          | Arguments ( ClassOrInterfaceBody )?
-                       )
+                       | "new" ClassOrInterfaceType ( TypeArguments )?
+                       ( ArrayDimsAndInits | Arguments ( ClassOrInterfaceBody )? )
 
 /*
- * The third LOOKAHEAD specification below is to parse to PrimarySuffix
+ * This LOOKAHEAD specification is to parse to PrimarySuffix
  * if there is an expression between the "[...]".
  */
 ArrayDimsAndInits ::= ( "[" Expression "]" )+ ( "[" "]" )*
                     | ( "[" "]" )+ ArrayInitializer
+```
 
-/*
- * Statement syntax follows.
- */
+#### <a name="statements"></a>Statements
+
+```java
 Statement ::= LabeledStatement
             | AssertStatement
             | Block
@@ -828,11 +931,8 @@ EmptyStatement ::= ";"
 
 StatementExpression ::= PreIncrementExpression
                       | PreDecrementExpression
-                      | PrimaryExpression (
-                          "++"
-                        | "--"
-                        | AssignmentOperator Expression
-                      )?
+                      | PrimaryExpression
+                      ( "++" | "--" | AssignmentOperator Expression )?
 
 SwitchStatement ::= "switch" "(" Expression ")" "{" ( SwitchLabel ( BlockStatement )* )* "}"
 
@@ -845,14 +945,14 @@ WhileStatement ::= "while" "(" Expression ")" Statement
 
 DoStatement ::= "do" Statement "while" "(" Expression ")" ";"
 
-ForStatement ::= "for" "(" (
-                     Modifiers Type JavaIdentifier ":" Expression
+ForStatement ::= "for" "("
+                 ( Modifiers Type JavaIdentifier ":" Expression
                    | ( ForInit )? ";" ( Expression )? ";" ( ForUpdate )?
                  )
-                 ")" Statement
+                 ")"
+                 Statement
 
-ForInit ::= LocalVariableDeclaration
-          | StatementExpressionList
+ForInit ::= LocalVariableDeclaration | StatementExpressionList
 
 StatementExpressionList ::= StatementExpression ( "," StatementExpression )*
 
@@ -870,30 +970,30 @@ SynchronizedStatement ::= "synchronized" "(" Expression ")" Block
 
 ResourceDeclaration ::= Type VariableDeclaratorId "=" Expression
 
-CatchParameter ::= Modifiers Type ( ( "&" | "*" ) | "..." )? ( "|" Type )* VariableDeclaratorId
+CatchParameter ::= Modifiers
+                   Type
+                   ( ( "&" | "*" ) | "..." )? ( "|" Type )*
+                   VariableDeclaratorId
 
-TryStatement ::= "try" ( "(" ResourceDeclaration (
-                     ";" ResourceDeclaration )* ( ";" )? ")"
-                   )?
-                   Block (
-                     "catch" "(" CatchParameter ")" Block
-                   )*
+TryStatement ::= "try" ( "(" ResourceDeclaration
+                   ( ";" ResourceDeclaration )* ( ";" )? ")" )?
+                   Block
+                   ( "catch" "(" CatchParameter ")" Block )*
                    ( "finally" Block )?
 
 /*
- * We use productions to match >>>, >> and > so that we can keep the
- * type declaration syntax with generics clean
+ * We use productions to match >>>, >> and > so that we can keep the type declaration syntax with generics clean.
  */
+
 RUNSIGNEDSHIFT ::= ( ">" ">" ">" )
 
 RSIGNEDSHIFT ::= ( ">" ">" )
+```
 
-/*
- * Annotations
- */
-Annotation ::= NormalAnnotation
-             | SingleMemberAnnotation
-             | MarkerAnnotation
+#### <a name="annotations"></a>Annotations
+
+```java
+Annotation ::= NormalAnnotation | SingleMemberAnnotation | MarkerAnnotation
 
 NormalAnnotation ::= "@" Name "(" ( MemberValuePairs )? ")"
 
@@ -905,28 +1005,29 @@ MemberValuePairs ::= MemberValuePair ( "," MemberValuePair )*
 
 MemberValuePair ::= JavaIdentifier "=" MemberValue
 
-MemberValue ::= Annotation
-              | MemberValueArrayInitializer
-              | ConditionalExpression
+MemberValue ::= Annotation | MemberValueArrayInitializer | ConditionalExpression
 
 MemberValueArrayInitializer ::= "{" MemberValue ( "," MemberValue )* ( "," )? "}"
 
-/*
- * Annotation Types
- */
+#### <a name="annotation-types"></a>Annotation types
+
 AnnotationTypeDeclaration ::= "@" "interface" JavaIdentifier AnnotationTypeBody
 
 AnnotationTypeBody ::= "{" ( AnnotationTypeMemberDeclaration )* "}"
 
-AnnotationTypeMemberDeclaration ::= Modifiers (
-  Type JavaIdentifier "(" ")" ( DefaultValue )? ";"
-| ClassOrInterfaceDeclaration
-| EnumDeclaration
-| AnnotationTypeDeclaration
-| FieldDeclaration )
-| ( ";" )
+AnnotationTypeMemberDeclaration ::= Modifiers
+                                    ( Type JavaIdentifier "(" ")" ( DefaultValue )? ";"
+                                    | ClassOrInterfaceDeclaration
+                                    | EnumDeclaration
+                                    | AnnotationTypeDeclaration
+                                    | FieldDeclaration
+                                    )
+                                    | ( ";" )
 
 DefaultValue ::= "default" MemberValue
+```
+
+<br>
 
 ---
 
