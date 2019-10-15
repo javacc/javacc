@@ -33,6 +33,8 @@ The following is the JavaCC token specification.
 
 ### <a name="reserved-words"></a>Reserved words
 
+---
+
 ```java
 /*
  * These are the only tokens in JavaCC but not in Java.
@@ -58,7 +60,11 @@ The following is the JavaCC token specification.
 }
 ```
 
+<br>
+
 ### <a name="whitespace"></a>Whitespace
+
+---
 
 ```java
 /*
@@ -77,7 +83,11 @@ The following is the JavaCC token specification.
 }
 ```
 
+<br>
+
 ### <a name="comments"></a>Comments
+
+---
 
 ```java
 /*
@@ -106,7 +116,11 @@ The following is the JavaCC token specification.
 }
 ```
 
+<br>
+
 ### <a name="reserved-and-literals"></a>Reserved words and literals
+
+---
 
 ```java
 /*
@@ -217,7 +231,11 @@ The following is the JavaCC token specification.
 }
 ```
 
+<br>
+
 ### <a name="separators"></a>Separators
+
+---
 
 ```java
 /*
@@ -235,7 +253,11 @@ The following is the JavaCC token specification.
 }
 ```
 
+<br>
+
 ### <a name="operators"></a>Operators
+
+---
 
 ```java
 /*
@@ -285,6 +307,8 @@ The following is the JavaCC token specification.
 ```
 
 ### <a name="identifiers"></a>Identifiers
+
+---
 
 ```java
 /*
@@ -418,9 +442,13 @@ The following is the JavaCC token specification.
 }
 ```
 
+<br>
+
 ## <a name="non-terminals"></a>Non-Terminals
 
 ### <a name="javacc-grammar"></a>JavaCC grammar
+
+---
 
 ```java
 javacc_input ::= javacc_options
@@ -587,40 +615,49 @@ character_descriptor ::= StringLiteral ( "-" StringLiteral )?
 identifier ::= <IDENTIFIER>
 ```
 
+<br>
+
 ### <a name="java-grammar"></a>Java Grammar
+
+---
 
 The Java grammar is modified to use sequences of tokens for the missing tokens - those that include "<<" and ">>".
 
-#### <a name="java-identifiers"></a>Java identifiers
+### <a name="java-identifiers"></a>Java identifiers
+
+---
 
 ```java
 /*
  * The following production defines Java identifiers - it includes the reserved words of JavaCC also.
  */
-JavaIdentifier ::= (
-  <IDENTIFIER>
-| "LOOKAHEAD"
-| "IGNORE_CASE"
-| "PARSER_BEGIN"
-| "PARSER_END"
-| "JAVACODE"
-| "TOKEN"
-| "SPECIAL_TOKEN"
-| "MORE"
-| "SKIP"
-| "TOKEN_MGR_DECLS"
-| "EOF"
-| "template"
-| "DCL_PARSER_BEGIN"
-| "DCL_PARSER_END"
-| "INC_PARSER_BEGIN"
-| "INC_PARSER_END"
-| "DEF_PARSER_BEGIN"
-| "DEF_PARSER_END"
+JavaIdentifier ::= ( <IDENTIFIER>
+                   | "LOOKAHEAD"
+                   | "IGNORE_CASE"
+                   | "PARSER_BEGIN"
+                   | "PARSER_END"
+                   | "JAVACODE"
+                   | "TOKEN"
+                   | "SPECIAL_TOKEN"
+                   | "MORE"
+                   | "SKIP"
+                   | "TOKEN_MGR_DECLS"
+                   | "EOF"
+                   | "template"
+                   | "DCL_PARSER_BEGIN"
+                   | "DCL_PARSER_END"
+                   | "INC_PARSER_BEGIN"
+                   | "INC_PARSER_END"
+                   | "DEF_PARSER_BEGIN"
+                   | "DEF_PARSER_END"
 )
 ```
 
-#### <a name="program-structure"></a>Program structure
+<br>
+
+### <a name="program-structure"></a>Program structure
+
+---
 
 ```java
 CompilationUnit ::= ( PackageDeclaration )?
@@ -640,7 +677,11 @@ ImportDeclaration ::= "import"
                       ";"
 ```
 
-#### <a name="modifiers"></a>Modifiers
+<br>
+
+### <a name="modifiers"></a>Modifiers
+
+---
 
 ```java
 /*
@@ -666,7 +707,11 @@ Modifiers ::= (
 )*
 ```
 
-#### <a name="declarations"></a>Declarations
+<br>
+
+### <a name="declarations"></a>Declarations
+
+---
 
 ```java
 TypeDeclaration ::= ";"
@@ -814,12 +859,9 @@ ExplicitConstructorInvocation ::= "this" Arguments ";"
 Initializer ::= ( "static" )? Block
 ```
 
-#### <a name="types"></a>Types
+### <a name="types"></a>Types
 
 ```java
-/*
- * Type, name and expression syntax follows.
- */
 Type ::= ReferenceType | PrimitiveType
 ```
 
@@ -897,7 +939,11 @@ Name ::= JavaIdentifier ( "." JavaIdentifier )*
 NameList ::= Name ( "," Name )*
 ```
 
-#### <a name="expressions"></a>Expressions
+<br>
+
+---
+
+### <a name="expressions"></a>Expressions
 
 ```java
 Expression ::= ConditionalExpression ( AssignmentOperator Expression )?
@@ -1092,7 +1138,11 @@ ArrayDimsAndInits ::= ( "[" Expression "]" )+ ( "[" "]" )*
                     | ( "[" "]" )+ ArrayInitializer
 ```
 
-#### <a name="statements"></a>Statements
+<br>
+
+### <a name="statements"></a>Statements
+
+---
 
 ```java
 Statement ::= LabeledStatement
@@ -1229,7 +1279,8 @@ TryStatement ::= "try" ( "(" ResourceDeclaration
 
 ```java
 /*
- * We use productions to match >>>, >> and > so that we can keep the type declaration syntax with generics clean.
+ * We use productions to match >>>, >> and > so that we can
+ * keep the type declaration syntax with generics clean.
  */
 
 RUNSIGNEDSHIFT ::= ( ">" ">" ">" )
@@ -1237,7 +1288,11 @@ RUNSIGNEDSHIFT ::= ( ">" ">" ">" )
 RSIGNEDSHIFT ::= ( ">" ">" )
 ```
 
-#### <a name="annotations"></a>Annotations
+<br>
+
+### <a name="annotations"></a>Annotations
+
+---
 
 ```java
 Annotation ::= NormalAnnotation | SingleMemberAnnotation | MarkerAnnotation
@@ -1271,7 +1326,11 @@ MemberValue ::= Annotation | MemberValueArrayInitializer | ConditionalExpression
 MemberValueArrayInitializer ::= "{" MemberValue ( "," MemberValue )* ( "," )? "}"
 ```
 
-#### <a name="annotation-types"></a>Annotation types
+<br>
+
+### <a name="annotation-types"></a>Annotation types
+
+---
 
 ```java
 AnnotationTypeDeclaration ::= "@" "interface" JavaIdentifier AnnotationTypeBody
