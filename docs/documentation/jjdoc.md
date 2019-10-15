@@ -26,6 +26,8 @@ Example outputs from JJDoc for the JavaCC grammar are given as [text](javacc.txt
 
 ---
 
-[NEXT >>](.md)
+You're done with the JavaCC documentation!
+
+[Home](../index.md)
 
 <br>
