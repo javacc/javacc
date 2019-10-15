@@ -5,7 +5,7 @@
 ### <a name="toc"></a>Contents
 
 - [Example.jj](#example)
-- [Other examples](#other)
+- [Other Examples](#other)
 
 ### <a name="example"></a>Example.jj
 
@@ -101,24 +101,24 @@ Was expecting one of:
 
 The following list of grammars was created by the JavaCC community.
 
-[AsnParser.jj](../grammars/AsnParser.jj)
-[CPPParser.jj](../grammars/CPPParser.jj)
-[CParser.jj](../grammars/CParser.jj)
-[ChemNumber.jj](../grammars/ChemNumber.jj)
-[Cobol.jj](../grammars/Cobol.jj)
-[DTDParser.jj](../grammars/DTDParser.jj)
-[EcmaScript.jjt](../grammars/EcmaScript.jjt)
-[ExpressParser.jj](../grammars/ExpressParser.jj)
-[FormsPlSql.jj](../grammars/FormsPlSql.jj)
-[GdmoTranslator.jj](../grammars/GdmoTranslator.jj)
-[IDLParser.jj](../grammars/IDLParser.jj)
-[JSONParser.jjt](../grammars/JSONParser.jjt)
-[OberonParser.jj](../grammars/OberonParser.jj)
-[PHP.jj](../grammars/PHP.jj)
-[PetalParser.jj](../grammars/PetalParser.jj)
-[PlSql.jj](../grammars/PlSql.jj)
-[RTFParser.jj](../grammars/RTFParser.jj)
-[infosapient.jj](../grammars/infosapient.jj)
+* [AsnParser.jj](../grammars/AsnParser.jj)
+* [CPPParser.jj](../grammars/CPPParser.jj)
+* [CParser.jj](../grammars/CParser.jj)
+* [ChemNumber.jj](../grammars/ChemNumber.jj)
+* [Cobol.jj](../grammars/Cobol.jj)
+* [DTDParser.jj](../grammars/DTDParser.jj)
+* [EcmaScript.jjt](../grammars/EcmaScript.jjt)
+* [ExpressParser.jj](../grammars/ExpressParser.jj)
+* [FormsPlSql.jj](../grammars/FormsPlSql.jj)
+* [GdmoTranslator.jj](../grammars/GdmoTranslator.jj)
+* [IDLParser.jj](../grammars/IDLParser.jj)
+* [JSONParser.jjt](../grammars/JSONParser.jjt)
+* [OberonParser.jj](../grammars/OberonParser.jj)
+* [PHP.jj](../grammars/PHP.jj)
+* [PetalParser.jj](../grammars/PetalParser.jj)
+* [PlSql.jj](../grammars/PlSql.jj)
+* [RTFParser.jj](../grammars/RTFParser.jj)
+* [infosapient.jj](../grammars/infosapient.jj)
 
 <br>
 
