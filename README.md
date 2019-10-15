@@ -287,7 +287,7 @@ It includes [detailed documentation](docs/documentation/index.md) for JavaCC, JJ
 
 #### Tutorials
 
-* JavaCC [tutorials](tutorials/index.md).
+* JavaCC [tutorials](docs/tutorials/index.md).
 * [Introduction to JavaCC](https://www.engr.mun.ca/~theo/JavaCC-Tutorial/javacc-tutorial.pdf) by Theodore S. Norvell.
 * [Incorporating language processing into Java applications: a JavaCC tutorial](https://ieeexplore.ieee.org/document/1309649) by Viswanathan Kodaganallur.
 
