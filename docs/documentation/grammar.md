@@ -651,6 +651,6 @@ A character descriptor can be a single character string literal, in which case i
 
 ---
 
-[NEXT >>](.md)
+[NEXT >>](bnf.md)
 
 <br>

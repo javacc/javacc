@@ -8,7 +8,7 @@
 
 2. [JavaCC Grammar](grammar.md)
 
-3. [CharStream](charstream.md)
+3. [JavaCC BNF](bnf.md)
 
 4. [JavaCC API](#javacc-api)
 
