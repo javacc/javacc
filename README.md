@@ -118,7 +118,6 @@ void MatchedBraces() :
 ```java
 $ java Example
 {{}}<return>
-<control-d>
 ```
 
 ```java

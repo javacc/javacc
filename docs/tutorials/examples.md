@@ -4,7 +4,7 @@
 
 This section contains some examples to get you started using JavaCC and JJTree.
 
-Once you have tried out and understood each of these examples, you should take a look at the [example grammars](example-grammars.md), the [grammar repository](http://mindprod.com/jgloss/javacc.html), and more complex examples under the `examples/` directory.
+Once you have tried out and understood each of these examples, you should take a look at the [grammar repository](http://mindprod.com/jgloss/javacc.html), and more complex examples under the `examples/` directory.
 
 But even with just these examples, you should be able to get started on reasonably complex grammars.
 
