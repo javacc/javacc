@@ -305,7 +305,9 @@ It includes [detailed documentation](docs/documentation/index.md) for JavaCC, JJ
 
 ### <a name="powered-by"></a>Powered by JavaCC
 
-JavaCC is used in many commercial applications and open source projects. The following list highlights a few notable JavaCC projects that run interesting use cases in production, with links to the relevant grammar specifications.
+JavaCC is used in many commercial applications and open source projects.
+
+The following list highlights a few notable JavaCC projects that run interesting use cases in production, with links to the relevant grammar specifications.
 
 User                                                 | Use Case                                                       | Grammar File(s)
 :--------------------------------------------------- |:-------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------:
