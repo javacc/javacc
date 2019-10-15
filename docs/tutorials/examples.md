@@ -22,7 +22,7 @@ But even with just these examples, you should be able to get started on reasonab
   * [Example1.jjt](#jjtree-example-1)
   * [Example2.jjt](#jjtree-example-2)
   * [Example3.jjt](#jjtree-example-3)
-  * [Example3.jjt](#jjtree-example-3)
+  * [Example4.jjt](#jjtree-example-4)
 
 
 ## <a name="javacc"></a>JavaCC Examples
