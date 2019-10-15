@@ -5,7 +5,7 @@ Created from:
 * an example README.md file from https://github.com/apache/flink
 -->
 
-# JavaCC
+# <a name="top"></a>JavaCC
 
 Java Compiler Compiler (JavaCC) is the most popular parser generator for use with Java applications.
 
@@ -315,6 +315,6 @@ JavaCC is an open source project released under the [BSD License 2.0](LICENSE). 
 
 ---
 
-Back to [ToC](#toc)
+[Top](#top)
 
 <br>

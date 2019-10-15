@@ -5,6 +5,8 @@ Created from:
 * an example README.md file from https://github.com/apache/flink
 -->
 
+# <a name="top"></a>JavaCC
+
 Java Compiler Compiler (JavaCC) is the most popular parser generator for use with Java applications.
 
 A parser generator is a tool that reads a grammar specification and converts it to a Java program that can recognize matches to the grammar.
@@ -163,6 +165,6 @@ JavaCC is an open source project released under the [BSD License 2.0](LICENSE). 
 
 ---
 
-Back to [ToC](#toc)
+[Top](#top)
 
 <br>
