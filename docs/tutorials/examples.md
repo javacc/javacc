@@ -112,7 +112,7 @@ Was expecting one of:
 
 ---
 
-`Example1` is a simple JavaCC grammar that recognizes a set of left braces followed by the same number of right braces and finally followed by zero or more line terminators and finally an end of file.
+`Example1.jj` is a simple JavaCC grammar that recognizes a set of left braces followed by the same number of right braces and finally followed by zero or more line terminators and finally an end of file.
 
 ```java
 options {
