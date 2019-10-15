@@ -4,13 +4,13 @@
 
 <br>
 
-1. [Command Line Interface](cli.md)
+1. [JavaCC Command Line](cli.md)
 
 2. [JavaCC Grammar](grammar.md)
 
 3. [JavaCC BNF](bnf.md)
 
-4. [JavaCC API](#javacc-api)
+4. [JavaCC API](#api)
 
 5. [Lexer Tips](lexer-tips.md)
 

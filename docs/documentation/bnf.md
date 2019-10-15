@@ -617,9 +617,7 @@ identifier ::= <IDENTIFIER>
 
 <br>
 
-### <a name="java-grammar"></a>Java Grammar
-
----
+## <a name="java-grammar"></a>Java Grammar
 
 The Java grammar is modified to use sequences of tokens for the missing tokens - those that include "<<" and ">>".
 
@@ -1359,6 +1357,6 @@ DefaultValue ::= "default" MemberValue
 
 ---
 
-[NEXT >>](.md)
+[NEXT >>](api.md)
 
 <br>
