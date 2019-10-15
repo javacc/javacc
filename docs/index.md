@@ -17,12 +17,10 @@ All you need to run a JavaCC parser, once generated, is a Java Runtime Environme
 
 - [Introduction](#introduction)
   * [Features](features.md)
-  * [Documentation](documentation/index.md)
   * [Tutorials](tutorials/index.md)
   * [FAQ](faq.md)
 - [Getting Started](#getting-started)
-  * [Downloads](#downloads)
-  * [Quickstart](#quickstart)
+  * [Download & Installation](#download)
   * [Building JavaCC from source](#building-from-source)
   * [Developing JavaCC](#developing)
 - [Community](#community)
@@ -37,15 +35,15 @@ Follow the steps here to get started with JavaCC.
 
 This guide will walk you through locally building the project, running an existing example, and setup to start developing and testing your own JavaCC application.
 
-### <a name="downloads"></a>Downloads
+### <a name="download"></a>Download & Installation
 
 JavaCC 7.0.5 is our latest stable release.
 
 * JavaCC 7.0.5 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.5.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.5.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.5-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.5))
 
-For all previous releases, please see [stable releases](downloads.md).
-
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
+
+For all previous releases, please see [stable releases](downloads.md).
 
 #### <a name="installation"></a>Installation
 
@@ -81,10 +79,6 @@ $ ant
 ```
 
 This will build the `javacc.jar` file in the `target/` directory
-
-### <a name="quickstart"></a>Quickstart
-
-TODO
 
 ### <a name="developing"></a>Developing JavaCC
 
@@ -130,7 +124,9 @@ For questions relating to development please join our [Slack channel](https://ja
 
 ### <a name="documentation"></a>Documentation
 
-The documentation of JavaCC is located on the website [https://javacc.org](https://javacc.org) and in the `docs/` directory of the source code on [Github](https://github.com/javacc/javacc).
+The documentation is located on the website [https://javacc.org](https://javacc.org) and in the `docs/` directory of the source code on [Github](https://github.com/javacc/javacc).
+
+It includes [detailed documentation](documentation/index.md) for JavaCC, JJTree, and JJDoc.
 
 ### <a name="powered-by"></a>Powered by JavaCC
 
@@ -161,7 +157,7 @@ https://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow/
 
 ## <a name="license"></a>License
 
-JavaCC is an open source project released under the BSD License 2.0. The JavaCC project was originally developed at Sun Microsystems Inc. by [Sreeni Viswanadha](https://github.com/kaikalur) and [Sriram Sankar](https://twitter.com/sankarsearch).
+JavaCC is an open source project released under the [BSD License 2.0](LICENSE). The JavaCC project was originally developed at Sun Microsystems Inc. by [Sreeni Viswanadha](https://github.com/kaikalur) and [Sriram Sankar](https://twitter.com/sankarsearch).
 
 <br>
 

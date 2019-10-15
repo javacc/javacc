@@ -96,6 +96,9 @@ Declare trace_indent only if debug parser is enabled.
 CPPParser.jj grammar added to grammars.
 Build with Maven is working again.
 
+---WARNING---WARNING---WARNING---
+Required Java Platform: Standard Edition 7.0: known under Eclipse as JavaSE-1.7
+
 <br>
 
 ### MODIFICATIONS IN VERSION <a name="javacc-7.0.4"></a>7.0.4

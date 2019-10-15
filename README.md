@@ -7,7 +7,9 @@ Created from:
 
 # JavaCC
 
-Java Compiler Compiler (JavaCC) is the most popular parser generator for use with Java applications. A parser generator is a tool that reads a grammar specification and converts it to a Java program that can recognize matches to the grammar.
+Java Compiler Compiler (JavaCC) is the most popular parser generator for use with Java applications.
+
+A parser generator is a tool that reads a grammar specification and converts it to a Java program that can recognize matches to the grammar.
 
 In addition to the parser generator itself, JavaCC provides other standard capabilities related to parser generation such as tree building (via a tool called JJTree included with JavaCC), actions and debugging.
 
@@ -17,21 +19,21 @@ This README is meant as a brief overview of the core features and how to set thi
 
 ## <a name="toc"></a>Contents
 
-- [Overview](#overview)
-   * [Features](#features)
-   * [Example](#example)
+- [Introduction](#introduction)
+  * [Features](#features)
+  * [Tutorials](docs/tutorials/index.md)
+  * [FAQ](docs/faq.md)
 - [Getting Started](#getting-started)
-   * [Building JavaCC from source](#building-from-source)
-   * [Developing JavaCC](#developing)
-   * [Download](#download)
-   * [Binary distribution](#binary-distribution)
+  * [Download & Installation](#download)
+  * [Building JavaCC from source](#building-from-source)
+  * [Developing JavaCC](#developing)
 - [Community](#community)
-   * [Support](#support)
-   * [Documentation](#documentation)
-   * [Powered by JavaCC](#powered-by)
+  * [Support](#support)
+  * [Documentation](#documentation)
+  * [Powered by JavaCC](#powered-by)
 - [License](#license)
 
-## <a name="overview"></a>Overview
+## <a name="introduction"></a>Introduction
 
 ### <a name="features"></a>Features
 
@@ -153,6 +155,34 @@ Follow the steps here to get started with JavaCC.
 
 This guide will walk you through locally building the project, running an existing example, and setup to start developing and testing your own JavaCC application.
 
+### <a name="download"></a>Download & Installation
+
+JavaCC 7.0.5 is our latest stable release.
+
+* JavaCC 7.0.5 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.5.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.5.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.5-javadoc.jar), [Release Notes](docs/release-notes.md#javacc-7.0.5))
+
+All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
+
+For all previous releases, please see [stable releases](docs/downloads.md).
+
+#### <a name="installation"></a>Installation
+
+To install JavaCC, navigate to the download directory and type:
+
+```
+$ unzip javacc-5.0.zip
+or
+$ tar xvf javacc-5.0.tar.gz
+```
+
+Once you have completed installation add the `bin/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
+
+#### <a name="binary-distribution"></a>Binary distribution
+
+The binary distributions contain the JavaCC, JJTree and JJDoc sources, launcher scripts, example grammars and documentation. It also contains a bootstrap version of JavaCC needed to build JavaCC.
+
+On Unix-based systems, you need to make sure the files in the `bin/` directory of the distribution are in your path.
+
 ### <a name="building-from-source"></a>Building JavaCC from source
 
 Prerequisites for building JavaCC:
@@ -196,28 +226,6 @@ Check out our [Setting up IntelliJ](https://ci.apache.org/projects/flink/flink-d
 
 * Eclipse download: [https://www.eclipse.org/ide/](https://www.eclipse.org/ide/)
 * Eclipse JavaCC Plugin: [https://marketplace.eclipse.org/content/javacc-eclipse-plug](https://marketplace.eclipse.org/content/javacc-eclipse-plug)
-
-### <a name="download"></a>Download
-
-You can download JavaCC distributions from the release pages on [GitHub](https://github.com/javacc/javacc/releases).
-
-To install JavaCC, navigate to the download directory and type:
-
-```
-$ unzip javacc-5.0.zip
-or
-$ tar xvf javacc-5.0.tar.gz
-```
-
-Once you have completed installation add the `bin/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
-
-### <a name="binary-distribution"></a>Binary distribution
-
-You can access binaries on [Maven Central](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc).
-
-The binary distribution contains the JavaCC, JJTree and JJDoc sources, launcher scripts, example grammars and documentation. It also contains a bootstrap version of JavaCC needed to build JavaCC.
-
-On Unix-based systems, you need to make sure the files in the `bin/` directory of the distribution are in your path.
 
 <!---
 #### Maven
@@ -270,6 +278,8 @@ For questions relating to development please join our [Slack channel](https://ja
 
 The documentation of JavaCC is located on the website [https://javacc.org](https://javacc.org) and in the `docs/` directory of the source code on [Github](https://github.com/javacc/javacc).
 
+It includes [detailed documentation](docs/documentation/index.md) for JavaCC, JJTree, and JJDoc.
+
 ### <a name="powered-by"></a>Powered by JavaCC
 
 JavaCC is used in many commercial applications and open source projects. The following list highlights a few notable JavaCC projects that run interesting use cases in production, with links to the relevant grammar specifications.
@@ -299,7 +309,7 @@ https://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow/
 
 ## <a name="license"></a>License
 
-JavaCC is an open source project released under the BSD License 2.0. The JavaCC project was originally developed at Sun Microsystems Inc. by [Sreeni Viswanadha](https://github.com/kaikalur) and [Sriram Sankar](https://twitter.com/sankarsearch).
+JavaCC is an open source project released under the [BSD License 2.0](LICENSE). The JavaCC project was originally developed at Sun Microsystems Inc. by [Sreeni Viswanadha](https://github.com/kaikalur) and [Sriram Sankar](https://twitter.com/sankarsearch).
 
 <br>
 
