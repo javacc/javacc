@@ -55,17 +55,17 @@ A conditional node descriptor expression can be any boolean expression.
 
 There are two common shorthands for conditional nodes:
 
-  1. Indefinite nodes
+1. Indefinite nodes
 
-  ```java
-  #IndefiniteNode is short for #IndefiniteNode(true)
-  ```
+```java
+#IndefiniteNode is short for #IndefiniteNode(true)
+```
 
-  2. Greater-than nodes
+2. Greater-than nodes
 
-  ```java
-  #GTNode(>1) is short for #GTNode(jjtree.arity() > 1)
-  ```
+```java
+#GTNode(>1) is short for #GTNode(jjtree.arity() > 1)
+```
 
 The indefinite node shorthand `(1)` can lead to ambiguities in the JJTree source when it is followed by a parenthesized expansion.
 
@@ -81,7 +81,7 @@ is ambiguous; you have to use the explicit condition:
 ( ... ) #N(true) ( a() )
 ```
 
-WARNING: node descriptor expressions should not have side-effects. JJTree doesn't specify how many times the expression will be evaluated.
+**WARNING: Node descriptor expressions should not have side-effects. JJTree doesn't specify how many times the expression will be evaluated**.
 
 By default JJTree treats each non-terminal as an indefinite node and derives the name of the node from the name of its production. You can give it a different name with the following syntax:
 
@@ -251,7 +251,7 @@ The name of the visitor interface is constructed by appending `Visitor` to the n
 | `NODE_EXTENDS` | `""` | Deprecated. The superclass for the `SimpleNode` class. By providing a custom superclass you may be able to avoid the need to edit the generated `SimpleNode.java`.
 | `NODE_PREFIX` | `"AST"` | The prefix used to construct node class names from node identifiers in multi mode. The default for this is AST.|
 | `NODE_SCOPE_HOOK` | `false` | Insert calls to user-defined parser methods on entry and exit of every node scope. |
-| `NODE_USES_PARSER` | `false` | JJTree will use an alternate form of the node construction routines where it passes the parser object in. For example,<br>public static Node MyNode.jjtCreate(MyParser p, int id);<br>  MyNode(MyParser p, int id);<br> |
+| `NODE_USES_PARSER` | `false` | JJTree will use an alternate form of the node construction routines where it passes the parser object in. For example:<br>`public static Node MyNode.jjtCreate(MyParser p, int id);<br>  MyNode(MyParser p, int id);`<br> |
 | `TRACK_TOKENS` | `false` | Insert `jjtGetFirstToken()`, `jjtSetFirstToken()`, `getLastToken()`, and `jjtSetLastToken()` methods in `SimpleNode`. The `FirstToken` is automatically set up on entry to a node scope; the `LastToken` is automatically set up on exit from a node scope.
 | `STATIC` | `true` | Generate code for a static parser. This must be used consistently with the equivalent JavaCC options. The value of this option is emitted in the JavaCC source.|
 | `VISITOR` | `false` | Insert a `jjtAccept()` method in the node classes, and generate a visitor implementation with an entry for every node type used in the grammar.|
@@ -347,7 +347,7 @@ Another utility method is generated if the `VISITOR` options is set:
 
 ```java
 {
-    public void childrenAccept(MyParserVisitor visitor);
+  public void childrenAccept(MyParserVisitor visitor);
 }
 ```
 
