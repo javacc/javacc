@@ -2,10 +2,6 @@
 
 ---
 
-This page is the reference documentation for JJDoc.
-
-## <a name="introduction"></a>Introduction
-
 JJDoc takes a JavaCC parser specification and produces documentation for the `BNF` grammar.
 
 ### <a name="cli"></a>Command line options
@@ -22,7 +18,9 @@ JJDoc can operate in several modes, determined by command line options.
 
 Comments in the JavaCC source that immediately precede a production are passed through to the generated documentation.
 
-The results for JavaCC are given as [text](javacc.txt) or [HTML](javacc.html).
+### <a name="example"></a>Example
+
+Example outputs from JJDoc for the JavaCC grammar are given as [text](javacc.txt) or [HTML](javacc.html).
 
 <br>
 
