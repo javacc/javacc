@@ -227,7 +227,7 @@ Also try entering illegal sequences such as mismatched braces, spaces, and carri
 
 `Example2.jj` is a minor modification to `Example1.jj` to allow white space characters to be interspersed among the braces such that the following input will now be legal:
 
-`{{  }\n}\n\n`
+```{{  }\n}\n\n```
 
 ```java
 PARSER_BEGIN(Example2)
