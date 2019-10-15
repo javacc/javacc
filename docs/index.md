@@ -29,6 +29,7 @@ All you need to run a JavaCC parser, once generated, is a Java Runtime Environme
 - [Community](#community)
   * [Support](#support)
   * [Documentation](#documentation)
+  * [Resources](#resources)
   * [Powered by JavaCC](#powered-by)
 - [License](#license)
 
@@ -242,6 +243,31 @@ For questions relating to development please join our [Slack channel](https://ja
 The documentation is located on the website [https://javacc.org](https://javacc.org) and in the `docs/` directory of the source code on [Github](https://github.com/javacc/javacc).
 
 It includes [detailed documentation](documentation/index.md) for JavaCC, JJTree, and JJDoc.
+
+### <a name="resources"></a>Resources
+
+#### Books
+
+* Dos Reis, Anthony J., Compiler Construction Using Java, JavaCC, and Yacc., Wiley-Blackwell 2012. ISBN 0-4709495-9-7 ([book](https://www.amazon.co.uk/Compiler-Construction-Using-Java-JavaCC/dp/0470949597), [pdf](https://doc.lagout.org/programmation/Java/Compiler%20Construction%20using%20Java%2C%20JavaCC%2C%20and%20YACC%20%5BReis%202011-12-20%5D.pdf)).
+* Copeland, Tom, Generating Parsers with JavaCC., Centennial Books, 2007. ISBN 0-9762214-3-8 ([book](https://www.amazon.com/Generating-Parsers-JavaCC-Easy-Use/dp/0976221438)).
+
+#### Tutorials
+
+* JavaCC [tutorials](tutorials/index.md).
+* [Introduction to JavaCC](https://www.engr.mun.ca/~theo/JavaCC-Tutorial/javacc-tutorial.pdf) by Theodore S. Norvell.
+* [Incorporating language processing into Java applications: a JavaCC tutorial](https://ieeexplore.ieee.org/document/1309649) by Viswanathan Kodaganallur.
+
+#### Articles
+
+* [Looking for lex and yacc for Java? You don't know Jack](https://www.javaworld.com/article/2077315/looking-for-lex-and-yacc-for-java--you-don-t-know-jack.html) by Chuck Mcmanis.
+* [Build your own languages with JavaCC](https://www.javaworld.com/article/2076269/build-your-own-languages-with-javacc.html) by Oliver Enseling.
+* [Writing an Interpreter Using JavaCC](https://anandsekar.github.io/writing-an-interpretter-using-javacc/) by Anand Rajasekar.
+* [Building a lexical analyzer with JavaCC](http://kiwwito.com/build-a-lexical-analyzer-with-javacc/) by Keyvan Akbary.
+
+#### Parsing theory
+
+* Alfred V. Aho, Monica S. Lam, Ravi Sethi and Jeffrey D. Ullman, Compilers: Principles, Techniques, and Tools, 2nd Edition, Addison-Wesley, 2006, ISBN 0-3211314-3-6 ([book](https://www.amazon.co.uk/Compilers-Principles-Techniques-Tools-2nd/dp/0321131436), [pdf](https://github.com/germanoa/compiladores/blob/master/doc/ebook/Compilers%20Principles%2C%20Techniques%2C%20and%20Tools%20-%202nd%20Edition%20-%20Alfred%20V.%20Aho.pdf)).
+* Charles N. Fischer and Richard J. Leblanc, Jr., Crafting a Compiler with C., Pearson, 1991. ISBN 0-8053216-6-7 ([book](https://www.amazon.co.uk/Crafting-Compiler-Charles-N-Fischer/dp/0805321667)).
 
 ### <a name="powered-by"></a>Powered by JavaCC
 

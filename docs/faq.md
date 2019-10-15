@@ -195,7 +195,7 @@ JavaCC is redistributable and there are essentially no restrictions on the use o
 
 ---
 
-Yes. Please see the JavaCC [grammar repository](http://mindprod.com/jgloss/javacc.html).
+Yes. Please see the [example grammars](tutorials/example-grammars.md) and the JavaCC [grammar repository](http://mindprod.com/jgloss/javacc.html).
 
 <br>
 
@@ -2449,7 +2449,8 @@ Please see the [Java Tree Builder](http://compilers.cs.ucla.edu/jtb/) website.
 
 ---
 
-Please see the JavaCC [grammar repository](http://mindprod.com/jgloss/javacc.html).
+Please see the [example grammars](tutorials/example-grammars.md) and the JavaCC [grammar repository](http://mindprod.com/jgloss/javacc.html).
+
 
 <br>
 
