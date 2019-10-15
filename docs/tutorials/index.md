@@ -14,7 +14,7 @@
 
 5. [Lexer Tips](lexer-tips.md)
 
-6. [Example](example.md)
+6. [Example Grammars](example-grammars.md)
 
 <br>
 

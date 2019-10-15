@@ -137,6 +137,6 @@ Best practise is to set the `IGNORE_CASE` option at the grammar level. If that i
 
 ---
 
-[NEXT >>](example.md)
+[NEXT >>](example-grammars.md)
 
 <br>
