@@ -440,9 +440,9 @@ option_binding ::= ( <IDENTIFIER> | "LOOKAHEAD" | "IGNORE_CASE" | "static" | "PA
                    "="
                    ( IntegerLiteral | BooleanLiteral | StringLiteral | StringList )
                    ";"
-                   ```
+```
 
-                   ```java
+```java
 StringList ::= "(" StringLiteral ( "," StringLiteral )* ")"
 ```
 
@@ -452,27 +452,27 @@ production ::= javacode_production
              | regular_expr_production
              | token_manager_decls
              | bnf_production
-             ```
+```
 
-             ```java
+```java
 javacode_production ::= "JAVACODE"
                         AccessModifier
                         ResultType
                         identifier
                         FormalParameters ( "throws" Name ( "," Name )* )?
                         Block
-                        ```
+```
 
-                        ```java
+```java
 cppcode_production ::= "CPPCODE"
                        AccessModifier
                        ResultType
                        identifier
                        FormalParameters ( "throws" Name ( "," Name )* )?
                        Block
-                       ```
+```
 
-                       ```java
+```java
 bnf_production ::= AccessModifier
                    ResultType
                    identifier
@@ -480,9 +480,9 @@ bnf_production ::= AccessModifier
                    ":"
                    Block
                    "{" expansion_choices "}"
-                   ```
+```
 
-                   ```java
+```java
 AccessModifier ::= ( "public" | "protected" | "private" )?
 ```
 
@@ -492,9 +492,9 @@ regular_expr_production ::= ( "<" "*" ">"
                             )?                     
                             regexpr_kind ( "[" "IGNORE_CASE" "]" )? ":" "{"
                             regexpr_spec ( "|" regexpr_spec )* "}"
-                            ```
+```
 
-                            ```java
+```java
 token_manager_decls ::= "TOKEN_MGR_DECLS" ":" ( ClassOrInterfaceBody )?
 ```
 
@@ -503,32 +503,32 @@ regexpr_kind ::= "TOKEN"
                | "SPECIAL_TOKEN"
                | "SKIP"
                | "MORE"
-               ```
+```
 
-               ```java
+```java
 regexpr_spec ::= regular_expression
                  ( Block )?
                  ( ":" <IDENTIFIER> )?
-                 ```
+```
 
-                 ```java
+```java
 expansion_choices ::= expansion ( "|" expansion )*
 ```
 
 ```java
 expansion ::= ( "LOOKAHEAD" "(" local_lookahead ")" )?
               ( expansion_unit )+
-              ```
+```
 
-              ```java
+```java
 local_lookahead ::= ( IntegerLiteral )?
                     ( "," )?
                     ( expansion_choices )?
                     ( "," )?
                     ( "{" ( Expression )? "}" )?
-                    ```
+```
 
-                    ```java
+```java
 expansion_unit ::= "LOOKAHEAD" "(" local_lookahead ")"
                  | Block
                  | "[" expansion_choices "]"
@@ -542,23 +542,23 @@ expansion_unit ::= "LOOKAHEAD" "(" local_lookahead ")"
                  )
                  | "(" expansion_choices ")"
                  ( "+" | "*" | "?" )?
-                 ```
+```
 
-                 ```java
+```java
 regular_expression ::= StringLiteral
                      | <LANGLE: "<">
                        ( ( "#" )? identifier ":" )?
                        complex_regular_expression_choices <RANGLE: ">">
                      | "<" identifier ">"
                      | "<" "EOF" ">"
-                     ```
+```
 
-                     ```java
+```java
 complex_regular_expression_choices ::= complex_regular_expression
                                        ( "|" complex_regular_expression )*
-                                       ```
+```
 
-                                       ```java
+```java
 complex_regular_expression ::= ( complex_regular_expression_unit )+
 ```
 
@@ -573,9 +573,9 @@ complex_regular_expression_unit ::= StringLiteral
                                     ( "," ( IntegerLiteral )? )?
                                     "}"
                                   )?
-                                  ```
+```
 
-                                  ```java
+```java
 character_list ::= ( "~" )? "[" ( character_descriptor ( "," character_descriptor )* )? "]"
 ```
 
