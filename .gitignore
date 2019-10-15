@@ -6,7 +6,7 @@
 .settings
 .idea
 *.iml
-target
+target/
 build
 build-eclipse
 !subprojects/plugin/src/test/resources/compiledJavaccFile/target
@@ -19,7 +19,6 @@ classes/
 src/main/generated-sources/
 test.tmp/
 tmp/
-target/
 .gradle/
 gradle/
 junit/
@@ -33,6 +32,6 @@ examples/JJTreeExamples/cpp/eg*/
 javacc-*.tar.gz
 javacc-*.zip
 dist/
-dist/
-/ant.log
-/mvn.log
+ant.log
+mvn.log
+cobertura.ser
