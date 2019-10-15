@@ -9,11 +9,11 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 ### <a name="toc"></a>Contents
 
 - [**Release Notes**](#notes)
-* [JavaCC](#javacc)
-* [JJTree](#jjtree)
-* [JJDoc](#jjdoc)
-* [JavaCC (C++ version)](#javacc-cpp)
-* [JJTree (C++ version)](#jjtree-cpp)
+  * [JavaCC](#javacc)
+  * [JJTree](#jjtree)
+  * [JJDoc](#jjdoc)
+  * [JavaCC (C++ version)](#javacc-cpp)
+  * [JJTree (C++ version)](#jjtree-cpp)
 
 ### <a name="javacc"></a>JavaCC
 
@@ -1229,8 +1229,18 @@ You can supply a different file name with this option.
 
 Javacc was extended to support C++ code generation starting with version 6.0. The generated code mostly uses the same design as the Java version.
 
-
 ### VERSION HISTORY
+
+---
+
+THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEASE OF VERSION 6.0.
+
+#### 6.x
+
+* [6.0](#javacc-cpp-6.0)
+* [C++ specific issues](#javacc-cpp-issues)
+
+<br>
 
 ### MODIFICATIONS IN VERSION <a name="javacc-cpp-6.0"></a>6.0
 
@@ -1249,7 +1259,7 @@ Added new options relevant to C++:
 
 <br>
 
-### C++ SPECIFIC ISSUES
+### <a name="javacc-cpp-issues"></a>C++ SPECIFIC ISSUES
 
 ---
 
@@ -1258,20 +1268,28 @@ Since C++ is somewhat different from Java in code organization in terms of heade
 - Include files - in order to write any action code for the lexer/parser/tree, you might need to include header files. So we allow to specify what the header file is for each of the components - see the list of C++ options below for more details.
 - Limitation on code in actions - since we don't have a full C++ parser embedded in the JavaCC grammar, we don't support arbitrary C++ code. So be aware of this when you write the actions. In general, it's a good idea to make them all function calls.
 - Object lifetimes - in general, the parser deletes all the objects it creates - including the tokens. So any data that you want to pass out of the parser should be copied to your own objects that you can return. Note that tree created is a "return value" of the parser so that's not deleted.
-- Exceptions - due to the way the code evolved, we could not use exceptions in C++. So we have an `ErroHandler` interface instead which by default just prints syntax error and continues trying to parse. Please see the [JavaCC API](/documentation/api.md) for more details.
+- Exceptions - due to the way the code evolved, we could not use exceptions in C++. So we have an `ErrorHandler` interface instead which by default just prints syntax error and continues trying to parse. Please see the [JavaCC API](/documentation/api.md) for more details.
 - Wide character support - C++ version is fully wide character compatible and it has been tested on Windows, Linux and Mac environments.
 
 <br>
 
 ### <a name="jjtree-cpp"></a>JJTree (C++ version)
 
----
+JJTree is extended to support C++ code generation starting with version 6.0. The generated code mostly uses the same design as the Java version.
 
-JJTree is extended to support C++ code generation starting with version 6.0. The generated code mostly uses the same design as the Java version. Note that there are still some kinks being worked on - like the NODE_FACTORY option etc. Please also see javacc-c++-releasenotes.html for some general doc on the C++ version.
-
-<br>
+Note that there are still some kinks being worked on - like the NODE_FACTORY option etc.
 
 ### VERSION HISTORY
+
+---
+
+THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEASE OF VERSION 6.0.
+
+#### 6.x
+
+* [6.0](#jjtree-cpp-6.0)
+
+<br>
 
 ### MODIFICATIONS IN VERSION <a name="jjtree-cpp-6.0"></a>6.0
 
@@ -1281,7 +1299,6 @@ Implemented all JavaCC options for the C++ version.
 
 Implemented the following C++ specific options:
 - `NODE_INCLUDES` - a common include file for all the node classes.
-
 
 <br>
 
