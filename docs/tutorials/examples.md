@@ -23,6 +23,7 @@ But even with just these examples, you should be able to get started on reasonab
   * [Example2.jjt](#jjtree-example-2)
   * [Example3.jjt](#jjtree-example-3)
   * [Example4.jjt](#jjtree-example-4)
+- [**Example Grammars**](#examples)
 
 
 ## <a name="javacc"></a>JavaCC Examples
@@ -1242,8 +1243,37 @@ For example, the file `SimpleNode.java` is different when the option `VISITOR` i
 
 <br>
 
+### <a name="examples"></a>Example Grammars
+
 ---
 
-[NEXT >>](example-grammars.md)
+The following list of grammars was created by the JavaCC community.
+
+* [AsnParser.jj](../grammars/AsnParser.jj)
+* [CPPParser.jj](../grammars/CPPParser.jj)
+* [CParser.jj](../grammars/CParser.jj)
+* [ChemNumber.jj](../grammars/ChemNumber.jj)
+* [Cobol.jj](../grammars/Cobol.jj)
+* [DTDParser.jj](../grammars/DTDParser.jj)
+* [EcmaScript.jjt](../grammars/EcmaScript.jjt)
+* [ExpressParser.jj](../grammars/ExpressParser.jj)
+* [FormsPlSql.jj](../grammars/FormsPlSql.jj)
+* [GdmoTranslator.jj](../grammars/GdmoTranslator.jj)
+* [IDLParser.jj](../grammars/IDLParser.jj)
+* [JSONParser.jjt](../grammars/JSONParser.jjt)
+* [OberonParser.jj](../grammars/OberonParser.jj)
+* [PHP.jj](../grammars/PHP.jj)
+* [PetalParser.jj](../grammars/PetalParser.jj)
+* [PlSql.jj](../grammars/PlSql.jj)
+* [RTFParser.jj](../grammars/RTFParser.jj)
+* [infosapient.jj](../grammars/infosapient.jj)
+
+<br>
+
+---
+
+You're done with the JavaCC tutorials!
+
+[Home](../index.md)
 
 <br>
