@@ -29,11 +29,9 @@
 
 options {
   JAVA_UNICODE_ESCAPE = true;
-  CODE_GENERATOR="Java";
 }
 
 PARSER_BEGIN(JavaCCParser)
-
 
 PARSER_END(JavaCCParser)
 

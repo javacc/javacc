@@ -7,7 +7,7 @@
 		<version>8.0.0</version>
 	</parent>
 	<groupId>org.javacc.test.cpp</groupId>
-	<artifactId>CORBA-IDL</artifactId>
+	<artifactId>MailProcessing</artifactId>
 	<packaging>exe</packaging>
 	<build>
 		<plugins>
@@ -23,7 +23,7 @@
 						</goals>
 						<configuration>
 							<codeGenerator>C++</codeGenerator>
-							<sourceDirectory>../../examples/CORBA-IDL</sourceDirectory>
+							<sourceDirectory>../../examples/MailProcessing</sourceDirectory>
 							<outputDirectory>target/generated-sources/cpp</outputDirectory>
 						</configuration>
 					</execution>

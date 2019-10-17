@@ -35,7 +35,6 @@ options {
   VISITOR=true;
   NODE_USES_PARSER=true;
   NODE_FACTORY = true;
-  CODE_GENERATOR="Java";
 }
 
 PARSER_BEGIN(JavaParser)

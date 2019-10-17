@@ -30,24 +30,10 @@ options {
     MULTI=true;
     NODE_EXTENDS="MyNode";
     TRACK_TOKENS=true;
-  	CODE_GENERATOR="Java";
 }
 
 PARSER_BEGIN(SPLParser)
 
-/** Stupid Programming Language parser. */
-public class SPLParser {
-
-  /**
-   * Returns the root node of the AST.  
-   * It only makes sense to call this after a successful parse. 
-   * @return the root node
-   */
-  public Node rootNode() {
-    return jjtree.rootNode();
-  }  
-
-}
 
 PARSER_END(SPLParser)
 

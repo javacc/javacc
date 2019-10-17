@@ -7,7 +7,7 @@
 		<version>8.0.0</version>
 	</parent>
 	<groupId>org.javacc.test.cpp</groupId>
-	<artifactId>CORBA-IDL</artifactId>
+	<artifactId>Interpreter</artifactId>
 	<packaging>exe</packaging>
 	<build>
 		<plugins>
@@ -19,11 +19,11 @@
 						<id>jcc</id>
 						<phase>generate-sources</phase>
 						<goals>
-							<goal>javacc</goal>
+							<goal>jjtree-javacc</goal>
 						</goals>
 						<configuration>
 							<codeGenerator>C++</codeGenerator>
-							<sourceDirectory>../../examples/CORBA-IDL</sourceDirectory>
+							<sourceDirectory>../../examples/Interpreter</sourceDirectory>
 							<outputDirectory>target/generated-sources/cpp</outputDirectory>
 						</configuration>
 					</execution>
