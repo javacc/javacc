@@ -11,7 +11,7 @@
 	<artifactId>cpp</artifactId>
 	<packaging>pom</packaging>
 	<properties>
-		<native-maven-plugin>1.0-alpha-12-SNAPSHOT</native-maven-plugin>
+		<native-maven-plugin>1.0-alpha-11</native-maven-plugin>
 	</properties>
 	<modules>
 <!--		<module>CORBA-IDL</module>
@@ -68,15 +68,15 @@
 							<skip>true</skip>
 							<tasks>
 								<path id="javacc">
-									<pathelement location="../../parser/target/parser-8.0.0.jar"/>
-									<pathelement location="../../codegen/cpp/target/cpp-8.0.0.jar"/>
+									<pathelement location="../../parser/target/parser-8.0.0.jar" />
+									<pathelement location="../../codegen/cpp/target/cpp-8.0.0.jar" />
 								</path>
 
 								<!-- Place any ant task here. You can add anything you can add between <target> and </target> in a build.xml. -->
 								<mkdir dir="test.tmp" />
 
 								<echo />
-								<java failonerror="true" fork="true" classname="javacc"  classpathref="javacc">
+								<java failonerror="true" fork="true" classname="javacc" classpathref="javacc">
 									<arg line="-OUTPUT_DIRECTORY=test.tmp/CORBA-IDL" />
 									<arg line="-CODE_GENERATOR=C++" />
 									<arg line="../examples/CORBA-IDL/IDL.jj" />
@@ -190,7 +190,7 @@
 									<arg line="../examples/JJTreeExamples/java/eg1.jjt" />
 								</java>
 								<java fork="true" classname="javacc" classpathref="javacc">
-									<arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1" /> 
+									<arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1" />
 									<arg line="-CODE_GENERATOR=C++" />
 									<arg line="test.tmp/JJTreeExamples.eg1/eg1.jj" />
 								</java>
