@@ -1,8 +1,3 @@
-                          ==========
-                          JavaCC 7.0
-                          ==========
-
-
 Copyright (c) 2006, Sun Microsystems, Inc.
 All rights reserved.
 
@@ -29,33 +24,4 @@ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
 CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
 THE POSSIBILITY OF SUCH DAMAGE.
-
-
-SUMMARY
-
-JavaCC is an open source compiler compiler.  It takes a grammar
-specification as input and produces a stand-alone parser written
-in Java.
-
-CONTENTS
-
-This distribution contains the JavaCC, JJTree and JJDoc sources, 
-launcher scripts, example grammars and documentation. It also contains
-a bootstrap version of JavaCC needed to build JavaCC.
-
-BUILDING
-
-You need ant-1.5.3 or above to build JavaCC.  You can get ant from:
-
-    http://ant.apache.org
-
-Once you install ant, make sure ant is in your path. Then you can simply
-come to this directory (JavaCC source install directory) and type:
-
-    $ ant
-
-it will build the javacc.jar file in the target directory.
-
-On unix-based systems, you need to make sure the files in the bin
-directory of this distribution are in your path.
 

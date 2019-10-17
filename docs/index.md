@@ -15,15 +15,13 @@ In addition to the parser generator itself, JavaCC provides other standard capab
 
 All you need to run a JavaCC parser, once generated, is a Java Runtime Environment (JRE).
 
-This README is meant as a brief overview of the core features and how to set things up to get yourself started with JavaCC. For a fully detailed documentation, please see [https://javacc.org/](https://javacc.org/).
-
 ## <a name="toc"></a>Contents
 
 - [Introduction](#introduction)
   * [Features](#features)
   * [Example](#example)
-  * [Tutorials](docs/tutorials/index.md)
-  * [FAQ](docs/faq.md)
+  * [Tutorials](tutorials/index.md)
+  * [FAQ](faq.md)
 - [Getting Started](#getting-started)
   * [Download & Installation](#download)
   * [Building JavaCC from Source](#building-from-source)
@@ -156,20 +154,20 @@ This guide will walk you through locally building the project, running an existi
 
 JavaCC 7.0.5 is our latest stable release.
 
-* JavaCC 7.0.5 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.5.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.5.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.5-javadoc.jar), [Release Notes](docs/release-notes.md#javacc-7.0.5))
+* JavaCC 7.0.5 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.5.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.5.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.5-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.5))
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
-For all previous releases, please see [stable releases](docs/downloads.md).
+For all previous releases, please see [stable releases](downloads.md).
 
 #### <a name="installation"></a>Installation
 
 To install JavaCC, navigate to the download directory and type:
 
 ```
-$ unzip javacc-5.0.zip
+$ unzip javacc-7.0.5.zip
 or
-$ tar xvf javacc-5.0.tar.gz
+$ tar xvf javacc-7.0.5.tar.gz
 ```
 
 Once you have completed installation add the `bin/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
@@ -197,7 +195,6 @@ $ ant
 
 This will build the `javacc.jar` file in the `target/` directory
 
-
 ### <a name="developing"></a>Developing JavaCC
 
 <!---
@@ -224,37 +221,6 @@ Check out our [Setting up IntelliJ](https://ci.apache.org/projects/flink/flink-d
 * Eclipse download: [https://www.eclipse.org/ide/](https://www.eclipse.org/ide/)
 * Eclipse JavaCC Plugin: [https://marketplace.eclipse.org/content/javacc-eclipse-plug](https://marketplace.eclipse.org/content/javacc-eclipse-plug)
 
-<!---
-#### Maven
-
-Add the following dependency to your `pom.xml` file.
-
-```
-<dependency>
-    <groupId>net.java.dev.javacc</groupId>
-    <artifactId>javacc</artifactId>
-    <version>7.0.4</version>
-</dependency>
-```
-
-#### Gradle
-
-Add the following to your `build.gradle` file.
-
-```
-repositories {
-    mavenLocal()
-    maven {
-        url = 'https://mvnrepository.com/artifact/net.java.dev.javacc/javacc'
-    }
-}
-
-dependencies {
-    compile group: 'net.java.dev.javacc', name: 'javacc', version: '7.0.4'
-}
-```
--->
-
 ## <a name="community"></a>Community
 
 JavaCC is by far the most popular parser generator used with Java applications with an estimated user base of over 1,000 users and more than 100,000 downloads to date.
@@ -273,9 +239,9 @@ For questions relating to development please join our [Slack channel](https://ja
 
 ### <a name="documentation"></a>Documentation
 
-The documentation of JavaCC is located on the website [https://javacc.org](https://javacc.org) and in the `docs/` directory of the source code on [Github](https://github.com/javacc/javacc).
+The documentation is located on the website [https://javacc.org](https://javacc.org) and in the `docs/` directory of the source code on [Github](https://github.com/javacc/javacc).
 
-It includes [detailed documentation](docs/documentation/index.md) for JavaCC, JJTree, and JJDoc.
+It includes [detailed documentation](documentation/index.md) for JavaCC, JJTree, and JJDoc.
 
 ### <a name="resources"></a>Resources
 
@@ -286,7 +252,7 @@ It includes [detailed documentation](docs/documentation/index.md) for JavaCC, JJ
 
 #### Tutorials
 
-* JavaCC [tutorials](docs/tutorials/index.md).
+* JavaCC [tutorials](tutorials/index.md).
 * [Introduction to JavaCC](https://www.engr.mun.ca/~theo/JavaCC-Tutorial/javacc-tutorial.pdf) by Theodore S. Norvell.
 * [Incorporating language processing into Java applications: a JavaCC tutorial](https://ieeexplore.ieee.org/document/1309649) by Viswanathan Kodaganallur.
 
