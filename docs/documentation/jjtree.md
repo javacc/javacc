@@ -25,15 +25,17 @@ JJTree is a preprocessor for JavaCC that inserts parse tree building actions at 
 
 By default JJTree generates code to construct parse tree nodes for each non-terminal in the language. This behavior can be modified so that some non-terminals do not have nodes generated, or so that a node is generated for a part of a production's expansion.
 
-JJTree defines a Java interface Node that all parse tree nodes must implement. The interface provides methods for operations such as setting the parent of the node, and for adding children and retrieving them.
+JJTree defines a Java interface `Node` that all parse tree nodes must implement. The interface provides methods for operations such as setting the parent of the node, and for adding children and retrieving them.
 
-JJTree operates in one of two modes, simple and multi (for want of better terms). In simple mode each parse tree node is of concrete type SimpleNode; in multi mode the type of the parse tree node is derived from the name of the node. If you don't provide implementations for the node classes JJTree will generate sample implementations based on SimpleNode for you. You can then modify the implementations to suit.
+JJTree operates in one of two modes, simple and multi (for want of better terms). In simple mode each parse tree node is of concrete type `SimpleNode`, in multi mode the type of the parse tree node is derived from the name of the node. If you don't provide implementations for the node classes JJTree will generate sample implementations based on `SimpleNode` for you. You can then modify the implementations to suit.
 
-Although JavaCC is a top-down parser, JJTree constructs the parse tree from the bottom up. To do this it uses a stack where it pushes nodes after they have been created. When it finds a parent for them, it pops the children from the stack and adds them to the parent, and finally pushes the new parent node itself. The stack is open, which means that you have access to it from within grammar actions: you can push, pop and otherwise manipulate its contents however you feel appropriate (see [Node Scopes and User Actions](#scopes) for more information.
+Although JavaCC is a top-down parser, JJTree constructs the parse tree from the bottom up. To do this it uses a stack where it pushes nodes after they have been created. When it finds a parent for them, it pops the children from the stack and adds them to the parent, and finally pushes the new parent node itself. The stack is open, which means that you have access to it from within grammar actions: you can push, pop and otherwise manipulate its contents however you feel appropriate (see [Node Scopes and User Actions](#scopes) for more information).
 
 JJTree provides decorations for two basic varieties of nodes, and some syntactic shorthand to make their use convenient.
 
-1. A definite node is constructed with a specific number of children. That many nodes are popped from the stack and made the children of the new node, which is then pushed on the stack itself.
+#### Definite node
+
+A definite node is constructed with a specific number of children. That many nodes are popped from the stack and made the children of the new node, which is then pushed on the stack itself.
 
 You notate a definite node like this:
 
@@ -43,7 +45,9 @@ You notate a definite node like this:
 
 A definite node descriptor expression can be any integer expression, although literal integer constants are by far the most common expressions.
 
-2. A conditional node is constructed with all of the children that were pushed on the stack within its node scope if and only if its condition evaluates to true. If it evaluates to false, the node is not constructed, and all of the children remain on the node stack.
+#### Conditional node
+
+A conditional node is constructed with all of the children that were pushed on the stack within its node scope if and only if its condition evaluates to `true`. If it evaluates to `false,` the node is not constructed, and all of the children remain on the node stack.
 
 You notate a conditional node like this:
 
@@ -51,7 +55,7 @@ You notate a conditional node like this:
 #ConditionalNode(BOOLEAN EXPRESSION)
 ```
 
-A conditional node descriptor expression can be any boolean expression.
+A conditional node descriptor expression can be any `boolean` expression.
 
 There are two common shorthands for conditional nodes:
 
@@ -67,9 +71,9 @@ There are two common shorthands for conditional nodes:
 #GTNode(>1) is short for #GTNode(jjtree.arity() > 1)
 ```
 
-The indefinite node shorthand `(1)` can lead to ambiguities in the JJTree source when it is followed by a parenthesized expansion.
+The indefinite node shorthand `(1)` can lead to ambiguities in the JJTree source when it is followed by a parenthesized expansion. In those cases the shorthand must be replaced by the full expression.
 
-In those cases the shorthand must be replaced by the full expression. For example:
+For example:
 
 ```java
 ( ... ) #N ( a() )
@@ -105,7 +109,9 @@ void P3() : {} {
 }
 ```
 
-In this example, an indefinite node `P3` is begun, marking the stack, and then a `P4` node, one or more `P5` nodes and a `P6` node are parsed. Any nodes that they push are popped and made the children of `P3`. You can further customize the generated tree:
+In this example, an indefinite node `P3` is begun, marking the stack, and then a `P4` node, one or more `P5` nodes and a `P6` node are parsed. Any nodes that they push are popped and made the children of `P3`.
+
+You can further customize the generated tree:
 
 ```java
 void P3() : {} {
@@ -121,11 +127,13 @@ Now the `P3` node will have a `P4` node, a `ListOfP5s` node and a `P6` node as c
 
 ---
 
-Each node is associated with a node scope. User actions within this scope can access the node under construction by using the special identifier `jjtThis` to refer to the node. This identifier is implicitly declared to be of the correct type for the node, so any fields and methods that the node has can be easily accessed.
+Each node is associated with a *node scope*. User actions within this scope can access the node under construction by using the special identifier `jjtThis` to refer to the node. This identifier is implicitly declared to be of the correct type for the node, so any fields and methods that the node has can be easily accessed.
 
 A scope is the expansion unit immediately preceding the node decoration. This can be a parenthesized expression. When the production signature is decorated (perhaps implicitly with the default node), the scope is the entire right hand side of the production including its declaration block.
 
-You can also use an expression involving `jjtThis` on the left hand side of an expansion reference. For example:
+You can also use an expression involving `jjtThis` on the left hand side of an expansion reference.
+
+For example:
 
 ```java
 ... ( jjtThis.my_foo = foo() ) #Baz ...
@@ -157,14 +165,14 @@ The intention is to make it possible for parsers to implement error recovery and
 
 ---
 
-If the `NODE_SCOPE_HOOK` option is set to true, JJTree generates calls to two user-defined parser methods on the entry and exit of every node scope. The methods must have the following signatures:
+If the `NODE_SCOPE_HOOK` option is set to `true`, JJTree generates calls to two user-defined parser methods on the entry and exit of every node scope. The methods must have the following signatures:
 
 ```java
 void jjtreeOpenNodeScope(Node n)
 void jjtreeCloseNodeScope(Node n)
 ```
 
-If the parser is `STATIC` then these methods will have to be declared as static as well. They are both called with the current node as a parameter.
+If the parser is `STATIC` then these methods will have to be declared as `static` as well. They are both called with the current node as a parameter.
 
 One use might be to store the parser object itself in the node so that state that should be shared by all nodes produced by that parser can be provided. For example, the parser might maintain a symbol table.
 
@@ -267,7 +275,7 @@ The name of the visitor interface is constructed by appending `Visitor` to the n
 
 ---
 
-JJTree keeps its state in a parser class field called jjtree. You can use methods in this member to manipulate the node stack.
+JJTree keeps its state in a parser class field called `jjtree`. You can use methods in this member to manipulate the node stack.
 
 ```java
 final class JJTreeState {
@@ -357,11 +365,14 @@ This walks over the node's children in turn, asking them to accept the visitor. 
 
 ## <a name="examples"></a>Examples
 
-JJTree is distributed with some simple examples containing a grammar that parses arithmetic expressions. See the file examples/JJTreeExamples/README for further details.
+There are some examples in the JJTree [tutorial](../tutorials/examples.md#jjtree).
 
-There is also an interpreter for a simple language that uses JJTree to build the program representation. See the file examples/Interpreter/README for more information.
+JJTree is distributed with some simple examples containing a grammar that parses arithmetic expressions (see `examples/JJTreeExamples/` for further details).
 
-Information about an example using the visitor support is in examples/VTransformer/README.
+There is also an interpreter for a simple language that uses JJTree to build the program representation (see `examples/Interpreter/` for more information.
+
+Information about an example using the visitor support is in `examples/VTransformer/`.
+
 
 <br>
 
