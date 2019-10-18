@@ -1,3 +1,11 @@
+<!---
+Instructions to update documentation for a new release:
+- Add release notes docs/release-notes.md.
+- Add download links to docs/downloads.md. 
+- Change the latest version in the Download & Installation section of README.md#download.
+- Change the latest version in the Download & Installation section of docs/index.md#download.
+-->
+
 [Home](index.md) > Release Notes
 
 ---

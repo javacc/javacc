@@ -642,7 +642,7 @@ Note that in the above definition of non-terminal `Id`, it is made up of a seque
 
 ---
 
-Here are some instructions on how to run the examples and the output you can expect to see.
+This section gives instructions on how to run the JJTree examples and the output you can expect to see.
 
 <br>
 
@@ -663,7 +663,7 @@ public class Example1 {
   /** Main entry point. */
   public static void main(String args[]) {
     System.out.println("Reading from standard input...");
-    Example1 t = Example1 Eg1(System.in);
+    Example1 t = new Example1(System.in);
     try {
       SimpleNode n = t.Start();
       n.dump("");
