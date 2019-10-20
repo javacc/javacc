@@ -112,7 +112,10 @@ public class JavaCCParser extends JavaCCParserInternals {
    * result type as an error for a java grammar
    */
   private boolean isAllowed(Token t)  {
-    return true;
+    if (Options.isOutputLanguageJava() && (t.kind == STAR || t.kind == BIT_AND || t.kind == CONST))
+       return false;
+    else
+       return true;
   }    
 
    /**
@@ -592,11 +595,14 @@ void javacc_input() :
 	{
 	  processing_cu = true;
 	  parser_class_name = id1;
-      JavaCCGlobals.otherLanguageDeclTokenBeg = getToken(1);
-      while(getToken(1).kind != _PARSER_END) {
-        getNextToken();
-      }
-      JavaCCGlobals.otherLanguageDeclTokenEnd = getToken(1);
+
+          if (!Options.isOutputLanguageJava()) {
+            JavaCCGlobals.otherLanguageDeclTokenBeg = getToken(1);
+            while(getToken(1).kind != _PARSER_END) {
+              getNextToken();
+            }
+            JavaCCGlobals.otherLanguageDeclTokenEnd = getToken(1);
+          }
 	}
     CompilationUnit()
 	{
@@ -608,7 +614,6 @@ void javacc_input() :
 	}
     ")"
   ( production() )+
-
   <EOF>
 }
 
@@ -927,9 +932,11 @@ void token_manager_decls() :
 {
   t="TOKEN_MGR_DECLS" ":"
   {
-    getNextToken(); // eat {
-    eatUptoCloseBrace(decls);
-    getNextToken(); // eat }
+    if (!Options.isOutputLanguageJava()) {
+      getNextToken(); // eat {
+      eatUptoCloseBrace(decls);
+      getNextToken(); // eat }
+    }
   }
 
   [ ClassOrInterfaceBody(false, decls) ]
@@ -1127,11 +1134,13 @@ Lookahead local_lookahead() :
   [ LOOKAHEAD(0, { emptyLA || commaAtEnd } )
     "{"
         {
-          int b = 0;
-          while(getToken(1).kind != RBRACE || --b > 0) {
-            t = getNextToken();
-            la.getActionTokens().add(t);
-            if (t.kind == LBRACE) b++;
+          if (!Options.isOutputLanguageJava()) {
+            int b = 0;
+            while(getToken(1).kind != RBRACE || --b > 0) {
+              t = getNextToken();
+              la.getActionTokens().add(t);
+              if (t.kind == LBRACE) b++;
+            }
           }
         }
 
@@ -1223,9 +1232,11 @@ void expansion_unit(Container c) :
   t0="try" "{" expansion_choices(expch) "}"
   ("catch" "("
     {
-      while (getToken(1).kind != RPAREN) vec.add(getNextToken());
-      vec.add(getToken(1));  // Just add the rparen too. HACK!!!
-      vec.add(getToken(2));  // Just add the open curly too. HACK!!!
+      if (!Options.isOutputLanguageJava()) {
+        while (getToken(1).kind != RPAREN) vec.add(getNextToken());
+        vec.add(getToken(1));  // Just add the rparen too. HACK!!!
+        vec.add(getToken(2));  // Just add the open curly too. HACK!!!
+      }
       // Remove the lastone.
       t = null;
       //t = getToken(0);
@@ -1237,8 +1248,12 @@ void expansion_unit(Container c) :
         //t.image = "...";
       //}
     }
+    [ LOOKAHEAD({Options.isOutputLanguageJava()}) Name(vec) t=<IDENTIFIER> ]
    ")"
 	{
+	  types.add(vec);
+	  ids.add(t);
+	  vec = new ArrayList();
 	  inAction = true;
 	}
     Block(vec)
@@ -1631,6 +1646,9 @@ void CompilationUnit() :
   ( ImportDeclaration() )*
   ( TypeDeclaration() )*
 	{
+          if (Options.isOutputLanguageJava()) {
+	    insertionpointerrors(getToken(1));
+          }
 	}
 }
 
@@ -2469,7 +2487,9 @@ void Arguments(List tokens) :
 	  first = getToken(1);
 	  // Added by Sreenivas Viswanadha for 6.0
 	  // TODO :: 2013/07/16 -- cba : Think this condition should be if the language IS C++, not if the language ISN'T Java ...
-	  eatUptoRParen(null);
+	  if (!Options.isOutputLanguageJava()) {
+		eatUptoRParen(null);
+	  }
 	}
   [ ArgumentList() ]
 	{
