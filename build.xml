@@ -168,7 +168,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 		<delete file="${install-name}-distribution.tar.gz" />
 		<tar destfile="${install-name}-distribution.tar.gz" compression="gzip">
-			<tarfileset username="root" uid="1" group="root" prefix="javacc-${version}/doc" filemode="444" dir="www/doc" />
+			<tarfileset username="root" uid="1" group="root" prefix="javacc-${version}/docs" filemode="444" dir="docs/" />
 			<tarfileset username="root" uid="1" group="root" prefix="javacc-${version}/examples" filemode="444" dir="examples/" />
 			<tarfileset username="root" uid="1" group="root" prefix="javacc-${version}" filemode="444" file="LICENSE" />
 			<tarfileset username="root" uid="1" group="root" prefix="javacc-${version}/${target-folder}" filemode="444" file="${javacc}" />
@@ -177,7 +177,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 		<delete file="${install-name}-distribution.zip" />
 		<zip destfile="${install-name}-distribution.zip">
 			<zipfileset prefix="javacc-${version}/${target-folder}" filemode="444" file="${javacc}" />
-			<zipfileset prefix="javacc-${version}/doc" filemode="444" dir="www/doc" />
+			<zipfileset prefix="javacc-${version}/docs" filemode="444" dir="docs/" />
 			<zipfileset prefix="javacc-${version}/examples" filemode="444" dir="examples/" />
 			<zipfileset prefix="javacc-${version}" filemode="444" file="LICENSE" />
 		</zip>
