@@ -51,7 +51,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 	<property name="target-folder" value="target" />
 
-	<property file="version.properties" />
+	<property file="${resources-src}}/version.properties" />
 	<!-- property name="version" value="${version.major}.${version.minor}.${version.patch}-SNAPSHOT" / -->
 	<property name="version" value="${version.major}.${version.minor}.${version.patch}" />
 
@@ -135,7 +135,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 			<fileset dir="${resources-src}/templates" />
 		</copy>
 
-		<copy file="version.properties" todir="classes" />
+		<copy file="${resources-src}/version.properties" todir="classes" />
 
 		<javac srcdir="${java-src}" destdir="classes" debug="true" classpath="" includeantruntime='false'>
 			<src path="${java-src}" />
