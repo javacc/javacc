@@ -156,7 +156,7 @@ This guide will walk you through locally building the project, running an existi
 
 JavaCC 7.0.5 is our latest stable release.
 
-* JavaCC 7.0.5 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.5.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.5.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.5-javadoc.jar), [Release Notes](docs/release-notes.md#javacc-7.0.5))
+* JavaCC 7.0.5 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.5.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.5.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5-javadoc.jar), [Release Notes](docs/release-notes.md#javacc-7.0.5))
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
