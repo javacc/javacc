@@ -5,7 +5,7 @@
 	<groupId>net.java.dev.javacc</groupId>
 	<artifactId>javacc</artifactId>
 	<name>JavaCC</name>
-	<version>7.0.5</version>
+	<version>7.0.6</version>
 
 	<description>JavaCC is a parser/scanner generator for java. </description>
 	<url>https://github.com/javacc/javacc</url>
@@ -662,9 +662,9 @@
 				</executions>
 				<configuration>
 					<keystore>C:/Users/fandre/AppData/Roaming/gnupg</keystore>
-					<alias>Francis ANDRE</alias>
-					<storepass>300756fa</storepass>
-					<keypass>300756fa</keypass>
+					<alias></alias>
+					<storepass></storepass>
+					<keypass></keypass>
 				</configuration>
 			</plugin>
  -->
