@@ -125,6 +125,12 @@
 		<contributor>
 			<name>Eitan Adler</name>
 		</contributor>
+		<contributor>
+			<name>Anton Rib</name>
+		</contributor>
+		<contributor>
+			<name>Marc Mazas</name>	
+		</contributor>
 	</contributors>
 	<licenses>
 		<license>
@@ -173,13 +179,6 @@
 
 
 	<build>
-		<!-- <sourceDirectory>src</sourceDirectory> <testSourceDirectory>src</testSourceDirectory> -->
-		<!-- Uncomment to include grammar sources in jar -->
-		<!--resources> <resource> <directory>src</directory> <includes> <include>**/*.jj</include> <include>**/*.jjt</include> </includes> 
-			</resource> </resources -->
-
-		<!-- NOTE sourceDirectory paths currently configured for Windows due to http://jira.codehaus.org/browse/MJAVACC-29 -->
-
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -255,13 +254,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-compiler-plugin</artifactId> <version>3.8.1</version> 
-				<executions> <execution> <id>default-compile</id> <phase>compile</phase> <goals> <goal>compile</goal> </goals> <configuration><verbose>true</verbose> 
-				<includes> <include>target/generated-sources/javacc</include> <include>target/generated-sources/jjtree</include> </includes> </configuration> 
-				</execution> <execution> <id>default-testCompile</id> <phase>test-compile</phase> <goals> <goal>testCompile</goal> </goals> <configuration><verbose>true</verbose> 
-				<includes> <include>target/generated-sources/javacc</include> <include>target/generated-sources/jjtree</include> </includes> </configuration> 
-				</execution> </executions> </plugin> -->
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -333,9 +325,8 @@
 									</fileset>
 								</copy>
 								<java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-									<arg
-										line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion 
-									examples/GUIParsing/TokenMgrVersion/CalcInput.jj" />
+									<arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion" /> 
+									<arg line="examples/GUIParsing/TokenMgrVersion/CalcInput.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/GUIParsing/TokenMgrVersion" />
 								 -->
@@ -401,8 +392,8 @@
 									<arg line="examples/JJTreeExamples/java/eg1.jjt" />
 								</java>
 								<java fork="true" classname="javacc" classpath="target/classes">
-									<arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1 
-									test.tmp/JJTreeExamples.eg1/eg1.jj" />
+									<arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1" /> 
+									<arg line="test.tmp/JJTreeExamples.eg1/eg1.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/JJTreeExamples.eg1" />
 								<java failonerror="true" fork="true" classname="Eg1" classpath="test.tmp/JJTreeExamples.eg1/"
