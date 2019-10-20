@@ -16,11 +16,11 @@
 	<inceptionYear>1996</inceptionYear>
 	<organization>
 		<name>javacc.org</name>
-		<url>https://javacc.org</url>
+		<url>https://javacc.github.io/javacc/</url>
 	</organization>
 	<scm>
-		<connection>scm:git:git@github.com/javacc/javacc.git</connection>
 		<url>git@github.com/javacc/javacc.git</url>
+		<connection>scm:git:git@github.com/javacc/javacc.git</connection>
 		<developerConnection>scm:git:git@github.com/javacc/javacc.git</developerConnection>
 	</scm>
 	<mailingLists>
