@@ -7,6 +7,9 @@ Created from:
 
 # <a name="top"></a>JavaCC
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.java.dev.javacc/javacc/badge.svg)](https://maven-badges.herokuapp.com/maven-central/net.java.dev.javacc/javacc)
+[![Javadocs](https://www.javadoc.io/badge/net.java.dev.javacc/javacc.svg)](https://www.javadoc.io/doc/net.java.dev.javacc/javacc)
+
 Java Compiler Compiler (JavaCC) is the most popular parser generator for use with Java applications.
 
 A parser generator is a tool that reads a grammar specification and converts it to a Java program that can recognize matches to the grammar.
