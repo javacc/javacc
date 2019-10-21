@@ -33,7 +33,7 @@
 							<goal>run</goal>
 						</goals>
 						<configuration>
-							<skip>true</skip>
+							<skip>false</skip>
 							<tasks>
 								<path id="javacc">
 									<pathelement location="../../parser/target/parser-8.0.0.jar" />
@@ -87,9 +87,8 @@
 									</fileset>
 								</copy>
 								<java failonerror="true" fork="true" classname="javacc" classpathref="javacc">
-									<arg
-										line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion 
-									examples/GUIParsing/TokenMgrVersion/CalcInput.jj" />
+									<arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion" /> 
+									<arg line="examples/GUIParsing/TokenMgrVersion/CalcInput.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/GUIParsing/TokenMgrVersion" />
 								 -->
