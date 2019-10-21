@@ -17,7 +17,8 @@
 <!--		<module>CORBA-IDL</module>
 		<module>Interpreter</module>
  		<module>JavaCCGrammar</module>  contains JAVACODE
-		<module>MailProcessing</module>  -->
+		<module>MailProcessing</module>
+		<module>JJTreeExamples</module>  -->
 	</modules>
 	<dependencies>
 		<dependency>
@@ -56,9 +57,8 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.8</version>
 				<executions>
-					<execution>
+					<execution><inherited>false</inherited>
 						<id>tests</id>
 						<phase>test</phase>
 						<goals>
@@ -66,7 +66,7 @@
 						</goals>
 						<configuration>
 							<skip>true</skip>
-							<tasks>
+							<target>
 								<path id="javacc">
 									<pathelement location="../../parser/target/parser-8.0.0.jar" />
 									<pathelement location="../../codegen/cpp/target/cpp-8.0.0.jar" />
@@ -424,8 +424,7 @@
 									<arg line="test.tmp/VTransformer/Java1.1.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/VTransformer" />
-
-							</tasks>
+							</target>
 						</configuration>
 					</execution>
 				</executions>
