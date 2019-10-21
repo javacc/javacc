@@ -29,3 +29,5 @@ examples/JJTreeExamples/cpp/eg*/
 **/gen/
 test/**/*.h
 test/**/*.cc
+test/**/*.jj
+test/**/*.jjt
