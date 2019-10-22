@@ -28,7 +28,6 @@
 
 options
 {
-  OUTPUT_LANGUAGE="c++";
   NAMESPACE="EG1";
 }
 

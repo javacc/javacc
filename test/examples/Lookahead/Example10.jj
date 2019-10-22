@@ -26,11 +26,6 @@
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
-options {
-  CODE_GENERATOR="Java";
-}
-
 PARSER_BEGIN(Example)
 
 public class Example {

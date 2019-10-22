@@ -45,7 +45,6 @@ options {
   BUILD_TOKEN_MANAGER = true;
   SANITY_CHECK = true;
   FORCE_LA_CHECK = false;
-  CODE_GENERATOR = "Java";
 }
 
 PARSER_BEGIN(Simple1)
