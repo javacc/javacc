@@ -19,8 +19,8 @@
 		<module>JavaCCGrammar</module>
 		<module>JJTreeExamples</module>
 	 	<module>MailProcessing</module>
+ 		<module>exceptions</module>
 -->
- 	<module>exceptions</module>
 	</modules>
 	<build>
 		<pluginManagement>
