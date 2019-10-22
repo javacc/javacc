@@ -5,6 +5,7 @@
     <artifactId>java</artifactId>
     <version>8.0.0</version>
   </parent>
+	<name>JavaCC tests Java JJTreeExamples</name>
   <groupId>org.javacc.test.java</groupId>
   <artifactId>JJTreeExamples</artifactId>
 	<build>
@@ -12,6 +13,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>javacc-maven-plugin</artifactId>
+				<version>${javacc-maven-plugin}</version>
 				<executions>
 					<execution>
 						<id>jcc</id>
@@ -47,5 +49,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<name>JavaCC tests Java JJTreeExamples</name>
 </project>

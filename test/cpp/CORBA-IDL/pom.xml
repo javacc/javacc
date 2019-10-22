@@ -50,6 +50,7 @@
 									</includes>
 								</source>
 							</sources>
+							<compilerStartOptions>/EHsc</compilerStartOptions>
 						</configuration>
 					</execution>
 				</executions>
