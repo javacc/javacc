@@ -120,7 +120,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<ant>1.9.5</ant>
 		<maven-antrun-plugin>1.8</maven-antrun-plugin>
-		<javacc-maven-plugin>3.0.0-SNAPSHOT</javacc-maven-plugin>
+		<javacc-maven-plugin>2.6</javacc-maven-plugin>
 	</properties>
 
 	<dependencyManagement>
