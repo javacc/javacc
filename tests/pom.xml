@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org</groupId>
+		<artifactId>javacc</artifactId>
+		<version>8.0.0</version>
+	</parent>
+	<name>JavaCC tests</name>
+	<groupId>org.javacc</groupId>
+	<artifactId>tests</artifactId>
+	<packaging>pom</packaging>
+	<properties>
+	</properties>
+	<modules>
+		<module>java</module>
+		<module>csharp</module>
+		<module>cpp</module>
+	</modules>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>javacc-maven-plugin</artifactId>
+					<version>${javacc-maven-plugin}</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.javacc</groupId>
+							<artifactId>parser</artifactId>
+							<version>8.0.0</version>
+						</dependency>
+						<dependency>
+							<groupId>org.javacc.codegen</groupId>
+							<artifactId>java</artifactId>
+							<version>8.0.0</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

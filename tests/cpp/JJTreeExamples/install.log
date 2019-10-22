@@ -1,0 +1,1510 @@
+Apache Maven 3.5.4 (1edded0938998edf8bf061f1ceb3cfdeccf443fe; 2018-06-17T20:33:14+02:00)
+Maven home: C:\ASF\apache-maven-3.5.4\bin\..
+Java version: 1.8.0_181, vendor: Oracle Corporation, runtime: C:\Program Files\Java\jdk1.8.0_181\jre
+Default locale: fr_FR, platform encoding: Cp1252
+OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
+[DEBUG] Created new class realm maven.api
+[DEBUG] Importing foreign packages into class realm maven.api
+[DEBUG]   Imported: javax.annotation.* < plexus.core
+[DEBUG]   Imported: javax.annotation.security.* < plexus.core
+[DEBUG]   Imported: javax.enterprise.inject.* < plexus.core
+[DEBUG]   Imported: javax.enterprise.util.* < plexus.core
+[DEBUG]   Imported: javax.inject.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.artifact < plexus.core
+[DEBUG]   Imported: org.apache.maven.classrealm < plexus.core
+[DEBUG]   Imported: org.apache.maven.cli < plexus.core
+[DEBUG]   Imported: org.apache.maven.configuration < plexus.core
+[DEBUG]   Imported: org.apache.maven.exception < plexus.core
+[DEBUG]   Imported: org.apache.maven.execution < plexus.core
+[DEBUG]   Imported: org.apache.maven.execution.scope < plexus.core
+[DEBUG]   Imported: org.apache.maven.lifecycle < plexus.core
+[DEBUG]   Imported: org.apache.maven.model < plexus.core
+[DEBUG]   Imported: org.apache.maven.monitor < plexus.core
+[DEBUG]   Imported: org.apache.maven.plugin < plexus.core
+[DEBUG]   Imported: org.apache.maven.profiles < plexus.core
+[DEBUG]   Imported: org.apache.maven.project < plexus.core
+[DEBUG]   Imported: org.apache.maven.reporting < plexus.core
+[DEBUG]   Imported: org.apache.maven.repository < plexus.core
+[DEBUG]   Imported: org.apache.maven.rtinfo < plexus.core
+[DEBUG]   Imported: org.apache.maven.settings < plexus.core
+[DEBUG]   Imported: org.apache.maven.toolchain < plexus.core
+[DEBUG]   Imported: org.apache.maven.usability < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authentication < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authorization < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.events < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.observers < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.proxy < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.repository < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.resource < plexus.core
+[DEBUG]   Imported: org.codehaus.classworlds < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.* < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.classworlds < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.component < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.configuration < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.container < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.context < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.lifecycle < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.logging < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.personality < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.Xpp3Dom < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParser < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParserException < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlSerializer < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.* < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.artifact < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.collection < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.deployment < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.graph < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.impl < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.installation < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.internal.impl < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.metadata < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.repository < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.resolution < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.spi < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.transfer < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.version < plexus.core
+[DEBUG]   Imported: org.fusesource.jansi.* < plexus.core
+[DEBUG]   Imported: org.slf4j.* < plexus.core
+[DEBUG]   Imported: org.slf4j.helpers.* < plexus.core
+[DEBUG]   Imported: org.slf4j.spi.* < plexus.core
+[DEBUG] Populating class realm maven.api
+[INFO] Error stacktraces are turned on.
+[DEBUG] Message scheme: plain
+[DEBUG] Reading global settings from C:\ASF\apache-maven-3.5.4\bin\..\conf\settings.xml
+[DEBUG] Reading user settings from C:\Users\fandre\.m2\settings.xml
+[DEBUG] Reading global toolchains from C:\ASF\apache-maven-3.5.4\bin\..\conf\toolchains.xml
+[DEBUG] Reading user toolchains from C:\Users\fandre\.m2\toolchains.xml
+[DEBUG] Using local repository at C:\Users\fandre\.m2\repository
+[DEBUG] Using manager EnhancedLocalRepositoryManager with priority 10.0 for C:\Users\fandre\.m2\repository
+[INFO] Scanning for projects...
+[DEBUG] Extension realms for project org.javacc.test.cpp:JJTreeExamples:jar:8.0.0: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project org.javacc.test:cpp:pom:8.0.0: (none)
+[DEBUG] Looking up lifecycle mappings for packaging pom from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project org.javacc:test:pom:8.0.0: (none)
+[DEBUG] Looking up lifecycle mappings for packaging pom from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project org:javacc:pom:8.0.0: (none)
+[DEBUG] Looking up lifecycle mappings for packaging pom from ClassRealm[plexus.core, parent: null]
+[DEBUG] === REACTOR BUILD PLAN ================================================
+[DEBUG] Project: org.javacc.test.cpp:JJTreeExamples:jar:8.0.0
+[DEBUG] Tasks:   [install]
+[DEBUG] Style:   Regular
+[DEBUG] =======================================================================
+[INFO] 
+[INFO] -----------------< org.javacc.test.cpp:JJTreeExamples >-----------------
+[INFO] Building JJTreeExamples 8.0.0
+[INFO] --------------------------------[ jar ]---------------------------------
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] === PROJECT BUILD PLAN ================================================
+[DEBUG] Project:       org.javacc.test.cpp:JJTreeExamples:8.0.0
+[DEBUG] Dependencies (collect): []
+[DEBUG] Dependencies (resolve): [compile, runtime, test]
+[DEBUG] Repositories (dependencies): [releases (http://private.neticoa.fr:50003/repository/public/, default, releases), mis-releases (http://private.neticoa.fr:50003/repository/mis-releases/, default, releases), mis-snapshots (http://private.neticoa.fr:50003/repository/mis-snapshots/, default, snapshots), maven2-repository.dev.java.net (https://maven2-repository.dev.java.net/nonav/repository, default, releases+snapshots), central (https://repo.maven.apache.org/maven2, default, releases)]
+[DEBUG] Repositories (plugins)     : [central (https://repo.maven.apache.org/maven2, default, releases)]
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-resources-plugin:2.6:resources (default-resources)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <buildFilters default-value="${project.build.filters}"/>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <escapeString>${maven.resources.escapeString}</escapeString>
+  <escapeWindowsPaths default-value="true">${maven.resources.escapeWindowsPaths}</escapeWindowsPaths>
+  <includeEmptyDirs default-value="false">${maven.resources.includeEmptyDirs}</includeEmptyDirs>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <overwrite default-value="false">${maven.resources.overwrite}</overwrite>
+  <project default-value="${project}"/>
+  <resources default-value="${project.resources}"/>
+  <session default-value="${session}"/>
+  <supportMultiLineFiltering default-value="false">${maven.resources.supportMultiLineFiltering}</supportMultiLineFiltering>
+  <useBuildFilters default-value="true"/>
+  <useDefaultDelimiters default-value="true"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.1:compile (default-compile)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <basedir default-value="${basedir}"/>
+  <buildDirectory default-value="${project.build.directory}"/>
+  <classpathElements default-value="${project.compileClasspathElements}"/>
+  <compileSourceRoots default-value="${project.compileSourceRoots}"/>
+  <compilerId default-value="javac">${maven.compiler.compilerId}</compilerId>
+  <compilerReuseStrategy default-value="${reuseCreated}">${maven.compiler.compilerReuseStrategy}</compilerReuseStrategy>
+  <compilerVersion>${maven.compiler.compilerVersion}</compilerVersion>
+  <debug default-value="true">${maven.compiler.debug}</debug>
+  <debuglevel>${maven.compiler.debuglevel}</debuglevel>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <executable>${maven.compiler.executable}</executable>
+  <failOnError default-value="true">${maven.compiler.failOnError}</failOnError>
+  <forceJavacCompilerUse default-value="false">${maven.compiler.forceJavacCompilerUse}</forceJavacCompilerUse>
+  <fork default-value="false">${maven.compiler.fork}</fork>
+  <generatedSourcesDirectory default-value="${project.build.directory}/generated-sources/annotations"/>
+  <maxmem>${maven.compiler.maxmem}</maxmem>
+  <meminitial>${maven.compiler.meminitial}</meminitial>
+  <mojoExecution>${mojoExecution}</mojoExecution>
+  <optimize default-value="false">${maven.compiler.optimize}</optimize>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <projectArtifact default-value="${project.artifact}"/>
+  <showDeprecation default-value="false">${maven.compiler.showDeprecation}</showDeprecation>
+  <showWarnings default-value="false">${maven.compiler.showWarnings}</showWarnings>
+  <skipMain>${maven.main.skip}</skipMain>
+  <skipMultiThreadWarning default-value="false">${maven.compiler.skipMultiThreadWarning}</skipMultiThreadWarning>
+  <source default-value="1.5">${maven.compiler.source}</source>
+  <staleMillis default-value="0">${lastModGranularityMs}</staleMillis>
+  <target default-value="1.5">${maven.compiler.target}</target>
+  <useIncrementalCompilation default-value="true">${maven.compiler.useIncrementalCompilation}</useIncrementalCompilation>
+  <verbose default-value="false">${maven.compiler.verbose}</verbose>
+  <mavenSession default-value="${session}"/>
+  <session default-value="${session}"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-resources-plugin:2.6:testResources (default-testResources)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <buildFilters default-value="${project.build.filters}"/>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <escapeString>${maven.resources.escapeString}</escapeString>
+  <escapeWindowsPaths default-value="true">${maven.resources.escapeWindowsPaths}</escapeWindowsPaths>
+  <includeEmptyDirs default-value="false">${maven.resources.includeEmptyDirs}</includeEmptyDirs>
+  <outputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <overwrite default-value="false">${maven.resources.overwrite}</overwrite>
+  <project default-value="${project}"/>
+  <resources default-value="${project.testResources}"/>
+  <session default-value="${session}"/>
+  <skip>${maven.test.skip}</skip>
+  <supportMultiLineFiltering default-value="false">${maven.resources.supportMultiLineFiltering}</supportMultiLineFiltering>
+  <useBuildFilters default-value="true"/>
+  <useDefaultDelimiters default-value="true"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.1:testCompile (default-testCompile)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <basedir default-value="${basedir}"/>
+  <buildDirectory default-value="${project.build.directory}"/>
+  <classpathElements default-value="${project.testClasspathElements}"/>
+  <compileSourceRoots default-value="${project.testCompileSourceRoots}"/>
+  <compilerId default-value="javac">${maven.compiler.compilerId}</compilerId>
+  <compilerReuseStrategy default-value="${reuseCreated}">${maven.compiler.compilerReuseStrategy}</compilerReuseStrategy>
+  <compilerVersion>${maven.compiler.compilerVersion}</compilerVersion>
+  <debug default-value="true">${maven.compiler.debug}</debug>
+  <debuglevel>${maven.compiler.debuglevel}</debuglevel>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <executable>${maven.compiler.executable}</executable>
+  <failOnError default-value="true">${maven.compiler.failOnError}</failOnError>
+  <forceJavacCompilerUse default-value="false">${maven.compiler.forceJavacCompilerUse}</forceJavacCompilerUse>
+  <fork default-value="false">${maven.compiler.fork}</fork>
+  <generatedTestSourcesDirectory default-value="${project.build.directory}/generated-test-sources/test-annotations"/>
+  <maxmem>${maven.compiler.maxmem}</maxmem>
+  <meminitial>${maven.compiler.meminitial}</meminitial>
+  <mojoExecution>${mojoExecution}</mojoExecution>
+  <optimize default-value="false">${maven.compiler.optimize}</optimize>
+  <outputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <showDeprecation default-value="false">${maven.compiler.showDeprecation}</showDeprecation>
+  <showWarnings default-value="false">${maven.compiler.showWarnings}</showWarnings>
+  <skip>${maven.test.skip}</skip>
+  <skipMultiThreadWarning default-value="false">${maven.compiler.skipMultiThreadWarning}</skipMultiThreadWarning>
+  <source default-value="1.5">${maven.compiler.source}</source>
+  <staleMillis default-value="0">${lastModGranularityMs}</staleMillis>
+  <target default-value="1.5">${maven.compiler.target}</target>
+  <testSource>${maven.compiler.testSource}</testSource>
+  <testTarget>${maven.compiler.testTarget}</testTarget>
+  <useIncrementalCompilation default-value="true">${maven.compiler.useIncrementalCompilation}</useIncrementalCompilation>
+  <verbose default-value="false">${maven.compiler.verbose}</verbose>
+  <mavenSession default-value="${session}"/>
+  <session default-value="${session}"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-surefire-plugin:2.12.4:test (default-test)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <argLine>${argLine}</argLine>
+  <basedir default-value="${basedir}"/>
+  <childDelegation default-value="false">${childDelegation}</childDelegation>
+  <classesDirectory default-value="${project.build.outputDirectory}"/>
+  <debugForkedProcess>${maven.surefire.debug}</debugForkedProcess>
+  <disableXmlReport default-value="false">${disableXmlReport}</disableXmlReport>
+  <enableAssertions default-value="true">${enableAssertions}</enableAssertions>
+  <excludedGroups>${excludedGroups}</excludedGroups>
+  <failIfNoSpecifiedTests>${surefire.failIfNoSpecifiedTests}</failIfNoSpecifiedTests>
+  <failIfNoTests>${failIfNoTests}</failIfNoTests>
+  <forkMode default-value="once">${forkMode}</forkMode>
+  <forkedProcessTimeoutInSeconds>${surefire.timeout}</forkedProcessTimeoutInSeconds>
+  <groups>${groups}</groups>
+  <junitArtifactName default-value="junit:junit">${junitArtifactName}</junitArtifactName>
+  <jvm>${jvm}</jvm>
+  <localRepository default-value="${localRepository}"/>
+  <objectFactory>${objectFactory}</objectFactory>
+  <parallel>${parallel}</parallel>
+  <parallelMavenExecution default-value="${session.parallel}"/>
+  <perCoreThreadCount default-value="true">${perCoreThreadCount}</perCoreThreadCount>
+  <pluginArtifactMap>${plugin.artifactMap}</pluginArtifactMap>
+  <pluginDescriptor default-value="${plugin}"/>
+  <printSummary default-value="true">${surefire.printSummary}</printSummary>
+  <projectArtifactMap>${project.artifactMap}</projectArtifactMap>
+  <redirectTestOutputToFile default-value="false">${maven.test.redirectTestOutputToFile}</redirectTestOutputToFile>
+  <remoteRepositories default-value="${project.pluginArtifactRepositories}"/>
+  <reportFormat default-value="brief">${surefire.reportFormat}</reportFormat>
+  <reportNameSuffix default-value="">${surefire.reportNameSuffix}</reportNameSuffix>
+  <reportsDirectory default-value="${project.build.directory}/surefire-reports"/>
+  <runOrder default-value="filesystem"/>
+  <skip default-value="false">${maven.test.skip}</skip>
+  <skipExec>${maven.test.skip.exec}</skipExec>
+  <skipTests default-value="false">${skipTests}</skipTests>
+  <test>${test}</test>
+  <testClassesDirectory default-value="${project.build.testOutputDirectory}"/>
+  <testFailureIgnore default-value="false">${maven.test.failure.ignore}</testFailureIgnore>
+  <testNGArtifactName default-value="org.testng:testng">${testNGArtifactName}</testNGArtifactName>
+  <testSourceDirectory default-value="${project.build.testSourceDirectory}"/>
+  <threadCount>${threadCount}</threadCount>
+  <trimStackTrace default-value="true">${trimStackTrace}</trimStackTrace>
+  <useFile default-value="true">${surefire.useFile}</useFile>
+  <useManifestOnlyJar default-value="true">${surefire.useManifestOnlyJar}</useManifestOnlyJar>
+  <useSystemClassLoader default-value="true">${surefire.useSystemClassLoader}</useSystemClassLoader>
+  <useUnlimitedThreads default-value="false">${useUnlimitedThreads}</useUnlimitedThreads>
+  <workingDirectory>${basedir}</workingDirectory>
+  <project default-value="${project}"/>
+  <session default-value="${session}"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-antrun-plugin:1.8:run (tests)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <exportAntProperties default-value="false"/>
+  <failOnError default-value="true"/>
+  <localRepository>${localRepository}</localRepository>
+  <pluginArtifacts>${plugin.artifacts}</pluginArtifacts>
+  <project default-value="${project}"/>
+  <skip default-value="false">true</skip>
+  <sourceRoot>${sourceRoot}</sourceRoot>
+  <target xmlns:cpptasks="antlib:net.sf.antcontrib.cpptasks">
+    <condition property="linux">
+      <os name="Linux"/>
+    </condition>
+    <condition property="Windows">
+      <os name="Windows 10"/>
+    </condition>
+    <condition property="platform" value="Linux">
+      <isset property="linux"/>
+    </condition>
+    <path id="javacc">
+      <pathelement location="../../../parser/target/parser-8.0.0.jar"/>
+      <pathelement location="../../../codegen/cpp/target/cpp-8.0.0.jar"/>
+    </path>
+    <delete dir="eg1"/>
+    <mkdir dir="eg1"/>
+    <copy file="../../../examples/JJTreeExamples/cpp/eg1.jjt" todir="eg1">
+      <fileset dir="examples/CORBA-IDL">
+        <include name="*.idl"/>
+      </fileset>
+    </copy>
+    <copy file="eg1.cc" todir="eg1">
+      <fileset dir="examples/GUIParsing/ParserVersion">
+        <include name="*.java"/>
+      </fileset>
+    </copy>
+    <jjtree outputdirectory="eg1" classpathref="javacc" target="eg1.jjt"/>
+    <javacc outputdirectory="eg1" classpathref="javacc" target="eg1/eg1.jj"/>
+    <cpptasks:cc objdir="eg1" outfile="eg1/eg1" subsystem="console" outtype="executable">
+      <fileset includes="*.cc" dir="eg1"/>
+      <compiler name="g++" id="Linuxg++">
+        <compilerarg value="-g" if="debug"/>
+        <compilerarg value="-Wall"/>
+        <compilerarg value="-fpermissive"/>
+        <compilerarg value="-O2"/>
+        <compilerarg value="-std=c++11"/>
+      </compiler>
+      <linker libtool="true" name="g++" id="LinuxLinker">
+        <linkerarg value="-g" if="debug"/>
+        <libset libs="stdc++"/>
+      </linker>
+    </cpptasks:cc>
+    <exec executable="eg1/eg1.exe"/>
+    <echo/>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/CORBA-IDL"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/CORBA-IDL/IDL.jj"/>
+    </java>
+    <javac fork="true" srcdir="test.tmp/CORBA-IDL"/>
+    <java fork="true" classname="IDLParser" classpath="test.tmp/CORBA-IDL/" failonerror="true" outputproperty="test.corba.out">
+      <arg line="test.tmp/CORBA-IDL/Hello.idl"/>
+    </java>
+    <echo>${test.corba.out}</echo>
+    <fail message="CORBA failed">
+      <condition>
+        <not>
+          <contains string="${test.corba.out}" substring="IDL file parsed successfully"/>
+        </not>
+      </condition>
+    </fail>
+    <echo/>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/ParserVersion"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/GUIParsing/ParserVersion/CalcInput.jj"/>
+    </java>
+    <javac fork="true" srcdir="test.tmp/GUIParsing/ParserVersion"/>
+    <echo/>
+    <java fork="true" classname="jjtree" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter "/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/Interpreter/SPL.jjt"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter "/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="test.tmp/Interpreter/SPL.jj"/>
+    </java>
+    <javac fork="true" srcdir="test.tmp/Interpreter"/>
+    <java fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="3" failonerror="true" outputproperty="spl.out1">
+      <arg line="test.tmp/Interpreter/fact.spl"/>
+    </java>
+    <echo>${spl.out1}</echo>
+    <fail message="SPL fact parse failed">
+      <condition>
+        <not>
+          <contains string="${spl.out1}" substring="Value of fact : 6"/>
+        </not>
+      </condition>
+    </fail>
+    <java fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="3" failonerror="true" outputproperty="spl.out2">
+      <arg line="test.tmp/Interpreter/odd.spl"/>
+    </java>
+    <echo>${spl.out2}</echo>
+    <fail message="SPL odd parse failed">
+      <condition>
+        <not>
+          <contains string="${spl.out2}" substring="Value of odd : true"/>
+        </not>
+      </condition>
+    </fail>
+    <java fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="9" failonerror="true" outputproperty="spl.out3">
+      <arg line="test.tmp/Interpreter/sqrt.spl"/>
+    </java>
+    <echo>${spl.out3}</echo>
+    <fail message="SPL sqrt parse failed">
+      <condition>
+        <not>
+          <contains string="${spl.out3}" substring="Value of sqrt : 3"/>
+        </not>
+      </condition>
+    </fail>
+    <echo/>
+    <java fork="true" classname="jjtree" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/JJTreeExamples/java/eg1.jjt"/>
+    </java>
+    <java fork="true" classname="javacc" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="test.tmp/JJTreeExamples.eg1/eg1.jj"/>
+    </java>
+    <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg1"/>
+    <java fork="true" classname="Eg1" classpath="test.tmp/JJTreeExamples.eg1/" inputstring="(a + b) * (c + 1);" failonerror="true" outputproperty="jjtree.eg1.out"></java>
+    <echo>${jjtree.eg1.out}</echo>
+    <fail message="JJTree eg1 parse failed">
+      <condition>
+        <not>
+          <contains string="${jjtree.eg1.out}" substring="Thank you."/>
+        </not>
+      </condition>
+    </fail>
+    <echo/>
+    <java fork="true" classname="jjtree" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/JJTreeExamples/java/eg2.jjt"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="test.tmp/JJTreeExamples.eg2/eg2.jj"/>
+    </java>
+    <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg2"/>
+    <java fork="true" classname="Eg2" classpath="test.tmp/JJTreeExamples.eg2/" inputstring="(a + b) * (c + 1);" failonerror="true" outputproperty="jjtree.eg2.out"></java>
+    <echo>${jjtree.eg2.out}</echo>
+    <fail message="JJTree eg2 parse failed">
+      <condition>
+        <not>
+          <contains string="${jjtree.eg2.out}" substring="Thank you."/>
+        </not>
+      </condition>
+    </fail>
+    <echo/>
+    <java fork="true" classname="jjtree" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/JJTreeExamples/java/eg3.jjt"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="test.tmp/JJTreeExamples.eg3/eg3.jj"/>
+    </java>
+    <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg3"/>
+    <java fork="true" classname="Eg3" classpath="test.tmp/JJTreeExamples.eg3/" inputstring="(a + b) * (c + 1);" failonerror="true" outputproperty="jjtree.eg3.out"></java>
+    <echo>${jjtree.eg3.out}</echo>
+    <fail message="JJTree eg3 parse failed">
+      <condition>
+        <not>
+          <contains string="${jjtree.eg3.out}" substring="Thank you."/>
+        </not>
+      </condition>
+    </fail>
+    <echo/>
+    <java fork="true" classname="jjtree" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/JJTreeExamples/java/eg4.jjt"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="test.tmp/JJTreeExamples.eg4/eg4.jj"/>
+    </java>
+    <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg4"/>
+    <java fork="true" classname="Eg4" classpath="test.tmp/JJTreeExamples.eg4/" inputstring="(a + b) * (c + 1);" failonerror="true" outputproperty="jjtree.eg4.out"></java>
+    <echo>${jjtree.eg4.out}</echo>
+    <fail message="JJTree eg4 parse failed">
+      <condition>
+        <not>
+          <contains string="${jjtree.eg4.out}" substring="Thank you."/>
+        </not>
+      </condition>
+    </fail>
+    <echo/>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/JavaCCGrammar"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/JavaCCGrammar/JavaCC.jj"/>
+    </java>
+    <javac fork="true" srcdir="test.tmp/JavaCCGrammar"/>
+    <echo/>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg1"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/Lookahead/Example1.jj"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg2"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/Lookahead/Example2.jj"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg3"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/Lookahead/Example3.jj"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg4"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/Lookahead/Example4.jj"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg5"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/Lookahead/Example5.jj"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg6"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/Lookahead/Example6.jj"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg7"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/Lookahead/Example7.jj"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg8"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/Lookahead/Example8.jj"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg9"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/Lookahead/Example9.jj"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg10"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/Lookahead/Example10.jj"/>
+    </java>
+    <echo/>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/MailProcessing/Digest.jj"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/MailProcessing/Faq.jj"/>
+    </java>
+    <javac fork="true" srcdir="test.tmp/MailProcessing"/>
+    <echo/>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/Obfuscator/Java1.1.jj"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/Obfuscator/IdsFile.jj"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/Obfuscator/MapFile.jj"/>
+    </java>
+    <javac fork="true" srcdir="test.tmp/Obfuscator"/>
+    <echo/>
+    <java fork="true" classname="jjtree" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/Transformer/ToyJava.jjt"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="test.tmp/Transformer/ToyJava.jj"/>
+    </java>
+    <javac fork="true" srcdir="test.tmp/Transformer"/>
+    <echo/>
+    <java fork="true" classname="jjtree" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="../examples/VTransformer/Java1.1.jjt"/>
+    </java>
+    <java fork="true" classname="javacc" failonerror="true" classpathref="javacc">
+      <arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer"/>
+      <arg line="-CODE_GENERATOR=C++"/>
+      <arg line="test.tmp/VTransformer/Java1.1.jj"/>
+    </java>
+    <javac fork="true" srcdir="test.tmp/VTransformer"/>
+  </target>
+  <testSourceRoot>${testSourceRoot}</testSourceRoot>
+  <versionsPropertyName default-value="maven.project.dependencies.versions"/>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-jar-plugin:2.4:jar (default-jar)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <classesDirectory default-value="${project.build.outputDirectory}"/>
+  <defaultManifestFile default-value="${project.build.outputDirectory}/META-INF/MANIFEST.MF"/>
+  <finalName default-value="${project.build.finalName}">${jar.finalName}</finalName>
+  <forceCreation default-value="false">${jar.forceCreation}</forceCreation>
+  <outputDirectory default-value="${project.build.directory}"/>
+  <project default-value="${project}"/>
+  <session default-value="${session}"/>
+  <skipIfEmpty default-value="false">${jar.skipIfEmpty}</skipIfEmpty>
+  <useDefaultManifestFile default-value="false">${jar.useDefaultManifestFile}</useDefaultManifestFile>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-install-plugin:2.4:install (default-install)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <artifact default-value="${project.artifact}"/>
+  <attachedArtifacts default-value="${project.attachedArtifacts}"/>
+  <createChecksum default-value="false">${createChecksum}</createChecksum>
+  <localRepository>${localRepository}</localRepository>
+  <packaging default-value="${project.packaging}"/>
+  <pomFile default-value="${project.file}"/>
+  <skip default-value="false">${maven.install.skip}</skip>
+  <updateReleaseInfo default-value="false">${updateReleaseInfo}</updateReleaseInfo>
+</configuration>
+[DEBUG] =======================================================================
+[DEBUG] Dependency collection stats: {ConflictMarker.analyzeTime=1025500, ConflictMarker.markTime=451400, ConflictMarker.nodeCount=124, ConflictIdSorter.graphTime=540200, ConflictIdSorter.topsortTime=336300, ConflictIdSorter.conflictIdCount=50, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=5554000, ConflictResolver.conflictItemCount=122, DefaultDependencyCollector.collectTime=244496800, DefaultDependencyCollector.transformTime=9637500}
+[DEBUG] org.javacc.test.cpp:JJTreeExamples:jar:8.0.0
+[DEBUG]    org.codehaus.mojo:native-maven-plugin:jar:1.0-alpha-11:compile
+[DEBUG]       org.apache.bcel:bcel:jar:6.2:compile
+[DEBUG]       org.apache.maven:maven-aether-provider:jar:3.2.5:compile
+[DEBUG]          org.apache.maven:maven-model-builder:jar:3.2.5:compile
+[DEBUG]          org.apache.maven:maven-repository-metadata:jar:3.2.5:compile
+[DEBUG]          org.eclipse.aether:aether-api:jar:1.0.0.v20140518:compile
+[DEBUG]          org.eclipse.aether:aether-spi:jar:1.0.0.v20140518:compile
+[DEBUG]          org.eclipse.aether:aether-util:jar:1.0.0.v20140518:compile
+[DEBUG]          org.eclipse.aether:aether-impl:jar:1.0.0.v20140518:compile
+[DEBUG]          org.codehaus.plexus:plexus-component-annotations:jar:1.5.5:compile
+[DEBUG]       org.apache.maven:maven-artifact:jar:3.2.5:compile
+[DEBUG]       org.apache.maven:maven-compat:jar:3.2.5:compile
+[DEBUG]          org.apache.maven:maven-settings:jar:3.2.5:compile
+[DEBUG]          org.codehaus.plexus:plexus-interpolation:jar:1.21:compile
+[DEBUG]          org.eclipse.sisu:org.eclipse.sisu.plexus:jar:0.3.0.M1:compile
+[DEBUG]             javax.enterprise:cdi-api:jar:1.0:compile
+[DEBUG]                javax.annotation:jsr250-api:jar:1.0:compile
+[DEBUG]             org.eclipse.sisu:org.eclipse.sisu.inject:jar:0.3.0.M1:compile
+[DEBUG]          org.apache.maven.wagon:wagon-provider-api:jar:2.8:compile
+[DEBUG]       org.apache.maven:maven-core:jar:3.2.5:compile
+[DEBUG]          org.apache.maven:maven-settings-builder:jar:3.2.5:compile
+[DEBUG]          org.sonatype.sisu:sisu-guice:jar:no_aop:3.2.3:compile
+[DEBUG]             javax.inject:javax.inject:jar:1:compile
+[DEBUG]             aopalliance:aopalliance:jar:1.0:compile
+[DEBUG]             com.google.guava:guava:jar:16.0.1:compile
+[DEBUG]          org.codehaus.plexus:plexus-classworlds:jar:2.5.2:compile
+[DEBUG]          org.sonatype.plexus:plexus-sec-dispatcher:jar:1.3:compile
+[DEBUG]             org.sonatype.plexus:plexus-cipher:jar:1.4:compile
+[DEBUG]       org.apache.maven:maven-model:jar:3.2.5:compile
+[DEBUG]       org.apache.maven:maven-plugin-api:jar:3.2.5:compile
+[DEBUG]       org.codehaus.mojo.natives:maven-native-api:jar:1.0-alpha-11:compile
+[DEBUG]          backport-util-concurrent:backport-util-concurrent:jar:3.1:compile
+[DEBUG]          org.codehaus.plexus:plexus-container-default:jar:1.7.1:compile
+[DEBUG]             org.apache.xbean:xbean-reflect:jar:3.7:compile
+[DEBUG]             com.google.collections:google-collections:jar:1.0:compile
+[DEBUG]       org.codehaus.mojo.natives:maven-native-bcc:jar:1.0-alpha-11:compile
+[DEBUG]       org.codehaus.mojo.natives:maven-native-generic-c:jar:1.0-alpha-11:compile
+[DEBUG]       org.codehaus.mojo.natives:maven-native-javah:jar:1.0-alpha-11:compile
+[DEBUG]       org.codehaus.mojo.natives:maven-native-manager:jar:1.0-alpha-11:compile
+[DEBUG]       org.codehaus.mojo.natives:maven-native-mingw:jar:1.0-alpha-11:compile
+[DEBUG]       org.codehaus.mojo.natives:maven-native-msvc:jar:1.0-alpha-11:compile
+[DEBUG]       org.codehaus.plexus:plexus-archiver:jar:3.5:compile
+[DEBUG]          org.codehaus.plexus:plexus-io:jar:3.0.0:compile
+[DEBUG]             commons-io:commons-io:jar:2.5:compile
+[DEBUG]          org.apache.commons:commons-compress:jar:1.14:compile
+[DEBUG]          org.iq80.snappy:snappy:jar:0.4:compile
+[DEBUG]          org.tukaani:xz:jar:1.6:runtime
+[DEBUG]       org.codehaus.plexus:plexus-utils:jar:3.1.0:compile
+[DEBUG]    junit:junit:jar:4.12:compile
+[DEBUG]       org.hamcrest:hamcrest-core:jar:1.3:compile
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ JJTreeExamples ---
+[DEBUG] Dependency collection stats: {ConflictMarker.analyzeTime=288500, ConflictMarker.markTime=106400, ConflictMarker.nodeCount=77, ConflictIdSorter.graphTime=73900, ConflictIdSorter.topsortTime=18300, ConflictIdSorter.conflictIdCount=26, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=958700, ConflictResolver.conflictItemCount=74, DefaultDependencyCollector.collectTime=85417000, DefaultDependencyCollector.transformTime=1530600}
+[DEBUG] org.apache.maven.plugins:maven-resources-plugin:jar:2.6:
+[DEBUG]    org.apache.maven:maven-plugin-api:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-project:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-profile:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-artifact-manager:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-plugin-registry:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-core:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-plugin-parameter-documenter:jar:2.0.6:compile
+[DEBUG]       org.apache.maven.reporting:maven-reporting-api:jar:2.0.6:compile
+[DEBUG]          org.apache.maven.doxia:doxia-sink-api:jar:1.0-alpha-7:compile
+[DEBUG]       org.apache.maven:maven-repository-metadata:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-error-diagnostics:jar:2.0.6:compile
+[DEBUG]       commons-cli:commons-cli:jar:1.0:compile
+[DEBUG]       org.apache.maven:maven-plugin-descriptor:jar:2.0.6:compile
+[DEBUG]       org.codehaus.plexus:plexus-interactivity-api:jar:1.0-alpha-4:compile
+[DEBUG]       classworlds:classworlds:jar:1.1:compile
+[DEBUG]    org.apache.maven:maven-artifact:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-settings:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-model:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-monitor:jar:2.0.6:compile
+[DEBUG]    org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile
+[DEBUG]       junit:junit:jar:3.8.1:compile
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:2.0.5:compile
+[DEBUG]    org.apache.maven.shared:maven-filtering:jar:1.1:compile
+[DEBUG]       org.sonatype.plexus:plexus-build-api:jar:0.0.4:compile
+[DEBUG]    org.codehaus.plexus:plexus-interpolation:jar:1.13:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-resources-plugin:2.6
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-resources-plugin:2.6
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-resources-plugin:2.6
+[DEBUG]   Included: org.apache.maven.plugins:maven-resources-plugin:jar:2.6
+[DEBUG]   Included: org.apache.maven.reporting:maven-reporting-api:jar:2.0.6
+[DEBUG]   Included: org.apache.maven.doxia:doxia-sink-api:jar:1.0-alpha-7
+[DEBUG]   Included: commons-cli:commons-cli:jar:1.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-interactivity-api:jar:1.0-alpha-4
+[DEBUG]   Included: junit:junit:jar:3.8.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:2.0.5
+[DEBUG]   Included: org.apache.maven.shared:maven-filtering:jar:1.1
+[DEBUG]   Included: org.sonatype.plexus:plexus-build-api:jar:0.0.4
+[DEBUG]   Included: org.codehaus.plexus:plexus-interpolation:jar:1.13
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-resources-plugin:2.6:resources from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-resources-plugin:2.6, parent: sun.misc.Launcher$AppClassLoader@55f96302]
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-resources-plugin:2.6:resources' with basic configurator -->
+[DEBUG]   (f) buildFilters = []
+[DEBUG]   (f) escapeWindowsPaths = true
+[DEBUG]   (s) includeEmptyDirs = false
+[DEBUG]   (s) outputDirectory = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\classes
+[DEBUG]   (s) overwrite = false
+[DEBUG]   (f) project = MavenProject: org.javacc.test.cpp:JJTreeExamples:8.0.0 @ C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\pom.xml
+[DEBUG]   (s) resources = [Resource {targetPath: null, filtering: false, FileSet {directory: C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\src\main\resources, PatternSet [includes: {}, excludes: {}]}}]
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@511816c0
+[DEBUG]   (f) supportMultiLineFiltering = false
+[DEBUG]   (f) useBuildFilters = true
+[DEBUG]   (s) useDefaultDelimiters = true
+[DEBUG] -- end configuration --
+[DEBUG] properties used {java.vendor=Oracle Corporation, env.SYSTEMROOT=C:\WINDOWS, env.USERDOMAIN_ROAMINGPROFILE=METRIXWARE, sun.java.launcher=SUN_STANDARD, env.WIX=C:\Program Files (x86)\WiX Toolset v3.11\, sun.management.compiler=HotSpot 64-Bit Tiered Compilers, env.ONEDRIVE=C:\Users\fandre\OneDrive, env.PROMPT=$P$G, env.WDIR=C:\, os.name=Windows 10, sun.boot.class.path=C:\Program Files\Java\jdk1.8.0_181\jre\lib\resources.jar;C:\Program Files\Java\jdk1.8.0_181\jre\lib\rt.jar;C:\Program Files\Java\jdk1.8.0_181\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.8.0_181\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.8.0_181\jre\lib\jce.jar;C:\Program Files\Java\jdk1.8.0_181\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.8.0_181\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.8.0_181\jre\classes, env.COMPUTERNAME=FANDRE-LAPTOP, env.ALLUSERSPROFILE=C:\ProgramData, sun.desktop=windows, java.vm.specification.vendor=Oracle Corporation, java.runtime.version=1.8.0_181-b13, env.HOMEPATH=\Users\fandre, user.name=fandre, maven.build.version=Apache Maven 3.5.4 (1edded0938998edf8bf061f1ceb3cfdeccf443fe; 2018-06-17T20:33:14+02:00), env.DRIVERDATA=C:\Windows\System32\Drivers\DriverData, env.ONEDRIVECONSUMER=C:\Users\fandre\OneDrive, env.PATH=C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ASF\apache-ant-1.9.13\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files (x86)\IBM\CICS Transaction Gateway\bin;C:\Program Files (x86)\IBM\Personal Communications\;C:\Program Files (x86)\IBM\Trace Facility\;C:\Program Files\IBM\HostOnDemand\bin;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\WinSCP\;C:\Program Files (x86)\Gpg4win\..\GnuPG\bin;C:\Users\fandre\AppData\Local\Microsoft\WindowsApps;C:\Users\fandre\AppData\Roaming\npm;C:\Program Files\CMake\bin;, user.language=fr, env.JVMCONFIG=\.mvn\jvm.config, env.WINDIR=C:\WINDOWS, sun.boot.library.path=C:\Program Files\Java\jdk1.8.0_181\jre\bin, classworlds.conf=C:\ASF\apache-maven-3.5.4\bin\..\bin\m2.conf, java.version=1.8.0_181, env.PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 142 Stepping 10, GenuineIntel, user.timezone=, env.TEMP=C:\Users\fandre\AppData\Local\Temp, sun.arch.data.model=64, env.EXEC_DIR=C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples, env.PCOMM_ROOT=C:\Program Files (x86)\IBM\Personal Communications\, java.endorsed.dirs=C:\Program Files\Java\jdk1.8.0_181\jre\lib\endorsed, env.JDK_HOME=C:\Program Files\Java\jdk1.8.0_181, sun.cpu.isalist=amd64, env.HOMEDRIVE=C:, sun.jnu.encoding=Cp1252, file.encoding.pkg=sun.io, env.SYSTEMDRIVE=C:, file.separator=\, java.specification.name=Java Platform API Specification, maven.conf=C:\ASF\apache-maven-3.5.4\bin\../conf, env.JAVACMD=C:\Program Files\Java\jdk1.8.0_181\bin\java.exe, java.class.version=52.0, user.country=FR, env.GRADLE_HOME=C:\ProgramFiles\Gradle\gradle-5.1.1, java.home=C:\Program Files\Java\jdk1.8.0_181\jre, env.ANDROID_HOME=C:\Users\fandre\Documents\MXW\android, env.APPDATA=C:\Users\fandre\AppData\Roaming, env.PUBLIC=C:\Users\Public, java.vm.info=mixed mode, env.OS=Windows_NT, os.version=10.0, maven.compiler.target=1.8, env.=::=::\, path.separator=;, java.vm.version=25.181-b13, user.variant=, env.USERPROFILE=C:\Users\fandre, env.JAVA_HOME=C:\Program Files\Java\jdk1.8.0_181, java.awt.printerjob=sun.awt.windows.WPrinterJob, env.TMP=C:\Users\fandre\AppData\Local\Temp, env.FPS_BROWSER_USER_PROFILE_STRING=Default, env.PROGRAMFILES=C:\Program Files, sun.io.unicode.encoding=UnicodeLittle, awt.toolkit=sun.awt.windows.WToolkit, sun.stdout.encoding=cp850, user.script=, env.ES_PATH=C:\ProgramFiles\SCORT\ES-5.5, user.home=C:\Users\fandre, env.COMMONPROGRAMFILES=C:\Program Files\Common Files, native-maven-plugin=1.0-alpha-11, env.SESSIONNAME=Console, java.specification.vendor=Oracle Corporation, env.CLASSPATH=C:\Program Files (x86)\IBM\CICS Transaction Gateway\classes\ctgclient.jar;C:\Program Files (x86)\IBM\CICS Transaction Gateway\classes\ctgserver.jar;C:\Program Files (x86)\IBM\CICS Transaction Gateway\classes\ctgadmin.jar;C:\Program Files (x86)\IBM\CICS Transaction Gateway\classes\cicsj2ee.jar;C:\Program Files (x86)\IBM\CICS Transaction Gateway\classes\ctgsamples.jar, env.MI_PATH=C:\ProgramFiles\SCORT\MI-4.3, env.M2_HOME=C:\ASF\apache-maven-3.5.4, library.jansi.path=C:\ASF\apache-maven-3.5.4\bin\..\lib\jansi-native, java.library.path=C:\Program Files\Java\jdk1.8.0_181\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ASF\apache-ant-1.9.13\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files (x86)\IBM\CICS Transaction Gateway\bin;C:\Program Files (x86)\IBM\Personal Communications\;C:\Program Files (x86)\IBM\Trace Facility\;C:\Program Files\IBM\HostOnDemand\bin;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\WinSCP\;C:\Program Files (x86)\Gpg4win\..\GnuPG\bin;C:\Users\fandre\AppData\Local\Microsoft\WindowsApps;C:\Users\fandre\AppData\Roaming\npm;C:\Program Files\CMake\bin;;., java.vendor.url=http://java.oracle.com/, env.NUMBER_OF_PROCESSORS=8, env.COMMONPROGRAMFILES(X86)=C:\Program Files (x86)\Common Files, env.USERDNSDOMAIN=METRIXWARE.LOCAL, env.PSMODULEPATH=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules, env.CLASSWORLDS_LAUNCHER=org.codehaus.plexus.classworlds.launcher.Launcher, env.MAVEN_CMD_LINE_ARGS=install -X -l install.log, java.vm.vendor=Oracle Corporation, maven.home=C:\ASF\apache-maven-3.5.4\bin\.., java.runtime.name=Java(TM) SE Runtime Environment, sun.java.command=org.codehaus.plexus.classworlds.launcher.Launcher install -X -l install.log, java.class.path=C:\ASF\apache-maven-3.5.4\bin\..\boot\plexus-classworlds-2.5.2.jar, env.PROGRAMW6432=C:\Program Files, maven-antrun-plugin=1.8, maven.version=3.5.4, env.PROGRAMFILES(X86)=C:\Program Files (x86), java.vm.specification.name=Java Virtual Machine Specification, env.LOGONSERVER=\\SRV-2012-DC2, java.vm.specification.version=1.8, env.PROCESSOR_ARCHITECTURE=AMD64, env.COMMONPROGRAMW6432=C:\Program Files\Common Files, sun.cpu.endian=little, sun.os.patch.level=, env.ANT_HOME=C:\ASF\apache-ant-1.9.13, java.io.tmpdir=C:\Users\fandre\AppData\Local\Temp\, env.PROCESSOR_REVISION=8e0a, java.vendor.url.bug=http://bugreport.sun.com/bugreport/, maven.multiModuleProjectDirectory=C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples, env.PROGRAMDATA=C:\ProgramData, env.COMSPEC=C:\WINDOWS\system32\cmd.exe, maven.compiler.source=1.8, env.FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer, os.arch=amd64, java.awt.graphicsenv=sun.awt.Win32GraphicsEnvironment, java.ext.dirs=C:\Program Files\Java\jdk1.8.0_181\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext, user.dir=C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples, env.MAVEN_HOME=C:\ASF\apache-maven-3.5.4\bin\.., env.LOCALAPPDATA=C:\Users\fandre\AppData\Local, line.separator=
+, java.vm.name=Java HotSpot(TM) 64-Bit Server VM, env.CLASSWORLDS_JAR="C:\ASF\apache-maven-3.5.4\bin\..\boot\plexus-classworlds-2.5.2.jar", env.PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC, env.ERROR_CODE=0, env.USERNAME=fandre, sun.stderr.encoding=cp850, file.encoding=Cp1252, env.USERDOMAIN=METRIXWARE, java.specification.version=1.8, env.=C:=C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples, env.PROCESSOR_LEVEL=6, env.MAVEN_PROJECTBASEDIR=C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples, env.VBOX_MSI_INSTALL_PATH=C:\Program Files\Oracle\VirtualBox\}
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[DEBUG] resource with targetPath null
+directory C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\src\main\resources
+excludes []
+includes []
+[DEBUG] ignoreDelta true
+[INFO] Copying 0 resource
+[DEBUG] no use filter components
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ JJTreeExamples ---
+[DEBUG] Dependency collection stats: {ConflictMarker.analyzeTime=241700, ConflictMarker.markTime=82600, ConflictMarker.nodeCount=160, ConflictIdSorter.graphTime=126000, ConflictIdSorter.topsortTime=26500, ConflictIdSorter.conflictIdCount=43, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=791100, ConflictResolver.conflictItemCount=63, DefaultDependencyCollector.collectTime=122904800, DefaultDependencyCollector.transformTime=1282400}
+[DEBUG] org.apache.maven.plugins:maven-compiler-plugin:jar:3.1:
+[DEBUG]    org.apache.maven:maven-plugin-api:jar:2.0.9:compile
+[DEBUG]    org.apache.maven:maven-artifact:jar:2.0.9:compile
+[DEBUG]       org.codehaus.plexus:plexus-utils:jar:1.5.1:compile
+[DEBUG]    org.apache.maven:maven-core:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-settings:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-plugin-parameter-documenter:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-profile:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-model:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-repository-metadata:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-error-diagnostics:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-project:jar:2.0.9:compile
+[DEBUG]          org.apache.maven:maven-plugin-registry:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-plugin-descriptor:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-artifact-manager:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-monitor:jar:2.0.9:compile
+[DEBUG]    org.apache.maven:maven-toolchain:jar:1.0:compile
+[DEBUG]    org.apache.maven.shared:maven-shared-utils:jar:0.1:compile
+[DEBUG]       com.google.code.findbugs:jsr305:jar:2.0.1:compile
+[DEBUG]    org.apache.maven.shared:maven-shared-incremental:jar:1.1:compile
+[DEBUG]       org.codehaus.plexus:plexus-component-annotations:jar:1.5.5:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-api:jar:2.2:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-manager:jar:2.2:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-javac:jar:2.2:runtime
+[DEBUG]    org.codehaus.plexus:plexus-container-default:jar:1.5.5:compile
+[DEBUG]       org.codehaus.plexus:plexus-classworlds:jar:2.2.2:compile
+[DEBUG]       org.apache.xbean:xbean-reflect:jar:3.4:compile
+[DEBUG]          log4j:log4j:jar:1.2.12:compile
+[DEBUG]          commons-logging:commons-logging-api:jar:1.1:compile
+[DEBUG]       com.google.collections:google-collections:jar:1.0:compile
+[DEBUG]       junit:junit:jar:3.8.2:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.1
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.1
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.1
+[DEBUG]   Included: org.apache.maven.plugins:maven-compiler-plugin:jar:3.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:1.5.1
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-utils:jar:0.1
+[DEBUG]   Included: com.google.code.findbugs:jsr305:jar:2.0.1
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-incremental:jar:1.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-component-annotations:jar:1.5.5
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-api:jar:2.2
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-manager:jar:2.2
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-javac:jar:2.2
+[DEBUG]   Included: org.apache.xbean:xbean-reflect:jar:3.4
+[DEBUG]   Included: log4j:log4j:jar:1.2.12
+[DEBUG]   Included: commons-logging:commons-logging-api:jar:1.1
+[DEBUG]   Included: com.google.collections:google-collections:jar:1.0
+[DEBUG]   Included: junit:junit:jar:3.8.2
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-compiler-plugin:3.1:compile from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-compiler-plugin:3.1, parent: sun.misc.Launcher$AppClassLoader@55f96302]
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-compiler-plugin:3.1:compile' with basic configurator -->
+[DEBUG]   (f) basedir = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples
+[DEBUG]   (f) buildDirectory = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target
+[DEBUG]   (f) classpathElements = [C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\classes, C:\Users\fandre\.m2\repository\org\codehaus\mojo\native-maven-plugin\1.0-alpha-11\native-maven-plugin-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\org\apache\bcel\bcel\6.2\bcel-6.2.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-aether-provider\3.2.5\maven-aether-provider-3.2.5.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-model-builder\3.2.5\maven-model-builder-3.2.5.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-repository-metadata\3.2.5\maven-repository-metadata-3.2.5.jar, C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-api\1.0.0.v20140518\aether-api-1.0.0.v20140518.jar, C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-spi\1.0.0.v20140518\aether-spi-1.0.0.v20140518.jar, C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-util\1.0.0.v20140518\aether-util-1.0.0.v20140518.jar, C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-impl\1.0.0.v20140518\aether-impl-1.0.0.v20140518.jar, C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-component-annotations\1.5.5\plexus-component-annotations-1.5.5.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-artifact\3.2.5\maven-artifact-3.2.5.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-compat\3.2.5\maven-compat-3.2.5.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-settings\3.2.5\maven-settings-3.2.5.jar, C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-interpolation\1.21\plexus-interpolation-1.21.jar, C:\Users\fandre\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.plexus\0.3.0.M1\org.eclipse.sisu.plexus-0.3.0.M1.jar, C:\Users\fandre\.m2\repository\javax\enterprise\cdi-api\1.0\cdi-api-1.0.jar, C:\Users\fandre\.m2\repository\javax\annotation\jsr250-api\1.0\jsr250-api-1.0.jar, C:\Users\fandre\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.inject\0.3.0.M1\org.eclipse.sisu.inject-0.3.0.M1.jar, C:\Users\fandre\.m2\repository\org\apache\maven\wagon\wagon-provider-api\2.8\wagon-provider-api-2.8.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-core\3.2.5\maven-core-3.2.5.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-settings-builder\3.2.5\maven-settings-builder-3.2.5.jar, C:\Users\fandre\.m2\repository\org\sonatype\sisu\sisu-guice\3.2.3\sisu-guice-3.2.3-no_aop.jar, C:\Users\fandre\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar, C:\Users\fandre\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar, C:\Users\fandre\.m2\repository\com\google\guava\guava\16.0.1\guava-16.0.1.jar, C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-classworlds\2.5.2\plexus-classworlds-2.5.2.jar, C:\Users\fandre\.m2\repository\org\sonatype\plexus\plexus-sec-dispatcher\1.3\plexus-sec-dispatcher-1.3.jar, C:\Users\fandre\.m2\repository\org\sonatype\plexus\plexus-cipher\1.4\plexus-cipher-1.4.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-model\3.2.5\maven-model-3.2.5.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-plugin-api\3.2.5\maven-plugin-api-3.2.5.jar, C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-api\1.0-alpha-11\maven-native-api-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\backport-util-concurrent\backport-util-concurrent\3.1\backport-util-concurrent-3.1.jar, C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-container-default\1.7.1\plexus-container-default-1.7.1.jar, C:\Users\fandre\.m2\repository\org\apache\xbean\xbean-reflect\3.7\xbean-reflect-3.7.jar, C:\Users\fandre\.m2\repository\com\google\collections\google-collections\1.0\google-collections-1.0.jar, C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-bcc\1.0-alpha-11\maven-native-bcc-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-generic-c\1.0-alpha-11\maven-native-generic-c-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-javah\1.0-alpha-11\maven-native-javah-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-manager\1.0-alpha-11\maven-native-manager-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-mingw\1.0-alpha-11\maven-native-mingw-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-msvc\1.0-alpha-11\maven-native-msvc-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-archiver\3.5\plexus-archiver-3.5.jar, C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-io\3.0.0\plexus-io-3.0.0.jar, C:\Users\fandre\.m2\repository\commons-io\commons-io\2.5\commons-io-2.5.jar, C:\Users\fandre\.m2\repository\org\apache\commons\commons-compress\1.14\commons-compress-1.14.jar, C:\Users\fandre\.m2\repository\org\iq80\snappy\snappy\0.4\snappy-0.4.jar, C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-utils\3.1.0\plexus-utils-3.1.0.jar, C:\Users\fandre\.m2\repository\junit\junit\4.12\junit-4.12.jar, C:\Users\fandre\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar]
+[DEBUG]   (f) compileSourceRoots = [C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\src\main\java]
+[DEBUG]   (f) compilerId = javac
+[DEBUG]   (f) debug = true
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) forceJavacCompilerUse = false
+[DEBUG]   (f) fork = false
+[DEBUG]   (f) generatedSourcesDirectory = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\generated-sources\annotations
+[DEBUG]   (f) mojoExecution = org.apache.maven.plugins:maven-compiler-plugin:3.1:compile {execution: default-compile}
+[DEBUG]   (f) optimize = false
+[DEBUG]   (f) outputDirectory = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\classes
+[DEBUG]   (f) projectArtifact = org.javacc.test.cpp:JJTreeExamples:jar:8.0.0
+[DEBUG]   (f) showDeprecation = false
+[DEBUG]   (f) showWarnings = false
+[DEBUG]   (f) skipMultiThreadWarning = false
+[DEBUG]   (f) source = 1.8
+[DEBUG]   (f) staleMillis = 0
+[DEBUG]   (f) target = 1.8
+[DEBUG]   (f) useIncrementalCompilation = true
+[DEBUG]   (f) verbose = false
+[DEBUG]   (f) mavenSession = org.apache.maven.execution.MavenSession@511816c0
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@511816c0
+[DEBUG] -- end configuration --
+[DEBUG] Using compiler 'javac'.
+[DEBUG] Source directories: [C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\src\main\java]
+[DEBUG] Classpath: [C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\classes
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\native-maven-plugin\1.0-alpha-11\native-maven-plugin-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\org\apache\bcel\bcel\6.2\bcel-6.2.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-aether-provider\3.2.5\maven-aether-provider-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-model-builder\3.2.5\maven-model-builder-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-repository-metadata\3.2.5\maven-repository-metadata-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-api\1.0.0.v20140518\aether-api-1.0.0.v20140518.jar
+ C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-spi\1.0.0.v20140518\aether-spi-1.0.0.v20140518.jar
+ C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-util\1.0.0.v20140518\aether-util-1.0.0.v20140518.jar
+ C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-impl\1.0.0.v20140518\aether-impl-1.0.0.v20140518.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-component-annotations\1.5.5\plexus-component-annotations-1.5.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-artifact\3.2.5\maven-artifact-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-compat\3.2.5\maven-compat-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-settings\3.2.5\maven-settings-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-interpolation\1.21\plexus-interpolation-1.21.jar
+ C:\Users\fandre\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.plexus\0.3.0.M1\org.eclipse.sisu.plexus-0.3.0.M1.jar
+ C:\Users\fandre\.m2\repository\javax\enterprise\cdi-api\1.0\cdi-api-1.0.jar
+ C:\Users\fandre\.m2\repository\javax\annotation\jsr250-api\1.0\jsr250-api-1.0.jar
+ C:\Users\fandre\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.inject\0.3.0.M1\org.eclipse.sisu.inject-0.3.0.M1.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\wagon\wagon-provider-api\2.8\wagon-provider-api-2.8.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-core\3.2.5\maven-core-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-settings-builder\3.2.5\maven-settings-builder-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\sonatype\sisu\sisu-guice\3.2.3\sisu-guice-3.2.3-no_aop.jar
+ C:\Users\fandre\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar
+ C:\Users\fandre\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar
+ C:\Users\fandre\.m2\repository\com\google\guava\guava\16.0.1\guava-16.0.1.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-classworlds\2.5.2\plexus-classworlds-2.5.2.jar
+ C:\Users\fandre\.m2\repository\org\sonatype\plexus\plexus-sec-dispatcher\1.3\plexus-sec-dispatcher-1.3.jar
+ C:\Users\fandre\.m2\repository\org\sonatype\plexus\plexus-cipher\1.4\plexus-cipher-1.4.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-model\3.2.5\maven-model-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-plugin-api\3.2.5\maven-plugin-api-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-api\1.0-alpha-11\maven-native-api-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\backport-util-concurrent\backport-util-concurrent\3.1\backport-util-concurrent-3.1.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-container-default\1.7.1\plexus-container-default-1.7.1.jar
+ C:\Users\fandre\.m2\repository\org\apache\xbean\xbean-reflect\3.7\xbean-reflect-3.7.jar
+ C:\Users\fandre\.m2\repository\com\google\collections\google-collections\1.0\google-collections-1.0.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-bcc\1.0-alpha-11\maven-native-bcc-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-generic-c\1.0-alpha-11\maven-native-generic-c-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-javah\1.0-alpha-11\maven-native-javah-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-manager\1.0-alpha-11\maven-native-manager-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-mingw\1.0-alpha-11\maven-native-mingw-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-msvc\1.0-alpha-11\maven-native-msvc-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-archiver\3.5\plexus-archiver-3.5.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-io\3.0.0\plexus-io-3.0.0.jar
+ C:\Users\fandre\.m2\repository\commons-io\commons-io\2.5\commons-io-2.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\commons\commons-compress\1.14\commons-compress-1.14.jar
+ C:\Users\fandre\.m2\repository\org\iq80\snappy\snappy\0.4\snappy-0.4.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-utils\3.1.0\plexus-utils-3.1.0.jar
+ C:\Users\fandre\.m2\repository\junit\junit\4.12\junit-4.12.jar
+ C:\Users\fandre\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar]
+[DEBUG] Output directory: C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\classes
+[DEBUG] CompilerReuseStrategy: reuseCreated
+[DEBUG] useIncrementalCompilation enabled
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ JJTreeExamples ---
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-resources-plugin:2.6:testResources from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-resources-plugin:2.6, parent: sun.misc.Launcher$AppClassLoader@55f96302]
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-resources-plugin:2.6:testResources' with basic configurator -->
+[DEBUG]   (f) buildFilters = []
+[DEBUG]   (f) escapeWindowsPaths = true
+[DEBUG]   (s) includeEmptyDirs = false
+[DEBUG]   (s) outputDirectory = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\test-classes
+[DEBUG]   (s) overwrite = false
+[DEBUG]   (f) project = MavenProject: org.javacc.test.cpp:JJTreeExamples:8.0.0 @ C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\pom.xml
+[DEBUG]   (s) resources = [Resource {targetPath: null, filtering: false, FileSet {directory: C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\src\test\resources, PatternSet [includes: {}, excludes: {}]}}]
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@511816c0
+[DEBUG]   (f) supportMultiLineFiltering = false
+[DEBUG]   (f) useBuildFilters = true
+[DEBUG]   (s) useDefaultDelimiters = true
+[DEBUG] -- end configuration --
+[DEBUG] properties used {java.vendor=Oracle Corporation, env.SYSTEMROOT=C:\WINDOWS, env.USERDOMAIN_ROAMINGPROFILE=METRIXWARE, sun.java.launcher=SUN_STANDARD, env.WIX=C:\Program Files (x86)\WiX Toolset v3.11\, sun.management.compiler=HotSpot 64-Bit Tiered Compilers, env.ONEDRIVE=C:\Users\fandre\OneDrive, env.PROMPT=$P$G, env.WDIR=C:\, os.name=Windows 10, sun.boot.class.path=C:\Program Files\Java\jdk1.8.0_181\jre\lib\resources.jar;C:\Program Files\Java\jdk1.8.0_181\jre\lib\rt.jar;C:\Program Files\Java\jdk1.8.0_181\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.8.0_181\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.8.0_181\jre\lib\jce.jar;C:\Program Files\Java\jdk1.8.0_181\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.8.0_181\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.8.0_181\jre\classes, env.COMPUTERNAME=FANDRE-LAPTOP, env.ALLUSERSPROFILE=C:\ProgramData, sun.desktop=windows, java.vm.specification.vendor=Oracle Corporation, java.runtime.version=1.8.0_181-b13, env.HOMEPATH=\Users\fandre, user.name=fandre, maven.build.version=Apache Maven 3.5.4 (1edded0938998edf8bf061f1ceb3cfdeccf443fe; 2018-06-17T20:33:14+02:00), env.DRIVERDATA=C:\Windows\System32\Drivers\DriverData, env.ONEDRIVECONSUMER=C:\Users\fandre\OneDrive, env.PATH=C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ASF\apache-ant-1.9.13\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files (x86)\IBM\CICS Transaction Gateway\bin;C:\Program Files (x86)\IBM\Personal Communications\;C:\Program Files (x86)\IBM\Trace Facility\;C:\Program Files\IBM\HostOnDemand\bin;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\WinSCP\;C:\Program Files (x86)\Gpg4win\..\GnuPG\bin;C:\Users\fandre\AppData\Local\Microsoft\WindowsApps;C:\Users\fandre\AppData\Roaming\npm;C:\Program Files\CMake\bin;, user.language=fr, env.JVMCONFIG=\.mvn\jvm.config, env.WINDIR=C:\WINDOWS, sun.boot.library.path=C:\Program Files\Java\jdk1.8.0_181\jre\bin, classworlds.conf=C:\ASF\apache-maven-3.5.4\bin\..\bin\m2.conf, java.version=1.8.0_181, env.PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 142 Stepping 10, GenuineIntel, user.timezone=, env.TEMP=C:\Users\fandre\AppData\Local\Temp, sun.arch.data.model=64, env.EXEC_DIR=C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples, env.PCOMM_ROOT=C:\Program Files (x86)\IBM\Personal Communications\, java.endorsed.dirs=C:\Program Files\Java\jdk1.8.0_181\jre\lib\endorsed, env.JDK_HOME=C:\Program Files\Java\jdk1.8.0_181, sun.cpu.isalist=amd64, env.HOMEDRIVE=C:, sun.jnu.encoding=Cp1252, file.encoding.pkg=sun.io, env.SYSTEMDRIVE=C:, file.separator=\, java.specification.name=Java Platform API Specification, maven.conf=C:\ASF\apache-maven-3.5.4\bin\../conf, env.JAVACMD=C:\Program Files\Java\jdk1.8.0_181\bin\java.exe, java.class.version=52.0, user.country=FR, env.GRADLE_HOME=C:\ProgramFiles\Gradle\gradle-5.1.1, java.home=C:\Program Files\Java\jdk1.8.0_181\jre, env.ANDROID_HOME=C:\Users\fandre\Documents\MXW\android, env.APPDATA=C:\Users\fandre\AppData\Roaming, env.PUBLIC=C:\Users\Public, java.vm.info=mixed mode, env.OS=Windows_NT, os.version=10.0, maven.compiler.target=1.8, env.=::=::\, path.separator=;, java.vm.version=25.181-b13, user.variant=, env.USERPROFILE=C:\Users\fandre, env.JAVA_HOME=C:\Program Files\Java\jdk1.8.0_181, java.awt.printerjob=sun.awt.windows.WPrinterJob, env.TMP=C:\Users\fandre\AppData\Local\Temp, env.FPS_BROWSER_USER_PROFILE_STRING=Default, env.PROGRAMFILES=C:\Program Files, sun.io.unicode.encoding=UnicodeLittle, awt.toolkit=sun.awt.windows.WToolkit, sun.stdout.encoding=cp850, user.script=, env.ES_PATH=C:\ProgramFiles\SCORT\ES-5.5, user.home=C:\Users\fandre, env.COMMONPROGRAMFILES=C:\Program Files\Common Files, native-maven-plugin=1.0-alpha-11, env.SESSIONNAME=Console, java.specification.vendor=Oracle Corporation, env.CLASSPATH=C:\Program Files (x86)\IBM\CICS Transaction Gateway\classes\ctgclient.jar;C:\Program Files (x86)\IBM\CICS Transaction Gateway\classes\ctgserver.jar;C:\Program Files (x86)\IBM\CICS Transaction Gateway\classes\ctgadmin.jar;C:\Program Files (x86)\IBM\CICS Transaction Gateway\classes\cicsj2ee.jar;C:\Program Files (x86)\IBM\CICS Transaction Gateway\classes\ctgsamples.jar, env.MI_PATH=C:\ProgramFiles\SCORT\MI-4.3, env.M2_HOME=C:\ASF\apache-maven-3.5.4, library.jansi.path=C:\ASF\apache-maven-3.5.4\bin\..\lib\jansi-native, java.library.path=C:\Program Files\Java\jdk1.8.0_181\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ASF\apache-ant-1.9.13\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files (x86)\IBM\CICS Transaction Gateway\bin;C:\Program Files (x86)\IBM\Personal Communications\;C:\Program Files (x86)\IBM\Trace Facility\;C:\Program Files\IBM\HostOnDemand\bin;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\WinSCP\;C:\Program Files (x86)\Gpg4win\..\GnuPG\bin;C:\Users\fandre\AppData\Local\Microsoft\WindowsApps;C:\Users\fandre\AppData\Roaming\npm;C:\Program Files\CMake\bin;;., java.vendor.url=http://java.oracle.com/, env.NUMBER_OF_PROCESSORS=8, env.COMMONPROGRAMFILES(X86)=C:\Program Files (x86)\Common Files, env.USERDNSDOMAIN=METRIXWARE.LOCAL, env.PSMODULEPATH=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules, env.CLASSWORLDS_LAUNCHER=org.codehaus.plexus.classworlds.launcher.Launcher, env.MAVEN_CMD_LINE_ARGS=install -X -l install.log, java.vm.vendor=Oracle Corporation, maven.home=C:\ASF\apache-maven-3.5.4\bin\.., java.runtime.name=Java(TM) SE Runtime Environment, sun.java.command=org.codehaus.plexus.classworlds.launcher.Launcher install -X -l install.log, java.class.path=C:\ASF\apache-maven-3.5.4\bin\..\boot\plexus-classworlds-2.5.2.jar, env.PROGRAMW6432=C:\Program Files, maven-antrun-plugin=1.8, maven.version=3.5.4, env.PROGRAMFILES(X86)=C:\Program Files (x86), java.vm.specification.name=Java Virtual Machine Specification, env.LOGONSERVER=\\SRV-2012-DC2, java.vm.specification.version=1.8, env.PROCESSOR_ARCHITECTURE=AMD64, env.COMMONPROGRAMW6432=C:\Program Files\Common Files, sun.cpu.endian=little, sun.os.patch.level=, env.ANT_HOME=C:\ASF\apache-ant-1.9.13, java.io.tmpdir=C:\Users\fandre\AppData\Local\Temp\, env.PROCESSOR_REVISION=8e0a, java.vendor.url.bug=http://bugreport.sun.com/bugreport/, maven.multiModuleProjectDirectory=C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples, env.PROGRAMDATA=C:\ProgramData, env.COMSPEC=C:\WINDOWS\system32\cmd.exe, maven.compiler.source=1.8, env.FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer, os.arch=amd64, java.awt.graphicsenv=sun.awt.Win32GraphicsEnvironment, java.ext.dirs=C:\Program Files\Java\jdk1.8.0_181\jre\lib\ext;C:\WINDOWS\Sun\Java\lib\ext, user.dir=C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples, env.MAVEN_HOME=C:\ASF\apache-maven-3.5.4\bin\.., env.LOCALAPPDATA=C:\Users\fandre\AppData\Local, line.separator=
+, java.vm.name=Java HotSpot(TM) 64-Bit Server VM, env.CLASSWORLDS_JAR="C:\ASF\apache-maven-3.5.4\bin\..\boot\plexus-classworlds-2.5.2.jar", env.PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC, env.ERROR_CODE=0, env.USERNAME=fandre, sun.stderr.encoding=cp850, file.encoding=Cp1252, env.USERDOMAIN=METRIXWARE, java.specification.version=1.8, env.=C:=C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples, env.PROCESSOR_LEVEL=6, env.MAVEN_PROJECTBASEDIR=C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples, env.VBOX_MSI_INSTALL_PATH=C:\Program Files\Oracle\VirtualBox\}
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[DEBUG] resource with targetPath null
+directory C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\src\test\resources
+excludes []
+includes []
+[DEBUG] ignoreDelta true
+[INFO] Copying 0 resource
+[DEBUG] no use filter components
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ JJTreeExamples ---
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-compiler-plugin:3.1:testCompile from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-compiler-plugin:3.1, parent: sun.misc.Launcher$AppClassLoader@55f96302]
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-compiler-plugin:3.1:testCompile' with basic configurator -->
+[DEBUG]   (f) basedir = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples
+[DEBUG]   (f) buildDirectory = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target
+[DEBUG]   (f) classpathElements = [C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\test-classes, C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\classes, C:\Users\fandre\.m2\repository\org\codehaus\mojo\native-maven-plugin\1.0-alpha-11\native-maven-plugin-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\org\apache\bcel\bcel\6.2\bcel-6.2.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-aether-provider\3.2.5\maven-aether-provider-3.2.5.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-model-builder\3.2.5\maven-model-builder-3.2.5.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-repository-metadata\3.2.5\maven-repository-metadata-3.2.5.jar, C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-api\1.0.0.v20140518\aether-api-1.0.0.v20140518.jar, C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-spi\1.0.0.v20140518\aether-spi-1.0.0.v20140518.jar, C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-util\1.0.0.v20140518\aether-util-1.0.0.v20140518.jar, C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-impl\1.0.0.v20140518\aether-impl-1.0.0.v20140518.jar, C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-component-annotations\1.5.5\plexus-component-annotations-1.5.5.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-artifact\3.2.5\maven-artifact-3.2.5.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-compat\3.2.5\maven-compat-3.2.5.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-settings\3.2.5\maven-settings-3.2.5.jar, C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-interpolation\1.21\plexus-interpolation-1.21.jar, C:\Users\fandre\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.plexus\0.3.0.M1\org.eclipse.sisu.plexus-0.3.0.M1.jar, C:\Users\fandre\.m2\repository\javax\enterprise\cdi-api\1.0\cdi-api-1.0.jar, C:\Users\fandre\.m2\repository\javax\annotation\jsr250-api\1.0\jsr250-api-1.0.jar, C:\Users\fandre\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.inject\0.3.0.M1\org.eclipse.sisu.inject-0.3.0.M1.jar, C:\Users\fandre\.m2\repository\org\apache\maven\wagon\wagon-provider-api\2.8\wagon-provider-api-2.8.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-core\3.2.5\maven-core-3.2.5.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-settings-builder\3.2.5\maven-settings-builder-3.2.5.jar, C:\Users\fandre\.m2\repository\org\sonatype\sisu\sisu-guice\3.2.3\sisu-guice-3.2.3-no_aop.jar, C:\Users\fandre\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar, C:\Users\fandre\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar, C:\Users\fandre\.m2\repository\com\google\guava\guava\16.0.1\guava-16.0.1.jar, C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-classworlds\2.5.2\plexus-classworlds-2.5.2.jar, C:\Users\fandre\.m2\repository\org\sonatype\plexus\plexus-sec-dispatcher\1.3\plexus-sec-dispatcher-1.3.jar, C:\Users\fandre\.m2\repository\org\sonatype\plexus\plexus-cipher\1.4\plexus-cipher-1.4.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-model\3.2.5\maven-model-3.2.5.jar, C:\Users\fandre\.m2\repository\org\apache\maven\maven-plugin-api\3.2.5\maven-plugin-api-3.2.5.jar, C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-api\1.0-alpha-11\maven-native-api-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\backport-util-concurrent\backport-util-concurrent\3.1\backport-util-concurrent-3.1.jar, C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-container-default\1.7.1\plexus-container-default-1.7.1.jar, C:\Users\fandre\.m2\repository\org\apache\xbean\xbean-reflect\3.7\xbean-reflect-3.7.jar, C:\Users\fandre\.m2\repository\com\google\collections\google-collections\1.0\google-collections-1.0.jar, C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-bcc\1.0-alpha-11\maven-native-bcc-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-generic-c\1.0-alpha-11\maven-native-generic-c-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-javah\1.0-alpha-11\maven-native-javah-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-manager\1.0-alpha-11\maven-native-manager-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-mingw\1.0-alpha-11\maven-native-mingw-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-msvc\1.0-alpha-11\maven-native-msvc-1.0-alpha-11.jar, C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-archiver\3.5\plexus-archiver-3.5.jar, C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-io\3.0.0\plexus-io-3.0.0.jar, C:\Users\fandre\.m2\repository\commons-io\commons-io\2.5\commons-io-2.5.jar, C:\Users\fandre\.m2\repository\org\apache\commons\commons-compress\1.14\commons-compress-1.14.jar, C:\Users\fandre\.m2\repository\org\iq80\snappy\snappy\0.4\snappy-0.4.jar, C:\Users\fandre\.m2\repository\org\tukaani\xz\1.6\xz-1.6.jar, C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-utils\3.1.0\plexus-utils-3.1.0.jar, C:\Users\fandre\.m2\repository\junit\junit\4.12\junit-4.12.jar, C:\Users\fandre\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar]
+[DEBUG]   (f) compileSourceRoots = [C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\src\test\java]
+[DEBUG]   (f) compilerId = javac
+[DEBUG]   (f) debug = true
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) forceJavacCompilerUse = false
+[DEBUG]   (f) fork = false
+[DEBUG]   (f) generatedTestSourcesDirectory = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\generated-test-sources\test-annotations
+[DEBUG]   (f) mojoExecution = org.apache.maven.plugins:maven-compiler-plugin:3.1:testCompile {execution: default-testCompile}
+[DEBUG]   (f) optimize = false
+[DEBUG]   (f) outputDirectory = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\test-classes
+[DEBUG]   (f) showDeprecation = false
+[DEBUG]   (f) showWarnings = false
+[DEBUG]   (f) skipMultiThreadWarning = false
+[DEBUG]   (f) source = 1.8
+[DEBUG]   (f) staleMillis = 0
+[DEBUG]   (f) target = 1.8
+[DEBUG]   (f) useIncrementalCompilation = true
+[DEBUG]   (f) verbose = false
+[DEBUG]   (f) mavenSession = org.apache.maven.execution.MavenSession@511816c0
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@511816c0
+[DEBUG] -- end configuration --
+[DEBUG] Using compiler 'javac'.
+[DEBUG] Source directories: [C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\src\test\java]
+[DEBUG] Classpath: [C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\test-classes
+ C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\classes
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\native-maven-plugin\1.0-alpha-11\native-maven-plugin-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\org\apache\bcel\bcel\6.2\bcel-6.2.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-aether-provider\3.2.5\maven-aether-provider-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-model-builder\3.2.5\maven-model-builder-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-repository-metadata\3.2.5\maven-repository-metadata-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-api\1.0.0.v20140518\aether-api-1.0.0.v20140518.jar
+ C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-spi\1.0.0.v20140518\aether-spi-1.0.0.v20140518.jar
+ C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-util\1.0.0.v20140518\aether-util-1.0.0.v20140518.jar
+ C:\Users\fandre\.m2\repository\org\eclipse\aether\aether-impl\1.0.0.v20140518\aether-impl-1.0.0.v20140518.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-component-annotations\1.5.5\plexus-component-annotations-1.5.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-artifact\3.2.5\maven-artifact-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-compat\3.2.5\maven-compat-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-settings\3.2.5\maven-settings-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-interpolation\1.21\plexus-interpolation-1.21.jar
+ C:\Users\fandre\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.plexus\0.3.0.M1\org.eclipse.sisu.plexus-0.3.0.M1.jar
+ C:\Users\fandre\.m2\repository\javax\enterprise\cdi-api\1.0\cdi-api-1.0.jar
+ C:\Users\fandre\.m2\repository\javax\annotation\jsr250-api\1.0\jsr250-api-1.0.jar
+ C:\Users\fandre\.m2\repository\org\eclipse\sisu\org.eclipse.sisu.inject\0.3.0.M1\org.eclipse.sisu.inject-0.3.0.M1.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\wagon\wagon-provider-api\2.8\wagon-provider-api-2.8.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-core\3.2.5\maven-core-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-settings-builder\3.2.5\maven-settings-builder-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\sonatype\sisu\sisu-guice\3.2.3\sisu-guice-3.2.3-no_aop.jar
+ C:\Users\fandre\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar
+ C:\Users\fandre\.m2\repository\aopalliance\aopalliance\1.0\aopalliance-1.0.jar
+ C:\Users\fandre\.m2\repository\com\google\guava\guava\16.0.1\guava-16.0.1.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-classworlds\2.5.2\plexus-classworlds-2.5.2.jar
+ C:\Users\fandre\.m2\repository\org\sonatype\plexus\plexus-sec-dispatcher\1.3\plexus-sec-dispatcher-1.3.jar
+ C:\Users\fandre\.m2\repository\org\sonatype\plexus\plexus-cipher\1.4\plexus-cipher-1.4.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-model\3.2.5\maven-model-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\maven\maven-plugin-api\3.2.5\maven-plugin-api-3.2.5.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-api\1.0-alpha-11\maven-native-api-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\backport-util-concurrent\backport-util-concurrent\3.1\backport-util-concurrent-3.1.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-container-default\1.7.1\plexus-container-default-1.7.1.jar
+ C:\Users\fandre\.m2\repository\org\apache\xbean\xbean-reflect\3.7\xbean-reflect-3.7.jar
+ C:\Users\fandre\.m2\repository\com\google\collections\google-collections\1.0\google-collections-1.0.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-bcc\1.0-alpha-11\maven-native-bcc-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-generic-c\1.0-alpha-11\maven-native-generic-c-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-javah\1.0-alpha-11\maven-native-javah-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-manager\1.0-alpha-11\maven-native-manager-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-mingw\1.0-alpha-11\maven-native-mingw-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\mojo\natives\maven-native-msvc\1.0-alpha-11\maven-native-msvc-1.0-alpha-11.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-archiver\3.5\plexus-archiver-3.5.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-io\3.0.0\plexus-io-3.0.0.jar
+ C:\Users\fandre\.m2\repository\commons-io\commons-io\2.5\commons-io-2.5.jar
+ C:\Users\fandre\.m2\repository\org\apache\commons\commons-compress\1.14\commons-compress-1.14.jar
+ C:\Users\fandre\.m2\repository\org\iq80\snappy\snappy\0.4\snappy-0.4.jar
+ C:\Users\fandre\.m2\repository\org\tukaani\xz\1.6\xz-1.6.jar
+ C:\Users\fandre\.m2\repository\org\codehaus\plexus\plexus-utils\3.1.0\plexus-utils-3.1.0.jar
+ C:\Users\fandre\.m2\repository\junit\junit\4.12\junit-4.12.jar
+ C:\Users\fandre\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar]
+[DEBUG] Output directory: C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\test-classes
+[DEBUG] CompilerReuseStrategy: reuseCreated
+[DEBUG] useIncrementalCompilation enabled
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ JJTreeExamples ---
+[DEBUG] Dependency collection stats: {ConflictMarker.analyzeTime=110000, ConflictMarker.markTime=57100, ConflictMarker.nodeCount=132, ConflictIdSorter.graphTime=115200, ConflictIdSorter.topsortTime=21600, ConflictIdSorter.conflictIdCount=27, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=570200, ConflictResolver.conflictItemCount=77, DefaultDependencyCollector.collectTime=36819300, DefaultDependencyCollector.transformTime=889000}
+[DEBUG] org.apache.maven.plugins:maven-surefire-plugin:jar:2.12.4:
+[DEBUG]    org.apache.maven:maven-plugin-api:jar:2.0.9:compile
+[DEBUG]    org.apache.maven.surefire:surefire-booter:jar:2.12.4:compile
+[DEBUG]       org.apache.maven.surefire:surefire-api:jar:2.12.4:compile
+[DEBUG]    org.apache.maven.surefire:maven-surefire-common:jar:2.12.4:compile
+[DEBUG]       org.apache.commons:commons-lang3:jar:3.1:compile
+[DEBUG]       org.apache.maven.shared:maven-common-artifact-filters:jar:1.3:compile
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:3.0.8:compile
+[DEBUG]    org.apache.maven:maven-artifact:jar:2.0.9:compile
+[DEBUG]    org.apache.maven:maven-project:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-settings:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-profile:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-model:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-artifact-manager:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-plugin-registry:jar:2.0.9:compile
+[DEBUG]       org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile
+[DEBUG]          junit:junit:jar:3.8.1:test
+[DEBUG]    org.apache.maven:maven-core:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-plugin-parameter-documenter:jar:2.0.9:compile
+[DEBUG]       org.apache.maven.reporting:maven-reporting-api:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-repository-metadata:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-error-diagnostics:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-plugin-descriptor:jar:2.0.9:compile
+[DEBUG]       org.apache.maven:maven-monitor:jar:2.0.9:compile
+[DEBUG]       classworlds:classworlds:jar:1.1:compile
+[DEBUG]    org.apache.maven:maven-toolchain:jar:2.0.9:compile
+[DEBUG]    org.apache.maven.plugin-tools:maven-plugin-annotations:jar:3.1:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-surefire-plugin:2.12.4
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-surefire-plugin:2.12.4
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-surefire-plugin:2.12.4
+[DEBUG]   Included: org.apache.maven.plugins:maven-surefire-plugin:jar:2.12.4
+[DEBUG]   Included: org.apache.maven.surefire:surefire-booter:jar:2.12.4
+[DEBUG]   Included: org.apache.maven.surefire:surefire-api:jar:2.12.4
+[DEBUG]   Included: org.apache.maven.surefire:maven-surefire-common:jar:2.12.4
+[DEBUG]   Included: org.apache.commons:commons-lang3:jar:3.1
+[DEBUG]   Included: org.apache.maven.shared:maven-common-artifact-filters:jar:1.3
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:3.0.8
+[DEBUG]   Included: org.apache.maven.reporting:maven-reporting-api:jar:2.0.9
+[DEBUG]   Included: org.apache.maven.plugin-tools:maven-plugin-annotations:jar:3.1
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-surefire-plugin:2.12.4:test from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-surefire-plugin:2.12.4, parent: sun.misc.Launcher$AppClassLoader@55f96302]
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-surefire-plugin:2.12.4:test' with basic configurator -->
+[DEBUG]   (s) basedir = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples
+[DEBUG]   (s) childDelegation = false
+[DEBUG]   (s) classesDirectory = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\classes
+[DEBUG]   (s) disableXmlReport = false
+[DEBUG]   (s) enableAssertions = true
+[DEBUG]   (s) forkMode = once
+[DEBUG]   (s) junitArtifactName = junit:junit
+[DEBUG]   (s) localRepository =       id: local
+      url: file:///C:/Users/fandre/.m2/repository/
+   layout: default
+snapshots: [enabled => true, update => always]
+ releases: [enabled => true, update => always]
+
+[DEBUG]   (f) parallelMavenExecution = false
+[DEBUG]   (s) perCoreThreadCount = true
+[DEBUG]   (s) pluginArtifactMap = {org.apache.maven.plugins:maven-surefire-plugin=org.apache.maven.plugins:maven-surefire-plugin:maven-plugin:2.12.4:, org.apache.maven:maven-plugin-api=org.apache.maven:maven-plugin-api:jar:2.0.9:compile, org.apache.maven.surefire:surefire-booter=org.apache.maven.surefire:surefire-booter:jar:2.12.4:compile, org.apache.maven.surefire:surefire-api=org.apache.maven.surefire:surefire-api:jar:2.12.4:compile, org.apache.maven.surefire:maven-surefire-common=org.apache.maven.surefire:maven-surefire-common:jar:2.12.4:compile, org.apache.commons:commons-lang3=org.apache.commons:commons-lang3:jar:3.1:compile, org.apache.maven.shared:maven-common-artifact-filters=org.apache.maven.shared:maven-common-artifact-filters:jar:1.3:compile, org.codehaus.plexus:plexus-utils=org.codehaus.plexus:plexus-utils:jar:3.0.8:compile, org.apache.maven:maven-artifact=org.apache.maven:maven-artifact:jar:2.0.9:compile, org.apache.maven:maven-project=org.apache.maven:maven-project:jar:2.0.9:compile, org.apache.maven:maven-settings=org.apache.maven:maven-settings:jar:2.0.9:compile, org.apache.maven:maven-profile=org.apache.maven:maven-profile:jar:2.0.9:compile, org.apache.maven:maven-model=org.apache.maven:maven-model:jar:2.0.9:compile, org.apache.maven:maven-artifact-manager=org.apache.maven:maven-artifact-manager:jar:2.0.9:compile, org.apache.maven:maven-plugin-registry=org.apache.maven:maven-plugin-registry:jar:2.0.9:compile, org.codehaus.plexus:plexus-container-default=org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile, org.apache.maven:maven-core=org.apache.maven:maven-core:jar:2.0.9:compile, org.apache.maven:maven-plugin-parameter-documenter=org.apache.maven:maven-plugin-parameter-documenter:jar:2.0.9:compile, org.apache.maven.reporting:maven-reporting-api=org.apache.maven.reporting:maven-reporting-api:jar:2.0.9:compile, org.apache.maven:maven-repository-metadata=org.apache.maven:maven-repository-metadata:jar:2.0.9:compile, org.apache.maven:maven-error-diagnostics=org.apache.maven:maven-error-diagnostics:jar:2.0.9:compile, org.apache.maven:maven-plugin-descriptor=org.apache.maven:maven-plugin-descriptor:jar:2.0.9:compile, org.apache.maven:maven-monitor=org.apache.maven:maven-monitor:jar:2.0.9:compile, classworlds:classworlds=classworlds:classworlds:jar:1.1:compile, org.apache.maven:maven-toolchain=org.apache.maven:maven-toolchain:jar:2.0.9:compile, org.apache.maven.plugin-tools:maven-plugin-annotations=org.apache.maven.plugin-tools:maven-plugin-annotations:jar:3.1:compile}
+[DEBUG]   (f) pluginDescriptor = Component Descriptor: role: 'org.apache.maven.plugin.Mojo', implementation: 'org.apache.maven.plugin.surefire.HelpMojo', role hint: 'org.apache.maven.plugins:maven-surefire-plugin:2.12.4:help'
+role: 'org.apache.maven.plugin.Mojo', implementation: 'org.apache.maven.plugin.surefire.SurefirePlugin', role hint: 'org.apache.maven.plugins:maven-surefire-plugin:2.12.4:test'
+---
+[DEBUG]   (s) printSummary = true
+[DEBUG]   (s) projectArtifactMap = {org.codehaus.mojo:native-maven-plugin=org.codehaus.mojo:native-maven-plugin:jar:1.0-alpha-11:compile, org.apache.bcel:bcel=org.apache.bcel:bcel:jar:6.2:compile, org.apache.maven:maven-aether-provider=org.apache.maven:maven-aether-provider:jar:3.2.5:compile, org.apache.maven:maven-model-builder=org.apache.maven:maven-model-builder:jar:3.2.5:compile, org.apache.maven:maven-repository-metadata=org.apache.maven:maven-repository-metadata:jar:3.2.5:compile, org.eclipse.aether:aether-api=org.eclipse.aether:aether-api:jar:1.0.0.v20140518:compile, org.eclipse.aether:aether-spi=org.eclipse.aether:aether-spi:jar:1.0.0.v20140518:compile, org.eclipse.aether:aether-util=org.eclipse.aether:aether-util:jar:1.0.0.v20140518:compile, org.eclipse.aether:aether-impl=org.eclipse.aether:aether-impl:jar:1.0.0.v20140518:compile, org.codehaus.plexus:plexus-component-annotations=org.codehaus.plexus:plexus-component-annotations:jar:1.5.5:compile, org.apache.maven:maven-artifact=org.apache.maven:maven-artifact:jar:3.2.5:compile, org.apache.maven:maven-compat=org.apache.maven:maven-compat:jar:3.2.5:compile, org.apache.maven:maven-settings=org.apache.maven:maven-settings:jar:3.2.5:compile, org.codehaus.plexus:plexus-interpolation=org.codehaus.plexus:plexus-interpolation:jar:1.21:compile, org.eclipse.sisu:org.eclipse.sisu.plexus=org.eclipse.sisu:org.eclipse.sisu.plexus:jar:0.3.0.M1:compile, javax.enterprise:cdi-api=javax.enterprise:cdi-api:jar:1.0:compile, javax.annotation:jsr250-api=javax.annotation:jsr250-api:jar:1.0:compile, org.eclipse.sisu:org.eclipse.sisu.inject=org.eclipse.sisu:org.eclipse.sisu.inject:jar:0.3.0.M1:compile, org.apache.maven.wagon:wagon-provider-api=org.apache.maven.wagon:wagon-provider-api:jar:2.8:compile, org.apache.maven:maven-core=org.apache.maven:maven-core:jar:3.2.5:compile, org.apache.maven:maven-settings-builder=org.apache.maven:maven-settings-builder:jar:3.2.5:compile, org.sonatype.sisu:sisu-guice=org.sonatype.sisu:sisu-guice:jar:no_aop:3.2.3:compile, javax.inject:javax.inject=javax.inject:javax.inject:jar:1:compile, aopalliance:aopalliance=aopalliance:aopalliance:jar:1.0:compile, com.google.guava:guava=com.google.guava:guava:jar:16.0.1:compile, org.codehaus.plexus:plexus-classworlds=org.codehaus.plexus:plexus-classworlds:jar:2.5.2:compile, org.sonatype.plexus:plexus-sec-dispatcher=org.sonatype.plexus:plexus-sec-dispatcher:jar:1.3:compile, org.sonatype.plexus:plexus-cipher=org.sonatype.plexus:plexus-cipher:jar:1.4:compile, org.apache.maven:maven-model=org.apache.maven:maven-model:jar:3.2.5:compile, org.apache.maven:maven-plugin-api=org.apache.maven:maven-plugin-api:jar:3.2.5:compile, org.codehaus.mojo.natives:maven-native-api=org.codehaus.mojo.natives:maven-native-api:jar:1.0-alpha-11:compile, backport-util-concurrent:backport-util-concurrent=backport-util-concurrent:backport-util-concurrent:jar:3.1:compile, org.codehaus.plexus:plexus-container-default=org.codehaus.plexus:plexus-container-default:jar:1.7.1:compile, org.apache.xbean:xbean-reflect=org.apache.xbean:xbean-reflect:jar:3.7:compile, com.google.collections:google-collections=com.google.collections:google-collections:jar:1.0:compile, org.codehaus.mojo.natives:maven-native-bcc=org.codehaus.mojo.natives:maven-native-bcc:jar:1.0-alpha-11:compile, org.codehaus.mojo.natives:maven-native-generic-c=org.codehaus.mojo.natives:maven-native-generic-c:jar:1.0-alpha-11:compile, org.codehaus.mojo.natives:maven-native-javah=org.codehaus.mojo.natives:maven-native-javah:jar:1.0-alpha-11:compile, org.codehaus.mojo.natives:maven-native-manager=org.codehaus.mojo.natives:maven-native-manager:jar:1.0-alpha-11:compile, org.codehaus.mojo.natives:maven-native-mingw=org.codehaus.mojo.natives:maven-native-mingw:jar:1.0-alpha-11:compile, org.codehaus.mojo.natives:maven-native-msvc=org.codehaus.mojo.natives:maven-native-msvc:jar:1.0-alpha-11:compile, org.codehaus.plexus:plexus-archiver=org.codehaus.plexus:plexus-archiver:jar:3.5:compile, org.codehaus.plexus:plexus-io=org.codehaus.plexus:plexus-io:jar:3.0.0:compile, commons-io:commons-io=commons-io:commons-io:jar:2.5:compile, org.apache.commons:commons-compress=org.apache.commons:commons-compress:jar:1.14:compile, org.iq80.snappy:snappy=org.iq80.snappy:snappy:jar:0.4:compile, org.tukaani:xz=org.tukaani:xz:jar:1.6:runtime, org.codehaus.plexus:plexus-utils=org.codehaus.plexus:plexus-utils:jar:3.1.0:compile, junit:junit=junit:junit:jar:4.12:compile, org.hamcrest:hamcrest-core=org.hamcrest:hamcrest-core:jar:1.3:compile}
+[DEBUG]   (s) redirectTestOutputToFile = false
+[DEBUG]   (s) remoteRepositories = [      id: central
+      url: https://repo.maven.apache.org/maven2
+   layout: default
+snapshots: [enabled => false, update => daily]
+ releases: [enabled => true, update => never]
+]
+[DEBUG]   (s) reportFormat = brief
+[DEBUG]   (s) reportsDirectory = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\surefire-reports
+[DEBUG]   (s) runOrder = filesystem
+[DEBUG]   (s) skip = false
+[DEBUG]   (s) skipTests = false
+[DEBUG]   (s) testClassesDirectory = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\test-classes
+[DEBUG]   (s) testFailureIgnore = false
+[DEBUG]   (s) testNGArtifactName = org.testng:testng
+[DEBUG]   (s) testSourceDirectory = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\src\test\java
+[DEBUG]   (s) trimStackTrace = true
+[DEBUG]   (s) useFile = true
+[DEBUG]   (s) useManifestOnlyJar = true
+[DEBUG]   (s) useSystemClassLoader = true
+[DEBUG]   (s) useUnlimitedThreads = false
+[DEBUG]   (s) workingDirectory = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples
+[DEBUG]   (s) project = MavenProject: org.javacc.test.cpp:JJTreeExamples:8.0.0 @ C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\pom.xml
+[DEBUG]   (s) session = org.apache.maven.execution.MavenSession@511816c0
+[DEBUG] -- end configuration --
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.8:run (tests) @ JJTreeExamples ---
+[DEBUG] Dependency collection stats: {ConflictMarker.analyzeTime=42800, ConflictMarker.markTime=38900, ConflictMarker.nodeCount=37, ConflictIdSorter.graphTime=27100, ConflictIdSorter.topsortTime=17400, ConflictIdSorter.conflictIdCount=18, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=443000, ConflictResolver.conflictItemCount=37, DefaultDependencyCollector.collectTime=11079200, DefaultDependencyCollector.transformTime=591300}
+[DEBUG] org.apache.maven.plugins:maven-antrun-plugin:jar:1.8:
+[DEBUG]    org.apache.maven:maven-plugin-api:jar:2.2.1:compile
+[DEBUG]    org.apache.maven:maven-project:jar:2.2.1:compile
+[DEBUG]       org.apache.maven:maven-settings:jar:2.2.1:compile
+[DEBUG]       org.apache.maven:maven-profile:jar:2.2.1:compile
+[DEBUG]       org.apache.maven:maven-model:jar:2.2.1:compile
+[DEBUG]       org.apache.maven:maven-artifact-manager:jar:2.2.1:compile
+[DEBUG]          org.apache.maven:maven-repository-metadata:jar:2.2.1:compile
+[DEBUG]          backport-util-concurrent:backport-util-concurrent:jar:3.1:compile
+[DEBUG]       org.apache.maven:maven-plugin-registry:jar:2.2.1:compile
+[DEBUG]       org.codehaus.plexus:plexus-interpolation:jar:1.11:compile
+[DEBUG]       org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile
+[DEBUG]          junit:junit:jar:3.8.1:compile
+[DEBUG]          classworlds:classworlds:jar:1.1-alpha-2:compile
+[DEBUG]    org.apache.maven:maven-artifact:jar:2.2.1:compile
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:3.0.20:compile
+[DEBUG]    org.apache.ant:ant:jar:1.9.4:compile
+[DEBUG]       org.apache.ant:ant-launcher:jar:1.9.4:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-antrun-plugin:1.8
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-antrun-plugin:1.8
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-antrun-plugin:1.8
+[DEBUG]   Included: org.apache.maven.plugins:maven-antrun-plugin:jar:1.8
+[DEBUG]   Included: backport-util-concurrent:backport-util-concurrent:jar:3.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-interpolation:jar:1.11
+[DEBUG]   Included: junit:junit:jar:3.8.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:3.0.20
+[DEBUG]   Included: org.apache.ant:ant:jar:1.9.4
+[DEBUG]   Included: org.apache.ant:ant-launcher:jar:1.9.4
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-antrun-plugin:1.8:run from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-antrun-plugin:1.8, parent: sun.misc.Launcher$AppClassLoader@55f96302]
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-antrun-plugin:1.8:run' with basic configurator -->
+[DEBUG]   (f) exportAntProperties = false
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) localRepository =       id: local
+      url: file:///C:/Users/fandre/.m2/repository/
+   layout: default
+snapshots: [enabled => true, update => always]
+ releases: [enabled => true, update => always]
+
+[DEBUG]   (f) pluginArtifacts = [org.apache.maven.plugins:maven-antrun-plugin:maven-plugin:1.8:, org.apache.maven:maven-plugin-api:jar:2.2.1:compile, org.apache.maven:maven-project:jar:2.2.1:compile, org.apache.maven:maven-settings:jar:2.2.1:compile, org.apache.maven:maven-profile:jar:2.2.1:compile, org.apache.maven:maven-model:jar:2.2.1:compile, org.apache.maven:maven-artifact-manager:jar:2.2.1:compile, org.apache.maven:maven-repository-metadata:jar:2.2.1:compile, backport-util-concurrent:backport-util-concurrent:jar:3.1:compile, org.apache.maven:maven-plugin-registry:jar:2.2.1:compile, org.codehaus.plexus:plexus-interpolation:jar:1.11:compile, org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile, junit:junit:jar:3.8.1:compile, classworlds:classworlds:jar:1.1-alpha-2:compile, org.apache.maven:maven-artifact:jar:2.2.1:compile, org.codehaus.plexus:plexus-utils:jar:3.0.20:compile, org.apache.ant:ant:jar:1.9.4:compile, org.apache.ant:ant-launcher:jar:1.9.4:compile]
+[DEBUG]   (f) project = MavenProject: org.javacc.test.cpp:JJTreeExamples:8.0.0 @ C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\pom.xml
+[DEBUG]   (f) skip = true
+[DEBUG]   (f) target = <target xmlns:cpptasks="antlib:net.sf.antcontrib.cpptasks"><condition property="linux"><os name="Linux"/>
+</condition>
+<condition property="Windows"><os name="Windows 10"/>
+</condition>
+<condition property="platform" value="Linux"><isset property="linux"/>
+</condition>
+<path id="javacc"><pathelement location="../../../parser/target/parser-8.0.0.jar"/>
+<pathelement location="../../../codegen/cpp/target/cpp-8.0.0.jar"/>
+</path>
+<delete dir="eg1"/>
+<mkdir dir="eg1"/>
+<copy file="../../../examples/JJTreeExamples/cpp/eg1.jjt" todir="eg1"><fileset dir="examples/CORBA-IDL"><include name="*.idl"/>
+</fileset>
+</copy>
+<copy file="eg1.cc" todir="eg1"><fileset dir="examples/GUIParsing/ParserVersion"><include name="*.java"/>
+</fileset>
+</copy>
+<jjtree outputdirectory="eg1" classpathref="javacc" target="eg1.jjt"/>
+<javacc outputdirectory="eg1" classpathref="javacc" target="eg1/eg1.jj"/>
+<cpptasks:cc objdir="eg1" outfile="eg1/eg1" subsystem="console" outtype="executable"><fileset includes="*.cc" dir="eg1"/>
+<compiler name="g++" id="Linuxg++"><compilerarg value="-g" if="debug"/>
+<compilerarg value="-Wall"/>
+<compilerarg value="-fpermissive"/>
+<compilerarg value="-O2"/>
+<compilerarg value="-std=c++11"/>
+</compiler>
+<linker libtool="true" name="g++" id="LinuxLinker"><linkerarg value="-g" if="debug"/>
+<libset libs="stdc++"/>
+</linker>
+</cpptasks:cc>
+<exec executable="eg1/eg1.exe"/>
+<echo/>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/CORBA-IDL"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/CORBA-IDL/IDL.jj"/>
+</java>
+<javac fork="true" srcdir="test.tmp/CORBA-IDL"/>
+<java fork="true" classname="IDLParser" classpath="test.tmp/CORBA-IDL/" failonerror="true" outputproperty="test.corba.out"><arg line="test.tmp/CORBA-IDL/Hello.idl"/>
+</java>
+<echo>${test.corba.out}</echo>
+<fail message="CORBA failed"><condition><not><contains string="${test.corba.out}" substring="IDL file parsed successfully"/>
+</not>
+</condition>
+</fail>
+<echo/>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/ParserVersion"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/GUIParsing/ParserVersion/CalcInput.jj"/>
+</java>
+<javac fork="true" srcdir="test.tmp/GUIParsing/ParserVersion"/>
+<echo/>
+<java fork="true" classname="jjtree" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter "/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/Interpreter/SPL.jjt"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter "/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="test.tmp/Interpreter/SPL.jj"/>
+</java>
+<javac fork="true" srcdir="test.tmp/Interpreter"/>
+<java fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="3" failonerror="true" outputproperty="spl.out1"><arg line="test.tmp/Interpreter/fact.spl"/>
+</java>
+<echo>${spl.out1}</echo>
+<fail message="SPL fact parse failed"><condition><not><contains string="${spl.out1}" substring="Value of fact : 6"/>
+</not>
+</condition>
+</fail>
+<java fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="3" failonerror="true" outputproperty="spl.out2"><arg line="test.tmp/Interpreter/odd.spl"/>
+</java>
+<echo>${spl.out2}</echo>
+<fail message="SPL odd parse failed"><condition><not><contains string="${spl.out2}" substring="Value of odd : true"/>
+</not>
+</condition>
+</fail>
+<java fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="9" failonerror="true" outputproperty="spl.out3"><arg line="test.tmp/Interpreter/sqrt.spl"/>
+</java>
+<echo>${spl.out3}</echo>
+<fail message="SPL sqrt parse failed"><condition><not><contains string="${spl.out3}" substring="Value of sqrt : 3"/>
+</not>
+</condition>
+</fail>
+<echo/>
+<java fork="true" classname="jjtree" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/JJTreeExamples/java/eg1.jjt"/>
+</java>
+<java fork="true" classname="javacc" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="test.tmp/JJTreeExamples.eg1/eg1.jj"/>
+</java>
+<javac fork="true" srcdir="test.tmp/JJTreeExamples.eg1"/>
+<java fork="true" classname="Eg1" classpath="test.tmp/JJTreeExamples.eg1/" inputstring="(a + b) * (c + 1);" failonerror="true" outputproperty="jjtree.eg1.out"></java>
+<echo>${jjtree.eg1.out}</echo>
+<fail message="JJTree eg1 parse failed"><condition><not><contains string="${jjtree.eg1.out}" substring="Thank you."/>
+</not>
+</condition>
+</fail>
+<echo/>
+<java fork="true" classname="jjtree" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/JJTreeExamples/java/eg2.jjt"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="test.tmp/JJTreeExamples.eg2/eg2.jj"/>
+</java>
+<javac fork="true" srcdir="test.tmp/JJTreeExamples.eg2"/>
+<java fork="true" classname="Eg2" classpath="test.tmp/JJTreeExamples.eg2/" inputstring="(a + b) * (c + 1);" failonerror="true" outputproperty="jjtree.eg2.out"></java>
+<echo>${jjtree.eg2.out}</echo>
+<fail message="JJTree eg2 parse failed"><condition><not><contains string="${jjtree.eg2.out}" substring="Thank you."/>
+</not>
+</condition>
+</fail>
+<echo/>
+<java fork="true" classname="jjtree" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/JJTreeExamples/java/eg3.jjt"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="test.tmp/JJTreeExamples.eg3/eg3.jj"/>
+</java>
+<javac fork="true" srcdir="test.tmp/JJTreeExamples.eg3"/>
+<java fork="true" classname="Eg3" classpath="test.tmp/JJTreeExamples.eg3/" inputstring="(a + b) * (c + 1);" failonerror="true" outputproperty="jjtree.eg3.out"></java>
+<echo>${jjtree.eg3.out}</echo>
+<fail message="JJTree eg3 parse failed"><condition><not><contains string="${jjtree.eg3.out}" substring="Thank you."/>
+</not>
+</condition>
+</fail>
+<echo/>
+<java fork="true" classname="jjtree" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/JJTreeExamples/java/eg4.jjt"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="test.tmp/JJTreeExamples.eg4/eg4.jj"/>
+</java>
+<javac fork="true" srcdir="test.tmp/JJTreeExamples.eg4"/>
+<java fork="true" classname="Eg4" classpath="test.tmp/JJTreeExamples.eg4/" inputstring="(a + b) * (c + 1);" failonerror="true" outputproperty="jjtree.eg4.out"></java>
+<echo>${jjtree.eg4.out}</echo>
+<fail message="JJTree eg4 parse failed"><condition><not><contains string="${jjtree.eg4.out}" substring="Thank you."/>
+</not>
+</condition>
+</fail>
+<echo/>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/JavaCCGrammar"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/JavaCCGrammar/JavaCC.jj"/>
+</java>
+<javac fork="true" srcdir="test.tmp/JavaCCGrammar"/>
+<echo/>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg1"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/Lookahead/Example1.jj"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg2"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/Lookahead/Example2.jj"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg3"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/Lookahead/Example3.jj"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg4"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/Lookahead/Example4.jj"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg5"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/Lookahead/Example5.jj"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg6"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/Lookahead/Example6.jj"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg7"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/Lookahead/Example7.jj"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg8"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/Lookahead/Example8.jj"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg9"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/Lookahead/Example9.jj"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg10"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/Lookahead/Example10.jj"/>
+</java>
+<echo/>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/MailProcessing/Digest.jj"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/MailProcessing/Faq.jj"/>
+</java>
+<javac fork="true" srcdir="test.tmp/MailProcessing"/>
+<echo/>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/Obfuscator/Java1.1.jj"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/Obfuscator/IdsFile.jj"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/Obfuscator/MapFile.jj"/>
+</java>
+<javac fork="true" srcdir="test.tmp/Obfuscator"/>
+<echo/>
+<java fork="true" classname="jjtree" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/Transformer/ToyJava.jjt"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="test.tmp/Transformer/ToyJava.jj"/>
+</java>
+<javac fork="true" srcdir="test.tmp/Transformer"/>
+<echo/>
+<java fork="true" classname="jjtree" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="../examples/VTransformer/Java1.1.jjt"/>
+</java>
+<java fork="true" classname="javacc" failonerror="true" classpathref="javacc"><arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer"/>
+<arg line="-CODE_GENERATOR=C++"/>
+<arg line="test.tmp/VTransformer/Java1.1.jj"/>
+</java>
+<javac fork="true" srcdir="test.tmp/VTransformer"/>
+</target>
+
+[DEBUG]   (f) versionsPropertyName = maven.project.dependencies.versions
+[DEBUG] -- end configuration --
+[INFO] Skipping Antrun execution
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ JJTreeExamples ---
+[DEBUG] Dependency collection stats: {ConflictMarker.analyzeTime=70200, ConflictMarker.markTime=66900, ConflictMarker.nodeCount=74, ConflictIdSorter.graphTime=28000, ConflictIdSorter.topsortTime=18800, ConflictIdSorter.conflictIdCount=28, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=464800, ConflictResolver.conflictItemCount=70, DefaultDependencyCollector.collectTime=21349200, DefaultDependencyCollector.transformTime=666600}
+[DEBUG] org.apache.maven.plugins:maven-jar-plugin:jar:2.4:
+[DEBUG]    org.apache.maven:maven-plugin-api:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-project:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-settings:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-profile:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-artifact-manager:jar:2.0.6:compile
+[DEBUG]          org.apache.maven:maven-repository-metadata:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-plugin-registry:jar:2.0.6:compile
+[DEBUG]       org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile
+[DEBUG]          junit:junit:jar:3.8.1:compile
+[DEBUG]          classworlds:classworlds:jar:1.1-alpha-2:compile
+[DEBUG]    org.apache.maven:maven-model:jar:2.0.6:runtime
+[DEBUG]    org.apache.maven:maven-artifact:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-archiver:jar:2.5:compile
+[DEBUG]       org.apache.maven:maven-core:jar:2.0.6:compile
+[DEBUG]          org.apache.maven:maven-plugin-parameter-documenter:jar:2.0.6:compile
+[DEBUG]          org.apache.maven.reporting:maven-reporting-api:jar:2.0.6:compile
+[DEBUG]             org.apache.maven.doxia:doxia-sink-api:jar:1.0-alpha-7:compile
+[DEBUG]          org.apache.maven:maven-error-diagnostics:jar:2.0.6:compile
+[DEBUG]          commons-cli:commons-cli:jar:1.0:compile
+[DEBUG]          org.apache.maven:maven-plugin-descriptor:jar:2.0.6:compile
+[DEBUG]          org.codehaus.plexus:plexus-interactivity-api:jar:1.0-alpha-4:compile
+[DEBUG]          org.apache.maven:maven-monitor:jar:2.0.6:compile
+[DEBUG]       org.codehaus.plexus:plexus-interpolation:jar:1.15:compile
+[DEBUG]    org.codehaus.plexus:plexus-archiver:jar:2.1:compile
+[DEBUG]       org.codehaus.plexus:plexus-io:jar:2.0.2:compile
+[DEBUG]    commons-lang:commons-lang:jar:2.1:compile
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:3.0:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-jar-plugin:2.4
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-jar-plugin:2.4
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-jar-plugin:2.4
+[DEBUG]   Included: org.apache.maven.plugins:maven-jar-plugin:jar:2.4
+[DEBUG]   Included: junit:junit:jar:3.8.1
+[DEBUG]   Included: org.apache.maven:maven-archiver:jar:2.5
+[DEBUG]   Included: org.apache.maven.reporting:maven-reporting-api:jar:2.0.6
+[DEBUG]   Included: org.apache.maven.doxia:doxia-sink-api:jar:1.0-alpha-7
+[DEBUG]   Included: commons-cli:commons-cli:jar:1.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-interactivity-api:jar:1.0-alpha-4
+[DEBUG]   Included: org.codehaus.plexus:plexus-interpolation:jar:1.15
+[DEBUG]   Included: org.codehaus.plexus:plexus-archiver:jar:2.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-io:jar:2.0.2
+[DEBUG]   Included: commons-lang:commons-lang:jar:2.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:3.0
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-jar-plugin:2.4:jar from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-jar-plugin:2.4, parent: sun.misc.Launcher$AppClassLoader@55f96302]
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-jar-plugin:2.4:jar' with basic configurator -->
+[DEBUG]   (f) classesDirectory = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\classes
+[DEBUG]   (f) defaultManifestFile = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\classes\META-INF\MANIFEST.MF
+[DEBUG]   (f) finalName = JJTreeExamples-8.0.0
+[DEBUG]   (f) forceCreation = false
+[DEBUG]   (f) outputDirectory = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target
+[DEBUG]   (f) project = MavenProject: org.javacc.test.cpp:JJTreeExamples:8.0.0 @ C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\pom.xml
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@511816c0
+[DEBUG]   (f) skipIfEmpty = false
+[DEBUG]   (f) useDefaultManifestFile = false
+[DEBUG] -- end configuration --
+[DEBUG] isUp2date: true
+[DEBUG] Archive C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\JJTreeExamples-8.0.0.jar is uptodate.
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ JJTreeExamples ---
+[DEBUG] Dependency collection stats: {ConflictMarker.analyzeTime=89500, ConflictMarker.markTime=60300, ConflictMarker.nodeCount=38, ConflictIdSorter.graphTime=49800, ConflictIdSorter.topsortTime=25100, ConflictIdSorter.conflictIdCount=15, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=342200, ConflictResolver.conflictItemCount=35, DefaultDependencyCollector.collectTime=15096100, DefaultDependencyCollector.transformTime=587500}
+[DEBUG] org.apache.maven.plugins:maven-install-plugin:jar:2.4:
+[DEBUG]    org.apache.maven:maven-plugin-api:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-project:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-settings:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-profile:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-plugin-registry:jar:2.0.6:compile
+[DEBUG]       org.codehaus.plexus:plexus-container-default:jar:1.0-alpha-9-stable-1:compile
+[DEBUG]          junit:junit:jar:3.8.1:compile
+[DEBUG]          classworlds:classworlds:jar:1.1-alpha-2:compile
+[DEBUG]    org.apache.maven:maven-model:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-artifact-manager:jar:2.0.6:compile
+[DEBUG]       org.apache.maven:maven-repository-metadata:jar:2.0.6:compile
+[DEBUG]    org.apache.maven:maven-artifact:jar:2.0.6:compile
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:3.0.5:compile
+[DEBUG]    org.codehaus.plexus:plexus-digest:jar:1.0:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-install-plugin:2.4
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-install-plugin:2.4
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-install-plugin:2.4
+[DEBUG]   Included: org.apache.maven.plugins:maven-install-plugin:jar:2.4
+[DEBUG]   Included: junit:junit:jar:3.8.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:3.0.5
+[DEBUG]   Included: org.codehaus.plexus:plexus-digest:jar:1.0
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-install-plugin:2.4:install from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-install-plugin:2.4, parent: sun.misc.Launcher$AppClassLoader@55f96302]
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-install-plugin:2.4:install' with basic configurator -->
+[DEBUG]   (f) artifact = org.javacc.test.cpp:JJTreeExamples:jar:8.0.0
+[DEBUG]   (f) attachedArtifacts = []
+[DEBUG]   (f) createChecksum = false
+[DEBUG]   (f) localRepository =       id: local
+      url: file:///C:/Users/fandre/.m2/repository/
+   layout: default
+snapshots: [enabled => true, update => always]
+ releases: [enabled => true, update => always]
+
+[DEBUG]   (f) packaging = jar
+[DEBUG]   (f) pomFile = C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\pom.xml
+[DEBUG]   (s) skip = false
+[DEBUG]   (f) updateReleaseInfo = false
+[DEBUG] -- end configuration --
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\JJTreeExamples-8.0.0.jar to C:\Users\fandre\.m2\repository\org\javacc\test\cpp\JJTreeExamples\8.0.0\JJTreeExamples-8.0.0.jar
+[DEBUG] Skipped re-installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\target\JJTreeExamples-8.0.0.jar to C:\Users\fandre\.m2\repository\org\javacc\test\cpp\JJTreeExamples\8.0.0\JJTreeExamples-8.0.0.jar, seems unchanged
+[DEBUG] Writing tracking file C:\Users\fandre\.m2\repository\org\javacc\test\cpp\JJTreeExamples\8.0.0\_remote.repositories
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\test\cpp\JJTreeExamples\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\test\cpp\JJTreeExamples\8.0.0\JJTreeExamples-8.0.0.pom
+[DEBUG] Writing tracking file C:\Users\fandre\.m2\repository\org\javacc\test\cpp\JJTreeExamples\8.0.0\_remote.repositories
+[DEBUG] Installing org.javacc.test.cpp:JJTreeExamples/maven-metadata.xml to C:\Users\fandre\.m2\repository\org\javacc\test\cpp\JJTreeExamples\maven-metadata-local.xml
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1.679 s
+[INFO] Finished at: 2019-10-17T13:53:58+02:00
+[INFO] ------------------------------------------------------------------------

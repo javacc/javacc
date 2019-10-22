@@ -167,7 +167,7 @@
 	<modules>
 		<module>codegen</module>
 		<module>parser</module>
-		<module>test</module>
+		<module>tests</module>
 	</modules>
 
 
