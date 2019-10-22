@@ -6,10 +6,9 @@
 		<artifactId>java</artifactId>
 		<version>8.0.0</version>
 	</parent>
-	<name>JavaCC tests Java CORBA-IDL</name>
 	<groupId>org.javacc.tests.java</groupId>
-	<artifactId>CORBA-IDL</artifactId>
-	<packaging>pom</packaging>
+	<artifactId>exceptions</artifactId>
+	<name>exceptions</name>
 	<build>
 		<plugins>
 			<plugin>
@@ -17,13 +16,14 @@
 				<artifactId>javacc-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>jcc</id>
+						<id>exceptions</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>javacc</goal>
 						</goals>
 						<configuration>
-							<sourceDirectory>../../examples/CORBA-IDL</sourceDirectory>
+							<sourceDirectory>../../test/exceptions</sourceDirectory>
+							<codeGenerator>Java</codeGenerator>
 						</configuration>
 					</execution>
 				</executions>
@@ -41,7 +41,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>IDLParserMain</mainClass>
+					<mainClass>Parser</mainClass>
 					<arguments>
 						<argument>../../examples/CORBA-IDL/Hello.idl</argument>
 					</arguments>

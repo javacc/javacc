@@ -26,7 +26,6 @@
 
 options {
 	STATIC=false;
-	OUTPUT_DIRECTORY="out-dir";
 }
 
 PARSER_BEGIN(Parser)

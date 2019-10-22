@@ -20,8 +20,25 @@
 		<module>JJTreeExamples</module>
 	 	<module>MailProcessing</module>
 -->
- 	</modules>
+ 	<module>exceptions</module>
+	</modules>
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>javacc-maven-plugin</artifactId>
+					<version>${javacc-maven-plugin}</version>
+					<executions>
+						<execution>
+							<configuration>
+								<codeGenerator>Java</codeGenerator>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
@@ -33,7 +50,7 @@
 							<goal>run</goal>
 						</goals>
 						<configuration>
-							<skip>false</skip>
+							<skip>true</skip>
 							<tasks>
 								<path id="javacc">
 									<pathelement location="../../parser/target/parser-8.0.0.jar" />
