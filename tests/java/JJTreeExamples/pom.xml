@@ -13,7 +13,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>javacc-maven-plugin</artifactId>
-				<version>${javacc-maven-plugin}</version>
 				<executions>
 					<execution>
 						<id>jcc</id>
@@ -22,7 +21,8 @@
 							<goal>jjtree-javacc</goal>
 						</goals>
 						<configuration>
-							<sourceDirectory>../../examples/java/JJTreeExamples</sourceDirectory>
+							<sourceDirectory>../../examples/JJTreeExamples/java</sourceDirectory>
+							<codeGenerator>Java</codeGenerator>
 						</configuration>
 					</execution>
 				</executions>

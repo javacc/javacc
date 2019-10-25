@@ -44,10 +44,23 @@
 						</dependency>
 						<dependency>
 							<groupId>org.javacc.codegen</groupId>
+							<artifactId>java</artifactId>
+							<version>8.0.0</version>
+						</dependency>
+						<dependency>
+							<groupId>org.javacc.codegen</groupId>
 							<artifactId>cpp</artifactId>
 							<version>8.0.0</version>
 						</dependency>
 					</dependencies>
+					<executions>
+						<execution>
+							<configuration>
+								<codeGenerator>C++</codeGenerator>
+							</configuration>
+						</execution>
+						
+					</executions>
 				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>

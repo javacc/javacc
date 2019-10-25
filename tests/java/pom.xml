@@ -29,12 +29,25 @@
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>javacc-maven-plugin</artifactId>
 					<version>${javacc-maven-plugin}</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.javacc</groupId>
+							<artifactId>parser</artifactId>
+							<version>8.0.0</version>
+						</dependency>
+						<dependency>
+							<groupId>org.javacc.codegen</groupId>
+							<artifactId>java</artifactId>
+							<version>8.0.0</version>
+						</dependency>
+					</dependencies>
 					<executions>
 						<execution>
 							<configuration>
 								<codeGenerator>Java</codeGenerator>
 							</configuration>
 						</execution>
+						
 					</executions>
 				</plugin>
 			</plugins>
