@@ -129,4 +129,9 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
     }
   }
 
+  
+  public static void reInit()
+  {
+  }
+
 }

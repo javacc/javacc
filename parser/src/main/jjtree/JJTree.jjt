@@ -39,7 +39,7 @@ options {
 PARSER_BEGIN(JJTreeParser)
 
 package org.javacc.jjtree;
-import org.javacc.parser.JavaCCGlobals;
+import org.javacc.parser.Options;
 
 public class JJTreeParser {
 
@@ -368,14 +368,18 @@ void javacc_input() #Grammar :
 {
   javacc_options()
   {
+    // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
   }
   (
     "PARSER_BEGIN" "(" t=identifier() ")"
 	{
 	  JJTreeGlobals.parserName = t.image;
-      while(getToken(1).kind != _PARSER_END) {
-        getNextToken();
-      }
+
+          if (!Options.isOutputLanguageJava()) {
+            while(getToken(1).kind != _PARSER_END) {
+              getNextToken();
+            }
+          }
 	}
     CompilationUnit()
     "PARSER_END" "(" identifier() ")"
@@ -476,8 +480,10 @@ void javacode_production() #Javacode :
   <_JAVACODE>
   AccessModifier() ResultType() t1=identifier() FormalParameters()
   {
-    while(getToken(1).kind != LBRACE) {
-      getNextToken();
+    if (!Options.isOutputLanguageJava()) {
+      while(getToken(1).kind != LBRACE) {
+        getNextToken();
+      }
     }
   }
     [
@@ -498,7 +504,9 @@ void javacode_production() #Javacode :
         {
 	  prod.name = t1.image;
 	  prod.stmBeginLoc = t2;
-      eatUptoCloseBrace();
+          if (!Options.isOutputLanguageJava()) {
+            eatUptoCloseBrace();
+          }
 	}
     (
       ( BlockStatement() )*
@@ -546,7 +554,9 @@ void bnf_production() #BNF :
 	  prod.name = t1.image;
 	  prod.declBeginLoc = t2;
 	  ns = new NodeScope(prod, nd);
-      eatUptoCloseBrace();
+          if (!Options.isOutputLanguageJava()) {
+            eatUptoCloseBrace();
+          }
 	}
   (
     ( BlockStatement() )*
@@ -595,9 +605,11 @@ void token_manager_decls() #TokenDecls :
 {
   "TOKEN_MGR_DECLS" ":"
   {
-    getNextToken(); // eat { 
-    eatUptoCloseBrace();
-    getNextToken(); // eat } 
+    if (!Options.isOutputLanguageJava()) {
+      getNextToken(); // eat { 
+      eatUptoCloseBrace();
+      getNextToken(); // eat } 
+    } 
   } 
   [ ClassOrInterfaceBody() ]
 }
@@ -697,7 +709,9 @@ void local_lookahead(ASTProduction p) :
   [ LOOKAHEAD(0, { emptyLA || commaAtEnd } )
     "{"
     {
-      eatUptoCloseBrace();
+      if (!Options.isOutputLanguageJava()) {
+        eatUptoCloseBrace();
+      }
     }
     [ Expression() ] "}"
   ]
@@ -727,7 +741,9 @@ JJTreeNode expansion_unit(ASTProduction p) :
   (
     "try" "{"
     {
-      eatUptoCloseBrace();
+      if (!Options.isOutputLanguageJava()) {
+        eatUptoCloseBrace();
+      }
     }
     [ expansion_choices(p) ]
     "}"
@@ -1771,7 +1787,9 @@ void Block() :
 {
   "{"
     {
-      eatUptoCloseBrace();
+      if (!Options.isOutputLanguageJava()) {
+        eatUptoCloseBrace();
+      }
     }
   ( BlockStatement() )*
   "}"

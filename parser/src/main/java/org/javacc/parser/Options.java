@@ -72,6 +72,7 @@ public class Options {
   public static final String USEROPTION__PARSER_SUPER_CLASS = "PARSER_SUPER_CLASS";
   public static final String USEROPTION__JAVA_TEMPLATE_TYPE = "JAVA_TEMPLATE_TYPE";
   public static final String USEROPTION__GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
+  public static final String USEROPTION__OUTPUT_LANGUAGE = "OUTPUT_LANGUAGE";
   public static final String USEROPTION__CODE_GENERATOR = "CODE_GENERATOR";
   public static final String USEROPTION__NO_DFA = "NO_DFA";
   public static final String USEROPTION__STATIC = "STATIC";
@@ -122,6 +123,12 @@ public class Options {
   public static final String USEROPTION__USER_TOKEN_MANAGER = "USER_TOKEN_MANAGER";
   public static final String USEROPTION__CPP_USER_TOKEN_CONSTANT = "USER_TOKEN_CONSTANT";
   public static final String USEROPTION__CPP_USER_TOKEN_CONSTANT_NAMESPACE = "USER_TOKEN_CONSTANT_NAMESPACE";
+  /**
+   * Various constants relating to possible values for certain options
+   */
+
+  public static final String OUTPUT_LANGUAGE__CPP = "c++";
+  public static final String OUTPUT_LANGUAGE__JAVA = "java";
 
 
   /**
@@ -191,7 +198,8 @@ public class Options {
     temp.add(new OptionInfo(USEROPTION__TOKEN_EXTENDS, OptionType.STRING, ""));
     temp.add(new OptionInfo(USEROPTION__TOKEN_FACTORY, OptionType.STRING, ""));
     temp.add(new OptionInfo(USEROPTION__GRAMMAR_ENCODING, OptionType.STRING, ""));
-    
+    temp.add(new OptionInfo(USEROPTION__OUTPUT_LANGUAGE, OptionType.STRING, OUTPUT_LANGUAGE__JAVA));
+
     temp.add(new OptionInfo(USEROPTION__JAVA_TEMPLATE_TYPE, OptionType.STRING, JAVA_TEMPLATE_TYPE_CLASSIC));
     temp.add(new OptionInfo(USEROPTION__NAMESPACE, OptionType.STRING, ""));
     temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_INCLUDES, OptionType.STRING, ""));
@@ -906,6 +914,13 @@ public class Options {
     return type == null ? false : supportedJavaTemplateTypes.contains(type.toLowerCase());
   }
 
+  /**
+   * @return the output language. default java
+   */
+  public static String getOutputLanguage() {
+    return stringValue(USEROPTION__OUTPUT_LANGUAGE);
+  }
+
   public static String getJavaTemplateType() {
     return stringValue(USEROPTION__JAVA_TEMPLATE_TYPE);
   }
@@ -941,6 +956,10 @@ public class Options {
 
   public static boolean isTokenManagerRequiresParserAccess() {
     return getTokenManagerUsesParser() && !getStatic();
+  }
+
+  public static boolean isOutputLanguageJava() {
+    return getOutputLanguage().equalsIgnoreCase(OUTPUT_LANGUAGE__JAVA);
   }
 
   /**
