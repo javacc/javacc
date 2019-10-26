@@ -17,6 +17,5 @@
 		<module>csharp</module>
 		<module>cpp</module>
 	</modules>
-	<build>
-	</build>
+
 </project>
