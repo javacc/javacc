@@ -57,8 +57,8 @@
 							<goal>compile</goal>
 						</goals>
 						<configuration>
-							<compilerProvider>msvc</compilerProvider>
-							<envFactoryName>org.codehaus.mojo.natives.msvc.Community2017x86EnvFactory</envFactoryName>
+							<compilerProvider>${compilerProvider}</compilerProvider>
+							<envFactoryName>${envFactoryName}</envFactoryName>
 							<sources>
 								<source>
 									<directory>target/generated-sources/cpp</directory>
@@ -82,8 +82,8 @@
 							<goal>link</goal>
 						</goals>
 						<configuration>
-							<linkerProvider>msvc</linkerProvider>
-							<envFactoryName>org.codehaus.mojo.natives.msvc.Community2017x86EnvFactory</envFactoryName>
+							<linkerProvider>${linkerProvider}</linkerProvider>
+							<envFactoryName>${envFactoryName}</envFactoryName>
 						</configuration>
 					</execution>
 				</executions>
