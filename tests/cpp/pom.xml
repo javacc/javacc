@@ -29,6 +29,33 @@
 			<version>${native-maven-plugin}</version>
 		</dependency>
 	</dependencies>
+	<profiles>
+		<profile>
+			<id>Windows</id>
+			<activation>
+				<os>
+					<family>Windows</family>
+				</os>
+			</activation>
+			<properties>
+				<envFactoryName>org.codehaus.mojo.natives.msvc.Community2017x86EnvFactory</envFactoryName>
+				<compilerProvider>msvc</compilerProvider>
+				<linkerProvider>msvc</linkerProvider>
+			</properties>
+		</profile>
+		<profile>
+			<id>unix</id>
+			<activation>
+				<os>
+					<family>unix</family>
+				</os>
+			</activation>
+			<properties>
+				<compilerProvider>generic</compilerProvider>
+				<linkerProvider>generic</linkerProvider>
+			</properties>
+		</profile>
+	</profiles>
 	<build>
 		<pluginManagement>
 			<plugins>
