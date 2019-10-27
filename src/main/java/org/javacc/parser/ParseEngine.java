@@ -30,12 +30,7 @@
  */
 package org.javacc.parser;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 import static org.javacc.parser.JavaCCGlobals.*;
 
@@ -71,6 +66,7 @@ public class ParseEngine {
   private List phase2list = new ArrayList();
   private List phase3list = new ArrayList();
   private java.util.Hashtable phase3table = new java.util.Hashtable();
+  private int labelCount = 0;
 
   /**
    * The phase 1 routines generates their output into String's and dumps
@@ -487,7 +483,7 @@ public class ParseEngine {
     StringBuffer sig = new StringBuffer();
     String ret, params;
     Token t = null;
-    
+
     String method_name = p.getLhs();
     boolean void_ret = false;
     boolean ptr_ret = false;
@@ -698,7 +694,7 @@ public class ParseEngine {
         codeGenerator.genCodeLine("    try {");
         indentamt = 6;
       }
-    
+
     if (!Options.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) &&
         p.getDeclarationTokens().size() != 0) {
       codeGenerator.printTokenSetup((Token)(p.getDeclarationTokens().get(0))); cline--;
@@ -708,11 +704,11 @@ public class ParseEngine {
       }
       codeGenerator.printTrailingComments(t);
     }
-    
+
     String code = phase1ExpansionGen(p.getExpansion());
     dumpFormattedString(code);
     codeGenerator.genCodeLine("");
-    
+
     if (p.isJumpPatched() && !voidReturn) {
       if (isJavaDialect) {
 	// This line is required for Java!
@@ -1238,6 +1234,8 @@ public class ParseEngine {
         }
         codeGenerator.genCodeLine("    xsp = jj_scanpos;");
       }
+      final String labelName = "    label_" + (labelCount++);
+      codeGenerator.genCodeLine(labelName + ": {");
       for (int i = 0; i < e_nrw.getChoices().size(); i++) {
         nested_seq = (Sequence)(e_nrw.getChoices().get(i));
         Lookahead la = (Lookahead)(nested_seq.units.get(0));
@@ -1247,8 +1245,8 @@ public class ParseEngine {
           codeGenerator.genCodeLine("    jj_lookingAhead = true;");
           codeGenerator.genCode("    jj_semLA = ");
           codeGenerator.printTokenSetup((Token)(la.getActionTokens().get(0)));
-          for (Iterator it = la.getActionTokens().iterator(); it.hasNext();) {
-            t = (Token)it.next();
+          for (Token token : la.getActionTokens()) {
+            t = token;
             codeGenerator.printToken(t);
           }
           codeGenerator.printTrailingComments(t);
@@ -1261,7 +1259,7 @@ public class ParseEngine {
         }
         if (i != e_nrw.getChoices().size() - 1) {
           //codeGenerator.genCodeLine("jj_3" + nested_seq.internal_name + "()) {");
-          codeGenerator.genCodeLine("!"+genjj_3Call(nested_seq) + ") return false;");
+          codeGenerator.genCodeLine("!"+genjj_3Call(nested_seq) + ") break " + labelName + ";");
           codeGenerator.genCodeLine("    jj_scanpos = xsp;");
         } else {
           //codeGenerator.genCodeLine("jj_3" + nested_seq.internal_name + "()) " + genReturn(true));
@@ -1269,6 +1267,7 @@ public class ParseEngine {
           //codeGenerator.genCodeLine("    if (jj_la == 0 && jj_scanpos == jj_lastpos) " + genReturn(false));
         }
       }
+      codeGenerator.genCodeLine("    }");
       /*
       for (int i = 1; i < e_nrw.getChoices().size(); i++) {
         //codeGenerator.genCodeLine("    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) " + genReturn(false));
@@ -1480,7 +1479,7 @@ public class ParseEngine {
             codeGenerator.genCodeLine("    } catch(...) { }");
           }
           codeGenerator.genCodeLine("  }");
-          codeGenerator.genCodeLine(""); 	  
+          codeGenerator.genCodeLine("");
       } else
       if (p instanceof JavaCodeProduction) {
         if (!isJavaDialect) {
