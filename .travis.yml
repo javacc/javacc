@@ -1,6 +1,6 @@
 language: java
 jdk: openjdk8
 install:
-  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  - skip
 script:
-  - mvn test -B
+  - mvn test -B -Dgpg.skip=true
