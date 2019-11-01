@@ -63,7 +63,7 @@
 							<goal>run</goal>
 						</goals>
 						<configuration>
-							<skip>true</skip>
+							<skip>false</skip>
 							<tasks>
 								<path id="javacc">
 									<pathelement location="../../parser/target/parser-8.0.0.jar" />
