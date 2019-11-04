@@ -91,7 +91,7 @@ void NoJavacode() : {}
 }
 
 /*
-* For sematic lookahead, the LA executes as expected (only
+* For semantic lookahead, the LA executes as expected (only
 * succeeds if both the semantic and normal LA succeeds).
 */
 

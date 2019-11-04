@@ -45,7 +45,7 @@ class FormsPlSql {
             System.out.println(args[0]) ;
         }
         p.CompilationUnit() ;
-        System.out.println("Parse Successfull") ;
+        System.out.println("Parse Successful") ;
 
     } // main ends here
 } // class FormsPlSql ends here
@@ -697,7 +697,7 @@ void QueryStatement():
     ";"
 }
 
-// PLSQL Expression and it's childs
+// PLSQL Expression and it's children
 
 void PlSqlExpression():
 {}

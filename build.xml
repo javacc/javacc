@@ -89,7 +89,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 			<arg value="JavaCC.jj" />
 		</java>
 
-		<!-- This class is overrriden -->
+		<!-- This class is overriden -->
 		<delete file="${parser-generated-src}/Token.java" />
 
 		<!-- Generate the JJTree Parser Definition (from the tree definition) -->

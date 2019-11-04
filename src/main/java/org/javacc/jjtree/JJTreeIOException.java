@@ -28,7 +28,7 @@
 package org.javacc.jjtree;
 
 /**
- * Thrown when ther is a problem reading or writing to the file system.
+ * Thrown when there is a problem reading or writing to the file system.
  */
 class JJTreeIOException extends java.io.IOException {
 

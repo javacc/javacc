@@ -4,7 +4,7 @@ public class Parser implements ParserConstants {
   public static void main(String args[]) throws Exception {
     Parser t = new Parser(System.in);
     t.CompilationUnit();
-    System.out.println("Parser ran sucessfully");
+    System.out.println("Parser ran successfully");
   }
 
   static final public void CompilationUnit() throws ParseException {

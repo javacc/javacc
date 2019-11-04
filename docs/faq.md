@@ -1503,7 +1503,7 @@ Since JavaCC 4.0 there are constructors that take an encoding as an argument.
 
 ---
 
-This question is dependant on the application. A lot of simple applications only require a token manager. However, many people try to do too much with the lexical analyzer, for example they try to write an expression parser using only the lexical analyzer.
+This question is dependent on the application. A lot of simple applications only require a token manager. However, many people try to do too much with the lexical analyzer, for example they try to write an expression parser using only the lexical analyzer.
 
 <br>
 
