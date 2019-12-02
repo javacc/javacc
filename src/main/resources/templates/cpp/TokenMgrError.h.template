@@ -40,7 +40,7 @@ public:
    * Indicates the reason why the exception is thrown. It will have
    * one of the above 4 values.
    */
-  int errorCode;
+  int errorCode = -1;
 
   /**
    * Returns a detailed message for the Error when it is thrown by the

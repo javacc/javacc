@@ -285,13 +285,13 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
 
 private ${STATIC?static :} int defaultLexState = ${defaultLexState};
 private ${STATIC?static :} int curLexState = ${defaultLexState};
-private ${STATIC?static :} int jjmatchedPos;
-private ${STATIC?static :} int jjmatchedKind;
+private ${STATIC?static :} int jjmatchedPos = 0;
+private ${STATIC?static :} int jjmatchedKind = 0;
 private ${STATIC?static :}final StringBuilder jjimage = new StringBuilder();
 private ${STATIC?static :}StringBuilder image = jjimage;
-private ${STATIC?static :}int jjimageLen;
-private ${STATIC?static :}int lengthOfMatch;
-protected ${STATIC?static :}int curChar;
+private ${STATIC?static :}int jjimageLen = 0;
+private ${STATIC?static :}int lengthOfMatch = 0;
+protected ${STATIC?static :}int curChar = 0;
 protected ${STATIC?static :} ${charStreamName} input_stream;
 
 public static final boolean isToken(int kind) {
