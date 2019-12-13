@@ -165,14 +165,16 @@ All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/
 
 For all previous releases, please see [stable releases](docs/downloads.md).
 
+The GitHub  8.0 branch contains the next generation of JavaCC that splits the frontend -- the JavaCC parser -- from the backends -- the code generator targeted for Java, C++ &and C# --. Status of JavaCC is experimental and not production ready.
+
 #### <a name="installation"></a>Installation
 
 To install JavaCC, navigate to the download directory and type:
 
 ```
-$ unzip javacc-5.0.zip
+$ unzip javacc-7.0.5.zip
 or
-$ tar xvf javacc-5.0.tar.gz
+$ tar xvf javacc-7.0.5.tar.gz
 ```
 
 Once you have completed installation add the `bin/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
