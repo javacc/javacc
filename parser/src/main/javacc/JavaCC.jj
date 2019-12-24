@@ -1227,18 +1227,20 @@ void expansion_unit(Container c) :
       vec.add(getToken(1));  // Just add the rparen too. HACK!!!
       vec.add(getToken(2));  // Just add the open curly too. HACK!!!
       // Remove the lastone.
-      t = null;
-      //t = getToken(0);
-      //t.kind = IDENTIFIER;
+      t = getToken(0);
+      t.kind = IDENTIFIER;
       //// TODO(sreeni): Fixup to be part of the codegen api
       //if (getCodeGenerator() != null) {
         //t.image = "System.Exception"; // assume C# for now.
       //} else {
-        //t.image = "...";
+      t.image = "...";
       //}
     }
    ")"
 	{
+	  types.add(vec);
+	  ids.add(t);
+	  vec = new ArrayList();
 	  inAction = true;
 	}
     Block(vec)
