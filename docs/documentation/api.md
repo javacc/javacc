@@ -501,7 +501,7 @@ void handleUnexpectedToken()
  * Parameters:
  * - Token* last - the last token successfully parsed.
  * - Token* unexpected - the token at which the error occurs.
- * - string production - the name of the production in which this error occurrs.
+ * - string production - the name of the production in which this error occurs.
  */
 void handleParseError()
 ```

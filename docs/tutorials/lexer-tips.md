@@ -13,7 +13,7 @@ This section presents a few tips for writing good lexical specifications.
   * [Avoid string literals for the same token](#tip2)
   * [Order string literals by length](#tip3)
 - [**Lexical States**](#lexical-states)
-  * [Minimise use of lexical states](#tip4)
+  * [Minimize use of lexical states](#tip4)
   * [Use SKIP as much as possible](#tip5)
   * [Avoid using SKIP with lexical actions and state changes](#tip6)
   * [Avoid using MORE if possible](#tip7)
@@ -84,7 +84,7 @@ This will help optimizing the bit vectors needed for string literals.
 
 ## <a name="lexical-states"></a>Lexical States
 
-### <a name="tip4"></a>Minimise use of lexical states
+### <a name="tip4"></a>Minimize use of lexical states
 
 Try to minimize the use of lexical states.
 

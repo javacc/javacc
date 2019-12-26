@@ -1,6 +1,6 @@
 /*
 
-  C grammar defintion for use with JavaCC
+  C grammar definition for use with JavaCC
   Contributed by Doug South (dsouth@squirrel.com.au) 21/3/97
 
   This parser assumes that the C source file has been preprocessed : all

@@ -198,7 +198,7 @@ SPECIAL_TOKEN :
 | 
 	< #NBSP: "\u00A0" > /* No-break space */
 | 
-	< #USP: /* Other Unicode space seperator */
+	< #USP: /* Other Unicode space separator */
 		["\u2000"] 
 		| ["\u2001"] 
 		| ["\u2002"] 
@@ -2256,7 +2256,7 @@ TOKEN:
 
 
 	/*
-	 * Grammar for parsing JScript .NET contructs: ( import System; var contents :
+	 * Grammar for parsing JScript .NET constructs: ( import System; var contents :
 	 * String = reader.ReadToEnd(); ) Refer: src/hostenv_jsc.js
 	 */
 

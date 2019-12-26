@@ -233,9 +233,9 @@ public class Semanticize extends JavaCCGlobals {
                 count++;
               }
               if (count == 1) {
-                JavaCCErrors.warning(sl, "String with IGNORE_CASE is partially superceded by string at" + pos + ".");
+                JavaCCErrors.warning(sl, "String with IGNORE_CASE is partially superseded by string at" + pos + ".");
               } else {
-                JavaCCErrors.warning(sl, "String with IGNORE_CASE is partially superceded by strings at" + pos + ".");
+                JavaCCErrors.warning(sl, "String with IGNORE_CASE is partially superseded by strings at" + pos + ".");
               }
               // This entry is legitimate.  So insert it.
               if (sl.ordinal == 0) {
@@ -466,7 +466,7 @@ public class Semanticize extends JavaCCGlobals {
 
   public static RegularExpression other;
 
-  // Checks to see if the "str" is superceded by another equal (except case) string
+  // Checks to see if the "str" is superseded by another equal (except case) string
   // in table.
   public static boolean hasIgnoreCase(Hashtable<String, RegularExpression> table, String str) {
     RegularExpression rexp;

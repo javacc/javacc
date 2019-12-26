@@ -59,7 +59,7 @@ public class Obfuscator extends Globals {
   }
 
   // The iterator.  This uses the above datastructures to walk the input
-  // directory tree.  Everytime it finds a Java file or when it cannot find
+  // directory tree.  Every time it finds a Java file or when it cannot find
   // any more Java file, it returns to the caller.
   static void nextJavaFile() {
     while (true) {
