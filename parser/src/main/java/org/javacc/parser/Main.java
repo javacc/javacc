@@ -315,9 +315,9 @@ private static ParserData createParserData() {
       org.javacc.parser.JavaCCErrors.reInit();
       org.javacc.parser.JavaCCGlobals.reInit();
       Options.init();
+      org.javacc.parser.JavaFiles.reInit();
       org.javacc.parser.JavaCCParserInternals.reInit();
       org.javacc.parser.RStringLiteral.reInit();
-      org.javacc.parser.JavaFiles.reInit();
       org.javacc.parser.NfaState.reInit();
       org.javacc.parser.MatchInfo.reInit();
       org.javacc.parser.LookaheadWalk.reInit();
