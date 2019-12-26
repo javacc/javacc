@@ -39,7 +39,6 @@ options {
 PARSER_BEGIN(JJTreeParser)
 
 package org.javacc.jjtree;
-import org.javacc.parser.JavaCCGlobals;
 
 public class JJTreeParser {
 
@@ -64,6 +63,8 @@ public class JJTreeParser {
     if (t.kind == BIT_OR || t.kind == COMMA || t.kind == RPAREN || t.kind == RBRACE || t.kind == RBRACKET) return false;
     return true;
   }
+
+  protected boolean isJavaLanguage = true;
 
   private void eatUptoCloseBrace() {
     int b = 1;
@@ -368,14 +369,19 @@ void javacc_input() #Grammar :
 {
   javacc_options()
   {
+    // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
+    isJavaLanguage = JJTreeOptions.getCodeGenerator() == null || JJTreeOptions.getCodeGenerator().contains("java");
   }
   (
     "PARSER_BEGIN" "(" t=identifier() ")"
 	{
 	  JJTreeGlobals.parserName = t.image;
-      while(getToken(1).kind != _PARSER_END) {
-        getNextToken();
-      }
+
+          if (!isJavaLanguage) {
+            while(getToken(1).kind != _PARSER_END) {
+              getNextToken();
+            }
+          }
 	}
     CompilationUnit()
     "PARSER_END" "(" identifier() ")"
@@ -476,8 +482,10 @@ void javacode_production() #Javacode :
   <_JAVACODE>
   AccessModifier() ResultType() t1=identifier() FormalParameters()
   {
-    while(getToken(1).kind != LBRACE) {
-      getNextToken();
+    if (!isJavaLanguage) {
+      while(getToken(1).kind != LBRACE) {
+        getNextToken();
+      }
     }
   }
     [
@@ -498,7 +506,9 @@ void javacode_production() #Javacode :
         {
 	  prod.name = t1.image;
 	  prod.stmBeginLoc = t2;
-      eatUptoCloseBrace();
+          if (!isJavaLanguage) {
+            eatUptoCloseBrace();
+          }
 	}
     (
       ( BlockStatement() )*
@@ -546,7 +556,9 @@ void bnf_production() #BNF :
 	  prod.name = t1.image;
 	  prod.declBeginLoc = t2;
 	  ns = new NodeScope(prod, nd);
-      eatUptoCloseBrace();
+          if (!isJavaLanguage) {
+            eatUptoCloseBrace();
+          }
 	}
   (
     ( BlockStatement() )*
@@ -595,9 +607,11 @@ void token_manager_decls() #TokenDecls :
 {
   "TOKEN_MGR_DECLS" ":"
   {
-    getNextToken(); // eat { 
-    eatUptoCloseBrace();
-    getNextToken(); // eat } 
+    if (!isJavaLanguage) {
+      getNextToken(); // eat { 
+      eatUptoCloseBrace();
+      getNextToken(); // eat } 
+    } 
   } 
   [ ClassOrInterfaceBody() ]
 }
@@ -697,7 +711,9 @@ void local_lookahead(ASTProduction p) :
   [ LOOKAHEAD(0, { emptyLA || commaAtEnd } )
     "{"
     {
-      eatUptoCloseBrace();
+      if (!isJavaLanguage) {
+        eatUptoCloseBrace();
+      }
     }
     [ Expression() ] "}"
   ]
@@ -727,7 +743,9 @@ JJTreeNode expansion_unit(ASTProduction p) :
   (
     "try" "{"
     {
-      eatUptoCloseBrace();
+      if (!isJavaLanguage) {
+        eatUptoCloseBrace();
+      }
     }
     [ expansion_choices(p) ]
     "}"
@@ -1771,7 +1789,9 @@ void Block() :
 {
   "{"
     {
-      eatUptoCloseBrace();
+      if (!isJavaLanguage) {
+        eatUptoCloseBrace();
+      }
     }
   ( BlockStatement() )*
   "}"
