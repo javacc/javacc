@@ -309,11 +309,11 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
 
 private ${STATIC?static :} int defaultLexState = ${defaultLexState};
 private ${STATIC?static :} int curLexState = ${defaultLexState};
-private ${STATIC?static :} int jjmatchedPos;
-private ${STATIC?static :} int jjmatchedKind;
-// private ${STATIC?static :} int lengthOfMatch;;
+private ${STATIC?static :} int jjmatchedPos = 0;
+private ${STATIC?static :} int jjmatchedKind = 0;
+// private ${STATIC?static :} int lengthOfMatch = 0;;
 // private ${STATIC?static :} String image;
-// private ${STATIC?static :} int jjimageLen;
+// private ${STATIC?static :} int jjimageLen = 0;
 
 public static final boolean isToken(int kind) {
   return (jjtoToken[kind >> 6] & (1L << (kind & 077))) != 0L;
