@@ -28,6 +28,9 @@ public class TokenizerData {
   // same key as before.
   public Map<Integer, List<Integer>> literalKinds;
 
+  // A set of kind values where the case should be ignored.
+  public Set<Integer> ignoreCaseKinds;
+
   // The NFA start state for a given string literal match. We use this to start
   // the NFA if needed after a literal match is completed.
   public Map<Integer, Integer> kindToNfaStartState;
@@ -119,6 +122,10 @@ public class TokenizerData {
 
   public void setLiteralKinds(Map<Integer, List<Integer>> literalKinds) {
     this.literalKinds = literalKinds;
+  }
+
+  public void setIgnoreCaserKinds(Set<Integer> ignoreCaseKinds) {
+    this.ignoreCaseKinds = ignoreCaseKinds;
   }
 
   public void setKindToNfaStartState(

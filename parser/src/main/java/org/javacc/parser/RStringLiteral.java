@@ -139,75 +139,75 @@ public class RStringLiteral extends RegularExpression {
      if ((len = image.length()) > maxLen)
         maxLen = len;
 
-     char c;
-     for (int i = 0; i < len; i++)
-     {
-        if (Options.getIgnoreCase())
-           s = ("" + (c = image.charAt(i))).toLowerCase();
-        else
-           s = "" + (c = image.charAt(i));
-
-        if (!NfaState.unicodeWarningGiven && c > 0xff &&
-            !Options.getJavaUnicodeEscape() &&
-            !Options.getUserCharStream())
-        {
-           NfaState.unicodeWarningGiven = true;
-           JavaCCErrors.warning(Main.lg.curRE, "Non-ASCII characters used in regular expression." +
-              "Please make sure you use the correct Reader when you create the parser, " +
-              "one that can handle your character set.");
-        }
-
-        if (i >= charPosKind.size()) // Kludge, but OK
-           charPosKind.add(temp = new Hashtable<>());
-        else
-           temp = charPosKind.get(i);
-
-        if ((info = temp.get(s)) == null)
-           temp.put(s, info = new KindInfo(Main.lg.maxOrdinal));
-
-        if (i + 1 == len)
-           info.InsertFinalKind(ordinal);
-        else
-           info.InsertValidKind(ordinal);
-
-        if (!Options.getIgnoreCase() && Main.lg.ignoreCase[ordinal] &&
-            c != Character.toLowerCase(c))
-        {
-           s = ("" + image.charAt(i)).toLowerCase();
-
-           if (i >= charPosKind.size()) // Kludge, but OK
-              charPosKind.add(temp = new Hashtable<>());
-           else
-              temp = charPosKind.get(i);
-
-           if ((info = temp.get(s)) == null)
-              temp.put(s, info = new KindInfo(Main.lg.maxOrdinal));
-
-           if (i + 1 == len)
-              info.InsertFinalKind(ordinal);
-           else
-              info.InsertValidKind(ordinal);
-        }
-
-        if (!Options.getIgnoreCase() && Main.lg.ignoreCase[ordinal] &&
-            c != Character.toUpperCase(c))
-        {
-           s = ("" + image.charAt(i)).toUpperCase();
-
-           if (i >= charPosKind.size()) // Kludge, but OK
-              charPosKind.add(temp = new Hashtable<>());
-           else
-              temp = charPosKind.get(i);
-
-           if ((info = temp.get(s)) == null)
-              temp.put(s, info = new KindInfo(Main.lg.maxOrdinal));
-
-           if (i + 1 == len)
-              info.InsertFinalKind(ordinal);
-           else
-              info.InsertValidKind(ordinal);
-        }
-     }
+//     char c;
+//     for (int i = 0; i < len; i++)
+//     {
+//        if (Options.getIgnoreCase())
+//           s = ("" + (c = image.charAt(i))).toLowerCase();
+//        else
+//           s = "" + (c = image.charAt(i));
+//
+//        if (!NfaState.unicodeWarningGiven && c > 0xff &&
+//            !Options.getJavaUnicodeEscape() &&
+//            !Options.getUserCharStream())
+//        {
+//           NfaState.unicodeWarningGiven = true;
+//           JavaCCErrors.warning(Main.lg.curRE, "Non-ASCII characters used in regular expression." +
+//              "Please make sure you use the correct Reader when you create the parser, " +
+//              "one that can handle your character set.");
+//        }
+//
+//        if (i >= charPosKind.size()) // Kludge, but OK
+//           charPosKind.add(temp = new Hashtable<>());
+//        else
+//           temp = charPosKind.get(i);
+//
+//        if ((info = temp.get(s)) == null)
+//           temp.put(s, info = new KindInfo(Main.lg.maxOrdinal));
+//
+//        if (i + 1 == len)
+//           info.InsertFinalKind(ordinal);
+//        else
+//           info.InsertValidKind(ordinal);
+//
+//        if (!Options.getIgnoreCase() && Main.lg.ignoreCase[ordinal] &&
+//            c != Character.toLowerCase(c))
+//        {
+//           s = ("" + image.charAt(i)).toLowerCase();
+//
+//           if (i >= charPosKind.size()) // Kludge, but OK
+//              charPosKind.add(temp = new Hashtable<>());
+//           else
+//              temp = charPosKind.get(i);
+//
+//           if ((info = temp.get(s)) == null)
+//              temp.put(s, info = new KindInfo(Main.lg.maxOrdinal));
+//
+//           if (i + 1 == len)
+//              info.InsertFinalKind(ordinal);
+//           else
+//              info.InsertValidKind(ordinal);
+//        }
+//
+//        if (!Options.getIgnoreCase() && Main.lg.ignoreCase[ordinal] &&
+//            c != Character.toUpperCase(c))
+//        {
+//           s = ("" + image.charAt(i)).toUpperCase();
+//
+//           if (i >= charPosKind.size()) // Kludge, but OK
+//              charPosKind.add(temp = new Hashtable<>());
+//           else
+//              temp = charPosKind.get(i);
+//
+//           if ((info = temp.get(s)) == null)
+//              temp.put(s, info = new KindInfo(Main.lg.maxOrdinal));
+//
+//           if (i + 1 == len)
+//              info.InsertFinalKind(ordinal);
+//           else
+//              info.InsertValidKind(ordinal);
+//        }
+//     }
 
      maxLenForActive[ordinal / 64] = Math.max(maxLenForActive[ordinal / 64],
                                                                         len -1);
@@ -564,8 +564,11 @@ public class RStringLiteral extends RegularExpression {
       new HashMap<Integer, List<Integer>>();
   static final Map<Integer, Integer> kindToLexicalState =
       new HashMap<Integer, Integer>();
+  static final Set<Integer> kindToIgnoreCase =
+      new HashSet<Integer>();
   static final Map<Integer, NfaState> nfaStateMap =
       new HashMap<Integer, NfaState>();
+
   public static void UpdateStringLiteralData(
       int generatedNfaStates, int lexStateIndex) {
     for (int kind = 0; kind < allImages.length; kind++) {
@@ -574,6 +577,7 @@ public class RStringLiteral extends RegularExpression {
         continue;
       }
       String s = allImages[kind];
+      boolean ignoreCase = Main.lg.ignoreCase[kind];
       int actualKind;
       if (intermediateKinds != null &&
           intermediateKinds[kind][s.length() - 1] != Integer.MAX_VALUE &&
@@ -588,23 +592,20 @@ public class RStringLiteral extends RegularExpression {
         actualKind = kind;
       }
       kindToLexicalState.put(actualKind, lexStateIndex);
-      if (Options.getIgnoreCase()) {
+      if (Options.getIgnoreCase() || ignoreCase) {
         s = s.toLowerCase();
       }
       char c = s.charAt(0);
       int key = Main.lg.lexStateIndex << 16 | c;
-      List<String> l = literalsByLength.get(key);
-      List<Integer> kinds = literalKinds.get(key);
-      int j = 0;
-      if (l == null) {
-        literalsByLength.put(key, l = new ArrayList<String>());
-        assert(kinds == null);
-        kinds = new ArrayList<Integer>();
-        literalKinds.put(key, kinds = new ArrayList<Integer>());
+      UpdateStringLiteralDataForKey(key, actualKind, s);
+
+      if(ignoreCase) {
+        kindToIgnoreCase.add(kind);
+        c = s.toUpperCase().charAt(0);
+        key = Main.lg.lexStateIndex << 16 | c;
+        UpdateStringLiteralDataForKey(key, actualKind, s);
       }
-      while (j < l.size() && l.get(j).length() > s.length()) j++;
-      l.add(j, s);
-      kinds.add(j, actualKind);
+
       int stateIndex = GetStateSetForKind(s.length() - 1, kind);
       if (stateIndex != -1) {
         nfaStateMap.put(actualKind, NfaState.getNfaState(stateIndex));
@@ -612,6 +613,21 @@ public class RStringLiteral extends RegularExpression {
         nfaStateMap.put(actualKind, null);
       }
     }
+  }
+  
+  private static void UpdateStringLiteralDataForKey(int key, int actualKind, String s) {
+    List<String> l = literalsByLength.get(key);
+    List<Integer> kinds = literalKinds.get(key);
+    int j = 0;
+    if (l == null) {
+      literalsByLength.put(key, l = new ArrayList<String>());
+      assert(kinds == null);
+      kinds = new ArrayList<Integer>();
+      literalKinds.put(key, kinds = new ArrayList<Integer>());
+    }
+    while (j < l.size() && l.get(j).length() > s.length()) j++;
+    l.add(j, s);
+    kinds.add(j, actualKind);
   }
 
   public static void BuildTokenizerData(TokenizerData tokenizerData) {
@@ -627,6 +643,7 @@ public class RStringLiteral extends RegularExpression {
     }
     tokenizerData.setLiteralSequence(literalsByLength);
     tokenizerData.setLiteralKinds(literalKinds);
+    tokenizerData.setIgnoreCaserKinds(kindToIgnoreCase);
     tokenizerData.setKindToNfaStartState(nfaStateIndices);
   }
 }
