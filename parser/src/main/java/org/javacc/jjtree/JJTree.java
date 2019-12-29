@@ -40,7 +40,7 @@ import org.javacc.parser.JavaCCGlobals;
 
 public class JJTree {
 
-  private IO io;
+  IO io;
 
   private void p(String s)
   {
@@ -87,6 +87,7 @@ public class JJTree {
     p("    OUTPUT_FILE              (default remove input file suffix, add .jj)");
     p("    OUTPUT_DIRECTORY         (default \"\")");
     p("    JJTREE_OUTPUT_DIRECTORY  (default value of OUTPUT_DIRECTORY option)");
+    p("    NODES_DIRECTORY          (default value of JJTREE_OUTPUT_DIRECTORY option)");
     p("    VISITOR_DATA_TYPE        (default \"\")");
     p("    VISITOR_RETURN_TYPE      (default \"Object\")");
     p("    VISITOR_EXCEPTION        (default \"\")");
@@ -208,7 +209,7 @@ public class JJTree {
     CodeGenerator codeGenerator = JavaCCGlobals.getCodeGenerator();
     if (codeGenerator != null) {
       codeGenerator.getJJTreeCodeGenerator().visit(grammar, io);
-      codeGenerator.getJJTreeCodeGenerator().generateHelperFiles();
+      codeGenerator.getJJTreeCodeGenerator().generateHelperFiles(io);
     } else {
       // Catch all to ensure we don't accidently do nothing
       throw new RuntimeException("No valid CodeGenerator for JJTree : " + JJTreeOptions.getCodeGenerator());
