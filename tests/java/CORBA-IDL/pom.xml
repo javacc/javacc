@@ -44,7 +44,7 @@
 				<configuration>
 					<mainClass>IDLParserMain</mainClass>
 					<arguments>
-						<argument>../examples/CORBA-IDL/Hello.idl</argument>
+						<argument>../../examples/CORBA-IDL/Hello.idl</argument>
 					</arguments>
 				</configuration>
 			</plugin>
