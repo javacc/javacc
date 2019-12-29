@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.javacc.tests</groupId>
+    <artifactId>cpp</artifactId>
+    <version>8.0.0</version>
+  </parent>
+  <groupId>org.javacc.tests.cpp</groupId>
+  <artifactId>test</artifactId>
+  <packaging>pom</packaging>
+  <modules>
+  	<module>exceptions</module>
+  	<module>imports</module>
+  	<module>javacodeLA</module>
+  	<module>javaFileGeneration</module>
+  	<module>javaFiles</module>
+  	<module>lineNumbers</module>
+  	<module>lom</module>
+  	<module>newToken</module>
+  	<module>TestTokenManagerUsesParser</module>
+  	<module>TestTokenManagerUsesParser2</module>
+  </modules>
+  <name>JavaCC tests C++ test</name>
+</project>
