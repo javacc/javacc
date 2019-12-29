@@ -67,6 +67,7 @@ public class JJTreeGlobals
     jjtreeOptions.add("VISITOR_RETURN_TYPE");
     jjtreeOptions.add("VISITOR_METHOD_NAME_INCLUDES_TYPE_NAME");
     jjtreeOptions.add("NODE_INCLUDES");
+    jjtreeOptions.add("NODES_DIRECTORY");
   }
 
   static {
