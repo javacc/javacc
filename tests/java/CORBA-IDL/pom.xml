@@ -9,7 +9,7 @@
 	<name>JavaCC tests Java CORBA-IDL</name>
 	<groupId>org.javacc.tests.java</groupId>
 	<artifactId>CORBA-IDL</artifactId>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 	<build>
 		<plugins>
 			<plugin>
@@ -24,6 +24,7 @@
 						</goals>
 						<configuration>
 							<sourceDirectory>../../examples/CORBA-IDL</sourceDirectory>
+							<codeGenerator>Java</codeGenerator>
 						</configuration>
 					</execution>
 				</executions>
@@ -43,7 +44,7 @@
 				<configuration>
 					<mainClass>IDLParserMain</mainClass>
 					<arguments>
-						<argument>../../examples/CORBA-IDL/Hello.idl</argument>
+						<argument>../examples/CORBA-IDL/Hello.idl</argument>
 					</arguments>
 				</configuration>
 			</plugin>

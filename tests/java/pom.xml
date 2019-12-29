@@ -12,7 +12,6 @@
 	<artifactId>java</artifactId>
 	<packaging>pom</packaging>
 	<modules>
-<!-- 
 		<module>CORBA-IDL</module>
 		<module>GUIParsing</module>
 		<module>Interpreter</module>
@@ -20,6 +19,7 @@
 		<module>JJTreeExamples</module>
 	 	<module>MailProcessing</module>
  		<module>exceptions</module>
+<!-- 
 -->
 	</modules>
 	<build>
@@ -63,7 +63,7 @@
 							<goal>run</goal>
 						</goals>
 						<configuration>
-							<skip>false</skip>
+							<skip>true</skip>
 							<tasks>
 								<path id="javacc">
 									<pathelement location="../../parser/target/parser-8.0.0.jar" />

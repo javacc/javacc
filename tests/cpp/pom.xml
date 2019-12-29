@@ -21,7 +21,8 @@
 		<module>MailProcessing</module>
 		<module>JJTreeExamples</module>
  -->
- 	</modules>
+ 	<module>test</module>
+	</modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.codehaus.mojo</groupId>

@@ -9,6 +9,7 @@
 	<groupId>org.javacc.tests.cpp.jjtreeexamples</groupId>
 	<artifactId>eg1</artifactId>
 	<packaging>exe</packaging>
+	<name>EG1</name>
 	<build>
 		<plugins>
 			<plugin>
