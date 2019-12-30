@@ -83,7 +83,7 @@ public class JJTreeOptions extends Options {
         }
         Options.optionValues.put("VISITOR_EXCEPTION", "");
 
-        Options.optionValues.put("NODES_DIRECTORY", "");
+        Options.optionValues.put("NODE_DIRECTORY", "");
         Options.optionValues.put("JJTREE_OUTPUT_DIRECTORY", "");
         
         
@@ -281,15 +281,14 @@ public class JJTreeOptions extends Options {
     
     /**
      * Compute where are located the ASTNodes is any are defined
-     * @param io
-     * @return the requested NODES_DIRECTORY directory
+     * @return the requested NODE_DIRECTORY directory
      */
-    public static File getASTNodesDirectory(IO io) {
-        final String dirName = stringValue("NODES_DIRECTORY");
+    public static File getASTNodesDirectory() {
+        final String dirName = stringValue("NODE_DIRECTORY");
         File dir = null;
 
         if ("".equals(dirName)) {
-            dir = new File(io.getInputFileName()).getParentFile();
+            dir = getJJTreeOutputDirectory();
         } else {
             dir = new File(dirName);
         }

@@ -87,7 +87,7 @@ public class JJTree {
     p("    OUTPUT_FILE              (default remove input file suffix, add .jj)");
     p("    OUTPUT_DIRECTORY         (default \"\")");
     p("    JJTREE_OUTPUT_DIRECTORY  (default value of OUTPUT_DIRECTORY option)");
-    p("    NODES_DIRECTORY          (default value of JJTREE_OUTPUT_DIRECTORY option)");
+    p("    NODE_DIRECTORY           (default value of JJTREE_OUTPUT_DIRECTORY option)");
     p("    VISITOR_DATA_TYPE        (default \"\")");
     p("    VISITOR_RETURN_TYPE      (default \"Object\")");
     p("    VISITOR_EXCEPTION        (default \"\")");
