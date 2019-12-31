@@ -209,7 +209,7 @@ public class JJTree {
     CodeGenerator codeGenerator = JavaCCGlobals.getCodeGenerator();
     if (codeGenerator != null) {
       codeGenerator.getJJTreeCodeGenerator().visit(grammar, io);
-      codeGenerator.getJJTreeCodeGenerator().generateHelperFiles(io);
+      codeGenerator.getJJTreeCodeGenerator().generateHelperFiles();
     } else {
       // Catch all to ensure we don't accidently do nothing
       throw new RuntimeException("No valid CodeGenerator for JJTree : " + JJTreeOptions.getCodeGenerator());

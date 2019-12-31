@@ -283,7 +283,7 @@ public class JJTreeOptions extends Options {
      * Compute where are located the ASTNodes is any are defined
      * @return the requested NODE_DIRECTORY directory
      */
-    public static File getASTNodesDirectory() {
+    public static File getASTNodeDirectory() {
         final String dirName = stringValue("NODE_DIRECTORY");
         File dir = null;
 
