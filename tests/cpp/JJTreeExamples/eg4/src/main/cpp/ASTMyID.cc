@@ -7,7 +7,7 @@
 
 #include "ASTMyID.h"
 
-namespace EG3 {
+namespace EG4 {
 
 ASTMyID::ASTMyID(int i) : SimpleNode(i) {
 }

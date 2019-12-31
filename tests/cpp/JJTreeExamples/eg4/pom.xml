@@ -43,6 +43,7 @@
 							<codeGenerator>C++</codeGenerator>
 							<sourceDirectory>../../../examples/JJTreeExamples/cpp/eg4</sourceDirectory>
 							<outputDirectory>target/generated-sources/cpp</outputDirectory>
+							<nodeDirectory>src/main/cpp</nodeDirectory>
 						</configuration>
 					</execution>
 				</executions>

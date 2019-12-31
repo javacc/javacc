@@ -9,7 +9,7 @@
 #define ASTMYID_H_
 #include "ParserTree.h"
 
-namespace EG3 {
+namespace EG4 {
 
 class ASTMyID : public SimpleNode {
 private:
