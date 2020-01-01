@@ -66,7 +66,7 @@ TOKEN : /* LITERALS */
 /** Compilation unit. */
 void CompilationUnit() :
 {
-   String name;
+   std::string name;
 }
 {
    (
@@ -219,7 +219,7 @@ void UnaryExpression() #void :
 /** Primary expression. */
 void PrimaryExpression() #void :
 {
-   String name;
+   std::string name;
 }
 {
   Literal()
@@ -333,7 +333,7 @@ void WhileStatement() :
 
 /** An IO statement. */
 void IOStatement() #void :
-{ String name; }
+{ std::string name; }
 {
    ReadStatement()
  |

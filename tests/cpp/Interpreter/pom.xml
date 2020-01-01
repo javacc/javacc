@@ -8,52 +8,9 @@
 	</parent>
 	<groupId>org.javacc.tests.cpp</groupId>
 	<artifactId>Interpreter</artifactId>
-	<packaging>exe</packaging>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>javacc-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>jcc</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>jjtree-javacc</goal>
-						</goals>
-						<configuration>
-							<codeGenerator>C++</codeGenerator>
-							<sourceDirectory>../../examples/Interpreter</sourceDirectory>
-							<outputDirectory>target/generated-sources/cpp</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>native-maven-plugin</artifactId>
-				<extensions>true</extensions>
-				<executions>
-					<execution>
-						<id>default-compile</id>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<compilerProvider>msvc</compilerProvider>
-							<envFactoryName>org.codehaus.mojo.natives.msvc.Community2017x86EnvFactory</envFactoryName>
-							<sources>
-								<source>
-									<directory>target/generated-sources/cpp</directory>
-									<includes>
-										<include>**/*.cc</include>
-									</includes>
-								</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+	<packaging>pom</packaging>
+	<modules>
+		<module>AST</module>
+		<module>VST</module>
+	</modules>
 </project>
