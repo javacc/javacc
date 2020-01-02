@@ -40,7 +40,6 @@
 						</goals>
 						<configuration>
 							<codeGenerator>C++</codeGenerator>
-							<sourceDirectory>../../../examples/JJTreeExamples/cpp/eg2</sourceDirectory>
 							<outputDirectory>target/generated-sources/cpp</outputDirectory>
 							<nodeDirectory>src/main/cpp</nodeDirectory>
 						</configuration>

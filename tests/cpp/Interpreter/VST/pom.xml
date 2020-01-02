@@ -24,7 +24,6 @@
 						</goals>
 						<configuration>
 							<codeGenerator>C++</codeGenerator>
-							<sourceDirectory>../../../examples/Interpreter/cpp/VST</sourceDirectory>
 							<outputDirectory>target/generated-sources/cpp</outputDirectory>
 							<nodeDirectory>scr/main/cpp</nodeDirectory>
 						</configuration>

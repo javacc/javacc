@@ -22,8 +22,8 @@
 						</goals>
 						<configuration>
 							<codeGenerator>C++</codeGenerator>
-							<sourceDirectory>../../../examples/Interpreter/cpp/AST</sourceDirectory>
 							<outputDirectory>target/generated-sources/cpp</outputDirectory>
+							<nodeDirectory>src/main/cpp</nodeDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -44,6 +44,18 @@
 							<sources>
 								<source>
 									<directory>target/generated-sources/cpp</directory>
+									<includes>
+										<include>**/*.cc</include>
+									</includes>
+								</source>
+								<source>
+									<directory>target/generated-sources/jjtree</directory>
+									<includes>
+										<include>**/*.cc</include>
+									</includes>
+								</source>
+								<source>
+									<directory>src/main/cpp</directory>
 									<includes>
 										<include>**/*.cc</include>
 									</includes>
