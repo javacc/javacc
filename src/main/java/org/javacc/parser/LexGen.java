@@ -599,7 +599,7 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
         gen = codeGenClazz.newInstance();
       } catch(Exception ee) {
         JavaCCErrors.semantic_error(
-            "Cound not load the token manager code generator class: " +
+            "Could not load the token manager code generator class: " +
             codeGeneratorClass + "\nError: " + ee.getMessage());
         return;
       }

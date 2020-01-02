@@ -661,7 +661,7 @@ public class NfaState
       if (epsilonMoves.size() > 0)
       {
          for (i = 0; i < epsilonMoves.size(); i++)
-            // Since we are doing a closure, just epsilon moves are unncessary
+            // Since we are doing a closure, just epsilon moves are unnecessary
             if (((NfaState)epsilonMoves.get(i)).HasTransitions())
                usefulEpsilonMoves++;
             else
@@ -765,7 +765,7 @@ public class NfaState
       }
 
 
-      // For ranges, iterate thru the table to see if the current char
+      // For ranges, iterate through the table to see if the current char
       // is in some range
       if (rangeMoves != null && rangeMoves[0] != 0)
          for (i = 0; i < rangeMoves.length; i += 2)

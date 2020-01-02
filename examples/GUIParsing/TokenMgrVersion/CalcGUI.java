@@ -80,7 +80,7 @@ public class CalcGUI extends Frame implements CalcInputParserConstants {
   static boolean firstDigit = true;
 
   /**
-   * Indicates an error has occured
+   * Indicates an error has occuered
    */
   static boolean error = false;
 

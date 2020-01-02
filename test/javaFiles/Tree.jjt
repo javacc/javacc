@@ -36,7 +36,7 @@ public class Tree {
   public static void main(String args[]) throws Exception {
     Tree t = new Tree(System.in);
     t.CompilationUnit();
-    System.out.println("Parser ran sucessfully");
+    System.out.println("Parser ran successfully");
   }
 
 }

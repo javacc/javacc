@@ -734,11 +734,11 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     switchToIncludeFile();
     genCodeLine("");
     genCodeLine("public:");
-    genCodeLine("    int curLexState;");
-    genCodeLine("    int jjnewStateCnt;");
-    genCodeLine("    int jjround;");
-    genCodeLine("    int jjmatchedPos;");
-    genCodeLine("    int jjmatchedKind;");
+    genCodeLine("    int curLexState = 0;");
+    genCodeLine("    int jjnewStateCnt = 0;");
+    genCodeLine("    int jjround = 0;");
+    genCodeLine("    int jjmatchedPos = 0;");
+    genCodeLine("    int jjmatchedKind = 0;");
     genCodeLine("");
     switchToMainFile();
     genCodeLine("const int defaultLexState = " + defaultLexState + ";");

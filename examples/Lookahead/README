@@ -505,7 +505,7 @@ use a single token of LOOKAHEAD:
 	  produce an error message
 	}
 
-Similarily, Example5.jj can be modified as shown below (file
+Similarly, Example5.jj can be modified as shown below (file
 Example9.jj):
 
 	void identifier_list() :
@@ -608,9 +608,9 @@ Similarly, InterfaceDeclaration can start with any number of
 What if the next tokens in the input stream are a very large number of
 "abstract"s (say 100 of them) followed by "interface"?  It is clear
 that a fixed amount of LOOKAHEAD (such as LOOKAHEAD(100) for example)
-will not suffice.  One can argue that this is such a wierd situation
+will not suffice.  One can argue that this is such a weird situation
 that it does not warrant any reasonable error message and that it is
-okay to make the wrong choice in some pathalogical situations.  But
+okay to make the wrong choice in some pathological situations.  But
 suppose one wanted to be precise about this.
 
 The solution here is to set the LOOKAHEAD to infinity - that is set no
@@ -725,7 +725,7 @@ Let us go back to Example1.jj:
 Let us suppose that there is a good reason for writing a grammar this
 way (maybe the way actions are embedded).  As noted earlier, this
 grammar recognizes two string "abc" and "abcc".  The problem here is
-that the default LL(1) algorithm will choose the [ "c" ] everytime
+that the default LL(1) algorithm will choose the [ "c" ] every time
 it sees a "c" and therefore "abc" will never be matched.  We need to
 specify that this choice must be made only when the next token is a
 "c", and the token following that is not a "c".  This is a negative

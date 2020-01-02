@@ -248,7 +248,7 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
       // We found a match. So remember the kind and position of the match.
       jjmatchedKind = kind;
       jjmatchedPos = curPos;
-      // Reset the kind to max value so we can contine looking for a longer
+      // Reset the kind to max value so we can continue looking for a longer
       // match.
       kind = Integer.MAX_VALUE;
     }
@@ -279,19 +279,19 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
   } while (cnt > 0);
 
   assert(false) :
-      "Interal error. Please submit a bug at: http://javacc.java.net.";
+      "Internal error. Please submit a bug at: http://javacc.java.net.";
   return curPos;
 }
 
 private ${STATIC?static :} int defaultLexState = ${defaultLexState};
 private ${STATIC?static :} int curLexState = ${defaultLexState};
-private ${STATIC?static :} int jjmatchedPos;
-private ${STATIC?static :} int jjmatchedKind;
+private ${STATIC?static :} int jjmatchedPos = 0;
+private ${STATIC?static :} int jjmatchedKind = 0;
 private ${STATIC?static :}final StringBuilder jjimage = new StringBuilder();
 private ${STATIC?static :}StringBuilder image = jjimage;
-private ${STATIC?static :}int jjimageLen;
-private ${STATIC?static :}int lengthOfMatch;
-protected ${STATIC?static :}int curChar;
+private ${STATIC?static :}int jjimageLen = 0;
+private ${STATIC?static :}int lengthOfMatch = 0;
+protected ${STATIC?static :}int curChar = 0;
 protected ${STATIC?static :} ${charStreamName} input_stream;
 
 public static final boolean isToken(int kind) {
@@ -399,7 +399,7 @@ public ${STATIC?static :} Token getNextToken() {
                        input_stream.getBeginColumn());
 #fi
 
-    // Set matched kind to a MAX VALUE to implement largest, first occuring rule
+    // Set matched kind to a MAX VALUE to implement largest, first occurring rule
     // i.e., smallest kind value matched should be used.
     image = jjimage;
     image.setLength(0);

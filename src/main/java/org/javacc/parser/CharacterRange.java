@@ -54,7 +54,7 @@ public class CharacterRange {
   {
      if (l > r)
         JavaCCErrors.semantic_error(this, "Invalid range : \"" + (int)l + "\" - \""
-              + (int)r + "\". First character shoud be less than or equal to the second one in a range.");
+              + (int)r + "\". First character should be less than or equal to the second one in a range.");
 
      setLeft(l);
      setRight(r);

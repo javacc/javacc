@@ -39,7 +39,7 @@ public class Parser {
   public static void main(String args[]) throws Exception {
     Parser t = new Parser(System.in);
     t.CompilationUnit();
-    System.out.println("Parser ran sucessfully");
+    System.out.println("Parser ran successfully");
   }
 }
 
