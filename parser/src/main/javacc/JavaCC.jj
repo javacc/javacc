@@ -600,11 +600,11 @@ void javacc_input() :
 	  parser_class_name = id1;
 
           if (!isJavaLanguage()) {
-      JavaCCGlobals.otherLanguageDeclTokenBeg = getToken(1);
-      while(getToken(1).kind != _PARSER_END) {
-        getNextToken();
-      }
-      JavaCCGlobals.otherLanguageDeclTokenEnd = getToken(1);
+            JavaCCGlobals.otherLanguageDeclTokenBeg = getToken(1);
+            while(getToken(1).kind != _PARSER_END) {
+              getNextToken();
+            }
+            JavaCCGlobals.otherLanguageDeclTokenEnd = getToken(1);
           }
 	}
     CompilationUnit()
@@ -937,9 +937,9 @@ void token_manager_decls() :
   t="TOKEN_MGR_DECLS" ":"
   {
     if (!isJavaLanguage()) {
-    getNextToken(); // eat {
-    eatUptoCloseBrace(decls);
-    getNextToken(); // eat }
+      getNextToken(); // eat {
+      eatUptoCloseBrace(decls);
+      getNextToken(); // eat }
     }
   }
 
@@ -1139,12 +1139,12 @@ Lookahead local_lookahead() :
     "{"
         {
           if (!isJavaLanguage()) {
-          int b = 0;
-          while(getToken(1).kind != RBRACE || --b > 0) {
-            t = getNextToken();
-            la.getActionTokens().add(t);
-            if (t.kind == LBRACE) b++;
-          }
+            int b = 0;
+            while(getToken(1).kind != RBRACE || --b > 0) {
+              t = getNextToken();
+              la.getActionTokens().add(t);
+              if (t.kind == LBRACE) b++;
+            }
           }
         }
 

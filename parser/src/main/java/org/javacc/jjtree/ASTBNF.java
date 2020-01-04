@@ -44,7 +44,6 @@ public class ASTBNF extends ASTProduction{
     return super.toString() + ": " + name;
   }
 
-
   /** Accept the visitor. **/
   @Override
   public Object jjtAccept(JJTreeParserVisitor visitor, Object data) {
