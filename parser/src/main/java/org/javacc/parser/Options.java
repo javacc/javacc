@@ -138,7 +138,7 @@ public class Options {
   public static final String JAVA_TEMPLATE_TYPE_CLASSIC = "classic";
 
 
-  static final Set<OptionInfo> userOptions;
+  private static final Set<OptionInfo> userOptions;
 
 
   static {
@@ -681,6 +681,17 @@ public class Options {
    */
   public static boolean getUserCharStream() {
     return booleanValue(USEROPTION__USER_CHAR_STREAM);
+  }
+
+  /**
+   * Find the name of the char-stream
+   */
+  public static String getCharStreamName() {
+    if (Options.getUserCharStream()) {
+      return "CharStream";
+    } else {
+      return Options.getJavaUnicodeEscape() ? "JavaCharStream" : "SimpleCharStream";
+    }
   }
 
   /**

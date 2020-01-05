@@ -35,6 +35,7 @@ public final class ExpansionTest extends TestCase {
     private Token t;
     private Expansion e;
 
+    @Override
     public void setUp() {
         t = new Token();
         t.beginColumn = 2;

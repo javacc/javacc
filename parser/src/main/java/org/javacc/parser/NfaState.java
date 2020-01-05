@@ -53,7 +53,6 @@ public class NfaState
    private static int dummyStateIndex = -1;
    private static boolean done;
    private static boolean mark[];
-   private static boolean stateDone[];
 
    private static List<NfaState> allStates = new ArrayList<NfaState>();
    private static List<NfaState> indexedAllStates = new ArrayList<NfaState>();
@@ -71,7 +70,6 @@ public class NfaState
       dummyStateIndex = -1;
       done = false;
       mark = null;
-      stateDone = null;
 
       allStates.clear();
       indexedAllStates.clear();
@@ -708,29 +706,6 @@ public class NfaState
       return epsilonMovesString;
    }
 
-   public static boolean CanStartNfaUsingAscii(char c)
-   {
-      if (c >= 128)
-         throw new Error("JavaCC Bug: Please send mail to sankar@cs.stanford.edu");
-
-      String s = Main.lg.initialState.GetEpsilonMovesString();
-
-      if (s == null || s.equals("null;"))
-         return false;
-
-      int[] states = allNextStates.get(s);
-
-      for (int i = 0; i < states.length; i++)
-      {
-         NfaState tmp = indexedAllStates.get(states[i]);
-
-         if ((tmp.asciiMoves[c / 64 ] & (1L << c % 64)) != 0L)
-            return true;
-      }
-
-      return false;
-   }
-
    final boolean CanMoveUsingChar(char c)
    {
       int i;
@@ -765,24 +740,6 @@ public class NfaState
 
       //return (nextForNegatedList != null);
       return false;
-   }
-
-   public int getFirstValidPos(String s, int i, int len)
-   {
-      if (onlyChar == 1)
-      {
-         char c = matchSingleChar;
-         while (c != s.charAt(i) && ++i < len);
-         return i;
-      }
-
-      do
-      {
-         if (CanMoveUsingChar(s.charAt(i)))
-            return i;
-      } while (++i < len);
-
-      return i;
    }
 
    public int MoveFrom(char c, List<NfaState> newStates)
@@ -827,11 +784,6 @@ public class NfaState
                     "0xffffffffffffffffL, " +
                     "0xffffffffffffffffL, " +
                     "0xffffffffffffffffL\n};";
-
-   static boolean AllBitsSet(String bitVec)
-   {
-      return bitVec.equals(allBits);
-   }
 
    static int AddStartStateSet(String stateSetString)
    {
@@ -938,20 +890,6 @@ public class NfaState
       return tmp;
    }
 
-   private static int StateNameForComposite(String stateSetString)
-   {
-      return stateNameForComposite.get(stateSetString).intValue();
-   }
-
-   static int InitStateName()
-   {
-      String s = Main.lg.initialState.GetEpsilonMovesString();
-
-      if (Main.lg.initialState.usefulEpsilonMoves != 0)
-         return StateNameForComposite(s);
-      return -1;
-   }
-
    public int GenerateInitMoves()
    {
       GetEpsilonMovesString();
@@ -966,22 +904,6 @@ public class NfaState
    static List<int[]> orderedStateSet = new ArrayList<>();
 
    static int lastIndex = 0;
-
-   static String GetStateSetString(int[] states)
-   {
-      String retVal = "{ ";
-      for (int i = 0; i < states.length; )
-      {
-         retVal += states[i] + ", ";
-
-         if (i++ > 0 && i % 16 == 0)
-            retVal += "\n";
-      }
-
-      retVal += "};";
-      allNextStates.put(retVal, states);
-      return retVal;
-   }
 
    static String GetStateSetString(List<NfaState> states)
    {
@@ -1003,30 +925,6 @@ public class NfaState
       retVal += "};";
       allNextStates.put(retVal, set);
       return retVal;
-   }
-
-   static int NumberOfBitsSet(long l)
-   {
-      int ret = 0;
-      for (int i = 0; i < 63; i++)
-         if (((l >> i) & 1L) != 0L)
-            ret++;
-
-      return ret;
-   }
-
-   static int OnlyOneBitSet(long l)
-   {
-      int oneSeen = -1;
-      for (int i = 0; i < 64; i++)
-         if (((l >> i) & 1L) != 0L)
-         {
-            if (oneSeen >= 0)
-               return -1;
-            oneSeen = i;
-         }
-
-      return oneSeen;
    }
 
    private static int ElemOccurs(int elem, int[] arr)
@@ -1071,7 +969,6 @@ public class NfaState
       dummyStateIndex = -1;
       done = false;
       mark = null;
-      stateDone = null;
       allStates = new ArrayList<>();
       indexedAllStates = new ArrayList<>();
       equivStatesTable = new Hashtable<>();

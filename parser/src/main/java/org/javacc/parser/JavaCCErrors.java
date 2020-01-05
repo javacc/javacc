@@ -64,12 +64,6 @@ public final class JavaCCErrors {
     parse_error_count++;
   }
 
-  public static void parse_error(String mess) {
-    System.err.print("Error: ");
-    System.err.println(mess);
-    parse_error_count++;
-  }
-
   public static int get_parse_error_count() {
     return parse_error_count;
   }

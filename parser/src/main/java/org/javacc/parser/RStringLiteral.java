@@ -48,26 +48,6 @@ final class KindInfo
    int    finalKindCnt = 0;
    Set<Integer> finalKindSet = new HashSet<Integer>();
    Set<Integer> validKindSet = new HashSet<Integer>();
-
-   KindInfo(int maxKind)
-   {
-      validKinds = new long[maxKind / 64 + 1];
-      finalKinds = new long[maxKind / 64 + 1];
-   }
-
-   public void InsertValidKind(int kind)
-   {
-      validKinds[kind / 64] |= (1L << (kind % 64));
-      validKindCnt++;
-      validKindSet.add(kind);
-   }
-
-   public void InsertFinalKind(int kind)
-   {
-      finalKinds[kind / 64] |= (1L << (kind % 64));
-      finalKindCnt++;
-      finalKindSet.add(kind);
-   }
 };
 
 /**
@@ -84,25 +64,25 @@ public class RStringLiteral extends RegularExpression {
   public RStringLiteral() {
   }
 
-  public RStringLiteral(Token t, String image) {
-    this.setLine(t.beginLine);
-    this.setColumn(t.beginColumn);
+  public RStringLiteral(Token token, String image) {
     this.image = image;
+    this.setLine(token.beginLine);
+    this.setColumn(token.beginColumn);
   }
 
   private static int maxStrKind = 0;
   private static int maxLen = 0;
-  private static int charCnt = 0;
-  private static List<Hashtable<String, KindInfo>> charPosKind = new ArrayList<>(); // Elements are hashtables
-                                                     // with single char keys;
+
   private static int[] maxLenForActive = new int[100]; // 6400 tokens
-  public static String[] allImages;
   private static int[][] intermediateKinds;
   private static int[][] intermediateMatchedPos;
 
   private static boolean subString[];
   private static boolean subStringAtPos[];
-  public static Hashtable<String, long[]>[] statesForPos;
+  private static Hashtable<String, long[]>[] statesForPos;
+  
+
+  public static String[] allImages;
 
   /**
    * Initialize all the static variables, so that there is no interference
@@ -114,7 +94,6 @@ public class RStringLiteral extends RegularExpression {
   {
     maxStrKind = 0;
     maxLen = 0;
-    charPosKind = new ArrayList<>();
     maxLenForActive = new int[100]; // 6400 tokens
     intermediateKinds = null;
     intermediateMatchedPos = null;
@@ -128,9 +107,6 @@ public class RStringLiteral extends RegularExpression {
    */
   public void GenerateDfa(int kind)
   {
-     String s;
-     Hashtable<String, KindInfo> temp;
-     KindInfo info;
      int len;
 
      if (maxStrKind <= ordinal)
@@ -139,78 +115,7 @@ public class RStringLiteral extends RegularExpression {
      if ((len = image.length()) > maxLen)
         maxLen = len;
 
-//     char c;
-//     for (int i = 0; i < len; i++)
-//     {
-//        if (Options.getIgnoreCase())
-//           s = ("" + (c = image.charAt(i))).toLowerCase();
-//        else
-//           s = "" + (c = image.charAt(i));
-//
-//        if (!NfaState.unicodeWarningGiven && c > 0xff &&
-//            !Options.getJavaUnicodeEscape() &&
-//            !Options.getUserCharStream())
-//        {
-//           NfaState.unicodeWarningGiven = true;
-//           JavaCCErrors.warning(Main.lg.curRE, "Non-ASCII characters used in regular expression." +
-//              "Please make sure you use the correct Reader when you create the parser, " +
-//              "one that can handle your character set.");
-//        }
-//
-//        if (i >= charPosKind.size()) // Kludge, but OK
-//           charPosKind.add(temp = new Hashtable<>());
-//        else
-//           temp = charPosKind.get(i);
-//
-//        if ((info = temp.get(s)) == null)
-//           temp.put(s, info = new KindInfo(Main.lg.maxOrdinal));
-//
-//        if (i + 1 == len)
-//           info.InsertFinalKind(ordinal);
-//        else
-//           info.InsertValidKind(ordinal);
-//
-//        if (!Options.getIgnoreCase() && Main.lg.ignoreCase[ordinal] &&
-//            c != Character.toLowerCase(c))
-//        {
-//           s = ("" + image.charAt(i)).toLowerCase();
-//
-//           if (i >= charPosKind.size()) // Kludge, but OK
-//              charPosKind.add(temp = new Hashtable<>());
-//           else
-//              temp = charPosKind.get(i);
-//
-//           if ((info = temp.get(s)) == null)
-//              temp.put(s, info = new KindInfo(Main.lg.maxOrdinal));
-//
-//           if (i + 1 == len)
-//              info.InsertFinalKind(ordinal);
-//           else
-//              info.InsertValidKind(ordinal);
-//        }
-//
-//        if (!Options.getIgnoreCase() && Main.lg.ignoreCase[ordinal] &&
-//            c != Character.toUpperCase(c))
-//        {
-//           s = ("" + image.charAt(i)).toUpperCase();
-//
-//           if (i >= charPosKind.size()) // Kludge, but OK
-//              charPosKind.add(temp = new Hashtable<>());
-//           else
-//              temp = charPosKind.get(i);
-//
-//           if ((info = temp.get(s)) == null)
-//              temp.put(s, info = new KindInfo(Main.lg.maxOrdinal));
-//
-//           if (i + 1 == len)
-//              info.InsertFinalKind(ordinal);
-//           else
-//              info.InsertValidKind(ordinal);
-//        }
-//     }
-
-     maxLenForActive[ordinal / 64] = Math.max(maxLenForActive[ordinal / 64],
-                                                                        len -1);
+     maxLenForActive[ordinal / 64] = Math.max(maxLenForActive[ordinal / 64], len -1);
      allImages[ordinal] = image;
   }
 
@@ -284,28 +189,6 @@ public class RStringLiteral extends RegularExpression {
      return -1;
   }
 
-  static String GetLabel(int kind)
-  {
-     RegularExpression re = Main.lg.rexprs[kind];
-
-     if (re instanceof RStringLiteral)
-       return " \"" + JavaCCGlobals.add_escapes(((RStringLiteral)re).image) + "\"";
-     else if (!re.label.equals(""))
-       return " <" + re.label + ">";
-     else
-       return " <token of kind " + kind + ">";
-  }
-
-  static int GetLine(int kind)
-  {
-     return Main.lg.rexprs[kind].getLine();
-  }
-
-  static int GetColumn(int kind)
-  {
-     return Main.lg.rexprs[kind].getColumn();
-  }
-
   /**
    * Returns true if s1 starts with s2 (ignoring case for each character).
    */
@@ -369,31 +252,6 @@ public class RStringLiteral extends RegularExpression {
            }
         }
      }
-  }
-
-  static String[] ReArrange(Hashtable<String, KindInfo> tab)
-  {
-     String[] ret = new String[tab.size()];
-     Enumeration<String> e = tab.keys();
-     int cnt = 0;
-
-     while (e.hasMoreElements())
-     {
-        int i = 0, j;
-        String s;
-        char c = (s = e.nextElement()).charAt(0);
-
-        while (i < cnt && ret[i].charAt(0) < c) i++;
-
-        if (i < cnt)
-           for (j = cnt - 1; j >= i; j--)
-             ret[j + 1] = ret[j];
-
-        ret[i] = s;
-        cnt++;
-     }
-
-     return ret;
   }
 
   static final int GetStrKind(String str)
@@ -520,7 +378,7 @@ public class RStringLiteral extends RegularExpression {
            (newStates = jjtmpStates).clear();
 
            if (statesForPos[j] == null)
-              statesForPos[j] = new Hashtable();
+              statesForPos[j] = new Hashtable<>();
 
            if ((actives = (statesForPos[j].get(kind + ", " +
                                     jjmatchedPos + ", " + stateSetString))) == null)
@@ -543,7 +401,6 @@ public class RStringLiteral extends RegularExpression {
   {
     ReInit();
 
-    charCnt = 0;
     allImages = null;
   }
 

@@ -50,14 +50,6 @@ public class JJDocGlobals extends JavaCCGlobals {
   public static Generator generator;
 
   /**
-   * @param generator
-   *        The generator to set.
-   */
-  public static void setGenerator(Generator generator) {
-    JJDocGlobals.generator = generator;
-  }
-
-  /**
    * The commandline option is either TEXT or not, but the generator might
    * have been set to some other Generator using the setGenerator method.
    *
@@ -90,14 +82,6 @@ public class JJDocGlobals extends JavaCCGlobals {
       } 
     }
     return generator;
-  }
-
-  /**
-   * Log informational messages.
-   * @param message the message to log
-   */
-  public static void debug(String message) {
-    getGenerator().debug(message);
   }
 
   /**

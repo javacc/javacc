@@ -28,7 +28,6 @@
 
 package org.javacc.jjdoc;
 
-import java.util.Hashtable;
 import java.util.Iterator;
 
 import org.javacc.parser.CppCodeProduction;
@@ -44,15 +43,7 @@ import org.javacc.parser.TokenProduction;
  * Output BNF in HTML 3.2 format.
  */
 public class XTextGenerator extends TextGenerator implements Generator {
-  private Hashtable<String, String> id_map = new Hashtable<>();
-  private int id = 1;
-
-  static final String sep = "\n";
-  
-  public XTextGenerator() {
-    super();
-  }
-  
+ 
   @Override
   public void handleTokenProduction(TokenProduction tp) {
       
@@ -77,14 +68,7 @@ public class XTextGenerator extends TextGenerator implements Generator {
       //text(sb.toString());
   }
 
-  protected String get_id(String nt) {
-    String i = id_map.get(nt);
-    if (i == null) {
-      i = "prod" + id++;
-      id_map.put(nt, i);
-    }
-    return i;
-  }
+  
 
   private void println(String s) {
     print(s + "\n");

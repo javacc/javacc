@@ -126,5 +126,4 @@ public class TokenProduction {
   public int getColumn() {
     return column;
   }
-
 }

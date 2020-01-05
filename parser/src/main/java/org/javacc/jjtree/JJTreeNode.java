@@ -39,10 +39,6 @@ public class JJTreeNode extends SimpleNode {
     this(i);
   }
 
-  public static Node jjtCreate(int id) {
-    return new JJTreeNode(id);
-  }
-
   @Override
   public void jjtAddChild(Node n, int i) {
     super.jjtAddChild(n, i);

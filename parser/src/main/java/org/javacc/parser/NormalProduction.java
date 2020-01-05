@@ -105,7 +105,8 @@ public class NormalProduction extends Expansion {
 
   private Token firstToken;
 
-  protected String eol = System.getProperty("line.separator", "\n");
+  private String eol = System.getProperty("line.separator", "\n");
+
   @Override
   protected StringBuffer dumpPrefix(int indent) {
     StringBuffer sb = new StringBuffer(128);
@@ -132,13 +133,6 @@ public class NormalProduction extends Expansion {
     }
 
     return sb;
-  }
-
-  /**
-   * @param parents the parents to set
-   */
-  void setParents(List<Expansion> parents) {
-    this.parents = parents;
   }
 
   /**

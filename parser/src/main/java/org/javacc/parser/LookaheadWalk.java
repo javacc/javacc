@@ -155,7 +155,7 @@ public final class LookaheadWalk {
       List<MatchInfo> retval = new ArrayList<MatchInfo>();
 //    System.out.println("1; gen: " + generation + "; exp: " + exp);
       for (int i = 0; i < parents.size(); i++) {
-        List<MatchInfo> v = genFollowSet(partialMatches, (Expansion)parents.get(i), generation);
+        List<MatchInfo> v = genFollowSet(partialMatches, parents.get(i), generation);
         listAppend(retval, v);
       }
       return retval;

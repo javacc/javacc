@@ -57,22 +57,6 @@ public class Expansion {
   }
 
   /**
-   * An internal name for this expansion.  This is used to generate parser
-   * routines.
-   */
-  String internal_name = "";
-  int internal_index = -1;
-
-  /**
-   * The parser routines are generated in three phases.  The generation
-   * of the second and third phase are on demand only, and the third phase
-   * can be recursive.  This variable is used to keep track of the
-   * expansions for which phase 3 generations have been already added to
-   * a list so that the recursion can be terminated.
-   */
-  boolean phase3done = false;
-
-  /**
    * The parent of this expansion node.  In case this is the top level
    * expansion of the production it is a reference to the production node
    * otherwise it is a reference to another Expansion node.  In case this

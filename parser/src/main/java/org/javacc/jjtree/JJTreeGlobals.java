@@ -75,6 +75,11 @@ public class JJTreeGlobals
   }
 
   /**
+   * String that identifies the JavaCC generated files.
+   */
+  static public final String toolName = "JJTree";
+
+  /**
    * This set stores the JJTree-specific options that should not be
    * passed down to JavaCC
    */

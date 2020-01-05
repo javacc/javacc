@@ -283,8 +283,8 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
 
   static protected void makeTryBlock(
     Token tryLoc,
-    Container result,
-    Container nestedExp,
+    Container<TryBlock> result,
+    Container<Expansion> nestedExp,
     List<List<Token>> types,
     List<Token> ids,
     List<List<Token>> catchblks,
@@ -298,7 +298,7 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
     TryBlock tblk = new TryBlock();
     tblk.setLine(tryLoc.beginLine);
     tblk.setColumn(tryLoc.beginColumn);
-    tblk.exp = (Expansion)(nestedExp.member);
+    tblk.exp = nestedExp.member;
     tblk.exp.parent = tblk;
     tblk.exp.ordinal = 0;
     tblk.types = types;
