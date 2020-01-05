@@ -35,15 +35,15 @@ import java.util.List;
 
 public class Semanticize extends JavaCCGlobals {
 
-  static List<List<RegExprSpec>> removeList = new ArrayList<>();
-  static List<RegExprSpec> itemList = new ArrayList<>();
+  private static List<List<RegExprSpec>> removeList = new ArrayList<>();
+  private static List<RegExprSpec> itemList = new ArrayList<>();
 
-  static void prepareToRemove(List<RegExprSpec> vec, RegExprSpec item) {
+  private static void prepareToRemove(List<RegExprSpec> vec, RegExprSpec item) {
     removeList.add(vec);
     itemList.add(item);
   }
 
-  static void removePreparedItems() {
+  private static void removePreparedItems() {
     for (int i = 0; i < removeList.size(); i++) {
       List<RegExprSpec> list = removeList.get(i);
       list.remove(itemList.get(i));

@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -360,12 +359,10 @@ public class JavaCCGlobals {
       }
     }
     
-    try
-    {
+    try {
       codeGenerator = ((Class<CodeGenerator>)Class.forName(name)).newInstance();
     }
-    catch(Exception e)
-    {
+    catch(Exception e) {
       JavaCCErrors.semantic_error("Could not load the CodeGenerator class: \"" + name + "\"");
     }
 
@@ -470,30 +467,9 @@ public class JavaCCGlobals {
     printTokenOnly(t, ostr, escape);
   }
 
-  static protected void printTokenList(List<Token> list, java.io.PrintWriter ostr, boolean escape) {
-    Token t = null;
-    for (Iterator<Token> it = list.iterator(); it.hasNext();) {
-      t = it.next();
-      printToken(t, ostr, escape);
-    }
-    
-    if (t != null)
-      printTrailingComments(t, ostr, escape);
-  }
+  
 
-  static protected void printLeadingComments(Token t, java.io.PrintWriter ostr, boolean escape) {
-    if (t.specialToken == null) return;
-    Token tt = t.specialToken;
-    while (tt.specialToken != null) tt = tt.specialToken;
-    while (tt != null) {
-      printTokenOnly(tt, ostr, escape);
-      tt = tt.next;
-    }
-    if (ccol != 1 && cline != t.beginLine) {
-      ostr.println("");
-      cline++; ccol = 1;
-    }
-  }
+  
 
   static protected void printTrailingComments(Token t, java.io.PrintWriter ostr, boolean escape) {
     if (t.next == null) return;
@@ -522,19 +498,7 @@ public class JavaCCGlobals {
     return retval;
   }
 
-  static protected String printToken(Token t, boolean escape) {
-    String retval = "";
-    Token tt = t.specialToken;
-    if (tt != null) {
-      while (tt.specialToken != null) tt = tt.specialToken;
-      while (tt != null) {
-        retval += printTokenOnly(tt, escape);
-        tt = tt.next;
-      }
-    }
-    retval += printTokenOnly(t, escape);
-    return retval;
-  }
+  
 
   static protected String printLeadingComments(Token t, boolean escape) {
     String retval = "";
@@ -552,10 +516,7 @@ public class JavaCCGlobals {
     return retval;
   }
 
-  static protected String printTrailingComments(Token t, boolean escape) {
-    if (t.next == null) return "";
-    return printLeadingComments(t.next, escape);
-  }
+  
 
    public static void reInit()
    {

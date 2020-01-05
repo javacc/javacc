@@ -74,14 +74,6 @@ public class Token {
    */
   public Token() {}
 
-//  /**
-//   * Constructs a new token for the specified Image.
-//   */
-//  public Token(int kind)
-//  {
-//    this(kind, null);
-//  }
-//
   /**
    * Constructs a new token for the specified Image and Kind.
    */
@@ -146,21 +138,15 @@ public class Token {
     }
   }
 
-  public static final Token newToken(int ofKind)
-  {
-    return newToken(ofKind, null);
-  }
-
   /**
    * Greater than Token.
    */
-  public static class GTToken extends Token
-  {
-    public GTToken(int kind, String image)
-    {
-      super(kind, image);
-    }
+  public static class GTToken extends Token {
 
     int realKind = JavaCCParserConstants.GT;
+
+    public GTToken(int kind, String image) {
+      super(kind, image);
+    }
   }
 }

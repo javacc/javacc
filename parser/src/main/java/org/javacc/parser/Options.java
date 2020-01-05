@@ -138,7 +138,7 @@ public class Options {
   public static final String JAVA_TEMPLATE_TYPE_CLASSIC = "classic";
 
 
-  static final Set<OptionInfo> userOptions;
+  private static final Set<OptionInfo> userOptions;
 
 
   static {

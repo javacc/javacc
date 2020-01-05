@@ -75,14 +75,6 @@ public class Token {
   public Token() {}
 
   /**
-   * Constructs a new token for the specified Image.
-   */
-  public Token(int kind)
-  {
-    this(kind, null);
-  }
-
-  /**
    * Constructs a new token for the specified Image and Kind.
    */
   public Token(int kind, String image)
@@ -122,11 +114,6 @@ public class Token {
     case JJTreeParserConstants.GT:
       return new GTToken(ofKind, image);
     }
-  }
-
-  public static final Token newToken(int ofKind)
-  {
-    return newToken(ofKind, null);
   }
 
   /**

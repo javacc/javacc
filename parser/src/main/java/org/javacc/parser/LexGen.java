@@ -51,48 +51,39 @@ public class LexGen implements JavaCCParserConstants
   public static String tokMgrClassName;
 
   // Hashtable of vectors
-  public static Hashtable<String, List<TokenProduction>> allTpsForState = new Hashtable<>();
-  public static int lexStateIndex = 0;
-  public static int[] kinds;
-  public static int maxOrdinal = 1;
-  public static String lexStateSuffix;
-  public static String[] newLexState;
-  public static int[] lexStates;
-  public static boolean[] ignoreCase;
-  public static Action[] actions;
-  public static Hashtable<String, NfaState> initStates = new Hashtable<>();
-  public static int stateSetSize;
-  public static int totalNumStates;
-  public static int maxLexStates;
-  public static String[] lexStateName;
-  public static NfaState[] singlesToSkip;
-  public static long[] toSkip;
-  public static long[] toSpecial;
-  public static long[] toMore;
-  public static long[] toToken;
-  public static int defaultLexState;
-  public static RegularExpression[] rexprs;
-  public static int[] maxLongsReqd;
-  public static int[] initMatch;
-  public static int[] canMatchAnyChar;
-  public static boolean hasEmptyMatch;
-  public static boolean[] canLoop;
-  public static boolean[] stateHasActions;
-  public static boolean hasLoop = false;
-  public static boolean[] canReachOnMore;
-  public static boolean[] hasNfa;
-  public static boolean[] mixed;
-  public static NfaState initialState;
-  public static int curKind;
-  public static boolean hasSkipActions = false;
-  public static boolean hasMoreActions = false;
-  public static boolean hasTokenActions = false;
-  public static boolean hasSpecial = false;
-  public static boolean hasSkip = false;
-  public static boolean hasMore = false;
-  public static RegularExpression curRE;
-  public static boolean keepLineCol;
+  private static Hashtable<String, List<TokenProduction>> allTpsForState = new Hashtable<>();
 
+  private static int[] kinds;
+  private static int maxOrdinal = 1;
+  private static String[] newLexState;
+  private static Action[] actions;
+  private static Hashtable<String, NfaState> initStates = new Hashtable<>();
+  private static int stateSetSize;
+  private static int totalNumStates;
+  private static int maxLexStates;
+
+  private static NfaState[] singlesToSkip;
+  private static long[] toSkip;
+  private static long[] toSpecial;
+  private static long[] toMore;
+  private static long[] toToken;
+  private static int defaultLexState;
+  private static RegularExpression[] rexprs;
+  private static int[] initMatch;
+  private static boolean[] canLoop;
+  private static boolean[] canReachOnMore;
+  private static boolean[] hasNfa;
+  private static NfaState initialState;
+
+  static int lexStateIndex = 0;
+  static int curKind;
+  static RegularExpression curRE;
+  static int[] lexStates;
+  static int[] canMatchAnyChar;
+  static boolean[] ignoreCase;
+  static boolean[] mixed;
+
+  public static String[] lexStateName;
   public static TokenizerData tokenizerData;
   public static boolean generateDataOnly;
 
@@ -137,11 +128,9 @@ public class LexGen implements JavaCCParserConstants
     toToken[0] = 1L;
     actions = new Action[maxOrdinal];
     actions[0] = actForEof;
-    hasTokenActions = actForEof != null;
     initStates = new Hashtable<>();
     canMatchAnyChar = new int[maxLexStates];
     canLoop = new boolean[maxLexStates];
-    stateHasActions = new boolean[maxLexStates];
     lexStateName = new String[maxLexStates];
     singlesToSkip = new NfaState[maxLexStates];
     //System.arraycopy(tmpLexStateName, 0, lexStateName, 0, maxLexStates);
@@ -155,11 +144,9 @@ public class LexGen implements JavaCCParserConstants
 
     hasNfa = new boolean[maxLexStates];
     mixed = new boolean[maxLexStates];
-    maxLongsReqd = new int[maxLexStates];
     initMatch = new int[maxLexStates];
     newLexState = new String[maxOrdinal];
     newLexState[0] = nextStateForEof;
-    hasEmptyMatch = false;
     lexStates = new int[maxOrdinal];
     ignoreCase = new boolean[maxOrdinal];
     rexprs = new RegularExpression[maxOrdinal];
@@ -176,12 +163,6 @@ public class LexGen implements JavaCCParserConstants
     throw new Error(); // Should never come here
   }
 
-  public static void AddCharToSkip(char c, int kind)
-  {
-    singlesToSkip[lexStateIndex].AddChar(c);
-    singlesToSkip[lexStateIndex].kind = kind;
-  }
-
   public void start() throws IOException
   {
     if (!Options.getBuildTokenManager() ||
@@ -190,7 +171,6 @@ public class LexGen implements JavaCCParserConstants
       return;
 
     final CodeGenerator codeGenerator = getCodeGenerator();
-    keepLineCol = Options.getKeepLineColumn();
     List<RegularExpression> choices = new ArrayList<>();
     TokenProduction tp;
     int i, j;
@@ -213,7 +193,6 @@ public class LexGen implements JavaCCParserConstants
       String key = lexStateName[k];
 
       lexStateIndex = GetIndex(key);
-      lexStateSuffix = "_" + lexStateIndex;
       List<TokenProduction> allTps = allTpsForState.get(key);
       initStates.put(key, initialState = new NfaState());
       ignoring = false;
@@ -298,20 +277,13 @@ public class LexGen implements JavaCCParserConstants
           switch(kind)
           {
           case TokenProduction.SPECIAL :
-            hasSkipActions |= (actions[curRE.ordinal] != null) ||
-            (newLexState[curRE.ordinal] != null);
-            hasSpecial = true;
             toSpecial[curRE.ordinal / 64] |= 1L << (curRE.ordinal % 64);
             toSkip[curRE.ordinal / 64] |= 1L << (curRE.ordinal % 64);
             break;
           case TokenProduction.SKIP :
-            hasSkipActions |= (actions[curRE.ordinal] != null);
-            hasSkip = true;
             toSkip[curRE.ordinal / 64] |= 1L << (curRE.ordinal % 64);
             break;
           case TokenProduction.MORE :
-            hasMoreActions |= (actions[curRE.ordinal] != null);
-            hasMore = true;
             toMore[curRE.ordinal / 64] |= 1L << (curRE.ordinal % 64);
 
             if (newLexState[curRE.ordinal] != null)
@@ -321,7 +293,6 @@ public class LexGen implements JavaCCParserConstants
 
             break;
           case TokenProduction.TOKEN :
-            hasTokenActions |= (actions[curRE.ordinal] != null);
             toToken[curRE.ordinal / 64] |= 1L << (curRE.ordinal % 64);
             break;
           }
@@ -342,19 +313,10 @@ public class LexGen implements JavaCCParserConstants
 
       if (initialState.kind != Integer.MAX_VALUE && initialState.kind != 0)
       {
-        if ((toSkip[initialState.kind / 64] & (1L << initialState.kind)) != 0L ||
-            (toSpecial[initialState.kind / 64] & (1L << initialState.kind)) != 0L)
-          hasSkipActions = true;
-        else if ((toMore[initialState.kind / 64] & (1L << initialState.kind)) != 0L)
-          hasMoreActions = true;
-        else
-          hasTokenActions = true;
-
         if (initMatch[lexStateIndex] == 0 ||
             initMatch[lexStateIndex] > initialState.kind)
         {
           initMatch[lexStateIndex] = initialState.kind;
-          hasEmptyMatch = true;
         }
       }
       else if (initMatch[lexStateIndex] == 0)
@@ -487,7 +449,6 @@ public class LexGen implements JavaCCParserConstants
         for (k = 0; k < maxLexStates; k++)
           canLoop[k] |= seen[k];
 
-        hasLoop = true;
         if (len == 0)
           JavaCCErrors.warning(rexprs[initMatch[i]],
               "Regular expression" + ((rexprs[initMatch[i]].label.equals(""))
@@ -509,18 +470,7 @@ public class LexGen implements JavaCCParserConstants
       }
   }
 
-  // Assumes l != 0L
-  static char MaxChar(long l)
-  {
-    for (int i = 64; i-- > 0; )
-      if ((l & (1L << i)) != 0L)
-        return (char)i;
-
-    return 0xffff;
-  }
-
-  public static void reInit()
-  {
+  public static void reInit() {
     actions = null;
     allTpsForState = new Hashtable<>();
     canLoop = null;
@@ -529,33 +479,21 @@ public class LexGen implements JavaCCParserConstants
     curKind = 0;
     curRE = null;
     defaultLexState = 0;
-    hasEmptyMatch = false;
-    hasLoop = false;
-    hasMore = false;
-    hasMoreActions = false;
     hasNfa = null;
-    hasSkip = false;
-    hasSkipActions = false;
-    hasSpecial = false;
-    hasTokenActions = false;
     ignoreCase = null;
     initMatch = null;
     initStates = new Hashtable<>();
     initialState = null;
-    keepLineCol = false;
     kinds = null;
     lexStateIndex = 0;
     lexStateName = null;
-    lexStateSuffix = null;
     lexStates = null;
     maxLexStates = 0;
-    maxLongsReqd = null;
     maxOrdinal = 1;
     mixed = null;
     newLexState = null;
     rexprs = null;
     singlesToSkip = null;
-    stateHasActions = null;
     stateSetSize = 0;
     staticString = null;
     toMore = null;
@@ -566,5 +504,4 @@ public class LexGen implements JavaCCParserConstants
     tokenizerData = new TokenizerData();
     generateDataOnly = false;
   }
-
 }

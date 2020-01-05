@@ -3,6 +3,7 @@
 
 package org.javacc.utils;
 
+import org.javacc.jjtree.TokenUtils;
 import org.javacc.parser.CodeGeneratorSettings;
 import org.javacc.parser.JavaCCErrors;
 import org.javacc.parser.JavaCCParserConstants;
@@ -176,8 +177,8 @@ public class CodeGenBuilder {
     return retval;
   }
 
-  protected String escapeToUnicode(String text) {
-    return CodeGenBuilder.escapeUnicode(text);
+  public String escapeToUnicode(String text) {
+    return TokenUtils.addUnicodeEscapes(text);
   }
 
   public final void printToken(Token t) {
@@ -225,27 +226,6 @@ public class CodeGenBuilder {
    */
   public static boolean isHexDigit(char c) {
     return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
-  }
-
-  /**
-   * Escape the unicode characters.
-   *
-   * @param text
-   */
-  public static String escapeUnicode(String text) {
-    String retval = "";
-    char ch;
-    for (int i = 0; i < text.length(); i++) {
-      ch = text.charAt(i);
-      if (ch < 0x20
-          || ch > 0x7e /* || ch == '\\' -- cba commented out 20140305 */ ) {
-        String s = "0000" + Integer.toString(ch, 16);
-        retval += "\\u" + s.substring(s.length() - 4, s.length());
-      } else {
-        retval += ch;
-      }
-    }
-    return retval;
   }
 
   /**

@@ -52,10 +52,6 @@ public final class TokenUtils
     io.print(addUnicodeEscapes(i));
   }
 
-  public static void print(Token t, IO io) {
-    print(t, io, null, null);
-  }
-
   public static String addUnicodeEscapes(String str) {
     StringBuffer buff = new StringBuffer(str.length());
     char ch;
