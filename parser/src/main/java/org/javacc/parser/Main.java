@@ -32,6 +32,7 @@ package org.javacc.parser;
 
 import java.util.Set;
 
+import org.javacc.utils.CodeGenBuilder;
 import org.javacc.utils.OptionInfo;
 import org.javacc.utils.OptionType;
 
@@ -302,7 +303,7 @@ private static ParserData createParserData() {
   if (JavaCCGlobals.otherLanguageDeclTokenBeg != null) {
     // int line = JavaCCGlobals.otherLanguageDeclTokenBeg.beginLine;
     for (Token t = JavaCCGlobals.otherLanguageDeclTokenBeg; t != JavaCCGlobals.otherLanguageDeclTokenEnd; t = t.next) {
-      decls.append(CodeGenHelper.getStringToPrint(t));
+      decls.append(CodeGenBuilder.toString(t));
     }
   }
   parserData.decls = decls.toString();

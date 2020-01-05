@@ -684,6 +684,17 @@ public class Options {
   }
 
   /**
+   * Find the name of the char-stream
+   */
+  public static String getCharStreamName() {
+    if (Options.getUserCharStream()) {
+      return "CharStream";
+    } else {
+      return Options.getJavaUnicodeEscape() ? "JavaCharStream" : "SimpleCharStream";
+    }
+  }
+
+  /**
    * Find the build parser value.
    *
    * @return The requested build parser value.
