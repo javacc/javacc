@@ -350,22 +350,16 @@ public class JavaCCGlobals {
 
     String name = Options.getCodeGenerator();
     if (name == null) return null;
-    
+
     ServiceLoader<CodeGenerator> serviceLoader = ServiceLoader.load(CodeGenerator.class);
     for (CodeGenerator generator : serviceLoader) {
-      if(generator.getName().equalsIgnoreCase(name)) {
+      if(generator.getClass().getName().equals(name) || generator.getName().equalsIgnoreCase(name)) {
         codeGenerator = generator;
         return codeGenerator;
       }
     }
     
-    try {
-      codeGenerator = ((Class<CodeGenerator>)Class.forName(name)).newInstance();
-    }
-    catch(Exception e) {
-      JavaCCErrors.semantic_error("Could not load the CodeGenerator class: \"" + name + "\"");
-    }
-
+    JavaCCErrors.semantic_error("Could not load the CodeGenerator class: \"" + name + "\"");
     return codeGenerator;
   }
 
