@@ -353,7 +353,7 @@ public class JavaCCGlobals {
 
     ServiceLoader<CodeGenerator> serviceLoader = ServiceLoader.load(CodeGenerator.class);
     for (CodeGenerator generator : serviceLoader) {
-      if(generator.getClass().getName().equals(name) || generator.getName().equalsIgnoreCase(name)) {
+      if(generator.getName().equalsIgnoreCase(name)) {
         codeGenerator = generator;
         return codeGenerator;
       }

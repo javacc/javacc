@@ -40,8 +40,6 @@ PARSER_BEGIN(JJTreeParser)
 
 package org.javacc.jjtree;
 
-import org.javacc.parser.JavaCCGlobals;
-
 public class JJTreeParser {
 
   void jjtreeOpenNodeScope(Node n)
@@ -372,7 +370,7 @@ void javacc_input() #Grammar :
   javacc_options()
   {
     // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
-    isJavaLanguage = JavaCCGlobals.getCodeGenerator() == null || JavaCCGlobals.getCodeGenerator().getName().equalsIgnoreCase("java");
+    isJavaLanguage = JJTreeOptions.getCodeGenerator() == null || JJTreeOptions.getCodeGenerator().equalsIgnoreCase("java");
   }
   (
     "PARSER_BEGIN" "(" t=identifier() ")"
