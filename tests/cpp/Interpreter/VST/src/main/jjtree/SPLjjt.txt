@@ -27,14 +27,25 @@
  */
 
 options {
+	VISITOR=true;
+	NODE_DEFAULT_VOID=true;
+	VISITOR_DATA_TYPE="void*";
+	VISITOR_RETURN_TYPE="void";
     MULTI=true;
-    NODE_EXTENDS="MyNode";
+//    NODE_EXTENDS="MyNode";
     TRACK_TOKENS=true;
 }
 
 PARSER_BEGIN(SPLParser)
-
-
+  /**
+   * Returns the root node of the AST.  
+   * It only makes sense to call this after a successful parse. 
+   * @return the root node
+   */
+  public:
+  Node* rootNode() {
+    return jjtree.rootNode();
+  }  
 PARSER_END(SPLParser)
 
 
@@ -64,9 +75,9 @@ TOKEN : /* LITERALS */
  */
 
 /** Compilation unit. */
-void CompilationUnit() :
+void CompilationUnit() #CompilationUnit:
 {
-   std::string name;
+   string name;
 }
 {
    (
@@ -78,16 +89,16 @@ void CompilationUnit() :
 }
 
 /** Variable declaration. */
-void VarDeclaration() :
-{ Token t; }
+void VarDeclaration()  #VarDeclaration:
+{ Token* t; }
 {
   (
-    "boolean" { jjtThis.type = BOOL; }
+    "boolean" { jjtThis->type = BOOL; }
    |
-    "int" { jjtThis.type = INT; }
+    "int" { jjtThis->type = INT; }
   )
   t = <IDENTIFIER> 
-  { jjtThis.name = t.image; }
+  { jjtThis->name = t->image; }
 }
 
 /*
@@ -219,7 +230,7 @@ void UnaryExpression() #void :
 /** Primary expression. */
 void PrimaryExpression() #void :
 {
-   std::string name;
+   string name;
 }
 {
   Literal()
@@ -230,24 +241,24 @@ void PrimaryExpression() #void :
 }
 
 /** An Id. */
-void Id() :
+void Id() #Id:
 {
-   Token t;
+   Token* t;
 }
 {
-   t = <IDENTIFIER>  { jjtThis.name = t.image; }
+   t = <IDENTIFIER>  { jjtThis->name = t->image; }
 }
 
 /** A literal. */
 void Literal() #void :
 {
-   Token t;
+   Token* t;
 }
 {
  (
-  t=<INTEGER_LITERAL>
+  t = <INTEGER_LITERAL>
     {
-       jjtThis.val = Integer.parseInt(t.image);
+       jjtThis->val = stoi(t->image);
     }
  )#IntConstNode
 |
@@ -333,7 +344,7 @@ void WhileStatement() :
 
 /** An IO statement. */
 void IOStatement() #void :
-{ std::string name; }
+{ string name; }
 {
    ReadStatement()
  |
@@ -341,19 +352,19 @@ void IOStatement() #void :
 }
 
 /** A read statement. */
-void ReadStatement() :
-{ Token t; }
+void ReadStatement() #ReadStatement:
+{ Token* t; }
 {
    "read" t = <IDENTIFIER>
-   { jjtThis.name = t.image; }
+   { jjtThis->name = t->image; }
 }
 
 /** A write statement. */
-void WriteStatement() :
-{ Token t; }
+void WriteStatement() #WriteStatement:
+{ Token* t; }
 {
    "write" t = <IDENTIFIER>
-   { jjtThis.name = t.image; }
+   { jjtThis->name = t->image; }
 }
 
 TOKEN : /* IDENTIFIERS */

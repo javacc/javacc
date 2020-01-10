@@ -40,7 +40,6 @@
 						</goals>
 						<configuration>
 							<codeGenerator>C++</codeGenerator>
-							<sourceDirectory>../../../test/imports</sourceDirectory>
 							<outputDirectory>target/generated-sources/cpp</outputDirectory>
 						</configuration>
 					</execution>

@@ -23,7 +23,6 @@
 							<goal>javacc</goal>
 						</goals>
 						<configuration>
-							<sourceDirectory>../../examples/CORBA-IDL</sourceDirectory>
 							<codeGenerator>Java</codeGenerator>
 						</configuration>
 					</execution>
@@ -42,9 +41,9 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>IDLParserMain</mainClass>
+					<mainClass>IDLParser</mainClass>
 					<arguments>
-						<argument>../../examples/CORBA-IDL/Hello.idl</argument>
+						<argument>../examples/CORBA-IDL/Hello.idl</argument>
 					</arguments>
 				</configuration>
 			</plugin>

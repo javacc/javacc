@@ -140,7 +140,7 @@ public class TokenizerData {
         new NfaState(index, characters, nextStates, compositeStates, kind);
     if (nfa.put(index, nfaState) != null)
     {
-      throw new RuntimeException(new MetaParseException());
+      throw new RuntimeException(parserName, new MetaParseException());
     }
   }
 

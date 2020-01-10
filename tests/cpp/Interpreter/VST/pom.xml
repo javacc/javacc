@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>org.javacc.tests.cpp.interpreter</groupId>
 	<artifactId>VST</artifactId>
-	<packaging>exe</packaging>
+	<packaging>nar</packaging>
 	<name>SPL with Visitor</name>
 	<build>
 		<plugins>
@@ -23,37 +23,37 @@
 							<goal>jjtree-javacc</goal>
 						</goals>
 						<configuration>
-							<codeGenerator>C++</codeGenerator>
 							<outputDirectory>target/generated-sources/cpp</outputDirectory>
-							<nodeDirectory>scr/main/cpp</nodeDirectory>
+							<nodeDirectory>src/main/cpp</nodeDirectory>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>native-maven-plugin</artifactId>
+				<groupId>com.github.maven-nar</groupId>
+				<artifactId>nar-maven-plugin</artifactId>
+				<version>3.9.1</version>
 				<extensions>true</extensions>
-				<executions>
-					<execution>
-						<id>default-compile</id>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<compilerProvider>msvc</compilerProvider>
-							<envFactoryName>org.codehaus.mojo.natives.msvc.Community2017x86EnvFactory</envFactoryName>
-							<sources>
-								<source>
-									<directory>target/generated-sources/cpp</directory>
-									<includes>
-										<include>**/*.cc</include>
-									</includes>
-								</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
+				<configuration>
+					<libraries>
+						<library>
+							<type>executable</type>
+						</library>
+					</libraries>
+					<cpp>
+						<includePaths>
+							<includePath>
+								<path>src/main/cpp</path>
+							</includePath>
+							<includePath>
+								<path>target/generated-sources/cpp</path>
+							</includePath>
+							<includePath>
+								<path>target/generated-sources/jjtree</path>
+							</includePath>
+						</includePaths>
+					</cpp>
+ 				</configuration>
 			</plugin>
 		</plugins>
 	</build>

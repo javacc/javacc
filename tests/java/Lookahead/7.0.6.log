@@ -1,0 +1,98 @@
+     [java] Java Compiler Compiler Version 7.0.6 (Parser Generator)
+     [java] (type "javacc" with no arguments for help)
+     [java] Reading from file examples/Lookahead/Example1.jj . . .
+     [java] Warning: Choice conflict in [...] construct at line 60, column 7.
+     [java]          Expansion nested within construct and expansion following construct
+     [java]          have common prefixes, one of which is: "c"
+     [java]          Consider using a lookahead of 2 or more for nested expansion.
+     [java] File "TokenMgrError.java" is being rebuilt.
+     [java] File "ParseException.java" is being rebuilt.
+     [java] File "Token.java" is being rebuilt.
+     [java] File "SimpleCharStream.java" is being rebuilt.
+     [java] Parser generated with 0 errors and 1 warnings.
+     [java] Java Compiler Compiler Version 7.0.6 (Parser Generator)
+     [java] (type "javacc" with no arguments for help)
+     [java] Reading from file examples/Lookahead/Example2.jj . . .
+     [java] Warning:  "TBD" cannot be matched as a string literal token at line 69, column 3. It will be matched as  <ID>.
+     [java] Warning:  "new" cannot be matched as a string literal token at line 63, column 3. It will be matched as  <ID>.
+     [java] File "TokenMgrError.java" is being rebuilt.
+     [java] File "ParseException.java" is being rebuilt.
+     [java] File "Token.java" is being rebuilt.
+     [java] File "SimpleCharStream.java" is being rebuilt.
+     [java] Parser generated with 0 errors and 2 warnings.
+     [java] Java Compiler Compiler Version 7.0.6 (Parser Generator)
+     [java] (type "javacc" with no arguments for help)
+     [java] Reading from file examples/Lookahead/Example3.jj . . .
+     [java] Warning: Choice conflict involving two expansions at
+     [java]          line 54, column 3 and line 60, column 3 respectively.
+     [java]          A common prefix is: <ID>
+     [java]          Consider using a lookahead of 2 for earlier expansion.
+     [java] File "TokenMgrError.java" is being rebuilt.
+     [java] File "ParseException.java" is being rebuilt.
+     [java] File "Token.java" is being rebuilt.
+     [java] File "SimpleCharStream.java" is being rebuilt.
+     [java] Parser generated with 0 errors and 1 warnings.
+     [java] Java Compiler Compiler Version 7.0.6 (Parser Generator)
+     [java] (type "javacc" with no arguments for help)
+     [java] Reading from file examples/Lookahead/Example4.jj . . .
+     [java] File "TokenMgrError.java" is being rebuilt.
+     [java] File "ParseException.java" is being rebuilt.
+     [java] File "Token.java" is being rebuilt.
+     [java] File "SimpleCharStream.java" is being rebuilt.
+     [java] Parser generated successfully.
+     [java] Java Compiler Compiler Version 7.0.6 (Parser Generator)
+     [java] (type "javacc" with no arguments for help)
+     [java] Reading from file examples/Lookahead/Example5.jj . . .
+     [java] Warning: Choice conflict in (...)* construct at line 54, column 8.
+     [java]          Expansion nested within construct and expansion following construct
+     [java]          have common prefixes, one of which is: ","
+     [java]          Consider using a lookahead of 2 or more for nested expansion.
+     [java] File "TokenMgrError.java" is being rebuilt.
+     [java] File "ParseException.java" is being rebuilt.
+     [java] File "Token.java" is being rebuilt.
+     [java] File "SimpleCharStream.java" is being rebuilt.
+     [java] Parser generated with 0 errors and 1 warnings.
+     [java] Java Compiler Compiler Version 7.0.6 (Parser Generator)
+     [java] (type "javacc" with no arguments for help)
+     [java] Reading from file examples/Lookahead/Example6.jj . . .
+     [java] File "TokenMgrError.java" is being rebuilt.
+     [java] File "ParseException.java" is being rebuilt.
+     [java] File "Token.java" is being rebuilt.
+     [java] File "SimpleCharStream.java" is being rebuilt.
+     [java] Parser generated successfully.
+     [java] Java Compiler Compiler Version 7.0.6 (Parser Generator)
+     [java] (type "javacc" with no arguments for help)
+     [java] Reading from file examples/Lookahead/Example7.jj . . .
+     [java] File "TokenMgrError.java" is being rebuilt.
+     [java] File "ParseException.java" is being rebuilt.
+     [java] File "Token.java" is being rebuilt.
+     [java] File "SimpleCharStream.java" is being rebuilt.
+     [java] Parser generated successfully.
+     [java] Java Compiler Compiler Version 7.0.6 (Parser Generator)
+     [java] (type "javacc" with no arguments for help)
+     [java] Reading from file examples/Lookahead/Example8.jj . . .
+     [java] File "TokenMgrError.java" is being rebuilt.
+     [java] File "ParseException.java" is being rebuilt.
+     [java] File "Token.java" is being rebuilt.
+     [java] File "SimpleCharStream.java" is being rebuilt.
+     [java] Parser generated successfully.
+     [java] Java Compiler Compiler Version 7.0.6 (Parser Generator)
+     [java] (type "javacc" with no arguments for help)
+     [java] Reading from file examples/Lookahead/Example9.jj . . .
+     [java] File "TokenMgrError.java" is being rebuilt.
+     [java] File "ParseException.java" is being rebuilt.
+     [java] File "Token.java" is being rebuilt.
+     [java] File "SimpleCharStream.java" is being rebuilt.
+     [java] Parser generated successfully.
+     [java] Java Compiler Compiler Version 7.0.6 (Parser Generator)
+     [java] (type "javacc" with no arguments for help)
+     [java] Reading from file examples/Lookahead/Example10.jj . . .
+     [java] Warning: Choice conflict in [...] construct at line 54, column 15.
+     [java]          Expansion nested within construct and expansion following construct
+     [java]          have common prefixes, one of which is: "else"
+     [java]          Consider using a lookahead of 2 or more for nested expansion.
+     [java] File "TokenMgrError.java" is being rebuilt.
+     [java] File "ParseException.java" is being rebuilt.
+     [java] File "Token.java" is being rebuilt.
+     [java] File "SimpleCharStream.java" is being rebuilt.
+     [java] Parser generated with 0 errors and 1 warnings.

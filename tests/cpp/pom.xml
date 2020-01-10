@@ -21,8 +21,17 @@
 		<module>MailProcessing</module>
 		<module>JJTreeExamples</module>
  -->
- 	<module>test</module>
+		<module>test</module>
 	</modules>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.github.maven-nar</groupId>
+				<artifactId>nar-maven-plugin</artifactId>
+				<version>3.9.1</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.codehaus.mojo</groupId>
@@ -63,41 +72,31 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>javacc-maven-plugin</artifactId>
-					<version>${javacc-maven-plugin}</version>
 					<dependencies>
 						<dependency>
 							<groupId>org.javacc</groupId>
 							<artifactId>parser</artifactId>
 							<version>8.0.0</version>
-						</dependency>
-						<dependency>
-							<groupId>org.javacc.codegen</groupId>
-							<artifactId>java</artifactId>
-							<version>8.0.0</version>
+							<scope>runtime</scope>
 						</dependency>
 						<dependency>
 							<groupId>org.javacc.codegen</groupId>
 							<artifactId>cpp</artifactId>
 							<version>8.0.0</version>
+							<scope>runtime</scope>
 						</dependency>
 					</dependencies>
-					<executions>
-						<execution>
-							<configuration>
-								<codeGenerator>C++</codeGenerator>
-							</configuration>
-						</execution>
-						
-					</executions>
-				</plugin>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>native-maven-plugin</artifactId>
-					<version>${native-maven-plugin}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>javacc-maven-plugin</artifactId>
+				<configuration>
+					<codeGenerator>c++</codeGenerator>
+				</configuration>
+			</plugin>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>

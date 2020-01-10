@@ -54,7 +54,7 @@
 						<configuration>
 							<mainClass>SPL</mainClass>
 							<arguments>
-								<argument>../examples/Interpreter/spl/fact.spl</argument>
+								<argument>../../examples/Interpreter/spl/fact.spl</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -67,7 +67,7 @@
 						<configuration>
 							<mainClass>SPL</mainClass>
 							<arguments>
-								<argument>../examples/Interpreter/spl/odd.spl</argument>
+								<argument>../../examples/Interpreter/spl/odd.spl</argument>
 							</arguments>
 						</configuration>
 					</execution>

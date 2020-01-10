@@ -1,0 +1,397 @@
+[INFO] Scanning for projects...
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective model for org.javacc.tests.cpp.test:imports:exe:8.0.0
+[WARNING] 'build.plugins.plugin.version' for org.codehaus.mojo:exec-maven-plugin is missing. @ org.javacc.tests.cpp.test:imports:[unknown-version], C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\pom.xml, line 91, column 12
+[WARNING] 
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING] 
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] JavaCC                                                             [pom]
+[INFO] JavaCC parser                                                      [jar]
+[INFO] JavaCC code generator                                              [pom]
+[INFO] JavaCC default c++ code generator                                  [jar]
+[INFO] JavaCC default c# code generator                                   [jar]
+[INFO] JavaCC default java code generator                                 [jar]
+[INFO] JavaCC tests                                                       [pom]
+[INFO] JavaCC tests Java                                                  [pom]
+[INFO] JavaCC tests Java CORBA-IDL                                        [jar]
+[INFO] JavaCC tests Java GUIParsing                                       [pom]
+[INFO] JavaCC tests Java GUIParsing ParserVersion                         [jar]
+[INFO] JavaCC tests Java GUIParsing TokenMgrVersion                       [jar]
+[INFO] JavaCC tests Java Interpreter                                      [jar]
+[INFO] JavaCC tests Java JavaCCGrammar                                    [jar]
+[INFO] JavaCC tests Java JJTreeExamples                                   [pom]
+[INFO] eg1                                                                [jar]
+[INFO] eg2                                                                [jar]
+[INFO] eg3                                                                [jar]
+[INFO] eg4                                                                [jar]
+[INFO] JavaCC tests Java MailProcessing                                   [jar]
+[INFO] exceptions                                                         [jar]
+[INFO] JavaCC default c# code generator tests                             [pom]
+[INFO] JavaCC tests C++                                                   [pom]
+[INFO] JavaCC tests C++ test                                              [pom]
+[INFO] JavaCC tests C++ test exceptions                                   [pom]
+[INFO] JavaCC tests C++ test imports                                      [exe]
+[INFO] JavaCC tests C++ test javacodeLA                                   [pom]
+[INFO] JavaCC tests C++ test javaFileGeneration                           [pom]
+[INFO] JavaCC tests C++ test javaFiles                                    [pom]
+[INFO] JavaCC tests C++ test lineNumbers                                  [pom]
+[INFO] JavaCC tests C++ test lom                                          [pom]
+[INFO] JavaCC tests C++ test newToken                                     [pom]
+[INFO] JavaCC tests C++ test TestTokenManagerUsesParser                   [pom]
+[INFO] JavaCC tests C++ test TestTokenManagerUsesParser2                  [pom]
+[INFO] 
+[INFO] -----------------------------< org:javacc >-----------------------------
+[INFO] Building JavaCC 8.0.0                                             [1/34]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ javacc ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ javacc ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\8.0.0\javacc-8.0.0.pom
+[INFO] 
+[INFO] -------------------------< org.javacc:parser >--------------------------
+[INFO] Building JavaCC parser 8.0.0                                      [2/34]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ parser ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\target
+[INFO] 
+[INFO] --- javacc-maven-plugin:2.6:javacc (jcc) @ parser ---
+[WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
+Java Compiler Compiler Version 5.0 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\src\main\javacc\ConditionParser.jj . . .
+File "TokenMgrError.java" does not exist.  Will create one.
+File "ParseException.java" does not exist.  Will create one.
+File "Token.java" does not exist.  Will create one.
+File "JavaCharStream.java" does not exist.  Will create one.
+Parser generated successfully.
+Java Compiler Compiler Version 5.0 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\src\main\javacc\JavaCC.jj . . .
+Warning:  "JAVACODE" cannot be matched as a string literal token at line 1612, column 3. It will be matched as  <_JAVACODE>.
+File "TokenMgrError.java" does not exist.  Will create one.
+File "ParseException.java" does not exist.  Will create one.
+File "Token.java" does not exist.  Will create one.
+File "JavaCharStream.java" does not exist.  Will create one.
+Parser generated with 0 errors and 1 warnings.
+[INFO] Processed 2 grammars
+[INFO] 
+[INFO] --- javacc-maven-plugin:2.6:jjtree (jjt) @ parser ---
+[WARNING] This goal has been deprecated. Please update your plugin configuration.
+Java Compiler Compiler Version 5.0 (Tree Builder)
+(type "jjtree" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\src\main\jjtree\JJTree.jjt . . .
+File "Node.java" does not exist.  Will create one.
+File "SimpleNode.java" does not exist.  Will create one.
+File "ASTGrammar.java" does not exist.  Will create one.
+File "ASTCompilationUnit.java" does not exist.  Will create one.
+File "ASTProductions.java" does not exist.  Will create one.
+File "ASTOptions.java" does not exist.  Will create one.
+File "ASTOptionBinding.java" does not exist.  Will create one.
+File "ASTJavacode.java" does not exist.  Will create one.
+File "ASTJavacodeBody.java" does not exist.  Will create one.
+File "ASTBNF.java" does not exist.  Will create one.
+File "ASTBNFDeclaration.java" does not exist.  Will create one.
+File "ASTBNFNodeScope.java" does not exist.  Will create one.
+File "ASTRE.java" does not exist.  Will create one.
+File "ASTTokenDecls.java" does not exist.  Will create one.
+File "ASTRESpec.java" does not exist.  Will create one.
+File "ASTBNFChoice.java" does not exist.  Will create one.
+File "ASTBNFSequence.java" does not exist.  Will create one.
+File "ASTBNFLookahead.java" does not exist.  Will create one.
+File "ASTExpansionNodeScope.java" does not exist.  Will create one.
+File "ASTBNFAction.java" does not exist.  Will create one.
+File "ASTBNFZeroOrOne.java" does not exist.  Will create one.
+File "ASTBNFTryBlock.java" does not exist.  Will create one.
+File "ASTBNFAssignment.java" does not exist.  Will create one.
+File "ASTBNFNonTerminal.java" does not exist.  Will create one.
+File "ASTBNFOneOrMore.java" does not exist.  Will create one.
+File "ASTBNFZeroOrMore.java" does not exist.  Will create one.
+File "ASTBNFParenthesized.java" does not exist.  Will create one.
+File "ASTREStringLiteral.java" does not exist.  Will create one.
+File "ASTRENamed.java" does not exist.  Will create one.
+File "ASTREReference.java" does not exist.  Will create one.
+File "ASTREEOF.java" does not exist.  Will create one.
+File "ASTREChoice.java" does not exist.  Will create one.
+File "ASTRESequence.java" does not exist.  Will create one.
+File "ASTREOneOrMore.java" does not exist.  Will create one.
+File "ASTREZeroOrMore.java" does not exist.  Will create one.
+File "ASTREZeroOrOne.java" does not exist.  Will create one.
+File "ASTRRepetitionRange.java" does not exist.  Will create one.
+File "ASTREParenthesized.java" does not exist.  Will create one.
+File "ASTRECharList.java" does not exist.  Will create one.
+File "ASTCharDescriptor.java" does not exist.  Will create one.
+File "ASTNodeDescriptor.java" does not exist.  Will create one.
+File "ASTNodeDescriptorExpression.java" does not exist.  Will create one.
+File "ASTPrimaryExpression.java" does not exist.  Will create one.
+File "JJTreeParserTreeConstants.java" does not exist.  Will create one.
+File "JJTreeParserVisitor.java" does not exist.  Will create one.
+File "JJTJJTreeParserState.java" does not exist.  Will create one.
+Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\target\generated-sources\jjtree\org\javacc\jjtree\JJTree.jj
+[INFO] Processed 1 grammar
+[INFO] 
+[INFO] --- javacc-maven-plugin:2.6:javacc (jjt-jcc) @ parser ---
+[WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
+Java Compiler Compiler Version 5.0 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\target\generated-sources\jjtree\org\javacc\jjtree\JJTree.jj . . .
+Warning:  "JAVACODE" cannot be matched as a string literal token at line 967, column 3. It will be matched as  <_JAVACODE>.
+File "TokenMgrError.java" does not exist.  Will create one.
+File "ParseException.java" does not exist.  Will create one.
+File "Token.java" does not exist.  Will create one.
+File "JavaCharStream.java" does not exist.  Will create one.
+Parser generated with 0 errors and 1 warnings.
+[INFO] Processed 1 grammar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ parser ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ parser ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 152 source files to C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\target\classes
+[INFO] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/parser/src/main/java/org/javacc/parser/RStringLiteral.java: Some input files use unchecked or unsafe operations.
+[INFO] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/parser/src/main/java/org/javacc/parser/RStringLiteral.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ parser ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ parser ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 5 source files to C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\target\test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.0:test (default-test) @ parser ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.javacc.jjdoc.test.JJDocMainTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.305 s - in org.javacc.jjdoc.test.JJDocMainTest
+[INFO] Running org.javacc.jjtree.JJTreeOptionsTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s - in org.javacc.jjtree.JJTreeOptionsTest
+[INFO] Running org.javacc.parser.ExpansionTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s - in org.javacc.parser.ExpansionTest
+[INFO] Running org.javacc.parser.OptionsTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in org.javacc.parser.OptionsTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ parser ---
+[INFO] Building jar: C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\target\parser-8.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ parser ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\target\parser-8.0.0.jar to C:\Users\fandre\.m2\repository\org\javacc\parser\8.0.0\parser-8.0.0.jar
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\parser\8.0.0\parser-8.0.0.pom
+[INFO] 
+[INFO] -------------------------< org.javacc:codegen >-------------------------
+[INFO] Building JavaCC code generator 8.0.0                              [3/34]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ codegen ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ codegen ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\codegen\8.0.0\codegen-8.0.0.pom
+[INFO] 
+[INFO] -----------------------< org.javacc.codegen:cpp >-----------------------
+[INFO] Building JavaCC default c++ code generator 8.0.0                  [4/34]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ cpp ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\cpp\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ cpp ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 28 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ cpp ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 9 source files to C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\cpp\target\classes
+[WARNING] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/codegen/cpp/src/main/java/org/javacc/cpp/ParserCodeGenerator.java: C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\cpp\src\main\java\org\javacc\cpp\ParserCodeGenerator.java uses unchecked or unsafe operations.
+[WARNING] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/codegen/cpp/src/main/java/org/javacc/cpp/ParserCodeGenerator.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ cpp ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\cpp\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ cpp ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ cpp ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ cpp ---
+[INFO] Building jar: C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\cpp\target\cpp-8.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ cpp ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\cpp\target\cpp-8.0.0.jar to C:\Users\fandre\.m2\repository\org\javacc\codegen\cpp\8.0.0\cpp-8.0.0.jar
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\cpp\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\codegen\cpp\8.0.0\cpp-8.0.0.pom
+[INFO] 
+[INFO] ---------------------< org.javacc.codegen:csharp >----------------------
+[INFO] Building JavaCC default c# code generator 8.0.0                   [5/34]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ csharp ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\csharp\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ csharp ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 12 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ csharp ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 6 source files to C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\csharp\target\classes
+[WARNING] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/codegen/csharp/src/main/java/org/javacc/csharp/ParserCodeGenerator.java: C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\csharp\src\main\java\org\javacc\csharp\ParserCodeGenerator.java uses unchecked or unsafe operations.
+[WARNING] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/codegen/csharp/src/main/java/org/javacc/csharp/ParserCodeGenerator.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ csharp ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\csharp\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ csharp ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ csharp ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ csharp ---
+[INFO] Building jar: C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\csharp\target\csharp-8.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ csharp ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\csharp\target\csharp-8.0.0.jar to C:\Users\fandre\.m2\repository\org\javacc\codegen\csharp\8.0.0\csharp-8.0.0.jar
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\csharp\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\codegen\csharp\8.0.0\csharp-8.0.0.pom
+[INFO] 
+[INFO] ----------------------< org.javacc.codegen:java >-----------------------
+[INFO] Building JavaCC default java code generator 8.0.0                 [6/34]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ java ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\java\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ java ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 20 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ java ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 7 source files to C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\java\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ java ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\java\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ java ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ java ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ java ---
+[INFO] Building jar: C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\java\target\java-8.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ java ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\java\target\java-8.0.0.jar to C:\Users\fandre\.m2\repository\org\javacc\codegen\java\8.0.0\java-8.0.0.jar
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\java\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\codegen\java\8.0.0\java-8.0.0.pom
+[INFO] 
+[INFO] --------------------------< org.javacc:tests >--------------------------
+[INFO] Building JavaCC tests 8.0.0                                       [7/34]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ tests ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ tests ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\8.0.0\tests-8.0.0.pom
+[INFO] 
+[INFO] -----------------------< org.javacc.tests:java >------------------------
+[INFO] Building JavaCC tests Java 8.0.0                                  [8/34]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ java ---
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.8:run (tests) @ java ---
+[INFO] Skipping Antrun execution
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ java ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\java\8.0.0\java-8.0.0.pom
+[INFO] 
+[INFO] ------------------< org.javacc.tests.java:CORBA-IDL >-------------------
+[INFO] Building JavaCC tests Java CORBA-IDL 8.0.0                        [9/34]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ CORBA-IDL ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\CORBA-IDL\target
+[INFO] 
+[INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (jcc) @ CORBA-IDL ---
+[WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
+Java Compiler Compiler Version 8.0.0 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\examples\CORBA-IDL\IDL.jj . . .
+Error: Line 31, Column 1: Parser class has not been defined between PARSER_BEGIN and PARSER_END.
+Detected 1 errors and 0 warnings.
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary:
+[INFO] 
+[INFO] JavaCC 8.0.0 ....................................... SUCCESS [  0.696 s]
+[INFO] JavaCC parser ...................................... SUCCESS [ 13.215 s]
+[INFO] JavaCC code generator .............................. SUCCESS [  0.025 s]
+[INFO] JavaCC default c++ code generator .................. SUCCESS [  3.099 s]
+[INFO] JavaCC default c# code generator ................... SUCCESS [  0.705 s]
+[INFO] JavaCC default java code generator ................. SUCCESS [  0.719 s]
+[INFO] JavaCC tests ....................................... SUCCESS [  0.024 s]
+[INFO] JavaCC tests Java .................................. SUCCESS [  0.148 s]
+[INFO] JavaCC tests Java CORBA-IDL ........................ FAILURE [  1.178 s]
+[INFO] JavaCC tests Java GUIParsing ....................... SKIPPED
+[INFO] JavaCC tests Java GUIParsing ParserVersion ......... SKIPPED
+[INFO] JavaCC tests Java GUIParsing TokenMgrVersion ....... SKIPPED
+[INFO] JavaCC tests Java Interpreter ...................... SKIPPED
+[INFO] JavaCC tests Java JavaCCGrammar .................... SKIPPED
+[INFO] JavaCC tests Java JJTreeExamples ................... SKIPPED
+[INFO] eg1 ................................................ SKIPPED
+[INFO] eg2 ................................................ SKIPPED
+[INFO] eg3 ................................................ SKIPPED
+[INFO] eg4 ................................................ SKIPPED
+[INFO] JavaCC tests Java MailProcessing ................... SKIPPED
+[INFO] exceptions ......................................... SKIPPED
+[INFO] JavaCC default c# code generator tests ............. SKIPPED
+[INFO] JavaCC tests C++ ................................... SKIPPED
+[INFO] JavaCC tests C++ test .............................. SKIPPED
+[INFO] JavaCC tests C++ test exceptions ................... SKIPPED
+[INFO] JavaCC tests C++ test imports ...................... SKIPPED
+[INFO] JavaCC tests C++ test javacodeLA ................... SKIPPED
+[INFO] JavaCC tests C++ test javaFileGeneration ........... SKIPPED
+[INFO] JavaCC tests C++ test javaFiles .................... SKIPPED
+[INFO] JavaCC tests C++ test lineNumbers .................. SKIPPED
+[INFO] JavaCC tests C++ test lom .......................... SKIPPED
+[INFO] JavaCC tests C++ test newToken ..................... SKIPPED
+[INFO] JavaCC tests C++ test TestTokenManagerUsesParser ... SKIPPED
+[INFO] JavaCC tests C++ test TestTokenManagerUsesParser2 8.0.0 SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 21.313 s
+[INFO] Finished at: 2020-01-04T18:38:34+01:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (jcc) on project CORBA-IDL: JavaCC reported exit code 1: [-CODE_GENERATOR=Java, -OUTPUT_DIRECTORY=C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\CORBA-IDL\target\javacc-1578159514504\parser, C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\examples\CORBA-IDL\IDL.jj] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <goals> -rf :CORBA-IDL

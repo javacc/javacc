@@ -22,7 +22,6 @@
 							<goal>javacc</goal>
 						</goals>
 						<configuration>
-							<sourceDirectory>../../../examples/GUIParsing/TokenMgrVersion</sourceDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -40,12 +39,8 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>IDLParserMain</mainClass>
-					<arguments>
-						<argument>../../examples/CORBA-IDL/Hello.idl</argument>
-					</arguments>
+					<mainClass>Main</mainClass>
 				</configuration>
-
 			</plugin>
 		</plugins>
 	</build>

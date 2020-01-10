@@ -21,6 +21,7 @@
  		<module>exceptions</module>
 <!-- 
 -->
+		<module>Lookahead</module>
 	</modules>
 	<build>
 		<pluginManagement>
