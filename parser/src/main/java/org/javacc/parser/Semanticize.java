@@ -493,7 +493,7 @@ public class Semanticize extends JavaCCGlobals {
     } else if (exp instanceof RegularExpression) {
       return false;
     } else if (exp instanceof OneOrMore) {
-      return emptyExpansionExists(((OneOrMore)exp).expansion);
+      return emptyExpansionExists(((OneOrMore)exp).getExpansion());
     } else if (exp instanceof ZeroOrMore || exp instanceof ZeroOrOne) {
       return true;
     } else if (exp instanceof Lookahead) {
@@ -534,11 +534,11 @@ public class Semanticize extends JavaCCGlobals {
       }
       prod.getLeftExpansions()[prod.leIndex++] = ((NonTerminal)exp).getProd();
     } else if (exp instanceof OneOrMore) {
-      addLeftMost(prod, ((OneOrMore)exp).expansion);
+      addLeftMost(prod, ((OneOrMore)exp).getExpansion());
     } else if (exp instanceof ZeroOrMore) {
-      addLeftMost(prod, ((ZeroOrMore)exp).expansion);
+      addLeftMost(prod, ((ZeroOrMore)exp).getExpansion());
     } else if (exp instanceof ZeroOrOne) {
-      addLeftMost(prod, ((ZeroOrOne)exp).expansion);
+      addLeftMost(prod, ((ZeroOrOne)exp).getExpansion());
     } else if (exp instanceof Choice) {
       for (Iterator<Expansion> it = ((Choice)exp).getChoices().iterator(); it.hasNext();) {
         addLeftMost(prod, it.next());
@@ -783,23 +783,22 @@ public class Semanticize extends JavaCCGlobals {
     @Override
     public void action(Expansion e) {
       if (e instanceof OneOrMore) {
-        if (Semanticize.emptyExpansionExists(((OneOrMore)e).expansion)) {
+        if (Semanticize.emptyExpansionExists(((OneOrMore)e).getExpansion())) {
           JavaCCErrors.semantic_error(e, "Expansion within \"(...)+\" can be matched by empty string.");
         }
       } else if (e instanceof ZeroOrMore) {
-        if (Semanticize.emptyExpansionExists(((ZeroOrMore)e).expansion)) {
+        if (Semanticize.emptyExpansionExists(((ZeroOrMore)e).getExpansion())) {
           JavaCCErrors.semantic_error(e, "Expansion within \"(...)*\" can be matched by empty string.");
         }
       } else if (e instanceof ZeroOrOne) {
-       if (Semanticize.emptyExpansionExists(((ZeroOrOne)e).expansion)) {
+       if (Semanticize.emptyExpansionExists(((ZeroOrOne)e).getExpansion())) {
          JavaCCErrors.semantic_error(e, "Expansion within \"(...)?\" can be matched by empty string.");
        }
       }
     }
-
   }
 
-  static class LookaheadChecker extends JavaCCGlobals implements TreeWalkerOp {
+  private static class LookaheadChecker extends JavaCCGlobals implements TreeWalkerOp {
 
     @Override
     public boolean goDeeper(Expansion e) {
@@ -816,22 +815,22 @@ public class Semanticize extends JavaCCGlobals {
     public void action(Expansion e) {
       if (e instanceof Choice) {
         if (Options.getLookahead() == 1 || Options.getForceLaCheck()) {
-          LookaheadCalc.choiceCalc((Choice)e);
+          LookaheadCalc.choiceCalc((Choice) e);
         }
       } else if (e instanceof OneOrMore) {
-        OneOrMore exp = (OneOrMore)e;
-        if (Options.getForceLaCheck() || implicitLA(exp.expansion) && Options.getLookahead() == 1) {
-          LookaheadCalc.ebnfCalc(exp, exp.expansion);
+        OneOrMore exp = (OneOrMore) e;
+        if (Options.getForceLaCheck() || implicitLA(exp.getExpansion()) && Options.getLookahead() == 1) {
+          LookaheadCalc.ebnfCalc(exp, exp.getExpansion());
         }
       } else if (e instanceof ZeroOrMore) {
-        ZeroOrMore exp = (ZeroOrMore)e;
-        if (Options.getForceLaCheck() || implicitLA(exp.expansion) && Options.getLookahead() == 1) {
-          LookaheadCalc.ebnfCalc(exp, exp.expansion);
+        ZeroOrMore exp = (ZeroOrMore) e;
+        if (Options.getForceLaCheck() || implicitLA(exp.getExpansion()) && Options.getLookahead() == 1) {
+          LookaheadCalc.ebnfCalc(exp, exp.getExpansion());
         }
       } else if (e instanceof ZeroOrOne) {
-        ZeroOrOne exp = (ZeroOrOne)e;
-        if (Options.getForceLaCheck() || implicitLA(exp.expansion) && Options.getLookahead() == 1) {
-          LookaheadCalc.ebnfCalc(exp, exp.expansion);
+        ZeroOrOne exp = (ZeroOrOne) e;
+        if (Options.getForceLaCheck() || implicitLA(exp.getExpansion()) && Options.getLookahead() == 1) {
+          LookaheadCalc.ebnfCalc(exp, exp.getExpansion());
         }
       }
     }
@@ -840,23 +839,21 @@ public class Semanticize extends JavaCCGlobals {
       if (!(exp instanceof Sequence)) {
         return true;
       }
-      Sequence seq = (Sequence)exp;
+      Sequence seq = (Sequence) exp;
       Object obj = seq.units.get(0);
       if (!(obj instanceof Lookahead)) {
         return true;
       }
-      Lookahead la = (Lookahead)obj;
+      Lookahead la = (Lookahead) obj;
       return !la.isExplicit();
     }
 
   }
 
-   public static void reInit()
-   {
-      removeList = new ArrayList<>();
-      itemList = new ArrayList<>();
-      other = null;
-      loopString = null;
-   }
-
+  public static void reInit() {
+    removeList = new ArrayList<>();
+    itemList = new ArrayList<>();
+    other = null;
+    loopString = null;
+  }
 }

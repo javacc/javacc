@@ -44,5 +44,4 @@ public interface TreeWalkerOp {
    * node as parameter.
    */
   void action(Expansion e);
-
 }

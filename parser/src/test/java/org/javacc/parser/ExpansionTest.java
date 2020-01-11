@@ -48,7 +48,7 @@ public final class ExpansionTest extends TestCase {
         ZeroOrOne zoo = new ZeroOrOne(t, e);
         assertEquals(t.beginColumn, zoo.getColumn());
         assertEquals(t.beginLine, zoo.getLine());
-        assertEquals(e, zoo.expansion);
+        assertEquals(e, zoo.getExpansion());
         assertSame(e.parent, zoo);
     }
 
@@ -56,7 +56,7 @@ public final class ExpansionTest extends TestCase {
         ZeroOrMore zom = new ZeroOrMore(t, e);
         assertEquals(t.beginColumn, zom.getColumn());
         assertEquals(t.beginLine, zom.getLine());
-        assertEquals(e, zom.expansion);
+        assertEquals(e, zom.getExpansion());
         assertEquals(e.parent, zom);
     }
 
@@ -81,7 +81,7 @@ public final class ExpansionTest extends TestCase {
         OneOrMore oom = new OneOrMore(t, rce);
         assertEquals(t.beginColumn, oom.getColumn());
         assertEquals(t.beginLine, oom.getLine());
-        assertEquals(rce, oom.expansion);
+        assertEquals(rce, oom.getExpansion());
         assertEquals(rce.parent, oom);
     }
 

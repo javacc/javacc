@@ -90,7 +90,7 @@ public final class LookaheadWalk {
       List<MatchInfo> v = partialMatches;
       OneOrMore om = (OneOrMore)exp;
       while (true) {
-        v = genFirstSet(v, om.expansion);
+        v = genFirstSet(v, om.getExpansion());
         if (v.size() == 0) break;
         listAppend(retval, v);
       }
@@ -101,7 +101,7 @@ public final class LookaheadWalk {
       List<MatchInfo> v = partialMatches;
       ZeroOrMore zm = (ZeroOrMore)exp;
       while (true) {
-        v = genFirstSet(v, zm.expansion);
+        v = genFirstSet(v, zm.getExpansion());
         if (v.size() == 0) break;
         listAppend(retval, v);
       }
@@ -109,7 +109,7 @@ public final class LookaheadWalk {
     } else if (exp instanceof ZeroOrOne) {
       List<MatchInfo> retval = new ArrayList<MatchInfo>();
       listAppend(retval, partialMatches);
-      listAppend(retval, genFirstSet(partialMatches, ((ZeroOrOne)exp).expansion));
+      listAppend(retval, genFirstSet(partialMatches, ((ZeroOrOne)exp).getExpansion()));
       return retval;
     } else if (exp instanceof TryBlock) {
       return genFirstSet(partialMatches, ((TryBlock)exp).exp);

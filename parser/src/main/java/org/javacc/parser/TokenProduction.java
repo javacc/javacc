@@ -40,10 +40,10 @@ public class TokenProduction {
    * Definitions of constants that identify the kind of regular
    * expression production this is.
    */
-  public static final int TOKEN  = 0,
-                          SKIP   = 1,
-                          MORE   = 2,
-                          SPECIAL = 3;
+  public static final int TOKEN  = 0;
+  public static final int SKIP   = 1;
+  public static final int MORE   = 2;
+  public static final int SPECIAL = 3;
 
   /**
    * The image of the above constants.

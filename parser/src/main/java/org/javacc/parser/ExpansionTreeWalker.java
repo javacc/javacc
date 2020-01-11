@@ -53,11 +53,11 @@ public final class ExpansionTreeWalker {
           preOrderWalk(it.next(), opObj);
         }
       } else if (node instanceof OneOrMore) {
-        preOrderWalk(((OneOrMore)node).expansion, opObj);
+        preOrderWalk(((OneOrMore)node).getExpansion(), opObj);
       } else if (node instanceof ZeroOrMore) {
-        preOrderWalk(((ZeroOrMore)node).expansion, opObj);
+        preOrderWalk(((ZeroOrMore)node).getExpansion(), opObj);
       } else if (node instanceof ZeroOrOne) {
-        preOrderWalk(((ZeroOrOne)node).expansion, opObj);
+        preOrderWalk(((ZeroOrOne)node).getExpansion(), opObj);
       } else if (node instanceof Lookahead) {
         Expansion nested_e = ((Lookahead)node).getLaExpansion();
         if (!(nested_e instanceof Sequence && ((Sequence)nested_e).units.get(0) == node)) {
@@ -101,11 +101,11 @@ public final class ExpansionTreeWalker {
           postOrderWalk(it.next(), opObj);
         }
       } else if (node instanceof OneOrMore) {
-        postOrderWalk(((OneOrMore)node).expansion, opObj);
+        postOrderWalk(((OneOrMore)node).getExpansion(), opObj);
       } else if (node instanceof ZeroOrMore) {
-        postOrderWalk(((ZeroOrMore)node).expansion, opObj);
+        postOrderWalk(((ZeroOrMore)node).getExpansion(), opObj);
       } else if (node instanceof ZeroOrOne) {
-        postOrderWalk(((ZeroOrOne)node).expansion, opObj);
+        postOrderWalk(((ZeroOrOne)node).getExpansion(), opObj);
       } else if (node instanceof Lookahead) {
         Expansion nested_e = ((Lookahead)node).getLaExpansion();
         if (!(nested_e instanceof Sequence && ((Sequence)nested_e).units.get(0) == node)) {
