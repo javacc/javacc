@@ -25,13 +25,14 @@
 
 package org.javacc.utils;
 
+import org.javacc.parser.CodeGeneratorSettings;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.util.Map;
 
 /**
  * Generates boiler-plate files from templates. Only very basic template
@@ -41,10 +42,10 @@ import java.util.Map;
  * @author paulcager
  * @since 4.2
  */
-class TemplateGenerator {
+class TemplateBuilder {
 
-  private final String              template;
-  private final Map<String, Object> options;
+  private final String                template;
+  private final CodeGeneratorSettings options;
 
 
   private String currentLine;
@@ -53,7 +54,7 @@ class TemplateGenerator {
    * @param template the template. E.g. "/templates/Token.template".
    * @param options the processing options in force, such as "STATIC=yes"
    */
-  TemplateGenerator(String template, Map<String, Object> options) {
+  TemplateBuilder(String template, CodeGeneratorSettings options) {
     this.template = template;
     this.options = options;
   }

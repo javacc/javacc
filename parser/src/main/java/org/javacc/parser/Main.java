@@ -30,7 +30,7 @@
  */
 package org.javacc.parser;
 
-import org.javacc.utils.CodeGenBuilder;
+import org.javacc.utils.CodeBuilder;
 import org.javacc.utils.OptionInfo;
 import org.javacc.utils.OptionType;
 
@@ -236,7 +236,7 @@ public class Main {
         ParserCodeGenerator parserCodeGenerator = codeGenerator.getParserCodeGenerator();
         if (isBuildParser && parserCodeGenerator != null) {
           ParserData parserData = createParserData();
-          CodeGeneratorSettings settings = new CodeGeneratorSettings(Options.getOptions());
+          CodeGeneratorSettings settings = CodeGeneratorSettings.of(Options.getOptions());
           parserCodeGenerator.generateCode(settings, parserData);
           parserCodeGenerator.finish(settings, parserData);
         }
@@ -252,8 +252,8 @@ public class Main {
           throw new MetaParseException();
         if (Options.isGenerateBoilerplateCode()) {
           if ((!codeGenerator.getTokenCodeGenerator()
-              .generateCodeForToken(new CodeGeneratorSettings(Options.getOptions())))
-              || (!codeGenerator.generateHelpers(new CodeGeneratorSettings(Options.getOptions())))) {
+              .generateCodeForToken(CodeGeneratorSettings.of(Options.getOptions())))
+              || (!codeGenerator.generateHelpers(CodeGeneratorSettings.of(Options.getOptions())))) {
             JavaCCErrors.semantic_error("Could not generate the code for Token or helper classes.");
           }
         }
@@ -298,7 +298,7 @@ public class Main {
       // int line = JavaCCGlobals.otherLanguageDeclTokenBeg.beginLine;
       for (Token t = JavaCCGlobals.otherLanguageDeclTokenBeg; t != JavaCCGlobals.otherLanguageDeclTokenEnd; t =
           t.next) {
-        decls.append(CodeGenBuilder.toString(t));
+        decls.append(CodeBuilder.toString(t));
       }
     }
     parserData.decls = decls.toString();

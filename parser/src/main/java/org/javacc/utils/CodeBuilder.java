@@ -10,37 +10,36 @@ import org.javacc.parser.JavaCCGlobals;
 import org.javacc.parser.JavaCCParserConstants;
 import org.javacc.parser.Token;
 
+import java.io.Closeable;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-public abstract class CodeGenBuilder<B extends CodeGenBuilder<?>> {
+public abstract class CodeBuilder<B extends CodeBuilder<?>> implements Closeable {
 
-  private final Map<String, Object> options;
+  private final CodeGeneratorSettings options;
 
 
-  private File        file;
-  private String      version;
-  private Set<String> tools  = new LinkedHashSet<>();
-  private Set<String> option = new LinkedHashSet<>();
+  private File         file;
+  private String       version;
+  private Set<String>  tools  = new LinkedHashSet<>();
+  private List<String> option = new ArrayList<>();
 
-  private int         cline;
-  private int         ccol;
+  private int          cline;
+  private int          ccol;
 
   /**
-   * Constructs an instance of {@link CodeGenBuilder}.
+   * Constructs an instance of {@link CodeBuilder}.
    *
    * @param options
    */
-  protected CodeGenBuilder(Map<String, Object> options) {
+  protected CodeBuilder(CodeGeneratorSettings options) {
     this.options = options;
   }
 
@@ -134,54 +133,39 @@ public abstract class CodeGenBuilder<B extends CodeGenBuilder<?>> {
    * @param additionalOptions
    * @throws IOException
    */
-  @SuppressWarnings("unchecked")
-  public final B printTemplate(String name, Object... additionalOptions) throws IOException {
-    Map<String, Object> options = new HashMap<String, Object>(this.options);
-    for (int i = 0; i < additionalOptions.length; i++) {
-      Object o = additionalOptions[i];
-      if (o instanceof Map<?, ?>) {
-        options.putAll((Map<String, Object>) o);
-      } else if (i == additionalOptions.length - 1) {
-        throw new IllegalArgumentException("Must supply pairs of [name value] args");
-      } else {
-        options.put((String) o, additionalOptions[i + 1]);
-        i++;
-      }
-    }
-
-    StringWriter sw = new StringWriter();
-    CodeGenBuilder.generateTemplate(new PrintWriter(sw), name, options);
-    sw.close();
-    print(sw.toString());
-
-    return (B) this;
+  public final B printTemplate(String name) throws IOException {
+    return printTemplate(name, CodeGeneratorSettings.create());
   }
 
   @SuppressWarnings("unchecked")
-  public final B printTemplate(String name, Map<String, Object> additionalOptions) throws IOException {
-    Map<String, Object> options = new HashMap<String, Object>(this.options);
-    options.putAll(additionalOptions);
+  public final B printTemplate(String name, CodeGeneratorSettings additionalOptions) throws IOException {
+    CodeGeneratorSettings options =
+        additionalOptions.isEmpty() ? this.options : CodeGeneratorSettings.of(this.options).add(additionalOptions);
 
-    StringWriter sw = new StringWriter();
-    CodeGenBuilder.generateTemplate(new PrintWriter(sw), name, options);
-    sw.close();
-    print(sw.toString());
-
+    try (StringWriter writer = new StringWriter()) {
+      TemplateBuilder generator = new TemplateBuilder(name, options);
+      generator.generate(new PrintWriter(writer));
+      writer.flush();
+      print(writer.toString());
+    }
     return (B) this;
   }
 
   /**
    * Write the buffer to the file.
    */
-  public void build() {
+  protected void build() {
     store(getFile(), getBuffer());
+  }
+
+  public final void close() throws IOException {
+    build();
   }
 
   protected final void store(File file, StringBuffer buffer) {
     String tool = tools.isEmpty() ? JavaCCGlobals.toolName : String.join(",", tools);
-    String[] options = option.isEmpty() ? null : option.toArray(new String[option.size()]);
 
-    try (OutputFile output = new OutputFile(file, tool, version, options)) {
+    try (OutputFile output = new OutputFile(file, tool, version, option)) {
       output.getPrintWriter().print(buffer.toString());
     } catch (IOException ioe) {
       JavaCCErrors.fatal("Could not create output file: " + file.getAbsolutePath());
@@ -243,7 +227,7 @@ public abstract class CodeGenBuilder<B extends CodeGenBuilder<?>> {
   }
 
   public final void printToken(Token t) {
-    print(GenericCodeBuilder.toString(t));
+    print(CodeBuilder.toString(t));
   }
 
   public final void printLeadingComments(Token t) {
@@ -277,17 +261,8 @@ public abstract class CodeGenBuilder<B extends CodeGenBuilder<?>> {
   public final String getTrailingComments(Token token) {
     if (token.next == null)
       return "";
+
     return getLeadingComments(token.next);
-  }
-
-
-  /**
-   * Return <code>true</code> if the char is a hex digit.
-   *
-   * @param c
-   */
-  public static boolean isHexDigit(char c) {
-    return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
   }
 
   /**
@@ -314,7 +289,7 @@ public abstract class CodeGenBuilder<B extends CodeGenBuilder<?>> {
   /**
    * The {@link GenericCodeBuilder} class.
    */
-  public static class GenericCodeBuilder extends CodeGenBuilder<GenericCodeBuilder> {
+  public static class GenericCodeBuilder extends CodeBuilder<GenericCodeBuilder> {
 
     private final StringBuffer buffer = new StringBuffer();
 
@@ -323,7 +298,7 @@ public abstract class CodeGenBuilder<B extends CodeGenBuilder<?>> {
      *
      * @param options
      */
-    private GenericCodeBuilder(Map<String, Object> options) {
+    private GenericCodeBuilder(CodeGeneratorSettings options) {
       super(options);
     }
 
@@ -339,49 +314,8 @@ public abstract class CodeGenBuilder<B extends CodeGenBuilder<?>> {
      *
      * @param options
      */
-    public static GenericCodeBuilder of(Map<String, Object> options) {
+    public static GenericCodeBuilder of(CodeGeneratorSettings options) {
       return new GenericCodeBuilder(options);
     }
-  }
-
-
-  /**
-   * Generates a template to a file.
-   *
-   * @param template
-   * @param filename
-   * @param toolname
-   * @param options
-   * @throws IOException
-   */
-  public static void generateTemplate(String template, String filename, String toolname, 
-      CodeGeneratorSettings settings, String ...options) throws IOException {
-    File file = new File((String) settings.get("OUTPUT_DIRECTORY"), filename);
-    if(options.length == 0) {
-      try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
-        writer.printf("/* %s generated file. */\n", toolname);
-        TemplateGenerator generator = new TemplateGenerator(template, settings);
-        generator.generate(writer);
-      }
-    } else {
-      try(OutputFile output = new OutputFile(file, toolname, null, options)) {
-        TemplateGenerator generator = new TemplateGenerator(template, settings);
-        generator.generate(output.getPrintWriter());
-      }
-    }
-  }
-
-  /**
-   * Generates a template to a {@link PrintWriter}.
-   *
-   * @param writer
-   * @param template
-   * @param options
-   * @throws IOException
-   */
-  public static void generateTemplate(PrintWriter writer, String template, Map<String, Object> options)
-      throws IOException {
-    TemplateGenerator generator = new TemplateGenerator(template, options);
-    generator.generate(writer);
   }
 }

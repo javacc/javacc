@@ -383,7 +383,7 @@ public class LexGen implements JavaCCParserConstants
       if (generateDataOnly) return;
 
       TokenManagerCodeGenerator gen = codeGenerator.getTokenManagerCodeGenerator();
-      CodeGeneratorSettings settings = new CodeGeneratorSettings(Options.getOptions());
+      CodeGeneratorSettings settings = CodeGeneratorSettings.of(Options.getOptions());
       gen.generateCode(settings, tokenizerData);
       gen.finish(settings, tokenizerData);
   }
