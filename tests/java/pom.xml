@@ -13,15 +13,17 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>CORBA-IDL</module>
+<!-- 
 		<module>GUIParsing</module>
+-->
 		<module>Interpreter</module>
 		<module>JavaCCGrammar</module>
 		<module>JJTreeExamples</module>
 	 	<module>MailProcessing</module>
  		<module>exceptions</module>
-<!-- 
--->
 		<module>Lookahead</module>
+		<module>Transformer</module>
+		<module>VTransformer</module>
 	</modules>
 	<build>
 		<pluginManagement>

@@ -11,6 +11,7 @@
 	<artifactId>tests</artifactId>
 	<packaging>pom</packaging>
 	<properties>
+	
 	</properties>
 	<modules>
 		<module>java</module>

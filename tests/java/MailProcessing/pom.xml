@@ -14,6 +14,9 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>javacc-maven-plugin</artifactId>
+				<configuration>
+					<codeGenerator>Java</codeGenerator>
+				</configuration>
 				<executions>
 					<execution>
 						<id>jcc</id>
@@ -21,9 +24,6 @@
 						<goals>
 							<goal>javacc</goal>
 						</goals>
-						<configuration>
-							<sourceDirectory>../../examples/MailProcessing</sourceDirectory>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -40,12 +40,11 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>IDLParserMain</mainClass>
+					<mainClass>Digest</mainClass>
 					<arguments>
-						<argument>../../examples/MailProcessing/sampleMailFile</argument>
+						<argument>sampleMailFile</argument>
 					</arguments>
 				</configuration>
-
 			</plugin>
 		</plugins>
 	</build>

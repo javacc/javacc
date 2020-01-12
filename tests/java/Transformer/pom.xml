@@ -1,14 +1,12 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.javacc.tests</groupId>
-		<artifactId>java</artifactId>
-		<version>8.0.0</version>
-	</parent>
-	<name>JavaCC tests Java Interpreter</name>
-	<groupId>org.javacc.tests.java</groupId>
-	<artifactId>Interpreter</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.javacc.tests</groupId>
+    <artifactId>java</artifactId>
+    <version>8.0.0</version>
+  </parent>
+  <groupId>org.javacc.tests.java</groupId>
+  <artifactId>Transformer</artifactId>
 	<build>
 		<plugins>
 			<plugin>
@@ -44,9 +42,6 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.6.0</version>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
 				<executions>
 					<execution>
 						<id>fact</id>
@@ -55,27 +50,10 @@
 							<goal>java</goal>
 						</goals>
 						<configuration>
-							<mainClass>SPL</mainClass>
-							<arguments>
-								<argument>spl/fact.spl</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>odd</id>
-						<phase>test</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<mainClass>SPL</mainClass>
-							<arguments>
-								<argument>spl/odd.spl</argument>
-							</arguments>
+							<mainClass>ToyParser</mainClass>
 						</configuration>
 					</execution>
 				</executions>
-
 			</plugin>
 		</plugins>
 	</build>

@@ -22,7 +22,6 @@
 							<goal>javacc</goal>
 						</goals>
 						<configuration>
-							<sourceDirectory>../../test/exceptions</sourceDirectory>
 							<codeGenerator>Java</codeGenerator>
 						</configuration>
 					</execution>
@@ -42,9 +41,6 @@
 				</executions>
 				<configuration>
 					<mainClass>Parser</mainClass>
-					<arguments>
-						<argument>../../examples/CORBA-IDL/Hello.idl</argument>
-					</arguments>
 				</configuration>
 			</plugin>
 		</plugins>
