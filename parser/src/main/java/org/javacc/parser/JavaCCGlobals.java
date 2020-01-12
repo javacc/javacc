@@ -48,36 +48,36 @@ public class JavaCCGlobals {
   /**
    * String that identifies the JavaCC generated files.
    */
-  static public final String toolName = "JavaCC";
+  public static final String toolName = "JavaCC";
 
   /**
    * The name of the grammar file being processed.
    */
-  static public String fileName;
+  public static String fileName;
 
   /**
    * The name of the original file (before processing by JJTree).
    * Currently this is the same as fileName.
    */
-  static public String origFileName;
+  public static String origFileName;
 
   /**
    * Set to true if this file has been processed by JJTree.
    */
-  static public boolean jjtreeGenerated;
+  public static boolean jjtreeGenerated;
 
   /**
    * The list of tools that have participated in generating the
    * input grammar file.
    */
-  static public List<String> toolNames;
+  public static List<String> toolNames;
 
   /**
    * This prints the banner line when the various tools are invoked.  This
    * takes as argument the tool's full name and its version.
    */
-  static public void bannerLine(String fullName, String ver) {
-    System.out.print("Java Compiler Compiler Version " + Version.versionNumber + " (" + fullName);
+  public static void bannerLine(String fullName, String ver) {
+    System.out.print("Java Compiler Compiler Version " + Version.fullVersion + " (" + fullName);
     if (!ver.equals("")) {
       System.out.print(" Version " + ver);
     }
@@ -87,83 +87,83 @@ public class JavaCCGlobals {
   /**
    * The name of the parser class (what appears in PARSER_BEGIN and PARSER_END).
    */
-  static public String cu_name;
+  public static String cu_name;
 
   /**
    * This is a list of tokens that appear after "PARSER_BEGIN(name)" all the
    * way until (but not including) the opening brace "{" of the class "name".
    */
-  static public List<Token> cu_to_insertion_point_1 = new ArrayList<>();
+  public static List<Token> cu_to_insertion_point_1 = new ArrayList<>();
 
   /**
    * This is the list of all tokens that appear after the tokens in
    * "cu_to_insertion_point_1" and until (but not including) the closing brace "}"
    * of the class "name".
    */
-  static public List<Token> cu_to_insertion_point_2 = new ArrayList<>();
+  public static List<Token> cu_to_insertion_point_2 = new ArrayList<>();
 
   /**
    * This is the list of all tokens that appear after the tokens in
    * "cu_to_insertion_point_2" and until "PARSER_END(name)".
    */
-  static public List<Token> cu_from_insertion_point_2 = new ArrayList<>();
+  public static List<Token> cu_from_insertion_point_2 = new ArrayList<>();
 
   /**
    * A list of all grammar productions - normal and JAVACODE - in the order
    * they appear in the input file.  Each entry here will be a subclass of
    * "NormalProduction".
    */
-  static public List<NormalProduction> bnfproductions = new ArrayList<NormalProduction>();
+  public static List<NormalProduction> bnfproductions = new ArrayList<NormalProduction>();
 
   /**
    * A symbol table of all grammar productions - normal and JAVACODE.  The
    * symbol table is indexed by the name of the left hand side non-terminal.
    * Its contents are of type "NormalProduction".
    */
-  static public Map<String, NormalProduction> production_table = new HashMap<>();
+  public static Map<String, NormalProduction> production_table = new HashMap<>();
 
   /**
    * A mapping of lexical state strings to their integer internal representation.
    * Integers are stored as java.lang.Integer's.
    */
-  static public Hashtable<String, Integer> lexstate_S2I = new Hashtable<>();
+  public static Hashtable<String, Integer> lexstate_S2I = new Hashtable<>();
 
   /**
    * A mapping of the internal integer representations of lexical states to
    * their strings.  Integers are stored as java.lang.Integer's.
    */
-  static public Hashtable<Integer, String> lexstate_I2S = new Hashtable<>();
+  public static Hashtable<Integer, String> lexstate_I2S = new Hashtable<>();
 
   /**
    * The declarations to be inserted into the TokenManager class.
    */
-  static public List<Token> token_mgr_decls;
+  public static List<Token> token_mgr_decls;
 
   /**
    * The list of all TokenProductions from the input file.  This list includes
    * implicit TokenProductions that are created for uses of regular expressions
    * within BNF productions.
    */
-  static public List<TokenProduction> rexprlist = new ArrayList<>();
+  public static List<TokenProduction> rexprlist = new ArrayList<>();
 
   /**
    * The total number of distinct tokens.  This is therefore one more than the
    * largest assigned token ordinal.
    */
-  static public int tokenCount;
+  public static int tokenCount;
 
   /**
    * This is a symbol table that contains all named tokens (those that are
    * defined with a label).  The index to the table is the image of the label
    * and the contents of the table are of type "RegularExpression".
    */
-  static public Map<String, RegularExpression> named_tokens_table = new HashMap<>();
+  public static Map<String, RegularExpression> named_tokens_table = new HashMap<>();
 
   /**
    * Contains the same entries as "named_tokens_table", but this is an ordered
    * list which is ordered by the order of appearance in the input file.
    */
-  static public List<RegularExpression> ordered_named_tokens = new ArrayList<>();
+  public static List<RegularExpression> ordered_named_tokens = new ArrayList<>();
 
   /**
    * A mapping of ordinal values (represented as objects of type "Integer") to
@@ -172,13 +172,13 @@ public class JavaCCGlobals {
    * If there are multiple labels representing the same ordinal value, then
    * only one label is stored.
    */
-  static public Map<Integer, String> names_of_tokens = new HashMap<>();
+  public static Map<Integer, String> names_of_tokens = new HashMap<>();
 
   /**
    * A mapping of ordinal values (represented as objects of type "Integer") to
    * the corresponding RegularExpression's.
    */
-  static public Map<Integer, RegularExpression> rexps_of_tokens = new HashMap<>();
+  public static Map<Integer, RegularExpression> rexps_of_tokens = new HashMap<>();
 
   /**
    * This is a three-level symbol table that contains all simple tokens (those
@@ -189,21 +189,21 @@ public class JavaCCGlobals {
    * This third level hashtable contains the actual string of the simple token
    * and maps it to its RegularExpression.
    */
-  static public Hashtable<String, Hashtable<String, Hashtable<String, RegularExpression>>> simple_tokens_table = new Hashtable<>();
+  public static Hashtable<String, Hashtable<String, Hashtable<String, RegularExpression>>> simple_tokens_table = new Hashtable<>();
 
   /**
    * maskindex, jj2index, maskVals are variables that are shared between
    * ParseEngine and ParseGen.
    */
-  static public int maskindex = 0;
-  static public int jj2index = 0;
+  public static int maskindex = 0;
+  public static int jj2index = 0;
   public static boolean lookaheadNeeded;
-  static public List<int[]> maskVals = new ArrayList<>();
+  public static List<int[]> maskVals = new ArrayList<>();
 
   public static Action actForEof;
   public static String nextStateForEof;
-  static public Token otherLanguageDeclTokenBeg;
-  static public Token otherLanguageDeclTokenEnd;
+  public static Token otherLanguageDeclTokenBeg;
+  public static Token otherLanguageDeclTokenEnd;
 
 
   // Some general purpose utilities follow.
@@ -345,7 +345,7 @@ public class JavaCCGlobals {
 
   static CodeGenerator codeGenerator = null;
 
-  static public CodeGenerator getCodeGenerator() {
+  public static CodeGenerator getCodeGenerator() {
     if (codeGenerator != null) return codeGenerator;
 
     String name = Options.getCodeGenerator();
@@ -363,7 +363,7 @@ public class JavaCCGlobals {
     return codeGenerator;
   }
 
-  static public String staticOpt() {
+  public static String staticOpt() {
     if (Options.getStatic()) {
       return "static ";
     } else {
@@ -371,7 +371,7 @@ public class JavaCCGlobals {
     }
   }
 
-  static public String add_escapes(String str) {
+  public static String add_escapes(String str) {
     String retval = "";
     char ch;
     for (int i = 0; i < str.length(); i++) {
@@ -402,7 +402,7 @@ public class JavaCCGlobals {
     return retval;
   }
 
-  static public String addUnicodeEscapes(String str, boolean escape) {
+  public static String addUnicodeEscapes(String str, boolean escape) {
 	if (escape) {
 	    String retval = "";
 	    char ch;

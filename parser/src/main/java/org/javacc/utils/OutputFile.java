@@ -68,17 +68,6 @@ public class OutputFile implements Closeable {
   private TrapClosePrintWriter writer;
   private DigestOutputStream   digestStream;
 
-
-  /**
-   * Create a new OutputFile.
-   *
-   * @param file the file to write to.
-   * @throws IOException
-   */
-  public OutputFile(File file) throws IOException {
-    this(file, JavaCCGlobals.toolName, null, null);
-  }
-
   /**
    * Create a new OutputFile.
    *
@@ -89,7 +78,7 @@ public class OutputFile implements Closeable {
    *        is a list of options (such s STATIC=false) to check for changes.
    * @throws IOException
    */
-  public OutputFile(File file, String toolName, String compatibleVersion, String[] options) throws IOException {
+  OutputFile(File file, String toolName, String compatibleVersion, String[] options) throws IOException {
     this.file = file;
     this.options = options;
     this.compatibleVersion = compatibleVersion;
@@ -113,7 +102,7 @@ public class OutputFile implements Closeable {
   public final PrintWriter getPrintWriter() throws IOException {
     if (writer == null) {
       try {
-        String version = this.compatibleVersion == null ? Version.versionNumber : this.compatibleVersion;
+        String version = this.compatibleVersion == null ? Version.fullVersion : this.compatibleVersion;
         OutputStream ostream = new BufferedOutputStream(new FileOutputStream(file));
 
         this.digestStream = OutputFileDigest.getDigestStream(ostream);

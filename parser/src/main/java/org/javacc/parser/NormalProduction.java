@@ -40,7 +40,7 @@ public class NormalProduction extends Expansion {
   /**
    * The NonTerminal nodes which refer to this production.
    */
-  private List<Expansion> parents = new ArrayList<>();
+  private final List<Expansion> parents = new ArrayList<>();
 
   /**
    * The access modifier of this production.
@@ -55,12 +55,12 @@ public class NormalProduction extends Expansion {
   /**
    * The tokens that make up the return type of this production.
    */
-  private List<Token> return_type_tokens = new ArrayList<Token>();
+  private final List<Token> return_type_tokens = new ArrayList<Token>();
 
   /**
    * The tokens that make up the parameters of this production.
    */
-  private List<Token> parameter_list_tokens = new ArrayList<Token>();
+  private final List<Token> parameter_list_tokens = new ArrayList<Token>();
 
   /**
    * Each entry in this list is a list of tokens that represents an

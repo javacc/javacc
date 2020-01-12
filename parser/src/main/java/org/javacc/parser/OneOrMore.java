@@ -37,26 +37,32 @@ import java.util.Set;
 public class OneOrMore extends Expansion {
 
   /**
-   * The expansion which is repeated one or more times.
+   * The expansion which is repeated zero or one times.
    */
-  public Expansion expansion;
+  private final Expansion expansion;
 
-    public OneOrMore() {}
+  public OneOrMore(Token token, Expansion expansion) {
+    this.expansion = expansion;
+    this.expansion.parent = this;
+    setLine(token.beginLine);
+    setColumn(token.beginColumn);
+  }
 
-    public OneOrMore(Token t, Expansion e) {
-        this.setLine(t.beginLine);
-        this.setColumn(t.beginColumn);
-        this.expansion = e;
-        expansion.parent = this;
-    }
+  /**
+   * Gets the {@link Expansion}.
+   */
+  public final Expansion getExpansion() {
+    return expansion;
+  }
 
-    @Override
-    public StringBuffer dump(int indent, Set<Expansion> alreadyDumped) {
-      StringBuffer sb = super.dump(indent, alreadyDumped);
-      if (alreadyDumped.contains(this))
-        return sb;
-      alreadyDumped.add(this);
-      sb.append(eol).append(expansion.dump(indent + 1, alreadyDumped));
-      return sb;
-    }
+  @Override
+  public final StringBuffer dump(int indent, Set<Expansion> alreadyDumped) {
+    StringBuffer buffer = super.dump(indent, alreadyDumped);
+    if (alreadyDumped.contains(this))
+      return buffer;
+
+    alreadyDumped.add(this);
+    buffer.append(eol).append(expansion.dump(indent + 1, alreadyDumped));
+    return buffer;
+  }
 }

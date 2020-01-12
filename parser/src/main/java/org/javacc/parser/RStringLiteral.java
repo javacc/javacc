@@ -40,16 +40,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-final class KindInfo
-{
-   long[] validKinds;
-   long[] finalKinds;
-   int    validKindCnt = 0;
-   int    finalKindCnt = 0;
-   Set<Integer> finalKindSet = new HashSet<Integer>();
-   Set<Integer> validKindSet = new HashSet<Integer>();
-};
-
 /**
  * Describes string literals.
  */

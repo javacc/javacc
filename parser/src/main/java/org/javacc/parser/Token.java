@@ -109,8 +109,7 @@ public class Token {
    * Returns the image.
    */
   @Override
-  public String toString()
-  {
+  public String toString() {
     return image;
   }
 
@@ -126,15 +125,14 @@ public class Token {
    * to the following switch statement. Then you can cast matchedToken
    * variable to the appropriate type and use it in your lexical actions.
    */
-  public static final Token newToken(int ofKind, String image)
-  {
-    switch(ofKind)
-    {
-    default : return new Token(ofKind, image);
-    case JavaCCParserConstants.RUNSIGNEDSHIFT:
-    case JavaCCParserConstants.RSIGNEDSHIFT:
-    case JavaCCParserConstants.GT:
-      return new GTToken(ofKind, image);
+  public static final Token newToken(int ofKind, String image) {
+    switch (ofKind) {
+      default:
+        return new Token(ofKind, image);
+      case JavaCCParserConstants.RUNSIGNEDSHIFT:
+      case JavaCCParserConstants.RSIGNEDSHIFT:
+      case JavaCCParserConstants.GT:
+        return new GTToken(ofKind, image);
     }
   }
 

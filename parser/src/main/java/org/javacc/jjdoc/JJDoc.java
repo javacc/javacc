@@ -247,7 +247,7 @@ public static String getStandardTokenProductionText(TokenProduction tp) {
   }
   private static void emitExpansionOneOrMore(OneOrMore o, Generator gen) {
     gen.text("( ");
-    emitExpansionTree(o.expansion, gen);
+    emitExpansionTree(o.getExpansion(), gen);
     gen.text(" )+");
   }
   private static void emitExpansionRegularExpression(RegularExpression r,
@@ -292,12 +292,12 @@ public static String getStandardTokenProductionText(TokenProduction tp) {
   }
   private static void emitExpansionZeroOrMore(ZeroOrMore z, Generator gen) {
     gen.text("( ");
-    emitExpansionTree(z.expansion, gen);
+    emitExpansionTree(z.getExpansion(), gen);
     gen.text(" )*");
   }
   private static void emitExpansionZeroOrOne(ZeroOrOne z, Generator gen) {
     gen.text("( ");
-    emitExpansionTree(z.expansion, gen);
+    emitExpansionTree(z.getExpansion(), gen);
     gen.text(" )?");
   }
   public static String emitRE(RegularExpression re) {

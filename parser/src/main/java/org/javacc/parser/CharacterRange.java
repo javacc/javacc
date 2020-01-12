@@ -32,50 +32,47 @@ package org.javacc.parser;
  */
 
 public class CharacterRange extends Expansion {
-  /**
-   * The leftmost and the rightmost characters in this character range.
-   */
-  private char right;
 
+  // The left/right most characters in this character range.
+  private char right;
   private char left;
 
-  CharacterRange() { }
+  CharacterRange() {}
 
-  CharacterRange(char l, char r)
-  {
-     if (l > r)
-        JavaCCErrors.semantic_error(this, "Invalid range : \"" + (int)l + "\" - \""
-              + (int)r + "\". First character should be less than or equal to the second one in a range.");
+  CharacterRange(char l, char r) {
+    if (l > r)
+      JavaCCErrors.semantic_error(this, "Invalid range : \"" + (int) l + "\" - \"" + (int) r
+          + "\". First character should be less than or equal to the second one in a range.");
 
-     setLeft(l);
-     setRight(r);
-  }
-
-  /**
-   * @param left the left to set
-   */
-  public void setLeft(char left) {
-    this.left = left;
+    setLeft(l);
+    setRight(r);
   }
 
   /**
    * @return the left
    */
-  public char getLeft() {
+  public final char getLeft() {
     return left;
-  }
-
-  /**
-   * @param right the right to set
-   */
-  public void setRight(char right) {
-    this.right = right;
   }
 
   /**
    * @return the right
    */
-  public char getRight() {
+  public final char getRight() {
     return right;
+  }
+
+  /**
+   * @param left the left to set
+   */
+  public final void setLeft(char left) {
+    this.left = left;
+  }
+
+  /**
+   * @param right the right to set
+   */
+  public final void setRight(char right) {
+    this.right = right;
   }
 }

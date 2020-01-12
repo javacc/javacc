@@ -39,13 +39,12 @@ public abstract class CodeProduction extends NormalProduction {
   /**
    * The tokens that implement this JAVACODE/CPPCODE production.
    */
-  private List<Token> code_tokens = new ArrayList<Token>();
+  private final List<Token> code_tokens = new ArrayList<Token>();
 
   /**
    * @return the code_tokens
    */
-  public List<Token> getCodeTokens() {
+  public final List<Token> getCodeTokens() {
     return code_tokens;
   }
-
 }
