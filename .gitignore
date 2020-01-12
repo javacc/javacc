@@ -14,6 +14,8 @@ build-eclipse
 
 .svn/
 
+**/*.log
+
 bin/
 classes/
 test.tmp/
