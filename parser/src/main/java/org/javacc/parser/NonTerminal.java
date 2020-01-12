@@ -66,73 +66,73 @@ public class NonTerminal extends Expansion {
     return value;
   }
 
-/**
- * @param lhsTokens the lhsTokens to set
- */
-public void setLhsTokens(List<Token> lhsTokens) {
-	this.lhsTokens = lhsTokens;
-}
+  /**
+   * @param lhsTokens the lhsTokens to set
+   */
+  public void setLhsTokens(List<Token> lhsTokens) {
+    this.lhsTokens = lhsTokens;
+  }
 
-/**
- * @return the lhsTokens
- */
-public List<Token> getLhsTokens() {
-	return lhsTokens;
-}
+  /**
+   * @return the lhsTokens
+   */
+  public List<Token> getLhsTokens() {
+    return lhsTokens;
+  }
 
-/**
- * @param name the name to set
- */
-public void setName(String name) {
-	this.name = name;
-}
+  /**
+   * @param name the name to set
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
 
-/**
- * @return the name
- */
-public String getName() {
-	return name;
-}
+  /**
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
 
-/**
- * @param argument_tokens the argument_tokens to set
- */
-public void setParametrizedTypeTokens(List<Token> argument_tokens) {
-	this.argument_tokens = argument_tokens;
-}
+  /**
+   * @param argument_tokens the argument_tokens to set
+   */
+  public void setParametrizedTypeTokens(List<Token> argument_tokens) {
+    this.argument_tokens = argument_tokens;
+  }
 
-/**
- * @return the argument_tokens
- */
-public List<Token> getParametrizedTypeTokens() {
-	return parametrized_type__tokens;
-}
+  /**
+   * @return the argument_tokens
+   */
+  public List<Token> getParametrizedTypeTokens() {
+    return parametrized_type__tokens;
+  }
 
-/**
- * @param argument_tokens the argument_tokens to set
- */
-public void setArgumentTokens(List<Token> parametrized_type__tokens) {
-	this.parametrized_type__tokens = parametrized_type__tokens;
-}
+  /**
+   * @param argument_tokens the argument_tokens to set
+   */
+  public void setArgumentTokens(List<Token> parametrized_type__tokens) {
+    this.parametrized_type__tokens = parametrized_type__tokens;
+  }
 
-/**
- * @return the argument_tokens
- */
-public List<Token> getArgumentTokens() {
-	return argument_tokens;
-}
+  /**
+   * @return the argument_tokens
+   */
+  public final List<Token> getArgumentTokens() {
+    return argument_tokens;
+  }
 
-/**
- * @param prod the prod to set
- */
-public NormalProduction setProd(NormalProduction prod) {
-	return this.prod = prod;
-}
+  /**
+   * @param prod the prod to set
+   */
+  public final NormalProduction setProd(NormalProduction prod) {
+    return this.prod = prod;
+  }
 
-/**
- * @return the prod
- */
-public NormalProduction getProd() {
-	return prod;
-}
+  /**
+   * @return the prod
+   */
+  public final NormalProduction getProd() {
+    return prod;
+  }
 }

@@ -38,7 +38,7 @@ public class TokenizerData {
   // Class representing NFA state.
   public static class NfaState {
     // Index of the state.
-    public int index;
+    private int index;
     // Set of allowed characters.
     public Set<Character> characters;
     // Next state indices.
@@ -50,7 +50,7 @@ public class TokenizerData {
     // match kind if any. Integer.MAX_VALUE if this is not a final state.
     public int kind;
 
-    NfaState(int index, Set<Character> characters,
+    private NfaState(int index, Set<Character> characters,
              Set<Integer> nextStates, Set<Integer> compositeStates, int kind) {
       this.index = index;
       this.characters = characters;
@@ -75,7 +75,7 @@ public class TokenizerData {
     // String literal image in case this string literal token, null otherwise.
     public String image;
     // Kind index.
-    public int kind;
+    private int kind;
     // Type of match.
     public MatchType matchType;
     // Any lexical state transition specified.
@@ -83,7 +83,7 @@ public class TokenizerData {
     // Any lexical state transition specified.
     public String action;
 
-    public MatchInfo(String image, int kind, MatchType matchType,
+    private MatchInfo(String image, int kind, MatchType matchType,
                      int newLexState, String action) {
       this.image = image;
       this.kind = kind;

@@ -46,10 +46,6 @@ import static org.javacc.parser.JavaCCGlobals.*;
  */
 public class LexGen implements JavaCCParserConstants
 {
-  
-  public static String staticString;
-  public static String tokMgrClassName;
-
   // Hashtable of vectors
   private static Hashtable<String, List<TokenProduction>> allTpsForState = new Hashtable<>();
 
@@ -87,8 +83,7 @@ public class LexGen implements JavaCCParserConstants
   public static TokenizerData tokenizerData;
   public static boolean generateDataOnly;
 
-  static void BuildLexStatesTable()
-  {
+  private static void BuildLexStatesTable() {
     Iterator<TokenProduction> it = rexprlist.iterator();
     TokenProduction tp;
     int i;
@@ -154,8 +149,7 @@ public class LexGen implements JavaCCParserConstants
     canReachOnMore = new boolean[maxLexStates];
   }
 
-  static int GetIndex(String name)
-  {
+  private static int GetIndex(String name) {
     for (int i = 0; i < lexStateName.length; i++)
       if (lexStateName[i] != null && lexStateName[i].equals(name))
         return i;
@@ -163,8 +157,7 @@ public class LexGen implements JavaCCParserConstants
     throw new Error(); // Should never come here
   }
 
-  public void start() throws IOException
-  {
+  public void start() throws IOException {
     if (!Options.getBuildTokenManager() ||
         Options.getUserTokenManager() ||
         JavaCCErrors.get_error_count() > 0)
@@ -174,9 +167,6 @@ public class LexGen implements JavaCCParserConstants
     List<RegularExpression> choices = new ArrayList<>();
     TokenProduction tp;
     int i, j;
-
-    staticString = (Options.getStatic() ? "static " : "");
-    tokMgrClassName = cu_name + "TokenManager";
 
     BuildLexStatesTable();
 
@@ -398,7 +388,7 @@ public class LexGen implements JavaCCParserConstants
       gen.finish(settings, tokenizerData);
   }
 
-  static void CheckEmptyStringMatch()
+  private static void CheckEmptyStringMatch()
   {
     int i, j, k, len;
     boolean[] seen = new boolean[maxLexStates];
@@ -495,12 +485,10 @@ public class LexGen implements JavaCCParserConstants
     rexprs = null;
     singlesToSkip = null;
     stateSetSize = 0;
-    staticString = null;
     toMore = null;
     toSkip = null;
     toSpecial = null;
     toToken = null;
-    tokMgrClassName = null;
     tokenizerData = new TokenizerData();
     generateDataOnly = false;
   }

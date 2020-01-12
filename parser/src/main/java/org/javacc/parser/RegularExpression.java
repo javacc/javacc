@@ -78,8 +78,7 @@ public abstract class RegularExpression extends Expansion {
 
   public abstract Nfa GenerateNfa(boolean ignoreCase);
 
-  public boolean CanMatchAnyChar()
-  {
+  public boolean CanMatchAnyChar() {
      return false;
   }
 
@@ -95,9 +94,10 @@ public abstract class RegularExpression extends Expansion {
 
   @Override
   public StringBuffer dump(int indent, Set<Expansion> alreadyDumped) {
-    StringBuffer sb = super.dump(indent, alreadyDumped);
+    StringBuffer buffer = super.dump(indent, alreadyDumped);
+
     alreadyDumped.add(this);
-    sb.append(' ').append(label);
-    return sb;
+    buffer.append(' ').append(label);
+    return buffer;
   }
 }

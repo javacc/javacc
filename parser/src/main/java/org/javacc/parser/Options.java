@@ -220,20 +220,15 @@ public class Options {
    * Initialize for JavaCC
    */
   public static void init() {
-    optionValues = new HashMap<String,Object>();
+    optionValues = new HashMap<String, Object>();
     cmdLineSetting = new HashSet<String>();
     inputFileSetting = new HashSet<String>();
 
-    for (OptionInfo t : userOptions) {
-      optionValues.put(t.getName(), t.getDefault());
-    }
+    userOptions.forEach(o -> optionValues.put(o.getName(), o.getDefault()));
 
-    {
-      Object object = optionValues.get(USEROPTION__JAVA_TEMPLATE_TYPE);
-      boolean isLegacy = JAVA_TEMPLATE_TYPE_CLASSIC.equals(object);
-      optionValues.put(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING, isLegacy );
-    }
-
+    Object object = optionValues.get(USEROPTION__JAVA_TEMPLATE_TYPE);
+    boolean isLegacy = JAVA_TEMPLATE_TYPE_CLASSIC.equals(object);
+    optionValues.put(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING, isLegacy);
   }
 
   /**
@@ -333,7 +328,7 @@ public class Options {
    *            The option's value.
    * @return The upgraded value.
    */
-  public static Object upgradeValue(final String name, Object value) {
+  private static Object upgradeValue(final String name, Object value) {
     if (name.equalsIgnoreCase("NODE_FACTORY")
         && value.getClass() == Boolean.class) {
       if (((Boolean) value).booleanValue()) {
@@ -553,7 +548,7 @@ public class Options {
    *
    * @return The requested choice ambiguity check value.
    */
-  public static int getChoiceAmbiguityCheck() {
+  static int getChoiceAmbiguityCheck() {
     return intValue(USEROPTION__CHOICE_AMBIGUITY_CHECK);
   }
 
@@ -562,7 +557,7 @@ public class Options {
    *
    * @return The requested other ambiguity check value.
    */
-  public static int getOtherAmbiguityCheck() {
+  static int getOtherAmbiguityCheck() {
     return intValue(USEROPTION__OTHER_AMBIGUITY_CHECK);
   }
 
@@ -849,7 +844,7 @@ public class Options {
    *            the version to check against. E.g. <code>1.5</code>
    * @return true if the output version is at least the specified version.
    */
-  public static boolean jdkVersionAtLeast(double version) {
+  private static boolean jdkVersionAtLeast(double version) {
     double jdkVersion = Double.parseDouble(getJdkVersion());
 
     // Comparing doubles is safe here, as it is two simple assignments.
@@ -913,7 +908,7 @@ public class Options {
   }
 
 
-  public static boolean isValidJavaTemplateType(String type) {
+  private static boolean isValidJavaTemplateType(String type) {
     return type == null ? false : supportedJavaTemplateTypes.contains(type.toLowerCase());
   }
 
@@ -925,14 +920,14 @@ public class Options {
     optionValues.put(optionName, optionValue);
   }
 
-  public static void setStringOption(String optionName, String optionValue) {
+  static void setStringOption(String optionName, String optionValue) {
     optionValues.put(optionName, optionValue);
     if (optionName.equalsIgnoreCase(USEROPTION__NAMESPACE)) {
       processCPPNamespaceOption(optionValue);
     }
   }
 
-  public static void processCPPNamespaceOption(String optionValue) {
+  private static void processCPPNamespaceOption(String optionValue) {
     String ns = optionValue;
     if (ns.length() > 0) {
       // We also need to split it.
@@ -981,7 +976,7 @@ public class Options {
    * Gets all the user options (in order)
    * @return
    */
-  public static Set<OptionInfo> getUserOptions() {
+  static Set<OptionInfo> getUserOptions() {
     return userOptions;
   }
 }

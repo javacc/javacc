@@ -36,13 +36,14 @@ import java.util.Set;
  */
 
 public class Expansion {
+  
+  protected static final String eol = System.getProperty("line.separator", "\n");
 
   /**
    * The line and column number of the construct that corresponds
    * most closely to this node.
    */
   private int line;
-
   private int column;
 
   /**
@@ -83,12 +84,51 @@ public class Expansion {
    * This flag is used for bookkeeping by the minimumSize method in class
    * ParseEngine.
    */
-  public boolean inMinimumSize = false;
+  public boolean     inMinimumSize       = false;
 
    public static void reInit()
    {
       nextGenerationIndex = 1;
    }
+
+  /**
+   * @return the line
+   */
+  public final int getLine() {
+    return line;
+  }
+
+  /**
+   * @return the column
+   */
+  public final int getColumn() {
+    return column;
+  }
+
+  /**
+   * @param line the line to set
+   */
+  final void setLine(int line) {
+    this.line = line;
+  }
+
+  /**
+   * @param column the column to set
+   */
+  final void setColumn(int column) {
+    this.column = column;
+  }
+
+  protected StringBuffer dumpPrefix(int indent) {
+    StringBuffer buffer = new StringBuffer(128);
+    for (int i = 0; i < indent; i++)
+      buffer.append("  ");
+    return buffer;
+  }
+
+  public StringBuffer dump(int indent, Set<Expansion> alreadyDumped) {
+    return dumpPrefix(indent).append(System.identityHashCode(this)).append(" ").append(getSimpleName());
+  }
 
   private String getSimpleName() {
     String name = getClass().getName();
@@ -98,46 +138,5 @@ public class Expansion {
   @Override
   public String toString() {
     return "[" + getLine() + "," + getColumn() + " " + System.identityHashCode(this) + " " + getSimpleName() + "]";
-  }
-
-  protected static final String eol = System.getProperty("line.separator", "\n");
-  protected StringBuffer dumpPrefix(int indent) {
-    StringBuffer sb = new StringBuffer(128);
-    for (int i = 0; i < indent; i++)
-      sb.append("  ");
-    return sb;
-  }
-
-  public StringBuffer dump(int indent, Set<Expansion> alreadyDumped) {
-    StringBuffer value = dumpPrefix(indent).append(System.identityHashCode(this)).append(" ").append(getSimpleName());
-    return value;
-  }
-
-  /**
-   * @param column the column to set
-   */
-  void setColumn(int column) {
-    this.column = column;
-  }
-
-  /**
-   * @return the column
-   */
-  public int getColumn() {
-    return column;
-  }
-
-  /**
-   * @param line the line to set
-   */
-  void setLine(int line) {
-    this.line = line;
-  }
-
-  /**
-   * @return the line
-   */
-  public int getLine() {
-    return line;
   }
 }

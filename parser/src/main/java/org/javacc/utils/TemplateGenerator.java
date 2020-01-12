@@ -25,10 +25,13 @@
 
 package org.javacc.utils;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.Map;
-
-import org.javacc.parser.CodeGeneratorSettings;
 
 /**
  * Generates boiler-plate files from templates. Only very basic template
@@ -38,7 +41,7 @@ import org.javacc.parser.CodeGeneratorSettings;
  * @author paulcager
  * @since 4.2
  */
-public class TemplateGenerator {
+class TemplateGenerator {
 
   private final String              template;
   private final Map<String, Object> options;
@@ -47,11 +50,10 @@ public class TemplateGenerator {
   private String currentLine;
 
   /**
-   * @param template the template. E.g.
-   *        "/templates/Token.template".
+   * @param template the template. E.g. "/templates/Token.template".
    * @param options the processing options in force, such as "STATIC=yes"
    */
-  private TemplateGenerator(String template, Map<String, Object> options) {
+  TemplateGenerator(String template, Map<String, Object> options) {
     this.template = template;
     this.options = options;
   }
@@ -67,7 +69,7 @@ public class TemplateGenerator {
     if (istream == null) {
       throw new IOException("Invalid template name: " + template);
     }
-    try(BufferedReader reader = new BufferedReader(new InputStreamReader(istream))) {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(istream))) {
       process(reader, writer, false);
     }
   }
@@ -237,41 +239,5 @@ public class TemplateGenerator {
 
     if (!line.trim().startsWith("#fi"))
       throw new IOException("Expected \"#fi\", got: " + line);
-  }
-
-  /**
-   * Generates a template to a file.
-   *
-   * @param template
-   * @param filename
-   * @param toolname
-   * @param settings
-   * @throws IOException
-   */
-  public static void generateTemplate(String template, String filename, String toolname,
-      CodeGeneratorSettings settings) throws IOException {
-    File directory = new File((String) settings.get("OUTPUT_DIRECTORY"));
-    
-    try(PrintWriter writer = new PrintWriter(new FileWriter(new File(directory, filename)))) {
-      writer.printf("/* %s generated file. */\n", toolname);
-      
-      TemplateGenerator generator = new TemplateGenerator(template, settings);
-      generator.generate(writer);
-    }
-  }
-
-  /**
-   * Generates a template to a {@link PrintWriter}.
-   *
-   * @param writer
-   * @param template
-   * @param filename
-   * @param toolname
-   * @param settings
-   * @throws IOException
-   */
-  public static void generateTemplate(PrintWriter writer, String template, Map<String, Object> options) throws IOException {
-    TemplateGenerator generator = new TemplateGenerator(template, options);
-    generator.generate(writer);
   }
 }
