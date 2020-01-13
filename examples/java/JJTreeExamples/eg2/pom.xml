@@ -48,4 +48,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	<name>JavaCC examples Java JJTreeExamples EG2</name>
 </project>

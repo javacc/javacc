@@ -6,7 +6,7 @@
 		<artifactId>GUIParsing</artifactId>
 		<version>8.0.0</version>
 	</parent>
-	<name>JavaCC tests Java GUIParsing ParserVersion</name>
+	<name>JavaCC examples Java GUIParsing ParserVersion</name>
 	<groupId>org.javacc.examples.java.guiparsing</groupId>
 	<artifactId>ParserVersion</artifactId>
 	<build>

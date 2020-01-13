@@ -6,7 +6,7 @@
 		<artifactId>javacc</artifactId>
 		<version>8.0.0</version>
 	</parent>
-	<name>JavaCC tests</name>
+	<name>JavaCC examples</name>
 	<groupId>org.javacc</groupId>
 	<artifactId>examples</artifactId>
 	<packaging>pom</packaging>

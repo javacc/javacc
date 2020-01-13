@@ -1,33 +1,42 @@
 [INFO] Scanning for projects...
-[INFO] Downloading from ossrh-snapshots: http://oss.sonatype.org/content/repositories/snapshots/org/codehaus/mojo/natives/maven-native-api/1.0-alpha-12-SNAPSHOT/maven-metadata.xml
-[INFO] Downloading from ossrh-snapshots: http://oss.sonatype.org/content/repositories/snapshots/org/codehaus/mojo/natives/maven-native-bcc/1.0-alpha-12-SNAPSHOT/maven-metadata.xml
-[INFO] Downloading from ossrh-snapshots: http://oss.sonatype.org/content/repositories/snapshots/org/codehaus/mojo/natives/maven-native-components/1.0-alpha-12-SNAPSHOT/maven-metadata.xml
-[INFO] Downloading from ossrh-snapshots: http://oss.sonatype.org/content/repositories/snapshots/org/codehaus/mojo/natives/maven-native-generic-c/1.0-alpha-12-SNAPSHOT/maven-metadata.xml
-[INFO] Downloading from ossrh-snapshots: http://oss.sonatype.org/content/repositories/snapshots/org/codehaus/mojo/natives/maven-native-javah/1.0-alpha-12-SNAPSHOT/maven-metadata.xml
-[INFO] Downloading from ossrh-snapshots: http://oss.sonatype.org/content/repositories/snapshots/org/codehaus/mojo/natives/maven-native-manager/1.0-alpha-12-SNAPSHOT/maven-metadata.xml
-[INFO] Downloading from ossrh-snapshots: http://oss.sonatype.org/content/repositories/snapshots/org/codehaus/mojo/natives/maven-native-mingw/1.0-alpha-12-SNAPSHOT/maven-metadata.xml
-[INFO] Downloading from ossrh-snapshots: http://oss.sonatype.org/content/repositories/snapshots/org/codehaus/mojo/natives/maven-native-msvc/1.0-alpha-12-SNAPSHOT/maven-metadata.xml
-[WARNING] 
-[WARNING] Some problems were encountered while building the effective model for org.javacc.tests.cpp.test:imports:exe:8.0.0
-[WARNING] 'build.plugins.plugin.version' for org.codehaus.mojo:exec-maven-plugin is missing. @ org.javacc.tests.cpp.test:imports:[unknown-version], C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\pom.xml, line 91, column 12
-[WARNING] 
-[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
-[WARNING] 
-[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
-[WARNING] 
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Build Order:
 [INFO] 
-[INFO] eg2                                                                [jar]
-[INFO] eg3                                                                [jar]
-[INFO] eg4                                                                [jar]
-[INFO] JavaCC tests Java MailProcessing                                   [jar]
+[INFO] JavaCC                                                             [pom]
+[INFO] JavaCC parser                                                      [jar]
+[INFO] JavaCC code generator                                              [pom]
+[INFO] JavaCC default c++ code generator                                  [jar]
+[INFO] JavaCC default c# code generator                                   [jar]
+[INFO] JavaCC default java code generator                                 [jar]
+[INFO] JavaCC examples                                                    [pom]
+[INFO] JavaCC examples Java                                               [pom]
+[INFO] JavaCC examples Java CORBA-IDL                                     [jar]
+[INFO] JavaCC examples Java Interpreter                                   [jar]
+[INFO] JavaCC examples Java JavaCCGrammar                                 [jar]
+[INFO] JavaCC examples Java JJTreeExamples                                [pom]
+[INFO] JavaCC examples Java JJTreeExamples EG1                            [jar]
+[INFO] JavaCC examples Java JJTreeExamples EG2                            [jar]
+[INFO] JavaCC examples Java JJTreeExamples EG3                            [jar]
+[INFO] JavaCC examples Java JJTreeExamples EG4                            [jar]
+[INFO] JavaCC examples Java JJTreeExamples MailProcessing                 [jar]
 [INFO] exceptions                                                         [jar]
-[INFO] lookahead                                                          [jar]
-[INFO] Transformer                                                        [jar]
-[INFO] VTransformer                                                       [jar]
+[INFO] JavaCC examples Java LookAhead                                     [jar]
+[INFO] JavaCC examples Java Transformer                                   [jar]
+[INFO] JavaCC examples Java VTransformer                                  [jar]
 [INFO] JavaCC default c# code generator tests                             [pom]
-[INFO] JavaCC tests C++                                                   [pom]
+[INFO] JavaCC examples C++                                                [pom]
+[INFO] JavaCC examples C++ CORBA-IDL                                      [nar]
+[INFO] JavaCC examples C++ Interpreter                                    [pom]
+[INFO] JavaCC examples C++ Interpreter AST                                [nar]
+[INFO] JavaCC examples C++ Interpreter Visitor                            [nar]
+[INFO] JavaCC examples C++ JavaCCGrammar                                  [nar]
+[INFO] JavaCC examples C++ MailProcessing                                 [nar]
+[INFO] JavaCC examples C++  JJTreeExamples                                [pom]
+[INFO] JavaCC examples C++  JJTreeExamples EG1                            [nar]
+[INFO] JavaCC examples C++  JJTreeExamples EG2                            [nar]
+[INFO] JavaCC examples C++  JJTreeExamples EG3                            [nar]
+[INFO] JavaCC examples C++  JJTreeExamples EG4                            [nar]
+[INFO] JavaCC tests                                                       [pom]
 [INFO] JavaCC tests C++ test                                              [pom]
 [INFO] JavaCC tests C++ test exceptions                                   [pom]
 [INFO] JavaCC tests C++ test imports                                      [exe]
@@ -39,87 +48,473 @@
 [INFO] JavaCC tests C++ test newToken                                     [pom]
 [INFO] JavaCC tests C++ test TestTokenManagerUsesParser                   [pom]
 [INFO] JavaCC tests C++ test TestTokenManagerUsesParser2                  [pom]
+[INFO] JavaCC tests C++ test                                              [pom]
 [INFO] 
-[INFO] --------------< org.javacc.tests.java.jjtreeexamples:eg2 >--------------
-[INFO] Building eg2 8.0.0                                                [1/21]
+[INFO] -----------------------------< org:javacc >-----------------------------
+[INFO] Building JavaCC 8.0.0                                             [1/47]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ javacc ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ javacc ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\8.0.0\javacc-8.0.0.pom
+[INFO] 
+[INFO] -------------------------< org.javacc:parser >--------------------------
+[INFO] Building JavaCC parser 8.0.0                                      [2/47]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ parser ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\target
+[INFO] 
+[INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (jcc) @ parser ---
+[WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
+Java Compiler Compiler Version 4.2 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\src\main\javacc\ConditionParser.jj . . .
+File "TokenMgrError.java" does not exist.  Will create one.
+File "ParseException.java" does not exist.  Will create one.
+File "Token.java" does not exist.  Will create one.
+File "JavaCharStream.java" does not exist.  Will create one.
+Parser generated successfully.
+Java Compiler Compiler Version 4.2 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\src\main\javacc\JavaCC.jj . . .
+Warning:  "JAVACODE" cannot be matched as a string literal token at line 1612, column 3. It will be matched as  <_JAVACODE>.
+File "TokenMgrError.java" does not exist.  Will create one.
+File "ParseException.java" does not exist.  Will create one.
+File "Token.java" does not exist.  Will create one.
+File "JavaCharStream.java" does not exist.  Will create one.
+Parser generated with 0 errors and 1 warnings.
+[INFO] Processed 2 grammars
+[INFO] 
+[INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree (jjt) @ parser ---
+[WARNING] This goal has been deprecated. Please update your plugin configuration.
+Java Compiler Compiler Version 4.2 (Tree Builder)
+(type "jjtree" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\src\main\jjtree\JJTree.jjt . . .
+File "Node.java" does not exist.  Will create one.
+File "SimpleNode.java" does not exist.  Will create one.
+File "ASTGrammar.java" does not exist.  Will create one.
+File "ASTCompilationUnit.java" does not exist.  Will create one.
+File "ASTProductions.java" does not exist.  Will create one.
+File "ASTOptions.java" does not exist.  Will create one.
+File "ASTOptionBinding.java" does not exist.  Will create one.
+File "ASTJavacode.java" does not exist.  Will create one.
+File "ASTJavacodeBody.java" does not exist.  Will create one.
+File "ASTBNF.java" does not exist.  Will create one.
+File "ASTBNFDeclaration.java" does not exist.  Will create one.
+File "ASTBNFNodeScope.java" does not exist.  Will create one.
+File "ASTRE.java" does not exist.  Will create one.
+File "ASTTokenDecls.java" does not exist.  Will create one.
+File "ASTRESpec.java" does not exist.  Will create one.
+File "ASTBNFChoice.java" does not exist.  Will create one.
+File "ASTBNFSequence.java" does not exist.  Will create one.
+File "ASTBNFLookahead.java" does not exist.  Will create one.
+File "ASTExpansionNodeScope.java" does not exist.  Will create one.
+File "ASTBNFAction.java" does not exist.  Will create one.
+File "ASTBNFZeroOrOne.java" does not exist.  Will create one.
+File "ASTBNFTryBlock.java" does not exist.  Will create one.
+File "ASTBNFAssignment.java" does not exist.  Will create one.
+File "ASTBNFNonTerminal.java" does not exist.  Will create one.
+File "ASTBNFOneOrMore.java" does not exist.  Will create one.
+File "ASTBNFZeroOrMore.java" does not exist.  Will create one.
+File "ASTBNFParenthesized.java" does not exist.  Will create one.
+File "ASTREStringLiteral.java" does not exist.  Will create one.
+File "ASTRENamed.java" does not exist.  Will create one.
+File "ASTREReference.java" does not exist.  Will create one.
+File "ASTREEOF.java" does not exist.  Will create one.
+File "ASTREChoice.java" does not exist.  Will create one.
+File "ASTRESequence.java" does not exist.  Will create one.
+File "ASTREOneOrMore.java" does not exist.  Will create one.
+File "ASTREZeroOrMore.java" does not exist.  Will create one.
+File "ASTREZeroOrOne.java" does not exist.  Will create one.
+File "ASTRRepetitionRange.java" does not exist.  Will create one.
+File "ASTREParenthesized.java" does not exist.  Will create one.
+File "ASTRECharList.java" does not exist.  Will create one.
+File "ASTCharDescriptor.java" does not exist.  Will create one.
+File "ASTNodeDescriptor.java" does not exist.  Will create one.
+File "ASTNodeDescriptorExpression.java" does not exist.  Will create one.
+File "ASTPrimaryExpression.java" does not exist.  Will create one.
+File "JJTreeParserTreeConstants.java" does not exist.  Will create one.
+File "JJTreeParserVisitor.java" does not exist.  Will create one.
+File "JJTJJTreeParserState.java" does not exist.  Will create one.
+Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\target\generated-sources\jjtree\org\javacc\jjtree\JJTree.jj
+[INFO] Processed 1 grammar
+[INFO] 
+[INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (jjt-jcc) @ parser ---
+[WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
+Java Compiler Compiler Version 4.2 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\target\generated-sources\jjtree\org\javacc\jjtree\JJTree.jj . . .
+Warning:  "JAVACODE" cannot be matched as a string literal token at line 967, column 3. It will be matched as  <_JAVACODE>.
+File "TokenMgrError.java" does not exist.  Will create one.
+File "ParseException.java" does not exist.  Will create one.
+File "Token.java" does not exist.  Will create one.
+File "JavaCharStream.java" does not exist.  Will create one.
+Parser generated with 0 errors and 1 warnings.
+[INFO] Processed 1 grammar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ parser ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:compile (default-compile) @ parser ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 152 source files to C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\target\classes
+[INFO] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/parser/target/generated-sources/javacc/org/javacc/jjtree/JJTreeParser.java: Some input files use unchecked or unsafe operations.
+[INFO] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/parser/target/generated-sources/javacc/org/javacc/jjtree/JJTreeParser.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ parser ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.0:testCompile (default-testCompile) @ parser ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 6 source files to C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\target\test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.22.0:test (default-test) @ parser ---
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.javacc.jjdoc.test.JJDocMainTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.357 s - in org.javacc.jjdoc.test.JJDocMainTest
+[INFO] Running org.javacc.jjtree.JJTreeOptionsTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in org.javacc.jjtree.JJTreeOptionsTest
+[INFO] Running org.javacc.parser.ExpansionTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 s - in org.javacc.parser.ExpansionTest
+[INFO] Running org.javacc.parser.OptionsTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in org.javacc.parser.OptionsTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ parser ---
+[INFO] Building jar: C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\target\parser-8.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ parser ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\target\parser-8.0.0.jar to C:\Users\fandre\.m2\repository\org\javacc\parser\8.0.0\parser-8.0.0.jar
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\parser\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\parser\8.0.0\parser-8.0.0.pom
+[INFO] 
+[INFO] -------------------------< org.javacc:codegen >-------------------------
+[INFO] Building JavaCC code generator 8.0.0                              [3/47]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ codegen ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ codegen ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\codegen\8.0.0\codegen-8.0.0.pom
+[INFO] 
+[INFO] -----------------------< org.javacc.codegen:cpp >-----------------------
+[INFO] Building JavaCC default c++ code generator 8.0.0                  [4/47]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ cpp ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\cpp\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ cpp ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 28 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ cpp ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 8 source files to C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\cpp\target\classes
+[WARNING] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/codegen/cpp/src/main/java/org/javacc/cpp/ParserCodeGenerator.java: C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\cpp\src\main\java\org\javacc\cpp\ParserCodeGenerator.java uses unchecked or unsafe operations.
+[WARNING] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/codegen/cpp/src/main/java/org/javacc/cpp/ParserCodeGenerator.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ cpp ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\cpp\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ cpp ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ cpp ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ cpp ---
+[INFO] Building jar: C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\cpp\target\cpp-8.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ cpp ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\cpp\target\cpp-8.0.0.jar to C:\Users\fandre\.m2\repository\org\javacc\codegen\cpp\8.0.0\cpp-8.0.0.jar
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\cpp\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\codegen\cpp\8.0.0\cpp-8.0.0.pom
+[INFO] 
+[INFO] ---------------------< org.javacc.codegen:csharp >----------------------
+[INFO] Building JavaCC default c# code generator 8.0.0                   [5/47]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ csharp ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\csharp\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ csharp ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 12 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ csharp ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 6 source files to C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\csharp\target\classes
+[WARNING] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/codegen/csharp/src/main/java/org/javacc/csharp/ParserCodeGenerator.java: C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\csharp\src\main\java\org\javacc\csharp\ParserCodeGenerator.java uses unchecked or unsafe operations.
+[WARNING] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/codegen/csharp/src/main/java/org/javacc/csharp/ParserCodeGenerator.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ csharp ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\csharp\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ csharp ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ csharp ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ csharp ---
+[INFO] Building jar: C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\csharp\target\csharp-8.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ csharp ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\csharp\target\csharp-8.0.0.jar to C:\Users\fandre\.m2\repository\org\javacc\codegen\csharp\8.0.0\csharp-8.0.0.jar
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\csharp\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\codegen\csharp\8.0.0\csharp-8.0.0.pom
+[INFO] 
+[INFO] ----------------------< org.javacc.codegen:java >-----------------------
+[INFO] Building JavaCC default java code generator 8.0.0                 [6/47]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ java ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\java\target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ java ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 20 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ java ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 8 source files to C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\java\target\classes
+[WARNING] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/codegen/java/src/main/java/org/javacc/java/ParserCodeGenerator.java: C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\java\src\main\java\org\javacc\java\ParserCodeGenerator.java uses unchecked or unsafe operations.
+[WARNING] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/codegen/java/src/main/java/org/javacc/java/ParserCodeGenerator.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ java ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\java\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ java ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ java ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ java ---
+[INFO] Building jar: C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\java\target\java-8.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ java ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\java\target\java-8.0.0.jar to C:\Users\fandre\.m2\repository\org\javacc\codegen\java\8.0.0\java-8.0.0.jar
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\codegen\java\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\codegen\java\8.0.0\java-8.0.0.pom
+[INFO] 
+[INFO] ------------------------< org.javacc:examples >-------------------------
+[INFO] Building JavaCC examples 8.0.0                                    [7/47]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ examples ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ examples ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\examples\8.0.0\examples-8.0.0.pom
+[INFO] 
+[INFO] ----------------------< org.javacc.examples:java >----------------------
+[INFO] Building JavaCC examples Java 8.0.0                               [8/47]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ java ---
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.8:run (tests) @ java ---
+[INFO] Skipping Antrun execution
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ java ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\examples\java\8.0.0\java-8.0.0.pom
+[INFO] 
+[INFO] -----------------< org.javacc.examples.java:CORBA-IDL >-----------------
+[INFO] Building JavaCC examples Java CORBA-IDL 8.0.0                     [9/47]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ CORBA-IDL ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\CORBA-IDL\target
+[INFO] 
+[INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (jcc) @ CORBA-IDL ---
+[WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
+Java Compiler Compiler Version 8.0.0 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\CORBA-IDL\src\main\javacc\IDL.jj . . .
+File "IDLParser.java" does not exist.  Will create one.
+File "IDLParserTokenManager.java" does not exist.  Will create one.
+Parser generated successfully.
+[INFO] Processed 1 grammar
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ CORBA-IDL ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\CORBA-IDL\src\main\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ CORBA-IDL ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 9 source files to C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\CORBA-IDL\target\classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ CORBA-IDL ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\CORBA-IDL\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ CORBA-IDL ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ CORBA-IDL ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.8:run (tests) @ CORBA-IDL ---
+[INFO] Skipping Antrun execution
+[INFO] 
+[INFO] --- exec-maven-plugin:1.6.0:java (default) @ CORBA-IDL ---
+IDL Parser Version 0.1:  Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\CORBA-IDL/Hello.idl . . .
+IDL Parser Version 0.1:  IDL file parsed successfully.
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ CORBA-IDL ---
+[INFO] Building jar: C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\CORBA-IDL\target\CORBA-IDL-8.0.0.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ CORBA-IDL ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\CORBA-IDL\target\CORBA-IDL-8.0.0.jar to C:\Users\fandre\.m2\repository\org\javacc\examples\java\CORBA-IDL\8.0.0\CORBA-IDL-8.0.0.jar
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\CORBA-IDL\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\examples\java\CORBA-IDL\8.0.0\CORBA-IDL-8.0.0.pom
+[INFO] 
+[INFO] ----------------< org.javacc.examples.java:Interpreter >----------------
+[INFO] Building JavaCC examples Java Interpreter 8.0.0                  [10/47]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ Interpreter ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\Interpreter\target
+[INFO] 
+[INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) @ Interpreter ---
+[WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
+Java Compiler Compiler Version 8.0.0 (Tree Builder)
+(type "jjtree" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\Interpreter\src\main\jjtree\SPL.jjt . . .
+File "JJTSPLParserState.java" does not exist.  Will create one.
+File "Node.java" does not exist.  Will create one.
+File "SimpleNode.java" does not exist.  Will create one.
+File "SPLParserTree.java" does not exist.  Will create one.
+File "SPLParserTreeConstants.java" does not exist.  Will create one.
+Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\Interpreter\target\javacc-1578936195200\node\SPL.jj
+Java Compiler Compiler Version 8.0.0 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\Interpreter\target\javacc-1578936195200\node\SPL.jj . . .
+File "SPLParser.java" does not exist.  Will create one.
+[INFO] 
+[INFO] ---------------< org.javacc.examples.java:JavaCCGrammar >---------------
+[INFO] Building JavaCC examples Java JavaCCGrammar 8.0.0                [11/47]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ JavaCCGrammar ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JavaCCGrammar\target
+[INFO] 
+[INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (jcc) @ JavaCCGrammar ---
+[WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
+Java Compiler Compiler Version 8.0.0 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JavaCCGrammar\src\main\javacc\JavaCC.jj . . .
+File "JavaCCParser.java" does not exist.  Will create one.
+[INFO] 
+[INFO] --------------< org.javacc.examples.java:JJTreeExamples >---------------
+[INFO] Building JavaCC examples Java JJTreeExamples 8.0.0               [12/47]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ JJTreeExamples ---
+[INFO] 
+[INFO] --- maven-antrun-plugin:1.8:run (tests) @ JJTreeExamples ---
+[INFO] Skipping Antrun execution
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ JJTreeExamples ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\examples\java\JJTreeExamples\8.0.0\JJTreeExamples-8.0.0.pom
+[INFO] 
+[INFO] ------------< org.javacc.examples.java.jjtreeexamples:eg1 >-------------
+[INFO] Building JavaCC examples Java JJTreeExamples EG1 8.0.0           [13/47]
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ eg1 ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg1\target
+[INFO] 
+[INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) @ eg1 ---
+[WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
+Java Compiler Compiler Version 8.0.0 (Tree Builder)
+(type "jjtree" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg1\src\main\jjtree\eg1.jjt . . .
+File "JJTEg1State.java" does not exist.  Will create one.
+File "Node.java" does not exist.  Will create one.
+File "SimpleNode.java" does not exist.  Will create one.
+File "Eg1Tree.java" does not exist.  Will create one.
+File "Eg1TreeConstants.java" does not exist.  Will create one.
+Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg1\target\javacc-1578936195504\node\eg1.jj
+Java Compiler Compiler Version 8.0.0 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg1\target\javacc-1578936195504\node\eg1.jj . . .
+File "Eg1.java" does not exist.  Will create one.
+[INFO] 
+[INFO] ------------< org.javacc.examples.java.jjtreeexamples:eg2 >-------------
+[INFO] Building JavaCC examples Java JJTreeExamples EG2 8.0.0           [14/47]
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ eg2 ---
-[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\JJTreeExamples\eg2\target
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg2\target
 [INFO] 
 [INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) @ eg2 ---
 [WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
 Java Compiler Compiler Version 8.0.0 (Tree Builder)
 (type "jjtree" with no arguments for help)
-Warning: VISITOR_RETURN_TYPE option will be ignored since VISITOR is false
-Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\JJTreeExamples\eg2\src\main\jjtree\eg2.jjt . . .
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg2\src\main\jjtree\eg2.jjt . . .
 File "JJTEg2State.java" does not exist.  Will create one.
 File "Node.java" does not exist.  Will create one.
 File "SimpleNode.java" does not exist.  Will create one.
 File "Eg2Tree.java" does not exist.  Will create one.
 File "Eg2TreeConstants.java" does not exist.  Will create one.
-Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\JJTreeExamples\eg2\target\javacc-1578903801799\node\eg2.jj
+Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg2\target\javacc-1578936195604\node\eg2.jj
 Java Compiler Compiler Version 8.0.0 (Parser Generator)
 (type "javacc" with no arguments for help)
-Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\JJTreeExamples\eg2\target\javacc-1578903801799\node\eg2.jj . . .
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg2\target\javacc-1578936195604\node\eg2.jj . . .
 File "Eg2.java" does not exist.  Will create one.
-File "Eg2TokenManager.java" does not exist.  Will create one.
-Parser generated successfully.
-[INFO] Processed 1 grammar
 [INFO] 
-[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ eg2 ---
-[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
-[INFO] Copying 0 resource
-[INFO] 
-[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ eg2 ---
-[INFO] Changes detected - recompiling the module!
-[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
-[INFO] Compiling 13 source files to C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\JJTreeExamples\eg2\target\classes
-[INFO] -------------------------------------------------------------
-[ERROR] COMPILATION ERROR : 
-[INFO] -------------------------------------------------------------
-[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/tests/java/JJTreeExamples/eg2/target/generated-sources/jjtree/Eg2Tree.java:[4,1] class ASTStart is public, should be declared in a file named ASTStart.java
-[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/tests/java/JJTreeExamples/eg2/target/generated-sources/jjtree/Eg2Tree.java:[15,1] class ASTMult is public, should be declared in a file named ASTMult.java
-[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/tests/java/JJTreeExamples/eg2/target/generated-sources/jjtree/Eg2Tree.java:[26,1] class ASTInteger is public, should be declared in a file named ASTInteger.java
-[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/tests/java/JJTreeExamples/eg2/target/generated-sources/jjtree/Eg2Tree.java:[37,1] class ASTAdd is public, should be declared in a file named ASTAdd.java
-[INFO] 4 errors 
-[INFO] -------------------------------------------------------------
-[INFO] 
-[INFO] --------------< org.javacc.tests.java.jjtreeexamples:eg3 >--------------
-[INFO] Building eg3 8.0.0                                                [2/21]
+[INFO] ------------< org.javacc.examples.java.jjtreeexamples:eg3 >-------------
+[INFO] Building JavaCC examples Java JJTreeExamples EG3 8.0.0           [15/47]
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ eg3 ---
-[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\JJTreeExamples\eg3\target
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg3\target
 [INFO] 
 [INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) @ eg3 ---
 [WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
 Java Compiler Compiler Version 8.0.0 (Tree Builder)
 (type "jjtree" with no arguments for help)
-Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\JJTreeExamples\eg3\src\main\jjtree\eg3.jjt . . .
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg3\src\main\jjtree\eg3.jjt . . .
 File "JJTEg3State.java" does not exist.  Will create one.
 File "Node.java" does not exist.  Will create one.
 File "SimpleNode.java" does not exist.  Will create one.
 File "Eg3Tree.java" does not exist.  Will create one.
 File "Eg3TreeConstants.java" does not exist.  Will create one.
-Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\JJTreeExamples\eg3\target\javacc-1578903803707\node\eg3.jj
+Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg3\target\javacc-1578936195704\node\eg3.jj
 Java Compiler Compiler Version 8.0.0 (Parser Generator)
 (type "javacc" with no arguments for help)
-Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\JJTreeExamples\eg3\target\javacc-1578903803707\node\eg3.jj . . .
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg3\target\javacc-1578936195704\node\eg3.jj . . .
 File "Eg3.java" does not exist.  Will create one.
 [INFO] 
-[INFO] --------------< org.javacc.tests.java.jjtreeexamples:eg4 >--------------
-[INFO] Building eg4 8.0.0                                                [3/21]
+[INFO] ------------< org.javacc.examples.java.jjtreeexamples:eg4 >-------------
+[INFO] Building JavaCC examples Java JJTreeExamples EG4 8.0.0           [16/47]
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ eg4 ---
-[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\JJTreeExamples\eg4\target
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg4\target
 [INFO] 
 [INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) @ eg4 ---
 [WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
 Java Compiler Compiler Version 8.0.0 (Tree Builder)
 (type "jjtree" with no arguments for help)
-Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\JJTreeExamples\eg4\src\main\jjtree\eg4.jjt . . .
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg4\src\main\jjtree\eg4.jjt . . .
 File "JJTEg4State.java" does not exist.  Will create one.
 File "Node.java" does not exist.  Will create one.
 File "SimpleNode.java" does not exist.  Will create one.
@@ -127,38 +522,38 @@ File "Eg4Tree.java" does not exist.  Will create one.
 File "Eg4TreeConstants.java" does not exist.  Will create one.
 File "Eg4Visitor.java" does not exist.  Will create one.
 File "Eg4DefaultVisitor.java" does not exist.  Will create one.
-Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\JJTreeExamples\eg4\target\javacc-1578903803788\node\eg4.jj
+Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg4\target\javacc-1578936195795\node\eg4.jj
 Java Compiler Compiler Version 8.0.0 (Parser Generator)
 (type "javacc" with no arguments for help)
-Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\JJTreeExamples\eg4\target\javacc-1578903803788\node\eg4.jj . . .
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\JJTreeExamples\eg4\target\javacc-1578936195795\node\eg4.jj . . .
 File "Eg4.java" does not exist.  Will create one.
 [INFO] 
-[INFO] ----------------< org.javacc.tests.java:MailProcessing >----------------
-[INFO] Building JavaCC tests Java MailProcessing 8.0.0                   [4/21]
+[INFO] --------------< org.javacc.examples.java:MailProcessing >---------------
+[INFO] Building JavaCC examples Java JJTreeExamples MailProcessing 8.0.0 [17/47]
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ MailProcessing ---
-[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\MailProcessing\target
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\MailProcessing\target
 [INFO] 
 [INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (jcc) @ MailProcessing ---
 [WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
 Java Compiler Compiler Version 8.0.0 (Parser Generator)
 (type "javacc" with no arguments for help)
-Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\MailProcessing\src\main\javacc\Digest.jj . . .
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\MailProcessing\src\main\javacc\Digest.jj . . .
 File "Digest.java" does not exist.  Will create one.
 [INFO] 
-[INFO] ------------------< org.javacc.tests.java:exceptions >------------------
-[INFO] Building exceptions 8.0.0                                         [5/21]
+[INFO] ----------------< org.javacc.examples.java:exceptions >-----------------
+[INFO] Building exceptions 8.0.0                                        [18/47]
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exceptions ---
-[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\exceptions\target
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\exceptions\target
 [INFO] 
 [INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (exceptions) @ exceptions ---
 [WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
 Java Compiler Compiler Version 8.0.0 (Parser Generator)
 (type "javacc" with no arguments for help)
-Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\exceptions\src\main\javacc\Parser.jj . . .
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\exceptions\src\main\javacc\Parser.jj . . .
 File "Parser.java" does not exist.  Will create one.
 File "ParserTokenManager.java" does not exist.  Will create one.
 Parser generated successfully.
@@ -166,36 +561,36 @@ Parser generated successfully.
 [INFO] 
 [INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ exceptions ---
 [WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
-[INFO] skip non existing resourceDirectory C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\exceptions\src\main\resources
+[INFO] skip non existing resourceDirectory C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\exceptions\src\main\resources
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ exceptions ---
 [INFO] Changes detected - recompiling the module!
 [WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
-[INFO] Compiling 7 source files to C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\exceptions\target\classes
+[INFO] Compiling 7 source files to C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\exceptions\target\classes
 [INFO] -------------------------------------------------------------
 [ERROR] COMPILATION ERROR : 
 [INFO] -------------------------------------------------------------
-[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/tests/java/exceptions/target/generated-sources/javacc/ParserTokenManager.java:[13,1] cannot find symbol
+[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/examples/java/exceptions/target/generated-sources/javacc/ParserTokenManager.java:[13,1] cannot find symbol
   symbol:   class Map
   location: class ParserTokenManager
-[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/tests/java/exceptions/target/generated-sources/javacc/ParserTokenManager.java:[13,15] cannot find symbol
+[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/examples/java/exceptions/target/generated-sources/javacc/ParserTokenManager.java:[13,15] cannot find symbol
   symbol:   class HashMap
   location: class ParserTokenManager
 [INFO] 2 errors 
 [INFO] -------------------------------------------------------------
 [INFO] 
-[INFO] ------------------< org.javacc.tests.java:lookahead >-------------------
-[INFO] Building lookahead 8.0.0                                          [6/21]
+[INFO] -----------------< org.javacc.examples.java:lookahead >-----------------
+[INFO] Building JavaCC examples Java LookAhead 8.0.0                    [19/47]
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ lookahead ---
-[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\Lookahead\target
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\Lookahead\target
 [INFO] 
 [INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (example1) @ lookahead ---
 [WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
 Java Compiler Compiler Version 8.0.0 (Parser Generator)
 (type "javacc" with no arguments for help)
-Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\Lookahead\src\main\javacc\Example1.jj . . .
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\Lookahead\src\main\javacc\Example1.jj . . .
 Warning: Choice conflict in [...] construct at line 60, column 7.
          Expansion nested within construct and expansion following construct
          have common prefixes, one of which is: "c"
@@ -209,46 +604,46 @@ Parser generated with 0 errors and 1 warnings.
 [WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
 Java Compiler Compiler Version 8.0.0 (Parser Generator)
 (type "javacc" with no arguments for help)
-Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\Lookahead\src\main\javacc\Example2.jj . . .
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\Lookahead\src\main\javacc\Example2.jj . . .
 File "Example.java" does not exist.  Will create one.
 Warning: Token: new will not be matched as specified. It will be matched as token of kind: 5 instead.
 Warning: Token: TBD will not be matched as specified. It will be matched as token of kind: 5 instead.
 [INFO] 
-[INFO] -----------------< org.javacc.tests.java:Transformer >------------------
-[INFO] Building Transformer 8.0.0                                        [7/21]
+[INFO] ----------------< org.javacc.examples.java:Transformer >----------------
+[INFO] Building JavaCC examples Java Transformer 8.0.0                  [20/47]
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ Transformer ---
-[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\Transformer\target
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\Transformer\target
 [INFO] 
 [INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) @ Transformer ---
 [WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
 Java Compiler Compiler Version 8.0.0 (Tree Builder)
 (type "jjtree" with no arguments for help)
-Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\Transformer\src\main\jjtree\ToyJava.jjt . . .
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\Transformer\src\main\jjtree\ToyJava.jjt . . .
 File "JJTToyParserState.java" does not exist.  Will create one.
 File "Node.java" does not exist.  Will create one.
 File "SimpleNode.java" does not exist.  Will create one.
 File "ToyParserTree.java" does not exist.  Will create one.
 File "ToyParserTreeConstants.java" does not exist.  Will create one.
-Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\Transformer\target\javacc-1578903804329\node\ToyJava.jj
+Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\Transformer\target\javacc-1578936196204\node\ToyJava.jj
 Java Compiler Compiler Version 8.0.0 (Parser Generator)
 (type "javacc" with no arguments for help)
-Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\Transformer\target\javacc-1578903804329\node\ToyJava.jj . . .
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\Transformer\target\javacc-1578936196204\node\ToyJava.jj . . .
 File "ToyParser.java" does not exist.  Will create one.
 [INFO] 
-[INFO] -----------------< org.javacc.tests.java:VTransformer >-----------------
-[INFO] Building VTransformer 8.0.0                                       [8/21]
+[INFO] ---------------< org.javacc.examples.java:VTransformer >----------------
+[INFO] Building JavaCC examples Java VTransformer 8.0.0                 [21/47]
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ VTransformer ---
-[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\VTransformer\target
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\VTransformer\target
 [INFO] 
 [INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) @ VTransformer ---
 [WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
 Java Compiler Compiler Version 8.0.0 (Tree Builder)
 (type "jjtree" with no arguments for help)
-Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\VTransformer\src\main\jjtree\Java1.1.jjt . . .
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\VTransformer\src\main\jjtree\Java1.1.jjt . . .
 File "JJTJavaParserState.java" does not exist.  Will create one.
 File "Node.java" does not exist.  Will create one.
 File "SimpleNode.java" does not exist.  Will create one.
@@ -256,23 +651,23 @@ File "JavaParserTree.java" does not exist.  Will create one.
 File "JavaParserTreeConstants.java" does not exist.  Will create one.
 File "JavaParserVisitor.java" does not exist.  Will create one.
 File "JavaParserDefaultVisitor.java" does not exist.  Will create one.
-Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\VTransformer\target\javacc-1578903804519\node\Java1.1.jj
+Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\VTransformer\target\javacc-1578936196355\node\Java1.1.jj
 Java Compiler Compiler Version 8.0.0 (Parser Generator)
 (type "javacc" with no arguments for help)
-Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\VTransformer\target\javacc-1578903804519\node\Java1.1.jj . . .
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\java\VTransformer\target\javacc-1578936196355\node\Java1.1.jj . . .
 File "JavaParser.java" does not exist.  Will create one.
 [INFO] 
-[INFO] ----------------------< org.javacc.tests:csharp >-----------------------
-[INFO] Building JavaCC default c# code generator tests 8.0.0             [9/21]
+[INFO] ---------------------< org.javacc.examples:csharp >---------------------
+[INFO] Building JavaCC default c# code generator tests 8.0.0            [22/47]
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ csharp ---
 [INFO] 
 [INFO] --- maven-install-plugin:2.4:install (default-install) @ csharp ---
-[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\csharp\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\csharp\8.0.0\csharp-8.0.0.pom
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\csharp\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\examples\csharp\8.0.0\csharp-8.0.0.pom
 [INFO] 
-[INFO] ------------------------< org.javacc.tests:cpp >------------------------
-[INFO] Building JavaCC tests C++ 8.0.0                                  [10/21]
+[INFO] ----------------------< org.javacc.examples:cpp >-----------------------
+[INFO] Building JavaCC examples C++ 8.0.0                               [23/47]
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ cpp ---
@@ -281,46 +676,35 @@ File "JavaParser.java" does not exist.  Will create one.
 [INFO] Skipping Antrun execution
 [INFO] 
 [INFO] --- maven-install-plugin:2.4:install (default-install) @ cpp ---
-[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\8.0.0\cpp-8.0.0.pom
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\examples\cpp\8.0.0\cpp-8.0.0.pom
 [INFO] 
-[INFO] ---------------------< org.javacc.tests.cpp:test >----------------------
-[INFO] Building JavaCC tests C++ test 8.0.0                             [11/21]
-[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] -----------------< org.javacc.examples.cpp:CORBA-IDL >------------------
+[INFO] Building JavaCC examples C++ CORBA-IDL 8.0.0                     [24/47]
+[INFO] --------------------------------[ nar ]---------------------------------
 [INFO] 
-[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ test ---
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ CORBA-IDL ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\CORBA-IDL\target
 [INFO] 
-[INFO] --- maven-install-plugin:2.4:install (default-install) @ test ---
-[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\test\8.0.0\test-8.0.0.pom
+[INFO] --- nar-maven-plugin:3.9.1:nar-validate (default-nar-validate) @ CORBA-IDL ---
+[INFO] Using AOL: amd64-Windows-msvc
 [INFO] 
-[INFO] ----------------< org.javacc.tests.cpp.test:exceptions >----------------
-[INFO] Building JavaCC tests C++ test exceptions 8.0.0                  [12/21]
-[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] --- nar-maven-plugin:3.9.1:nar-download (default-nar-download) @ CORBA-IDL ---
+[INFO] Getting Nar dependencies
+[INFO] Getting Nar dependencies
 [INFO] 
-[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exceptions ---
+[INFO] --- nar-maven-plugin:3.9.1:nar-unpack (default-nar-unpack) @ CORBA-IDL ---
+[INFO] Getting Nar dependencies
+[INFO] Unpacking 0 dependencies to C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\CORBA-IDL\target\nar
 [INFO] 
-[INFO] --- maven-install-plugin:2.4:install (default-install) @ exceptions ---
-[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\exceptions\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\test\exceptions\8.0.0\exceptions-8.0.0.pom
-[INFO] 
-[INFO] -----------------< org.javacc.tests.cpp.test:imports >------------------
-[INFO] Building JavaCC tests C++ test imports 8.0.0                     [13/21]
-[INFO] --------------------------------[ exe ]---------------------------------
-[INFO] 
-[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ imports ---
-[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target
-[INFO] 
-[INFO] --- native-maven-plugin:1.0-alpha-12-SNAPSHOT:initialize (default-initialize) @ imports ---
-[INFO] 
-[INFO] --- native-maven-plugin:1.0-alpha-12-SNAPSHOT:unzipinc (default-unzipinc) @ imports ---
-[INFO] 
-[INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (jcc) @ imports ---
+[INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (jcc) @ CORBA-IDL ---
 [WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
 Java Compiler Compiler Version 8.0.0 (Parser Generator)
 (type "javacc" with no arguments for help)
-Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\src\main\javacc\Parser.jj . . .
-File "Parser.h" does not exist.  Will create one.
-File "Parser.cc" does not exist.  Will create one.
-File "ParserTokenManager.h" does not exist.  Will create one.
-File "ParserTokenManager.cc" does not exist.  Will create one.
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\CORBA-IDL\src\main\javacc\IDL.jj . . .
+File "IDLParser.h" does not exist.  Will create one.
+File "IDLParser.cc" does not exist.  Will create one.
+File "IDLParserTokenManager.h" does not exist.  Will create one.
+File "IDLParserTokenManager.cc" does not exist.  Will create one.
 File "Token.h" does not exist.  Will create one.
 File "Token.cc" does not exist.  Will create one.
 File "CharStream.h" does not exist.  Will create one.
@@ -335,182 +719,578 @@ File "ErrorHandler.h" does not exist.  Will create one.
 Parser generated successfully.
 [INFO] Processed 1 grammar
 [INFO] 
-[INFO] --- native-maven-plugin:1.0-alpha-12-SNAPSHOT:resource-compile (default-resource-compile) @ imports ---
+[INFO] --- nar-maven-plugin:3.9.1:nar-gnu-configure (default-nar-gnu-configure) @ CORBA-IDL ---
 [INFO] 
-[INFO] --- native-maven-plugin:1.0-alpha-12-SNAPSHOT:compile (default-compile) @ imports ---
-**********************************************************************
-** Visual Studio 2017 Developer Command Prompt v15.9.5
-** Copyright (c) 2017 Microsoft Corporation
-**********************************************************************
-[vcvarsall.bat] Environment initialized for: 'x86'
-[INFO] cmd.exe /X /C "cl.exe /EHsc -IC:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp -IC:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\jjtree -IC:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp /FoC:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\objs\CharStream.obj -c C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\CharStream.cc"
-Compilateur d'optimisation Microsoft (R) C/C++ versionÿ19.16.27026.1 pour x86
-Copyright (C) Microsoft Corporation. Tous droits r‚serv‚s.
-
-CharStream.cc
-[INFO] cmd.exe /X /C "cl.exe /EHsc -IC:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp -IC:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\jjtree -IC:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp /FoC:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\objs\ParseException.obj -c C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\ParseException.cc"
-Compilateur d'optimisation Microsoft (R) C/C++ versionÿ19.16.27026.1 pour x86
-Copyright (C) Microsoft Corporation. Tous droits r‚serv‚s.
-
-ParseException.cc
-[INFO] cmd.exe /X /C "cl.exe /EHsc -IC:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp -IC:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\jjtree -IC:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp /FoC:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\objs\Parser.obj -c C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.cc"
-Compilateur d'optimisation Microsoft (R) C/C++ versionÿ19.16.27026.1 pour x86
-Copyright (C) Microsoft Corporation. Tous droits r‚serv‚s.
-
-Parser.cc
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(21): error C3646: 'CompilationUnit'ÿ: sp‚cificateur de substitution inconnu
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(21): error C2059: erreur de syntaxeÿ: '('
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(21): error C2238: jetons inattendus avant ';'
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(85): error C3646: 'java'ÿ: sp‚cificateur de substitution inconnu
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(85): error C2143: erreur de syntaxeÿ: absence de ';' avant '.'
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(85): error C4430: sp‚cificateur de type manquant - int est pris en compte par d‚faut. Remarqueÿ: C++ ne prend pas en charge int par d‚faut
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(85): error C2238: jetons inattendus avant ';'
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(86): error C3646: 'java'ÿ: sp‚cificateur de substitution inconnu
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(86): error C2143: erreur de syntaxeÿ: absence de ';' avant '.'
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(86): error C4430: sp‚cificateur de type manquant - int est pris en compte par d‚faut. Remarqueÿ: C++ ne prend pas en charge int par d‚faut
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(86): error C2238: jetons inattendus avant ';'
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(88): error C3769: 'Parser'ÿ: une classe imbriqu‚e ne peut pas avoir le mˆme nom que la classe imm‚diatement englobante
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(88): error C3381: 'Parser::Parser'ÿ: les sp‚cificateurs d'accŠs … l'assembly ne sont disponibles que dans le code compil‚ … l'aide de l'option /clr
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(90): error C2062: type 'void' inattendu
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(90): error C2334: jetons inattendus avant '{'ÿ; corps apparent de la fonction ignor‚
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(97): error C2059: erreur de syntaxeÿ: 'private'
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(98): error C2062: type 'bool' inattendu
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(98): error C2238: jetons inattendus avant ';'
-C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.cc(9): error C2039: 'CompilationUnit'ÿ: n'est pas membre de 'Parser'
-c:\users\fandre\documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.h(19): note: voir la d‚claration de 'Parser'
-C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.cc(9): error C4430: sp‚cificateur de type manquant - int est pris en compte par d‚faut. Remarqueÿ: C++ ne prend pas en charge int par d‚faut
-C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.cc(9): error C2146: erreur de syntaxeÿ: absence de ';' avant l'identificateur 'CompilationUnit'
-C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.cc(9): error C2143: erreur de syntaxeÿ: absence de ';' avant '{'
-C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.cc(9): error C2447: '{'ÿ: en-tˆte de fonction manquant (liste formelle … l'ancien formatÿ?)
-C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\imports\target\generated-sources\cpp\Parser.cc(46): error C2065: 'jj_done'ÿ: identificateur non d‚clar‚
+[INFO] --- nar-maven-plugin:3.9.1:nar-system-generate (default-nar-system-generate) @ CORBA-IDL ---
 [INFO] 
-[INFO] ----------------< org.javacc.tests.cpp.test:javacodeLA >----------------
-[INFO] Building JavaCC tests C++ test javacodeLA 8.0.0                  [14/21]
+[INFO] --- nar-maven-plugin:3.9.1:nar-vcproj (default-nar-vcproj) @ CORBA-IDL ---
+[INFO] NAR: Skipping vcproj generation.  Run with -P windows-debug to enable this step.
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ CORBA-IDL ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\CORBA-IDL\src\main\resources
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-resources (default-nar-resources) @ CORBA-IDL ---
+[INFO] Copied 0 resources
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-gnu-resources (default-nar-gnu-resources) @ CORBA-IDL ---
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ CORBA-IDL ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-javah (default-nar-javah) @ CORBA-IDL ---
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-gnu-make (default-nar-gnu-make) @ CORBA-IDL ---
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-compile (default-nar-compile) @ CORBA-IDL ---
+[INFO] Compiling 6 native files
+[INFO] 
+[INFO] ----------------< org.javacc.examples.cpp:Interpreter >-----------------
+[INFO] Building JavaCC examples C++ Interpreter 8.0.0                   [25/47]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ Interpreter ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ Interpreter ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\Interpreter\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\examples\cpp\Interpreter\8.0.0\Interpreter-8.0.0.pom
+[INFO] 
+[INFO] --------------< org.javacc.examples.cpp.interpreter:AST >---------------
+[INFO] Building JavaCC examples C++ Interpreter AST 8.0.0               [26/47]
+[INFO] --------------------------------[ nar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ AST ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\Interpreter\AST\target
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-validate (default-nar-validate) @ AST ---
+[INFO] Using AOL: amd64-Windows-msvc
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-download (default-nar-download) @ AST ---
+[INFO] Getting Nar dependencies
+[INFO] Getting Nar dependencies
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-unpack (default-nar-unpack) @ AST ---
+[INFO] Getting Nar dependencies
+[INFO] Unpacking 0 dependencies to C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\Interpreter\AST\target\nar
+[INFO] 
+[INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) @ AST ---
+[WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
+Java Compiler Compiler Version 8.0.0 (Tree Builder)
+(type "jjtree" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\Interpreter\AST\src\main\jjtree\SPL.jjt . . .
+Warning: Bad option name "OUTPUT_LANGUAGE".  Option setting will be ignored.
+File "JJTSPLParserState.h" does not exist.  Will create one.
+File "JJTSPLParserState.cc" does not exist.  Will create one.
+File "Node.h" does not exist.  Will create one.
+File "SimpleNode.h" does not exist.  Will create one.
+File "SimpleNode.cc" does not exist.  Will create one.
+File "SPLParserTree.h" does not exist.  Will create one.
+File "ASTWhileStatement.h" does not exist.  Will create one.
+File "ASTWhileStatement.cc" does not exist.  Will create one.
+File "ASTDivNode.h" does not exist.  Will create one.
+File "ASTDivNode.cc" does not exist.  Will create one.
+File "ASTNENode.h" does not exist.  Will create one.
+File "ASTNENode.cc" does not exist.  Will create one.
+File "ASTCompilationUnit.h" does not exist.  Will create one.
+File "ASTCompilationUnit.cc" does not exist.  Will create one.
+File "ASTStatementExpression.h" does not exist.  Will create one.
+File "ASTStatementExpression.cc" does not exist.  Will create one.
+File "ASTMulNode.h" does not exist.  Will create one.
+File "ASTMulNode.cc" does not exist.  Will create one.
+File "ASTIntConstNode.h" does not exist.  Will create one.
+File "ASTIntConstNode.cc" does not exist.  Will create one.
+File "ASTWriteStatement.h" does not exist.  Will create one.
+File "ASTWriteStatement.cc" does not exist.  Will create one.
+File "ASTBitwiseComplNode.h" does not exist.  Will create one.
+File "ASTBitwiseComplNode.cc" does not exist.  Will create one.
+File "ASTBitwiseXorNode.h" does not exist.  Will create one.
+File "ASTBitwiseXorNode.cc" does not exist.  Will create one.
+File "ASTOrNode.h" does not exist.  Will create one.
+File "ASTOrNode.cc" does not exist.  Will create one.
+File "ASTBitwiseAndNode.h" does not exist.  Will create one.
+File "ASTBitwiseAndNode.cc" does not exist.  Will create one.
+File "ASTNotNode.h" does not exist.  Will create one.
+File "ASTNotNode.cc" does not exist.  Will create one.
+File "ASTGENode.h" does not exist.  Will create one.
+File "ASTGENode.cc" does not exist.  Will create one.
+File "ASTId.h" does not exist.  Will create one.
+File "ASTId.cc" does not exist.  Will create one.
+File "ASTTrueNode.h" does not exist.  Will create one.
+File "ASTTrueNode.cc" does not exist.  Will create one.
+File "ASTIfStatement.h" does not exist.  Will create one.
+File "ASTIfStatement.cc" does not exist.  Will create one.
+File "ASTAssignment.h" does not exist.  Will create one.
+File "ASTAssignment.cc" does not exist.  Will create one.
+File "ASTModNode.h" does not exist.  Will create one.
+File "ASTModNode.cc" does not exist.  Will create one.
+File "ASTGTNode.h" does not exist.  Will create one.
+File "ASTGTNode.cc" does not exist.  Will create one.
+File "ASTSubtractNode.h" does not exist.  Will create one.
+File "ASTSubtractNode.cc" does not exist.  Will create one.
+File "ASTLTNode.h" does not exist.  Will create one.
+File "ASTLTNode.cc" does not exist.  Will create one.
+File "ASTBitwiseOrNode.h" does not exist.  Will create one.
+File "ASTBitwiseOrNode.cc" does not exist.  Will create one.
+File "ASTLENode.h" does not exist.  Will create one.
+File "ASTLENode.cc" does not exist.  Will create one.
+File "ASTReadStatement.h" does not exist.  Will create one.
+File "ASTReadStatement.cc" does not exist.  Will create one.
+File "ASTEQNode.h" does not exist.  Will create one.
+File "ASTEQNode.cc" does not exist.  Will create one.
+File "ASTFalseNode.h" does not exist.  Will create one.
+File "ASTFalseNode.cc" does not exist.  Will create one.
+File "ASTBlock.h" does not exist.  Will create one.
+File "ASTBlock.cc" does not exist.  Will create one.
+File "ASTAddNode.h" does not exist.  Will create one.
+File "ASTAddNode.cc" does not exist.  Will create one.
+File "ASTVarDeclaration.h" does not exist.  Will create one.
+File "ASTVarDeclaration.cc" does not exist.  Will create one.
+File "ASTAndNode.h" does not exist.  Will create one.
+File "ASTAndNode.cc" does not exist.  Will create one.
+File "SPLParserTreeConstants.h" does not exist.  Will create one.
+Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\Interpreter\AST\target\javacc-1578936197650\node\SPL.jj
+Java Compiler Compiler Version 8.0.0 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\Interpreter\AST\target\javacc-1578936197650\node\SPL.jj . . .
+Warning: Line 33, Column 5: Bad option name "OUTPUT_LANGUAGE".  Option setting will be ignored.
+File "SPLParser.h" does not exist.  Will create one.
+File "SPLParser.cc" does not exist.  Will create one.
+[INFO] 
+[INFO] --------------< org.javacc.examples.cpp.interpreter:VST >---------------
+[INFO] Building JavaCC examples C++ Interpreter Visitor 8.0.0           [27/47]
+[INFO] --------------------------------[ nar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ VST ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\Interpreter\VST\target
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-validate (default-nar-validate) @ VST ---
+[INFO] Using AOL: amd64-Windows-msvc
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-download (default-nar-download) @ VST ---
+[INFO] Getting Nar dependencies
+[INFO] Getting Nar dependencies
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-unpack (default-nar-unpack) @ VST ---
+[INFO] Getting Nar dependencies
+[INFO] Unpacking 0 dependencies to C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\Interpreter\VST\target\nar
+[INFO] 
+[INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) @ VST ---
+[WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
+Java Compiler Compiler Version 8.0.0 (Tree Builder)
+(type "jjtree" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\Interpreter\VST\src\main\jjtree\SPL.jjt . . .
+File "JJTSPLParserState.h" does not exist.  Will create one.
+File "JJTSPLParserState.cc" does not exist.  Will create one.
+File "Node.h" does not exist.  Will create one.
+File "SimpleNode.h" does not exist.  Will create one.
+File "SimpleNode.cc" does not exist.  Will create one.
+File "SPLParserTree.h" does not exist.  Will create one.
+File "ASTWhileStatement.h" does not exist.  Will create one.
+File "ASTWhileStatement.cc" does not exist.  Will create one.
+File "ASTDivNode.h" does not exist.  Will create one.
+File "ASTDivNode.cc" does not exist.  Will create one.
+File "ASTNENode.h" does not exist.  Will create one.
+File "ASTNENode.cc" does not exist.  Will create one.
+File "ASTCompilationUnit.h" does not exist.  Will create one.
+File "ASTCompilationUnit.cc" does not exist.  Will create one.
+File "ASTStatementExpression.h" does not exist.  Will create one.
+File "ASTStatementExpression.cc" does not exist.  Will create one.
+File "ASTMulNode.h" does not exist.  Will create one.
+File "ASTMulNode.cc" does not exist.  Will create one.
+File "ASTBitwiseComplNode.h" does not exist.  Will create one.
+File "ASTBitwiseComplNode.cc" does not exist.  Will create one.
+File "ASTBitwiseXorNode.h" does not exist.  Will create one.
+File "ASTBitwiseXorNode.cc" does not exist.  Will create one.
+File "ASTOrNode.h" does not exist.  Will create one.
+File "ASTOrNode.cc" does not exist.  Will create one.
+File "ASTBitwiseAndNode.h" does not exist.  Will create one.
+File "ASTBitwiseAndNode.cc" does not exist.  Will create one.
+File "ASTNotNode.h" does not exist.  Will create one.
+File "ASTNotNode.cc" does not exist.  Will create one.
+File "ASTGENode.h" does not exist.  Will create one.
+File "ASTGENode.cc" does not exist.  Will create one.
+File "ASTTrueNode.h" does not exist.  Will create one.
+File "ASTTrueNode.cc" does not exist.  Will create one.
+File "ASTIfStatement.h" does not exist.  Will create one.
+File "ASTIfStatement.cc" does not exist.  Will create one.
+File "ASTAssignment.h" does not exist.  Will create one.
+File "ASTAssignment.cc" does not exist.  Will create one.
+File "ASTModNode.h" does not exist.  Will create one.
+File "ASTModNode.cc" does not exist.  Will create one.
+File "ASTGTNode.h" does not exist.  Will create one.
+File "ASTGTNode.cc" does not exist.  Will create one.
+File "ASTSubtractNode.h" does not exist.  Will create one.
+File "ASTSubtractNode.cc" does not exist.  Will create one.
+File "ASTLTNode.h" does not exist.  Will create one.
+File "ASTLTNode.cc" does not exist.  Will create one.
+File "ASTBitwiseOrNode.h" does not exist.  Will create one.
+File "ASTBitwiseOrNode.cc" does not exist.  Will create one.
+File "ASTLENode.h" does not exist.  Will create one.
+File "ASTLENode.cc" does not exist.  Will create one.
+File "ASTEQNode.h" does not exist.  Will create one.
+File "ASTEQNode.cc" does not exist.  Will create one.
+File "ASTFalseNode.h" does not exist.  Will create one.
+File "ASTFalseNode.cc" does not exist.  Will create one.
+File "ASTBlock.h" does not exist.  Will create one.
+File "ASTBlock.cc" does not exist.  Will create one.
+File "ASTAddNode.h" does not exist.  Will create one.
+File "ASTAddNode.cc" does not exist.  Will create one.
+File "ASTAndNode.h" does not exist.  Will create one.
+File "ASTAndNode.cc" does not exist.  Will create one.
+File "SPLParserTreeConstants.h" does not exist.  Will create one.
+File "SPLParserVisitor.h" does not exist.  Will create one.
+Annotated grammar generated successfully in C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\Interpreter\VST\target\javacc-1578936198242\node\SPL.jj
+Java Compiler Compiler Version 8.0.0 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\Interpreter\VST\target\javacc-1578936198242\node\SPL.jj . . .
+File "SPLParser.h" does not exist.  Will create one.
+File "SPLParser.cc" does not exist.  Will create one.
+[INFO] 
+[INFO] ---------------< org.javacc.examples.cpp:JavaCCGrammar >----------------
+[INFO] Building JavaCC examples C++ JavaCCGrammar 8.0.0                 [28/47]
+[INFO] --------------------------------[ nar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ JavaCCGrammar ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\JavaCCGrammar\target
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-validate (default-nar-validate) @ JavaCCGrammar ---
+[INFO] Using AOL: amd64-Windows-msvc
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-download (default-nar-download) @ JavaCCGrammar ---
+[INFO] Getting Nar dependencies
+[INFO] Getting Nar dependencies
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-unpack (default-nar-unpack) @ JavaCCGrammar ---
+[INFO] Getting Nar dependencies
+[INFO] Unpacking 0 dependencies to C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\JavaCCGrammar\target\nar
+[INFO] 
+[INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (jcc) @ JavaCCGrammar ---
+[WARNING] File encoding for grammars has not been configured, using platform default encoding, i.e. build is platform dependent!
+Java Compiler Compiler Version 8.0.0 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\JavaCCGrammar\src\main\javacc\JavaCC.jj . . .
+Error: Cannot use JAVACODE productions with C++ output (yet).
+File "JavaCCParser.h" does not exist.  Will create one.
+File "JavaCCParser.cc" does not exist.  Will create one.
+Detected 1 errors and 0 warnings.
+[INFO] 
+[INFO] ---------------< org.javacc.examples.cpp:MailProcessing >---------------
+[INFO] Building JavaCC examples C++ MailProcessing 8.0.0                [29/47]
+[INFO] --------------------------------[ nar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ MailProcessing ---
+[INFO] Deleting C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\MailProcessing\target
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-validate (default-nar-validate) @ MailProcessing ---
+[INFO] Using AOL: amd64-Windows-msvc
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-download (default-nar-download) @ MailProcessing ---
+[INFO] Getting Nar dependencies
+[INFO] Getting Nar dependencies
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-unpack (default-nar-unpack) @ MailProcessing ---
+[INFO] Getting Nar dependencies
+[INFO] Unpacking 0 dependencies to C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\MailProcessing\target\nar
+[INFO] 
+[INFO] --- javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (jcc) @ MailProcessing ---
+[INFO] Skipping non-existing source directory: C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\examples\MailProcessing
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-gnu-configure (default-nar-gnu-configure) @ MailProcessing ---
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-system-generate (default-nar-system-generate) @ MailProcessing ---
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-vcproj (default-nar-vcproj) @ MailProcessing ---
+[INFO] NAR: Skipping vcproj generation.  Run with -P windows-debug to enable this step.
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ MailProcessing ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\MailProcessing\src\main\resources
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-resources (default-nar-resources) @ MailProcessing ---
+[INFO] Copied 0 resources
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-gnu-resources (default-nar-gnu-resources) @ MailProcessing ---
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ MailProcessing ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-javah (default-nar-javah) @ MailProcessing ---
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-gnu-make (default-nar-gnu-make) @ MailProcessing ---
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-compile (default-nar-compile) @ MailProcessing ---
+[INFO] Nothing to compile
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-gnu-process (default-nar-gnu-process) @ MailProcessing ---
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-process-libraries (default-nar-process-libraries) @ MailProcessing ---
+[info] Running process libraries
+[info] Processing library Library: type: executable
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-test-unpack (default-nar-test-unpack) @ MailProcessing ---
+[INFO] Getting Nar dependencies
+[INFO] Unpacking 0 dependencies to C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\MailProcessing\target\test-nar
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ MailProcessing ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\MailProcessing\src\test\resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ MailProcessing ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-testCompile (default-nar-testCompile) @ MailProcessing ---
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.0.0-M3:test (default-test) @ MailProcessing ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-test (default-nar-test) @ MailProcessing ---
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-prepare-package (default-nar-prepare-package) @ MailProcessing ---
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-package (default-nar-package) @ MailProcessing ---
+[INFO] 
+[INFO] --- maven-jar-plugin:3.2.0:jar (default-jar) @ MailProcessing ---
+[INFO] Building jar: C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\MailProcessing\target\MailProcessing-8.0.0.jar
+[INFO] 
+[INFO] --- nar-maven-plugin:3.9.1:nar-integration-test (default-nar-integration-test) @ MailProcessing ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-install-plugin:3.0.0-M1:install (default-install) @ MailProcessing ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\MailProcessing\target\MailProcessing-8.0.0.jar to C:\Users\fandre\.m2\repository\org\javacc\examples\cpp\MailProcessing\8.0.0\MailProcessing-8.0.0.nar
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\MailProcessing\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\examples\cpp\MailProcessing\8.0.0\MailProcessing-8.0.0.pom
+[INFO] 
+[INFO] ---------------< org.javacc.examples.cpp:JJTreeExamples >---------------
+[INFO] Building JavaCC examples C++  JJTreeExamples 8.0.0               [30/47]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ JJTreeExamples ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ JJTreeExamples ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\JJTreeExamples\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\examples\cpp\JJTreeExamples\8.0.0\JJTreeExamples-8.0.0.pom
+[INFO] 
+[INFO] -------------< org.javacc.examples.cpp.jjtreeexamples:eg1 >-------------
+[INFO] Building JavaCC examples C++  JJTreeExamples EG1 8.0.0           [31/47]
+[INFO] --------------------------------[ nar ]---------------------------------
+[WARNING] The POM for org.codehaus.mojo:exec-maven-plugin:jar:11.6 is missing, no dependency information available
+[INFO] 
+[INFO] -------------< org.javacc.examples.cpp.jjtreeexamples:eg2 >-------------
+[INFO] Building JavaCC examples C++  JJTreeExamples EG2 8.0.0           [32/47]
+[INFO] --------------------------------[ nar ]---------------------------------
+[WARNING] The POM for org.codehaus.mojo:exec-maven-plugin:jar:11.6 is missing, no dependency information available
+[INFO] 
+[INFO] -------------< org.javacc.examples.cpp.jjtreeexamples:eg3 >-------------
+[INFO] Building JavaCC examples C++  JJTreeExamples EG3 8.0.0           [33/47]
+[INFO] --------------------------------[ nar ]---------------------------------
+[WARNING] The POM for org.codehaus.mojo:exec-maven-plugin:jar:11.6 is missing, no dependency information available
+[INFO] 
+[INFO] -------------< org.javacc.examples.cpp.jjtreeexamples:eg4 >-------------
+[INFO] Building JavaCC examples C++  JJTreeExamples EG4 8.0.0           [34/47]
+[INFO] --------------------------------[ nar ]---------------------------------
+[WARNING] The POM for org.codehaus.mojo:exec-maven-plugin:jar:11.6 is missing, no dependency information available
+[INFO] 
+[INFO] --------------------------< org.javacc:tests >--------------------------
+[INFO] Building JavaCC tests 8.0.0                                      [35/47]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ tests ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ tests ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\8.0.0\tests-8.0.0.pom
+[INFO] 
+[INFO] ------------------------< org.javacc.tests:cpp >------------------------
+[INFO] Building JavaCC tests C++ test 8.0.0                             [36/47]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ cpp ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ cpp ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\8.0.0\cpp-8.0.0.pom
+[INFO] 
+[INFO] ------------------< org.javacc.tests.cpp:exceptions >-------------------
+[INFO] Building JavaCC tests C++ test exceptions 8.0.0                  [37/47]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ exceptions ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ exceptions ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\exceptions\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\exceptions\8.0.0\exceptions-8.0.0.pom
+[INFO] 
+[INFO] --------------------< org.javacc.tests.cpp:imports >--------------------
+[INFO] Building JavaCC tests C++ test imports 8.0.0                     [38/47]
+[INFO] --------------------------------[ exe ]---------------------------------
+[WARNING] The POM for org.codehaus.mojo:exec-maven-plugin:jar:11.6 is missing, no dependency information available
+[INFO] 
+[INFO] ------------------< org.javacc.tests.cpp:javacodeLA >-------------------
+[INFO] Building JavaCC tests C++ test javacodeLA 8.0.0                  [39/47]
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ javacodeLA ---
 [INFO] 
 [INFO] --- maven-install-plugin:2.4:install (default-install) @ javacodeLA ---
-[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\javacodeLA\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\test\javacodeLA\8.0.0\javacodeLA-8.0.0.pom
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\javacodeLA\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\javacodeLA\8.0.0\javacodeLA-8.0.0.pom
 [INFO] 
-[INFO] ------------< org.javacc.tests.cpp.test:javaFileGeneration >------------
-[INFO] Building JavaCC tests C++ test javaFileGeneration 8.0.0          [15/21]
+[INFO] --------------< org.javacc.tests.cpp:javaFileGeneration >---------------
+[INFO] Building JavaCC tests C++ test javaFileGeneration 8.0.0          [40/47]
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ javaFileGeneration ---
 [INFO] 
 [INFO] --- maven-install-plugin:2.4:install (default-install) @ javaFileGeneration ---
-[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\javaFileGeneration\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\test\javaFileGeneration\8.0.0\javaFileGeneration-8.0.0.pom
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\javaFileGeneration\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\javaFileGeneration\8.0.0\javaFileGeneration-8.0.0.pom
 [INFO] 
-[INFO] ----------------< org.javacc.tests.cpp.test:javaFiles >-----------------
-[INFO] Building JavaCC tests C++ test javaFiles 8.0.0                   [16/21]
+[INFO] -------------------< org.javacc.tests.cpp:javaFiles >-------------------
+[INFO] Building JavaCC tests C++ test javaFiles 8.0.0                   [41/47]
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ javaFiles ---
 [INFO] 
 [INFO] --- maven-install-plugin:2.4:install (default-install) @ javaFiles ---
-[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\javaFiles\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\test\javaFiles\8.0.0\javaFiles-8.0.0.pom
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\javaFiles\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\javaFiles\8.0.0\javaFiles-8.0.0.pom
 [INFO] 
-[INFO] ---------------< org.javacc.tests.cpp.test:lineNumbers >----------------
-[INFO] Building JavaCC tests C++ test lineNumbers 8.0.0                 [17/21]
+[INFO] ------------------< org.javacc.tests.cpp:lineNumbers >------------------
+[INFO] Building JavaCC tests C++ test lineNumbers 8.0.0                 [42/47]
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ lineNumbers ---
 [INFO] 
 [INFO] --- maven-install-plugin:2.4:install (default-install) @ lineNumbers ---
-[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\lineNumbers\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\test\lineNumbers\8.0.0\lineNumbers-8.0.0.pom
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\lineNumbers\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\lineNumbers\8.0.0\lineNumbers-8.0.0.pom
 [INFO] 
-[INFO] -------------------< org.javacc.tests.cpp.test:lom >--------------------
-[INFO] Building JavaCC tests C++ test lom 8.0.0                         [18/21]
+[INFO] ----------------------< org.javacc.tests.cpp:lom >----------------------
+[INFO] Building JavaCC tests C++ test lom 8.0.0                         [43/47]
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ lom ---
 [INFO] 
 [INFO] --- maven-install-plugin:2.4:install (default-install) @ lom ---
-[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\lom\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\test\lom\8.0.0\lom-8.0.0.pom
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\lom\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\lom\8.0.0\lom-8.0.0.pom
 [INFO] 
-[INFO] -----------------< org.javacc.tests.cpp.test:newToken >-----------------
-[INFO] Building JavaCC tests C++ test newToken 8.0.0                    [19/21]
+[INFO] -------------------< org.javacc.tests.cpp:newToken >--------------------
+[INFO] Building JavaCC tests C++ test newToken 8.0.0                    [44/47]
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ newToken ---
 [INFO] 
 [INFO] --- maven-install-plugin:2.4:install (default-install) @ newToken ---
-[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\newToken\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\test\newToken\8.0.0\newToken-8.0.0.pom
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\newToken\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\newToken\8.0.0\newToken-8.0.0.pom
 [INFO] 
-[INFO] --------< org.javacc.tests.cpp.test:TestTokenManagerUsesParser >--------
-[INFO] Building JavaCC tests C++ test TestTokenManagerUsesParser 8.0.0  [20/21]
+[INFO] ----------< org.javacc.tests.cpp:TestTokenManagerUsesParser >-----------
+[INFO] Building JavaCC tests C++ test TestTokenManagerUsesParser 8.0.0  [45/47]
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ TestTokenManagerUsesParser ---
 [INFO] 
 [INFO] --- maven-install-plugin:2.4:install (default-install) @ TestTokenManagerUsesParser ---
-[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\TestTokenManagerUsesParser\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\test\TestTokenManagerUsesParser\8.0.0\TestTokenManagerUsesParser-8.0.0.pom
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\TestTokenManagerUsesParser\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\TestTokenManagerUsesParser\8.0.0\TestTokenManagerUsesParser-8.0.0.pom
 [INFO] 
-[INFO] -------< org.javacc.tests.cpp.test:TestTokenManagerUsesParser2 >--------
-[INFO] Building JavaCC tests C++ test TestTokenManagerUsesParser2 8.0.0 [21/21]
+[INFO] ----------< org.javacc.tests.cpp:TestTokenManagerUsesParser2 >----------
+[INFO] Building JavaCC tests C++ test TestTokenManagerUsesParser2 8.0.0 [46/47]
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO] 
 [INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ TestTokenManagerUsesParser2 ---
 [INFO] 
 [INFO] --- maven-install-plugin:2.4:install (default-install) @ TestTokenManagerUsesParser2 ---
-[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\test\TestTokenManagerUsesParser2\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\test\TestTokenManagerUsesParser2\8.0.0\TestTokenManagerUsesParser2-8.0.0.pom
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\cpp\TestTokenManagerUsesParser2\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\cpp\TestTokenManagerUsesParser2\8.0.0\TestTokenManagerUsesParser2-8.0.0.pom
+[INFO] 
+[INFO] -----------------------< org.javacc.tests:java >------------------------
+[INFO] Building JavaCC tests C++ test 8.0.0                             [47/47]
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ java ---
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ java ---
+[INFO] Installing C:\Users\fandre\Documents\git\javacc\javacc-8.0\tests\java\pom.xml to C:\Users\fandre\.m2\repository\org\javacc\tests\java\8.0.0\java-8.0.0.pom
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary:
 [INFO] 
-[INFO] eg2 8.0.0 .......................................... FAILURE [  4.682 s]
-[INFO] eg3 ................................................ FAILURE [  0.081 s]
-[INFO] eg4 ................................................ FAILURE [  0.095 s]
-[INFO] JavaCC tests Java MailProcessing ................... FAILURE [  0.053 s]
-[INFO] exceptions ......................................... FAILURE [  0.238 s]
-[INFO] lookahead .......................................... FAILURE [  0.153 s]
-[INFO] Transformer ........................................ FAILURE [  0.189 s]
-[INFO] VTransformer ....................................... FAILURE [  0.279 s]
-[INFO] JavaCC default c# code generator tests ............. SUCCESS [  0.192 s]
-[INFO] JavaCC tests C++ ................................... SUCCESS [  0.306 s]
-[INFO] JavaCC tests C++ test .............................. SUCCESS [  0.020 s]
-[INFO] JavaCC tests C++ test exceptions ................... SUCCESS [  0.025 s]
-[INFO] JavaCC tests C++ test imports ...................... FAILURE [  3.681 s]
-[INFO] JavaCC tests C++ test javacodeLA ................... SUCCESS [  0.024 s]
-[INFO] JavaCC tests C++ test javaFileGeneration ........... SUCCESS [  0.022 s]
-[INFO] JavaCC tests C++ test javaFiles .................... SUCCESS [  0.024 s]
-[INFO] JavaCC tests C++ test lineNumbers .................. SUCCESS [  0.033 s]
-[INFO] JavaCC tests C++ test lom .......................... SUCCESS [  0.023 s]
-[INFO] JavaCC tests C++ test newToken ..................... SUCCESS [  0.023 s]
-[INFO] JavaCC tests C++ test TestTokenManagerUsesParser ... SUCCESS [  0.022 s]
-[INFO] JavaCC tests C++ test TestTokenManagerUsesParser2 8.0.0 SUCCESS [  0.019 s]
+[INFO] JavaCC 8.0.0 ....................................... SUCCESS [  0.152 s]
+[INFO] JavaCC parser ...................................... SUCCESS [  8.185 s]
+[INFO] JavaCC code generator .............................. SUCCESS [  0.013 s]
+[INFO] JavaCC default c++ code generator .................. SUCCESS [  0.943 s]
+[INFO] JavaCC default c# code generator ................... SUCCESS [  0.516 s]
+[INFO] JavaCC default java code generator ................. SUCCESS [  0.688 s]
+[INFO] JavaCC examples .................................... SUCCESS [  0.020 s]
+[INFO] JavaCC examples Java ............................... SUCCESS [  0.078 s]
+[INFO] JavaCC examples Java CORBA-IDL ..................... SUCCESS [  1.006 s]
+[INFO] JavaCC examples Java Interpreter ................... FAILURE [  0.152 s]
+[INFO] JavaCC examples Java JavaCCGrammar ................. FAILURE [  0.120 s]
+[INFO] JavaCC examples Java JJTreeExamples ................ SUCCESS [  0.029 s]
+[INFO] JavaCC examples Java JJTreeExamples EG1 ............ FAILURE [  0.101 s]
+[INFO] JavaCC examples Java JJTreeExamples EG2 ............ FAILURE [  0.100 s]
+[INFO] JavaCC examples Java JJTreeExamples EG3 ............ FAILURE [  0.091 s]
+[INFO] JavaCC examples Java JJTreeExamples EG4 ............ FAILURE [  0.106 s]
+[INFO] JavaCC examples Java JJTreeExamples MailProcessing . FAILURE [  0.030 s]
+[INFO] exceptions ......................................... FAILURE [  0.164 s]
+[INFO] JavaCC examples Java LookAhead ..................... FAILURE [  0.119 s]
+[INFO] JavaCC examples Java Transformer ................... FAILURE [  0.139 s]
+[INFO] JavaCC examples Java VTransformer .................. FAILURE [  0.240 s]
+[INFO] JavaCC default c# code generator tests ............. SUCCESS [  0.016 s]
+[INFO] JavaCC examples C++ ................................ SUCCESS [  0.098 s]
+[INFO] JavaCC examples C++ CORBA-IDL ...................... FAILURE [  0.873 s]
+[INFO] JavaCC examples C++ Interpreter .................... SUCCESS [  0.013 s]
+[INFO] JavaCC examples C++ Interpreter AST ................ FAILURE [  0.579 s]
+[INFO] JavaCC examples C++ Interpreter Visitor ............ FAILURE [  0.449 s]
+[INFO] JavaCC examples C++ JavaCCGrammar .................. FAILURE [  0.153 s]
+[INFO] JavaCC examples C++ MailProcessing ................. SUCCESS [  0.629 s]
+[INFO] JavaCC examples C++  JJTreeExamples ................ SUCCESS [  0.017 s]
+[INFO] JavaCC examples C++  JJTreeExamples EG1 ............ FAILURE [  0.016 s]
+[INFO] JavaCC examples C++  JJTreeExamples EG2 ............ FAILURE [  0.003 s]
+[INFO] JavaCC examples C++  JJTreeExamples EG3 ............ FAILURE [  0.008 s]
+[INFO] JavaCC examples C++  JJTreeExamples EG4 ............ FAILURE [  0.000 s]
+[INFO] JavaCC tests ....................................... SUCCESS [  0.020 s]
+[INFO] JavaCC tests C++ test .............................. SUCCESS [  0.021 s]
+[INFO] JavaCC tests C++ test exceptions ................... SUCCESS [  0.019 s]
+[INFO] JavaCC tests C++ test imports ...................... FAILURE [  0.008 s]
+[INFO] JavaCC tests C++ test javacodeLA ................... SUCCESS [  0.018 s]
+[INFO] JavaCC tests C++ test javaFileGeneration ........... SUCCESS [  0.015 s]
+[INFO] JavaCC tests C++ test javaFiles .................... SUCCESS [  0.016 s]
+[INFO] JavaCC tests C++ test lineNumbers .................. SUCCESS [  0.014 s]
+[INFO] JavaCC tests C++ test lom .......................... SUCCESS [  0.019 s]
+[INFO] JavaCC tests C++ test newToken ..................... SUCCESS [  0.011 s]
+[INFO] JavaCC tests C++ test TestTokenManagerUsesParser ... SUCCESS [  0.020 s]
+[INFO] JavaCC tests C++ test TestTokenManagerUsesParser2 .. SUCCESS [  0.018 s]
+[INFO] JavaCC tests C++ test 8.0.0 ........................ SUCCESS [  0.012 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD FAILURE
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 19.129 s
-[INFO] Finished at: 2020-01-13T09:23:29+01:00
+[INFO] Total time: 17.959 s
+[INFO] Finished at: 2020-01-13T18:23:19+01:00
 [INFO] ------------------------------------------------------------------------
-[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.1:compile (default-compile) on project eg2: Compilation failure: Compilation failure: 
-[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/tests/java/JJTreeExamples/eg2/target/generated-sources/jjtree/Eg2Tree.java:[4,1] class ASTStart is public, should be declared in a file named ASTStart.java
-[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/tests/java/JJTreeExamples/eg2/target/generated-sources/jjtree/Eg2Tree.java:[15,1] class ASTMult is public, should be declared in a file named ASTMult.java
-[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/tests/java/JJTreeExamples/eg2/target/generated-sources/jjtree/Eg2Tree.java:[26,1] class ASTInteger is public, should be declared in a file named ASTInteger.java
-[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/tests/java/JJTreeExamples/eg2/target/generated-sources/jjtree/Eg2Tree.java:[37,1] class ASTAdd is public, should be declared in a file named ASTAdd.java
-[ERROR] -> [Help 1]
-[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) on project eg3: Failed to execute JavaCC: 31 -> [Help 2]
-[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) on project eg4: Failed to execute JavaCC: 52 -> [Help 2]
-[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (jcc) on project MailProcessing: Failed to execute JavaCC: 63 -> [Help 2]
+[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) on project Interpreter: Failed to execute JavaCC: 77 -> [Help 1]
+[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (jcc) on project JavaCCGrammar: Failed to execute JavaCC: 83 -> [Help 1]
+[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) on project eg1: Failed to execute JavaCC: 145 -> [Help 1]
+[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) on project eg2: Failed to execute JavaCC: 166 -> [Help 1]
+[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) on project eg3: Failed to execute JavaCC: 187 -> [Help 1]
+[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) on project eg4: Failed to execute JavaCC: 208 -> [Help 1]
+[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (jcc) on project MailProcessing: Failed to execute JavaCC: 219 -> [Help 1]
 [ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.1:compile (default-compile) on project exceptions: Compilation failure: Compilation failure: 
-[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/tests/java/exceptions/target/generated-sources/javacc/ParserTokenManager.java:[13,1] cannot find symbol
+[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/examples/java/exceptions/target/generated-sources/javacc/ParserTokenManager.java:[13,1] cannot find symbol
 [ERROR]   symbol:   class Map
 [ERROR]   location: class ParserTokenManager
-[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/tests/java/exceptions/target/generated-sources/javacc/ParserTokenManager.java:[13,15] cannot find symbol
+[ERROR] /C:/Users/fandre/Documents/git/javacc/javacc-8.0/examples/java/exceptions/target/generated-sources/javacc/ParserTokenManager.java:[13,15] cannot find symbol
 [ERROR]   symbol:   class HashMap
 [ERROR]   location: class ParserTokenManager
-[ERROR] -> [Help 1]
-[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (example2) on project lookahead: Failed to execute JavaCC: 106 -> [Help 2]
-[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) on project Transformer: Failed to execute JavaCC: 156 -> [Help 2]
-[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) on project VTransformer: Failed to execute JavaCC: 177 -> [Help 2]
-[ERROR] Failed to execute goal org.codehaus.mojo:native-maven-plugin:1.0-alpha-12-SNAPSHOT:compile (default-compile) on project imports: Error executing command line. Exit code:2 -> [Help 2]
+[ERROR] -> [Help 2]
+[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (example2) on project lookahead: Failed to execute JavaCC: 262 -> [Help 1]
+[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) on project Transformer: Failed to execute JavaCC: 312 -> [Help 1]
+[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) on project VTransformer: Failed to execute JavaCC: 333 -> [Help 1]
+[ERROR] Failed to execute goal com.github.maven-nar:nar-maven-plugin:3.9.1:nar-compile (default-nar-compile) on project CORBA-IDL: NAR: Include path not found: com.github.maven_nar.IncludePath@256c6dc6 -> [Help 2]
+[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) on project AST: Failed to execute JavaCC: 77 -> [Help 1]
+[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:jjtree-javacc (jcc) on project VST: Failed to execute JavaCC: 80 -> [Help 1]
+[ERROR] Failed to execute goal org.codehaus.mojo:javacc-maven-plugin:3.0.0-SNAPSHOT:javacc (jcc) on project JavaCCGrammar: JavaCC reported exit code 1: [-CODE_GENERATOR=c++, -OUTPUT_DIRECTORY=C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\JavaCCGrammar\target\javacc-1578936198664\parser, C:\Users\fandre\Documents\git\javacc\javacc-8.0\examples\cpp\JavaCCGrammar\src\main\javacc\JavaCC.jj] -> [Help 2]
+[ERROR] Plugin org.codehaus.mojo:exec-maven-plugin:11.6 or one of its dependencies could not be resolved: Failure to find org.codehaus.mojo:exec-maven-plugin:jar:11.6 in https://repo.maven.apache.org/maven2 was cached in the local repository, resolution will not be reattempted until the update interval of central has elapsed or updates are forced -> [Help 3]
+[ERROR] Plugin org.codehaus.mojo:exec-maven-plugin:11.6 or one of its dependencies could not be resolved: Failure to find org.codehaus.mojo:exec-maven-plugin:jar:11.6 in https://repo.maven.apache.org/maven2 was cached in the local repository, resolution will not be reattempted until the update interval of central has elapsed or updates are forced -> [Help 3]
+[ERROR] Plugin org.codehaus.mojo:exec-maven-plugin:11.6 or one of its dependencies could not be resolved: Failure to find org.codehaus.mojo:exec-maven-plugin:jar:11.6 in https://repo.maven.apache.org/maven2 was cached in the local repository, resolution will not be reattempted until the update interval of central has elapsed or updates are forced -> [Help 3]
+[ERROR] Plugin org.codehaus.mojo:exec-maven-plugin:11.6 or one of its dependencies could not be resolved: Failure to find org.codehaus.mojo:exec-maven-plugin:jar:11.6 in https://repo.maven.apache.org/maven2 was cached in the local repository, resolution will not be reattempted until the update interval of central has elapsed or updates are forced -> [Help 3]
+[ERROR] Plugin org.codehaus.mojo:exec-maven-plugin:11.6 or one of its dependencies could not be resolved: Failure to find org.codehaus.mojo:exec-maven-plugin:jar:11.6 in https://repo.maven.apache.org/maven2 was cached in the local repository, resolution will not be reattempted until the update interval of central has elapsed or updates are forced -> [Help 3]
 [ERROR] 
 [ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
 [ERROR] Re-run Maven using the -X switch to enable full debug logging.
 [ERROR] 
 [ERROR] For more information about the errors and possible solutions, please read the following articles:
-[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
-[ERROR] [Help 2] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+[ERROR] [Help 2] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR] [Help 3] http://cwiki.apache.org/confluence/display/MAVEN/PluginResolutionException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <goals> -rf org.javacc.examples.java:Interpreter
 [INFO] Build failures were ignored.

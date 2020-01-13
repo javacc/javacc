@@ -6,7 +6,7 @@
 		<artifactId>java</artifactId>
 		<version>8.0.0</version>
 	</parent>
-	<name>JavaCC tests Java Interpreter</name>
+	<name>JavaCC examples Java Interpreter</name>
 	<groupId>org.javacc.examples.java</groupId>
 	<artifactId>Interpreter</artifactId>
 	<build>
@@ -43,7 +43,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
 				<configuration>
 					<skip>false</skip>
 				</configuration>
@@ -57,8 +56,8 @@
 						<configuration>
 							<mainClass>SPL</mainClass>
 							<arguments>
-								<argument>spl/fact.spl</argument>
-								<argument>spl/fact.in</argument>
+								<argument>${project.basedir}/spl/fact.spl</argument>
+								<argument>${project.basedir}/spl/fact.in</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -71,8 +70,8 @@
 						<configuration>
 							<mainClass>SPL</mainClass>
 							<arguments>
-								<argument>spl/odd.spl</argument>
-								<argument>spl/odd.in</argument>
+								<argument>${project.basedir}/spl/odd.spl</argument>
+								<argument>${project.basedir}/spl/odd.in</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -85,13 +84,12 @@
 						<configuration>
 							<mainClass>SPL</mainClass>
 							<arguments>
-								<argument>spl/sqrt.spl</argument>
-								<argument>spl/sqrt.in</argument>
+								<argument>${project.basedir}/spl/sqrt.spl</argument>
+								<argument>${project.basedir}/spl/sqrt.in</argument>
 							</arguments>
 						</configuration>
 					</execution>
 				</executions>
-
 			</plugin>
 		</plugins>
 	</build>

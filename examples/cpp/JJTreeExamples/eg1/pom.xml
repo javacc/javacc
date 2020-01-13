@@ -8,8 +8,8 @@
 	</parent>
 	<groupId>org.javacc.examples.cpp.jjtreeexamples</groupId>
 	<artifactId>eg1</artifactId>
-	<packaging>exe</packaging>
-	<name>EG1</name>
+	<packaging>nar</packaging>
+	<name>JavaCC examples C++  JJTreeExamples EG1</name>
 	<build>
 		<plugins>
 			<plugin>
@@ -48,46 +48,30 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>native-maven-plugin</artifactId>
+				<groupId>com.github.maven-nar</groupId>
+				<artifactId>nar-maven-plugin</artifactId>
+				<version>3.9.1</version>
 				<extensions>true</extensions>
-				<executions>
-					<execution>
-						<id>default-compile</id>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<compilerProvider>${compilerProvider}</compilerProvider>
-							<envFactoryName>${envFactoryName}</envFactoryName>
-							<sources>
-								<source>
-									<directory>target/generated-sources/cpp</directory>
-									<includes>
-										<include>**/*.cc</include>
-									</includes>
-								</source>
-								<source>
-									<directory>target/generated-sources/jjtree</directory>
-									<includes>
-										<include>**/*.cc</include>
-									</includes>
-								</source>
-							</sources>
-							<compilerStartOptions>/EHsc</compilerStartOptions>
-						</configuration>
-					</execution>
-					<execution>
-						<id>default-link</id>
-						<goals>
-							<goal>link</goal>
-						</goals>
-						<configuration>
-							<linkerProvider>${linkerProvider}</linkerProvider>
-							<envFactoryName>${envFactoryName}</envFactoryName>
-						</configuration>
-					</execution>
-				</executions>
+				<configuration>
+					<libraries>
+						<library>
+							<type>executable</type>
+						</library>
+					</libraries>
+					<cpp>
+						<includePaths>
+							<includePath>
+								<path>src/main/cpp</path>
+							</includePath>
+							<includePath>
+								<path>target/generated-sources/cpp</path>
+							</includePath>
+							<includePath>
+								<path>target/generated-sources/jjtree</path>
+							</includePath>
+						</includePaths>
+					</cpp>
+ 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -105,8 +89,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-         
+			</plugin>         
          <!-- 
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>

@@ -56,11 +56,12 @@ public class JavaCCParser {
       return;
     }
     try {
-      parser.javacc_input();
+      JavaCCParser.javacc_input();
       System.out.println("JavaCC Parser:  Java program parsed successfully.");
     } catch (ParseException e) {
       System.out.println(e.getMessage());
       System.out.println("JavaCC Parser:  Encountered errors during parse.");
+      return;
     }
   }
 

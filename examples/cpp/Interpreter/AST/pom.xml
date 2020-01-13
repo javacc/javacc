@@ -7,7 +7,7 @@
   </parent>
   <groupId>org.javacc.examples.cpp.interpreter</groupId>
   <artifactId>AST</artifactId>
-  <packaging>exe</packaging>
+  <packaging>nar</packaging>
 	<build>
 		<plugins>
 			<plugin>
@@ -29,42 +29,31 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>native-maven-plugin</artifactId>
+				<groupId>com.github.maven-nar</groupId>
+				<artifactId>nar-maven-plugin</artifactId>
 				<extensions>true</extensions>
-				<executions>
-					<execution>
-						<id>default-compile</id>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<compilerProvider>msvc</compilerProvider>
-							<envFactoryName>org.codehaus.mojo.natives.msvc.Community2017x86EnvFactory</envFactoryName>
-							<sources>
-								<source>
-									<directory>target/generated-sources/cpp</directory>
-									<includes>
-										<include>**/*.cc</include>
-									</includes>
-								</source>
-								<source>
-									<directory>target/generated-sources/jjtree</directory>
-									<includes>
-										<include>**/*.cc</include>
-									</includes>
-								</source>
-								<source>
-									<directory>src/main/cpp</directory>
-									<includes>
-										<include>**/*.cc</include>
-									</includes>
-								</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
+				<configuration>
+					<libraries>
+						<library>
+							<type>executable</type>
+						</library>
+					</libraries>
+					<cpp>
+						<includePaths>
+							<includePath>
+								<path>src/main/cpp</path>
+							</includePath>
+							<includePath>
+								<path>target/generated-sources/cpp</path>
+							</includePath>
+							<includePath>
+								<path>target/generated-sources/jjtree</path>
+							</includePath>
+						</includePaths>
+					</cpp>
+ 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+	<name>JavaCC examples C++ Interpreter AST</name>
 </project>

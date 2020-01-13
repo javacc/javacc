@@ -157,4 +157,5 @@
  -->
  		</plugins>
 	</build>
+	<name>JavaCC examples Java LookAhead</name>
 </project>

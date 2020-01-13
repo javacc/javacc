@@ -7,7 +7,7 @@
   </parent>
   <groupId>org.javacc.examples.java</groupId>
   <artifactId>JavaCCGrammar</artifactId>
-  <name>JavaCC tests Java JavaCCGrammar</name>
+  <name>JavaCC examples Java JavaCCGrammar</name>
 	<build>
 		<plugins>
 			<plugin>
@@ -29,7 +29,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
 				<executions>
 					<execution>
 						<phase>test</phase>
@@ -41,10 +40,9 @@
 				<configuration>
 					<mainClass>JavaCCParser</mainClass>
 					<arguments>
-						<argument>../examples/JavaCCGrammar/Hello.idl</argument>
+						<argument>${project.basedir}/../../examples/JavaGrammars/1.5/Java1.5.jj</argument>
 					</arguments>
 				</configuration>
-
 			</plugin>
 		</plugins>
 	</build>

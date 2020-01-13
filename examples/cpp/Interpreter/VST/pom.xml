@@ -9,7 +9,7 @@
 	<groupId>org.javacc.examples.cpp.interpreter</groupId>
 	<artifactId>VST</artifactId>
 	<packaging>nar</packaging>
-	<name>SPL with Visitor</name>
+	<name>JavaCC examples C++ Interpreter Visitor</name>
 	<build>
 		<plugins>
 			<plugin>

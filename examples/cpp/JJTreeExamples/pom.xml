@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>org.javacc.examples.cpp</groupId>
 	<artifactId>JJTreeExamples</artifactId>
-	<name>JJTreeExamples</name>
+	<name>JavaCC examples C++  JJTreeExamples</name>
 	<packaging>pom</packaging>
 	<modules>
 		<module>eg1</module>

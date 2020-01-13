@@ -52,4 +52,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	<name>JavaCC examples C++ CORBA-IDL</name>
 </project>

@@ -6,7 +6,7 @@
 		<artifactId>java</artifactId>
 		<version>8.0.0</version>
 	</parent>
-	<name>JavaCC tests Java MailProcessing</name>
+	<name>JavaCC examples Java MailProcessing</name>
 	<groupId>org.javacc.examples.java</groupId>
 	<artifactId>MailProcessing</artifactId>
 	<build>
@@ -30,7 +30,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
 				<executions>
 					<execution>
 						<phase>test</phase>

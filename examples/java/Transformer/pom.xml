@@ -41,20 +41,24 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
 				<executions>
 					<execution>
-						<id>fact</id>
+						<id>divide</id>
 						<phase>test</phase>
 						<goals>
 							<goal>java</goal>
 						</goals>
 						<configuration>
 							<mainClass>ToyParser</mainClass>
+							<arguments>
+								<argument>${project.basedir}/divide.in</argument>
+								<argument>${project.basedir}/divide.out</argument>
+							</arguments>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
+	<name>JavaCC examples Java Transformer</name>
 </project>

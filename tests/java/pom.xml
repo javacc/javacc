@@ -2,17 +2,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.javacc</groupId>
-    <artifactId>examples</artifactId>
+    <artifactId>tests</artifactId>
     <version>8.0.0</version>
   </parent>
-  <groupId>org.javacc.examples</groupId>
-  <artifactId>csharp</artifactId>
+  <groupId>org.javacc.tests</groupId>
+  <artifactId>java</artifactId>
   <packaging>pom</packaging>
-	<dependencies>
-		<dependency>
-			<groupId>org.javacc.codegen</groupId>
-			<artifactId>csharp</artifactId>
-		</dependency>
-	</dependencies>
-	<name>JavaCC default c# code generator tests</name>
+  <name>JavaCC tests C++ test</name>
 </project>
