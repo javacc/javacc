@@ -180,6 +180,7 @@
 	<modules>
 		<module>codegen</module>
 		<module>parser</module>
+		<module>examples</module>
 		<module>tests</module>
 	</modules>
 
