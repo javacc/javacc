@@ -35,14 +35,21 @@ options {
 }
 
 PARSER_BEGIN(Eg4)
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 /** An Arithmetic Grammar. */
 public class Eg4 {
 
   /** Main entry point. */
-  public static void main(String args[]) {
-    System.out.println("Reading from standard input...");
-    Eg4 t = new Eg4(System.in);
+  public static void main(String args[]) throws FileNotFoundException {
+    InputStream input = null;
+    if (args.length > 0)
+       input = new FileInputStream(args[0]);
+    else
+       input = System.in;
+    Eg4 t = new Eg4(input);
     try {
       ASTStart n = t.Start();
       Eg4Visitor v = new Eg4DumpVisitor();

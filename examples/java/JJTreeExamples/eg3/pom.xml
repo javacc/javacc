@@ -29,7 +29,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
 				<executions>
 					<execution>
 						<phase>test</phase>
@@ -39,12 +38,11 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>JavaCCGrammar</mainClass>
+					<mainClass>Eg3</mainClass>
 					<arguments>
-						<argument>../../examples/JJTreeExamples/Hello.idl</argument>
+						<argument>${project.basedir}/eg3.in</argument>
 					</arguments>
 				</configuration>
-
 			</plugin>
 		</plugins>
 	</build>

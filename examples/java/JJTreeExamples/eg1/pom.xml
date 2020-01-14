@@ -29,7 +29,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
 				<executions>
 					<execution>
 						<phase>test</phase>
@@ -44,7 +43,6 @@
 						<argument>${project.basedir}/eg1.in</argument>
 					</arguments>
 				</configuration>
-
 			</plugin>
 		</plugins>
 	</build>
