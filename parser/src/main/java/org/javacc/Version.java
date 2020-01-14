@@ -64,4 +64,3 @@ public class Version {
     fullVersion = major + "." + minor + (patch.equals("") ? "" : "." + patch);
   }
 }
-
