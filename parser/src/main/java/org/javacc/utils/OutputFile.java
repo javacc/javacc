@@ -25,6 +25,10 @@
 
 package org.javacc.utils;
 
+import org.javacc.Version;
+import org.javacc.parser.JavaCCGlobals;
+import org.javacc.parser.Options;
+
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
 import java.io.File;
@@ -34,10 +38,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.security.DigestOutputStream;
 import java.security.NoSuchAlgorithmException;
-
-import org.javacc.Version;
-import org.javacc.parser.JavaCCGlobals;
-import org.javacc.parser.Options;
+import java.util.List;
 
 /**
  * This class handles the creation and maintenance of the boiler-plate classes,
@@ -57,12 +58,12 @@ import org.javacc.parser.Options;
  */
 public class OutputFile implements Closeable {
 
-  private final File     file;
-  private final String[] options;
+  private final File         file;
+  private final List<String> options;
 
-  private final String   toolName;
-  private final String   compatibleVersion;
-  private final boolean  needToWrite;
+  private final String       toolName;
+  private final String       compatibleVersion;
+  private final boolean      needToWrite;
 
 
   private TrapClosePrintWriter writer;
@@ -78,7 +79,7 @@ public class OutputFile implements Closeable {
    *        is a list of options (such s STATIC=false) to check for changes.
    * @throws IOException
    */
-  OutputFile(File file, String toolName, String compatibleVersion, String[] options) throws IOException {
+  OutputFile(File file, String toolName, String compatibleVersion, List<String> options) throws IOException {
     this.file = file;
     this.options = options;
     this.compatibleVersion = compatibleVersion;
@@ -109,8 +110,9 @@ public class OutputFile implements Closeable {
         this.writer = new TrapClosePrintWriter(this.digestStream);
         this.writer
             .println("/* " + JavaCCGlobals.getIdString(this.toolName, file.getName()) + " Version " + version + " */");
-        if (this.options != null) {
-          this.writer.println("/* JavaCCOptions:" + Options.getOptionsString(this.options) + " */");
+        if (!this.options.isEmpty()) {
+          this.writer.println(
+              "/* JavaCCOptions:" + Options.getOptionsString(this.options.toArray(new String[options.size()])) + " */");
         }
       } catch (NoSuchAlgorithmException e) {
         throw (IOException) new IOException("No MD5 implementation").initCause(e);

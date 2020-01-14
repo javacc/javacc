@@ -100,16 +100,6 @@ public class JJDoc extends JJDocGlobals {
       gen.specialTokens(s);
   }
 
-  /*
-  private static boolean toplevelExpansion(Expansion exp) {
-    return exp.parent != null
-      && ( (exp.parent instanceof NormalProduction)
-         ||
-         (exp.parent instanceof TokenProduction)
-         );
-  }
-  */
-
   private static void emitTokenProductions(Generator gen, List<TokenProduction> prods) {
     gen.tokensStart();
     // FIXME there are many empty productions here
@@ -120,13 +110,6 @@ public class JJDoc extends JJDocGlobals {
       
       
       gen.handleTokenProduction(tp);
-      
-//      if (!token.equals("")) {
-//        gen.tokenStart(tp);
-//        String token = getStandardTokenProductionText(tp);
-//          gen.text(token);
-//        gen.tokenEnd(tp);
-//      }
     }
     gen.tokensEnd();
   }
@@ -423,46 +406,4 @@ public static String getStandardTokenProductionText(TokenProduction tp) {
     }
     return returnString;
   }
-
-  /*
-  private static String v2s(Vector v, boolean newLine) {
-    String s = "";
-    boolean firstToken = true;
-    for (Enumeration enumeration = v.elements(); enumeration.hasMoreElements();) {
-      Token tok = (Token)enumeration.nextElement();
-      Token stok = getPrecedingSpecialToken(tok);
-      if (firstToken) {
-        if (stok != null) {
-          cline = stok.beginLine;
-          ccol = stok.beginColumn;
-        } else {
-          cline = tok.beginLine;
-          ccol = tok.beginColumn;
-        }
-        s = ws(ccol - 1);
-        firstToken = false;
-      }
-      while (stok != null) {
-        s += printToken(stok);
-        stok = stok.next;
-      }
-      s += printToken(tok);
-    }
-    return s;
-  }
-  */
-  /**
-   * A utility to produce a string of blanks.
-   */
-
-  /*
-  private static String ws(int len) {
-    String s = "";
-    for (int i = 0; i < len; ++i) {
-      s += " ";
-    }
-    return s;
-  }
-  */
-
 }

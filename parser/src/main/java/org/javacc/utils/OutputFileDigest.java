@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * The {@link OutputFileDigest} class.
@@ -45,7 +46,8 @@ abstract class OutputFileDigest {
   }
 
   /**
-   * Create an MD5 {@link DigestOutputStream} for the provided {@link OutputStream}.
+   * Create an MD5 {@link DigestOutputStream} for the provided
+   * {@link OutputStream}.
    * 
    * @param stream
    * @throws NoSuchAlgorithmException
@@ -64,7 +66,7 @@ abstract class OutputFileDigest {
    * @throws FileNotFoundException
    * @throws IOException
    */
-  public static boolean check(File file, String toolName, String compatibleVersion, String[] options)
+  public static boolean check(File file, String toolName, String compatibleVersion, List<String> options)
       throws FileNotFoundException, IOException {
     // File does not exist
     if (!file.exists()) {
@@ -94,8 +96,8 @@ abstract class OutputFileDigest {
           OutputFileDigest.checkVersion(file, toolName, compatibleVersion);
         }
 
-        if (options != null) {
-          OutputFileDigest.checkOptions(file, options);
+        if (!options.isEmpty()) {
+          OutputFileDigest.checkOptions(file, options.toArray(new String[options.size()]));
         }
 
         // No checksum in file, or checksum differs.
