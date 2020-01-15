@@ -490,6 +490,7 @@ public class LexGen implements JavaCCParserConstants
     toSpecial = null;
     toToken = null;
     tokenizerData = new TokenizerData();
+    totalNumStates = 0;
     generateDataOnly = false;
   }
 }
