@@ -49,7 +49,10 @@
 							<goal>java</goal>
 						</goals>
 						<configuration>
-							<mainClass>Main</mainClass>
+							<mainClass>JavaParser</mainClass>
+							<arguments>
+								<argument>${project.basedir}/Main.java</argument>
+							</arguments>
 						</configuration>
 					</execution>
 				</executions>

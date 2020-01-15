@@ -41,7 +41,6 @@
 						</goals>
 						<configuration>
 							<codeGenerator>C++</codeGenerator>
-							<sourceDirectory>../../../examples/JJTreeExamples/cpp/eg1</sourceDirectory>
 							<outputDirectory>target/generated-sources/cpp</outputDirectory>
 						</configuration>
 					</execution>
@@ -50,19 +49,15 @@
 			<plugin>
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>
-				<version>3.9.1</version>
 				<extensions>true</extensions>
 				<configuration>
 					<libraries>
 						<library>
 							<type>executable</type>
-						</library>
+ <run>true</run>						</library>
 					</libraries>
 					<cpp>
 						<includePaths>
-							<includePath>
-								<path>src/main/cpp</path>
-							</includePath>
 							<includePath>
 								<path>target/generated-sources/cpp</path>
 							</includePath>
@@ -73,6 +68,7 @@
 					</cpp>
  				</configuration>
 			</plugin>
+<!-- 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -90,69 +86,7 @@
 					</execution>
 				</executions>
 			</plugin>         
-         <!-- 
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>tests</id>
-						<phase>test</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<skip>false</skip>
-							<target xmlns:cpptasks="antlib:net.sf.antcontrib.cpptasks" >
-								<condition property="linux">
-									<os name="Linux" />
-								</condition>
-								<condition property="Windows">
-									<os name="Windows 10" />
-								</condition>
-								<condition property="platform" value="Linux">
-									<isset property="linux" />
-								</condition>
-								<path id="javacc">
-									<pathelement location="../../../parser/target/parser-8.0.0.jar" />
-									<pathelement location="../../../codegen/cpp/target/cpp-8.0.0.jar" />
-								</path>
-
-								<delete dir="eg1" />
-								<mkdir dir="eg1" />
-								<copy file="../../examples/JJTreeExamples/cpp/eg1.jjt" todir="eg1" />
-								<copy file="../../examples/JJTreeExamples/cpp/eg1.cc" todir="eg1" />
-								<java failonerror="true" fork="true" classname="jjtree" classpathref="javacc">
-									<arg line="-OUTPUT_DIRECTORY=eg1" />
-									<arg line="-CODE_GENERATOR=C++" />
-									<arg line="eg1/eg1.jjt" />
-								</java>
-								<java failonerror="true" fork="true" classname="javacc" classpathref="javacc">
-									<arg line="-OUTPUT_DIRECTORY=eg1" />
-									<arg line="-CODE_GENERATOR=C++" />
-									<arg line="eg1/eg1.jj" />
-								</java>
-								<cpptasks:cc outtype="executable" subsystem="console" outfile="eg1/eg1" objdir="eg1">
-									<fileset dir="eg1" includes="*.cc" />
-									<compiler name="g++" id="Linuxg++">
-										<compilerarg value="-g" if="debug" />
-										<compilerarg value="-Wall" />
-										<compilerarg value="-fpermissive" />
-										<compilerarg value="-O2" />
-										<compilerarg value="-std=c++11" />
-									</compiler>
-
-									<linker id="LinuxLinker" name="g++" libtool="true">
-										<linkerarg value="-g" if="debug" />
-										<libset libs="stdc++" />
-									</linker>
-								</cpptasks:cc>
-								<exec executable="eg1/eg1.exe" />
-							</target>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
  -->
-		</plugins>
+ 		</plugins>
 	</build>
 </project>

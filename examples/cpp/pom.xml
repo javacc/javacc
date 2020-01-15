@@ -10,34 +10,15 @@
 	<groupId>org.javacc.examples</groupId>
 	<artifactId>cpp</artifactId>
 	<packaging>pom</packaging>
-	<properties>
-		<native-maven-plugin>1.0-alpha-11</native-maven-plugin>
-	</properties>
 	<modules>
-		<module>CORBA-IDL</module>
+<!--
+		<module>CORBA-IDL</module> name clash withh c++ reserved keyword
+-->
 		<module>Interpreter</module>
 		<module>JavaCCGrammar</module>
 		<module>MailProcessing</module>
 		<module>JJTreeExamples</module>
-<!--
- -->
-	</modules>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.github.maven-nar</groupId>
-				<artifactId>nar-maven-plugin</artifactId>
-				<version>3.9.1</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	<dependencies>
-		<dependency>
-			<groupId>org.codehaus.mojo</groupId>
-			<artifactId>native-maven-plugin</artifactId>
-			<version>${native-maven-plugin}</version>
-		</dependency>
-	</dependencies>
+ 	</modules>
 	<profiles>
 		<profile>
 			<id>Windows</id>

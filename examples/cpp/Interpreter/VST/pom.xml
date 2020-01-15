@@ -32,7 +32,6 @@
 			<plugin>
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>
-				<version>3.9.1</version>
 				<extensions>true</extensions>
 				<configuration>
 					<libraries>

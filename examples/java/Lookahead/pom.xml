@@ -37,7 +37,6 @@
 							<includes>Example2.jj</includes>
 						</configuration>
 					</execution>
-<!-- 
 					<execution>
 						<id>example3</id>
 						<phase>generate-sources</phase>
@@ -122,6 +121,7 @@
 							<includes>Example9.jj</includes>
 						</configuration>
 					</execution>
+<!-- 
 -->
 					<execution>
 						<id>example10</id>
