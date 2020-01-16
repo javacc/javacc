@@ -466,6 +466,7 @@ public class JavaCCGlobals {
     origFileName = null;
     jjtreeGenerated = false;
     toolNames = null;
+    codeGenerator = null;
     cu_name = null;
     cu_to_insertion_point_1 = new ArrayList<>();
     cu_to_insertion_point_2 = new ArrayList<>();
@@ -479,6 +480,8 @@ public class JavaCCGlobals {
     tokenCount = 0;
     named_tokens_table = new HashMap<>();
     ordered_named_tokens = new ArrayList<>();
+    otherLanguageDeclTokenBeg = null;
+    otherLanguageDeclTokenEnd = null;
     names_of_tokens = new HashMap<>();
     rexps_of_tokens = new HashMap<>();
     simple_tokens_table = new Hashtable<>();
