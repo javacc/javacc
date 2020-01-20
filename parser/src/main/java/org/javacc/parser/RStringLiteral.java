@@ -392,6 +392,11 @@ public class RStringLiteral extends RegularExpression {
     ReInit();
 
     allImages = null;
+    literalsByLength.clear();
+    literalKinds.clear();
+    kindToLexicalState.clear();
+    kindToIgnoreCase.clear();
+    nfaStateMap.clear();
   }
 
   @Override
