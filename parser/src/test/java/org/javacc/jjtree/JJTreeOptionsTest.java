@@ -77,7 +77,7 @@ public final class JJTreeOptionsTest extends TestCase {
 
       JJTreeOptions.setCmdLineOption("VISITOR_DATA_TYPE=Object");
       JJTreeOptions.validate();
-      assertEquals(2, JavaCCErrors.get_warning_count());
+      assertEquals(1, JavaCCErrors.get_warning_count());
 
       JJTreeOptions.init();
       JavaCCErrors.reInit();
@@ -92,7 +92,7 @@ public final class JJTreeOptionsTest extends TestCase {
 
       JJTreeOptions.setCmdLineOption("VISITOR_DATA_TYPE=Object");
       JJTreeOptions.validate();
-      assertEquals(2, JavaCCErrors.get_warning_count());
+      assertEquals(1, JavaCCErrors.get_warning_count());
     }
 
     public void testValidateReturnType() {
@@ -101,7 +101,7 @@ public final class JJTreeOptionsTest extends TestCase {
 
       JJTreeOptions.setCmdLineOption("VISITOR_DATA_TYPE=String");
       JJTreeOptions.validate();
-      assertEquals(2, JavaCCErrors.get_warning_count());
+      assertEquals(1, JavaCCErrors.get_warning_count());
 
       JJTreeOptions.init();
       JavaCCErrors.reInit();
@@ -116,6 +116,6 @@ public final class JJTreeOptionsTest extends TestCase {
 
       JJTreeOptions.setCmdLineOption("VISITOR_DATA_TYPE=String");
       JJTreeOptions.validate();
-      assertEquals(2, JavaCCErrors.get_warning_count());
+      assertEquals(1, JavaCCErrors.get_warning_count());
     }
   }
