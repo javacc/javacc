@@ -6,7 +6,7 @@
     <version>8.0.0</version>
   </parent>
   <artifactId>imports</artifactId>
-  <packaging>exe</packaging>
+  <packaging>jar</packaging>
   <groupId>org.javacc.tests.cpp</groupId>
   <name>JavaCC tests C++ test imports</name>
 	<build>
@@ -41,49 +41,6 @@
 						<configuration>
 							<codeGenerator>C++</codeGenerator>
 							<outputDirectory>target/generated-sources/cpp</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>native-maven-plugin</artifactId>
-				<version>1.0-alpha-12-SNAPSHOT</version>
-				<extensions>true</extensions>
-				<executions>
-					<execution>
-						<id>default-compile</id>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<compilerProvider>${compilerProvider}</compilerProvider>
-							<envFactoryName>${envFactoryName}</envFactoryName>
-							<sources>
-								<source>
-									<directory>target/generated-sources/cpp</directory>
-									<includes>
-										<include>**/*.cc</include>
-									</includes>
-								</source>
-								<source>
-									<directory>target/generated-sources/jjtree</directory>
-									<includes>
-										<include>**/*.cc</include>
-									</includes>
-								</source>
-							</sources>
-							<compilerStartOptions>/EHsc</compilerStartOptions>
-						</configuration>
-					</execution>
-					<execution>
-						<id>default-link</id>
-						<goals>
-							<goal>link</goal>
-						</goals>
-						<configuration>
-							<linkerProvider>${linkerProvider}</linkerProvider>
-							<envFactoryName>${envFactoryName}</envFactoryName>
 						</configuration>
 					</execution>
 				</executions>
