@@ -31,6 +31,8 @@ package org.javacc.jjdoc.test;
 import org.javacc.JavaCCTestCase;
 import org.javacc.jjdoc.JJDocMain;
 
+import java.io.File;
+
 
 /**
  * @author timp
@@ -52,6 +54,8 @@ public class JJDocMainTest extends JavaCCTestCase {
    */
   protected void setUp() throws Exception {
     super.setUp();
+    // Create build directory if it does not exist yet
+    new File(getJJDocOutputDirectory()).mkdirs();
   }
 
   /**
