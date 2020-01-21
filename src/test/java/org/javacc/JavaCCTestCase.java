@@ -32,7 +32,7 @@ public abstract class JavaCCTestCase extends TestCase {
    * @return the documentation output directory name String relative to the root
    */
   public String getJJDocOutputDirectory() {
-    return "www/doc/";
+    return "build/doc/";
     //return "src/site/resources/";
   }
 

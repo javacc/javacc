@@ -14,6 +14,11 @@
 *.sh     text eol=lf executable
 *.cgi    text eol=lf executable
 
+/scripts/javacc executable text eol=lf
+/scripts/jjdoc  executable text eol=lf
+/scripts/jjrun  executable text eol=lf
+/scripts/jjtree executable text eol=lf
+
 *.bat    text eol=crlf
 *.cmd    text eol=crlf
 
