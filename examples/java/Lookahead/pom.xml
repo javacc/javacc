@@ -22,9 +22,10 @@
 						<configuration>
 							<codeGenerator>Java</codeGenerator>
 							<packageName>example1</packageName>
-							<includes>Example1.jj</includes>
+							<includes>example1/Example1.jj</includes>
 						</configuration>
 					</execution>
+<!-- 
 					<execution>
 						<id>example2</id>
 						<phase>generate-sources</phase>
@@ -121,8 +122,6 @@
 							<includes>Example9.jj</includes>
 						</configuration>
 					</execution>
-<!-- 
--->
 					<execution>
 						<id>example10</id>
 						<phase>generate-sources</phase>
@@ -135,6 +134,7 @@
 							<includes>Example10.jj</includes>
 						</configuration>
 					</execution>
+-->
 				</executions>
 			</plugin>
 <!-- 
