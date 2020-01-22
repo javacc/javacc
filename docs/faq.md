@@ -2598,7 +2598,7 @@ If your language is totally unsuitable for top-down parsing, you'll be happier w
 
 ## <a name="acknowledgments"></a>Acknowledgments
 
-This FAQ is based on a [previous version](http://www.engr.mun.ca/~theo/JavaCC-FAQ/javacc-faq-moz.htm) written by [Theodore S. Norvell](mailto:theo@mun.ca) with help from Ken Beesley, Leonardo Bueno, Paul Cager, Tom Copeland, Tom Davies, Brian Goetz, Roedy Green, John Kristian, Tony LaPaso, Eric Nickell, Andreas Papasalouros, Phil Robare, Alan Rooks, David Rosenstrauch, Sriram Sankar, Sreeni Viswanadha, and Michael Welle.
+This FAQ is copyright (c) [Theodore S. Norvell](mailto:theo@mun.ca).  Thanks to Ken Beesley, Leonardo Bueno, Paul Cager, Tom Copeland, Tom Davies, Brian Goetz, Roedy Green, John Kristian, Tony LaPaso, Eric Nickell, Andreas Papasalouros, Phil Robare, Alan Rooks, David Rosenstrauch, Sriram Sankar, Sreeni Viswanadha, and Michael Welle for suggestions and clarifications.
 
 <br>
 
