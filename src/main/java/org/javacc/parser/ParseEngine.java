@@ -487,7 +487,7 @@ public class ParseEngine {
     StringBuffer sig = new StringBuffer();
     String ret, params;
     Token t = null;
-    
+
     String method_name = p.getLhs();
     boolean void_ret = false;
     boolean ptr_ret = false;
@@ -698,7 +698,7 @@ public class ParseEngine {
         codeGenerator.genCodeLine("    try {");
         indentamt = 6;
       }
-    
+
     if (!Options.booleanValue(Options.USEROPTION__CPP_IGNORE_ACTIONS) &&
         p.getDeclarationTokens().size() != 0) {
       codeGenerator.printTokenSetup((Token)(p.getDeclarationTokens().get(0))); cline--;
@@ -708,11 +708,11 @@ public class ParseEngine {
       }
       codeGenerator.printTrailingComments(t);
     }
-    
+
     String code = phase1ExpansionGen(p.getExpansion());
     dumpFormattedString(code);
     codeGenerator.genCodeLine("");
-    
+
     if (p.isJumpPatched() && !voidReturn) {
       if (isJavaDialect) {
 	// This line is required for Java!
@@ -1480,7 +1480,7 @@ public class ParseEngine {
             codeGenerator.genCodeLine("    } catch(...) { }");
           }
           codeGenerator.genCodeLine("  }");
-          codeGenerator.genCodeLine(""); 	  
+          codeGenerator.genCodeLine("");
       } else
       if (p instanceof JavaCodeProduction) {
         if (!isJavaDialect) {

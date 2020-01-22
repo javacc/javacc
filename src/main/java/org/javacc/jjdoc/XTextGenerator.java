@@ -48,16 +48,16 @@ public class XTextGenerator extends TextGenerator implements Generator {
   private int id = 1;
 
   static final String sep = "\n";
-  
+
   public XTextGenerator() {
     super();
   }
-  
+
   @Override
   public void handleTokenProduction(TokenProduction tp) {
-      
+
       StringBuilder sb = new StringBuilder();
-      
+
       for (Iterator it2 = tp.respecs.iterator(); it2.hasNext();) {
           RegExprSpec res = (RegExprSpec)it2.next();
 
@@ -73,7 +73,7 @@ public class XTextGenerator extends TextGenerator implements Generator {
 //              sb.append("| ");
 //          }
         }
-      
+
       //text(sb.toString());
   }
 
@@ -110,14 +110,14 @@ public class XTextGenerator extends TextGenerator implements Generator {
     ostr.print(s);
   }
 
-  
+
   public void documentStart() {
     ostr = create_output_stream();
     println("grammar "+JJDocGlobals.input_file+" with org.eclipse.xtext.common.Terminals");
     println("import \"http://www.eclipse.org/emf/2002/Ecore\" as ecore");
     println("");
-//    
-//    
+//
+//
 //    println("<HTML>");
 //    println("<HEAD>");
 //    if (!"".equals(JJDocOptions.getCSS())) {
@@ -207,9 +207,9 @@ public class XTextGenerator extends TextGenerator implements Generator {
   }
 
   public void expansionStart(Expansion e, boolean first) {
-//      
-//      
-//      
+//
+//
+//
 //    if (!first) {
 //      println("<TR>");
 //      println("<TD ALIGN=RIGHT VALIGN=BASELINE></TD>");
@@ -232,7 +232,7 @@ public class XTextGenerator extends TextGenerator implements Generator {
   }
   public void reEnd(RegularExpression r) {
   }
-  
-  
-  
+
+
+
 }

@@ -127,11 +127,11 @@ public class Options {
 
 	public static final String OUTPUT_LANGUAGE__CPP = "c++";
 	public static final String OUTPUT_LANGUAGE__JAVA = "java";
-	
+
 	public static enum Language {
 		java, cpp;
 	}
-	
+
 	public static Language language = Language.java;
 
 
@@ -202,7 +202,7 @@ public class Options {
 		temp.add(new OptionInfo(USEROPTION__GRAMMAR_ENCODING, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__OUTPUT_LANGUAGE, OptionType.STRING, OUTPUT_LANGUAGE__JAVA));
 		language = Language.java;
-		
+
 		temp.add(new OptionInfo(USEROPTION__JAVA_TEMPLATE_TYPE, OptionType.STRING, JAVA_TEMPLATE_TYPE_CLASSIC));
 		temp.add(new OptionInfo(USEROPTION__CPP_NAMESPACE, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_INCLUDES, OptionType.STRING, ""));
@@ -424,7 +424,7 @@ public class Options {
 			boolean isLegacy = JAVA_TEMPLATE_TYPE_CLASSIC.equals(templateType);
 			optionValues.put(NONUSER_OPTION__LEGACY_EXCEPTION_HANDLING, isLegacy);
 		} else
-			
+
 		if (nameUpperCase.equalsIgnoreCase(USEROPTION__OUTPUT_LANGUAGE)) {
 			String outputLanguage = (String)value;
 			if (!isValidOutputLanguage(outputLanguage)) {
@@ -438,7 +438,7 @@ public class Options {
 			else if (isOutputLanguageCpp())
 				language = Language.cpp;
 		} else
-			
+
 		if (nameUpperCase.equalsIgnoreCase(USEROPTION__CPP_NAMESPACE)) {
 			processCPPNamespaceOption((String) value);
 		}

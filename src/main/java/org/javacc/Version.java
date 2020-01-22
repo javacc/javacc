@@ -45,7 +45,7 @@ public class Version {
   public static final String minorVersion;
   public static final String patchVersion;
 
-  
+
   public static final String majorDotMinor;
   public static final String versionNumber;
 
@@ -78,7 +78,6 @@ public class Version {
     versionNumber = majorVersion + "." + minorVersion +
                     (patch.equals("") ? "" : "." + patch);
   }
-  
-  
-}
 
+
+}

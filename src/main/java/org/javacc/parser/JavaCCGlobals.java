@@ -389,7 +389,7 @@ public class JavaCCGlobals {
   }
 
   static public String addUnicodeEscapes(String str) {
-	  
+
 	if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
 		return str;
 	} else if (Options.isOutputLanguageJava()) {
@@ -458,7 +458,7 @@ public class JavaCCGlobals {
       t = it.next();
       printToken(t, ostr);
     }
-    
+
     if (t != null)
       printTrailingComments(t, ostr);
   }

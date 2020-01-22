@@ -311,13 +311,13 @@ final class NodeFiles {
     PrintWriter ostr = outputFile.getPrintWriter();
 
     generatePrologue(ostr);
-    
+
     Map options = new HashMap(Options.getOptions());
     options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
-    
+
     OutputFileGenerator generator = new OutputFileGenerator(
         "/templates/Node.template", options);
-    
+
     generator.generate(ostr);
 
     ostr.close();
@@ -329,14 +329,14 @@ final class NodeFiles {
     PrintWriter ostr = outputFile.getPrintWriter();
 
     generatePrologue(ostr);
-    
+
     Map options = new HashMap(Options.getOptions());
     options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     options.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(JJTreeOptions.getVisitorReturnType().equals("void")));
-    
+
     OutputFileGenerator generator = new OutputFileGenerator(
         "/templates/SimpleNode.template", options);
-    
+
     generator.generate(ostr);
 
     ostr.close();
@@ -353,10 +353,10 @@ final class NodeFiles {
     options.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
     options.put("NODE_TYPE", nodeType);
     options.put("VISITOR_RETURN_TYPE_VOID", Boolean.valueOf(JJTreeOptions.getVisitorReturnType().equals("void")));
-    
+
     OutputFileGenerator generator = new OutputFileGenerator(
         "/templates/MultiNode.template", options);
-    
+
     generator.generate(ostr);
 
     ostr.close();

@@ -87,7 +87,7 @@ public class JJDocGlobals extends JavaCCGlobals {
         if(generator instanceof TextGenerator) {
           generator = new HTMLGenerator();
         }
-      } 
+      }
     }
     return generator;
   }

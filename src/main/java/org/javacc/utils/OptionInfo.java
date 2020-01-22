@@ -3,8 +3,8 @@ package org.javacc.utils;
 import java.util.Map;
 
 /**
- * 
- * 
+ *
+ *
  * @author Chris Ainsley
  *
  */
@@ -12,13 +12,13 @@ public class OptionInfo implements Comparable<OptionInfo>{
 	  String _name;
 	  OptionType _type;
 	  Object _default;
-	  
+
 	public OptionInfo(String name, OptionType type, Object default1) {
 		_name = name;
 		_type = type;
 		_default = default1;
 	}
-	
+
 	public String getName() {
 		return _name;
 	}

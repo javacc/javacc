@@ -43,20 +43,20 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
   private static final String CONSTANTS_FILENAME_SUFFIX = "Constants.java";
 
   static public void start(boolean isJavaModern) throws MetaParseException {
-	  
+
 	JavaResourceTemplateLocations templateLoc = isJavaModern ? JavaFiles.RESOURCES_JAVA_MODERN : JavaFiles.RESOURCES_JAVA_CLASSIC;
-	  
+
     Token t = null;
 
     if (JavaCCErrors.get_error_count() != 0) throw new MetaParseException();
 
 	  // Added this if condition -- 2012/10/17 -- cba
 	if ( Options.isGenerateBoilerplateCode()) {
-		
+
 	    if (isJavaModern) {
 	    	JavaFiles.gen_JavaModernFiles();
 	    }
-	    
+
 	    JavaFiles.gen_TokenMgrError(templateLoc);
 	    JavaFiles.gen_ParseException(templateLoc);
 	    JavaFiles.gen_Token(templateLoc);
@@ -82,7 +82,7 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
 	      }
     	}
     }
-    
+
     try {
       ostr = new java.io.PrintWriter(
                 new java.io.BufferedWriter(

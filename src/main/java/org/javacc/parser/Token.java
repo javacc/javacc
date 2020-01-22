@@ -103,7 +103,7 @@ public class Token {
 	  return object.equals(image);
 	return false;
   }
-  
+
   /**
    * hashCode
    */
