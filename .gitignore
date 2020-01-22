@@ -33,3 +33,8 @@ test/**/*.h
 test/**/*.cc
 test/**/*.jj
 test/**/*.jjt
+
+# VS2017 #
+Debug/
+Release/
+.vs/
