@@ -39,9 +39,7 @@ static protected Token jjFillToken()
    final String curTokenImage;
    String im = jjstrLiteralImages[jjmatchedKind];
    curTokenImage = (im == null) ? input_stream.GetImage() : im;
-   t = Token.newToken(jjmatchedKind);
-   t.kind = jjmatchedKind;
-   t.image = curTokenImage;
+   t = Token.newToken(jjmatchedKind, curTokenImage);
 
    return t;
 }

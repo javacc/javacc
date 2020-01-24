@@ -193,7 +193,7 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
     if (!file.exists()) {
       // Has not yet been created, so it must be up to date.
       try {
-        String majorVersion = Version.versionNumber.replaceAll("[^0-9.]+.*", "");
+        String majorVersion = Version.majorDotMinor.replaceAll("[^0-9.]+.*", "");
         return Double.parseDouble(majorVersion);
       } catch (NumberFormatException e) {
         return 0.0; // Should never happen
@@ -215,6 +215,13 @@ public class JavaFiles extends JavaCCGlobals implements JavaCCParserConstants
           if (pos >= 0) str = str.substring(0, pos);
           if (str.length() > 0) {
             try {
+              // str can be 4.09
+              // or even 7.0.5
+              // So far we keep only major.minor part
+              // "4 qwerty"-> "4"
+              // "4.09 qwerty" -> "4.09"
+              // "7.0.5 qwerty" -> "7.0"
+              str = str.replaceAll("(\\d+(\\.\\d+)?).*", "$1");
               version = Double.parseDouble(str);
             }
             catch (NumberFormatException nfe) {
