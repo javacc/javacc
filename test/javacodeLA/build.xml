@@ -43,15 +43,15 @@ THE POSSIBILITY OF SUCH DAMAGE.
     </javac>
 
     <echo>Test 1</echo>
-    <java classname="JavacodeTest" classpath="out-dir" outputproperty="test1.out" inputstring="A" failonerror="true"> <arg line="j" /> </java>
+    <java fork="true" classname="JavacodeTest" classpath="out-dir" outputproperty="test1.out" inputstring="A" failonerror="true"> <arg line="j" /> </java>
     <echo>${test1.out}</echo>
 
     <echo>Test 2</echo>
-    <java classname="JavacodeTest" classpath="out-dir" outputproperty="test2.out" inputstring="D" failonerror="true"> <arg line="j" /> </java>
+    <java fork="true" classname="JavacodeTest" classpath="out-dir" outputproperty="test2.out" inputstring="D" failonerror="true"> <arg line="j" /> </java>
     <echo>${test2.out}</echo>
 
     <echo>Test 3</echo>
-    <java classname="JavacodeTest" classpath="out-dir" outputproperty="test3.out" inputstring="C" failonerror="true"> <arg line="j" /> </java>
+    <java fork="true" classname="JavacodeTest" classpath="out-dir" outputproperty="test3.out" inputstring="C" failonerror="true"> <arg line="j" /> </java>
     <echo>${test3.out}</echo>
 
     <fail message="JAVACODE failed">
