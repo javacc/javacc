@@ -57,7 +57,7 @@ public class ROneOrMore extends RegularExpression {
 
     public ROneOrMore() {}
 
-    public ROneOrMore(Token t, RegularExpression re) {
+    ROneOrMore(Token t, RegularExpression re) {
         this.setLine(t.beginLine);
         this.setColumn(t.beginColumn);
         this.regexpr = re;

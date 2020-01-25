@@ -37,8 +37,6 @@ public class TokenizerData {
 
   // Class representing NFA state.
   public static class NfaState {
-    // Index of the state.
-    private int index;
     // Set of allowed characters.
     public Set<Character> characters;
     // Next state indices.
@@ -52,7 +50,6 @@ public class TokenizerData {
 
     private NfaState(int index, Set<Character> characters,
              Set<Integer> nextStates, Set<Integer> compositeStates, int kind) {
-      this.index = index;
       this.characters = characters;
       this.nextStates = nextStates;
       this.kind = kind;
@@ -74,8 +71,6 @@ public class TokenizerData {
   public static class MatchInfo {
     // String literal image in case this string literal token, null otherwise.
     public String image;
-    // Kind index.
-    private int kind;
     // Type of match.
     public MatchType matchType;
     // Any lexical state transition specified.
@@ -86,7 +81,6 @@ public class TokenizerData {
     private MatchInfo(String image, int kind, MatchType matchType,
                      int newLexState, String action) {
       this.image = image;
-      this.kind = kind;
       this.matchType = matchType;
       this.newLexState = newLexState;
       this.action = action;
@@ -133,7 +127,7 @@ public class TokenizerData {
     this.kindToNfaStartState = kindToNfaStartState;
   }
 
-  public void addNfaState(int index, Set<Character> characters,
+  void addNfaState(int index, Set<Character> characters,
                           Set<Integer> nextStates,
                           Set<Integer> compositeStates, int kind) {
     NfaState nfaState =
@@ -160,7 +154,7 @@ public class TokenizerData {
     this.defaultLexState = defaultLexState;
   }
 
-  public void updateMatchInfo(Map<Integer, String> actions,
+  void updateMatchInfo(Map<Integer, String> actions,
                               int[] newLexStateIndices,
                               long[] toSkip, long[] toSpecial,
                               long[] toMore, long[] toToken) {
@@ -191,7 +185,7 @@ public class TokenizerData {
   // Labels.
   public Map<Integer, String> labels;
   public String[] images;
-  public void setLabelsAndImages(Map<Integer, String> labels, String[] images) {
+  void setLabelsAndImages(Map<Integer, String> labels, String[] images) {
     this.labels = labels;
     this.images = images;
   }

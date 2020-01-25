@@ -42,13 +42,13 @@ public class RegExprSpec {
   /**
    * The action corresponding to this specification.
    */
-  public Action act;
+  Action act;
 
   /**
    * The next state corresponding to this specification.  If no
    * next state has been specified, this field is set to "null".
    */
-  public String nextState;
+  String nextState;
 
   /**
    * If the next state specification was explicit in the previous

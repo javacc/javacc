@@ -464,11 +464,11 @@ public class Semanticize extends JavaCCGlobals {
 
   }
 
-  public static RegularExpression other;
+  private static RegularExpression other;
 
   // Checks to see if the "str" is superceded by another equal (except case) string
   // in table.
-  public static boolean hasIgnoreCase(Hashtable<String, RegularExpression> table, String str) {
+  private static boolean hasIgnoreCase(Hashtable<String, RegularExpression> table, String str) {
     RegularExpression rexp;
     rexp = table.get(str);
     if (rexp != null && !rexp.tpContext.ignoreCase) {
@@ -652,9 +652,9 @@ public class Semanticize extends JavaCCGlobals {
    * Objects of this class are created from class Semanticize to work on
    * references to regular expressions from RJustName's.
    */
-  static class FixRJustNames extends JavaCCGlobals implements TreeWalkerOp {
+  private static class FixRJustNames implements TreeWalkerOp {
 
-    public RegularExpression root;
+    private RegularExpression root;
 
     @Override
     public boolean goDeeper(Expansion e) {
@@ -683,7 +683,7 @@ public class Semanticize extends JavaCCGlobals {
 
   }
 
-  static class LookaheadFixer extends JavaCCGlobals implements TreeWalkerOp {
+  private static class LookaheadFixer implements TreeWalkerOp {
 
     @Override
     public boolean goDeeper(Expansion e) {
@@ -744,7 +744,7 @@ public class Semanticize extends JavaCCGlobals {
 
   }
 
-  static class ProductionDefinedChecker extends JavaCCGlobals implements TreeWalkerOp {
+  private static class ProductionDefinedChecker implements TreeWalkerOp {
 
     @Override
     public boolean goDeeper(Expansion e) {
@@ -769,7 +769,7 @@ public class Semanticize extends JavaCCGlobals {
 
   }
 
-  static class EmptyChecker extends JavaCCGlobals implements TreeWalkerOp {
+  private static class EmptyChecker implements TreeWalkerOp {
 
     @Override
     public boolean goDeeper(Expansion e) {
@@ -798,7 +798,7 @@ public class Semanticize extends JavaCCGlobals {
     }
   }
 
-  private static class LookaheadChecker extends JavaCCGlobals implements TreeWalkerOp {
+  private static class LookaheadChecker implements TreeWalkerOp {
 
     @Override
     public boolean goDeeper(Expansion e) {
@@ -850,7 +850,7 @@ public class Semanticize extends JavaCCGlobals {
 
   }
 
-  public static void reInit() {
+  static void reInit() {
     removeList = new ArrayList<>();
     itemList = new ArrayList<>();
     other = null;

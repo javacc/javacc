@@ -27,15 +27,13 @@
  */
 
 package org.javacc.jjdoc;
-import java.util.Iterator;
-import java.util.List;
-
 import org.javacc.parser.Action;
 import org.javacc.parser.BNFProduction;
 import org.javacc.parser.CharacterRange;
 import org.javacc.parser.Choice;
 import org.javacc.parser.CppCodeProduction;
 import org.javacc.parser.Expansion;
+import org.javacc.parser.JavaCCGlobals;
 import org.javacc.parser.JavaCCParserInternals;
 import org.javacc.parser.JavaCodeProduction;
 import org.javacc.parser.Lookahead;
@@ -62,6 +60,9 @@ import org.javacc.parser.TryBlock;
 import org.javacc.parser.ZeroOrMore;
 import org.javacc.parser.ZeroOrOne;
 
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * The main entry point for JJDoc.
  */
@@ -70,8 +71,8 @@ public class JJDoc extends JJDocGlobals {
   static void start() {
     generator = getGenerator();
     generator.documentStart();
-    emitTokenProductions(generator, rexprlist);
-    emitNormalProductions(generator, bnfproductions);
+    emitTokenProductions(generator, JavaCCGlobals.rexprlist);
+    emitNormalProductions(generator, JavaCCGlobals.bnfproductions);
     generator.documentEnd();
   }
   private static Token getPrecedingSpecialToken(Token tok) {
@@ -89,10 +90,10 @@ public class JJDoc extends JJDocGlobals {
     tok = getPrecedingSpecialToken(tok);
     String s = "";
     if (tok != null) {
-      cline = tok.beginLine;
-      ccol = tok.beginColumn;
+      JavaCCGlobals.cline = tok.beginLine;
+      JavaCCGlobals.ccol = tok.beginColumn;
       while (tok != null) {
-        s += printTokenOnly(tok, true);
+        s += JavaCCGlobals.printTokenOnly(tok, true);
         tok = tok.next;
       }
     }
@@ -315,15 +316,15 @@ public static String getStandardTokenProductionText(TokenProduction tp) {
         if (o instanceof SingleCharacter) {
           returnString += "\"";
           char s[] = { ((SingleCharacter)o).ch };
-          returnString += add_escapes(new String(s));
+          returnString += JavaCCGlobals.add_escapes(new String(s));
           returnString += "\"";
         } else if (o instanceof CharacterRange) {
           returnString += "\"";
           char s[] = { ((CharacterRange)o).getLeft() };
-          returnString += add_escapes(new String(s));
+          returnString += JavaCCGlobals.add_escapes(new String(s));
           returnString += "\"-\"";
           s[0] = ((CharacterRange)o).getRight();
-          returnString += add_escapes(new String(s));
+          returnString += JavaCCGlobals.add_escapes(new String(s));
           returnString += "\"";
         } else {
           error("Oops: unknown character list element type.");

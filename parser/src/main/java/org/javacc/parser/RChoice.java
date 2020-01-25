@@ -82,7 +82,7 @@ public class RChoice extends RegularExpression {
      return retVal;
   }
 
-  public void CompressCharLists()
+  private void CompressCharLists()
   {
      CompressChoices(); // Unroll nested choices
      RegularExpression curRE;
@@ -119,7 +119,7 @@ public class RChoice extends RegularExpression {
      }
   }
 
-  void CompressChoices()
+  private void CompressChoices()
   {
      RegularExpression curRE;
 
@@ -139,7 +139,7 @@ public class RChoice extends RegularExpression {
      }
   }
 
-  public void CheckUnmatchability()
+  void CheckUnmatchability()
   {
      RegularExpression curRE;
      for (int i = 0; i < getChoices().size(); i++)

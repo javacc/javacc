@@ -77,7 +77,7 @@ public class Token {
   /**
    * Constructs a new token for the specified Image and Kind.
    */
-  public Token(int kind, String image)
+  private Token(int kind, String image)
   {
     this.kind = kind;
     this.image = image;
@@ -125,7 +125,7 @@ public class Token {
    * to the following switch statement. Then you can cast matchedToken
    * variable to the appropriate type and use it in your lexical actions.
    */
-  public static final Token newToken(int ofKind, String image) {
+  static final Token newToken(int ofKind, String image) {
     switch (ofKind) {
       default:
         return new Token(ofKind, image);
@@ -139,11 +139,11 @@ public class Token {
   /**
    * Greater than Token.
    */
-  public static class GTToken extends Token {
+  static class GTToken extends Token {
 
     int realKind = JavaCCParserConstants.GT;
 
-    public GTToken(int kind, String image) {
+    private GTToken(int kind, String image) {
       super(kind, image);
     }
   }

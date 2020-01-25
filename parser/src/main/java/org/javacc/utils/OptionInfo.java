@@ -8,9 +8,10 @@ package org.javacc.utils;
  *
  */
 public class OptionInfo implements Comparable<OptionInfo>{
-	  String _name;
-	  OptionType _type;
-	  Object _default;
+
+  private String     _name;
+  private OptionType _type;
+  private Object     _default;
 	  
 	public OptionInfo(String name, OptionType type, Object default1) {
 		_name = name;
