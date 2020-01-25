@@ -19,6 +19,7 @@ rootProject.name = "javacc"
 include(
     "dependencies-bom",
     "release",
+    "integration-tests",
     "examples",
     "test"
 )
