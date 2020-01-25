@@ -74,7 +74,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     }
 
     genCodeLine("");
-    
+
     if (Options.stringValue(Options.USEROPTION__CPP_NAMESPACE).length() > 0) {
       genCodeLine("namespace " + Options.stringValue("NAMESPACE_OPEN"));
     }
@@ -134,7 +134,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
             commonTokenActionNeeded &&
             !commonTokenActionSeen) {
           commonTokenActionSeen = t.image.equals("CommonTokenAction");
-          if (commonTokenActionSeen) 
+          if (commonTokenActionSeen)
         	  t.image = cu_name + "TokenManager::" + t.image;
         }
 
@@ -143,7 +143,7 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
 
       switchToIncludeFile();
       genCodeLine("  void CommonTokenAction(Token* token);");
-      
+
       if (Options.getTokenManagerUsesParser()) {
     	  genCodeLine("  void setParser(void* parser) {");
     	  genCodeLine("      this->parser = (" + cu_name + "*) parser;");

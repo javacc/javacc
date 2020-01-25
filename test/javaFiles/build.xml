@@ -29,7 +29,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
 <project name="test-javafiles" default="test" basedir=".">
-  
+
   <target name="test" depends="" description="run functional test cases">
 
 
@@ -53,7 +53,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <javac srcdir="out-dir" destdir="out-dir/static" source="1.5" debug="true" includeantruntime='false'
            classpath="../../target/javacc.jar">
     </javac>
-    <java classname="Parser" classpath="out-dir/static" inputstring="A" failonerror="true"> </java>
+    <java fork="true" classname="Parser" classpath="out-dir/static" inputstring="A" failonerror="true"> </java>
 
 
     <echo></echo>
@@ -72,7 +72,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <javac srcdir="out-dir"  destdir="out-dir/non-static"  source="1.5" debug="true" includeantruntime='false'
            classpath="../../target/javacc.jar">
     </javac>
-    <java classname="Parser" classpath="out-dir/non-static" inputstring="A" failonerror="true"> </java>
+    <java fork="true" classname="Parser" classpath="out-dir/non-static" inputstring="A" failonerror="true"> </java>
 
     <echo></echo>
     <echo>Test 3 - Compatible Modified.</echo>
@@ -94,7 +94,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <javac srcdir="out-dir" destdir="out-dir/non-static" source="1.5" debug="true" includeantruntime='false'
            classpath="../../target/javacc.jar">
     </javac>
-    <java classname="Parser" classpath="out-dir/non-static" inputstring="A" failonerror="true"> </java>
+    <java fork="true" classname="Parser" classpath="out-dir/non-static" inputstring="A" failonerror="true"> </java>
 
 
     <echo></echo>
@@ -118,7 +118,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <javac srcdir="out-dir" destdir="out-dir/non-static" source="1.5" debug="true" includeantruntime='false'
            classpath="../../target/javacc.jar">
     </javac>
-    <java classname="Parser" classpath="out-dir/non-static" inputstring="A" failonerror="true"> </java>
+    <java fork="true" classname="Parser" classpath="out-dir/non-static" inputstring="A" failonerror="true"> </java>
 
     <echo></echo>
     <echo>Test 5 - Changed Options.</echo>
@@ -141,7 +141,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <javac srcdir="out-dir" destdir="out-dir/non-static" source="1.5" debug="true" includeantruntime='false'
            classpath="../../target/javacc.jar">
     </javac>
-    <java classname="Parser" classpath="out-dir/non-static" inputstring="A" failonerror="true"> </java>
+    <java fork="true" classname="Parser" classpath="out-dir/non-static" inputstring="A" failonerror="true"> </java>
 
     <echo></echo>
     <echo>Test 6 - Create JJtree Nodes</echo>
@@ -185,7 +185,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <fail message="Regenerate JJtree Nodes Failed">
      <condition>
-        <contains string="${test8.out}" substring="File &quot;SimpleNode.java&quot; is being rebuilt." /> 
+        <contains string="${test8.out}" substring="File &quot;SimpleNode.java&quot; is being rebuilt." />
      </condition>
     </fail>
 

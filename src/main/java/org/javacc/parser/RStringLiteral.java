@@ -132,23 +132,23 @@ public class RStringLiteral extends RegularExpression {
       DumpStrLiteralImagesForJava(codeGenerator);
       return;
     } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
-	
+
 	    // For C++
 	    String image;
 	    int i;
 	    charCnt = 0; // Set to zero in reInit() but just to be sure
-	
+
 	    codeGenerator.genCodeLine("");
 	    codeGenerator.genCodeLine("/** Token literal values. */");
 	    int literalCount = 0;
 	    codeGenerator.switchToStaticsFile();
-	
+
 	    if (allImages == null || allImages.length == 0)
 	    {
 	      codeGenerator.genCodeLine("static const JJString jjstrLiteralImages[] = {};");
 	      return;
 	    }
-	
+
 	    allImages[0] = "";
 	    for (i = 0; i < allImages.length; i++)
 	    {
@@ -169,31 +169,31 @@ public class RStringLiteral extends RegularExpression {
 	          codeGenerator.genCodeLine("");
 	          charCnt = 0;
 	        }
-	
+
 	        codeGenerator.genCodeLine("static JJChar jjstrLiteralChars_"
 	            + literalCount++ + "[] = {0};");
 	        continue;
 	      }
-	
+
 	      String toPrint = "static JJChar jjstrLiteralChars_" +
 	                           literalCount++ + "[] = {";
 	      for (int j = 0; j < image.length(); j++) {
 	        String hexVal = Integer.toHexString((int)image.charAt(j));
 	        toPrint += "0x" + hexVal + ", ";
 	      }
-	
+
 	      // Null char
 	      toPrint += "0};";
-	
+
 	      if ((charCnt += toPrint.length()) >= 80)
 	      {
 	        codeGenerator.genCodeLine("");
 	        charCnt = 0;
 	      }
-	
+
 	      codeGenerator.genCodeLine(toPrint);
 	    }
-	
+
 	    while (++i < Main.lg.maxOrdinal)
 	    {
 	      if ((charCnt += 6) > 80)
@@ -201,12 +201,12 @@ public class RStringLiteral extends RegularExpression {
 	        codeGenerator.genCodeLine("");
 	        charCnt = 0;
 	      }
-	
+
 	      codeGenerator.genCodeLine("static JJChar jjstrLiteralChars_" +
 	                                 literalCount++ + "[] = {0};");
 	      continue;
 	    }
-	
+
 	    // Generate the array here.
 	    codeGenerator.genCodeLine("static const JJString " +
 	                              "jjstrLiteralImages[] = {");
@@ -919,7 +919,7 @@ public class RStringLiteral extends RegularExpression {
         }
 
         if (i != 0 && Options.getDebugTokenManager()) {
-        	
+
         	// TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
           if (codeGenerator.isJavaLanguage()) {
             codeGenerator.genCodeLine("   debugStream.println(" +
@@ -1612,7 +1612,7 @@ public class RStringLiteral extends RegularExpression {
         String[] keys = ReArrange(tab);
         if (Options.getIgnoreCase()) {
           for (String s : keys) {
-            char c = s.charAt(0); 
+            char c = s.charAt(0);
             tab.put(Character.toLowerCase(c), tab.get(c));
             tab.put(Character.toUpperCase(c), tab.get(c));
           }

@@ -177,9 +177,9 @@ public class JJTree {
         io.getOut().close();
 
         String outputLanguage = JJTreeOptions.getOutputLanguage();
-        
+
         // TODO :: Not yet tested this in GWT/Modern mode (disabled by default in 6.1)
-        
+
 		if (JJTreeOptions.isOutputLanguageJava()) {
           NodeFiles.generateTreeConstants_java();
           NodeFiles.generateVisitor_java();

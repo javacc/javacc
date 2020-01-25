@@ -44,8 +44,8 @@ public class Main {
 
   public static LexGen lg;
   static void help_message() {
-	  
-	  
+
+
     System.out.println("Usage:");
     System.out.println("    javacc option-settings inputfile");
     System.out.println("");
@@ -61,39 +61,39 @@ public class Main {
     System.out.println("of \"-NOSTATIC\".  Option values must be appropriate for the corresponding");
     System.out.println("option, and must be either an integer, a boolean, or a string value.");
     System.out.println("");
-    
+
     // 2013/07/23 -- Changed this to auto-generate from metadata in Options so that help is always in-sync with codebase
     printOptions();
-    
+
     System.out.println("EXAMPLE:");
     System.out.println("    javacc -STATIC=false -LOOKAHEAD:2 -debug_parser mygrammar.jj");
     System.out.println("");
   }
 
 private static void printOptions() {
-	
+
 	Set<OptionInfo> options = Options.getUserOptions();
-    
+
     int maxLengthInt = 0;
     int maxLengthBool = 0;
     int maxLengthString = 0;
-    
+
     for (OptionInfo i : options) {
     	int length = i.getName().length();
-    	
+
     	if (i.getType() == OptionType.INTEGER) {
 			maxLengthInt = length > maxLengthInt ? length : maxLengthInt;
     	} else if (i.getType() == OptionType.BOOLEAN) {
     		maxLengthBool = length > maxLengthBool ? length : maxLengthBool;
-    		
+
     	} else if (i.getType() == OptionType.STRING) {
     		maxLengthString = length > maxLengthString ? length : maxLengthString;
-    		
+
     	} else {
     		// Not interested
     	}
     }
-    
+
     if (maxLengthInt > 0) {
 	    System.out.println("The integer valued options are:");
 	    System.out.println("");
@@ -102,8 +102,8 @@ private static void printOptions() {
 	    }
 	    System.out.println("");
     }
-    
-    
+
+
     if (maxLengthBool > 0) {
 	    System.out.println("The boolean valued options are:");
 	    System.out.println("");
@@ -112,7 +112,7 @@ private static void printOptions() {
 	    }
 	    System.out.println("");
     }
-    
+
     if (maxLengthString > 0) {
 	    System.out.println("The string valued options are:");
 	    System.out.println("");
@@ -138,11 +138,11 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
 		  int charsToPad = maxLengthInt - nameLength;
 		  StringBuilder sb = new StringBuilder(charsToPad);
 		  sb.append(name);
-		  
+
 		  for (int i=0; i < charsToPad; i++) {
 			  sb.append(" ");
 		  }
-		  
+
 		  return sb.toString();
 	  }
 }
@@ -189,7 +189,7 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
     }
 
 
-	
+
 
     try {
       java.io.File fp = new java.io.File(args[args.length-1]);
@@ -216,7 +216,7 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
       JavaCCGlobals.jjtreeGenerated = JavaCCGlobals.isGeneratedBy("JJTree", args[args.length-1]);
       JavaCCGlobals.toolNames = JavaCCGlobals.getToolNames(args[args.length-1]);
       parser.javacc_input();
-      
+
       // 2012/05/02 - Moved this here as cannot evaluate output language
       // until the cc file has been processed. Was previously setting the 'lg' variable
       // to a lexer before the configuration override in the cc file had been read.
@@ -224,10 +224,10 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
       // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
   	  boolean isJavaOutput = Options.isOutputLanguageJava();
   	  boolean isCPPOutput = outputLanguage.equals(Options.OUTPUT_LANGUAGE__CPP);
-  	  
-  	  // 2013/07/22 Java Modern is a 
+
+  	  // 2013/07/22 Java Modern is a
   	  boolean isJavaModern = isJavaOutput && Options.getJavaTemplateType().equals(Options.JAVA_TEMPLATE_TYPE_MODERN);
-  	  
+
   	  if (isJavaOutput) {
         lg = new LexGen();
       } else if (isCPPOutput) {
@@ -235,7 +235,7 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
       } else {
       	return unhandledLanguageExit(outputLanguage);
       }
-  	
+
       JavaCCGlobals.createOutputDir(Options.getOutputDirectory());
 
       if (Options.getUnicodeInput())
@@ -247,7 +247,7 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
 
       Semanticize.start();
       boolean isBuildParser = Options.getBuildParser();
-      
+
  	  // 2012/05/02 -- This is not the best way to add-in GWT support, really the code needs to turn supported languages into enumerations
 	  // and have the enumerations describe the deltas between the outputs. The current approach means that per-langauge configuration is distributed
 	  // and small changes between targets does not benefit from inheritance.
@@ -255,10 +255,10 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
 			if (isBuildParser) {
 				new ParseGen().start(isJavaModern);
 			}
-			
+
 			// Must always create the lexer object even if not building a parser.
 			new LexGen().start();
-			
+
 			Options.setStringOption(Options.NONUSER_OPTION__PARSER_NAME, JavaCCGlobals.cu_name);
 			OtherFilesGen.start(isJavaModern);
 		} else if (isCPPOutput) { // C++ for now
@@ -273,8 +273,8 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
 		} else {
 			unhandledLanguageExit(outputLanguage);
 		}
-	  
-	  
+
+
 
       if ((JavaCCErrors.get_error_count() == 0) && (isBuildParser || Options.getBuildTokenManager())) {
         if (JavaCCErrors.get_warning_count() == 0) {

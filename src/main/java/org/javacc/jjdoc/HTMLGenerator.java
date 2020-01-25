@@ -122,7 +122,7 @@ public class HTMLGenerator extends TextGenerator implements Generator {
     println(" </TR>");
   }
 
-  
+
   @Override
   public void handleTokenProduction(TokenProduction tp) {
       println(" <!-- Token -->");

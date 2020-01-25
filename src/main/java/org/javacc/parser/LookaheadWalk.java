@@ -149,7 +149,7 @@ public final class LookaheadWalk {
       listAppend(retval, partialMatches);
       return retval;
     } else
-    
+
     if (exp.parent instanceof NormalProduction) {
       List parents = ((NormalProduction)exp.parent).getParents();
       List<MatchInfo> retval = new ArrayList<MatchInfo>();
@@ -160,7 +160,7 @@ public final class LookaheadWalk {
       }
       return retval;
     } else
-    	
+
     if (exp.parent instanceof Sequence) {
       Sequence seq = (Sequence)exp.parent;
       List<MatchInfo> v = partialMatches;
@@ -182,7 +182,7 @@ public final class LookaheadWalk {
       listAppend(v2, v1);
       return v2;
     } else
-    	
+
     if (exp.parent instanceof OneOrMore || exp.parent instanceof ZeroOrMore) {
       List<MatchInfo> moreMatches = new ArrayList<MatchInfo>();
       listAppend(moreMatches, partialMatches);

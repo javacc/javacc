@@ -65,7 +65,7 @@ final class CPPNodeFiles {
       nodesToGenerate.add(type);
     }
   }
-  
+
   public static String nodeIncludeFile() {
 	    return new File(JJTreeOptions.getJJTreeOutputDirectory(), "Node.h").getAbsolutePath();
 	  }
@@ -210,11 +210,11 @@ final class CPPNodeFiles {
 	      String[] options = new String[] {"MULTI", "NODE_USES_PARSER", "VISITOR", "TRACK_TOKENS", "NODE_PREFIX", "NODE_EXTENDS", "NODE_FACTORY", Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
 	      outputFile = new OutputFile(file, nodeVersion, options);
 	      outputFile.setToolName("JJTree");
-	
+
 	      if (file.exists() && !outputFile.needToWrite) {
 	        return;
 	      }
-	
+
 	      Map<String, Object> optionMap = new HashMap<String, Object>(Options.getOptions());
 	      optionMap.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
 	      optionMap.put("VISITOR_RETURN_TYPE", getVisitorReturnType());
@@ -233,7 +233,7 @@ final class CPPNodeFiles {
       if (outputFile != null) { try { outputFile.close();  } catch(IOException ioe) {} }
     }
   }
-  
+
   private static void generateMultiTreeImpl()
   {
     OutputFile outputFile = null;
@@ -245,11 +245,11 @@ final class CPPNodeFiles {
 	      String[] options = new String[] {"MULTI", "NODE_USES_PARSER", "VISITOR", "TRACK_TOKENS", "NODE_PREFIX", "NODE_EXTENDS", "NODE_FACTORY", Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC};
 	      outputFile = new OutputFile(file, nodeVersion, options);
 	      outputFile.setToolName("JJTree");
-	
+
 	      if (file.exists() && !outputFile.needToWrite) {
 	        return;
 	      }
-	
+
 	      Map<String, Object> optionMap = new HashMap<String, Object>(Options.getOptions());
 	      optionMap.put(Options.NONUSER_OPTION__PARSER_NAME, JJTreeGlobals.parserName);
 	      optionMap.put("VISITOR_RETURN_TYPE", getVisitorReturnType());
@@ -269,7 +269,7 @@ final class CPPNodeFiles {
     }
   }
 
-  
+
   private static void generateOneTreeInterface()
   {
     File file = new File(jjtreeIncludeFile());
@@ -496,7 +496,7 @@ final class CPPNodeFiles {
       argumentType = JJTreeOptions.getVisitorDataType();
     }
     ostr.println("  public:");
-    
+
     ostr.println("  virtual " + returnType + " visit(const SimpleNode *node, " + argumentType + " data) = 0;");
     if (JJTreeOptions.getMulti()) {
       for (int i = 0; i < nodeNames.size(); ++i) {

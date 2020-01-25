@@ -45,9 +45,9 @@ public void start() throws MetaParseException {
     genCodeLine("#include \"Token.h\"");
     genCodeLine("#include \"TokenManager.h\"");
 
-    
+
     Object object = Options.objectValue(Options.USEROPTION__CPP_PARSER_INCLUDES);
-    
+
     if (object instanceof String) {
     	String include = (String)object;
     	if (include.length() > 0) {
@@ -93,7 +93,7 @@ public void start() throws MetaParseException {
     genCodeLine("  };");
     genCodeLine("");
 
-   
+
     String superClass = Options.stringValue(Options.USEROPTION__PARSER_SUPER_CLASS);
     genClassStart("", cu_name, new String[]{},
                   superClass == null  ? new String[0] : new String[] {
@@ -210,7 +210,7 @@ public void start() throws MetaParseException {
     genCodeLine("}");
     generateMethodDefHeader("void", cu_name, "ReInit(TokenManager* tokenManager)");
     genCodeLine("{");
-    genCodeLine("    clear();");    
+    genCodeLine("    clear();");
     genCodeLine("    errorHandler = new ErrorHandler();");
     genCodeLine("    hasError = false;");
     genCodeLine("    token_source = tokenManager;");
@@ -250,7 +250,7 @@ public void start() throws MetaParseException {
     }
     genCodeLine("  }");
     genCodeLine("");
-    
+
     generateMethodDefHeader("void", cu_name, "clear()");
     genCodeLine("{");
     genCodeLine("  //Since token manager was generate from outside,");
@@ -274,30 +274,30 @@ public void start() throws MetaParseException {
     genCodeLine("");
 
     if (!Options.getStackLimit().equals("")) {
-      genCodeLine("");                                                          
-      switchToIncludeFile();                                                    
-      genCodeLine(" virtual");                                                  
-      switchToMainFile();                                                       
-      generateMethodDefHeader("bool ", cu_name, "jj_stack_check(bool init)");   
-      genCodeLine("  {");                                                       
-      genCodeLine("     if(init) {");                                           
-      genCodeLine("       jj_stack_base = nullptr;");                           
-      genCodeLine("       return false;");                                      
-      genCodeLine("     } else {");                                             
-      genCodeLine("       volatile int q = 0;");                                
-      genCodeLine("       if(!jj_stack_base) {");                               
-      genCodeLine("         jj_stack_base = (void*)&q;");                       
-      genCodeLine("         return false;");                                    
-      genCodeLine("       } else {");                                           
+      genCodeLine("");
+      switchToIncludeFile();
+      genCodeLine(" virtual");
+      switchToMainFile();
+      generateMethodDefHeader("bool ", cu_name, "jj_stack_check(bool init)");
+      genCodeLine("  {");
+      genCodeLine("     if(init) {");
+      genCodeLine("       jj_stack_base = nullptr;");
+      genCodeLine("       return false;");
+      genCodeLine("     } else {");
+      genCodeLine("       volatile int q = 0;");
+      genCodeLine("       if(!jj_stack_base) {");
+      genCodeLine("         jj_stack_base = (void*)&q;");
+      genCodeLine("         return false;");
+      genCodeLine("       } else {");
       genCodeLine("         // Stack can grow in both directions, depending on arch");
       genCodeLine("         std::ptrdiff_t used = (char*)jj_stack_base-(char*)&q;");
-      genCodeLine("         return (std::abs(used) > jj_stack_limit);");        
-      genCodeLine("       }");                                                  
-      genCodeLine("     }");                                                    
-      genCodeLine("  }");                                                       
-    }                                                                           
-                                                                                
-    
+      genCodeLine("         return (std::abs(used) > jj_stack_limit);");
+      genCodeLine("       }");
+      genCodeLine("     }");
+      genCodeLine("  }");
+    }
+
+
     generateMethodDefHeader("Token *", cu_name, "jj_consume_token(int kind)", "ParseException");
     genCodeLine("  {");
     if (!Options.getStackLimit().equals("")) {
@@ -443,7 +443,7 @@ public void start() throws MetaParseException {
     if (!Options.getCacheTokens()) {
       generateMethodDefHeader("int", cu_name, "jj_ntk_f()");
       genCodeLine("{");
- 
+
       genCodeLine("    if ((jj_nt=token->next) == nullptr)");
       genCodeLine("      return (jj_ntk = (token->next=token_source->getNextToken())->kind);");
       genCodeLine("    else");

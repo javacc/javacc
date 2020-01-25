@@ -132,11 +132,11 @@ public class CodeGenerator {
 
   protected void printTokenSetup(Token t) {
 		Token tt = t;
-		
+
 		while (tt.specialToken != null) {
 			tt = tt.specialToken;
 		}
-		
+
 		cline = tt.beginLine;
 		ccol = tt.beginColumn;
   }
@@ -147,7 +147,7 @@ public class CodeGenerator {
       t = (Token)it.next();
       printToken(t);
     }
-    
+
     if (t != null)
       printTrailingComments(t);
   }
@@ -176,7 +176,7 @@ public class CodeGenerator {
       if (last == '\n' || last == '\r') {
         cline++; ccol = 1;
       }
-    } 
+    }
 
     return retval;
   }
@@ -285,7 +285,7 @@ public class CodeGenerator {
       if (superClasses.length > 0 || superInterfaces.length > 0) {
         genCode(" : ");
       }
- 
+
       genCommaSeperatedString(superClasses);
     }
 
@@ -312,18 +312,18 @@ public class CodeGenerator {
   }
 
   public void switchToMainFile() {
-    outputBuffer = mainBuffer; 
+    outputBuffer = mainBuffer;
   }
 
   public void switchToStaticsFile() {
     if (!isJavaLanguage()) {
-      outputBuffer = staticsBuffer; 
+      outputBuffer = staticsBuffer;
     }
   }
 
   public void switchToIncludeFile() {
     if (!isJavaLanguage()) {
-      outputBuffer = includeBuffer; 
+      outputBuffer = includeBuffer;
     }
   }
 
@@ -385,12 +385,12 @@ public class CodeGenerator {
   {
 
     // options.put("", .valueOf(maxOrdinal));
-    
-    
+
+
     for (int i = 0; i < additionalOptions.length; i++)
     {
       Object o = additionalOptions[i];
-    
+
       if (o instanceof Map<?,?>)
       {
         options.putAll((Map<String,Object>) o);
@@ -399,12 +399,12 @@ public class CodeGenerator {
       {
         if (i == additionalOptions.length - 1)
           throw new IllegalArgumentException("Must supply pairs of [name value] args");
-        
+
         options.put((String) o, additionalOptions[i+1]);
         i++;
       }
     }
-    
+
     OutputFileGenerator gen = new OutputFileGenerator(name, options);
     StringWriter sw = new StringWriter();
     gen.generate(new PrintWriter(sw));
