@@ -12,6 +12,7 @@ plugins {
     id("com.github.vlsi.gradle-extensions")
     id("com.github.vlsi.ide")
     id("com.github.vlsi.stage-vote-release")
+    kotlin("jvm") apply false
 }
 
 val String.v: String get() = rootProject.extra["$this.version"] as String
@@ -57,7 +58,9 @@ allprojects {
         mavenCentral()
     }
 
-    val javaUsed = file("src/main/java").isDirectory || file("src/test/java").isDirectory
+    val javaMainUsed = file("src/main/java").isDirectory
+    val javaTestUsed = file("src/test/java").isDirectory
+    val javaUsed = javaMainUsed || javaTestUsed
     if (javaUsed) {
         apply(plugin = "java-library")
         dependencies {
@@ -67,14 +70,30 @@ allprojects {
             compileOnly("com.google.code.findbugs:jsr305:3.0.2")
         }
     }
-    if (javaUsed) {
+
+    val kotlinMainUsed = file("src/main/kotlin").isDirectory
+    val kotlinTestUsed = file("src/test/kotlin").isDirectory
+    val kotlinUsed = kotlinMainUsed || kotlinTestUsed
+    if (kotlinUsed) {
+        apply(plugin = "java-library")
+        apply(plugin = "org.jetbrains.kotlin.jvm")
         dependencies {
-            val implementation by configurations
-            implementation(platform(project(":javacc-dependencies-bom")))
+            add(if (kotlinMainUsed) "implementation" else "testImplementation", kotlin("stdlib"))
         }
     }
 
-    val hasTests = file("src/test/java").isDirectory
+    if (javaUsed || kotlinUsed) {
+        dependencies {
+            val configurationName = if (javaMainUsed || kotlinMainUsed) {
+                "implementation"
+            } else {
+                "testImplementation"
+            }
+            configurationName(platform(project(":javacc-dependencies-bom")))
+        }
+    }
+
+    val hasTests = javaTestUsed || kotlinTestUsed
     if (hasTests) {
         // Add default tests dependencies
         dependencies {
@@ -127,6 +146,14 @@ allprojects {
             format("markdown") {
                 filter.include("**/*.md")
                 endWithNewline()
+            }
+        }
+    }
+
+    plugins.withId("org.jetbrains.kotlin.jvm") {
+        if (!skipAutostyle) {
+            autostyle {
+                kotlin {}
             }
         }
     }
