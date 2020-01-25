@@ -39,7 +39,7 @@ public class RJustName extends RegularExpression {
   /**
    * "regexpr" points to the regular expression denoted by the name.
    */
-  public RegularExpression regexpr;
+  RegularExpression regexpr;
 
   @Override
   public Nfa GenerateNfa(boolean ignoreCase)
@@ -49,7 +49,7 @@ public class RJustName extends RegularExpression {
 
     public RJustName() {}
 
-    public RJustName(Token token, String image) {
+    RJustName(Token token, String image) {
         this.setLine(token.beginLine);
         this.setColumn(token.beginColumn);
         this.label = image;

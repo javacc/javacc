@@ -31,16 +31,16 @@
 
 package org.javacc.jjtree;
 
+import org.javacc.parser.CodeGenerator;
+import org.javacc.parser.JavaCCGlobals;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import org.javacc.parser.CodeGenerator;
-import org.javacc.parser.JavaCCGlobals;
-
 public class JJTree {
 
-  IO io;
+  private IO io;
 
   private void p(String s)
   {

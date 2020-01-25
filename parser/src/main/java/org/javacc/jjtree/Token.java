@@ -77,7 +77,7 @@ public class Token {
   /**
    * Constructs a new token for the specified Image and Kind.
    */
-  public Token(int kind, String image)
+  private Token(int kind, String image)
   {
     this.kind = kind;
     this.image = image;
@@ -119,9 +119,9 @@ public class Token {
   /**
    * Greater than Token.
    */
-  public static class GTToken extends Token
+  static class GTToken extends Token
   {
-    public GTToken(int kind, String image)
+    private GTToken(int kind, String image)
     {
       super(kind, image);
     }

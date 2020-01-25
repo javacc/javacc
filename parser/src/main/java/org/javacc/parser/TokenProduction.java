@@ -97,7 +97,7 @@ public class TokenProduction {
    * The first and last tokens from the input stream that represent this
    * production.
    */
-  public Token firstToken, lastToken;
+  public Token firstToken,lastToken;
 
   /**
    * @param line the line to set

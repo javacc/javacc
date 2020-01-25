@@ -30,9 +30,9 @@ package org.javacc.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LookaheadCalc extends JavaCCGlobals {
+class LookaheadCalc {
 
-  static MatchInfo overlap(List<MatchInfo> v1, List<MatchInfo> v2) {
+  private static MatchInfo overlap(List<MatchInfo> v1, List<MatchInfo> v2) {
     MatchInfo m1, m2, m3;
     int size;
     boolean diff;
@@ -59,7 +59,7 @@ public class LookaheadCalc extends JavaCCGlobals {
     return null;
   }
 
-  static boolean javaCodeCheck(List<MatchInfo> v) {
+  private static boolean javaCodeCheck(List<MatchInfo> v) {
     for (int i = 0; i < v.size(); i++) {
       if (v.get(i).firstFreeLoc == 0) {
         return true;
@@ -68,15 +68,15 @@ public class LookaheadCalc extends JavaCCGlobals {
     return false;
   }
 
-  static String image(MatchInfo m) {
+  private static String image(MatchInfo m) {
     String ret = "";
     for (int i = 0; i < m.firstFreeLoc; i++) {
       if (m.match[i] == 0) {
         ret += " <EOF>";
       } else {
-        RegularExpression re = rexps_of_tokens.get(Integer.valueOf(m.match[i]));
+        RegularExpression re = JavaCCGlobals.rexps_of_tokens.get(Integer.valueOf(m.match[i]));
         if (re instanceof RStringLiteral) {
-          ret += " \"" + add_escapes(((RStringLiteral)re).image) + "\"";
+          ret += " \"" + JavaCCGlobals.add_escapes(((RStringLiteral)re).image) + "\"";
         } else if (re.label != null && !re.label.equals("")) {
           ret += " <" + re.label + ">";
         } else {
@@ -91,7 +91,7 @@ public class LookaheadCalc extends JavaCCGlobals {
     }
   }
 
-  public static void choiceCalc(Choice ch) {
+  static void choiceCalc(Choice ch) {
     int first = firstChoice(ch);
     // dbl[i] and dbr[i] are lists of size limited matches for choice i
     // of ch.  dbl ignores matches with semantic lookaheads (when force_la_check
@@ -182,7 +182,7 @@ public class LookaheadCalc extends JavaCCGlobals {
     }
   }
 
-  static boolean explicitLA(Expansion exp) {
+  private static boolean explicitLA(Expansion exp) {
     if (!(exp instanceof Sequence)) {
       return false;
     }
@@ -195,7 +195,7 @@ public class LookaheadCalc extends JavaCCGlobals {
     return la.isExplicit();
   }
 
-  static int firstChoice(Choice ch) {
+  private static int firstChoice(Choice ch) {
     if (Options.getForceLaCheck()) {
       return 0;
     }
@@ -217,7 +217,7 @@ public class LookaheadCalc extends JavaCCGlobals {
     }
   }
 
-  public static void ebnfCalc(Expansion exp, Expansion nested) {
+  static void ebnfCalc(Expansion exp, Expansion nested) {
     // exp is one of OneOrMore, ZeroOrMore, ZeroOrOne
     MatchInfo m, m1 = null;
     List<MatchInfo> v;

@@ -30,11 +30,11 @@ package org.javacc.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class LookaheadWalk {
+final class LookaheadWalk {
 
-  public static boolean considerSemanticLA;
+  static boolean considerSemanticLA;
 
-  public static ArrayList<MatchInfo> sizeLimitedMatches;
+  static ArrayList<MatchInfo> sizeLimitedMatches;
 
   private LookaheadWalk() {}
 
@@ -44,7 +44,7 @@ public final class LookaheadWalk {
     }
   }
 
-  public static List<MatchInfo> genFirstSet(List<MatchInfo> partialMatches, Expansion exp) {
+  static List<MatchInfo> genFirstSet(List<MatchInfo> partialMatches, Expansion exp) {
     if (exp instanceof RegularExpression) {
       List<MatchInfo> retval = new ArrayList<MatchInfo>();
       for (int i = 0; i < partialMatches.size(); i++) {
@@ -138,7 +138,7 @@ public final class LookaheadWalk {
     }
   }
 
-  public static List<MatchInfo> genFollowSet(List<MatchInfo> partialMatches, Expansion exp, long generation) {
+  static List<MatchInfo> genFollowSet(List<MatchInfo> partialMatches, Expansion exp, long generation) {
     if (exp.myGeneration == generation) {
       return new ArrayList<MatchInfo>();
     }
@@ -211,7 +211,7 @@ public final class LookaheadWalk {
     }
   }
 
-   public static void reInit()
+   static void reInit()
    {
       considerSemanticLA = false;
       sizeLimitedMatches = null;

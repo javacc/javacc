@@ -56,7 +56,7 @@ import java.util.List;
  * @author Paul Cager
  *
  */
-public class OutputFile implements Closeable {
+class OutputFile implements Closeable {
 
   private final File         file;
   private final List<String> options;

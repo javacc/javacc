@@ -1,7 +1,24 @@
 
-import java.io.*;
-import java.util.*;
-import org.javacc.parser.*;
+import org.javacc.parser.JavaCCErrors;
+import org.javacc.parser.JavaCCParser;
+import org.javacc.parser.LexGen;
+import org.javacc.parser.Main;
+import org.javacc.parser.MetaParseException;
+import org.javacc.parser.Options;
+import org.javacc.parser.Semanticize;
+import org.javacc.parser.TokenizerData;
+
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.StringReader;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class JavaCCInterpreter {
   public static void main(String[] args) throws Exception {

@@ -54,7 +54,7 @@ public class RStringLiteral extends RegularExpression {
   public RStringLiteral() {
   }
 
-  public RStringLiteral(Token token, String image) {
+  RStringLiteral(Token token, String image) {
     this.image = image;
     this.setLine(token.beginLine);
     this.setColumn(token.beginColumn);
@@ -72,7 +72,7 @@ public class RStringLiteral extends RegularExpression {
   private static Hashtable<String, long[]>[] statesForPos;
   
 
-  public static String[] allImages;
+  static String[] allImages;
 
   /**
    * Initialize all the static variables, so that there is no interference
@@ -80,7 +80,7 @@ public class RStringLiteral extends RegularExpression {
    *
    * Need to call this method after generating code for each lexical state.
    */
-  public static void ReInit()
+  static void ReInit()
   {
     maxStrKind = 0;
     maxLen = 0;
@@ -95,7 +95,7 @@ public class RStringLiteral extends RegularExpression {
   /**
    * Used for top level string literals.
    */
-  public void GenerateDfa(int kind)
+  void GenerateDfa(int kind)
   {
      int len;
 
@@ -199,7 +199,7 @@ public class RStringLiteral extends RegularExpression {
      return true;
   }
 
-  public static void FillSubString()
+  static void FillSubString()
   {
      String image;
      subString = new boolean[maxStrKind + 1];
@@ -244,7 +244,7 @@ public class RStringLiteral extends RegularExpression {
      }
   }
 
-  static final int GetStrKind(String str)
+  private static final int GetStrKind(String str)
   {
      for (int i = 0; i < maxStrKind; i++)
      {
@@ -259,7 +259,7 @@ public class RStringLiteral extends RegularExpression {
      return Integer.MAX_VALUE;
   }
 
-  public static void GenerateNfaStartStates(NfaState initialState)
+  static void GenerateNfaStartStates(NfaState initialState)
   {
      boolean[] seen = new boolean[NfaState.generatedStates];
      Hashtable<String, String> stateSets = new Hashtable<>();
@@ -387,7 +387,7 @@ public class RStringLiteral extends RegularExpression {
   /**
    * Return to original state.
    */
-  public static void reInit()
+  static void reInit()
   {
     ReInit();
 
@@ -410,18 +410,18 @@ public class RStringLiteral extends RegularExpression {
     return super.toString() + " - " + image;
   }
 
-  static final Map<Integer, List<String>> literalsByLength =
+  private static final Map<Integer, List<String>> literalsByLength =
       new HashMap<Integer, List<String>>();
-  static final Map<Integer, List<Integer>> literalKinds =
+  private static final Map<Integer, List<Integer>> literalKinds =
       new HashMap<Integer, List<Integer>>();
-  static final Map<Integer, Integer> kindToLexicalState =
+  private static final Map<Integer, Integer> kindToLexicalState =
       new HashMap<Integer, Integer>();
-  static final Set<Integer> kindToIgnoreCase =
+  private static final Set<Integer> kindToIgnoreCase =
       new HashSet<Integer>();
-  static final Map<Integer, NfaState> nfaStateMap =
+  private static final Map<Integer, NfaState> nfaStateMap =
       new HashMap<Integer, NfaState>();
 
-  public static void UpdateStringLiteralData(
+  static void UpdateStringLiteralData(
       int generatedNfaStates, int lexStateIndex) {
     for (int kind = 0; kind < allImages.length; kind++) {
       if (allImages[kind] == null || allImages[kind].equals("") ||
@@ -482,7 +482,7 @@ public class RStringLiteral extends RegularExpression {
     kinds.add(j, actualKind);
   }
 
-  public static void BuildTokenizerData(TokenizerData tokenizerData) {
+  static void BuildTokenizerData(TokenizerData tokenizerData) {
     Map<Integer, Integer> nfaStateIndices = new HashMap<Integer, Integer>();
     for (int kind : nfaStateMap.keySet()) {
       if (nfaStateMap.get(kind) != null) {

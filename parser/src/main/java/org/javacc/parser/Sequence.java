@@ -48,7 +48,7 @@ public class Sequence extends Expansion {
 
     public Sequence() {}
 
-    public Sequence(Token token, Lookahead lookahead) {
+    Sequence(Token token, Lookahead lookahead) {
         this.setLine(token.beginLine);
         this.setColumn(token.beginColumn);
         this.units.add(lookahead);

@@ -77,8 +77,8 @@ public class Expansion {
    * are obtained by incrementing the static counter below, and the current
    * generation is stored in the non-static variable below.
    */
-  public static long nextGenerationIndex = 1;
-  public long myGeneration = 0;
+  static long nextGenerationIndex = 1;
+  long myGeneration = 0;
 
   /**
    * This flag is used for bookkeeping by the minimumSize method in class
@@ -86,7 +86,7 @@ public class Expansion {
    */
   public boolean     inMinimumSize       = false;
 
-   public static void reInit()
+   static void reInit()
    {
       nextGenerationIndex = 1;
    }

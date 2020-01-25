@@ -48,7 +48,7 @@ public class RCharacterList extends RegularExpression {
    */
   public List<Expansion> descriptors = new ArrayList<>();
 
-static final char[] diffLowerCaseRanges = {
+private static final char[] diffLowerCaseRanges = {
 65, 90, 192, 214, 216, 222, 256, 256, 258, 258, 260, 260, 262, 262, 264, 264,
 266, 266, 268, 268, 270, 270, 272, 272, 274, 274, 276, 276, 278, 278, 280, 280,
 282, 282, 284, 284, 286, 286, 288, 288, 290, 290, 292, 292, 294, 294, 296, 296,
@@ -109,7 +109,7 @@ static final char[] diffLowerCaseRanges = {
 8544, 8559, 9398, 9423, 65313, 65338, 65339, 0xfffe, 0xffff, 0xffff
 };
 
-static final char[] diffUpperCaseRanges = {
+private static final char[] diffUpperCaseRanges = {
 97, 122, 224, 246, 248, 254, 255, 255, 257, 257, 259, 259, 261, 261, 263, 263,
 265, 265, 267, 267, 269, 269, 271, 271, 273, 273, 275, 275, 277, 277, 279, 279,
 281, 281, 283, 283, 285, 285, 287, 287, 289, 289, 291, 291, 293, 293, 295, 295,
@@ -172,7 +172,7 @@ static final char[] diffUpperCaseRanges = {
 65345, 65370, 65371, 0xfffe, 0xffff, 0xffff
 };
 
-  public void ToCaseNeutral()
+  private void ToCaseNeutral()
   {
     int cnt = descriptors.size();
 
@@ -301,7 +301,7 @@ static final char[] diffUpperCaseRanges = {
     }
   }
 
-  boolean transformed = false;
+  private boolean transformed = false;
   @Override
   public Nfa GenerateNfa(boolean ignoreCase)
   {
@@ -396,22 +396,22 @@ static final char[] diffUpperCaseRanges = {
      return retVal;
   }
 
-  static boolean Overlaps(CharacterRange r1, CharacterRange r2)
+  private static boolean Overlaps(CharacterRange r1, CharacterRange r2)
   {
      return (r1.getLeft() <= r2.getRight() && r1.getRight() > r2.getRight());
   }
 
-  static boolean SubRange(CharacterRange r1, CharacterRange r2)
+  private static boolean SubRange(CharacterRange r1, CharacterRange r2)
   {
      return (r1.getLeft() >= r2.getLeft() && r1.getRight() <= r2.getRight());
   }
 
-  static boolean InRange(char c, CharacterRange range)
+  private static boolean InRange(char c, CharacterRange range)
   {
      return (c >= range.getLeft() && c <= range.getRight());
   }
 
-  public void SortDescriptors()
+  private void SortDescriptors()
   {
      int j;
 
@@ -502,7 +502,7 @@ static final char[] diffUpperCaseRanges = {
      descriptors = newDesc;
   }
 
-  public void RemoveNegation()
+  void RemoveNegation()
   {
      int i;
 
@@ -607,7 +607,7 @@ static final char[] diffUpperCaseRanges = {
   {
   }
 
-  public RCharacterList(char c)
+  RCharacterList(char c)
   {
     descriptors = new ArrayList<>();
     descriptors.add(new SingleCharacter(c));

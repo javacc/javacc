@@ -44,10 +44,10 @@ import java.util.Vector;
 /**
  * The state of a Non-deterministic Finite Automaton.
  */
-public class NfaState
+class NfaState
 {
-   public static boolean unicodeWarningGiven = false;
-   public static int generatedStates = 0;
+   static boolean unicodeWarningGiven = false;
+   static int generatedStates = 0;
 
    private static int idCnt = 0;
    private static int dummyStateIndex = -1;
@@ -63,7 +63,7 @@ public class NfaState
    private static Hashtable<String, String> stateBlockTable = new Hashtable<>();
    private static Hashtable<String, int[]> stateSetsToFix = new Hashtable<>();
 
-   public static void ReInit()
+   static void ReInit()
    {
       generatedStates = 0;
       idCnt = 0;
@@ -81,27 +81,27 @@ public class NfaState
       stateSetsToFix.clear();
    }
 
-   public long[] asciiMoves = new long[2];
+   private long[] asciiMoves = new long[2];
    char[] charMoves = null;
    private char[] rangeMoves = null;
    NfaState next = null;
-   public Vector<NfaState> epsilonMoves = new Vector<NfaState>();
+   Vector<NfaState> epsilonMoves = new Vector<NfaState>();
    private String epsilonMovesString;
    private NfaState[] epsilonMoveArray;
 
    private int id;
    int stateName = -1;
-   public int kind = Integer.MAX_VALUE;
+   int kind = Integer.MAX_VALUE;
    private int lookingFor;
    private int usefulEpsilonMoves = 0;
    int inNextOf;
    private int lexState;
    private int kindToPrint = Integer.MAX_VALUE;
-   public boolean dummy = false;
-   boolean isComposite = false;
+   
+   private boolean isComposite = false;
    private int[] compositeStates = null;
    private Set<NfaState> compositeStateSet = new HashSet<NfaState>();
-   public boolean isFinal = false;
+   boolean isFinal = false;
 //   private int round = 0;
    private int onlyChar = 0;
    private char matchSingleChar;
@@ -114,7 +114,7 @@ public class NfaState
       lookingFor = Main.lg.curKind;
    }
 
-   NfaState CreateClone()
+   private NfaState CreateClone()
    {
       NfaState retVal = new NfaState();
 
@@ -129,7 +129,7 @@ public class NfaState
       return retVal;
    }
 
-   static void InsertInOrder(List<NfaState> v, NfaState s)
+   private static void InsertInOrder(List<NfaState> v, NfaState s)
    {
       int j;
 
@@ -149,7 +149,7 @@ public class NfaState
       return ret;
    }
 
-   public void AddMove(NfaState newState)
+   void AddMove(NfaState newState)
    {
       if (!epsilonMoves.contains(newState))
          InsertInOrder(epsilonMoves, newState);
@@ -160,7 +160,7 @@ public class NfaState
       asciiMoves[c / 64] |= (1L << (c % 64));
    }
 
-   public void AddChar(char c)
+   void AddChar(char c)
    {
       onlyChar++;
       matchSingleChar = c;
@@ -350,14 +350,14 @@ public class NfaState
       return isFinal || HasTransitions();
    }
 
-   public boolean HasTransitions()
+   private boolean HasTransitions()
    {
       return (asciiMoves[0] != 0L || asciiMoves[1] != 0L ||
               (charMoves != null && charMoves[0] != 0) ||
               (rangeMoves != null && rangeMoves[0] != 0));
    }
 
-   void MergeMoves(NfaState other)
+   private void MergeMoves(NfaState other)
    {
       // Warning : This function does not merge epsilon moves
       if (asciiMoves == other.asciiMoves)
@@ -411,7 +411,7 @@ public class NfaState
       isFinal |= other.isFinal;
    }
 
-   NfaState CreateEquivState(List<NfaState> states)
+   private NfaState CreateEquivState(List<NfaState> states)
    {
       NfaState newState = states.get(0).CreateClone();
 
@@ -470,7 +470,7 @@ public class NfaState
    }
 
    // generates code (without outputting it) and returns the name used.
-   public void GenerateCode()
+   void GenerateCode()
    {
       if (stateName != -1)
          return;
@@ -489,11 +489,7 @@ public class NfaState
          if (tmp != null)
          {
             stateName = tmp.stateName;
-//????
-            //tmp.inNextOf += inNextOf;
-//????
-            dummy = true;
-            return;
+return;
          }
 
          stateName = generatedStates++;
@@ -502,7 +498,7 @@ public class NfaState
       }
    }
 
-   public static void ComputeClosures()
+   static void ComputeClosures()
    {
       for (int i = allStates.size(); i-- > 0; )
       {
@@ -528,7 +524,7 @@ public class NfaState
       }
    }
 
-   void OptimizeEpsilonMoves(boolean optReqd)
+   private void OptimizeEpsilonMoves(boolean optReqd)
    {
       int i;
 
@@ -656,13 +652,13 @@ public class NfaState
       }
    }
 
-   void GenerateNextStatesCode()
+   private void GenerateNextStatesCode()
    {
       if (next.usefulEpsilonMoves > 0)
          next.GetEpsilonMovesString();
    }
 
-   String GetEpsilonMovesString()
+   private String GetEpsilonMovesString()
    {
       int[] stateNames = new int[usefulEpsilonMoves];
       int cnt = 0;
@@ -706,7 +702,7 @@ public class NfaState
       return epsilonMovesString;
    }
 
-   final boolean CanMoveUsingChar(char c)
+   private final boolean CanMoveUsingChar(char c)
    {
       int i;
 
@@ -742,7 +738,7 @@ public class NfaState
       return false;
    }
 
-   public int MoveFrom(char c, List<NfaState> newStates)
+   private int MoveFrom(char c, List<NfaState> newStates)
    {
       if (CanMoveUsingChar(c))
       {
@@ -755,7 +751,7 @@ public class NfaState
       return Integer.MAX_VALUE;
    }
 
-   public static int MoveFromSet(char c, List<NfaState> states, List<NfaState> newStates)
+   static int MoveFromSet(char c, List<NfaState> states, List<NfaState> newStates)
    {
       int tmp;
       int retVal = Integer.MAX_VALUE;
@@ -768,7 +764,7 @@ public class NfaState
       return retVal;
    }
 
-   static List<String> allBitVectors = new ArrayList<>();
+   
 
    /* This function generates the bit vectors of low and hi bytes for common
       bit vectors and returns those that are not common with anything (in
@@ -777,13 +773,10 @@ public class NfaState
       It also generates code to match a char with the common bit vectors.
       (Need a better comment). */
 
-   static int[] tmpIndices = new int[512]; // 2 * 256
+   
 
 
-   static String allBits = "{\n   0xffffffffffffffffL, " +
-                    "0xffffffffffffffffL, " +
-                    "0xffffffffffffffffL, " +
-                    "0xffffffffffffffffL\n};";
+   
 
    static int AddStartStateSet(String stateSetString)
    {
@@ -864,7 +857,6 @@ public class NfaState
           dummyState.isComposite = true;
           dummyState.compositeStates = nameSet;
           dummyState.stateName = tmp;
-          dummyState.dummy = true;
           indexedAllStates.add(dummyState);
           //for (int c : dummyState.compositeStates) {
             //dummyState.compositeStateSet.add(indexedAllStates.get(c));
@@ -890,7 +882,7 @@ public class NfaState
       return tmp;
    }
 
-   public int GenerateInitMoves()
+   int GenerateInitMoves()
    {
       GetEpsilonMovesString();
 
@@ -900,10 +892,10 @@ public class NfaState
       return AddStartStateSet(epsilonMovesString);
    }
 
-   static Hashtable<String, int[]> tableToDump = new Hashtable<>();
-   static List<int[]> orderedStateSet = new ArrayList<>();
+   
+   
 
-   static int lastIndex = 0;
+   
 
    static String GetStateSetString(List<NfaState> states)
    {
@@ -958,10 +950,10 @@ public class NfaState
       return false;
    }
 
-   static int[][] kinds;
-   static int[][][] statesForState;
+   
+   
 
-   public static void reInit()
+   static void reInit()
    {
       unicodeWarningGiven = false;
       generatedStates = 0;
@@ -977,17 +969,6 @@ public class NfaState
       compositeStateTable = new Hashtable<>();
       stateBlockTable = new Hashtable<>();
       stateSetsToFix = new Hashtable<>();
-      allBitVectors = new ArrayList<>();
-      tmpIndices = new int[512];
-      allBits = "{\n   0xffffffffffffffffL, " +
-                    "0xffffffffffffffffL, " +
-                    "0xffffffffffffffffL, " +
-                    "0xffffffffffffffffL\n};";
-      tableToDump = new Hashtable<>();
-      orderedStateSet = new ArrayList<>();
-      lastIndex = 0;
-      kinds = null;
-      statesForState = null;
    }
 
    private static final Map<Integer, NfaState> initialStates =
@@ -1035,7 +1016,7 @@ public class NfaState
      }
    }
 
-   public static void BuildTokenizerData(TokenizerData tokenizerData) {
+   static void BuildTokenizerData(TokenizerData tokenizerData) {
      NfaState[] cleanStates;
      List<NfaState> cleanStateList = new ArrayList<NfaState>();
      for (int l = 0; l < LexGen.lexStateName.length; l++) {

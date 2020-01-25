@@ -48,12 +48,6 @@ public class TryBlock extends Expansion {
   public List<List<Token>> types;
 
   /**
-   * The exception identifiers of each catch block.  Each list entry
-   * is a token.
-   */
-  public List<Token> ids;
-
-  /**
    * The block part of each catch block.  Each list entry is itself a
    * list which in turn contains tokens as entries.
    */

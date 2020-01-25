@@ -33,7 +33,7 @@ import java.util.Iterator;
  * A set of routines that walk down the Expansion tree in
  * various ways.
  */
-public final class ExpansionTreeWalker {
+final class ExpansionTreeWalker {
   private ExpansionTreeWalker() {}
 
   /**

@@ -77,7 +77,7 @@ public final class TokenUtils
     }
   }
 
-  public static String remove_escapes_and_quotes(Token t, String str) {
+  static String remove_escapes_and_quotes(Token t, String str) {
     String retval = "";
     int index = 1;
     char ch, ch1;

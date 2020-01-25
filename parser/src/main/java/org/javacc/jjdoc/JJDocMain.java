@@ -31,6 +31,7 @@
 package org.javacc.jjdoc;
 
 import org.javacc.parser.JavaCCErrors;
+import org.javacc.parser.JavaCCGlobals;
 import org.javacc.parser.JavaCCParser;
 import org.javacc.parser.Main;
 
@@ -104,7 +105,7 @@ public final class JJDocMain extends JJDocGlobals {
     Main.reInitAll();
     JJDocOptions.init();
 
-    bannerLine("Documentation Generator", "0.1.4");
+    JavaCCGlobals.bannerLine("Documentation Generator", "0.1.4");
 
     JavaCCParser parser = null;
     if (args.length == 0) {

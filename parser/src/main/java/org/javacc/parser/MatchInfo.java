@@ -32,11 +32,11 @@ package org.javacc.parser;
  */
 public class MatchInfo {
 
-  public static int laLimit;
+  static int laLimit;
   int[]             match = new int[laLimit];
   int               firstFreeLoc;
   
-  public static void reInit() {
+  static void reInit() {
     laLimit = 0;
   }
 }
