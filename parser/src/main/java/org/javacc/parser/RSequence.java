@@ -79,7 +79,7 @@ public class RSequence extends RegularExpression {
   {
   }
 
-  public RSequence(List<RegularExpression> seq)
+  RSequence(List<RegularExpression> seq)
   {
      ordinal = Integer.MAX_VALUE;
      units = seq;

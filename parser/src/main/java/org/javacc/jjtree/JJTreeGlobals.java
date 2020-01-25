@@ -85,7 +85,7 @@ public class JJTreeGlobals
    */
   private static Set<String> jjtreeOptions;
 
-  public static boolean isOptionJJTreeOnly(String optionName)
+  static boolean isOptionJJTreeOnly(String optionName)
   {
     return jjtreeOptions.contains(optionName.toUpperCase());
   }

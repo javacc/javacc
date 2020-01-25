@@ -31,11 +31,10 @@
 
 package org.javacc.jjtree;
 
-import java.io.File;
-
-import org.javacc.parser.JavaCCGlobals;
 import org.javacc.parser.JavaCCErrors;
 import org.javacc.parser.Options;
+
+import java.io.File;
 
 /**
  * The JJTree-specific options.
@@ -96,7 +95,7 @@ public class JJTreeOptions extends Options {
     /**
      *  Check options for consistency
      */
-    public static void validate() {
+    static void validate() {
       if (!getVisitor()) {
         if (getVisitorDataType().length() > 0) {
           JavaCCErrors.warning("VISITOR_DATA_TYPE option will be ignored since VISITOR is false");

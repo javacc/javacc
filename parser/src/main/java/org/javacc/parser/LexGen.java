@@ -31,7 +31,17 @@
 
 package org.javacc.parser;
 
-import java.io.*;
+import static org.javacc.parser.JavaCCGlobals.actForEof;
+import static org.javacc.parser.JavaCCGlobals.cu_name;
+import static org.javacc.parser.JavaCCGlobals.getCodeGenerator;
+import static org.javacc.parser.JavaCCGlobals.lexstate_I2S;
+import static org.javacc.parser.JavaCCGlobals.names_of_tokens;
+import static org.javacc.parser.JavaCCGlobals.nextStateForEof;
+import static org.javacc.parser.JavaCCGlobals.rexprlist;
+import static org.javacc.parser.JavaCCGlobals.rexps_of_tokens;
+import static org.javacc.parser.JavaCCGlobals.token_mgr_decls;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -39,12 +49,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import static org.javacc.parser.JavaCCGlobals.*;
-
 /**
  * Generate lexer.
  */
-public class LexGen implements JavaCCParserConstants
+public class LexGen
 {
   // Hashtable of vectors
   private static Hashtable<String, List<TokenProduction>> allTpsForState = new Hashtable<>();
@@ -188,7 +196,6 @@ public class LexGen implements JavaCCParserConstants
       ignoring = false;
 
       singlesToSkip[lexStateIndex] = new NfaState();
-      singlesToSkip[lexStateIndex].dummy = true;
 
       if (key.equals("DEFAULT"))
         defaultLexState = lexStateIndex;
@@ -460,7 +467,7 @@ public class LexGen implements JavaCCParserConstants
       }
   }
 
-  public static void reInit() {
+  static void reInit() {
     actions = null;
     allTpsForState = new Hashtable<>();
     canLoop = null;

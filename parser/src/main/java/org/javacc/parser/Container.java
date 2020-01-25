@@ -33,6 +33,6 @@ package org.javacc.parser;
 
 public class Container<T> {
 
-  public T member;
+  T member;
 
 }

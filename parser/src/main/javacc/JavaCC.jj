@@ -94,11 +94,6 @@ public class JavaCCParser extends JavaCCParserInternals {
    */
   boolean jumpPatched = false;
 
-  protected static boolean isJavaLanguage()
-  {
-    return getCodeGenerator() != null && "Java".equalsIgnoreCase(getCodeGenerator().getName());
-  }
-
   /*
    * Returns true if the next token is not in the FOLLOW list of "expansion".
    * It is used to decide when the end of an "expansion" has been reached.
@@ -1243,8 +1238,8 @@ void expansion_unit(Container c) :
       t = getToken(0);
       t.kind = IDENTIFIER;
       // TODO(sreeni): Fixup to be part of the codegen api
-      if (getCodeGenerator() != null) {
-        String codeGen = getCodeGenerator().getName();
+      if (getLanguageName() != null) {
+        String codeGen = getLanguageName();
         if("C++".equalsIgnoreCase(codeGen)) {
           t.image = "...";
         } else if("C#".equalsIgnoreCase(codeGen)) {

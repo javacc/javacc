@@ -35,7 +35,7 @@ public class NodeScope
   public String closedVar;
   public String exceptionVar;
   public String nodeVar;
-  public int scopeNumber;
+  private int scopeNumber;
 
   public NodeScope(ASTProduction p, ASTNodeDescriptor n)
   {

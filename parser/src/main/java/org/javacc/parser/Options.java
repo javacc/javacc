@@ -30,6 +30,9 @@
  */
 package org.javacc.parser;
 
+import org.javacc.utils.OptionInfo;
+import org.javacc.utils.OptionType;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,9 +43,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
-
-import org.javacc.utils.OptionInfo;
-import org.javacc.utils.OptionType;
 
 /**
  * A class with static state that stores all option information.

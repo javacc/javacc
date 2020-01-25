@@ -28,8 +28,8 @@
 
 package org.javacc.parser;
 
-import java.util.List;
 import java.util.Hashtable;
+import java.util.List;
 
 /**
  * Utilities.
@@ -158,14 +158,14 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
     }
   }
 
-  static protected boolean hexchar(char ch) {
+  static private boolean hexchar(char ch) {
     if (ch >= '0' && ch <= '9') return true;
     if (ch >= 'A' && ch <= 'F') return true;
     if (ch >= 'a' && ch <= 'f') return true;
     return false;
   }
 
-  static protected int hexval(char ch) {
+  static private int hexval(char ch) {
     if (ch >= '0' && ch <= '9') return (ch) - ('0');
     if (ch >= 'A' && ch <= 'F') return (ch) - ('A') + 10;
     return (ch) - ('a') + 10;
@@ -302,13 +302,22 @@ public abstract class JavaCCParserInternals extends JavaCCGlobals {
     tblk.exp.parent = tblk;
     tblk.exp.ordinal = 0;
     tblk.types = types;
-    tblk.ids = ids;
     tblk.catchblks = catchblks;
     tblk.finallyblk = finallyblk;
     result.member = tblk;
   }
 
-   public static void reInit()
+  protected static boolean isJavaLanguage()
+  {
+    return getCodeGenerator() != null && "Java".equalsIgnoreCase(getCodeGenerator().getName());
+  }
+
+  protected static String getLanguageName()
+  {
+    return getCodeGenerator() == null ? null: getCodeGenerator().getName();
+  }
+
+   static void reInit()
    {
       add_cu_token_here = cu_to_insertion_point_1;
       first_cu_token = null;

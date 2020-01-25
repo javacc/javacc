@@ -133,7 +133,7 @@ public class ASTNodeDescriptor extends JJTreeNode{
   }
 
 
-  public String expression_text()
+  private String expression_text()
   {
     if (expression.getFirstToken().image.equals(")") &&
       expression.getLastToken().image.equals("(")) {

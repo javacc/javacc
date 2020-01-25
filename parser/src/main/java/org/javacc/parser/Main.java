@@ -43,9 +43,9 @@ public class Main {
 
   protected Main() {}
 
-  public static LexGen lg;
+  static LexGen lg;
 
-  static void help_message() {
+  private static void help_message() {
     System.out.println("Usage:");
     System.out.println("    javacc option-settings inputfile");
     System.out.println("");
@@ -212,7 +212,7 @@ public class Main {
 
     try {
       System.out.println("Reading from file " + args[args.length - 1] + " . . .");
-      JavaCCGlobals.fileName = JavaCCGlobals.origFileName = args[args.length - 1];
+      // JavaCCGlobals.fileName = JavaCCGlobals.origFileName = args[args.length - 1];
       JavaCCGlobals.jjtreeGenerated = JavaCCGlobals.isGeneratedBy("JJTree", args[args.length - 1]);
       JavaCCGlobals.toolNames = JavaCCGlobals.getToolNames(args[args.length - 1]);
       parser.javacc_input();

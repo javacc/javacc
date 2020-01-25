@@ -77,7 +77,7 @@ public class JJTreeNode extends SimpleNode {
     return t.image;
   }
 
-  public String whiteOut(Token t)
+  String whiteOut(Token t)
   {
     StringBuffer sb = new StringBuffer(t.image.length());
 

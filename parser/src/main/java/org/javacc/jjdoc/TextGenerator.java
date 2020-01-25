@@ -29,8 +29,6 @@
 
 package org.javacc.jjdoc;
 
-import java.io.PrintWriter;
-
 import org.javacc.parser.CppCodeProduction;
 import org.javacc.parser.Expansion;
 import org.javacc.parser.JavaCodeProduction;
@@ -38,6 +36,8 @@ import org.javacc.parser.NonTerminal;
 import org.javacc.parser.NormalProduction;
 import org.javacc.parser.RegularExpression;
 import org.javacc.parser.TokenProduction;
+
+import java.io.PrintWriter;
 
 /**
  * Output BNF in text format.

@@ -28,13 +28,11 @@
 
 package org.javacc.jjdoc;
 
-import org.javacc.parser.JavaCCGlobals;
-
 /**
  * Global variables for JJDoc.
  *
  */
-public class JJDocGlobals extends JavaCCGlobals {
+public class JJDocGlobals {
   /**
    * The name of the input file.
    */
