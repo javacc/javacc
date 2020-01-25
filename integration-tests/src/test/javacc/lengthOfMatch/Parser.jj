@@ -1,10 +1,10 @@
 /*
 ** Copyright (c) 2007, Paul Cager
 ** All rights reserved.
-** 
+**
 ** Redistribution and use in source and binary forms, with or without
 ** modification, are permitted provided that the following conditions are met:
-** 
+**
 **    * Redistributions of source code must retain the above copyright notice,
 **      this list of conditions and the following disclaimer.
 **    * Redistributions in binary form must reproduce the above copyright
@@ -27,32 +27,35 @@
 options { STATIC=false; OUTPUT_DIRECTORY="out-dir"; }
 
 PARSER_BEGIN(Parser)
+package org.javacc.test.lengthOfMatch;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  Test lengthOfMatch
 **/
 public class Parser {
-
-  public static void main(String args[]) throws Exception {
-    Parser t = new Parser(new java.io.StringReader("PLAIN_STRING  abc B"));
-    while (t.getNextToken().kind != EOF)
-    {
-    }
+  public List<String> getLexicalActions() {
+    return token_source.lexicalActions;
   }
-
 }
 
 PARSER_END(Parser)
 
+TOKEN_MGR_DECLS : {
+ final List<String> lexicalActions = new ArrayList<String>();
+}
+
 TOKEN :
 {
-  < PLAIN_STRING: "PLAIN_STRING">    { System.out.println("PLAIN_STRING=" + lengthOfMatch); }
-| < REGEXP: (["a" - "z"])+ >    { System.out.println("a-z=" + lengthOfMatch); }
-| < CHOICE: "A" | "B">    { System.out.println("A|B=" + lengthOfMatch); }
+  < PLAIN_STRING: "PLAIN_STRING">    { lexicalActions.add("PLAIN_STRING=" + lengthOfMatch); }
+| < REGEXP: (["a" - "z"])+ >    { lexicalActions.add("a-z=" + lengthOfMatch); }
+| < CHOICE: "A" | "BC">    { lexicalActions.add("A|BC=" + lengthOfMatch); }
 }
 
 SKIP :
 {
-  " "   { System.out.println("space=" + lengthOfMatch); }
+  " "   { lexicalActions.add("space=" + lengthOfMatch); }
 }
 
