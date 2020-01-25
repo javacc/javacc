@@ -95,6 +95,7 @@ public class Options {
 	public static final String USEROPTION__TOKEN_MANAGER_USES_PARSER = "TOKEN_MANAGER_USES_PARSER";
 	public static final String USEROPTION__BUILD_TOKEN_MANAGER = "BUILD_TOKEN_MANAGER";
 	public static final String USEROPTION__BUILD_PARSER = "BUILD_PARSER";
+	public static final String USEROPTION__BUILD_FUZZER = "BUILD_FUZZER";
 	public static final String USEROPTION__USER_CHAR_STREAM = "USER_CHAR_STREAM";
 	public static final String USEROPTION__USER_TOKEN_MANAGER = "USER_TOKEN_MANAGER";
 	public static final String USEROPTION__JDK_VERSION = "JDK_VERSION";
@@ -179,7 +180,8 @@ public class Options {
 
 		temp.add(new OptionInfo(USEROPTION__BUILD_PARSER, OptionType.BOOLEAN, Boolean.TRUE));
 		temp.add(new OptionInfo(USEROPTION__BUILD_TOKEN_MANAGER, OptionType.BOOLEAN, Boolean.TRUE));
-		temp.add(new OptionInfo(USEROPTION__TOKEN_MANAGER_USES_PARSER, OptionType.BOOLEAN, Boolean.FALSE));
+    temp.add(new OptionInfo(USEROPTION__BUILD_FUZZER, OptionType.BOOLEAN, Boolean.FALSE));
+    temp.add(new OptionInfo(USEROPTION__TOKEN_MANAGER_USES_PARSER, OptionType.BOOLEAN, Boolean.FALSE));
 		temp.add(new OptionInfo(USEROPTION__SANITY_CHECK, OptionType.BOOLEAN, Boolean.TRUE));
 
 		temp.add(new OptionInfo(USEROPTION__FORCE_LA_CHECK, OptionType.BOOLEAN, Boolean.FALSE));
@@ -710,6 +712,15 @@ public class Options {
 	 */
 	public static boolean getBuildParser() {
 		return booleanValue(USEROPTION__BUILD_PARSER);
+	}
+
+	/**
+	 * Find the build fuzzer value.
+	 *
+	 * @return The requested build parser value.
+	 */
+	public static boolean getBuildFuzzer() {
+		return booleanValue(USEROPTION__BUILD_FUZZER);
 	}
 
 	/**

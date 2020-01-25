@@ -1,0 +1,33 @@
+PARSER_BEGIN(SimpleFuzzer)
+package org.javacc.test.simpleFuzzer;
+
+import java.util.List;
+import java.util.ArrayList;
+
+public class SimpleFuzzer {
+}
+
+PARSER_END(SimpleFuzzer)
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+}
+
+TOKEN :
+{
+  < Id: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"] )* >
+}
+
+/** Top level production. */
+List<String> Ids() :
+{
+    Token id;
+    List<String> ids = new ArrayList<String>();
+}
+{
+  ( id = <Id> { ids.add(id.image); } )+ <EOF> { return ids; }
+}
