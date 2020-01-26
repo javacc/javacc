@@ -55,7 +55,7 @@ public:
 
 private:
 	map<string, Node*>	symtab;
-	stack<Node*>	stack;
+	stack<Node*>		nodestack;
 };
 
 #endif
