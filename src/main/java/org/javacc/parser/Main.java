@@ -30,9 +30,9 @@
  */
 package org.javacc.parser;
 
-import java.util.List;
 import java.util.Set;
 
+import org.javacc.fuzzer.FuzzParserGenerator;
 import org.javacc.utils.OptionInfo;
 import org.javacc.utils.OptionType;
 
@@ -255,6 +255,9 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
 			if (isBuildParser) {
 				new ParseGen().start(isJavaModern);
 			}
+			if (Options.getBuildFuzzer()) {
+        new FuzzParserGenerator().generate();
+      }
 
 			// Must always create the lexer object even if not building a parser.
 			new LexGen().start();
