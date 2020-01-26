@@ -60,7 +60,7 @@ file("src/test/javacc").listFiles { f: File -> f.isDirectory }?.forEach { dir ->
         logger.warn("No parser (*.jj) found in $dir")
         return@forEach
     }
-    tasks.register<JavaCCTask>("testGenerate${dir.name}") {
+    tasks.register<JavaCCTask>("testGen${dir.name.capitalize()}") {
         sourceSetName.set("test")
         javaCCClasspath.set(currentJavaCC)
         inputFile.set(parserFile)
