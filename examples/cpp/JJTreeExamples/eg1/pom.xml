@@ -54,10 +54,14 @@
 					<libraries>
 						<library>
 							<type>executable</type>
- <run>true</run>						</library>
+							<run>true</run>
+						</library>
 					</libraries>
 					<cpp>
 						<includePaths>
+							<includePath>
+								<path>src/main/cpp</path>
+							</includePath>
 							<includePath>
 								<path>target/generated-sources/cpp</path>
 							</includePath>
@@ -66,27 +70,8 @@
 							</includePath>
 						</includePaths>
 					</cpp>
- 				</configuration>
+				</configuration>
 			</plugin>
-<!-- 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>test</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>target/eg1</executable>
-							<arguments>
-							</arguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>         
- -->
- 		</plugins>
+		</plugins>
 	</build>
 </project>

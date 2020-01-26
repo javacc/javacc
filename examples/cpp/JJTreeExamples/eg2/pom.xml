@@ -54,6 +54,7 @@
 					<libraries>
 						<library>
 							<type>executable</type>
+							<run>true</run>
 						</library>
 					</libraries>
 					<cpp>
@@ -70,23 +71,6 @@
 						</includePaths>
 					</cpp>
  				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>test</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>target/eg2</executable>
-							<arguments>
-							</arguments>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
