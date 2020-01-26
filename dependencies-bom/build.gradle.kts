@@ -29,6 +29,7 @@ dependencies {
         // runtime means "the dependency is only for runtime, not for compilation"
         // In other words, marking dependency as "runtime" would avoid accidental
         // dependency on it during compilation
+        apiv("com.squareup:javapoet")
         apiv("junit:junit", "junit3")
         apiv("org.junit.jupiter:junit-jupiter-api", "junit5")
         apiv("org.junit.jupiter:junit-jupiter-params", "junit5")

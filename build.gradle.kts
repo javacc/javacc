@@ -491,6 +491,12 @@ allprojects {
 // Configuration of the root project itself
 // Note: it would be better to move parser to its own subfolder
 
+dependencies {
+    implementation(project(":javacc-kpoet"))
+    testImplementation("net.jqwik:jqwik-api:1.2.2")
+    testRuntimeOnly("net.jqwik:jqwik-engine:1.2.2")
+}
+
 val javaCC by tasks.registering(JavaCCTask::class) {
     description = "Generate the Java CC Main Parser"
     inputFile.set(file("src/main/javacc/JavaCC.jj"))
