@@ -14,7 +14,10 @@
 using namespace std;
 
 JJString ReadFileFully(char *file_name) {
-	return "int n;\n n = 3 + 4 * 5 + 6;\nwrite n;\n";
+	JJString code;
+	code = "int n;\n n = 3 + 4 * 5 + 6;\nwrite n;\n";
+	//code = "int n;\n";
+	return code;
 }
 
 int main(int argc, char**argv) {
@@ -23,6 +26,7 @@ int main(int argc, char**argv) {
 	try {
 		CharStream *stream = new CharStream(s.c_str(), s.size() - 1, 1, 1);
 		SPLParserTokenManager *scanner = new SPLParserTokenManager(stream);
+		scanner->setErrorHandler(new TokenMgrError());
 		SPLParser parser(scanner);
 		parser.CompilationUnit();
 		Node* n = parser.rootNode();

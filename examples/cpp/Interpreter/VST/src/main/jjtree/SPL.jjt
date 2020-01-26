@@ -34,6 +34,7 @@ options {
     MULTI=true;
 //    NODE_EXTENDS="MyNode";
     TRACK_TOKENS=true;
+//  DEBUG_PARSER=true;
 }
 
 PARSER_BEGIN(SPLParser)
