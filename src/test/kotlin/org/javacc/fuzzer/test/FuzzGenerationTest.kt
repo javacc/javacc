@@ -8,10 +8,22 @@ import java.net.URL
 import java.nio.file.Paths
 
 class FuzzGenerationTest {
+//    @Test
+//    internal fun simpleFuzzer() {
+//        generateParser("SimpleFuzzer")
+//    }
+
     @Test
-    internal fun simple() {
-        val parserName = "SimpleFuzzer"
-        val resource = javaClass.getResource("$parserName.jj")
+    internal fun javaCC() {
+        generateParser("javacc", File("src/main/javacc/JavaCC.jj"))
+    }
+
+    private fun generateParser(
+        parserName: String,
+        file: File? = null
+    ) {
+        val location = file ?: (javaClass.getResource("$parserName.jj")
+            ?: throw IllegalArgumentException("$parserName does not exist")).asFile!!
 
         val workDir = File("build/tests/$parserName")
         // Clean output directories (e.g. in case they contain previous test outputs)
@@ -20,13 +32,12 @@ class FuzzGenerationTest {
         }
 
         val javaDir = File(workDir, "java").apply { mkdirs() }
-//        val classesDir = File(workDir, "classes").apply { mkdirs() }
+        // val classesDir = File(workDir, "classes").apply { mkdirs() }
         Main.mainProgram(
             arrayOf(
                 "-STATIC=false",
                 "-OUTPUT_DIRECTORY:$javaDir",
-                resource.asFile?.absolutePath
-                    ?: throw IllegalArgumentException("$resource can't be converted")
+                location.absolutePath
             )
         )
     }

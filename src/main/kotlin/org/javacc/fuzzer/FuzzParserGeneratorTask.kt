@@ -1,13 +1,12 @@
 package org.javacc.fuzzer
 
 import com.grosner.kpoet.*
-import com.squareup.javapoet.ClassName
-import com.squareup.javapoet.TypeName
+import com.squareup.javapoet.CodeBlock
+import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeSpec
-import org.javacc.parser.BNFProduction
-import org.javacc.parser.CodeProduction
-import org.javacc.parser.ParseEngine
+import org.javacc.parser.*
 import java.nio.charset.Charset
+import java.util.*
 import java.util.concurrent.Callable
 import javax.tools.JavaFileObject
 
@@ -21,54 +20,105 @@ class FuzzParserGeneratorTask(
 
     private val fuzzLexerClassName = config.parserClassName + "FuzzyLezer"
 
-    /**
-     * See [ParseEngine.buildPhase1Routine]
-     */
-    fun TypeSpec.Builder.buildPhase1Routine(p: BNFProduction) {
-        println(p.returnTypeTokens)
-        val returnType = StringBuilder().apply {
-            for(t in p.returnTypeTokens) {
-                appendSingleWithComments(t)
+    private fun MethodSpec.Builder.phase1ExpansionGen(sequence: Sequence) {
+        for (i in 1 until sequence.units.size) {
+            phase1ExpansionGen(sequence.units[i] as Expansion)
+        }
+    }
+
+    private fun MethodSpec.Builder.phase1ExpansionGen(action: Action) {
+        addCode("\$[\$L\n\$]", action.actionTokens.asString())
+    }
+
+    private fun MethodSpec.Builder.phase1ExpansionGen(regex: RegularExpression) {
+        addCode("\$[")
+        regex.lhsTokens.takeIf { it.isNotEmpty() }?.let {
+            addCode("\$L = ", regex.lhsTokens.asString())
+        }
+        val label = regex.label.ifEmpty {
+            JavaCCGlobals.names_of_tokens[regex.ordinal] ?: regex.ordinal.toString()
+        }
+        addCode(
+            "generateRegexp(\$N)\$L;\n\$]",
+            label,
+            regex.rhsToken?.let { "." + it.asString } ?: ""
+        )
+    }
+
+    private fun MethodSpec.Builder.phase1ExpansionGen(oneOrMore: OneOrMore) {
+        val nested = oneOrMore.expansion
+        val lookahead = if (nested is Sequence) {
+            nested.lookahead
+        } else {
+            Lookahead().apply {
+                amount = Options.getLookahead()
+                laExpansion = nested
             }
-        }.toString()
-//        `public`(returnType.T, name = p.lhs, params = arrayOf(param())) {
-//            this
-//        }
+        }
+        `while`("true") {
+            phase1ExpansionGen(nested)
+            comment("TODO: implement Lookahead check for \$L", lookahead)
+        }
+    }
+
+    /**
+     * See [org.javacc.parser.ParseEngine.phase1ExpansionGen]
+     */
+    private fun MethodSpec.Builder.phase1ExpansionGen(expansion: Expansion) {
+        when (expansion) {
+            is RegularExpression -> phase1ExpansionGen(expansion)
+            is NonTerminal -> `return`("\$S", "NonTerminal: $expansion")
+            is Action -> phase1ExpansionGen(expansion)
+            is Choice -> `return`("\$S", "Choice: $expansion")
+            is Sequence -> phase1ExpansionGen(expansion)
+            is OneOrMore -> phase1ExpansionGen(expansion)
+            is ZeroOrMore -> `return`("\$S", "ZeroOrMore: $expansion")
+            is TryBlock -> `return`("\$S", "TryBlock: $expansion")
+        }
+    }
+
+    /**
+     * See [org.javacc.parser.ParseEngine.buildPhase1Routine]
+     */
+    private fun TypeSpec.Builder.buildPhase1Routine(p: BNFProduction) {
+        val returnType = p.returnTypeTokens.asString()
+        val params = CodeBlock.of("\$L", p.parameterListTokens.asString())
+        `public`(returnType.T, name = p.lhs, opaqueParams = params) {
+            addCode("\$[\$L\n\$]", p.declarationTokens.asString())
+            phase1ExpansionGen(p.expansion)
+        }
     }
 
     override fun call(): Boolean {
+        val fuzzyLexerFile = javaFile(config.packageName) {
+            `class`(fuzzLexerClassName) {
+            }
+        }
+
+        outputFiles += fuzzyLexerFile.toJavaFileObject()
+
         val fuzzerFile = javaFile(config.packageName) {
             `class`(fuzzParserClassName) {
                 modifiers(public)
 
-                for (bnfproduction in config.bnfproductions) {
-                    when (bnfproduction) {
-                        is BNFProduction -> buildPhase1Routine(bnfproduction)
-                        else -> throw IllegalArgumentException("Unsupported production: $bnfproduction")
-                    }
-                    println(bnfproduction)
-//                    `public`(String::class, bnfproduction.ty)
-//                    bnfproduction.
+                `private field`(Random::class, "_random_") {
+                    `=`("new \$T()", Random::class.java)
                 }
-//                `public`(String::class, "getStatus", param(TypeName.BOOLEAN, "isReady")) {
-//                    `if`("isReady") {
-//                        `return`("BONUS".S) // if we don't use .S, it's outputted as a literal.
-//                    } `else` {
-//                        `return`("NO BONUS".S)
-//                    }
-//                }
-                this
+
+                `private field`(fuzzyLexerFile.typeName, "tokenSource") {
+                    `=`("new \$T()", fuzzyLexerFile.typeName)
+                }
+
+                for (production in config.bnfproductions) {
+                    when (production) {
+                        is BNFProduction -> buildPhase1Routine(production)
+                        else -> throw IllegalArgumentException("Unsupported production: $production")
+                    }
+                }
             }
         }
 
         outputFiles += fuzzerFile.toJavaFileObject()
-
-        val fuzzyLexerFile = javaFile(config.packageName) {
-            `class`(fuzzLexerClassName) {
-
-                this
-            }
-        }
 
         return true
     }

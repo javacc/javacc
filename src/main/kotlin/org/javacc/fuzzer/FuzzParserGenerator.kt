@@ -20,9 +20,9 @@ class FuzzParserGenerator {
             config
         ).call()
 
-        println("FUZZ OUTPUT2:")
         for (file in outputFiles) {
-            println("${file.name}:\n${file.getCharContent(true)}\n")
+            println("FUZZ ${file.name}:\n")
+            println(file.getCharContent(true))
         }
     }
 }
