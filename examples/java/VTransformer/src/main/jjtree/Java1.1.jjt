@@ -39,7 +39,7 @@ options {
 
 PARSER_BEGIN(JavaParser)
 
-//package VTransformer;
+package VTransformer;
 
 public class JavaParser {}
 

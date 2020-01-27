@@ -27,7 +27,7 @@
  */
 
 
-//package VTransformer;
+package VTransformer;
 
 public class SimpleNode implements Node {
   protected Node parent;
