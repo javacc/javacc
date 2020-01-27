@@ -30,7 +30,17 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 <project name="test-javafiles" default="test-javafile-contents" basedir=".">
 
-  <target name="test-javafile-contents" depends="" description="run boiler-plate test cases">
+  <condition property="is-windows" value="true">
+      <os family="windows" />
+  </condition>
+
+  <!--
+  https://github.com/javacc/javacc/issues/116
+  JavaCC puts "OriginalChecksum" for some reason into the generated files,
+  so the test does not work on Windows (because expected files have LF-based checksums).
+  -->
+
+  <target name="test-javafile-contents" depends="" description="run boiler-plate test cases" unless="${is-windows}">
     <antcall target="test-static" />
     <antcall target="test-non-static" />
     <antcall target="test-no-keep-line" />
@@ -50,31 +60,31 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <fail message="Static ParseException">
      <condition>
-        <not> <filesmatch file1="out-dir/ParseException.java" file2="expected/static/ParseException.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/ParseException.java" file2="expected/static/ParseException.java" /> </not>
      </condition>
     </fail>
 
     <fail message="Static ParserTokenManager">
      <condition>
-        <not> <filesmatch file1="out-dir/ParserTokenManager.java" file2="expected/static/ParserTokenManager.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/ParserTokenManager.java" file2="expected/static/ParserTokenManager.java" /> </not>
      </condition>
     </fail>
 
     <fail message="Static SimpleCharStream">
      <condition>
-        <not> <filesmatch file1="out-dir/SimpleCharStream.java" file2="expected/static/SimpleCharStream.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/SimpleCharStream.java" file2="expected/static/SimpleCharStream.java" /> </not>
      </condition>
     </fail>
 
     <fail message="Static Token">
      <condition>
-        <not> <filesmatch file1="out-dir/Token.java" file2="expected/static/Token.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/Token.java" file2="expected/static/Token.java" /> </not>
      </condition>
     </fail>
 
     <fail message="Static TokenMgrError">
      <condition>
-        <not> <filesmatch file1="out-dir/TokenMgrError.java" file2="expected/static/TokenMgrError.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/TokenMgrError.java" file2="expected/static/TokenMgrError.java" /> </not>
      </condition>
     </fail>
   </target>
@@ -91,31 +101,31 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <fail message="Non-Static ParseException">
      <condition>
-        <not> <filesmatch file1="out-dir/ParseException.java" file2="expected/non-static/ParseException.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/ParseException.java" file2="expected/non-static/ParseException.java" /> </not>
      </condition>
     </fail>
 
     <fail message="Non-Static ParserTokenManager">
      <condition>
-        <not> <filesmatch file1="out-dir/ParserTokenManager.java" file2="expected/non-static/ParserTokenManager.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/ParserTokenManager.java" file2="expected/non-static/ParserTokenManager.java" /> </not>
      </condition>
     </fail>
 
     <fail message="Non-Static SimpleCharStream">
      <condition>
-        <not> <filesmatch file1="out-dir/SimpleCharStream.java" file2="expected/non-static/SimpleCharStream.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/SimpleCharStream.java" file2="expected/non-static/SimpleCharStream.java" /> </not>
      </condition>
     </fail>
 
     <fail message="Non-Static Token">
      <condition>
-        <not> <filesmatch file1="out-dir/Token.java" file2="expected/non-static/Token.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/Token.java" file2="expected/non-static/Token.java" /> </not>
      </condition>
     </fail>
 
     <fail message="Non-Static TokenMgrError">
      <condition>
-        <not> <filesmatch file1="out-dir/TokenMgrError.java" file2="expected/non-static/TokenMgrError.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/TokenMgrError.java" file2="expected/non-static/TokenMgrError.java" /> </not>
      </condition>
     </fail>
   </target>
@@ -133,31 +143,31 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <fail message="No-Keep_line ParseException">
      <condition>
-        <not> <filesmatch file1="out-dir/ParseException.java" file2="expected/no-keep-line/ParseException.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/ParseException.java" file2="expected/no-keep-line/ParseException.java" /> </not>
      </condition>
     </fail>
 
     <fail message="No-Keep_line ParserTokenManager">
      <condition>
-        <not> <filesmatch file1="out-dir/ParserTokenManager.java" file2="expected/no-keep-line/ParserTokenManager.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/ParserTokenManager.java" file2="expected/no-keep-line/ParserTokenManager.java" /> </not>
      </condition>
     </fail>
 
     <fail message="No-Keep_line SimpleCharStream">
      <condition>
-        <not> <filesmatch file1="out-dir/SimpleCharStream.java" file2="expected/no-keep-line/SimpleCharStream.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/SimpleCharStream.java" file2="expected/no-keep-line/SimpleCharStream.java" /> </not>
      </condition>
     </fail>
 
     <fail message="No-Keep_line Token">
      <condition>
-        <not> <filesmatch file1="out-dir/Token.java" file2="expected/no-keep-line/Token.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/Token.java" file2="expected/no-keep-line/Token.java" /> </not>
      </condition>
     </fail>
 
     <fail message="No-Keep_line TokenMgrError">
      <condition>
-        <not> <filesmatch file1="out-dir/TokenMgrError.java" file2="expected/no-keep-line/TokenMgrError.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/TokenMgrError.java" file2="expected/no-keep-line/TokenMgrError.java" /> </not>
      </condition>
     </fail>
   </target>
@@ -174,31 +184,31 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <fail message="Not-Public ParseException">
      <condition>
-        <not> <filesmatch file1="out-dir/ParseException.java" file2="expected/not-public/ParseException.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/ParseException.java" file2="expected/not-public/ParseException.java" /> </not>
      </condition>
     </fail>
 
     <fail message="Not-Public ParserTokenManager">
      <condition>
-        <not> <filesmatch file1="out-dir/ParserTokenManager.java" file2="expected/not-public/ParserTokenManager.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/ParserTokenManager.java" file2="expected/not-public/ParserTokenManager.java" /> </not>
      </condition>
     </fail>
 
     <fail message="Not-Public SimpleCharStream">
      <condition>
-        <not> <filesmatch file1="out-dir/SimpleCharStream.java" file2="expected/not-public/SimpleCharStream.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/SimpleCharStream.java" file2="expected/not-public/SimpleCharStream.java" /> </not>
      </condition>
     </fail>
 
     <fail message="Not-Public Token">
      <condition>
-        <not> <filesmatch file1="out-dir/Token.java" file2="expected/not-public/Token.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/Token.java" file2="expected/not-public/Token.java" /> </not>
      </condition>
     </fail>
 
     <fail message="Not-Public TokenMgrError">
      <condition>
-        <not> <filesmatch file1="out-dir/TokenMgrError.java" file2="expected/not-public/TokenMgrError.java" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/TokenMgrError.java" file2="expected/not-public/TokenMgrError.java" /> </not>
      </condition>
     </fail>
   </target>
@@ -207,14 +217,14 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <echo>test-generator</echo>
 
     <antcall target="reset" />
-    <java failonerror="true" fork="true" classname="org.javacc.utils.JavaFileGenerator" classpath=".:../../target/javacc.jar">
+    <java failonerror="true" fork="true" classname="org.javacc.utils.OutputFileGenerator" classpath=".:../../target/javacc.jar">
       <arg line="/template.txt" />
       <arg line="out-dir/generated.txt" />
     </java>
 
     <fail message="test-generator">
      <condition>
-        <not> <filesmatch file1="out-dir/generated.txt" file2="expected/generated.txt" /> </not>
+        <not> <filesmatch textfile="true" file1="out-dir/generated.txt" file2="expected/generated.txt" /> </not>
      </condition>
     </fail>
 

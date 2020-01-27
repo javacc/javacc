@@ -848,7 +848,7 @@ void QueryStatement():
     ";"
 }
 
-// PLSQL Expression and it's childs
+// PLSQL Expression and it's children
 
 void PlSqlExpression():
 {}

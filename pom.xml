@@ -14,12 +14,12 @@
 	<inceptionYear>1996</inceptionYear>
 	<organization>
 		<name>javacc.org</name>
-		<url>https://javacc.org</url>
+		<url>https://javacc.github.io/javacc/</url>
 	</organization>
 
 	<scm>
-		<connection>scm:git:git@github.com/javacc/javacc.git</connection>
 		<url>git@github.com/javacc/javacc.git</url>
+		<connection>scm:git:git@github.com/javacc/javacc.git</connection>
 		<developerConnection>scm:git:git@github.com/javacc/javacc.git</developerConnection>
 	</scm>
 	<issueManagement>
@@ -49,7 +49,7 @@
 		<developer>
 			<name>Sreenivasa Viswanadha</name>
 			<id>sreeni</id>
-			<email>sreeni At dev.java.net</email>
+			<email>support@javacc.org</email>
 			<roles>
 				<role>Owner</role>
 			</roles>
@@ -292,4 +292,3 @@
 		</plugins>
 	</reporting>
 </project>
-

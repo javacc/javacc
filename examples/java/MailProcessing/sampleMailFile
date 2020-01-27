@@ -34,7 +34,7 @@ Note:   If you are seeing it in rmail,
 Note:    it means the file has no messages in it.
 
 1, filed,,
-Summary-line: 11-Jan       sreeni@cs.albany.edu  #A note on using RE's matching the emty string
+Summary-line: 11-Jan       sreeni@cs.albany.edu  #A note on using RE's matching the empty string
 Return-Path: <sreeni@cs.albany.edu>
 Received: from Eng.Sun.COM by schizophrenia.Eng.Sun.COM (SMI-8.6/SMI-SVR4)
 	id HAA21134; Sat, 11 Jan 1997 07:47:28 -0800
@@ -57,7 +57,7 @@ From: Sreenivasa Rao Viswanadha <sreeni@cs.albany.edu>
 Date: Sat, 11 Jan 1997 10:43:58 -0500 (EST)
 Message-Id: <199701111543.KAA09608@bhaskara.cs.albany.edu>
 To: jack-interest@asap.Eng.Sun.COM
-Subject: A note on using RE's matching the emty string
+Subject: A note on using RE's matching the empty string
 Cc: sreeni@cs.albany.edu
 X-Sun-Charset: US-ASCII
 Content-Type: text
@@ -70,7 +70,7 @@ Return-Path: <sreeni@cs.albany.edu>
 From: Sreenivasa Rao Viswanadha <sreeni@cs.albany.edu>
 Date: Sat, 11 Jan 1997 10:43:58 -0500 (EST)
 To: jack-interest@asap.Eng.Sun.COM
-Subject: A note on using RE's matching the emty string
+Subject: A note on using RE's matching the empty string
 Cc: sreeni@cs.albany.edu
 X-Sun-Charset: US-ASCII
 Content-Type: text
@@ -94,7 +94,7 @@ then if there a lexical error, say a char is given that cannot be the first one
 of any token, then, the lexer decides to use the empty string "" and match it
 as STRING_LITERAL without actually giving the lexical error. And since this is
 the empty string, no character will be consumed and you will start getting the
-same STRING_LITERAL token (with "" as the image) infinte number of times. In
+same STRING_LITERAL token (with "" as the image) infinite number of times. In
 fact, if this was the only lexical rule, then if you give a input that starts
 with any char other than the ", you will get into an infinite loop.
 
