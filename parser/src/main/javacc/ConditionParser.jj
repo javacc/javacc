@@ -23,7 +23,7 @@
  */
 
 /*
- * This file contains a simple parser to evaulate simple boolean conditions,
+ * This file contains a simple parser to evalulate simple boolean conditions,
  * such as
  *   !value1 || value2
  */

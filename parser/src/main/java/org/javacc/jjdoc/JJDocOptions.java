@@ -85,7 +85,7 @@ public class JJDocOptions extends Options {
     public static boolean getText() {
         return booleanValue("TEXT");
     }
-    
+
     public static boolean getXText() {
         return booleanValue("XTEXT");
     }
