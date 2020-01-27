@@ -9,8 +9,8 @@ fun AnnotationSpec.Builder.member(name: String, format: String, vararg args: Any
 
 fun AnnotationSpec.Builder.member(name: String, codeBlock: CodeBlock) = addMember(name, codeBlock)
 
-fun AnnotationSpec.Builder.member(name: String, codeBlockFunc: CodeBlock.Builder.() -> CodeBlock.Builder)
-        = addMember(name, CodeBlock.builder().codeBlockFunc().build())
+fun AnnotationSpec.Builder.member(name: String, codeBlockFunc: CodeMethod)
+        = addMember(name, CodeBlock.builder().apply(codeBlockFunc).build())
 
 
 fun `@`(kClass: KClass<*>, mapFunc: MutableMap<String, String>.() -> Unit = { })

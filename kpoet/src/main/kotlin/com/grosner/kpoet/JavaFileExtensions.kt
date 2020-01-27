@@ -2,11 +2,14 @@ package com.grosner.kpoet
 
 import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.JavaFile
+import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeSpec
 import kotlin.reflect.KClass
 
-fun javaFile(packageName: String, imports: JavaFile.Builder.() -> JavaFile.Builder = { this },
-             function: () -> TypeSpec) = JavaFile.builder(packageName, function()).imports().build()!!
+typealias JavaFileMethod = JavaFile.Builder.() -> Unit
+
+fun javaFile(packageName: String, imports: JavaFileMethod = { },
+             function: () -> TypeSpec) = JavaFile.builder(packageName, function()).apply(imports).build()!!
 
 fun JavaFile.Builder.`import static`(kClass: KClass<*>, vararg names: String) = addStaticImport(kClass.java, *names)
 
@@ -14,4 +17,4 @@ fun JavaFile.Builder.`import static`(className: ClassName, vararg names: String)
 
 fun JavaFile.Builder.`import static`(enum: Enum<*>) = addStaticImport(enum)
 
-
+val JavaFile.typeName: TypeName get() = ClassName.get(packageName, typeSpec.name)
