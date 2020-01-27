@@ -1096,7 +1096,7 @@ public class ParseEngine {
 //    new Error().codeGenerator.printStackTrace();
 //    System.out.println(" ***** seq: " + seq.internal_name + "; size: " + ((Sequence)seq).units.size());
 //    }
-      e.internal_name = "R_" + gensymindex;
+      e.internal_name = "R_" + e.getProductionName() + "_" + e.getLine()  + "_" + e.getColumn() + "_" + gensymindex;
       e.internal_index = gensymindex;
     }
     Phase3Data p3d = (Phase3Data)(phase3table.get(e));

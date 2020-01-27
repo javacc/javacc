@@ -127,6 +127,21 @@ public class Expansion {
     return value;
   }
 
+  public String getProductionName() {
+    Object next = this;
+    // Limit the number of iterations in case there's a cycle
+    for (int i = 0; i < 42 && next != null; i++) {
+      if (next instanceof BNFProduction) {
+        return ((BNFProduction) next).getLhs();
+      } else if (next instanceof Expansion) {
+        next = ((Expansion) next).parent;
+      } else {
+        return null;
+      }
+    }
+    return null;
+  }
+
   /**
    * @param column the column to set
    */
