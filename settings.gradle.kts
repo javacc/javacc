@@ -21,6 +21,7 @@ include(
     "release",
     "integration-tests",
     "examples",
+    "javapoet",
     "kpoet",
     "test"
 )
