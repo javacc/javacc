@@ -1,12 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.javacc.examples</groupId>
-    <artifactId>java</artifactId>
-    <version>8.0.0</version>
-  </parent>
-  <groupId>org.javacc.examples.java</groupId>
-  <artifactId>VTransformer</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.javacc.examples</groupId>
+		<artifactId>java</artifactId>
+		<version>8.0.0</version>
+	</parent>
+	<groupId>org.javacc.examples.java</groupId>
+	<artifactId>VTransformer</artifactId>
+	<name>JavaCC examples Java VTransformer</name>
 	<build>
 		<plugins>
 			<plugin>
@@ -43,15 +45,17 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>fact</id>
+						<id>VTransformer</id>
 						<phase>test</phase>
 						<goals>
 							<goal>java</goal>
 						</goals>
 						<configuration>
-							<mainClass>JavaParser</mainClass>
+							<mainClass>VTransformer.Main</mainClass>
 							<arguments>
-								<argument>${project.basedir}/Main.java</argument>
+								<argument>${project.basedir}/Main.in</argument>
+								<argument>${project.basedir}/Main.out</argument>
+								<argument>${project.basedir}/Main.err</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -59,5 +63,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<name>JavaCC examples Java VTransformer</name>
 </project>

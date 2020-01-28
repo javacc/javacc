@@ -27,23 +27,36 @@
  */
 
 
-//package VTransformer;
+package VTransformer;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.PrintStream;
 
 public class Main
 {
-  public static void main(String args[]) {
+  public static void main(String args[]) throws FileNotFoundException {
+	  InputStream is = System.in;
+	  PrintStream os = System.out;
+	  PrintStream es = System.err;
+	  if (args != null) {
+		  if (args.length == 3) {
+			  is = new FileInputStream(args[0]);
+			  os = new PrintStream(args[1]);
+			  es = new PrintStream(args[2]);
+		  }
+	  }
     System.err.println("Reading from standard input...");
-    JavaParser p = new JavaParser(System.in);
+    JavaParser p = new JavaParser(is);
     try {
       ASTCompilationUnit cu = p.CompilationUnit();
-      JavaParserVisitor visitor = new AddAcceptVisitor(System.out);
+      JavaParserVisitor visitor = new AddAcceptVisitor(os);
       cu.jjtAccept(visitor, null);
-      System.err.println("Thank you.");
+      es.println("Thank you.");
     } catch (Exception e) {
-      System.err.println("Oops.");
-      System.err.println(e.getMessage());
+    	es.println("Oops.");
+    	es.println(e.getMessage());
       e.printStackTrace();
     }
   }
