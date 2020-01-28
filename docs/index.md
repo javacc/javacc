@@ -154,11 +154,13 @@ This guide will walk you through locally building the project, running an existi
 
 JavaCC 7.0.5 is our latest stable release.
 
-* JavaCC 7.0.5 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.5.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.5.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.5))
+* JavaCC 7.0.5 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.5.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.5.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5-javadoc.jar), [Release Notes](docs/release-notes.md#javacc-7.0.5))
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
-For all previous releases, please see [stable releases](downloads.md).
+For all previous releases, please see [stable releases](docs/downloads.md).
+
+The GitHub  8.0 branch contains the next generation of JavaCC that splits the frontend -- the JavaCC parser -- from the backends -- the code generator targeted for Java, C++ &and C# --. Status of JavaCC is experimental and not production ready.
 
 #### <a name="installation"></a>Installation
 
@@ -170,15 +172,19 @@ or
 $ tar xvf javacc-7.0.5.tar.gz
 ```
 
-Once you have completed installation add the `bin/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
+Then place the binary `javacc-7.0.5.jar` in a new `target/` folder, and rename to `javacc.jar`.
 
-#### <a name="binary-distribution"></a>Binary Distribution
+Once you have completed installation add the `scripts/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
 
-The binary distributions contain the JavaCC, JJTree and JJDoc sources, launcher scripts, example grammars and documentation. It also contains a bootstrap version of JavaCC needed to build JavaCC.
+On UNIX based systems, the scripts may not be executable immediately. This can be solved by using the command from the `javacc-7.0.5/` directory:
 
-On Unix-based systems, you need to make sure the files in the `bin/` directory of the distribution are in your path.
+```
+chmod +x scripts/javacc
+```
 
 ### <a name="building-from-source"></a>Building JavaCC from Source
+
+The source contain the JavaCC, JJTree and JJDoc sources, launcher scripts, example grammars and documentation. It also contains a bootstrap version of JavaCC needed to build JavaCC.
 
 Prerequisites for building JavaCC:
 
