@@ -37,27 +37,41 @@ PARSER_BEGIN(Eg2)
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.PrintStream;
 
 /** An Arithmetic Grammar. */
 public class Eg2 {
 
   /** Main entry point. */
   public static void main(String args[]) throws FileNotFoundException {
-    InputStream input = null;
-    if (args.length > 0)
-       input = new FileInputStream(args[0]);
-    else
-       input = System.in;
+    InputStream input = System.in;
+    PrintStream output = System.out;
+    PrintStream error = System.err;
+    InputStream prevInput = null;
+    PrintStream prevOutput = null;
+    PrintStream prevError = null;
+    if (args.length == 3) {
+    	prevInput = input;   	input = new FileInputStream(args[0]);
+    	prevOutput = output;   	output = new PrintStream(args[1]);
+    	prevError = error;   	error  = new PrintStream(args[2]);
+       System.setIn(input);
+       System.setOut(output);
+       System.setErr(error);
+    }
     Eg2 t = new Eg2(input);
     try {
       ASTStart n = t.Start();
       n.dump("");
       System.out.println("Thank you.");
     } catch (Exception e) {
-      System.out.println("Oops.");
-      System.out.println(e.getMessage());
+      error.println("Oops.");
+      error.println(e.getMessage());
       e.printStackTrace();
-    }
+    } finally {
+        if (prevInput != null)  System.setIn(prevInput);
+        if (prevOutput != null) System.setOut(prevOutput);
+        if (prevError != null)  System.setErr(prevError);
+     }
   }
 }
 
