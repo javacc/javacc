@@ -2,8 +2,8 @@ package org.javacc.utils;
 
 
 /**
- * 
- * 
+ *
+ *
  * @author Chris Ainsley
  *
  */
@@ -18,7 +18,7 @@ public class OptionInfo implements Comparable<OptionInfo>{
 		_type = type;
 		_default = default1;
 	}
-	
+
 	public String getName() {
 		return _name;
 	}

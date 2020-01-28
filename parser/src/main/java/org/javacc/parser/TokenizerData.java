@@ -95,7 +95,7 @@ public class TokenizerData {
 
   // Kind of the wildcard match (~[]) indexed by lexical state.
   public Map<Integer, Integer> wildcardKind;
- 
+
   // Name of lexical state - for debugging.
   public String[] lexStateNames;
 

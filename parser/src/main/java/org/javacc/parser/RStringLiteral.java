@@ -70,7 +70,6 @@ public class RStringLiteral extends RegularExpression {
   private static boolean subString[];
   private static boolean subStringAtPos[];
   private static Hashtable<String, long[]>[] statesForPos;
-  
 
   static String[] allImages;
 

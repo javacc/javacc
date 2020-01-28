@@ -56,7 +56,7 @@ TOKEN_MGR_DECLS:
    static double result = 0.0;
 
    /**
-    * Flag to indiate the very first operand so that the correct result
+    * Flag to indicate the very first operand so that the correct result
     * is displayed in this case.
     */
    static boolean firstOperand = true;

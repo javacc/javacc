@@ -77,7 +77,7 @@ public class JJDocGlobals {
         if(generator instanceof TextGenerator) {
           generator = new HTMLGenerator();
         }
-      } 
+      }
     }
     return generator;
   }
