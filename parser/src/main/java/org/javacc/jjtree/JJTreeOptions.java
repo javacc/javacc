@@ -57,7 +57,7 @@ public class JJTreeOptions extends Options {
         Options.init();
 
 
-        
+
         Options.optionValues.put("MULTI", Boolean.FALSE);
         Options.optionValues.put("NODE_DEFAULT_VOID", Boolean.FALSE);
         Options.optionValues.put("NODE_SCOPE_HOOK", Boolean.FALSE);
@@ -80,11 +80,11 @@ public class JJTreeOptions extends Options {
 
         Options.optionValues.put("NODE_DIRECTORY", "");
         Options.optionValues.put("JJTREE_OUTPUT_DIRECTORY", "");
-        
-        
+
+
         // TODO :: 2013/07/23 -- This appears to be a duplicate from the parent class
         Options.optionValues.put(Options.USEROPTION__JDK_VERSION, "1.5");
-        
+
         // Also appears to be a duplicate
         Options.optionValues.put(Options.USEROPTION__NAMESPACE, "");
 

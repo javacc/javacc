@@ -73,10 +73,10 @@ public interface Generator {
    */
   void specialTokens(String s);
 
-  
-  
+
+
   void handleTokenProduction(TokenProduction tp);
-  
+
 //  /**
 //   * Output start of a TokenProduction.
 //   * @param tp the TokenProduction being output

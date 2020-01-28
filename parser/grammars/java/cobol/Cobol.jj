@@ -4,7 +4,7 @@
  * <li> Ralf Lämmel & Chris Verhoef : VS COBOL II grammar Version 1.0.3
  * <li> Fujitsu Cobol compiler reference
  * <li> Compaq-HP Non-stop Cobol reference
- * </od>
+ * </ol>
  * <p>This grammar is released under the GNU Library Public License (LGPL).
  * <p><address>Bernard Pinon, august 2002</address>
  * <p><address>Thierry Blind, september 2009</address>
@@ -37,7 +37,7 @@
  *   <li> corrected picture values and enhanced linkage section
  *   <li> corrected relational operators, arithmetic expressions and conditions
  *   <li> corrected perform, evaluate and call clauses
- *   <li> corrected cobol word, litteral, identifier, comment declarations
+ *   <li> corrected cobol word, literal, identifier, comment declarations
  *   <li> created Iterables*() variants for some clauses
  *   <li> added function support from cobol 2000
  *   <li> added LOOKAHEAD() instructions, with reorderings, to remove parser ambiguities

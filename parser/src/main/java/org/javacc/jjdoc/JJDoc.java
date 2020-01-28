@@ -108,8 +108,8 @@ public class JJDoc extends JJDocGlobals {
       TokenProduction tp = it.next();
       emitTopLevelSpecialTokens(tp.firstToken, gen);
 
-      
-      
+
+
       gen.handleTokenProduction(tp);
     }
     gen.tokensEnd();
