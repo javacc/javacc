@@ -14,7 +14,7 @@ inline fun CodeBlock.Builder.code(codeMethod: CodeMethod)
 inline fun code(codeMethod: CodeMethod) = CodeBlock.builder().apply(codeMethod).build()!!
 
 inline fun CodeBlock.Builder.statement(codeMethod: CodeMethod)
-        = addStatement(CodeBlock.builder().apply(codeMethod).build().L)!!
+        = addStatement(CodeBlock.builder().apply(codeMethod).build())!!
 
 fun CodeBlock.Builder.statement(code: String, vararg args: Any?) = addStatement(code, *args)!!
 

@@ -8,15 +8,15 @@ import java.net.URL
 import java.nio.file.Paths
 
 class FuzzGenerationTest {
-//    @Test
-//    internal fun simpleFuzzer() {
-//        generateParser("SimpleFuzzer")
-//    }
-
     @Test
-    internal fun javaCC() {
-        generateParser("javacc", File("src/main/javacc/JavaCC.jj"))
+    internal fun simpleFuzzer() {
+        generateParser("SimpleFuzzer")
     }
+
+//    @Test
+//    internal fun javaCC() {
+//        generateParser("javacc", File("src/main/javacc/JavaCC.jj"))
+//    }
 
     private fun generateParser(
         parserName: String,

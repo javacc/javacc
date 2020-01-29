@@ -86,6 +86,7 @@ public final class JavaFile {
 
   public void writeTo(Appendable out) throws IOException {
     // First pass: emit the entire class, just to collect the types we'll need to import.
+    Map<String, ClassName> suggestedImports = Collections.emptyMap();
     CodeWriter importsCollector = new CodeWriter(
         NULL_APPENDABLE,
         indent,
@@ -93,7 +94,7 @@ public final class JavaFile {
         alwaysQualify
     );
     emit(importsCollector);
-    Map<String, ClassName> suggestedImports = importsCollector.suggestedImports();
+    suggestedImports = importsCollector.suggestedImports();
 
     // Second pass: write the code, taking advantage of the imports.
     CodeWriter codeWriter

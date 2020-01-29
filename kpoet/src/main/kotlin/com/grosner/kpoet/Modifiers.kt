@@ -37,10 +37,10 @@ fun TypeSpec.Builder.`fun`(type: TypeName, name: String, vararg params: Paramete
         = addMethod(applyParams(packagePrivate, type, name, params = *params, function = codeMethod))!!
 
 fun TypeSpec.Builder.`field`(type: KClass<*>, name: String, codeMethod: FieldMethod = { })
-        = addField(applyFieldParams(packagePrivate, type, name, codeMethod))!!
+        = applyFieldParams(packagePrivate, type, name, codeMethod).also { addField(it) }
 
 fun TypeSpec.Builder.`field`(type: TypeName, name: String, codeMethod: FieldMethod = { })
-        = addField(applyFieldParams(packagePrivate, type, name, codeMethod))!!
+        = applyFieldParams(packagePrivate, type, name, codeMethod).also { addField(it) }
 
 fun `private`(type: KClass<*>, name: String, vararg params: ParameterSpec.Builder,
               codeMethod: MethodMethod = { })
@@ -56,13 +56,13 @@ fun TypeSpec.Builder.`private`(type: KClass<*>, name: String, vararg params: Par
 
 fun TypeSpec.Builder.`private`(type: TypeName, name: String, vararg params: ParameterSpec.Builder,
                                codeMethod: MethodMethod = { })
-        = addMethod(applyParams(listOf(private), type, name, params = *params, function = codeMethod))!!
+        = applyParams(listOf(private), type, name, params = *params, function = codeMethod).also { addMethod(it) }
 
 fun TypeSpec.Builder.`private field`(type: KClass<*>, name: String, codeMethod: FieldMethod = { })
-        = addField(applyFieldParams(listOf(private), type, name, codeMethod))!!
+        = applyFieldParams(listOf(private), type, name, codeMethod).also { addField(it) }
 
 fun TypeSpec.Builder.`private field`(type: TypeName, name: String, codeMethod: FieldMethod = { })
-        = addField(applyFieldParams(listOf(private), type, name, codeMethod))!!
+        = applyFieldParams(listOf(private), type, name, codeMethod).also { addField(it) }
 
 fun `private final`(type: KClass<*>, name: String, vararg params: ParameterSpec.Builder,
                     codeMethod: MethodMethod = { })
@@ -181,10 +181,10 @@ fun TypeSpec.Builder.`public`(
 })!!
 
 fun TypeSpec.Builder.`public field`(type: KClass<*>, name: String, codeMethod: FieldMethod = { })
-        = addField(applyFieldParams(listOf(public), type, name, codeMethod))!!
+        = applyFieldParams(listOf(public), type, name, codeMethod).also { addField(it) }
 
 fun TypeSpec.Builder.`public field`(type: TypeName, name: String, codeMethod: FieldMethod = { })
-        = addField(applyFieldParams(listOf(public), type, name, codeMethod))!!
+        = applyFieldParams(listOf(public), type, name, codeMethod).also { addField(it) }
 
 fun `protected`(type: KClass<*>, name: String, vararg params: ParameterSpec.Builder,
                 codeMethod: MethodMethod = { })

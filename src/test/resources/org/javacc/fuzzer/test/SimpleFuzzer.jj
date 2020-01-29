@@ -23,7 +23,7 @@ SKIP :
 
 TOKEN :
 {
-  < Id: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"] )* >
+  < Id: ["A"-"C"] "HELLO" "WORLD" ( ["0"-"9"] )* >  { System.out.println("token: id"); }
 }
 
 /** Top level production. */
