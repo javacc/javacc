@@ -135,8 +135,10 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
     ostr.println("  int EOF = 0;");
     for (java.util.Iterator<RegularExpression> it = ordered_named_tokens.iterator(); it.hasNext();) {
       re = it.next();
-      ostr.println("  /** RegularExpression Id. */");
-      ostr.println("  int " + re.label + " = " + re.ordinal + ";");
+      if (!re.private_rexp) {
+        ostr.println("  /** RegularExpression Id. */");
+        ostr.println("  int " + re.label + " = " + re.ordinal + ";");
+      }
     }
     ostr.println("");
     if (!Options.getUserTokenManager() && Options.getBuildTokenManager()) {
