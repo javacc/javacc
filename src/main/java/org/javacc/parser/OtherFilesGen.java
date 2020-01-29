@@ -130,12 +130,12 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
     ostr.println("interface " + cu_name + "Constants {");
     ostr.println("");
 
-    RegularExpression re;
     ostr.println("  /** End of File. */");
     ostr.println("  int EOF = 0;");
-    for (java.util.Iterator<RegularExpression> it = ordered_named_tokens.iterator(); it.hasNext();) {
-      re = it.next();
+    for (RegularExpression re : ordered_named_tokens) {
       if (!re.private_rexp) {
+        // Filter out private regex ids, because they're internal to the token manager
+        // and referencing them is most likely a bug
         ostr.println("  /** RegularExpression Id. */");
         ostr.println("  int " + re.label + " = " + re.ordinal + ";");
       }
@@ -152,12 +152,9 @@ public class OtherFilesGen extends JavaCCGlobals implements JavaCCParserConstant
     ostr.println("  String[] tokenImage = {");
     ostr.println("    \"<EOF>\",");
 
-    for (java.util.Iterator<TokenProduction> it = rexprlist.iterator(); it.hasNext();) {
-      TokenProduction tp = (TokenProduction)(it.next());
-      List<RegExprSpec> respecs = tp.respecs;
-      for (java.util.Iterator<RegExprSpec> it2 = respecs.iterator(); it2.hasNext();) {
-        RegExprSpec res = (RegExprSpec)(it2.next());
-        re = res.rexp;
+    for (TokenProduction tp : rexprlist) {
+      for (RegExprSpec res : tp.respecs) {
+        RegularExpression re = res.rexp;
         ostr.print("    ");
         if (re instanceof RStringLiteral) {
           ostr.println("\"\\\"" + add_escapes(add_escapes(((RStringLiteral)re).image)) + "\\\"\",");
