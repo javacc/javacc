@@ -1,3 +1,6 @@
+*.err
+*.out
+
 **/generated-sources/
 .gradle
 .groovy
