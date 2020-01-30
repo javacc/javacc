@@ -1,12 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.javacc.examples</groupId>
-    <artifactId>java</artifactId>
-    <version>8.0.0</version>
-  </parent>
-  <groupId>org.javacc.examples.java</groupId>
-  <artifactId>lookahead</artifactId>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.javacc.examples</groupId>
+		<artifactId>java</artifactId>
+		<version>8.0.0</version>
+	</parent>
+	<groupId>org.javacc.examples.java</groupId>
+	<artifactId>lookahead</artifactId>
+	<name>JavaCC examples Java LookAhead</name>
 	<build>
 		<plugins>
 			<plugin>
@@ -25,7 +27,6 @@
 							<includes>example1/Example1.jj</includes>
 						</configuration>
 					</execution>
-<!-- 
 					<execution>
 						<id>example2</id>
 						<phase>generate-sources</phase>
@@ -38,6 +39,7 @@
 							<includes>Example2.jj</includes>
 						</configuration>
 					</execution>
+<!-- 
 					<execution>
 						<id>example3</id>
 						<phase>generate-sources</phase>
@@ -50,7 +52,8 @@
 							<includes>Example3.jj</includes>
 						</configuration>
 					</execution>
- 					<execution>
+-->
+					<execution>
 						<id>example4</id>
 						<phase>generate-sources</phase>
 						<goals>
@@ -62,7 +65,7 @@
 							<includes>Example4.jj</includes>
 						</configuration>
 					</execution>
- 					<execution>
+					<execution>
 						<id>example5</id>
 						<phase>generate-sources</phase>
 						<goals>
@@ -134,7 +137,6 @@
 							<includes>Example10.jj</includes>
 						</configuration>
 					</execution>
--->
 				</executions>
 			</plugin>
 <!-- 
@@ -155,7 +157,6 @@
 				</configuration>
 			</plugin>
  -->
- 		</plugins>
+		</plugins>
 	</build>
-	<name>JavaCC examples Java LookAhead</name>
 </project>
