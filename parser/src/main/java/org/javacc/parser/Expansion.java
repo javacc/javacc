@@ -130,6 +130,21 @@ public class Expansion {
     return dumpPrefix(indent).append(System.identityHashCode(this)).append(" ").append(getSimpleName());
   }
 
+  public String getProductionName() {
+    Object next = this;
+    // Limit the number of iterations in case there's a cycle
+    for (int i = 0; i < 42 && next != null; i++) {
+      if (next instanceof BNFProduction) {
+        return ((BNFProduction) next).getLhs();
+      } else if (next instanceof Expansion) {
+        next = ((Expansion) next).parent;
+      } else {
+        return null;
+      }
+    }
+    return null;
+  }
+
   private String getSimpleName() {
     String name = getClass().getName();
     return name.substring(name.lastIndexOf(".")+1); // strip the package name
