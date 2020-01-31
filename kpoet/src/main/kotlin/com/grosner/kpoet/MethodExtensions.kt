@@ -80,7 +80,7 @@ fun MethodSpec.Builder.`break`() = addStatement("break")!!
 fun MethodSpec.Builder.`continue`() = addStatement("continue")!!
 
 inline fun MethodSpec.Builder.case(statement: String, vararg args: Any, function: MethodMethod)
-        = beginControlFlow("case $statement:", args).apply(function).endControlFlow()!!
+        = beginControlFlow("case $statement:", *args).apply(function).endControlFlow()!!
 
 inline fun MethodSpec.Builder.default(function: MethodMethod)
         = beginControlFlow("default:").apply(function).endControlFlow()!!

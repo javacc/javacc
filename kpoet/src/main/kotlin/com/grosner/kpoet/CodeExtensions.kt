@@ -2,6 +2,11 @@ package com.grosner.kpoet
 
 import com.squareup.javapoet.CodeBlock
 
+const val L = "\$L"
+const val N = "\$N"
+const val S = "\$S"
+const val T = "\$T"
+
 inline fun CodeBlock.Builder.case(statement: String, vararg args: Any, function: CodeMethod)
         = beginControlFlow("case $statement:", args).apply(function).endControlFlow()!!
 
