@@ -43,3 +43,9 @@ fun Iterable<Token>.asString() = CodeEmitter().also { sb ->
         sb.appendSingleWithComments(t)
     }
 }.toString()
+
+fun Iterable<Token>.asStringWithoutComments() = CodeEmitter().also { sb ->
+    for(t in this@asStringWithoutComments) {
+        sb.appendSingle(t)
+    }
+}.toString()

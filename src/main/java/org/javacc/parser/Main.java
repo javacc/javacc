@@ -32,7 +32,7 @@ package org.javacc.parser;
 
 import java.util.Set;
 
-import org.javacc.fuzzer.FuzzParserGenerator;
+import org.javacc.fuzzer.FuzzGenerator;
 import org.javacc.utils.OptionInfo;
 import org.javacc.utils.OptionType;
 
@@ -260,7 +260,12 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
 			new LexGen().start();
 
       if (Options.getBuildFuzzer()) {
-        new FuzzParserGenerator().generate();
+        new FuzzGenerator(
+          parser.parser_package_name,
+          parser.parser_class_name,
+          parser.imports,
+          parser.staticImports
+        ).generateAndSave();
       }
 
 			Options.setStringOption(Options.NONUSER_OPTION__PARSER_NAME, JavaCCGlobals.cu_name);

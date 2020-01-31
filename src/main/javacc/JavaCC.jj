@@ -53,15 +53,23 @@ package org.javacc.parser;
 
 import static org.javacc.parser.Options.*;
 
-import java.util.List;
+import java.util.LinkedHashSet;import java.util.List;
 import java.util.ArrayList;
 
 public class JavaCCParser extends JavaCCParserInternals {
 
   /**
+   * The package name of the parser class.
+   */
+  List<Token> parser_package_name;
+
+  /**
    * The name of the parser class.
    */
   String parser_class_name;
+
+  final List<List<Token>> imports = new ArrayList<List<Token>>();
+  final List<List<Token>> staticImports = new ArrayList<List<Token>>();
 
   /**
    * This flag is set to true when the part between PARSER_BEGIN and
@@ -125,7 +133,7 @@ public class JavaCCParser extends JavaCCParserInternals {
        return false;
     else
        return true;
-  }    
+  }
 
    /**
     * Class to hold modifiers.
@@ -224,7 +232,7 @@ public class JavaCCParser extends JavaCCParserInternals {
        getNextToken(); // eat it
      }
    }
-   
+
 
    private void eatUptoRParen(List tokens) {
      int b = 1;
@@ -473,7 +481,7 @@ TOKEN :
 |
   < #HEXADECIMAL_FLOATING_POINT_LITERAL:
         "0" ["x", "X"] ["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])* (".")? <HEXADECIMAL_EXPONENT> (["f","F","d","D"])?
-      | "0" ["x", "X"] (["0"-"9","a"-"f","A"-"F"](("_")* ["0"-"9","a"-"f","A"-"F"])* )? "." 
+      | "0" ["x", "X"] (["0"-"9","a"-"f","A"-"F"](("_")* ["0"-"9","a"-"f","A"-"F"])* )? "."
            ["0"-"9","a"-"f","A"-"F"] (("_")*["0"-"9","a"-"f","A"-"F"])* <HEXADECIMAL_EXPONENT> (["f","F","d","D"])?
   >
 |
@@ -1657,15 +1665,22 @@ void CompilationUnit() :
 }
 
 void PackageDeclaration() :
-{}
+{ List<Token> name = new ArrayList<Token>(); }
 {
-  Modifiers() "package" Name(null) ";"
+  Modifiers() "package" Name(name) ";" { parser_package_name = name; }
 }
 
 void ImportDeclaration() :
-{}
+{ boolean isStatic = false; List<Token> name = new ArrayList<Token>();}
 {
-  "import" [ "static" ] Name(null) [ "." "*" ] ";"
+  "import" [ "static" { isStatic = true; } ] Name(name) [ "." { name.add(getToken(0)); } "*" { name.add(getToken(0)); } ] ";"
+  {
+    if (isStatic) {
+        staticImports.add(name);
+    } else {
+        imports.add(name);
+    }
+  }
 }
 
 /*
@@ -2035,13 +2050,13 @@ void ReferenceType():
 void Template():
 {}
 {
-	"template" "<" TemplateBase() ( "," TemplateBase() )* ">" 
+	"template" "<" TemplateBase() ( "," TemplateBase() )* ">"
 }
 
 void TemplateBase():
 {}
 {
-	TemplatePack() ["..."] <IDENTIFIER> 
+	TemplatePack() ["..."] <IDENTIFIER>
 }
 
 void TemplatePack():
@@ -2081,7 +2096,7 @@ void TypeArguments(List tokens):
 	      t = t.next;
 	    }
 	  }
-     
+
    }
 }
 
@@ -2146,7 +2161,7 @@ void ResultType(List tokens) :
 	       t = t.next;
 	    } else {
            throw new ParseException(t.image + " is invalid in this context");
-	    } 
+	    }
 	  }
 	}
 }
@@ -2838,7 +2853,7 @@ void CatchParameter():
   ]
   //Multiple exception catching in Java 7+
   ("|" Type())*
-  
+
   VariableDeclaratorId()
 }
 

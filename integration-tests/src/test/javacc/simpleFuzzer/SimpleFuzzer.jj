@@ -23,15 +23,37 @@ SKIP :
 
 TOKEN :
 {
-  < Id: ["a"-"z","A"-"Z"] ( ["a"-"z","A"-"Z","0"-"9"] )* >
+  < Id: ["A"-"Z"] (["0"-"9", "a"-"z"])+ >
+  | < Select: "SELECT" >
+  | < From: "FROM" >
+  | < Where: "WHERE" >
 }
 
 /** Top level production. */
-List<String> Ids() :
+List<String> Select() :
 {
-    Token id;
-    List<String> ids = new ArrayList<String>();
+    Token t;
+    Token v;
+    String c;
+    List<String> res = new ArrayList<String>();
 }
 {
-  ( id = <Id> { ids.add(id.image); } )+ <EOF> { return ids; }
+  <Select> { res.add("select"); } t=<Id> { res.add("column=" + t.image); } ("," t=<Id> { res.add("column=" + t.image); })*
+    <From> { res.add("from"); } t=<Id> { res.add("table=" + t.image); }
+    [ <Where> { res.add("where"); } c=Condition() { res.add(c); } ]
+    <EOF> { return res; }
+}
+
+String Condition() :
+{
+    Token t;
+    String u;
+    String v;
+}
+{
+  t=<Id> { u = t.image; } "=" t=<Id>
+  {
+    v = t.image;
+    return "condition=[" + u + "==" + v + "]";
+  }
 }
