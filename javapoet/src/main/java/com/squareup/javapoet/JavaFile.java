@@ -60,6 +60,7 @@ public final class JavaFile {
   public final String packageName;
   public final TypeSpec typeSpec;
   public final boolean skipJavaLangImports;
+  private final Set<String> imports;
   private final Set<String> staticImports;
   private final Set<String> alwaysQualify;
   private final String indent;
@@ -70,6 +71,7 @@ public final class JavaFile {
     this.typeSpec = builder.typeSpec;
     this.skipJavaLangImports = builder.skipJavaLangImports;
     this.staticImports = Util.immutableSet(builder.staticImports);
+    this.imports = Util.immutableSet(builder.imports);
     this.indent = builder.indent;
 
     Set<String> alwaysQualifiedNames = new LinkedHashSet<>();
@@ -210,7 +212,9 @@ public final class JavaFile {
       codeWriter.emit("import $L;\n", className.withoutAnnotations());
       importedTypesCount++;
     }
-
+    for (String anImport : imports) {
+      codeWriter.emit("import $L;\n", anImport);
+    }
     if (importedTypesCount > 0) {
       codeWriter.emit("\n");
     }
@@ -271,6 +275,8 @@ public final class JavaFile {
     builder.fileComment.add(fileComment);
     builder.skipJavaLangImports = skipJavaLangImports;
     builder.indent = indent;
+    builder.imports.addAll(imports);
+    builder.staticImports.addAll(staticImports);
     return builder;
   }
 
@@ -281,6 +287,7 @@ public final class JavaFile {
     private boolean skipJavaLangImports;
     private String indent = "  ";
 
+    public final Set<String> imports = new TreeSet<>();
     public final Set<String> staticImports = new TreeSet<>();
 
     private Builder(String packageName, TypeSpec typeSpec) {
@@ -290,6 +297,17 @@ public final class JavaFile {
 
     public Builder addFileComment(String format, Object... args) {
       this.fileComment.add(format, args);
+      return this;
+    }
+
+    public Builder addImport(TypeName typeName) {
+      checkArgument(typeName != null, "className == null");
+      return addImport(typeName.toString());
+    }
+
+    public Builder addImport(String typeName) {
+      checkArgument(typeName != null, "className == null");
+      imports.add(typeName);
       return this;
     }
 
@@ -309,6 +327,11 @@ public final class JavaFile {
         checkArgument(name != null, "null entry in names array: %s", Arrays.toString(names));
         staticImports.add(className.canonicalName + "." + name);
       }
+      return this;
+    }
+
+    public Builder addStaticImport(String staticImport) {
+      staticImports.add(staticImport);
       return this;
     }
 
