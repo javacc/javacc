@@ -235,7 +235,7 @@ allprojects {
                     windowTitle = "JavaCC ${project.name} API"
                     header = "<b>JavaCC</b>"
                     addBooleanOption("Xdoclint:none", true)
-                    addStringOption("source", "7")
+                    addStringOption("source", "8")
                     // TODO: compute lastEditYear
                     bottom =
                         "Copyright © 2006-???? Sun Microsystems, Inc, ????-2020 JavaCC development group"
@@ -243,7 +243,7 @@ allprojects {
                         addBooleanOption("html5", true)
                         links("https://docs.oracle.com/javase/9/docs/api/")
                     } else {
-                        links("https://docs.oracle.com/javase/7/docs/api/")
+                        links("https://docs.oracle.com/javase/8/docs/api/")
                     }
                 }
             }

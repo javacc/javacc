@@ -4,10 +4,7 @@ import com.grosner.kpoet.*
 import com.squareup.javapoet.ClassName
 import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.MethodSpec
-import com.squareup.javapoet.TypeName
 import org.javacc.parser.*
-import java.lang.IllegalArgumentException
-import java.nio.charset.Charset
 import java.util.*
 import java.util.concurrent.Callable
 import javax.tools.JavaFileObject
@@ -18,11 +15,9 @@ class FuzzLexGenerator(
     private val config: JavaCCConfig
 ) : Callable<Boolean> {
     private val fuzzLexerClassName = config.parserClassName + "FuzzyLexer"
-    private val generatorNamesMutable = mutableMapOf<Int, String>()
 
     val typeName = ClassName.get(config.packageName, fuzzLexerClassName)!!
     val generateMethodName = "jj_generate"
-    val generatorNames: Map<Int, String> = generatorNamesMutable
 
     private val fillTokenMethodName = "jj_fillToken"
 
@@ -32,12 +27,18 @@ class FuzzLexGenerator(
     private lateinit var image: FieldSpec
     private lateinit var curTokenImage: FieldSpec
 
-    private fun MethodSpec.Builder.implement(re: RegularExpression) {
-        var r = re
-        while(r is RJustName) {
+    private val nameAllocator = NameAllocator()
+
+    private val RegularExpression.unwrap: RegularExpression get() {
+        var r = this
+        while (r is RJustName) {
             r = r.regexpr
         }
-        when(r) {
+        return r
+    }
+
+    private fun MethodSpec.Builder.implement(re: RegularExpression) {
+        when (val r = re.unwrap) {
             is RStringLiteral -> addStatement("$N.append($S)", jjimage, r.image);
             is RCharacterList -> implement(r)
             is RSequence -> implement(r)
@@ -69,8 +70,10 @@ class FuzzLexGenerator(
     }
 
     private fun MethodSpec.Builder.implementLoop(re: RegularExpression, min: Int, max: Int) {
-        `for`("int jj_cnt = $L + $N.nextInt($L); jj_cnt > 0; jj_cnt--", min, jj_random, max) {
-            implement(re)
+        nameAllocator.allocate("jj_cnt") { jj_cnt ->
+            `for`("int $1N = $2L + $3N.nextInt($4L); $1N > 0; $1N--", jj_cnt, min, jj_random, max) {
+                implement(re)
+            }
         }
     }
 
@@ -95,7 +98,11 @@ class FuzzLexGenerator(
     private fun MethodSpec.Builder.implementCharacter(descriptor: Any?) {
         when (descriptor) {
             is SingleCharacter ->
-                addStatement("$N.append('$S')", jjimage, descriptor.ch.characterLiteralWithoutSingleQuotes())
+                addStatement(
+                    "$N.append('$L')",
+                    jjimage,
+                    descriptor.ch.characterLiteralWithoutSingleQuotes()
+                )
             is CharacterRange ->
                 addStatement(
                     "$1N.append(/* $2L..$3L */ (char) ('$2L' + $4N.nextInt($5L)))",
@@ -146,31 +153,61 @@ class FuzzLexGenerator(
                 }
 
                 val fillToken = private(config.tokenTypeName, fillTokenMethodName, param(config.tokenKindTypeName, "kind")) {
-                    addStatement("$N = kind", jjmatchedKind)
-                    addStatement("$N = $N.toString()", curTokenImage, jjimage)
-                    addStatement("$1T t = $1T.newToken($2N, $3N)", config.tokenTypeName, jjmatchedKind, curTokenImage)
+                    code {
+                        val tokenType = config.tokenTypeName.T
+                        """
+                        ${jjmatchedKind.N} = kind;
+                        ${curTokenImage.N} = ${jjimage.N}.toString();
+                        $tokenType t = $tokenType.newToken(${jjmatchedKind.N}, ${curTokenImage.N});
+
+                        """.trimIndent()
+                    }
                     comment("TODO: fill position")
                     `return`("t")
                 }
 
+                val fillTokenLiteral = private(config.tokenTypeName, fillTokenMethodName,
+                    param(config.tokenKindTypeName, "kind"), param(String::class, "image")) {
+                    code {
+                        """
+                        ${jjimage.N}.setLength(0);
+                        ${jjimage.N}.append(image);
+                        return ${fillToken.N}(kind);
+                        """.trimIndent()
+                    }
+                }
+
+                val generatorNames = mutableMapOf<RegularExpression, String>()
                 for (tp in JavaCCGlobals.rexprlist) {
                     for (regexpSpec in tp.respecs) {
-                        val r = regexpSpec.rexp
+                        val r = regexpSpec.rexp.unwrap
+                        if (r is RStringLiteral) {
+                            // String literals do not need their own functions
+                            generatorNames[r] = r.image
+                            continue
+                        }
                         val label = r.label?.capitalize() ?: ""
                         val gen = public(config.tokenTypeName, "${generateMethodName}_${label}_${r.ordinal}") {
                             addStatement("$N.setLength(0)", jjimage)
                             implement(r)
                             `return`("$N($L)", fillToken, r.ordinal)
                         }
-                        generatorNamesMutable[r.ordinal] = gen.name
+                        generatorNames[r] = gen.name
                     }
                 }
 
                 public(config.tokenTypeName, generateMethodName, param(config.tokenKindTypeName, "kind")) {
                     switch("kind") {
-                        for((ordinal, generator) in generatorNames) {
-                            case(L, ordinal) {
-                                `return`("$N()", generator)
+                        for((re , generator) in generatorNames) {
+                            case(L, re.ordinal) {
+                                val r = re.unwrap
+                                `return` {
+                                    if (r is RStringLiteral) {
+                                        "${fillTokenLiteral.N}(kind, ${r.image.S})"
+                                    } else {
+                                        "${generator.N}()"
+                                    }
+                                }
                             }
                         }
                         default {

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class SimpleFuzzer {
+  int qwerty = 42;
 }
 
 PARSER_END(SimpleFuzzer)

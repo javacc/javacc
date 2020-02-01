@@ -14,5 +14,6 @@ class JavaCCConfig(
 ) {
     val tokenTypeName = ClassName.get(packageName, "Token")
     val parserConstantsClassName = ClassName.get(packageName, parserClassName + "Constants")
+    val parseExceptionTypeName = ClassName.get(packageName, "ParseException")
     val tokenKindTypeName = TypeName.get(Int::class.java)
 }
