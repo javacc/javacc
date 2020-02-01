@@ -2521,7 +2521,7 @@ public final class TypeSpecTest {
     builder.originatingElements.clear();
     assertThat(builder.build().originatingElements).isEmpty();
   }
-    
+
   @Test public void javadocWithTrailingLineDoesNotAddAnother() {
     TypeSpec spec = TypeSpec.classBuilder("Taco")
         .addJavadoc("Some doc with a newline\n")

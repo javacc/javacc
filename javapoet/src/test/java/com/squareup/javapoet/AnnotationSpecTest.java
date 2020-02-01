@@ -376,7 +376,7 @@ public final class AnnotationSpecTest {
   @Test public void modifyMembers() {
     AnnotationSpec.Builder builder = AnnotationSpec.builder(SuppressWarnings.class)
             .addMember("value", "$S", "Foo");
-    
+
     builder.members.clear();
     builder.members.put("value", Arrays.asList(CodeBlock.of("$S", "Bar")));
 

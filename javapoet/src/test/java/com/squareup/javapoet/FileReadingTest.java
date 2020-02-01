@@ -41,7 +41,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 @RunWith(JUnit4.class)
 public class FileReadingTest {
-  
+
   // Used for storing compilation output.
   @Rule public final TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -54,12 +54,12 @@ public class FileReadingTest {
     assertThat(JavaFile.builder("com.example", type).build().toJavaFileObject().toUri())
         .isEqualTo(URI.create("com/example/Test.java"));
   }
-  
+
   @Test public void javaFileObjectKind() {
     JavaFile javaFile = JavaFile.builder("", TypeSpec.classBuilder("Test").build()).build();
     assertThat(javaFile.toJavaFileObject().getKind()).isEqualTo(Kind.SOURCE);
   }
-  
+
   @Test public void javaFileObjectCharacterContent() throws IOException {
     TypeSpec type = TypeSpec.classBuilder("Test")
         .addJavadoc("Pi\u00f1ata\u00a1")
@@ -67,22 +67,22 @@ public class FileReadingTest {
         .build();
     JavaFile javaFile = JavaFile.builder("foo", type).build();
     JavaFileObject javaFileObject = javaFile.toJavaFileObject();
-    
+
     // We can never have encoding issues (everything is in process)
     assertThat(javaFileObject.getCharContent(true)).isEqualTo(javaFile.toString());
     assertThat(javaFileObject.getCharContent(false)).isEqualTo(javaFile.toString());
   }
-  
+
   @Test public void javaFileObjectInputStreamIsUtf8() throws IOException {
     JavaFile javaFile = JavaFile.builder("foo", TypeSpec.classBuilder("Test").build())
         .addFileComment("Pi\u00f1ata\u00a1")
         .build();
     byte[] bytes = ByteStreams.toByteArray(javaFile.toJavaFileObject().openInputStream());
-    
+
     // JavaPoet always uses UTF-8.
     assertThat(bytes).isEqualTo(javaFile.toString().getBytes(UTF_8));
   }
-  
+
   @Test public void compileJavaFile() throws Exception {
     final String value = "Hello World!";
     TypeSpec type = TypeSpec.classBuilder("Test")
@@ -98,17 +98,17 @@ public class FileReadingTest {
 
     JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
     DiagnosticCollector<JavaFileObject> diagnosticCollector = new DiagnosticCollector<>();
-    StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnosticCollector, 
+    StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnosticCollector,
         Locale.getDefault(), UTF_8);
     fileManager.setLocation(StandardLocation.CLASS_OUTPUT,
         Collections.singleton(temporaryFolder.newFolder()));
-    CompilationTask task = compiler.getTask(null, 
+    CompilationTask task = compiler.getTask(null,
         fileManager,
         diagnosticCollector,
         Collections.emptySet(),
         Collections.emptySet(),
         Collections.singleton(javaFile.toJavaFileObject()));
-    
+
     assertThat(task.call()).isTrue();
     assertThat(diagnosticCollector.getDiagnostics()).isEmpty();
 
