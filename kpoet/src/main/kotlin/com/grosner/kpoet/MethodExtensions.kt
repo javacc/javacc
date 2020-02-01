@@ -19,15 +19,12 @@ infix fun MethodSpec.Builder.returns(typeName: TypeName) = returns(typeName)!!
 
 infix fun MethodSpec.Builder.returns(typeName: KClass<*>) = returns(typeName.java)!!
 
-inline fun MethodSpec.Builder.code(codeMethod: CodeMethod) = addCode(
-    CodeBlock.builder().apply(codeMethod).build())!!
+inline fun MethodSpec.Builder.code(codeMethod: StringTemplateMethod) = addCode(codeMethod)
 
-inline fun MethodSpec.Builder.statement(codeMethod: CodeMethod)
-        = addStatement("\$L", CodeBlock.builder().apply(codeMethod).build().toString())!!
+inline fun MethodSpec.Builder.statement(codeMethod: StringTemplateMethod) =
+    addStatement(L, codeBlock(codeMethod))!!
 
 fun MethodSpec.Builder.statement(code: String, vararg args: Any?) = addStatement(code, *args)!!
-
-fun MethodSpec.Builder.comment(comment: String) = addComment(comment)!!
 
 infix fun MethodSpec.Builder.annotation(type: KClass<*>) = addAnnotation(type.java)!!
 
@@ -64,6 +61,17 @@ inline fun MethodSpec.Builder.`else if`(statement: String, vararg args: Any?,
 
 fun MethodSpec.Builder.`end if`() = endControlFlow()
 
+fun MethodSpec.Builder.`try`(function: MethodMethod) =
+    beginControl("try", function = function)
+
+fun MethodSpec.Builder.`catch`(statement: String, vararg args: Any, function: MethodMethod) =
+    nextControl("catch", statement = statement, args = *args, function = function)
+
+inline infix fun MethodSpec.Builder.`finally`(function: MethodMethod) =
+    nextControl("finally", function = function).end()
+
+fun MethodSpec.Builder.`end try`() = end()
+
 fun MethodSpec.Builder.end(statement: String = "", vararg args: Any?)
         = (if (statement.isBlank().not()) endControlFlow(statement, *args) else endControlFlow())!!
 
@@ -71,11 +79,19 @@ inline fun MethodSpec.Builder.`for`(statement: String, vararg args: Any?,
                                     function: MethodMethod)
         = beginControl("for", statement = statement, args = *args, function = function).endControlFlow()!!
 
+inline fun MethodSpec.Builder.`for`(
+    statement: StringTemplateMethod,
+    function: MethodMethod
+) =
+    beginControl("for", statement = statement, function = function).endControlFlow()!!
+
 inline fun MethodSpec.Builder.`switch`(statement: String, vararg args: Any?,
                                        function: MethodMethod)
         = beginControl("switch", statement = statement, args = *args, function = function).endControlFlow()!!
 
 fun MethodSpec.Builder.`return`(statement: String, vararg args: Any?) = addStatement("return $statement", *args)!!
+
+fun MethodSpec.Builder.`return`(statement: StringTemplateMethod) = addStatement("return $L", codeBlock(statement))!!
 
 fun MethodSpec.Builder.`break`() = addStatement("break")!!
 
@@ -108,6 +124,15 @@ inline fun MethodSpec.Builder.beginControl(name: String, statement: String = "",
                                            function: MethodMethod)
         = beginControlFlow("$name${if (statement.isEmpty()) "" else " ($statement)"}", *args)
         .apply(function)
+
+
+inline fun MethodSpec.Builder.beginControl(
+    name: String,
+    statement: StringTemplateMethod,
+    function: MethodMethod
+) = addCode(L, name)
+    .beginControlFlow(" ($L)", codeBlock(statement))
+    .apply(function)!!
 
 inline fun MethodSpec.Builder.endControl(name: String, statement: String = "", vararg args: Any?)
         = endControlFlow("$name${if (statement.isEmpty()) "" else " ($statement)"}", *args)!!

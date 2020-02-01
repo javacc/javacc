@@ -78,8 +78,8 @@ class TypeExtensionsTest : Spek({
 
         on("can create subclass with overridden methods") {
             val typeSpec = `class`("TestClass") {
-                extends(parameterized<String>(List::class))
-                implements(parameterized<String>(Comparable::class), Serializable::class.typeName)
+                extends(List::class.parameterized<String>())
+                implements(Comparable::class.parameterized<String>(), Serializable::class.typeName)
 
                 `public`(Int::class, "compareTo", param(String::class, "other")) {
                     annotation(Override::class)

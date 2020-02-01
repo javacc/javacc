@@ -105,4 +105,6 @@ fun TypeSpec.Builder.javadoc(doc: String, vararg args: Any?) = addJavadoc(doc, a
 
 fun TypeSpec.Builder.javadoc(codeBlock: CodeBlock) = addJavadoc(codeBlock)
 
+fun TypeSpec.Builder.body(format: String, vararg args: Any?) = addBody(format, *args)
 
+fun TypeSpec.Builder.body(codeBlock: StringTemplateMethod) = addBody(codeBlock(codeBlock))
