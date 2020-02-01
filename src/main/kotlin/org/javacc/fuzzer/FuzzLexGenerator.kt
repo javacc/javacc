@@ -6,6 +6,7 @@ import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
 import org.javacc.parser.*
+import java.lang.IllegalArgumentException
 import java.nio.charset.Charset
 import java.util.*
 import java.util.concurrent.Callable
@@ -23,7 +24,7 @@ class FuzzLexGenerator(
     val generateMethodName = "jj_generate"
     val generatorNames: Map<Int, String> = generatorNamesMutable
 
-    private val fillTokenMethodName = "jj_generate"
+    private val fillTokenMethodName = "jj_fillToken"
 
     private lateinit var jj_random: FieldSpec
     private lateinit var jjmatchedKind: FieldSpec
@@ -40,17 +41,30 @@ class FuzzLexGenerator(
             is RStringLiteral -> addStatement("$N.append($S)", jjimage, r.image);
             is RCharacterList -> implement(r)
             is RSequence -> implement(r)
+            is RChoice -> implement(r)
+            is RRepetitionRange -> implementLoop(r.regexpr, r.min, if (r.hasMax) r.max else 5.coerceAtLeast(r.min + 5))
             is RZeroOrMore -> implementLoop(r.regexpr, 0, 5)
             is RZeroOrOne -> implementLoop(r.regexpr, 0, 1)
             is ROneOrMore -> implementLoop(r.regexpr, 1, 5)
             is REndOfFile -> comment("EOF")
-            else -> comment("Unsupported regexp: ${r}")
+            else -> TODO("Unsupported regexp: ${r}")
         }
     }
 
     private fun MethodSpec.Builder.implement(re: RSequence) {
         for (r in re.units) {
             implement(r as RegularExpression)
+        }
+    }
+
+    private fun MethodSpec.Builder.implement(re: RChoice) {
+        switch("$N.nextInt($L)", jj_random, re.choices.size) {
+            for ((index, c) in re.choices.withIndex()) {
+                case(L, index) {
+                    implement(c as RegularExpression)
+                    `break`()
+                }
+            }
         }
     }
 
@@ -71,6 +85,7 @@ class FuzzLexGenerator(
                 for ((index, descriptor) in re.descriptors.withIndex()) {
                     case(L, index) {
                         implementCharacter(descriptor)
+                        `break`()
                     }
                 }
             }
@@ -130,7 +145,7 @@ class FuzzLexGenerator(
                     addStatement("this.$N = random", jj_random)
                 }
 
-                val fillToken = private(config.tokenTypeName, fillTokenMethodName, param(Int::class, "kind")) {
+                val fillToken = private(config.tokenTypeName, fillTokenMethodName, param(config.tokenKindTypeName, "kind")) {
                     addStatement("$N = kind", jjmatchedKind)
                     addStatement("$N = $N.toString()", curTokenImage, jjimage)
                     addStatement("$1T t = $1T.newToken($2N, $3N)", config.tokenTypeName, jjmatchedKind, curTokenImage)
@@ -142,16 +157,25 @@ class FuzzLexGenerator(
                     for (regexpSpec in tp.respecs) {
                         val r = regexpSpec.rexp
                         val label = r.label?.capitalize() ?: ""
-                        val gen = public(config.tokenTypeName, "jj_generate_${label}_${r.ordinal}") {
+                        val gen = public(config.tokenTypeName, "${generateMethodName}_${label}_${r.ordinal}") {
                             addStatement("$N.setLength(0)", jjimage)
-                            when(r) {
-                                is RStringLiteral -> addStatement("$N.append($S)", jjimage, r.image);
-                                is RSequence -> implement(r)
-                                else -> comment(r.toString())
-                            }
+                            implement(r)
                             `return`("$N($L)", fillToken, r.ordinal)
                         }
                         generatorNamesMutable[r.ordinal] = gen.name
+                    }
+                }
+
+                public(config.tokenTypeName, generateMethodName, param(config.tokenKindTypeName, "kind")) {
+                    switch("kind") {
+                        for((ordinal, generator) in generatorNames) {
+                            case(L, ordinal) {
+                                `return`("$N()", generator)
+                            }
+                        }
+                        default {
+                            `throw new`(IllegalArgumentException::class, "\"Unexpected token kind \" + kind")
+                        }
                     }
                 }
             }

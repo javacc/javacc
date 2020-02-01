@@ -23,7 +23,7 @@ SKIP :
 
 TOKEN :
 {
-  < Id: ["A"-"Z"] (["0"-"9", "a"-"z"])+ >
+  < Id: ("name" | "id" | "emps" | "depts" | ["A"-"Z"] (["0"-"9", "a"-"z"])+) >
   | < Select: "SELECT" >
   | < From: "FROM" >
   | < Where: "WHERE" >
@@ -38,9 +38,10 @@ List<String> Select() :
     List<String> res = new ArrayList<String>();
 }
 {
-  <Select> { res.add("select"); } t=<Id> { res.add("column=" + t.image); } ("," t=<Id> { res.add("column=" + t.image); })*
-    <From> { res.add("from"); } t=<Id> { res.add("table=" + t.image); }
-    [ <Where> { res.add("where"); } c=Condition() { res.add(c); } ]
+  <Select> { res.add(token.image); }
+    t=<Id> { res.add(t.image); } ("," { res.add(token.image); } t=<Id> { res.add(t.image); })*
+    <From> { res.add(token.image); } t=<Id> { res.add(t.image); }
+    [ <Where> { res.add(token.image); } c=Condition() { res.add(c); } ]
     <EOF> { return res; }
 }
 
@@ -49,11 +50,12 @@ String Condition() :
     Token t;
     String u;
     String v;
+    String op;
 }
 {
-  t=<Id> { u = t.image; } "=" t=<Id>
+  t=<Id> { u = t.image; } ("=" | "!=" | "<" | ">") { op = token.image; } t=<Id>
   {
     v = t.image;
-    return "condition=[" + u + "==" + v + "]";
+    return u + " " + op + " " + v;
   }
 }

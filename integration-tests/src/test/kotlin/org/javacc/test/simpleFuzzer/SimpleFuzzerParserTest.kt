@@ -12,13 +12,13 @@ class SimpleFuzzerParserTest {
 //        assertEquals("[hello, world]", ids.toString()) { "input: $input" }
 //    }
 
-    @Test
-    internal fun generateSamples() {
-        val r = Random()
-        r.setSeed(42L)
-        val fuzzer = SimpleFuzzerFuzzyParser(r)
-        for (i in 1..10) {
-            println(fuzzer.Select())
-        }
+@Test
+internal fun generateSamples() {
+    val r = Random()
+    r.setSeed(42L)
+    val fuzzer = SimpleFuzzerFuzzyParser(r)
+    for (i in 1..10) {
+        println(fuzzer.Select().joinToString(" "))
     }
+}
 }
