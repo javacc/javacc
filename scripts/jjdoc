@@ -1,5 +1,5 @@
 #!/bin/sh
-JAR="`dirname $0`/lib/javacc.jar"
+JAR="`dirname $0`/../target/javacc.jar"
 
 case "`uname`" in
      CYGWIN*) JAR="`cygpath --windows -- "$JAR"`" ;;

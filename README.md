@@ -177,15 +177,19 @@ or
 $ tar xvf javacc-7.0.5.tar.gz
 ```
 
-Once you have completed installation add the `bin/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
+Then place the binary `javacc-7.0.5.jar` in a new `target/` folder, and rename to `javacc.jar`.
 
-#### <a name="binary-distribution"></a>Binary Distribution
+Once you have completed installation add the `scripts/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
 
-The binary distributions contain the JavaCC, JJTree and JJDoc sources, launcher scripts, example grammars and documentation. It also contains a bootstrap version of JavaCC needed to build JavaCC.
+On UNIX based systems, the scripts may not be executable immediately. This can be solved by using the command from the `javacc-7.0.5/` directory:
 
-On Unix-based systems, you need to make sure the files in the `bin/` directory of the distribution are in your path.
+```
+chmod +x scripts/javacc
+```
 
 ### <a name="building-from-source"></a>Building JavaCC from Source
+
+The source contain the JavaCC, JJTree and JJDoc sources, launcher scripts, example grammars and documentation. It also contains a bootstrap version of JavaCC needed to build JavaCC.
 
 Prerequisites for building JavaCC:
 
