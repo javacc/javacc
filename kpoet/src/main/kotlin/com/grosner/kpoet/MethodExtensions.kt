@@ -56,11 +56,13 @@ fun MethodSpec.Builder.`while`(statement: String, function: MethodMethod) =
     beginControl("while", statement = statement, function = function).endControlFlow()!!
 
 infix inline fun MethodSpec.Builder.`else`(function: MethodMethod)
-        = nextControl("else", function = function)
+        = nextControl("else", function = function).end()
 
 inline fun MethodSpec.Builder.`else if`(statement: String, vararg args: Any?,
                                         function: MethodMethod)
         = nextControl("else if", statement = statement, args = *args, function = function)
+
+fun MethodSpec.Builder.`end if`() = endControlFlow()
 
 fun MethodSpec.Builder.end(statement: String = "", vararg args: Any?)
         = (if (statement.isBlank().not()) endControlFlow(statement, *args) else endControlFlow())!!
@@ -86,10 +88,10 @@ inline fun MethodSpec.Builder.default(function: MethodMethod)
         = beginControlFlow("default:").apply(function).endControlFlow()!!
 
 fun MethodSpec.Builder.`throw new`(type: KClass<*>, statement: String, vararg arg: Any?)
-        = addStatement("throw new \$T(\"$statement\")", type.java, *arg)!!
+        = addStatement("throw new \$T($statement)", type.java, *arg)!!
 
 fun MethodSpec.Builder.`throw new`(type: ClassName, statement: String, vararg arg: Any?)
-        = addStatement("throw new \$T(\"$statement\")", type, *arg)!!
+        = addStatement("throw new \$T($statement)", type, *arg)!!
 
 fun MethodSpec.Builder.`@`(kClass: KClass<*>, annotationMethod: AnnotationMethod = { })
         = addAnnotation(AnnotationSpec.builder(kClass.java).apply(annotationMethod).build())!!

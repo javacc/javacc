@@ -196,11 +196,11 @@ fun `protected`(type: TypeName, name: String, vararg params: ParameterSpec.Build
 
 fun TypeSpec.Builder.`protected`(type: KClass<*>, name: String, vararg params: ParameterSpec.Builder,
                                  codeMethod: MethodMethod = { })
-        = addMethod(applyParams(listOf(protected), type, name, params = *params, function = codeMethod))!!
+        = applyParams(listOf(protected), type, name, params = *params, function = codeMethod).also { addMethod(it) }
 
 fun TypeSpec.Builder.`protected`(type: TypeName, name: String, vararg params: ParameterSpec.Builder,
                                  codeMethod: MethodMethod = { })
-        = addMethod(applyParams(listOf(protected), type, name, params = *params, function = codeMethod))!!
+        = applyParams(listOf(protected), type, name, params = *params, function = codeMethod).also { addMethod(it) }
 
 fun TypeSpec.Builder.`protected field`(type: KClass<*>, name: String, codeMethod: FieldMethod = { })
         = applyFieldParams(listOf(protected), type, name, codeMethod).also { addField(it) }
