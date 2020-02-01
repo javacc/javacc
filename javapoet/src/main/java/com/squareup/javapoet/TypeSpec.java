@@ -50,6 +50,7 @@ public final class TypeSpec {
   public final String name;
   public final CodeBlock anonymousTypeArguments;
   public final CodeBlock javadoc;
+  public final CodeBlock body;
   public final List<AnnotationSpec> annotations;
   public final Set<Modifier> modifiers;
   public final List<TypeVariableName> typeVariables;
@@ -70,6 +71,7 @@ public final class TypeSpec {
     this.name = builder.name;
     this.anonymousTypeArguments = builder.anonymousTypeArguments;
     this.javadoc = builder.javadoc.build();
+    this.body = builder.body.build();
     this.annotations = Util.immutableList(builder.annotations);
     this.modifiers = Util.immutableSet(builder.modifiers);
     this.typeVariables = Util.immutableList(builder.typeVariables);
@@ -104,6 +106,7 @@ public final class TypeSpec {
     this.name = type.name;
     this.anonymousTypeArguments = null;
     this.javadoc = type.javadoc;
+    this.body = type.body;
     this.annotations = Collections.emptyList();
     this.modifiers = Collections.emptySet();
     this.typeVariables = Collections.emptyList();
@@ -167,6 +170,7 @@ public final class TypeSpec {
   public Builder toBuilder() {
     Builder builder = new Builder(kind, name, anonymousTypeArguments);
     builder.javadoc.add(javadoc);
+    builder.body.add(body);
     builder.annotations.addAll(annotations);
     builder.modifiers.addAll(modifiers);
     builder.typeVariables.addAll(typeVariables);
@@ -277,7 +281,9 @@ public final class TypeSpec {
           codeWriter.emit("\n");
         }
       }
-
+      if (!body.isEmpty()) {
+        codeWriter.emit(body);
+      }
       // Static fields.
       for (FieldSpec fieldSpec : fieldSpecs) {
         if (!fieldSpec.hasModifier(Modifier.STATIC)) continue;
@@ -415,6 +421,7 @@ public final class TypeSpec {
     private TypeName superclass = ClassName.OBJECT;
     private final CodeBlock.Builder staticBlock = CodeBlock.builder();
     private final CodeBlock.Builder initializerBlock = CodeBlock.builder();
+    private final CodeBlock.Builder body = CodeBlock.builder();
 
     public final Map<String, TypeSpec> enumConstants = new LinkedHashMap<>();
     public final List<AnnotationSpec> annotations = new ArrayList<>();
@@ -621,6 +628,16 @@ public final class TypeSpec {
           .add(block)
           .unindent()
           .add("}\n");
+      return this;
+    }
+
+    public Builder addBody(String format, Object... args) {
+      body.add(format, args);
+      return this;
+    }
+
+    public Builder addBody(CodeBlock block) {
+      body.add(block);
       return this;
     }
 
