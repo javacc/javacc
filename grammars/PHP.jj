@@ -1,257 +1,638 @@
-PARSER_BEGIN(PetalParser)
-package cb.parser;
+/*
 
-import cb.petal.*;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Stack;
+  PHP grammar defintion for use with JavaCC
+  By Satyam (satyam@satyam.com.ar)
 
-/**
- * Parser for Rational Rose Petal files.
- *
- * @version $Id: PetalParser.jj,v 1.11 2001/06/18 15:20:05 dahm Exp $
- * @author  <A HREF="mailto:markus.dahm@berlin.de">M. Dahm</A>
- */
-public class PetalParser {
-  private static PetalNode current_parent = null;
-  private static Stack parent_stack = new Stack(); // Stack<PetalNode>
+  This is a partial grammar which I meant to use in a project of mine.
+  I refined it a little bit beyond my specific need, but didn't go to the very end.
+  It works for the purpose of my project, but it is not complete.
 
-  private static PetalParser instance;
-  private static ObjectFactory factory = ObjectFactory.getInstance();
+  It was tested by parsing all the source files in the PHP 5.0 test suite,
+  and a couple of other applications (a CMS and an image gallery).
+  Some files in these sets were skipped because they use syntax not supported
+  in this parser, as noted in the TODO lists below.
 
-  public static PetalFile parse(String file_name)
-    throws IOException, ParseException
-  {
-    return parse(new FileInputStream(file_name));
-  }
 
-  public static PetalFile parse(java.net.URL url)
-    throws IOException, ParseException
-  {
-    return parse(url.openStream());
-  }
+TODO:
 
-  public static PetalFile parse(File file)
-    throws IOException, ParseException
-  {
-    return parse(new FileInputStream(file));
-  }
+- Alternate notation for control flow, if: endif, etc.
+- Curly braces to disambiguate variable variable array references: ${$a[1]} against ${$a}[1]
+- Notice comment on line 555
+- There are a couple of warnings when compiling which I wasn't able to solve nor was I able
+  to figure out if they mattered at all.
+*/
 
-  public static PetalFile parse(InputStream stream) throws ParseException {
-    if(instance == null)
-      instance = new PetalParser(stream);
-    else
-      instance.ReInit(stream);
-
-    return instance.parse();
-  }
-
-  private static void saveParent(PetalNode new_parent) {
-    parent_stack.push(current_parent);
-    current_parent = new_parent;
-  }
-
-  private static void restoreParent() {
-    current_parent = (PetalNode)parent_stack.pop();
-  }
-
+options {
+  DEBUG_PARSER = true;
+  DEBUG_LOOKAHEAD = false;
+  DEBUG_TOKEN_MANAGER = false;
 }
-PARSER_END(PetalParser)
 
-<DEFAULT> SKIP : /* WHITE SPACE */
+
+PARSER_BEGIN(PHP)
+
+import java.util.*;
+
+public  class PHP {
+	private static PHP parser ;
+
+	public static void main ( String args [ ] ) {
+
+		if(args.length == 0){
+			System.out.println("PHP Parser Version 0.1Alpha:  Reading from standard input . . .");
+			parser = new PHP(System.in);
+		} else if (args.length == 1) {
+			System.out.println("PHP Parser Version 0.1Alpha:  Reading from file " + args[0] + " . . ." );
+			try {
+				parser = new PHP(new java.io.FileInputStream(args[0]));
+			}
+			catch(java.io.FileNotFoundException e){
+				System.out.println("PHP Parser Version 0.1:  File " + args[0] + " not found.");
+				return ;
+			}
+		} else {
+			System.out.println("PHP Parser Version 0.1Alpha:  Usage is one of:");
+			System.out.println("         java PHP < inputfile");
+			System.out.println("OR");
+			System.out.println("         java PHP inputfile");
+			return ;
+		}
+		parser.token_source.SwitchTo(HTML_STATE);
+		try {
+			parser.PhpPage();
+			System.out.println("PHP Parser Version 0.1Alpha:  PHP program parsed successfully.");
+		}
+		catch(ParseException e) {
+			System.out.println("PHP Parser Version 0.1Alpha:  Encountered errors during parse.");
+			System.out.println(e.getMessage());
+		}
+	}
+}
+
+PARSER_END(PHP)
+
+TOKEN_MGR_DECLS : {
+	static String HereDocEnd;
+}
+
+<HTML_STATE> TOKEN [IGNORE_CASE]: {
+	<PHP_BEGIN: "<?" ("php")?> : DEFAULT  |
+	<PHP_EXPR: "<?=" > : DEFAULT |
+	<HTML_OTHER: "<" ~[] >
+}
+
+<HTML_STATE> TOKEN : {
+	<HTML: (~["<"] | "<" ~["?"])+ >
+}
+
+<DEFAULT> SKIP :
+{	" "
+|	"\t"
+|	"\n"
+|	"\r"
+|	<SLASH_SLASH_COMMENT: "//" (~["\n","\r"])* ("\n" | "\r" | "\r\n")>
+|	<NUMERAL_COMMENT: "#" (~["\n","\r"])* ("\n" | "\r" | "\r\n")>
+|	<SLASH_STAR_COMMENT: "/*" (~["*"])* "*" ("*" | ~["*","/"] (~["*"])* "*")* "/">
+}
+
+<DEFAULT> TOKEN :
+{	<INTEGER_LITERAL: <DECIMAL_LITERAL> (["l","L"])? | <HEX_LITERAL> (["l","L"])? | <OCTAL_LITERAL> (["l","L"])?>
+|  		<#DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])*>
+|  		<#HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+>
+|  		<#OCTAL_LITERAL: "0" (["0"-"7"])*>
+|  	<FLOATING_POINT_LITERAL: (["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)? (["f","F","d","D"])? | "." (["0"-"9"])+ (<EXPONENT>)? (["f","F","d","D"])? | (["0"-"9"])+ <EXPONENT> (["f","F","d","D"])? | (["0"-"9"])+ (<EXPONENT>)? ["f","F","d","D"]>
+|  		<#EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+>
+|  	<DOUBLE_STRING_LITERAL_START: "\""> : DOUBLE_STRING_LITERAL
+|  	<SINGLE_STRING_LITERAL_START: "'">  : SINGLE_STRING_LITERAL
+| 	<HEREDOC_START: "<<<"> : HEREDOC1
+}
+
+<SINGLE_STRING_LITERAL> MORE: {
+	<"\\">: SSL_SPECIAL
+}
+
+<SINGLE_STRING_LITERAL> TOKEN: {
+	<SINGLE_STRING_LITERAL_END: "'">: DEFAULT
+}
+
+<SINGLE_STRING_LITERAL> MORE:
+{	<(~[])>
+}
+
+<SSL_SPECIAL> MORE:
+{	<["'" , "\\"] > : SINGLE_STRING_LITERAL
+|	< ~[]> : SINGLE_STRING_LITERAL
+}
+
+<DOUBLE_STRING_LITERAL> TOKEN: {
+	<DOUBLE_STRING_LITERAL_END: "\""> : DEFAULT
+}
+
+<DOUBLE_STRING_LITERAL> TOKEN:
+{	<DSL_SIMPLE_VAR_START: "$"> :DSL_SIMPLE_VAR
+|	<DSL_COMPLEX_VAR_START: ("{$" | "${") > :DSL_COMPLEX_VAR
+}
+
+<DOUBLE_STRING_LITERAL> MORE: {
+	<"\\"> : DSL_SPECIAL
+}
+
+<DOUBLE_STRING_LITERAL> MORE: {
+	<TEXT: (~[])>
+}
+
+<DSL_COMPLEX_VAR> TOKEN: {
+	<DSL_COMPLEX_VAR_END: "}"> :DOUBLE_STRING_LITERAL
+}
+
+<DSL_COMPLEX_VAR> MORE: {
+	<DSL_CV_TEXT: (~[])>
+}
+
+<DSL_SIMPLE_VAR> TOKEN:
+{	<DSL_SIMPLE_VAR_END: <IDENTIFIER> ("[" <IDENTIFIER> "]") ? > :DOUBLE_STRING_LITERAL
+}
+
+<DSL_SIMPLE_VAR> TOKEN:
+{	<DSL_SIMPLE_STRING_VAR_END: "\""> :DEFAULT
+}
+
+<DSL_SIMPLE_VAR> TOKEN:
+{ 	<DSL_SIMPLE_VAR_WASNT: ~[]> :DOUBLE_STRING_LITERAL
+}
+
+<DSL_SPECIAL> MORE: {
+	<["n","t","b","r","f","\\","\"","$","{"]> :DOUBLE_STRING_LITERAL  |
+	<(["0"-"7"] (["0"-"7"])? | ["0"-"3"] ["0"-"7"] ["0"-"7"])> :DOUBLE_STRING_LITERAL |
+	<("x" | "X") ["0"-"9","A"-"F","a"-"f"](["0"-"9","A"-"F","a"-"f"])?> :DOUBLE_STRING_LITERAL |
+	< ~[]>:DOUBLE_STRING_LITERAL
+}
+
+
+<HEREDOC1> SKIP: {
+	<HD1: <IDENTIFIER>> {
+		HereDocEnd = image.toString();
+	} :HEREDOC
+}
+<HEREDOC> SKIP: {
+	<~["\n"]> |
+	<"\n"> :HEREDOC2
+}
+
+<HEREDOC, HEREDOC2> SKIP: {
+	< "\r" | " " >
+}
+
+<HEREDOC2> SKIP: {
+	<"\n"> |
+	<HD2: <IDENTIFIER>>
+	 {
+		SwitchTo( HereDocEnd.equals(image.toString()) ? DEFAULT : HEREDOC ) ;
+	} |
+	<~[] > :HEREDOC
+}
+
+<DEFAULT> TOKEN : {
+	<REQUIRE_ONCE: "require_once"> |
+	<REQUIRE: "require"> |
+	<INCLUDE_ONCE: "include_once"> |
+	<INCLUDE: "include"> |
+
+	<DEFINE: "define"> |
+
+	<ECHO: "echo"> |
+	<PRINT: "print"> |
+
+	<SWITCH: "switch"> |
+	<CASE: "case"> |
+	<DFLT: "default"> |
+	<BREAK: "break"> |
+
+	<RETURN: "return"> |
+
+	<DO: "do"> |
+
+	<WHILE: "while"> |
+
+	<FOREACH: "foreach"> |
+	<AS: "as"> |
+
+	<FOR: "for"> |
+	<CONTINUE: "continue"> |
+
+	<IF: "if"> |
+	<ELSE: "else"> |
+	<ELSEIF: "elseif"> |
+	<AND: "and"> |
+	<OR: "or"> |
+	<XOR: "xor"> |
+	<NOT: "not"> |
+
+	<FUNCTION: "function"> |
+
+	<CLASS: "class"> |
+	<EXTENDS: "extends" > |
+	<VAR: "var"> |
+	<PUBLIC: "public"> |
+	<PRIVATE: "private"> |
+	<PROTECTED: "protected"> |
+	<ABSTRACT: "abstract"> |
+	<FINAL: "final" > |
+	<STATIC: "static" > |
+	<INTERFACE: "interface"> |
+	<IMPLEMENTS: "implements"> |
+	<CONST: "const" > |
+	<CLONE: "clone" > |
+	<INSTANCEOF: "instanceof" > |
+
+	<GLOBAL: "global"> |
+
+	<ARRAY: "array"> |
+
+	<NEW: "new" > |
+
+	<PREDEFINED_CONSTANT: "null" | "true" | "false" > |
+
+	<PHP_END: "?>"  > : HTML_STATE |
+	<DOLLAR: "$" > :VAR_NAME_STATE |
+	<SEMICOLON: ";">
+| 	<TRY: "try">
+|	<CATCH: "catch">
+|	<THROW: "throw">
+}
+
+<VAR_NAME_STATE> TOKEN : 
+{	<VAR_NAME: <LETTER1> (<LETTER1> | <DIGIT1>)*> : DEFAULT
+|  		<#LETTER1: ["A"-"Z","_","a"-"z"]>
+|  		<#DIGIT1: ["0"-"9"]>
+|	<DOLLAR1: "$">
+}
+
+<DEFAULT> TOKEN: {
+	<VARTYPE: ("boolean" | "bool" | "integer" | "int" | "float" | "double" | "real" | "string" )>
+}
+
+
+<DEFAULT> TOKEN : {
+ 	<IDENTIFIER: <LETTER> (<LETTER> | <DIGIT>)*>
+|  		<#LETTER: ["A"-"Z","_","a"-"z"]>
+|  		<#DIGIT: ["0"-"9"]>
+}
+
+void PhpPage() : {}
 {
-  " " | "\t" | "\f"
+	(HtmlBlock())*
+	(
+		<PHP_BEGIN> (Statement())*
+	| 	<EOF>
+	)
 }
 
-/* \r and \n are not just skipped because they may be significant
- * in recognizing multi-line strings (starting with |)
- */
-SPECIAL_TOKEN : { <NEWLINE: "\n"> | <CR: "\r"> }
-
-/** Top level construct are always petal and design objects
- */
-PetalFile parse() :
-{
-  PetalObject petal, design;
-  PetalFile file = new PetalFile();
-  current_parent = file;
-}
-{
-  petal  = parseObject()
-  design = parseObject()
-  {
-    file.setPetal((Petal)petal);
-    file.setDesign((Design)design);
-    return file;
-  }
+void HtmlBlock() : {}
+{	<HTML>
+|	<HTML_OTHER>
+|	<PHP_EXPR> Expression() <PHP_END>
 }
 
-/* Example: (object ClassView "Class" "Use Case View::Student" @76	
- *             location   	(160, 176))
- */
-PetalObject parseObject() :
+void Statement() : {}
 {
-  PetalObject obj;
-  ArrayList   docs = new ArrayList();
-  Token       t1, t2=null, t3=null, t4=null;
-  PetalNode prop;
-}
-{
-  /* Object header
-   */
-  "(object" t1 = <IDENTIFIER> 
-    (t2 = <STRING> { docs.add(t2.image); })*
-    [t3 = <TAG>] {
-      obj = factory.createObject(current_parent, t1.image, docs,
-				 t3 == null? null : t3.image);
-      saveParent(obj);
-    }
-
-  /* List of properties
-   */
-  (t4   = <IDENTIFIER>
-   prop = parseValue()
-   { obj.addProperty(t4.image, prop); })*
-  
-  ")"
-  {
-    restoreParent();
-    obj.init();
-    return obj;
-  }
+	LOOKAHEAD(2) LabeledStatement() |
+	LOOKAHEAD(2) ClassDeclaration() |
+	LOOKAHEAD(2) InterfaceDeclaration() |
+	LOOKAHEAD(2) ExpressionStatement() |
+	CompoundStatement() |
+	SelectionStatement() |
+	IterationStatement() |
+	JumpStatement() |
+	IncludeStatement() |
+	EchoStatement() |
+	DefineStatement() |
+	MemberDeclaration()
+|	ThrowStatement()
+| 	TryBlock()
+|	EndOfStatement()
 }
 
-PetalNode parseValue() :
+void  ThrowStatement() : {}
 {
-  PetalNode p;
-}
-{
-   ( (p = parseObject())
-   | (p = parseList()) 
-   | LOOKAHEAD(2) (p = parseLiteral())
-   | (p = parseTuple())
-   | (p = parseValueObject()))
-   {
-     return p; 
-   }
+	<THROW> ClassInstantiation() EndOfStatement()
 }
 
-/* Example: (list unit_reference_list (object Module_Diagram "Main"
- *		quid       	"35CB163B03CF"))
- *
- */
-List parseList() :
+void TryBlock() : {}
 {
-  List      list;
-  Token     t=null;
-  PetalNode obj;
-}
-{
-  "(list" [t = <IDENTIFIER>] {
-    list = factory.createList(t == null ? null : t.image);
-  }
-
-  (obj = parseValue() { list.add(obj); })*
-  ")"
-  {
-    return list;
-  }
+	<TRY> CompoundStatement() (<CATCH> "(" <IDENTIFIER> Variable() ")" CompoundStatement())+
 }
 
-Value parseValueObject() :
+void EndOfStatement() : {}
 {
-  StringLiteral str;
-  Token         t1;
-  Value         value;
-}
-{
-  "(value" t1 = <IDENTIFIER> str = parseString() ")"
-  {
-    value = factory.createValue(t1.image, str);
-    return value;
-  }
+	";" | EmbeddedHtml()
 }
 
-Tuple parseTuple() :
-{
-  Token t1, t2;
-}
-{
-  "(" t1 = <STRING> t2 = <INTEGER> ")"
-  {
-    return factory.createTuple(t1.image, t2.image);
-  }
+void EmbeddedHtml() : {}
+{	<PHP_END>  ( <HTML>  | <HTML_OTHER> )*
+	(
+		<PHP_BEGIN>
+	|	<EOF>
+	)
 }
 
-PetalNode parseLiteral() :
+void DefineStatement() : {}
 {
-  Token t, t1, t2;
-  StringLiteral str;
-}
-{
-  str = parseString()  { return str; }
-|
-  t = <INTEGER> { return factory.createInteger(t.image); }
-|
-  t = <FLOAT>   { return factory.createFloat(t.image); }
-|
-  t = <BOOLEAN> { return factory.createBoolean(t.image); }
-|
-  t = <TAG>   { return factory.createTag(t.image); }
-|
-  "(" t1 = <INTEGER> "," t2 = <INTEGER> ")"
-  {
-    return factory.createLocation(t1.image, t2.image);
-  }
+	<DEFINE> "(" String() "," Expression() ")" EndOfStatement()
 }
 
-StringLiteral parseString() :
+void LabeledStatement() : {}
 {
-  Token t;
-}
-{
-  t = <STRING> { return factory.createString(t.image, false); }
-| 
-  t = <MULTI_STRING> { return factory.createString(t.image, true); }
+	<CASE> Expression() ":" Statement() |
+	<DFLT> ":" Statement()
 }
 
-TOKEN : /* LITERALS */
+void ExpressionStatement() : {}
 {
-  < INTEGER:    <PLUSMINUS> (<DIGIT>)+ >
-|
-  < FLOAT:      <PLUSMINUS> (<DIGIT>)+ "." (<DIGIT>)* >
-|
-  < BOOLEAN:    ("FALSE" | "TRUE") >
-|
-  < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
-|
-  < TAG:      "@" (<DIGIT>)+ >
-|
-  < STRING: ("\"") (<IN_STRING>)* ("\"") >
-|
-  /* Parse special case, like in:
-   * (value Text 
-   * |// $package
-   * |#include "$file"
-   * |
-   * )
-   */
-  < MULTI_STRING: ("|" (<ANY>)* (<CR><NEWLINE>|<NEWLINE>))+ >
-|
-  < #IN_STRING: ((~["\"","\\","\n","\r"])
-        | ("\\"
-            ( ["n","t","b","r","f","\\","'","\""]
-            | ["0"-"7"] ( ["0"-"7"] )?
-            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
-            )
-          )
-      ) >
-|
-  < #LETTER:    [ "a"-"z", "A"-"Z", "_", "$" ] >
-|
-  < #ANY:    ~["\n","\r"] >
-|
-  < #DIGIT:     [ "0"-"9"] >
-|
-  < #PLUSMINUS: (["+", "-"])? >
+	Expression() EndOfStatement()
 }
+
+void CompoundStatement() : {}
+{
+	"{"
+	    ( Statement())*
+	"}"
+}
+
+void SelectionStatement() : {}
+{
+	<IF> "(" Expression() ")" Statement() ( LOOKAHEAD(2) <ELSEIF> "(" Expression() ")" Statement() )* [ LOOKAHEAD(2) <ELSE> Statement() ] |
+	<SWITCH> "(" Expression() ")" Statement()
+}
+
+void IterationStatement() : {}
+{
+	<WHILE> "(" Expression() ")" Statement() |
+	<DO> Statement() <WHILE> "(" Expression() ")" EndOfStatement() |
+	<FOR> "(" [ Expression() ] ";" [ Expression() ] ";" [ Expression() ] ")" Statement() |
+	<FOREACH> "(" [Expression() ] <AS> Variable() ( "=>" ["&"] Variable())? ")" Statement()
+}
+
+void JumpStatement() : {}
+{
+	<CONTINUE> [<INTEGER_LITERAL>] EndOfStatement() |
+	<BREAK> [<INTEGER_LITERAL>] EndOfStatement() |
+	<RETURN> [ Expression() ] EndOfStatement()
+}
+
+
+void ParameterList() : {}
+{
+	Parameter() (LOOKAHEAD(2) "," Parameter())*
+}
+
+void Parameter() : {}
+{
+	[<IDENTIFIER> ] ["&"] Variable() ( "=" Expression())?
+}
+
+
+void ClassDeclaration() : {}
+{
+	[<ABSTRACT> | <FINAL> ] <CLASS> <IDENTIFIER> [<EXTENDS> <IDENTIFIER>] [<IMPLEMENTS> <IDENTIFIER> ( "," <IDENTIFIER>) * ] ClassMembers()
+}
+
+void ClassMembers() : {}
+{
+	"{" (MemberDeclaration() )* "}"
+}
+
+void MemberDeclaration() : {}
+{
+	LOOKAHEAD( (<FINAL> | Visibility() | <STATIC> )* <FUNCTION>) (<FINAL> | Visibility() | <STATIC> )* <FUNCTION> ["&"]  <IDENTIFIER> "(" [ParameterList()] ")" CompoundStatement() |
+	LOOKAHEAD([Visibility()] <CONST>) [Visibility()] <CONST> <IDENTIFIER> "=" Expression()  EndOfStatement() |
+	(<VAR> | Visibility() | <STATIC> )* <DOLLAR> <VAR_NAME> [ "=" Expression() ] ("," <DOLLAR> <VAR_NAME> [ "=" Expression() ])* EndOfStatement() |
+	<GLOBAL> Variable() ("," Variable())* EndOfStatement() |
+	<ABSTRACT> [Visibility()] [<STATIC>] <FUNCTION> ["&"] <IDENTIFIER> "(" [ParameterList()] ")" EndOfStatement()
+
+}
+
+void InterfaceDeclaration() : {}
+{
+	<INTERFACE> <IDENTIFIER> [<EXTENDS> <IDENTIFIER> ("," <IDENTIFIER> )* ] InterfaceMembers()
+}
+
+void InterfaceMembers() : {}
+{
+	"{" ( [<PUBLIC>] InterfaceMember() EndOfStatement() )* "}"
+}
+
+void InterfaceMember() : {}
+{
+	[<ABSTRACT>] <FUNCTION> ["&"]  <IDENTIFIER> "(" [ParameterList()] ")" ["{" "}" ]|
+	<DOLLAR> <VAR_NAME> ("," <DOLLAR> <VAR_NAME>)* |
+	<CONST> <IDENTIFIER> "=" Expression()
+}
+
+void IncludeStatement() : {}
+{
+	["@"] ( <INCLUDE> | <INCLUDE_ONCE> | <REQUIRE> | <REQUIRE_ONCE>) (LOOKAHEAD(2) "(" Expression() ")" | Expression() ) EndOfStatement()
+}
+
+void EchoStatement() : {}
+{
+	(<ECHO> | <PRINT> ) ArgumentExpressionList() EndOfStatement()
+}
+
+void Expression() : {}
+{
+	 LogicalTextOrExpression()
+}
+
+void LogicalTextOrExpression() :{}
+{
+	LogicalTextXorExpression() [LOOKAHEAD(2) <OR> LogicalTextOrExpression() ]
+}
+
+void LogicalTextXorExpression() : {}
+{
+	LogicalTextAndExpression() [LOOKAHEAD(2) <XOR> LogicalTextXorExpression() ]
+}
+
+void LogicalTextAndExpression() : {}
+{
+	AssignmentExpression() [LOOKAHEAD(2) <AND> LogicalTextAndExpression() ]
+}
+
+void AssignmentExpression() : {}
+{
+	ConditionalExpression() [LOOKAHEAD(2) AssignmentOperator() Expression()]
+}
+
+void AssignmentOperator() : {}
+{
+	( "=" | "+=" | "-=" | "*=" | "/=" | ".=" | "%=" | "&=" | "|=" | "^=" | "<<=" | ">>=" )
+}
+
+void ConditionalExpression() : {}
+{
+	Logical_Or_Expression() [LOOKAHEAD(2) "?" Expression() ":" Expression() ]
+}
+
+
+void Logical_Or_Expression() : {}
+{
+	Logical_And_Expression() [LOOKAHEAD(2) "||" Logical_Or_Expression() ]
+}
+
+void Logical_And_Expression() : {}
+{
+	BitwiseOrExpression() [LOOKAHEAD(2) "&&" Logical_And_Expression() ]
+}
+
+void BitwiseOrExpression() : {}
+{
+	BitwiseXorExpression() [LOOKAHEAD(2) "|" BitwiseOrExpression() ]
+}
+
+void BitwiseXorExpression() : {}
+{
+	BitwiseAndExpression() [LOOKAHEAD(2) "^" BitwiseXorExpression() ]
+}
+
+void BitwiseAndExpression() : {}
+{
+	EqualityExpression() [LOOKAHEAD(2) "&" BitwiseAndExpression() ]
+}
+
+void EqualityExpression() : {}
+{
+	RelationalExpression() [LOOKAHEAD(2) ( "==" | "!=" | "===" | "!==" ) EqualityExpression() ]
+}
+
+void RelationalExpression() : {}
+{
+	ShiftExpression() [LOOKAHEAD(2) ( "<" | ">" | "<=" | ">=" ) RelationalExpression() ]
+}
+
+void ShiftExpression() : {}
+{
+	AdditiveExpression() [LOOKAHEAD(2) ( "<<" | ">>" ) ShiftExpression() ]
+}
+
+void AdditiveExpression() : {}
+{
+	MultiplicativeExpression() [LOOKAHEAD(2) ( "+" | "-" | "." ) AdditiveExpression() ]
+}
+
+void MultiplicativeExpression() : {}
+{
+	CastExpression() [LOOKAHEAD(2) ( "*" | "/" | "%" ) MultiplicativeExpression() ]
+}
+
+void CastExpression() : {}
+{
+	[ LOOKAHEAD("(" <VARTYPE> ")") "(" <VARTYPE> ")" ] UnaryExpression()
+}
+
+void UnaryExpression() : {}
+{
+	("&" | "-" | "~" | "!")* PrefixIncDecExpression()
+}
+
+void PrefixIncDecExpression() : {}
+{
+	("++" | "--" )* PostfixIncDecExpression()
+}
+
+void PostfixIncDecExpression() : {}
+{
+	 InstanceOfExpression() ("++" | "--" )*
+}
+
+void InstanceOfExpression() : {}
+{
+	PostfixExpression() [LOOKAHEAD(2) <INSTANCEOF> Expression() ]
+}
+
+void PostfixExpression() : {}
+{
+	PrimaryExpression() ( "("  ArgumentExpressionList() ")" |
+						  "->" PostfixExpression() | /* TODO: There is a problem here.  Variable members
+						  								can have reserved names since they are preceded
+						  								by a $, but the $ is ommitted here and this
+						  								parser will complain.  If you have declared:
+						  									private $array
+						  								you can have:
+														  	$this->array
+														which is fine with PHP,
+														but will generate an error in this parser */
+
+						  "::" PostfixExpression() |
+						  "[" [ Expression()] "]" |
+						  "{" Expression() "}"
+						 )*
+}
+
+void PrimaryExpression() : {}
+{
+
+	LOOKAHEAD(2) ["@"]  Variable() |
+	["@"] Constant() |
+	"(" Expression() ")" |
+	ClassInstantiation() |
+	Array()
+}
+
+void Array() : {}
+{
+	<ARRAY> "(" [Expression() ["=>" Expression() ]] ( "," Expression() ["=>" Expression()] )* ")"
+}
+
+void ClassInstantiation() : {}
+{
+	<NEW>  Expression() [LOOKAHEAD(3) "(" ArgumentExpressionList() ")"] |
+	<CLONE> Variable()
+}
+
+
+void Variable() : {}
+{
+	<DOLLAR> (<DOLLAR1>)* <VAR_NAME>
+}
+
+
+void ArgumentExpressionList() : {}
+{
+	[Expression()] ( "," Expression() )*
+}
+
+void Constant() : {}
+{
+	<INTEGER_LITERAL> | <FLOATING_POINT_LITERAL> | String() | <PREDEFINED_CONSTANT> | <IDENTIFIER>
+}
+
+void String() : {}
+{
+	DoubleStringLiteral() |
+	<SINGLE_STRING_LITERAL_START> <SINGLE_STRING_LITERAL_END>|
+	<HEREDOC_START>
+}
+
+void DoubleStringLiteral() : {}
+{
+	<DOUBLE_STRING_LITERAL_START> 
+	(
+		LOOKAHEAD(2) <DSL_SIMPLE_VAR_START> <DSL_SIMPLE_STRING_VAR_END>
+	|	(
+			<DSL_SIMPLE_VAR_START>
+		 	(
+				<DSL_SIMPLE_VAR_END>
+	|			<DSL_SIMPLE_VAR_WASNT>
+			)
+	|		<DSL_COMPLEX_VAR_START> <DSL_COMPLEX_VAR_END>
+		)* <DOUBLE_STRING_LITERAL_END>
+	)
+}
+
+void Visibility() : {}
+{
+	<PUBLIC> | <PRIVATE> | <PROTECTED>
+}
+
+
