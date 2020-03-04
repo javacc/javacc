@@ -1,6 +1,8 @@
 name: Java CI
 
-on: [push]
+on:
+  push:
+    branches: 8.0.0
 
 jobs:
   build:
