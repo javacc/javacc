@@ -29,6 +29,8 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.javacc.parser.Options;
+
 /**
  * Generates boiler-plate files from templates. Only very basic
  * template processing is supplied - if we need something more
@@ -202,7 +204,11 @@ public class OutputFileGenerator {
     text = substitute(text);
     }
 
-  // TODO :: Added by Sreenivas on 12 June 2013 for 6.0 release, merged in to 6.1 release for sake of compatibility by cainsley ... This needs to be removed urgently!!!
+    if (Options.isOutputLanguageJava() && Options.getGenerateStringBuilder()) {
+        text = text.replace("StringBuffer", "StringBuilder");
+    }
+
+    // TODO :: Added by Sreenivas on 12 June 2013 for 6.0 release, merged in to 6.1 release for sake of compatibility by cainsley ... This needs to be removed urgently!!!
     if (text.startsWith("\\#")) { // Hack to escape # for C++
       text = text.substring(1);
     }
