@@ -69,7 +69,6 @@ public class Options {
 	 * Options that the user can specify from .javacc file
 	 */
 
-	public static final String USEROPTION__PARSER_SUPER_CLASS = "PARSER_SUPER_CLASS";
 	public static final String USEROPTION__JAVA_TEMPLATE_TYPE = "JAVA_TEMPLATE_TYPE";
 	public static final String USEROPTION__GENERATE_BOILERPLATE = "GENERATE_BOILERPLATE";
 	public static final String USEROPTION__OUTPUT_LANGUAGE = "OUTPUT_LANGUAGE";
@@ -77,7 +76,6 @@ public class Options {
 	public static final String USEROPTION__TOKEN_MANAGER_CODE_GENERATOR = "TOKEN_MANAGER_CODE_GENERATOR";
 	public static final String USEROPTION__NO_DFA = "NO_DFA";
 	public static final String USEROPTION__STATIC = "STATIC";
-	public static final String USEROPTION__TOKEN_MANAGER_SUPER_CLASS = "TOKEN_MANAGER_SUPER_CLASS";
 	public static final String USEROPTION__LOOKAHEAD = "LOOKAHEAD";
 	public static final String USEROPTION__IGNORE_CASE = "IGNORE_CASE";
 	public static final String USEROPTION__UNICODE_INPUT = "UNICODE_INPUT";
@@ -92,7 +90,6 @@ public class Options {
 	public static final String USEROPTION__COMMON_TOKEN_ACTION = "COMMON_TOKEN_ACTION";
 	public static final String USEROPTION__FORCE_LA_CHECK = "FORCE_LA_CHECK";
 	public static final String USEROPTION__SANITY_CHECK = "SANITY_CHECK";
-	public static final String USEROPTION__TOKEN_MANAGER_USES_PARSER = "TOKEN_MANAGER_USES_PARSER";
 	public static final String USEROPTION__BUILD_TOKEN_MANAGER = "BUILD_TOKEN_MANAGER";
 	public static final String USEROPTION__BUILD_PARSER = "BUILD_PARSER";
 	public static final String USEROPTION__USER_CHAR_STREAM = "USER_CHAR_STREAM";
@@ -110,17 +107,20 @@ public class Options {
 	public static final String USEROPTION__TOKEN_EXTENDS = "TOKEN_EXTENDS";
 	public static final String USEROPTION__DEPTH_LIMIT = "DEPTH_LIMIT";
 
+	public static final String USEROPTION__TOKEN_MANAGER_USES_PARSER = "TOKEN_MANAGER_USES_PARSER";
+
+	public static final String USEROPTION__TOKEN_SUPER_CLASS = "TOKEN_SUPER_CLASS";
+	public static final String USEROPTION__PARSER_SUPER_CLASS = "PARSER_SUPER_CLASS";
+	public static final String USEROPTION__TOKEN_MANAGER_SUPER_CLASS = "TOKEN_MANAGER_SUPER_CLASS";
+	
 	public static final String USEROPTION__CPP_NAMESPACE = "NAMESPACE";
-	public static final String USEROPTION__CPP_TOKEN_INCLUDES = "TOKEN_INCLUDES";
-	public static final String USEROPTION__CPP_PARSER_INCLUDES = "PARSER_INCLUDES";
 	public static final String USEROPTION__CPP_IGNORE_ACTIONS = "IGNORE_ACTIONS";
-	public static final String USEROPTION__CPP_TOKEN_MANAGER_INCLUDES = "TOKEN_MANAGER_INCLUDES";
-	public static final String USEROPTION__CPP_TOKEN_MANAGER_SUPERCLASS = "TOKEN_MANAGER_SUPERCLASS";
 	public static final String USEROPTION__CPP_STOP_ON_FIRST_ERROR = "STOP_ON_FIRST_ERROR";
 	public static final String USEROPTION__CPP_STACK_LIMIT = "STACK_LIMIT";
 
 	public static final String USEROPTION__CPP_TOKEN_INCLUDE = "TOKEN_INCLUDE";
 	public static final String USEROPTION__CPP_PARSER_INCLUDE = "PARSER_INCLUDE";
+	public static final String USEROPTION__CPP_TOKEN_MANAGER_INCLUDE = "TOKEN_MANAGER_INCLUDE";
 	/**
 	 * Various constants relating to possible values for certain options
 	 */
@@ -155,8 +155,6 @@ public class Options {
 	static {
 		TreeSet<OptionInfo> temp = new TreeSet<OptionInfo>();
 
-		temp.add(new OptionInfo(USEROPTION__PARSER_SUPER_CLASS, OptionType.STRING, null));
-		temp.add(new OptionInfo(USEROPTION__TOKEN_MANAGER_SUPER_CLASS, OptionType.STRING, null));
 		temp.add(new OptionInfo(USEROPTION__LOOKAHEAD, OptionType.INTEGER, new Integer(1)));
 
 		temp.add(new OptionInfo(USEROPTION__CHOICE_AMBIGUITY_CHECK, OptionType.INTEGER,new Integer(2)));
@@ -197,21 +195,25 @@ public class Options {
 		temp.add(new OptionInfo(USEROPTION__OUTPUT_DIRECTORY, OptionType.STRING, "."));
 		temp.add(new OptionInfo(USEROPTION__JDK_VERSION, OptionType.STRING, "1.5"));
 
-		temp.add(new OptionInfo(USEROPTION__TOKEN_EXTENDS, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__TOKEN_FACTORY, OptionType.STRING, ""));
+		temp.add(new OptionInfo(USEROPTION__TOKEN_EXTENDS, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__GRAMMAR_ENCODING, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__OUTPUT_LANGUAGE, OptionType.STRING, OUTPUT_LANGUAGE__JAVA));
 		language = Language.java;
 
 		temp.add(new OptionInfo(USEROPTION__JAVA_TEMPLATE_TYPE, OptionType.STRING, JAVA_TEMPLATE_TYPE_CLASSIC));
 		temp.add(new OptionInfo(USEROPTION__CPP_NAMESPACE, OptionType.STRING, ""));
-		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_INCLUDES, OptionType.STRING, ""));
-		temp.add(new OptionInfo(USEROPTION__CPP_PARSER_INCLUDES, OptionType.STRING, ""));
+		
+		temp.add(new OptionInfo(USEROPTION__TOKEN_SUPER_CLASS, OptionType.STRING, null));
+		temp.add(new OptionInfo(USEROPTION__PARSER_SUPER_CLASS, OptionType.STRING, null));
+		temp.add(new OptionInfo(USEROPTION__TOKEN_MANAGER_SUPER_CLASS, OptionType.STRING, null));
 
-		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_MANAGER_INCLUDES, OptionType.STRING, ""));
+		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_INCLUDE, OptionType.STRING, ""));
+		temp.add(new OptionInfo(USEROPTION__CPP_PARSER_INCLUDE, OptionType.STRING, ""));
+		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_MANAGER_INCLUDE, OptionType.STRING, ""));
+
 		temp.add(new OptionInfo(USEROPTION__CPP_IGNORE_ACTIONS, OptionType.BOOLEAN, Boolean.FALSE));
 		temp.add(new OptionInfo(USEROPTION__CPP_STOP_ON_FIRST_ERROR, OptionType.BOOLEAN, Boolean.FALSE));
-		temp.add(new OptionInfo(USEROPTION__CPP_TOKEN_MANAGER_SUPERCLASS, OptionType.STRING, ""));
 
 		temp.add(new OptionInfo(USEROPTION__DEPTH_LIMIT, OptionType.INTEGER, new Integer(0)));
 		temp.add(new OptionInfo(USEROPTION__CPP_STACK_LIMIT, OptionType.STRING, ""));

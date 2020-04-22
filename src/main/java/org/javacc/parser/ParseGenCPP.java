@@ -46,7 +46,7 @@ public void start() throws MetaParseException {
     genCodeLine("#include \"TokenManager.h\"");
 
 
-    Object object = Options.objectValue(Options.USEROPTION__CPP_PARSER_INCLUDES);
+    Object object = Options.objectValue(Options.USEROPTION__CPP_PARSER_INCLUDE);
 
     if (object instanceof String) {
     	String include = (String)object;
@@ -56,15 +56,6 @@ public void start() throws MetaParseException {
     		else
     			genCodeLine("#include \"" + include + "\"");
     	}
-    } else
-    if (object instanceof List<?>) {
-    	for(String include : (List<String>)object)
-        	if (include.length() > 0) {
-        		if (include.charAt(0) == '<')
-        			genCodeLine("#include " + include);
-        		else
-        			genCodeLine("#include \"" + include + "\"");
-        	}
     }
 
     genCodeLine("#include \"" + cu_name + "Constants.h\"");

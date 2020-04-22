@@ -69,8 +69,8 @@ public class LexGenCPP extends LexGen //CodeGenerator implements JavaCCParserCon
     genCodeLine("#include \"TokenManager.h\"");
     genCodeLine("#include \"" + cu_name + "Constants.h\"");
 
-    if (Options.stringValue(Options.USEROPTION__CPP_TOKEN_MANAGER_INCLUDES).length() > 0) {
-      genCodeLine("#include \"" + Options.stringValue(Options.USEROPTION__CPP_TOKEN_MANAGER_INCLUDES) + "\"\n");
+    if (Options.stringValue(Options.USEROPTION__CPP_TOKEN_MANAGER_INCLUDE).length() > 0) {
+      genCodeLine("#include \"" + Options.stringValue(Options.USEROPTION__CPP_TOKEN_MANAGER_INCLUDE) + "\"\n");
     }
 
     genCodeLine("");
