@@ -92,7 +92,10 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 ### MODIFICATIONS IN VERSION <a name="javacc-7.0.6"></a>7.0.6
 
 ---
-
+The following changes are not upward compatible with the previous 7.0.5 version but have 
+a very little impact on existing grammars. Main advantage is to prepare a more smooth upgrade
+with the upcoming javacc-8.0.0 major release.
+ 
 * C++ generation: renaming the option TOKEN_EXTENDS          by TOKEN_SUPER_CLASS
 * C++ generation: renaming the option TOKEN_INCLUDES         by TOKEN_INCLUDE 
 * C++ generation: renaming the option PARSER_INCLUDES        by PARSER_INCLUDE 
