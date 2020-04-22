@@ -35,11 +35,11 @@ options {
   NAMESPACE = "java::parser";
   OUTPUT_DIRECTORY = "gen";
   TOKEN_MANAGER_SUPER_CLASS = "MyTm";
-  TOKEN_MANAGER_INCLUDES = "mytm.h";
-  PARSER_INCLUDES = "myparser.h";
+  TOKEN_MANAGER_INCLUDE = "mytm.h";
+  PARSER_INCLUDE = "myparser.h";
   PARSER_SUPER_CLASS = "MyParser";
-  TOKEN_EXTENDS = "TokenBase";
-  TOKEN_INCLUDES = "token_base.h";
+  TOKEN_SUPER_CLASS = "TokenBase";
+  TOKEN_INCLUDE = "token_base.h";
 }
 
 PARSER_BEGIN(JavaParser)

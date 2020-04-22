@@ -174,7 +174,7 @@ public class CPPFiles extends JavaCCGlobals implements JavaCCParserConstants
   }
 
   public static void gen_Token() {
-    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC, Options.USEROPTION__CPP_TOKEN_INCLUDES, Options.USEROPTION__TOKEN_EXTENDS};
+    String[] parameters = new String[] {Options.USEROPTION__STATIC, Options.USEROPTION__SUPPORT_CLASS_VISIBILITY_PUBLIC, Options.USEROPTION__CPP_TOKEN_INCLUDE, Options.USEROPTION__TOKEN_SUPER_CLASS};
     genFile("Token.h", tokenMgrErrorVersion, parameters);
     genFile("Token.cc", tokenMgrErrorVersion, parameters);
   }

@@ -3,8 +3,8 @@
 
 \#include "JavaCC.h"
 
-#if TOKEN_INCLUDES
-\#include "${TOKEN_INCLUDES}"
+#if TOKEN_INCLUDE
+\#include "${TOKEN_INCLUDE}"
 #fi
 
 #if NAMESPACE
@@ -16,8 +16,8 @@ namespace ${NAMESPACE_OPEN}
  */
 
 class Token
-#if TOKEN_EXTENDS
- : public ${TOKEN_EXTENDS}
+#if TOKEN_SUPER_CLASS
+ : public ${TOKEN_SUPER_CLASS}
 #fi
 {
  public:
