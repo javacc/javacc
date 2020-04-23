@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.java.dev.javacc</groupId>
 	<artifactId>javacc</artifactId>
 	<name>JavaCC</name>
-	<version>7.0.6</version>
+	<version>7.0.6-SNAPSHOT</version>
 
 	<description>JavaCC is a parser/scanner generator for java. </description>
 	<url>https://github.com/javacc/javacc</url>
@@ -21,7 +22,7 @@
 		<url>git@github.com/javacc/javacc.git</url>
 		<connection>scm:git:git@github.com/javacc/javacc.git</connection>
 		<developerConnection>scm:git:git@github.com/javacc/javacc.git</developerConnection>
-		<tag>javacc-7.0.6</tag>
+		<tag>HEAD</tag>
 	</scm>
 	<mailingLists>
 		<mailingList>
@@ -96,7 +97,7 @@
 	<contributors>
 		<contributor>
 			<name>Markus Brigl</name>
-			<email />
+			<email></email>
 		</contributor>
 		<contributor>
 			<name>Martin Swanson</name>
@@ -294,7 +295,8 @@
 										<include name="*.idl" />
 									</fileset>
 								</copy>
-								<java failonerror="true" fork="true" classname="IDLParser" classpath="test.tmp/CORBA-IDL/" outputproperty="test.corba.out">
+								<java failonerror="true" fork="true" classname="IDLParser" classpath="test.tmp/CORBA-IDL/"
+									outputproperty="test.corba.out">
 									<arg line="test.tmp/CORBA-IDL/Hello.idl" />
 								</java>
 								<echo>${test.corba.out}</echo>
@@ -349,7 +351,8 @@
 										<include name="*.spl" />
 									</fileset>
 								</copy>
-								<java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="3" outputproperty="spl.out1">
+								<java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="3"
+									outputproperty="spl.out1">
 									<arg line="test.tmp/Interpreter/fact.spl" />
 								</java>
 								<echo>${spl.out1}</echo>
@@ -360,7 +363,8 @@
 										</not>
 									</condition>
 								</fail>
-								<java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="3" outputproperty="spl.out2">
+								<java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="3"
+									outputproperty="spl.out2">
 									<arg line="test.tmp/Interpreter/odd.spl" />
 								</java>
 								<echo>${spl.out2}</echo>
@@ -371,7 +375,8 @@
 										</not>
 									</condition>
 								</fail>
-								<java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="9" outputproperty="spl.out3">
+								<java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="9"
+									outputproperty="spl.out3">
 									<arg line="test.tmp/Interpreter/sqrt.spl" />
 								</java>
 								<echo>${spl.out3}</echo>
@@ -392,7 +397,8 @@
 									<arg line="test.tmp/JJTreeExamples.eg1/eg1.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/JJTreeExamples.eg1" />
-								<java failonerror="true" fork="true" classname="Eg1" classpath="test.tmp/JJTreeExamples.eg1/" inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg1.out">
+								<java failonerror="true" fork="true" classname="Eg1" classpath="test.tmp/JJTreeExamples.eg1/"
+									inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg1.out">
 								</java>
 								<echo>${jjtree.eg1.out}</echo>
 								<fail message="JJTree eg1 parse failed">
@@ -419,7 +425,8 @@
 									<arg line="test.tmp/JJTreeExamples.eg2/eg2.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/JJTreeExamples.eg2" />
-								<java failonerror="true" fork="true" classname="Eg2" classpath="test.tmp/JJTreeExamples.eg2/" inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg2.out">
+								<java failonerror="true" fork="true" classname="Eg2" classpath="test.tmp/JJTreeExamples.eg2/"
+									inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg2.out">
 								</java>
 								<echo>${jjtree.eg2.out}</echo>
 								<fail message="JJTree eg2 parse failed">
@@ -446,7 +453,8 @@
 									<arg line="test.tmp/JJTreeExamples.eg3/eg3.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/JJTreeExamples.eg3" />
-								<java failonerror="true" fork="true" classname="Eg3" classpath="test.tmp/JJTreeExamples.eg3/" inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg3.out">
+								<java failonerror="true" fork="true" classname="Eg3" classpath="test.tmp/JJTreeExamples.eg3/"
+									inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg3.out">
 								</java>
 								<echo>${jjtree.eg3.out}</echo>
 								<fail message="JJTree eg3 parse failed">
@@ -471,7 +479,8 @@
 									<arg line="test.tmp/JJTreeExamples.eg4/eg4.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/JJTreeExamples.eg4" />
-								<java failonerror="true" fork="true" classname="Eg4" classpath="test.tmp/JJTreeExamples.eg4/" inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg4.out">
+								<java failonerror="true" fork="true" classname="Eg4" classpath="test.tmp/JJTreeExamples.eg4/"
+									inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg4.out">
 								</java>
 								<echo>${jjtree.eg4.out}</echo>
 								<fail message="JJTree eg4 parse failed">
