@@ -40,6 +40,8 @@ options {
   PARSER_SUPER_CLASS = "MyParser";
   TOKEN_SUPER_CLASS = "TokenBase";
   TOKEN_INCLUDE = "token_base.h";
+  DEBUG_PARSER = true;
+  DEBUG_LOOKAHEAD = true;
 }
 
 PARSER_BEGIN(JavaParser)
