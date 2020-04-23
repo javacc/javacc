@@ -8,6 +8,18 @@
 
 \#ifndef JAVACC_CHAR_TYPE
 \#define JAVACC_CHAR_TYPE char
+\#define JAVACC_CHAR_TYPE_SIZEOF 1
+\#define JAVACC_CIN  std::cin
+\#define JAVACC_COUT std::cout
+\#define JAVACC_CERR std::cerr
+\#define JAVACC_CLOG std::cout
+\#define JAVACC_WIDE(x) #x
+\#else
+\#define JAVACC_CIN  std::wcin
+\#define JAVACC_COUT std::wcout
+\#define JAVACC_CERR std::wcerr
+\#define JAVACC_CLOG std::wcout
+\#define JAVACC_WIDE(x) L#x
 \#endif
 
 \#ifndef JAVACC_STRING_TYPE
@@ -20,6 +32,12 @@ typedef JAVACC_CHAR_TYPE     JJChar;
 typedef JAVACC_STRING_TYPE   JJString;
 typedef JAVACC_STRING_TYPE   JJStringBuffer;
 typedef JAVACC_SIMPLE_STRING JJSimpleString;
+
+static const JJChar JJEMPTY[] = { 0 };
+static const JJChar JJSPACE[] = { ' ', 0 };
+static const JJChar JJCOMMA[] = { ',', 0 };
+static const JJChar JJQUOTE[] = { '\'', 0 };
+
 
 // Abstraction on stream classes to read a block of data into a buffer.
 class ReaderStream {
