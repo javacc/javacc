@@ -532,7 +532,7 @@ There are two places in a grammar files where regular expressions may be written
 
 1. Within a [regular expression specification](#regexpr_spec) (part of a [regular expression production](#regular-expr-production)),
 
-2. As an [expansion unit](#expansion-unit) with an [expansion](#expansion). When a regular expression is used in this manner, it is as if the regular expression were defined in the following manner at this location and then referred to by its label from the expansion unit:
+2. As an [expansion unit](#expansion-unit) within an [expansion](#expansion). When a regular expression is used in this manner, it is as if the regular expression were defined in the following manner at this location and then referred to by its label from the expansion unit:
 
 ```java
 <DEFAULT> TOKEN :
