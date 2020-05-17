@@ -33,6 +33,7 @@ package org.javacc.parser;
 import java.util.List;
 import java.util.Set;
 
+import org.javacc.Version;
 import org.javacc.utils.OptionInfo;
 import org.javacc.utils.OptionType;
 
@@ -162,6 +163,11 @@ private static void printOptionInfo(OptionType filter, OptionInfo optionInfo, in
    */
   public static int mainProgram(String args[]) throws Exception {
 
+    if (args.length == 1 && args[args.length -1].equalsIgnoreCase("-version")) {
+    	System.out.println(Version.versionNumber);
+        return 0;
+    }
+    
     // Initialize all static state
     reInitAll();
 
