@@ -31,6 +31,7 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 
 #### 7.0.x
 
+* [7.0.7](#javacc-7.0.7)
 * [7.0.6](#javacc-7.0.6)
 * [7.0.5](#javacc-7.0.5)
 * [7.0.4](#javacc-7.0.4)
@@ -86,6 +87,17 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 * [0.6.-8](#javacc-0.6.-8)
 * [0.6.-9](#javacc-0.6.-9)
 * [0.6.-10](#javacc-0.6.-10)
+
+<br>
+
+### MODIFICATIONS IN VERSION <a name="javacc-7.0.7"></a>7.0.7
+
+---
+ 
+* JavaCC.jj		: remove unused c++ declaration blocs tokens
+* \#172			: add a specific '-version' command line argument
+<br>
+
 
 <br>
 
