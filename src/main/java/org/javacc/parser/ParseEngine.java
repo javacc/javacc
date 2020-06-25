@@ -1261,7 +1261,7 @@ public class ParseEngine {
         }
         if (i != e_nrw.getChoices().size() - 1) {
           //codeGenerator.genCodeLine("jj_3" + nested_seq.internal_name + "()) {");
-          codeGenerator.genCodeLine("!"+genjj_3Call(nested_seq) + ") return false;");
+          codeGenerator.genCodeLine(genjj_3Call(nested_seq) + ") {");
           codeGenerator.genCodeLine("    jj_scanpos = xsp;");
         } else {
           //codeGenerator.genCodeLine("jj_3" + nested_seq.internal_name + "()) " + genReturn(true));
@@ -1269,12 +1269,10 @@ public class ParseEngine {
           //codeGenerator.genCodeLine("    if (jj_la == 0 && jj_scanpos == jj_lastpos) " + genReturn(false));
         }
       }
-      /*
       for (int i = 1; i < e_nrw.getChoices().size(); i++) {
         //codeGenerator.genCodeLine("    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) " + genReturn(false));
         codeGenerator.genCodeLine("    }");
       }
-      */
     } else if (e instanceof Sequence) {
       Sequence e_nrw = (Sequence)e;
       // We skip the first element in the following iteration since it is the
