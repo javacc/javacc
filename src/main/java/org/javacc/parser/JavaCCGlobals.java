@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.javacc.Version;
@@ -576,7 +577,7 @@ public class JavaCCGlobals {
      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
      if (Options.isOutputLanguageJava()) {
        return ".java";
-     } else if (lang.toLowerCase().equals(Options.OUTPUT_LANGUAGE__CPP)) {
+     } else if (lang.toLowerCase(Locale.ENGLISH).equals(Options.OUTPUT_LANGUAGE__CPP)) {
        return ".cc";
      }
 

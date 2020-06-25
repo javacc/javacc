@@ -36,6 +36,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -941,12 +942,12 @@ public class Options {
 	}
 
 	public static boolean isValidOutputLanguage(String language) {
-		return language == null ? false : supportedLanguages.contains(language.toLowerCase());
+		return language == null ? false : supportedLanguages.contains(language.toLowerCase(Locale.ENGLISH));
 	}
 
 
 	public static boolean isValidJavaTemplateType(String type) {
-		return type == null ? false : supportedJavaTemplateTypes.contains(type.toLowerCase());
+		return type == null ? false : supportedJavaTemplateTypes.contains(type.toLowerCase(Locale.ENGLISH));
 	}
 
 	/**

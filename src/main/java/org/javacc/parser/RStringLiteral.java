@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -160,8 +161,8 @@ public class RStringLiteral extends RegularExpression {
 	          (Main.lg.toMore[i / 64] & (1L << (i % 64))) != 0L ||
 	          Main.lg.canReachOnMore[Main.lg.lexStates[i]] ||
 	          ((Options.getIgnoreCase() || Main.lg.ignoreCase[i]) &&
-	           (!image.equals(image.toLowerCase()) ||
-	            !image.equals(image.toUpperCase()))))
+	           (!image.equals(image.toLowerCase(Locale.ENGLISH)) ||
+	            !image.equals(image.toUpperCase(Locale.ENGLISH)))))
 	      {
 	        allImages[i] = null;
 	        if ((charCnt += 6) > 80)
@@ -245,8 +246,8 @@ public class RStringLiteral extends RegularExpression {
           (Main.lg.toMore[i / 64] & (1L << (i % 64))) != 0L ||
           Main.lg.canReachOnMore[Main.lg.lexStates[i]] ||
           ((Options.getIgnoreCase() || Main.lg.ignoreCase[i]) &&
-           (!image.equals(image.toLowerCase()) ||
-            !image.equals(image.toUpperCase()))))
+           (!image.equals(image.toLowerCase(Locale.ENGLISH)) ||
+            !image.equals(image.toUpperCase(Locale.ENGLISH)))))
       {
         allImages[i] = null;
         if ((charCnt += 6) > 80)
@@ -319,7 +320,7 @@ public class RStringLiteral extends RegularExpression {
      for (int i = 0; i < len; i++)
      {
         if (Options.getIgnoreCase())
-           s = ("" + (c = image.charAt(i))).toLowerCase();
+           s = ("" + (c = image.charAt(i))).toLowerCase(Locale.ENGLISH);
         else
            s = "" + (c = image.charAt(i));
 
@@ -349,7 +350,7 @@ public class RStringLiteral extends RegularExpression {
         if (!Options.getIgnoreCase() && Main.lg.ignoreCase[ordinal] &&
             c != Character.toLowerCase(c))
         {
-           s = ("" + image.charAt(i)).toLowerCase();
+           s = ("" + image.charAt(i)).toLowerCase(Locale.ENGLISH);
 
            if (i >= charPosKind.size()) // Kludge, but OK
               charPosKind.add(temp = new Hashtable());
@@ -1696,7 +1697,7 @@ public class RStringLiteral extends RegularExpression {
       }
       kindToLexicalState.put(actualKind, lexStateIndex);
       if (Options.getIgnoreCase()) {
-        s = s.toLowerCase();
+        s = s.toLowerCase(Locale.ENGLISH);
       }
       char c = s.charAt(0);
       int key = (int)Main.lg.lexStateIndex << 16 | (int)c;

@@ -253,7 +253,7 @@ public class CodeGenerator {
    * Generate a modifier
    */
   public void genModifier(String mod) {
-    String origMod = mod.toLowerCase();
+    String origMod = mod.toLowerCase(Locale.ENGLISH);
     if (isJavaLanguage()) {
       genCode(mod);
     } else { // For now, it's only C++ for now
