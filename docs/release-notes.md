@@ -31,6 +31,7 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 
 #### 7.0.x
 
+* [7.0.8](#javacc-7.0.8)
 * [7.0.7](#javacc-7.0.7)
 * [7.0.6](#javacc-7.0.6)
 * [7.0.5](#javacc-7.0.5)
@@ -87,6 +88,16 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 * [0.6.-8](#javacc-0.6.-8)
 * [0.6.-9](#javacc-0.6.-9)
 * [0.6.-10](#javacc-0.6.-10)
+
+<br>
+
+### MODIFICATIONS IN VERSION <a name="javacc-7.0.8"></a>7.0.8
+
+---
+ 
+* \#175			: Doesn't work in Turkish Locale
+* \#73			: javacc/c++: invalid lookahead processing: missing one lookahead to get rid of the conflict
+<br>
 
 <br>
 

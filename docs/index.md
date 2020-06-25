@@ -152,9 +152,9 @@ This guide will walk you through locally building the project, running an existi
 
 ### <a name="download"></a>Download & Installation
 
-JavaCC 7.0.7 is our latest stable release.
+JavaCC 7.0.8 is our latest stable release.
 
-* JavaCC 7.0.7 - ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.7.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.7.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.7/javacc-7.0.7.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.7/javacc-7.0.7-javadoc.jar), [Release Notes](docs/release-notes.md#javacc-7.0.7))
+* JavaCC 7.0.8 - ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.8.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.8.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.8/javacc-7.0.8.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.8/javacc-7.0.8-javadoc.jar), [Release Notes](docs/release-notes.md#javacc-7.0.8))
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
@@ -167,16 +167,16 @@ The GitHub  8.0 branch contains the next generation of JavaCC that splits the fr
 To install JavaCC, navigate to the download directory and type:
 
 ```
-$ unzip javacc-7.0.7.zip
+$ unzip javacc-7.0.8.zip
 or
-$ tar xvf javacc-7.0.7.tar.gz
+$ tar xvf javacc-7.0.8.tar.gz
 ```
 
-Then place the binary `javacc-7.0.7.jar` in a new `target/` folder, and rename to `javacc.jar`.
+Then place the binary `javacc-7.0.8.jar` in a new `target/` folder, and rename to `javacc.jar`.
 
 Once you have completed installation add the `scripts/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
 
-On UNIX based systems, the scripts may not be executable immediately. This can be solved by using the command from the `javacc-7.0.7/` directory:
+On UNIX based systems, the scripts may not be executable immediately. This can be solved by using the command from the `javacc-7.0.8/` directory:
 
 ```
 chmod +x scripts/javacc

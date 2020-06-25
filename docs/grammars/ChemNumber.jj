@@ -29,7 +29,7 @@ public class ChemNumber {
     {
         currentNumber = 0;
 
-        StringReader stringReader = new StringReader (stringToParse.toLowerCase() + "\n");
+        StringReader stringReader = new StringReader (stringToParse.toLowerCase(Locale.ENGLISH) + "\n");
         ChemNumber parser = new ChemNumber (stringReader);               
         parser.wholeNumber();
 
