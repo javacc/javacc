@@ -31,6 +31,7 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 
 #### 7.0.x
 
+* [7.0.9](#javacc-7.0.9)
 * [7.0.8](#javacc-7.0.8)
 * [7.0.7](#javacc-7.0.7)
 * [7.0.6](#javacc-7.0.6)
@@ -89,6 +90,15 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 * [0.6.-9](#javacc-0.6.-9)
 * [0.6.-10](#javacc-0.6.-10)
 
+<br>
+
+### MODIFICATIONS IN VERSION <a name="javacc-7.0.9"></a>7.0.9
+
+---
+ 
+<br>
+* pom.xml		: change deployment on OSS to automatic release
+* documentation	: fix broken links
 <br>
 
 ### MODIFICATIONS IN VERSION <a name="javacc-7.0.8"></a>7.0.8

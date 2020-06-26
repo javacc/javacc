@@ -4,15 +4,15 @@
 
 ### <a name="stable"></a>All stable releases
 
-JavaCC 7.0.8 is our latest stable release.
+JavaCC 7.0.9 is our latest stable release.
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
 #### 7.0.x
-
-* JavaCC 7.0.8 - 2020-06-22 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.8.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.8.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.8/javacc-7.0.8.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.8/javacc-7.0.8-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.8))
-* JavaCC 7.0.7 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.7.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.7.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.7/javacc-7.0.7.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.7/javacc-7.0.7-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.7))
-* JavaCC 7.0.6 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.6.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.6.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.6/javacc-7.0.6.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.6/javacc-7.0.6-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.5))
+* JavaCC 7.0.9 - 2020-06-22 ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.9.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.9.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.9/javacc-7.0.9.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.9/javacc-7.0.9-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.9))
+* JavaCC 7.0.8 - 2020-06-22 ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.8.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.8.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.8/javacc-7.0.8.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.8/javacc-7.0.8-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.8))
+* JavaCC 7.0.7 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.7.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.7.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.7/javacc-7.0.7.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.7/javacc-7.0.7-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.7))
+* JavaCC 7.0.6 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.6.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.6.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.6/javacc-7.0.6.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.6/javacc-7.0.6-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.5))
 * JavaCC 7.0.5 - 2019-10-14 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.5.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.5.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.5/javacc-7.0.5-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.5))
 * JavaCC 7.0.4 - 2018-09-17 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.4.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.4.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.4.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.4/javacc-7.0.4-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.4))
 * JavaCC 7.0.3 - 2017-11-06 ([Source (zip)](https://github.com/javacc/javacc/archive/7.0.3.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/7.0.3.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.3/javacc-7.0.3.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.3/javacc-7.0.3-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.3))
@@ -31,9 +31,9 @@ All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/
 To install JavaCC, navigate to the download directory and type:
 
 ```
-$ unzip javacc-7.0.5.zip
+$ unzip javacc-7.0.9.zip
 or
-$ tar xvf javacc-7.0.5.tar.gz
+$ tar xvf javacc-7.0.9.tar.gz
 ```
 
 Once you have completed installation add the `bin/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
