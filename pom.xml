@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.java.dev.javacc</groupId>
 	<artifactId>javacc</artifactId>
@@ -141,13 +142,16 @@
 	</licenses>
 
 	<properties>
-		<ossrh-server-id>ossrh</ossrh-server-id>
-		<ossrh-staging-repository-url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</ossrh-staging-repository-url>
-		<ossrh-snapshots-repository-url>https://oss.sonatype.org/content/repositories/snapshots/</ossrh-snapshots-repository-url>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
+		
+		<keystore.path>keystore</keystore.path>
+		<keystore.type>PKCS12</keystore.type>
+		<keystore.alias>release</keystore.alias>
+		<keystore.password>javacc</keystore.password>
+		<keystore.store.password>javacc</keystore.store.password>
+		<keystore.key.password>javacc</keystore.key.password>
 	</properties>
-
 	<distributionManagement>
 		<repository>
 			<id>ossrh</id>
@@ -155,8 +159,6 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
-
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -166,7 +168,6 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -174,10 +175,6 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
-	<repositories>
-	</repositories>
-
-
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -214,7 +211,7 @@
 				<plugin>
 					<groupId>org.sonatype.plugins</groupId>
 					<artifactId>nexus-staging-maven-plugin</artifactId>
-					<version>1.5.1</version>
+					<version>1.6.7</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -224,6 +221,11 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-project-info-reports-plugin</artifactId>
+					<version>3.0.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jarsigner-plugin</artifactId>
 					<version>3.0.0</version>
 				</plugin>
 			</plugins>
@@ -294,7 +296,8 @@
 										<include name="*.idl" />
 									</fileset>
 								</copy>
-								<java failonerror="true" fork="true" classname="IDLParser" classpath="test.tmp/CORBA-IDL/" outputproperty="test.corba.out">
+								<java failonerror="true" fork="true" classname="IDLParser" classpath="test.tmp/CORBA-IDL/"
+									outputproperty="test.corba.out">
 									<arg line="test.tmp/CORBA-IDL/Hello.idl" />
 								</java>
 								<echo>${test.corba.out}</echo>
@@ -349,7 +352,8 @@
 										<include name="*.spl" />
 									</fileset>
 								</copy>
-								<java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="3" outputproperty="spl.out1">
+								<java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="3"
+									outputproperty="spl.out1">
 									<arg line="test.tmp/Interpreter/fact.spl" />
 								</java>
 								<echo>${spl.out1}</echo>
@@ -360,7 +364,8 @@
 										</not>
 									</condition>
 								</fail>
-								<java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="3" outputproperty="spl.out2">
+								<java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="3"
+									outputproperty="spl.out2">
 									<arg line="test.tmp/Interpreter/odd.spl" />
 								</java>
 								<echo>${spl.out2}</echo>
@@ -371,7 +376,8 @@
 										</not>
 									</condition>
 								</fail>
-								<java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="9" outputproperty="spl.out3">
+								<java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="9"
+									outputproperty="spl.out3">
 									<arg line="test.tmp/Interpreter/sqrt.spl" />
 								</java>
 								<echo>${spl.out3}</echo>
@@ -392,7 +398,8 @@
 									<arg line="test.tmp/JJTreeExamples.eg1/eg1.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/JJTreeExamples.eg1" />
-								<java failonerror="true" fork="true" classname="Eg1" classpath="test.tmp/JJTreeExamples.eg1/" inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg1.out">
+								<java failonerror="true" fork="true" classname="Eg1" classpath="test.tmp/JJTreeExamples.eg1/"
+									inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg1.out">
 								</java>
 								<echo>${jjtree.eg1.out}</echo>
 								<fail message="JJTree eg1 parse failed">
@@ -419,7 +426,8 @@
 									<arg line="test.tmp/JJTreeExamples.eg2/eg2.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/JJTreeExamples.eg2" />
-								<java failonerror="true" fork="true" classname="Eg2" classpath="test.tmp/JJTreeExamples.eg2/" inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg2.out">
+								<java failonerror="true" fork="true" classname="Eg2" classpath="test.tmp/JJTreeExamples.eg2/"
+									inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg2.out">
 								</java>
 								<echo>${jjtree.eg2.out}</echo>
 								<fail message="JJTree eg2 parse failed">
@@ -446,7 +454,8 @@
 									<arg line="test.tmp/JJTreeExamples.eg3/eg3.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/JJTreeExamples.eg3" />
-								<java failonerror="true" fork="true" classname="Eg3" classpath="test.tmp/JJTreeExamples.eg3/" inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg3.out">
+								<java failonerror="true" fork="true" classname="Eg3" classpath="test.tmp/JJTreeExamples.eg3/"
+									inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg3.out">
 								</java>
 								<echo>${jjtree.eg3.out}</echo>
 								<fail message="JJTree eg3 parse failed">
@@ -471,7 +480,8 @@
 									<arg line="test.tmp/JJTreeExamples.eg4/eg4.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/JJTreeExamples.eg4" />
-								<java failonerror="true" fork="true" classname="Eg4" classpath="test.tmp/JJTreeExamples.eg4/" inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg4.out">
+								<java failonerror="true" fork="true" classname="Eg4" classpath="test.tmp/JJTreeExamples.eg4/"
+									inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg4.out">
 								</java>
 								<echo>${jjtree.eg4.out}</echo>
 								<fail message="JJTree eg4 parse failed">
@@ -640,74 +650,43 @@
 				</configuration>
 			</plugin>
 
-<!-- 			<plugin>
+ <!-- 
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jarsigner-plugin</artifactId>
-				<version>3.0.0</version>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
 				<executions>
 					<execution>
-						<id>sign</id>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+  -->
+			<plugin>
+				<artifactId>maven-jarsigner-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>verify</phase>
 						<goals>
 							<goal>sign</goal>
 						</goals>
 					</execution>
 				</executions>
 				<configuration>
-					<keystore>C:/Users/fandre/AppData/Roaming/gnupg</keystore>
-					<alias></alias>
-					<storepass></storepass>
-					<keypass></keypass>
+					<keystore>${keystore.path}</keystore>
+					<storetype>${keystore.type}</storetype>
+					<alias>${keystore.alias}</alias>
+					<storepass>${keystore.store.password}</storepass>
+					<keypass>${keystore.key.password}</keypass>
 				</configuration>
 			</plugin>
- -->
- <!-- 
-  -->
-             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-  <!-- 
-  			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-deploy-plugin</artifactId>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-			</plugin>
-
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default-deploy</id>
-						<phase>deploy</phase>
-						<goals>
-							<goal>deploy</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<serverId>${ossrh-server-id}</serverId>
-					<nexusUrl>${ossrh-snapshots-repository-url}</nexusUrl>
-					<skipStaging>true</skipStaging>
-				</configuration>
-			</plugin>
-  -->
-			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.7</version>
 				<extensions>true</extensions>
 				<configuration>
 					<serverId>ossrh</serverId>
