@@ -159,7 +159,7 @@ JavaCC 7.0.9 is our latest stable release.
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
-For all previous releases, please see [stable releases](docs/downloads.md).
+For all previous releases, please see [stable releases](downloads.md).
 
 The GitHub  8.0 branch contains the next generation of JavaCC that splits the frontend -- the JavaCC parser -- from the backends -- the code generator targeted for Java, C++ &and C# --. Status of JavaCC is experimental and not production ready.
 
