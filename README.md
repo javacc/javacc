@@ -157,6 +157,8 @@ This guide will walk you through locally building the project, running an existi
 
 ### <a name="download"></a>Download & Installation
 
+N.B. LOOKAHEAD functionality is broken from version 7.0.5. It will be fixed in version 7.0.10. In the interim, if you require LOOKAHEAD functionality, please use version 7.0.4.
+
 JavaCC 7.0.9 is our latest stable release.
 
 * JavaCC 7.0.9 - ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.9.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.9.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.9/javacc-7.0.9.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.9/javacc-7.0.9-javadoc.jar), [Release Notes](docs/release-notes.md#javacc-7.0.9))
