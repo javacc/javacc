@@ -157,7 +157,7 @@ This guide will walk you through locally building the project, running an existi
 
 ### <a name="download"></a>Download & Installation
 
-N.B. LOOKAHEAD functionality is broken from version 7.0.5. It will be fixed in version 7.0.10. In the interim, if you require LOOKAHEAD functionality, please use version 7.0.4.
+**N.B. LOOKAHEAD functionality is broken from version 7.0.5. It will be fixed in version 7.0.10. In the interim, if you require LOOKAHEAD functionality, please use version 7.0.4.**
 
 JavaCC 7.0.9 is our latest stable release.
 
