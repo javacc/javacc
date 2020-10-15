@@ -146,7 +146,7 @@ JavaCC has been used to create many types of parsers based on formal and proprie
 
 ---
 
-JavaCC is available from [https://javacc.org/](https://javacc.org/).  
+JavaCC is available from [https://javacc.github.io/javacc/](https://javacc.github.io/javacc/).
 
 <br>
 
