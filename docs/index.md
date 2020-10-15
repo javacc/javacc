@@ -294,6 +294,7 @@ User                                                 | Use Case                 
 [Apache Tomcat](https://tomcat.apache.org/)          | Parsing Expression Language (EL) and JSON                      | [ELParser.jjt](https://github.com/apache/tomcat/blob/master/java/org/apache/el/parser/ELParser.jjt), [JSONParser.jj](https://github.com/apache/tomcat/blob/master/java/org/apache/tomcat/util/json/JSONParser.jj)
 [Apache Zookeeper](https://zookeeper.apache.org/)    | Optimising serialisation/deserialisation of Hadoop I/O records | [rcc.jj](https://github.com/apache/zookeeper/blob/master/zookeeper-jute/src/main/java/org/apache/jute/compiler/generated/rcc.jj)
 [Java Parser](https://javaparser.org/)               | Parsing Java language files                                    | [java.jj](https://github.com/javaparser/javaparser/blob/master/javaparser-core/src/main/javacc/java.jj)
+[JOSM](https://josm.openstreetmap.de/)               | Parsing MapCSS files                                           | [MapCSSParser.jj](https://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/gui/mappaint/mapcss/MapCSSParser.jj)
 
 <!---
 ## <a name="contributing"></a>Contributing
