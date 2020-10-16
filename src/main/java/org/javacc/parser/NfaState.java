@@ -1154,7 +1154,7 @@ public class NfaState
          stateBlockTable.put(stateSetString, stateSetString);
 
       if (nameSet == null)
-         throw new Error("JavaCC Bug: Please file a bug at: http://javacc.java.net");
+         throw new Error("JavaCC Bug: Please file a bug at: https://github.com/javacc/javacc/issues");
 
       if (nameSet.length == 1)
       {

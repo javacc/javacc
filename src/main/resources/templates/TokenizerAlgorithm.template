@@ -140,7 +140,7 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
   } while (!stateSet.empty());
 
   assert(false) :
-      "Internal error. Please submit a bug at: http://javacc.java.net.";
+      "Internal error. Please submit a bug at: https://github.com/javacc/javacc/issues";
   return curPos;
 }
 #fi

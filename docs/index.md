@@ -248,7 +248,7 @@ For questions relating to development please join our [Slack channel](https://ja
 
 ### <a name="documentation"></a>Documentation
 
-The documentation is located on the website [https://javacc.org](https://javacc.org) and in the `docs/` directory of the source code on [Github](https://github.com/javacc/javacc).
+The documentation is located on the website [https://javacc.github.io/javacc/](https://javacc.github.io/javacc/) and in the `docs/` directory of the source code on [GitHub](https://github.com/javacc/javacc).
 
 It includes [detailed documentation](documentation/index.md) for JavaCC, JJTree, and JJDoc.
 
