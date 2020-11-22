@@ -132,7 +132,7 @@
 	<properties>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
-		
+
 		<keystore.path>keystore</keystore.path>
 		<keystore.type>PKCS12</keystore.type>
 		<keystore.alias>release</keystore.alias>
@@ -658,9 +658,15 @@
 				<artifactId>maven-jarsigner-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>verify</phase>
+						<id>sign</id>
 						<goals>
 							<goal>sign</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>verify</id>
+						<goals>
+							<goal>verify</goal>
 						</goals>
 					</execution>
 				</executions>
