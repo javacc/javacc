@@ -659,6 +659,7 @@
 				<executions>
 					<execution>
 						<id>sign</id>
+						<phase>verify</phase>
 						<goals>
 							<goal>sign</goal>
 						</goals>
