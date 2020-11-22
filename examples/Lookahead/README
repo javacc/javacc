@@ -628,7 +628,7 @@ integer) as follows:
 	}
 
 One can also achieve the same effect with "syntactic LOOKAHEAD".  In
-syntactic LOOKAHEAD, you specify an expansion to try out and it that
+syntactic LOOKAHEAD, you specify an expansion to try out and if that
 succeeds, then the following choice is taken.  The above example is
 rewritten using syntactic LOOKAHEAD below:
 

@@ -18,7 +18,7 @@ In addition to the parser generator itself, JavaCC provides other standard capab
 
 All you need to run a JavaCC parser, once generated, is a Java Runtime Environment (JRE).
 
-This README is meant as a brief overview of the core features and how to set things up to get yourself started with JavaCC. For a fully detailed documentation, please see [https://javacc.org/](https://javacc.org/).
+This README is meant as a brief overview of the core features and how to set things up to get yourself started with JavaCC. For a fully detailed documentation, please see [https://javacc.github.io/javacc/](https://javacc.github.io/javacc/).
 
 ## <a name="toc"></a>Contents
 
@@ -282,7 +282,7 @@ For questions relating to development please join our [Slack channel](https://ja
 
 ### <a name="documentation"></a>Documentation
 
-The documentation of JavaCC is located on the website [https://javacc.org](https://javacc.org) and in the `docs/` directory of the source code on [Github](https://github.com/javacc/javacc).
+The documentation of JavaCC is located on the website [https://javacc.github.io/javacc/](https://javacc.github.io/javacc/) and in the `docs/` directory of the source code on [GitHub](https://github.com/javacc/javacc).
 
 It includes [detailed documentation](docs/documentation/index.md) for JavaCC, JJTree, and JJDoc.
 

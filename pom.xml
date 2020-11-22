@@ -26,20 +26,8 @@
 	</scm>
 	<mailingLists>
 		<mailingList>
-			<name>Commits</name>
-			<archive>https://javacc.org/mailing-list-archive/commits@javacc.java.net/</archive>
-		</mailingList>
-		<mailingList>
-			<name>Users</name>
-			<archive>https://javacc.org/mailing-list-archive/users@javacc.java.net/</archive>
-		</mailingList>
-		<mailingList>
-			<name>Developers</name>
-			<archive>https://javacc.org/mailing-list-archive/dev@javacc.java.net/</archive>
-		</mailingList>
-		<mailingList>
-			<name>Issues</name>
-			<archive>https://javacc.dev.java.net/servlets/SummarizeList?listName=issues</archive>
+			<name>Google user group</name>
+			<archive>https://groups.google.com/forum/#!forum/javacc-users</archive>
 		</mailingList>
 	</mailingLists>
 	<developers>

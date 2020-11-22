@@ -152,13 +152,16 @@ This guide will walk you through locally building the project, running an existi
 
 ### <a name="download"></a>Download & Installation
 
-JavaCC 7.0.10 is our latest stable release.
+N.B. LOOKAHEAD functionality is broken from version 7.0.5. It will be fixed in version 7.0.10. In the interim, if you require LOOKAHEAD functionality, please use version 7.0.4.
 
-* JavaCC 7.0.10 - ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.10.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.10.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.10/javacc-7.0.10.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.10/javacc-7.0.10-javadoc.jar), [Release Notes](docs/release-notes.md#javacc-7.0.10))
+JavaCC 7.0.9 is our latest stable release.
+
+* JavaCC 7.0.9 - ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.9.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.9.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.9/javacc-7.0.9.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.9/javacc-7.0.9-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.9))
+
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
-For all previous releases, please see [stable releases](docs/downloads.md).
+For all previous releases, please see [stable releases](downloads.md).
 
 The GitHub  8.0 branch contains the next generation of JavaCC that splits the frontend -- the JavaCC parser -- from the backends -- the code generator targeted for Java, C++ &and C# --. Status of JavaCC is experimental and not production ready.
 
@@ -167,16 +170,16 @@ The GitHub  8.0 branch contains the next generation of JavaCC that splits the fr
 To install JavaCC, navigate to the download directory and type:
 
 ```
-$ unzip javacc-7.0.10.zip
+$ unzip javacc-7.0.9.zip
 or
-$ tar xvf javacc-7.0.10.tar.gz
+$ tar xvf javacc-7.0.9.tar.gz
 ```
 
-Then place the binary `javacc-7.0.10.jar` in a new `target/` folder, and rename to `javacc.jar`.
+Then place the binary `javacc-7.0.9.jar` in a new `target/` folder, and rename to `javacc.jar`.
 
 Once you have completed installation add the `scripts/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
 
-On UNIX based systems, the scripts may not be executable immediately. This can be solved by using the command from the `javacc-7.0.10/` directory:
+On UNIX based systems, the scripts may not be executable immediately. This can be solved by using the command from the `javacc-7.0.9/` directory:
 
 ```
 chmod +x scripts/javacc
@@ -245,7 +248,7 @@ For questions relating to development please join our [Slack channel](https://ja
 
 ### <a name="documentation"></a>Documentation
 
-The documentation is located on the website [https://javacc.org](https://javacc.org) and in the `docs/` directory of the source code on [Github](https://github.com/javacc/javacc).
+The documentation is located on the website [https://javacc.github.io/javacc/](https://javacc.github.io/javacc/) and in the `docs/` directory of the source code on [GitHub](https://github.com/javacc/javacc).
 
 It includes [detailed documentation](documentation/index.md) for JavaCC, JJTree, and JJDoc.
 
@@ -291,6 +294,7 @@ User                                                 | Use Case                 
 [Apache Tomcat](https://tomcat.apache.org/)          | Parsing Expression Language (EL) and JSON                      | [ELParser.jjt](https://github.com/apache/tomcat/blob/master/java/org/apache/el/parser/ELParser.jjt), [JSONParser.jj](https://github.com/apache/tomcat/blob/master/java/org/apache/tomcat/util/json/JSONParser.jj)
 [Apache Zookeeper](https://zookeeper.apache.org/)    | Optimising serialisation/deserialisation of Hadoop I/O records | [rcc.jj](https://github.com/apache/zookeeper/blob/master/zookeeper-jute/src/main/java/org/apache/jute/compiler/generated/rcc.jj)
 [Java Parser](https://javaparser.org/)               | Parsing Java language files                                    | [java.jj](https://github.com/javaparser/javaparser/blob/master/javaparser-core/src/main/javacc/java.jj)
+[JOSM](https://josm.openstreetmap.de/)               | Parsing MapCSS files                                           | [MapCSSParser.jj](https://josm.openstreetmap.de/browser/josm/trunk/src/org/openstreetmap/josm/gui/mappaint/mapcss/MapCSSParser.jj)
 
 <!---
 ## <a name="contributing"></a>Contributing
