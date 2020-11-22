@@ -4,7 +4,7 @@
 	<groupId>net.java.dev.javacc</groupId>
 	<artifactId>javacc</artifactId>
 	<name>JavaCC</name>
-	<version>7.0.10</version>
+	<version>7.0.11-SNAPSHOT</version>
 
 	<description>JavaCC is a parser/scanner generator for java. </description>
 	<url>https://github.com/javacc/javacc</url>
@@ -21,7 +21,7 @@
 		<url>https://github.com/javacc/javacc</url>
 		<connection>scm:git:https://github.com/javacc/javacc.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/javacc/javacc.git</developerConnection>
-		<tag>javacc-7.0.10</tag>
+		<tag>HEAD</tag>
 	</scm>
 	<mailingLists>
 		<mailingList>
