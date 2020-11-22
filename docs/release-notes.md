@@ -98,7 +98,7 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 ---
  
 <br>
-
+* \#183			: Lookahead is broken since 7.0.5 (introduced in commit fbac68f)
 <br>
 
 ### MODIFICATIONS IN VERSION <a name="javacc-7.0.9"></a>7.0.9
