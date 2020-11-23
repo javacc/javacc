@@ -216,6 +216,11 @@
 					<artifactId>maven-jarsigner-plugin</artifactId>
 					<version>3.0.0</version>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>1.6</version>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -638,11 +643,9 @@
 				</configuration>
 			</plugin>
 
- <!-- 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
-				<version>1.6</version>
 				<executions>
 					<execution>
 						<id>sign-artifacts</id>
@@ -653,8 +656,8 @@
 					</execution>
 				</executions>
 			</plugin>
-  -->
-			<plugin>
+  <!-- 
+  			<plugin>
 				<artifactId>maven-jarsigner-plugin</artifactId>
 				<executions>
 					<execution>
@@ -671,8 +674,10 @@
 					<alias>${keystore.alias}</alias>
 					<storepass>${keystore.store.password}</storepass>
 					<keypass>${keystore.key.password}</keypass>
+					<archiveDirectory>${project.build.directory}</archiveDirectory>
 				</configuration>
 			</plugin>
+-->
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
