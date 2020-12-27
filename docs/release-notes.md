@@ -31,6 +31,7 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 
 #### 7.0.x
 
+* [7.0.11](#javacc-7.0.11)
 * [7.0.10](#javacc-7.0.10)
 * [7.0.9](#javacc-7.0.9)
 * [7.0.8](#javacc-7.0.8)
@@ -93,8 +94,13 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 
 <br>
 
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.10"></a>7.0.10
+### MODIFICATIONS IN VERSION <a name="javacc-7.0.11"></a>7.0.11
+---
+ <br>
+* \#193			: Code error in class RCharacterList.SortDescriptors(): fixed
+<br>
 
+### MODIFICATIONS IN VERSION <a name="javacc-7.0.10"></a>7.0.10
 ---
  
 <br>
@@ -102,7 +108,6 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 <br>
 
 ### MODIFICATIONS IN VERSION <a name="javacc-7.0.9"></a>7.0.9
-
 ---
  
 * pom.xml		: change deployment on OSS to automatic release
@@ -112,7 +117,6 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 <br>
 
 ### MODIFICATIONS IN VERSION <a name="javacc-7.0.8"></a>7.0.8
-
 ---
  
 * \#175			: Doesn't work in Turkish Locale
@@ -122,7 +126,6 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 <br>
 
 ### MODIFICATIONS IN VERSION <a name="javacc-7.0.7"></a>7.0.7
-
 ---
  
 * JavaCC.jj		: remove unused c++ declaration blocs tokens
@@ -133,7 +136,6 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 <br>
 
 ### MODIFICATIONS IN VERSION <a name="javacc-7.0.6"></a>7.0.6
-
 ---
 The following changes are not upward compatible with the previous 7.0.5 version but have 
 a very little impact on existing grammars. Main advantage is to prepare a more smooth upgrade
@@ -148,7 +150,6 @@ with the upcoming javacc-8.0.0 major release.
 <br>
 
 ### MODIFICATIONS IN VERSION <a name="javacc-7.0.5"></a>7.0.5
-
 ---
 
 * \#42: new README.md file.
