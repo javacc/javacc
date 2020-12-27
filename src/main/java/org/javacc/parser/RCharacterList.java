@@ -484,7 +484,7 @@ static final char[] diffUpperCaseRanges = {
                  else if (Overlaps((CharacterRange)newDesc.get(j), range))
                  {
                     CharacterRange tmp = range;
-                    ((CharacterRange)newDesc.get(j)).setRight((char)(range.getLeft() + 1));
+                    ((CharacterRange)newDesc.get(j)).setLeft((char)(range.getRight() + 1));
                     range = (CharacterRange)newDesc.get(j);
                     newDesc.set(j, tmp);
                  }
