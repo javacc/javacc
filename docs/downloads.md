@@ -34,9 +34,9 @@ All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/
 To install JavaCC, navigate to the download directory and type:
 
 ```
-$ unzip javacc-7.0.9.zip
+$ unzip javacc-7.0.10.zip
 or
-$ tar xvf javacc-7.0.9.tar.gz
+$ tar xvf javacc-7.0.10.tar.gz
 ```
 
 Once you have completed installation add the `bin/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
