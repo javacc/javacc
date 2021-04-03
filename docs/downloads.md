@@ -6,7 +6,7 @@
 
 N.B. LOOKAHEAD functionality is broken from version 7.0.5. It will be fixed in version 7.0.10. In the interim, if you require LOOKAHEAD functionality, please use version 7.0.4.
 
-JavaCC 7.0.9 is our latest stable release.
+JavaCC 7.0.10 is our latest stable release.
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
