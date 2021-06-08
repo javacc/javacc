@@ -373,7 +373,8 @@ This is then followed by a list of regular expression specifications that descri
 token_manager_decls ::= "TOKEN_MGR_DECLS" ":" java_block
 ```
 
-The token manager declarations starts with the reserved word `TOKEN_MGR_DECLS` followed by a `:` and then a set of Java declarations and statements (the Java block). These declarations and statements are written into the generated token manager and are accessible from within [lexical actions](#regexpr-spec).
+The token manager declarations starts with the reserved word `TOKEN_MGR_DECLS` followed by a `:` and then a set of Java declarations and statements (those that are possible in the body of a class or an interface).  
+These declarations and statements are written into the generated token manager and are accessible from within [lexical actions](#regexpr-spec).
 
 There can only be one token manager declaration in a JavaCC grammar file.
 
