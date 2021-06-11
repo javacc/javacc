@@ -1393,8 +1393,9 @@ public class NfaState
       {
          if (nameSet[i] != -1)
          {
-            if (live[i] = !stateDone[nameSet[i]])
-               count[0]++;
+           live[i] = !stateDone[nameSet[i]];
+           if (live[i])
+             count[0]++;
          }
       }
 
