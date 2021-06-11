@@ -321,7 +321,7 @@ public class ParseEngine {
           switch (state) {
           case OPENIF:
             retval += "\u0002\n" + "} else {\u0001";
-            // Control flows through to next case.
+            //$FALL-THROUGH$ Control flows through to next case.
           case NOOPENSTM:
             retval += "\n" + "switch (";
             if (Options.getCacheTokens()) {
@@ -352,7 +352,7 @@ public class ParseEngine {
                 int j1 = i/32;
                 int j2 = i%32;
                 tokenMask[j1] |= 1 << j2;
-                String s = (String)(names_of_tokens.get(new Integer(i)));
+                String s = (String)(names_of_tokens.get(Integer.valueOf(i)));
                 if (s == null) {
                   retval += i;
                 } else {
@@ -772,7 +772,7 @@ public class ParseEngine {
       String tail = e_nrw.rhsToken == null ? ");" :
                 (isJavaDialect ? ")." : ")->") + e_nrw.rhsToken.image + ";";
       if (e_nrw.label.equals("")) {
-        Object label = names_of_tokens.get(new Integer(e_nrw.ordinal));
+        Object label = names_of_tokens.get(Integer.valueOf(e_nrw.ordinal));
         if (label != null) {
           retval += "jj_consume_token(" + (String)label + tail;
         } else {
@@ -1203,7 +1203,7 @@ public class ParseEngine {
     if (e instanceof RegularExpression) {
       RegularExpression e_nrw = (RegularExpression)e;
       if (e_nrw.label.equals("")) {
-        Object label = names_of_tokens.get(new Integer(e_nrw.ordinal));
+        Object label = names_of_tokens.get(Integer.valueOf(e_nrw.ordinal));
         if (label != null) {
           codeGenerator.genCodeLine("    if (jj_scan_token(" + (String)label + ")) " + genReturn(true));
         } else {

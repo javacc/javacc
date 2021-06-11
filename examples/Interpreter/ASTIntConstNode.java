@@ -42,7 +42,7 @@ public class ASTIntConstNode extends SimpleNode {
 
   public void interpret()
   {
-     stack[++top] = new Integer(val);
+     stack[++top] = Integer.valueOf(val);
   }
 
 }

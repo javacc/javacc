@@ -41,6 +41,6 @@ public class ASTBitwiseComplNode extends SimpleNode {
   {
      jjtGetChild(0).interpret();
 
-     stack[top] = new Integer(~((Integer)stack[top]).intValue());
+     stack[top] = Integer.valueOf(~((Integer)stack[top]).intValue());
   }
 }

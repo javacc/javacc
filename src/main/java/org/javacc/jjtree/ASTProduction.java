@@ -48,7 +48,7 @@ public class ASTProduction extends JJTreeNode
   {
     Integer i = (Integer)scopes.get(s);
     if (i == null) {
-      i = new Integer(nextNodeScopeNumber++);
+      i = nextNodeScopeNumber++;
       scopes.put(s, i);
     }
     return i.intValue();

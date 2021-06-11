@@ -387,6 +387,7 @@ class JavaCharStream
    * @deprecated
    * @see #getEndColumn
    */
+  @Deprecated
   ${PREFIX}public int getColumn() {
 #if KEEP_LINE_COLUMN
     return bufcolumn[bufpos];
@@ -402,6 +403,7 @@ class JavaCharStream
    * @deprecated
    * @see #getEndLine
    */
+  @Deprecated
   ${PREFIX}public int getLine() {
 #if KEEP_LINE_COLUMN
     return bufline[bufpos];

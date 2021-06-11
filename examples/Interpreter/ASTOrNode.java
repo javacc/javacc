@@ -43,12 +43,12 @@ public class ASTOrNode extends SimpleNode {
 
      if (((Boolean)stack[top]).booleanValue())
      {
-        stack[top] = new Boolean(true);
+        stack[top] = Boolean.valueOf(true);
         return;
      }
 
      jjtGetChild(1).interpret();
-     stack[--top] = new Boolean(((Boolean)stack[top]).booleanValue() ||
+     stack[--top] = Boolean.valueOf(((Boolean)stack[top]).booleanValue() ||
                                 ((Boolean)stack[top + 1]).booleanValue());
   }
 

@@ -43,10 +43,10 @@ public class ASTEQNode extends SimpleNode {
      jjtGetChild(1).interpret();
 
      if (stack[top] instanceof Boolean)
-        stack[--top] = new Boolean(((Boolean)stack[top]).booleanValue() ==
+        stack[--top] = Boolean.valueOf(((Boolean)stack[top]).booleanValue() ==
                                 ((Boolean)stack[top + 1]).booleanValue());
      else
-        stack[--top] = new Boolean(((Integer)stack[top]).intValue() ==
+        stack[--top] = Boolean.valueOf(((Integer)stack[top]).intValue() ==
                                 ((Integer)stack[top + 1]).intValue());
   }
 

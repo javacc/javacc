@@ -53,12 +53,12 @@ public class ASTReadStatement extends SimpleNode {
         out.write("Enter a value for \'" + name + "\' (boolean) : ");
         out.flush();
         in.read(b);
-        symtab.put(name, new Boolean((new String(b)).trim()));
+        symtab.put(name, Boolean.valueOf((new String(b)).trim()));
       } else if (o instanceof Integer) {
         out.write("Enter a value for \'" + name + "\' (int) : ");
         out.flush();
         in.read(b);
-        symtab.put(name, new Integer((new String(b)).trim()));
+        symtab.put(name, Integer.valueOf((new String(b)).trim()));
       }
     } catch (IOException e) {
       e.printStackTrace();

@@ -984,7 +984,7 @@ public class NfaState
                     codeGenerator.genCodeLine("static const " + Options.getLongType() + " jjbitVec" +  lohiByteCnt + "[] = " + tmp);
                   }
                }
-               lohiByteTab.put(tmp, ind = new Integer(lohiByteCnt++));
+               lohiByteTab.put(tmp, ind = Integer.valueOf(lohiByteCnt++));
             }
 
             tmpIndices[cnt++] = ind.intValue();
@@ -1005,7 +1005,7 @@ public class NfaState
                     codeGenerator.genCodeLine("static const " + Options.getLongType() + " jjbitVec" + lohiByteCnt + "[] = " + tmp);
                     codeGenerator.switchToMainFile();
                   }
-               lohiByteTab.put(tmp, ind = new Integer(lohiByteCnt++));
+               lohiByteTab.put(tmp, ind = Integer.valueOf(lohiByteCnt++));
             }
 
             tmpIndices[cnt++] = ind.intValue();
@@ -1053,13 +1053,13 @@ public class NfaState
                     codeGenerator.switchToStaticsFile();
                     codeGenerator.genCodeLine("static const " + Options.getLongType() + " jjbitVec" +  lohiByteCnt + "[] = " + tmp);
                   }
-               lohiByteTab.put(tmp, ind = new Integer(lohiByteCnt++));
+               lohiByteTab.put(tmp, ind = Integer.valueOf(lohiByteCnt++));
             }
 
             if (loByteVec == null)
                loByteVec = new Vector();
 
-            loByteVec.add(new Integer(i));
+            loByteVec.add(Integer.valueOf(i));
             loByteVec.add(ind);
          }
       }
@@ -1158,7 +1158,7 @@ public class NfaState
 
       if (nameSet.length == 1)
       {
-         stateNameToReturn = new Integer(nameSet[0]);
+         stateNameToReturn = Integer.valueOf(nameSet[0]);
          stateNameForComposite.put(stateSetString, stateNameToReturn);
          return nameSet[0];
       }
@@ -1213,7 +1213,7 @@ public class NfaState
       else
          tmp = nameSet[toRet];
 
-      stateNameToReturn = new Integer(tmp);
+      stateNameToReturn = Integer.valueOf(tmp);
       stateNameForComposite.put(stateSetString, stateNameToReturn);
       compositeStateTable.put(stateSetString, nameSet);
 
