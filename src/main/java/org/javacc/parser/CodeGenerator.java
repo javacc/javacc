@@ -355,11 +355,9 @@ public class CodeGenerator {
     	  if (i >= 0)
     		  modsAndRetType = modsAndRetType.substring(i + "virtual".length());
       }
-      if (qualifiedModsAndRetType != null) {
-    	  i = qualifiedModsAndRetType.lastIndexOf("virtual");
-    	  if (i >= 0)
-    		  qualifiedModsAndRetType = qualifiedModsAndRetType.substring(i + "virtual".length());
-      }
+    	i = qualifiedModsAndRetType.lastIndexOf("virtual");
+    	if (i >= 0)
+    		qualifiedModsAndRetType = qualifiedModsAndRetType.substring(i + "virtual".length());
       mainBuffer.append("\n" + qualifiedModsAndRetType + " " +
                            getClassQualifier(className) + nameAndParams);
       //if (exceptions != null)

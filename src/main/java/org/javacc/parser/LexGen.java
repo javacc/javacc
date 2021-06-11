@@ -504,7 +504,8 @@ public class LexGen extends CodeGenerator implements JavaCCParserConstants
       for (i = 0; i < initialState.epsilonMoves.size(); i++)
         ((NfaState)initialState.epsilonMoves.elementAt(i)).GenerateCode();
 
-      if (hasNfa[lexStateIndex] = (NfaState.generatedStates != 0))
+      hasNfa[lexStateIndex] = (NfaState.generatedStates != 0);
+      if (hasNfa[lexStateIndex])
       {
         initialState.GenerateCode();
         startState = initialState.GenerateInitMoves(this);
