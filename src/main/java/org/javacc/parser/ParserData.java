@@ -10,12 +10,12 @@ public class ParserData {
     SEQUENCE,
     CHOICE,
     ZERORORMORE
-  };
+  }
 
   public static class LookaheadInfo {
     public LookaheadType lokaheadType;
     public List<Integer> data;
-  };
+  }
 
   Map<Integer, List<LookaheadInfo>> lookaheads;
 }
