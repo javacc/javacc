@@ -39,7 +39,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
       <arg line="Parser.jj" />
     </java>
 
-    <javac srcdir="out-dir" destdir="out-dir" source="1.5" debug="true" includeantruntime='false'
+    <javac srcdir="out-dir" destdir="out-dir" source="1.7" debug="true" includeantruntime='false'
            classpath="../../target/javacc.jar">
     </javac>
 
