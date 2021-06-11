@@ -45,7 +45,7 @@ public class ASTGTNode extends SimpleNode {
      jjtGetChild(0).interpret();
      jjtGetChild(1).interpret();
 
-     stack[--top] = new Boolean(((Integer)stack[top]).intValue() >
+     stack[--top] = Boolean.valueOf(((Integer)stack[top]).intValue() >
                                 ((Integer)stack[top + 1]).intValue());
   }
 

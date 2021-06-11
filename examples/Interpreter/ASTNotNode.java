@@ -41,7 +41,7 @@ public class ASTNotNode extends SimpleNode {
   public void interpret()
   {
      jjtGetChild(0).interpret();
-     stack[top] = new Boolean(!((Boolean)stack[top]).booleanValue());
+     stack[top] = Boolean.valueOf(!((Boolean)stack[top]).booleanValue());
   }
 
 }

@@ -215,14 +215,13 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
     return c;
   }
 
-#if GENERATE_ANNOTATIONS
-  @Deprecated
-#fi
   /**
    * @deprecated
    * @see #getEndColumn
    */
-
+#if GENERATE_ANNOTATIONS
+  @Deprecated
+#fi
   ${PREFIX}public int getColumn() {
 #if KEEP_LINE_COLUMN
     return bufcolumn[bufpos];
@@ -231,14 +230,13 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
 #fi
   }
 
-#if GENERATE_ANNOTATIONS
-  @Deprecated
-#fi
   /**
    * @deprecated
    * @see #getEndLine
    */
-
+#if GENERATE_ANNOTATIONS
+  @Deprecated
+#fi
   ${PREFIX}public int getLine() {
 #if KEEP_LINE_COLUMN
     return bufline[bufpos];

@@ -85,7 +85,7 @@ public final class OptionsTest extends TestCase {
         Options.setCmdLineOption("LOOKAHEAD=0");
         assertEquals(2, Options.getLookahead());
         assertEquals(0, JavaCCErrors.get_warning_count());
-        Options.setInputFileOption(null, null, Options.USEROPTION__LOOKAHEAD, new Integer(0));
+        Options.setInputFileOption(null, null, Options.USEROPTION__LOOKAHEAD, Integer.valueOf(0));
         assertEquals(2, Options.getLookahead());
         assertEquals(1, JavaCCErrors.get_warning_count());
 
@@ -133,7 +133,7 @@ public final class OptionsTest extends TestCase {
 
         assertEquals(0, JavaCCErrors.get_warning_count());
         assertEquals(0, JavaCCErrors.get_error_count());
-        Options.setInputFileOption(null, null, Options.USEROPTION__STATIC, new Integer(8));
+        Options.setInputFileOption(null, null, Options.USEROPTION__STATIC, Integer.valueOf(8));
         assertEquals(1, JavaCCErrors.get_warning_count());
 
         assertEquals(0, JavaCCErrors.get_error_count());

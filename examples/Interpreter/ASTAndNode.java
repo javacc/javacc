@@ -43,12 +43,12 @@ public class ASTAndNode extends SimpleNode {
 
      if (!((Boolean)stack[top]).booleanValue())
      {
-        stack[top] = new Boolean(false);
+        stack[top] = Boolean.valueOf(false);
         return;
      }
 
      jjtGetChild(1).interpret();
-     stack[--top] = new Boolean(((Boolean)stack[top]).booleanValue() &&
+     stack[--top] = Boolean.valueOf(((Boolean)stack[top]).booleanValue() &&
                                 ((Boolean)stack[top + 1]).booleanValue());
   }
 

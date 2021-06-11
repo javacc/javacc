@@ -43,10 +43,10 @@ public class ASTBitwiseAndNode extends SimpleNode {
      jjtGetChild(1).interpret();
 
      if (stack[top] instanceof Boolean)
-        stack[--top] = new Boolean(((Boolean)stack[top]).booleanValue() &
+        stack[--top] = Boolean.valueOf(((Boolean)stack[top]).booleanValue() &
                                 ((Boolean)stack[top + 1]).booleanValue());
      else if (stack[top] instanceof Integer)
-        stack[--top] = new Integer(((Integer)stack[top]).intValue() &
+        stack[--top] = Integer.valueOf(((Integer)stack[top]).intValue() &
                                 ((Integer)stack[top + 1]).intValue());
   }
 

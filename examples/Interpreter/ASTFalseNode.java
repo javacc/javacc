@@ -39,7 +39,7 @@ public class ASTFalseNode extends SimpleNode {
 
   public void interpret()
   {
-     stack[++top] = new Boolean(false);
+     stack[++top] = Boolean.valueOf(false);
   }
 
 }

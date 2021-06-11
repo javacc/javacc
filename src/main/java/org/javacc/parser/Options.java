@@ -156,10 +156,10 @@ public class Options {
 	static {
 		TreeSet<OptionInfo> temp = new TreeSet<OptionInfo>();
 
-		temp.add(new OptionInfo(USEROPTION__LOOKAHEAD, OptionType.INTEGER, new Integer(1)));
+		temp.add(new OptionInfo(USEROPTION__LOOKAHEAD, OptionType.INTEGER, Integer.valueOf(1)));
 
-		temp.add(new OptionInfo(USEROPTION__CHOICE_AMBIGUITY_CHECK, OptionType.INTEGER,new Integer(2)));
-		temp.add(new OptionInfo(USEROPTION__OTHER_AMBIGUITY_CHECK, OptionType.INTEGER, new Integer(1)));
+		temp.add(new OptionInfo(USEROPTION__CHOICE_AMBIGUITY_CHECK, OptionType.INTEGER,Integer.valueOf(2)));
+		temp.add(new OptionInfo(USEROPTION__OTHER_AMBIGUITY_CHECK, OptionType.INTEGER, Integer.valueOf(1)));
 		temp.add(new OptionInfo(USEROPTION__STATIC, OptionType.BOOLEAN, Boolean.TRUE));
 		temp.add(new OptionInfo(USEROPTION__PARSER_CODE_GENERATOR, OptionType.STRING, ""));
 		temp.add(new OptionInfo(USEROPTION__TOKEN_MANAGER_CODE_GENERATOR, OptionType.STRING, ""));
@@ -216,7 +216,7 @@ public class Options {
 		temp.add(new OptionInfo(USEROPTION__CPP_IGNORE_ACTIONS, OptionType.BOOLEAN, Boolean.FALSE));
 		temp.add(new OptionInfo(USEROPTION__CPP_STOP_ON_FIRST_ERROR, OptionType.BOOLEAN, Boolean.FALSE));
 
-		temp.add(new OptionInfo(USEROPTION__DEPTH_LIMIT, OptionType.INTEGER, new Integer(0)));
+		temp.add(new OptionInfo(USEROPTION__DEPTH_LIMIT, OptionType.INTEGER, Integer.valueOf(0)));
 		temp.add(new OptionInfo(USEROPTION__CPP_STACK_LIMIT, OptionType.STRING, ""));
 
 		userOptions = Collections.unmodifiableSet(temp);
@@ -517,7 +517,7 @@ public class Options {
 								+ arg + "\" will be ignored.");
 						return;
 					}
-					Val = new Integer(i);
+					Val = Integer.valueOf(i);
 				} catch (NumberFormatException e) {
 					Val = s.substring(index + 1);
 					if (s.length() > index + 2) {
