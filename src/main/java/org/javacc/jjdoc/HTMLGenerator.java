@@ -41,7 +41,7 @@ import org.javacc.parser.TokenProduction;
 /**
  * Output BNF in HTML 3.2 format.
  */
-public class HTMLGenerator extends TextGenerator implements Generator {
+public class HTMLGenerator extends TextGenerator {
   private Hashtable id_map = new Hashtable();
   private int id = 1;
 
