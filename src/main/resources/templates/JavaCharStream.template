@@ -378,13 +378,13 @@ class JavaCharStream
     }
   }
 
-#if GENERATE_ANNOTATIONS
-  @Deprecated
-#fi
   /*
    * @deprecated
    * @see #getEndColumn
    */
+#if GENERATE_ANNOTATIONS
+  @Deprecated
+#fi
   ${PREFIX}public int getColumn() {
 #if KEEP_LINE_COLUMN
     return bufcolumn[bufpos];
@@ -393,14 +393,14 @@ class JavaCharStream
 #fi
   }
 
-#if GENERATE_ANNOTATIONS
-  @Deprecated
-#fi
   /*
    * @deprecated
    * @see #getEndLine
    * @return the line number.
    */
+#if GENERATE_ANNOTATIONS
+  @Deprecated
+#fi
   ${PREFIX}public int getLine() {
 #if KEEP_LINE_COLUMN
     return bufline[bufpos];
