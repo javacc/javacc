@@ -25,24 +25,24 @@ interface CharStream {
    */
   char readChar() throws java.io.IOException;
 
-#if GENERATE_ANNOTATIONS
-  @Deprecated
-#fi
   /**
    * Returns the column position of the character last read.
    * @deprecated
    * @see #getEndColumn
    */
-  int getColumn();
-
 #if GENERATE_ANNOTATIONS
   @Deprecated
 #fi
+  int getColumn();
+
   /**
    * Returns the line number of the character last read.
    * @deprecated
    * @see #getEndLine
    */
+#if GENERATE_ANNOTATIONS
+  @Deprecated
+#fi
   int getLine();
 
   /**

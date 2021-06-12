@@ -222,7 +222,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
    * @deprecated
    * @see #getEndColumn
    */
-
+  @Deprecated
   ${PREFIX}public int getColumn() {
 #if KEEP_LINE_COLUMN
     return bufcolumn[bufpos];
@@ -238,7 +238,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
    * @deprecated
    * @see #getEndLine
    */
-
+  @Deprecated
   ${PREFIX}public int getLine() {
 #if KEEP_LINE_COLUMN
     return bufline[bufpos];
