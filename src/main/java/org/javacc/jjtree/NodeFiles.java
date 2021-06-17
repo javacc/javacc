@@ -248,31 +248,56 @@ final class NodeFiles {
     File file = new File(JJTreeOptions.getJJTreeOutputDirectory(), className + ".java");
 
     try {
-      OutputFile outputFile = new OutputFile(file);
-      PrintWriter ostr = outputFile.getPrintWriter();
+      final OutputFile outputFile = new OutputFile(file);
+      final PrintWriter ostr = outputFile.getPrintWriter();
 
-      List nodeNames = ASTNodeDescriptor.getNodeNames();
+      final List nodeNames = ASTNodeDescriptor.getNodeNames();
 
       generatePrologue(ostr);
       ostr.println("public class " + className + " implements " + visitorClass() + "{");
 
-      String ve = mergeVisitorException();
+      final String ve = mergeVisitorException();
 
       String argumentType = "Object";
       if (!JJTreeOptions.getVisitorDataType().equals("")) {
-        argumentType = JJTreeOptions.getVisitorDataType();
+        argumentType = JJTreeOptions.getVisitorDataType().trim();
       }
 
-      String ret = JJTreeOptions.getVisitorReturnType();
-      ostr.println("  public " + ret + " defaultVisit(SimpleNode node, " + argumentType + " data)" +
+      final String returnType = JJTreeOptions.getVisitorReturnType().trim();
+      final boolean isVoidReturnType = "void".equals(returnType);
+      
+      ostr.println("  public " + returnType + " defaultVisit(SimpleNode node, " + argumentType + " data)" +
           ve + "{");
       ostr.println("    node.childrenAccept(this, data);");
-      ostr.println("    return" + (ret.trim().equals("void") ? "" : " data") + ";");
+      ostr.print("    return");
+      if (!isVoidReturnType) {
+        if (returnType.equals(argumentType))
+          ostr.print(" data");
+        else if ("boolean".equals(returnType))
+          ostr.print(" false");
+        else if ("int".equals(returnType))
+          ostr.print(" 0");
+        else if ("long".equals(returnType))
+          ostr.print(" 0L");
+        else if ("double".equals(returnType))
+          ostr.print(" 0.0d");
+        else if ("float".equals(returnType))
+          ostr.print(" 0.0f");
+        else if ("short".equals(returnType))
+          ostr.print(" 0");
+        else if ("byte".equals(returnType))
+          ostr.print(" 0");
+        else if ("char".equals(returnType))
+          ostr.print(" '\u0000'");
+        else 
+          ostr.print(" null");
+      }
+      ostr.println(";");
       ostr.println("  }");
 
-      ostr.println("  public " + ret + " visit(SimpleNode node, " + argumentType + " data)" +
+      ostr.println("  public " + returnType + " visit(SimpleNode node, " + argumentType + " data)" +
           ve + "{");
-      ostr.println("    " + (ret.trim().equals("void") ? "" : "return ") + "defaultVisit(node, data);");
+      ostr.println("    " + (isVoidReturnType ? "" : "return ") + "defaultVisit(node, data);");
       ostr.println("  }");
 
       if (JJTreeOptions.getMulti()) {
@@ -282,17 +307,18 @@ final class NodeFiles {
             continue;
           }
           String nodeType = JJTreeOptions.getNodePrefix() + n;
-          ostr.println("  public " + ret + " " + getVisitMethodName(nodeType) +
+          ostr.println("  public " + returnType + " " + getVisitMethodName(nodeType) +
           "(" + nodeType +
               " node, " + argumentType + " data)" + ve + "{");
-          ostr.println("    " + (ret.trim().equals("void") ? "" : "return ") + "defaultVisit(node, data);");
+          ostr.println("    " + (isVoidReturnType ? "" : "return ") + "defaultVisit(node, data);");
           ostr.println("  }");
         }
       }
+      
       ostr.println("}");
       ostr.close();
 
-    } catch (IOException e) {
+    } catch (final IOException e) {
       throw new Error(e.toString());
     }
   }
