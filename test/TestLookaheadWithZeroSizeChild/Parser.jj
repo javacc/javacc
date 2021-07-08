@@ -1,0 +1,36 @@
+
+options { OUTPUT_DIRECTORY="out-dir"; }
+
+PARSER_BEGIN(Parser)
+
+public class Parser {
+
+  public static void main(String args[]) throws Exception {
+    Parser t = new Parser(new java.io.StringReader("BAR BAR"));
+    t.CompilationUnit();
+    System.out.println("Parser ran sucessfully");
+  }
+
+}
+
+PARSER_END(Parser)
+
+TOKEN :
+{
+  < FOO: "FOO">
+| < BAR: "BAR">
+| < DUMMY: "DUMMY">
+}
+
+void CompilationUnit() : {}
+{
+	LOOKAHEAD(2)
+	( <FOO> | {}) <BAR> <DUMMY>
+	|
+	<BAR> <BAR>
+}
+
+SKIP :
+{
+  " "
+}
