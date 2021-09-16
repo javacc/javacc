@@ -8,6 +8,9 @@ public
 #fi
 class JavaCharStream
 {
+#if STATIC_EXCEPTION
+  private static final java.io.IOException ioException = new java.io.IOException();
+#fi
   /** Whether parser is static. */
   public static final boolean staticFlag = ${STATIC};
 
@@ -155,7 +158,11 @@ class JavaCharStream
                                           4096 - maxNextCharInd)) == -1)
       {
         inputStream.close();
+#if STATIC_EXCEPTION
+        throw ioException;
+#else
         throw new java.io.IOException();
+#fi
       }
       else
          maxNextCharInd += i;
