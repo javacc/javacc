@@ -9,10 +9,10 @@ title: JavaCC
 description: The most popular parser generator for use with Java applications.
 
 # Latest release
-version: 7.0.10
+version: 7.0.11
 
 # Site URLs
 github:
   contributors_url: https://github.com/javacc/javacc/graphs/contributors
-  zip_url: https://github.com/javacc/javacc/archive/javacc-7.0.10.zip
-  tar_url: https://github.com/javacc/javacc/archive/javacc-7.0.10.tar.gz
+  zip_url: https://github.com/javacc/javacc/archive/javacc-7.0.11.zip
+  tar_url: https://github.com/javacc/javacc/archive/javacc-7.0.11.tar.gz
