@@ -310,7 +310,7 @@
 									<arg line="examples/GUIParsing/ParserVersion/CalcInput.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/GUIParsing/ParserVersion" />
-								<!-- 
+								<!--
 								<echo />
 								<copy todir="test.tmp/GUIParsing/TokenMgrVersion">
 									<fileset dir="examples/GUIParsing/TokenMgrVersion">
@@ -318,7 +318,7 @@
 									</fileset>
 								</copy>
 								<java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-									<arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion" /> 
+									<arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion" />
 									<arg line="examples/GUIParsing/TokenMgrVersion/CalcInput.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/GUIParsing/TokenMgrVersion" />
@@ -554,6 +554,21 @@
 									<arg line="examples/Obfuscator/MapFile.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/Obfuscator" />
+
+								<echo />
+								<java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+									<arg line="-OUTPUT_DIRECTORY=test.tmp/gwtTemplate" />
+									<arg line="test/gwtTemplate/Parser.jj" />
+								</java>
+								<javac fork="true" srcdir="test.tmp/gwtTemplate" />
+
+								<echo />
+								<java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+									<arg line="-OUTPUT_DIRECTORY=test.tmp/gwtUnicodeTemplate" />
+									<arg line="test/gwtUnicodeTemplate/Parser.jj" />
+								</java>
+								<javac fork="true" srcdir="test.tmp/gwtUnicodeTemplate" />
+
 								<!-- TODO, test cases for SimpleExamples -->
 								<echo />
 								<copy todir="test.tmp/Transformer">
@@ -647,7 +662,7 @@
 					</execution>
 				</executions>
 			</plugin>
-  <!-- 
+  <!--
   			<plugin>
 				<artifactId>maven-jarsigner-plugin</artifactId>
 				<executions>
