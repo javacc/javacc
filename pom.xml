@@ -608,6 +608,7 @@
 				<executions>
 					<execution>
 						<id>generate sources jar</id>
+						<phase>deploy</phase>
 						<goals>
 							<goal>jar</goal>
 						</goals>
@@ -620,6 +621,7 @@
 				<executions>
 					<execution>
 						<id>generate javadoc jar</id>
+						<phase>deploy</phase>
 						<goals>
 							<goal>jar</goal>
 						</goals>
@@ -640,7 +642,7 @@
 				<executions>
 					<execution>
 						<id>sign-artifacts</id>
-						<phase>verify</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>sign</goal>
 						</goals>
@@ -653,7 +655,7 @@
 				<executions>
 					<execution>
 						<id>sign</id>
-						<phase>verify</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>sign</goal>
 						</goals>
