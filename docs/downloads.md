@@ -6,11 +6,12 @@
 
 N.B. LOOKAHEAD functionality is broken from version 7.0.5. It will be fixed in version 7.0.10 and upper. In the interim, if you require LOOKAHEAD functionality, please use version 7.0.4.
 
-JavaCC 7.0.11 is our latest stable release.
+JavaCC 7.0.12 is our latest stable release.
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
 #### 7.0.x
+* JavaCC 7.0.12 - 2022-07-06 ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.12.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.12.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.12/javacc-7.0.12.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.12/javacc-7.0.12-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.12))
 * JavaCC 7.0.11 - 2020-11-22 ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.11.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.11.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.11/javacc-7.0.11.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.11/javacc-7.0.11-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.11))
 * JavaCC 7.0.10 - 2020-11-22 ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.10.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.10.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.10/javacc-7.0.10.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.10/javacc-7.0.10-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.10))
 * JavaCC 7.0.9 - 2020-06-22 ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.9.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.9.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.9/javacc-7.0.9.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.9/javacc-7.0.9-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.9))
@@ -35,9 +36,9 @@ All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/
 To install JavaCC, navigate to the download directory and type:
 
 ```
-$ unzip javacc-7.0.11.zip
+$ unzip javacc-7.0.12.zip
 or
-$ tar xvf javacc-7.0.11.tar.gz
+$ tar xvf javacc-7.0.12.tar.gz
 ```
 
 Once you have completed installation add the `bin/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
