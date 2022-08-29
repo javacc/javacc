@@ -74,7 +74,7 @@ This example recognizes matching braces followed by zero or more line terminator
 
 Examples of legal strings in this grammar are:
 
-`{}`, `{‎{‎{‎{‎{}}}}}` // ... etc
+`{}`, `{{{{{}}}}}` // ... etc
 
 Examples of illegal strings are:
 
@@ -152,9 +152,9 @@ This guide will walk you through locally building the project, running an existi
 
 ### <a name="download"></a>Download & Installation
 
-JavaCC 7.0.12 is our latest stable release.
+JavaCC 7.0.10 is our latest stable release.
 
-* JavaCC 7.0.12 - ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.12.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.12.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.12/javacc-7.0.12.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.12/javacc-7.0.12-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.12))
+* JavaCC 7.0.10 - ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.10.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.10.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.10/javacc-7.0.10.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.10/javacc-7.0.10-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.10))
 
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
@@ -168,16 +168,16 @@ The GitHub  8.0 branch contains the next generation of JavaCC that splits the fr
 To install JavaCC, navigate to the download directory and type:
 
 ```
-$ unzip javacc-7.0.12.zip
+$ unzip javacc-7.0.10.zip
 or
-$ tar xvf javacc-7.0.12.tar.gz
+$ tar xvf javacc-7.0.10.tar.gz
 ```
 
-Then place the binary `javacc-7.0.12.jar` in a new `target/` folder, and rename to `javacc.jar`.
+Then place the binary `javacc-7.0.10.jar` in a new `target/` folder, and rename to `javacc.jar`.
 
 Once you have completed installation add the `scripts/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
 
-On UNIX based systems, the scripts may not be executable immediately. This can be solved by using the command from the `javacc-7.0.12/` directory:
+On UNIX based systems, the scripts may not be executable immediately. This can be solved by using the command from the `javacc-7.0.10/` directory:
 
 ```
 chmod +x scripts/javacc
@@ -288,7 +288,7 @@ User                                                 | Use Case                 
 [Apache Calcite](https://calcite.apache.org/)        | Parsing SQL statements                                         | [Parser.jj](https://github.com/apache/calcite/blob/master/core/src/main/codegen/templates/Parser.jj)
 [Apache Camel](https://camel.apache.org/)            | Parsing stored SQL templates                                   | [sspt.jj](https://github.com/apache/camel/blob/master/components/camel-sql/src/main/java/org/apache/camel/component/sql/stored/template/grammar/sspt.jj)
 [Apache Jena](https://jena.apache.org/)              | Parsing queries written in SPARQL, ARQ, SSE, Turtle and JSON   | [sparql_10](https://github.com/apache/jena/blob/master/jena-arq/Grammar/Final/sparql_10-final.jj), [sparql_11](https://github.com/apache/jena/blob/master/jena-arq/Grammar/Final/sparql_11-final.jj), [arq.jj](https://github.com/apache/jena/blob/master/jena-arq/Grammar/arq.jj), [sse.jj](https://github.com/apache/jena/blob/master/jena-arq/Grammar/sse/sse.jj), [turtle.jj](https://github.com/apache/jena/blob/master/jena-arq/Grammar/turtle.jj), [json.jj](https://github.com/apache/jena/blob/master/jena-arq/Grammar/JSON/json.jj)
-[Apache Lucene](https://lucene.apache.org/)          | Parsing search queries                                         | [QueryParser.jj](https://github.com/apache/lucene/tree/main/lucene/queryparser/src/java/org/apache/lucene/queryparser/classic/QueryParser.jj)
+[Apache Lucene](https://lucene.apache.org/)          | Parsing search queries                                         | [QueryParser.jj](https://github.com/apache/lucene-solr/blob/master/lucene/queryparser/src/java/org/apache/lucene/queryparser/classic/QueryParser.jj)
 [Apache Tomcat](https://tomcat.apache.org/)          | Parsing Expression Language (EL) and JSON                      | [ELParser.jjt](https://github.com/apache/tomcat/blob/master/java/org/apache/el/parser/ELParser.jjt), [JSONParser.jj](https://github.com/apache/tomcat/blob/master/java/org/apache/tomcat/util/json/JSONParser.jj)
 [Apache Zookeeper](https://zookeeper.apache.org/)    | Optimising serialisation/deserialisation of Hadoop I/O records | [rcc.jj](https://github.com/apache/zookeeper/blob/master/zookeeper-jute/src/main/java/org/apache/jute/compiler/generated/rcc.jj)
 [Java Parser](https://javaparser.org/)               | Parsing Java language files                                    | [java.jj](https://github.com/javaparser/javaparser/blob/master/javaparser-core/src/main/javacc/java.jj)

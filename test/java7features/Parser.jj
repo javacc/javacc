@@ -52,10 +52,6 @@ PARSER_BEGIN(Parser)
 /** Simple brace matcher. */
 public class Parser {
 
-  // to test issue #189
-  private java.util.List<String> list1 = new java.util.ArrayList<String>();
-  private java.util.List<String> list2 = new java.util.ArrayList<>();
-
   /** Main entry point. */
   public static void main(String args[]) throws ParseException {
     Parser parser = new Parser(System.in);
