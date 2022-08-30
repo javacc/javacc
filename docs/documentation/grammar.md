@@ -66,7 +66,7 @@ javacc_input ::= javacc_options
                  "PARSER_BEGIN" "(" <IDENTIFIER> ")"
                  java_compilation_unit
                  "PARSER_END" "(" <IDENTIFIER> ")"
-                 ( production )+
+                 ( production )*
                  <EOF>
 ```
 

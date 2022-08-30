@@ -4,7 +4,7 @@
 	<groupId>net.java.dev.javacc</groupId>
 	<artifactId>javacc</artifactId>
 	<name>JavaCC</name>
-	<version>7.0.13-SNAPSHOT</version>
+	<version>7.0.11-SNAPSHOT</version>
 
 	<description>JavaCC is a parser/scanner generator for java. </description>
 	<url>https://github.com/javacc/javacc</url>
@@ -310,7 +310,7 @@
 									<arg line="examples/GUIParsing/ParserVersion/CalcInput.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/GUIParsing/ParserVersion" />
-								<!--
+								<!-- 
 								<echo />
 								<copy todir="test.tmp/GUIParsing/TokenMgrVersion">
 									<fileset dir="examples/GUIParsing/TokenMgrVersion">
@@ -318,7 +318,7 @@
 									</fileset>
 								</copy>
 								<java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-									<arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion" />
+									<arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion" /> 
 									<arg line="examples/GUIParsing/TokenMgrVersion/CalcInput.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/GUIParsing/TokenMgrVersion" />
@@ -554,21 +554,6 @@
 									<arg line="examples/Obfuscator/MapFile.jj" />
 								</java>
 								<javac fork="true" srcdir="test.tmp/Obfuscator" />
-
-								<echo />
-								<java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-									<arg line="-OUTPUT_DIRECTORY=test.tmp/gwtTemplate" />
-									<arg line="test/gwtTemplate/Parser.jj" />
-								</java>
-								<javac fork="true" srcdir="test.tmp/gwtTemplate" />
-
-								<echo />
-								<java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-									<arg line="-OUTPUT_DIRECTORY=test.tmp/gwtUnicodeTemplate" />
-									<arg line="test/gwtUnicodeTemplate/Parser.jj" />
-								</java>
-								<javac fork="true" srcdir="test.tmp/gwtUnicodeTemplate" />
-
 								<!-- TODO, test cases for SimpleExamples -->
 								<echo />
 								<copy todir="test.tmp/Transformer">
@@ -623,7 +608,6 @@
 				<executions>
 					<execution>
 						<id>generate sources jar</id>
-						<phase>deploy</phase>
 						<goals>
 							<goal>jar</goal>
 						</goals>
@@ -636,7 +620,6 @@
 				<executions>
 					<execution>
 						<id>generate javadoc jar</id>
-						<phase>deploy</phase>
 						<goals>
 							<goal>jar</goal>
 						</goals>
@@ -657,20 +640,20 @@
 				<executions>
 					<execution>
 						<id>sign-artifacts</id>
-						<phase>deploy</phase>
+						<phase>verify</phase>
 						<goals>
 							<goal>sign</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
-  <!--
+  <!-- 
   			<plugin>
 				<artifactId>maven-jarsigner-plugin</artifactId>
 				<executions>
 					<execution>
 						<id>sign</id>
-						<phase>deploy</phase>
+						<phase>verify</phase>
 						<goals>
 							<goal>sign</goal>
 						</goals>

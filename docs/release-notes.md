@@ -31,7 +31,6 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 
 #### 7.0.x
 
-* [7.0.12](#javacc-7.0.12)
 * [7.0.11](#javacc-7.0.11)
 * [7.0.10](#javacc-7.0.10)
 * [7.0.9](#javacc-7.0.9)
@@ -92,32 +91,6 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 * [0.6.-8](#javacc-0.6.-8)
 * [0.6.-9](#javacc-0.6.-9)
 * [0.6.-10](#javacc-0.6.-10)
-
-<br>
-
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.12"></a>7.0.12
----
- <br>
-* \#230			: Remove unused char from TokenMgrError.template in LexicalEr
-* \#228			: Remove redundant cast in TokenMgrError template
-* \#224			: Production part in javacc_input cannot be omitted
-* \#223			: Fix annotations for JavaCharStream 
-* \#222			: Generate max. one deprecated annotation per method
-* \#219			: Fix mismatched javadoc
-* \#213			: Fix legacy links to Apache Lucene's grammar file
-* \#212			: Test for allocation expression #189
-* \#211 		: Bad defaultVisit() method generated
-* \#210			: Another change for marked for removal 
-* \#209			: Improve lexical error message 
-* \#208			: Relocated misplaced annotations
-* \#207			: Changed methods marked for removal 
-* \#206			: Build xml improvements 
-* \#205			: Small fixes on warnings
-* \#203			: Missing change for doc for token_manager_decls (issue #190) 
-* \#202			: Fix doc for token_manager_decls (issue #190)
-* \#200			: Update index.md and _config.yml
-
-* \#199			: Fix QueryParser.jj url in READMD
 
 <br>
 
