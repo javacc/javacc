@@ -95,6 +95,11 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 
 <br>
 
+### MODIFICATIONS IN VERSION <a name="javacc-7.0.12"></a>7.0.12
+---
+ <br>
+<br>
+
 ### MODIFICATIONS IN VERSION <a name="javacc-7.0.11"></a>7.0.11
 ---
  <br>
