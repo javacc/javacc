@@ -6,7 +6,7 @@
 
 N.B. LOOKAHEAD functionality is broken from version 7.0.5. It will be fixed in version 7.0.10. In the interim, if you require LOOKAHEAD functionality, please use version 7.0.4.
 
-JavaCC 7.0.10 is our latest stable release.
+JavaCC 7.0.12 is our latest stable release.
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
@@ -36,9 +36,9 @@ All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/
 To install JavaCC, navigate to the download directory and type:
 
 ```
-$ unzip javacc-7.0.10.zip
+$ unzip javacc-7.0.12.zip
 or
-$ tar xvf javacc-7.0.10.tar.gz
+$ tar xvf javacc-7.0.12.tar.gz
 ```
 
 Once you have completed installation add the `bin/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
