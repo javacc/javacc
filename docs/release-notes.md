@@ -31,6 +31,7 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 
 #### 7.0.x
 
+* [7.0.12](#javacc-7.0.12)
 * [7.0.11](#javacc-7.0.11)
 * [7.0.10](#javacc-7.0.10)
 * [7.0.9](#javacc-7.0.9)
