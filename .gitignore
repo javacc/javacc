@@ -49,3 +49,5 @@ dist/
 ant.log
 mvn.log
 cobertura.ser
+/release-perform.log
+/release-prepare.log
