@@ -1672,13 +1672,26 @@ public class NfaState
       } else {
          if (Options.getJavaUnicodeEscape() || unicodeWarningGiven)
          {
-           codeGenerator.genCodeLine("         int hiByte = (curChar >> 8);");
+           if (!codeGenerator.isJavaLanguage()) {
+             codeGenerator.genCodeLine("         unsigned char curUChar;");
+             codeGenerator.genCodeLine("         curUChar = *((unsigned char *)&curChar);");
+             codeGenerator.genCodeLine("         int hiByte = (curUChar >> 8);");
+           } else {
+             codeGenerator.genCodeLine("         int hiByte = (curChar >> 8);");
+           }
            codeGenerator.genCodeLine("         int i1 = hiByte >> 6;");
            codeGenerator.genCodeLine("         " + Options.getLongType() + " l1 = 1L << (hiByte & 077);");
-         }
 
-         codeGenerator.genCodeLine("         int i2 = (curChar & 0xff) >> 6;");
-         codeGenerator.genCodeLine("         " + Options.getLongType() + " l2 = 1L << (curChar & 077);");
+           codeGenerator.genCodeLine("         int i2 = (curChar & 0xff) >> 6;");
+           if (!codeGenerator.isJavaLanguage()) {
+             codeGenerator.genCodeLine("         " + Options.getLongType() + " l2 = 1L << (curUChar & 077);");
+           } else {
+             codeGenerator.genCodeLine("         " + Options.getLongType() + " l2 = 1L << (curChar & 077);");
+           }
+         } else {
+           codeGenerator.genCodeLine("         int i2 = (curChar & 0xff) >> 6;");
+           codeGenerator.genCodeLine("         " + Options.getLongType() + " l2 = 1L << (curChar & 077);");
+        }
       }
 
       //codeGenerator.genCodeLine("         MatchLoop: do");
@@ -2948,14 +2961,14 @@ public class NfaState
       codeGenerator.genCodeLine("   {");
       codeGenerator.genCodeLine("      if (++jjround == 0x" + Integer.toHexString(Integer.MAX_VALUE) + ")");
       codeGenerator.genCodeLine("         ReInitRounds();");
-      codeGenerator.genCodeLine("      if (curChar < 64)");
+      codeGenerator.genCodeLine("      if (curChar >= 0 && curChar < 64)");
       codeGenerator.genCodeLine("      {");
 
       DumpAsciiMoves(codeGenerator, 0);
 
       codeGenerator.genCodeLine("      }");
 
-      codeGenerator.genCodeLine("      else if (curChar < 128)");
+      codeGenerator.genCodeLine("      else if (curChar >= 0 && curChar < 128)");
 
       codeGenerator.genCodeLine("      {");
 
