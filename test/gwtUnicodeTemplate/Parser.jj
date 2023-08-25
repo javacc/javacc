@@ -36,7 +36,7 @@ options {
   DEBUG_LOOKAHEAD = false;
   DEBUG_TOKEN_MANAGER = false;
   ERROR_REPORTING = true;
-  JAVA_UNICODE_ESCAPE = false;
+  JAVA_UNICODE_ESCAPE = true;
   UNICODE_INPUT = false;
   IGNORE_CASE = false;
   USER_TOKEN_MANAGER = false;
@@ -45,20 +45,19 @@ options {
   BUILD_TOKEN_MANAGER = true;
   SANITY_CHECK = true;
   FORCE_LA_CHECK = false;
+  JAVA_TEMPLATE_TYPE = "modern";
 }
 
 PARSER_BEGIN(Parser)
 
+import java.io.IOException;
+
 /** Simple brace matcher. */
 public class Parser {
 
-  // to test issue #189
-  private java.util.List<String> list1 = new java.util.ArrayList<String>();
-  private java.util.List<String> list2 = new java.util.ArrayList<>();
-
   /** Main entry point. */
-  public static void main(String args[]) throws ParseException {
-    Parser parser = new Parser(System.in);
+  public static void main(String args[]) throws ParseException, IOException {
+    Parser parser = new Parser(new StreamProvider(System.in));
     parser.Input();
   }
 
@@ -72,45 +71,6 @@ void Input() :
 {
 
   "A"  {
-     //Here we test for Java 7 language features
-
-     //Try-with resources
-     try (Foo a = new Foo()) {
        System.out.println("hello");
-     } catch(Exception d) {
-       System.out.println("world");
-     }
-
-     //Multiple exception catching
-     try (Foo a = new Foo(); Bar b = new Bar()) {
-       System.out.println("hello");
-     } catch(FirstException | SecondException ex) {
-       System.out.println("world");
-     }
-
-     //Underscores in numeric literals
-     int     one_million = 1_000__000;
-     int     cafe_babe   = 0xCAFE_BABE;
-     int     zero        = 0____0;
-     double  avogadro    = 6_0.22e2_2;
-     double  hundred     = 1_0_0d;
-             hundred     = 1_0_0.;
-             hundred     = 100.;
-     double  pi          = 3.141_592_65;
-     double  half        = .5_0;
-     double  h           = 0x4__3p4_4;
-
-     //Binary literals
-     int     binary      = 0b1001_1001;
-
-     //Type Inference for Generic Instance Creation
-     Map<String, String> m = new HashMap<>();
-
-     //String in switch
-     String s = "foo";
-     switch(s) {
-        case "bar":
-            System.out.println("never");
-     }
   } <EOF>
 }
