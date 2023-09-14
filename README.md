@@ -164,7 +164,7 @@ You can use JavaCC either from the command line or through an IDE.
 
 ### Use JavaCC from the command line
 
-##### Download
+#### Download
 
 Download the latest stable release (at least the source and the binaries) in a so called download directory:
 
@@ -174,7 +174,7 @@ All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/
 
 For all previous releases, please see [stable releases](docs/downloads.md).
 
-##### Install
+#### Install
 
 Once you have downloaded the files, navigate to the download directory and unzip the source file, this creating a so called JavaCC installation directory:
 ```
@@ -192,7 +192,7 @@ On UNIX based systems, the scripts may not be executable immediately. This can b
 chmod +x scripts/javacc
 ```
 
-##### Write your grammar and generate your parser
+#### Write your grammar and generate your parser
 
 You can then create and edit a grammar file with your favorite text editor.
 
@@ -204,7 +204,7 @@ Minimal requirements for an IDE are:
 * Support for Java
 * Support for Maven with Java
 
-##### IntelliJ IDEA
+#### IntelliJ IDEA
 
 The IntelliJ IDE supports Maven out of the box and offers a plugin for JavaCC development.
 
@@ -215,12 +215,12 @@ The IntelliJ IDE supports Maven out of the box and offers a plugin for JavaCC de
 Check out our [Setting up IntelliJ](https://ci.apache.org/projects/flink/flink-docs-master/flinkDev/ide_setup.html#intellij-idea) guide for details.
 -->
 
-##### Eclipse IDE
+#### Eclipse IDE
 
 * Eclipse download: [https://www.eclipse.org/ide/](https://www.eclipse.org/ide/)
 * Eclipse JavaCC Plugin: [https://marketplace.eclipse.org/content/javacc-eclipse-plug](https://marketplace.eclipse.org/content/javacc-eclipse-plug)
 
-##### Maven
+#### Maven
 
 Add the following dependency to your `pom.xml` file.
 
@@ -232,7 +232,7 @@ Add the following dependency to your `pom.xml` file.
 </dependency>
 ```
 
-##### Gradle
+#### Gradle
 
 Add the following to your `build.gradle` file.
 
@@ -251,7 +251,7 @@ dependencies {
 
 ### Rebuilding JavaCC 
 
-##### From the source installation directory
+#### From the source installation directory
 
 The source installation directory contains the JavaCC, JJTree and JJDoc sources, launcher scripts, example grammars and documentation, and also a bootstrap version of JavaCC needed to build JavaCC.
 
@@ -270,7 +270,7 @@ $ ant
 
 This will build the `javacc.jar` file in the `target/` directory
 
-##### After cloning the JavaCC GitHub repository
+#### After cloning the JavaCC GitHub repository
 
 This is the preferred method for contributing to JavaCC.
 
