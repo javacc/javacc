@@ -1,54 +1,44 @@
 // Copyright 2011 Google Inc. All Rights Reserved.
 // Author: sreeni@google.com (Sreeni Viswanadha)
 
-/* Copyright (c) 2006, Sun Microsystems, Inc.
- * All rights reserved.
+/*
+ * Copyright (c) 2006, Sun Microsystems, Inc. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided
+ * that the following conditions are met:
  *
- *     * Redistributions of source code must retain the above copyright notice,
- *       this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     * Neither the name of the Sun Microsystems, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived from
- *       this software without specific prior written permission.
+ * * Redistributions of source code must retain the above copyright notice, this list of conditions and the
+ * following disclaimer. * Redistributions in binary form must reproduce the above copyright notice, this list
+ * of conditions and the following disclaimer in the documentation and/or other materials provided with the
+ * distribution. * Neither the name of the Sun Microsystems, Inc. nor the names of its contributors may be
+ * used to endorse or promote products derived from this software without specific prior written permission.
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
- * THE POSSIBILITY OF SUCH DAMAGE.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  */
 
 package org.javacc.jjtree;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
-
-
-import org.javacc.parser.Options;
 import org.javacc.parser.JavaCCGlobals;
 
 public class JJTree {
-
+  
   private IO io;
-
-  private void p(String s)
-  {
+  
+  @SuppressWarnings("resource")
+  private void p(String s) {
     io.getMsg().println(s);
   }
-
-  private void help_message()
-  {
+  
+  private void help_message() {
     p("Usage:");
     p("    jjtree option-settings inputfile");
     p("");
@@ -64,7 +54,7 @@ public class JJTree {
     p("of \"-NOSTATIC\".  Option values must be appropriate for the corresponding");
     p("option, and must be either an integer or a string value.");
     p("");
-
+    
     p("The boolean valued options are:");
     p("");
     p("    STATIC                   (default true)");
@@ -93,7 +83,7 @@ public class JJTree {
     p("");
     p("JJTree also accepts JavaCC options, which it inserts into the generated file.");
     p("");
-
+    
     p("EXAMPLES:");
     p("    jjtree -STATIC=false mygrammar.jjt");
     p("");
@@ -105,24 +95,25 @@ public class JJTree {
     p("    https://javacc.dev.java.net/doc/JJTree.html ");
     p("");
   }
-
+  
   /**
    * A main program that exercises the parser.
    */
+  @SuppressWarnings("resource")
   public int main(String args[]) {
-
+    
     // initialize static state for allowing repeat runs without exiting
     ASTNodeDescriptor.nodeIds = new ArrayList();
     ASTNodeDescriptor.nodeNames = new ArrayList();
     ASTNodeDescriptor.nodeSeen = new Hashtable();
     org.javacc.parser.Main.reInitAll();
-
+    
     JavaCCGlobals.bannerLine("Tree Builder", "");
-
+    
     io = new IO();
-
+    
     try {
-
+      
       initializeOptions();
       if (args.length == 0) {
         p("");
@@ -131,9 +122,9 @@ public class JJTree {
       } else {
         p("(type \"jjtree\" with no arguments for help)");
       }
-
+      
       String fn = args[args.length - 1];
-
+      
       if (JJTreeOptions.isOption(fn)) {
         p("Last argument \"" + fn + "\" is not a filename");
         return 1;
@@ -145,9 +136,9 @@ public class JJTree {
         }
         JJTreeOptions.setCmdLineOption(args[arg]);
       }
-
+      
       JJTreeOptions.validate();
-
+      
       try {
         io.setInput(fn);
       } catch (JJTreeIOException ioe) {
@@ -155,15 +146,15 @@ public class JJTree {
         return 1;
       }
       p("Reading from file " + io.getInputFileName() + " . . .");
-
+      
       JJTreeGlobals.toolList = JavaCCGlobals.getToolNames(fn);
       JJTreeGlobals.toolList.add("JJTree");
-
+      
       try {
         JJTreeParser parser = new JJTreeParser(io.getIn());
         parser.javacc_input();
-
-        ASTGrammar root = (ASTGrammar)parser.jjtree.rootNode();
+        
+        ASTGrammar root = (ASTGrammar) parser.jjtree.rootNode();
         if (Boolean.getBoolean("jjtree-dump")) {
           root.dump(" ");
         }
@@ -175,12 +166,12 @@ public class JJTree {
         }
         root.generate(io);
         io.getOut().close();
-
+        
         String outputLanguage = JJTreeOptions.getOutputLanguage();
-
+        
         // TODO :: Not yet tested this in GWT/Modern mode (disabled by default in 6.1)
-
-		if (JJTreeOptions.isOutputLanguageJava()) {
+        
+        if (JJTreeOptions.isOutputLanguageJava()) {
           NodeFiles.generateTreeConstants_java();
           NodeFiles.generateVisitor_java();
           NodeFiles.generateDefaultVisitor_java();
@@ -188,17 +179,16 @@ public class JJTree {
         } else if (JJTreeOptions.isOutputLanguageCpp()) {
           CPPNodeFiles.generateTreeConstants();
           CPPNodeFiles.generateVisitors();
-          //CPPNodeFiles.generateDefaultVisitor();
+          // CPPNodeFiles.generateDefaultVisitor();
           CPPJJTreeState.generateTreeState();
-          //CPPNodeFiles.generateJJTreeH();
+          // CPPNodeFiles.generateJJTreeH();
         } else {
-        	p("Unsupported JJTree output language : " + outputLanguage);
-        	return 1;
+          p("Unsupported JJTree output language : " + outputLanguage);
+          return 1;
         }
-
-        p("Annotated grammar generated successfully in " +
-              io.getOutputFileName());
-
+        
+        p("Annotated grammar generated successfully in " + io.getOutputFileName());
+        
       } catch (ParseException pe) {
         p("Error parsing input: " + pe.toString());
         return 1;
@@ -207,15 +197,14 @@ public class JJTree {
         e.printStackTrace(io.getMsg());
         return 1;
       }
-
+      
       return 0;
-
+      
     } finally {
       io.closeAll();
     }
   }
-
-
+  
   /**
    * Initialize for JJTree
    */
@@ -223,8 +212,7 @@ public class JJTree {
     JJTreeOptions.init();
     JJTreeGlobals.initialize();
   }
-
-
+  
 }
 
-/*end*/
+/* end */
