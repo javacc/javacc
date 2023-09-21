@@ -178,7 +178,7 @@ or
 $ tar xvf javacc-7.0.12.tar.gz
 ```
 
-Then place the binary `javacc-7.0.12.jar` in a new `target/` folder, and rename to `javacc.jar`.
+Then place the binary [javacc-7.0.12.jar](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.12/javacc-7.0.12.jar) in a new `target/` folder, and rename to `javacc.jar`.
 
 Once you have completed installation add the `scripts/` directory in the JavaCC installation to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
 
