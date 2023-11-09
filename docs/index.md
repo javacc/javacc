@@ -165,7 +165,7 @@ You can use JavaCC either from the command line or through an IDE.
 
 Download the latest stable release (at least the source and the binaries) in a so called download directory:
 
-* JavaCC 7.0.12 - ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.12.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.12.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.12/javacc-7.0.12.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.12/javacc-7.0.12-javadoc.jar), [Release Notes](docs/release-notes.md#javacc-7.0.12))
+* JavaCC 7.0.13 - ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.13.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.13.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.13/javacc-7.0.13.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.13/javacc-7.0.13-javadoc.jar), [Release Notes](docs/release-notes.md#javacc-7.0.13))
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
@@ -175,16 +175,16 @@ For all previous releases, please see [stable releases](docs/downloads.md).
 
 Once you have downloaded the files, navigate to the download directory and unzip the source file, this creating a so called JavaCC installation directory:
 ```
-$ unzip javacc-7.0.12.zip
+$ unzip javacc-7.0.13.zip
 or
-$ tar xvf javacc-7.0.12.tar.gz
+$ tar xvf javacc-7.0.13.tar.gz
 ```
 
-Then move the binary file `javacc-7.0.12.jar` under the download directory in a new `target/` directory under the installation directory, and rename it to `javacc.jar`.
+Then move the binary file `javacc-7.0.13.jar` under the download directory in a new `target/` directory under the installation directory, and rename it to `javacc.jar`.
 
 Then add the `scripts/` directory in the JavaCC installation directory to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
 
-On UNIX based systems, the scripts may not be executable immediately. This can be solved by using the command from the `javacc-7.0.12/` directory:
+On UNIX based systems, the scripts may not be executable immediately. This can be solved by using the command from the `javacc-7.0.13/` directory:
 ```
 chmod +x scripts/javacc
 ```
@@ -225,7 +225,7 @@ Add the following dependency to your `pom.xml` file.
 <dependency>
     <groupId>net.java.dev.javacc</groupId>
     <artifactId>javacc</artifactId>
-    <version>7.0.12</version>
+    <version>7.0.13</version>
 </dependency>
 ```
 
@@ -242,7 +242,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'net.java.dev.javacc', name: 'javacc', version: '7.0.12'
+    compile group: 'net.java.dev.javacc', name: 'javacc', version: '7.0.13'
 }
 ```
 
