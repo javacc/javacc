@@ -14,85 +14,76 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 
 ## <a name="toc"></a>Contents
 
-- [**Release Notes**](#notes)
   * [JavaCC](#javacc)
   * [JJTree](#jjtree)
   * [JJDoc](#jjdoc)
-  * [JavaCC (C++ version)](#javacc-cpp)
-  * [JJTree (C++ version)](#jjtree-cpp)
+  * [JavaCC (C++ version)](#javacc-c-version)
+  * [JJTree (C++ version)](#jjtree-c-version)
 
 ---
-## <a name="javacc"></a>JavaCC
+## JavaCC
 
-### VERSION HISTORY
+### Version history
 
 #### 7.0.x
 
-* [7.0.13](#javacc-7.0.13)
-* [7.0.12](#javacc-7.0.12)
-* [7.0.11](#javacc-7.0.11)
-* [7.0.10](#javacc-7.0.10)
-* [7.0.9](#javacc-7.0.9)
-* [7.0.8](#javacc-7.0.8)
-* [7.0.7](#javacc-7.0.7)
-* [7.0.6](#javacc-7.0.6)
-* [7.0.5](#javacc-7.0.5)
-* [7.0.4](#javacc-7.0.4)
-* [7.0.3](#javacc-7.0.3)
-* [7.0.2](#javacc-7.0.2)
-* [7.0.1](#javacc-7.0.1)
-* [7.0.0](#javacc-7.0.0)
+* [7.0.13](#modifications-in-javacc-7-0-13)
+* [7.0.12](#modifications-in-javacc-7-0-12)
+* [7.0.11](#modifications-in-javacc-7-0-11)
+* [7.0.10](#modifications-in-javacc-7-0-10)
+* [7.0.9](#modifications-in-javacc-7-0-9)
+* [7.0.8](#modifications-in-javacc-7-0-8)
+* [7.0.7](#modifications-in-javacc-7-0-7)
+* [7.0.6](#modifications-in-javacc-7-0-6)
+* [7.0.5](#modifications-in-javacc-7-0-5)
+* [7.0.4](#modifications-in-javacc-7-0-4)
+* [7.0.3](#modifications-in-javacc-7-0-3)
+* [7.0.2](#modifications-in-javacc-7-0-2)
+* [7.0.1](#modifications-in-javacc-7-0-1)
+* [7.0.0](#modifications-in-javacc-7-0-0)
 
 #### 6.0.x
 
-* [6.1.2](#javacc-6.1.2)
-* [6.0.0](#javacc-6.0.0)
+* [6.1.2](#modifications-in-javacc-6-1-2)
+* [6.0.0](#modifications-in-javacc-6-0-0)
 
 #### 4.x
 
-* [4.2](#javacc-4.2)
-* [4.1](#javacc-4.1)
-* [4.0](#javacc-4.0)
+* [4.2](#modifications-in-javacc-4-2)
+* [4.1](#modifications-in-javacc-4-1)
+* [4.0](#modifications-in-javacc-4-0)
 
 #### 3.x
 
-* [3.2](#javacc-3.2)
-* [3.1](#javacc-3.1)
-* [3.0](#javacc-3.0)
+* [3.2](#modifications-in-javacc-3-2)
+* [3.1](#modifications-in-javacc-3-1)
+* [3.0](#modifications-in-javacc-3-0)
 
 #### 2.x
 
-* [2.1](#javacc-2.1)
-* [2.0](#javacc-2.0)
+* [2.1](#modifications-in-javacc-2-1)
+* [2.0](#modifications-in-javacc-2-0)
 
 #### 1.x
 
-* [1.2](#javacc-1.2)
-* [1.0](#javacc-1.0)
+* [1.2](#modifications-in-javacc-1-2)
+* [1.0](#modifications-in-javacc-1-0)
 
 #### 0.x
 
-* [0.8-pre2](#javacc-0.8-pre2)
-* [0.8-pre1](#javacc-0.8-pre1)
-* [0.7.1](#javacc-0.7.1)
-* [0.7](#javacc-0.7)
-* [0.7-pre7](#javacc-0.7-pre7)
-* [0.7-pre6](#javacc-0.7-pre6)
-* [0.7-pre5](#javacc-0.7-pre5)
-* [0.7-pre4](#javacc-0.7-pre4)
-* [0.7-pre3](#javacc-0.7-pre3)
-* [0.7-pre2](#javacc-0.7-pre2)
-* [0.7-pre1](#javacc-0.7-pre1)
-* [0.6.1](#javacc-0.6.1)
-* [0.6](#javacc-0.6)
-* [0.6 (Beta2)](#javacc-0.6-Beta2)
-* [0.6 (Beta1)](#javacc-0.6-Beta1)
-* [0.6.-8](#javacc-0.6.-8)
-* [0.6.-9](#javacc-0.6.-9)
-* [0.6.-10](#javacc-0.6.-10)
+* [0.8-pre2](#modifications-in-javacc-0-8-pre2)
+* [0.8-pre1](#modifications-in-javacc-0-8-pre1)
+* [0.7.1](#modifications-in-javacc-0-7-1)
+* [0.7](#modifications-in-javacc-0-7)
+* [0.7-pre7](#modifications-in-javacc-0-7-pre7)
+* [0.7-pre6](#modifications-in-javacc-0-7-pre6)
+* [0.7-pre5](#modifications-in-javacc-0-7-pre5)
+* [0.7-pre4](#modifications-in-javacc-0-7-pre4)
+* [0.7-pre3](#modifications-in-javacc-0-7-pre3)
+* [0.7-pre2](#modifications-in-javacc-0-7-pre2)
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.13"></a>7.0.13
+### Modifications in JavaCC 7.0.13
 
 * \#267     : Resolve merge conflicts from #245
 * \#245     : Fix issue #243 (Character code is returned instead of the symbol in the message)
@@ -100,7 +91,7 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 * \#231     : Try to fix {{{{{}}}}} issue in GitHub Pages
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.12"></a>7.0.12
+### Modifications in JavaCC 7.0.12
 
 * \#230     : Remove unused char from TokenMgrError.template in LexicalEr
 * \#228     : Remove redundant cast in TokenMgrError template
@@ -123,34 +114,35 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 * \#199     : Fix QueryParser.jj url in README
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.11"></a>7.0.11
+### Modifications in JavaCC 7.0.11
 
 * \#193			: Code error in class RCharacterList.SortDescriptors(): fixed
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.10"></a>7.0.10
+### Modifications in JavaCC 7.0.10
 
  * \#183			: Lookahead is broken since 7.0.5 (introduced in commit fbac68f)
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.9"></a>7.0.9
+### Modifications in JavaCC 7.0.9
 
 * pom.xml		: change deployment on OSS to automatic release
 * documentation	: fix broken links
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.8"></a>7.0.8
+### Modifications in JavaCC 7.0.8
 
 * \#175			: Doesn't work in Turkish Locale
 * \#73			: javacc/c++: invalid lookahead processing: missing one lookahead to get rid of the conflict
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.7"></a>7.0.7
+### Modifications in JavaCC 7.0.7
+
 * JavaCC.jj		: remove unused c++ declaration blocs tokens
 * \#172			: add a specific '-version' command line argument
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.6"></a>7.0.6
+### Modifications in JavaCC 7.0.6
 
 The following changes are not upward compatible with the previous 7.0.5 version but have 
 a very little impact on existing grammars. Main advantage is to prepare a more smooth upgrade
@@ -162,7 +154,7 @@ with the upcoming javacc-8.0.0 major release.
 * C++ generation: renaming the option TOKEN_MANAGER_INCLUDES by TOKEN_MANAGER_INCLUDE
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.5"></a>7.0.5
+### Modifications in JavaCC 7.0.5
 
 * \#42: new README.md file.
 * \#71: Add support for Java7 language features.
@@ -180,24 +172,24 @@ Build with Maven is working again.
 Required Java Platform: Standard Edition 7.0: known under Eclipse as JavaSE-1.7
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.4"></a>7.0.4
+### Modifications in JavaCC 7.0.4
 
 Internal refactoring
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.3"></a>7.0.3
+### Modifications in JavaCC 7.0.3
 
 Internal refactoring
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.2"></a>7.0.2
+### Modifications in JavaCC 7.0.2
 
 C++ generation: Fixes of private/public scope for Node constructors.
 Fix JJTParserState::closeNodeScope signature to avoid ambiguity in
 resolving the overloaded function name.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.1"></a>7.0.1
+### Modifications in JavaCC 7.0.1
 
 C++ generation: Fix generation of variadic template return type of BNF
 production that were missing in the code file.
@@ -205,7 +197,7 @@ production that were missing in the code file.
 Refactoring of the build process.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-7.0.0"></a>7.0.0
+### Modifications in JavaCC 7.0.0
 
 This version initiates the table driven parsing process as a optional feature.
 
@@ -215,7 +207,7 @@ Ant can now publish the distribution to Maven Central using the target
 The c++ generation has been refactored.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-6.1.2"></a>6.1.2
+### Modifications in JavaCC 6.1.2
 
 This version brings fixes of the JavaCC for c++ generation with also a
 refactoring of the generated code. Main features/fixes added are
@@ -232,7 +224,7 @@ refactoring of the generated code. Main features/fixes added are
        See examples/JJTreeExamples/cpp.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-6.0.0"></a>6.0.0
+### Modifications in JavaCC 6.0.0
 
 Added support for C++ code generation - for almost all features - except ERROR_REPORTING.
 The generated code mostly uses the same design as the Java version.
@@ -269,17 +261,17 @@ Added new options relevant to C++:
   -IGNORE_ACTIONS - an option to ignore all the action so a clean parser can be generated even when jjtree is used. Useful for debugging/profiling/testing
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-4.2"></a>4.2
+### Modifications in JavaCC 4.2
 
 Release 4.2 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.2).
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-4.1"></a>4.1
+### Modifications in JavaCC 4.1
 
 Release 4.1 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.1).
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-4.0"></a>4.0
+### Modifications in JavaCC 4.0
 
 See the bug list in issue tracker for all the bugs fixed in this release.
 JJTree and JavaCC both now support 1.5 syntax.
@@ -290,7 +282,7 @@ SimpleNode can now extend a class using the NODE_EXTENDS option.
 JAVACODE and BNF productions take optional access modifiers.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-3.2"></a>3.2
+### Modifications in JavaCC 3.2
 
 New regular expression kind with range operator where the upperbound is
 optional, meaning just minimum, no max - (<RE>){n,}
@@ -301,13 +293,13 @@ Fixed issues #: 10, 11, 13, 2, 4, 5, 7
 In particular, the generated code should now compile with JDK 1.5 (Tiger)
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-3.1"></a>3.1
+### Modifications in JavaCC 3.1
 
 Open source with BSD license.
 Fixed the copyright text in the source files.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-3.0"></a>3.0
+### Modifications in JavaCC 3.0
 
 No GUI version anymore.
 
@@ -318,7 +310,7 @@ Split up initializations of jj_la1_* vars into smaller methods so
 that there is no code size issue. This is a recently reported bug.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-2.1"></a>2.1
+### Modifications in JavaCC 2.1
 
 Added a new option - KEEP_LINE_COLUMN default true.
 
@@ -368,7 +360,7 @@ Also, the CharStream interface remains the same. So, if you have been using
 USER_CHAR_STREAM option, then you don't need to change anything.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-2.0"></a>2.0
+### Modifications in JavaCC 2.0
 
 Added CPP grammar to examples directory (contributed by Malome Khomo).
 
@@ -386,7 +378,7 @@ Uninstaller included.
 Fixed some minor bugs.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-1.2"></a>1.2
+### Modifications in JavaCC 1.2
 
 Moved JavaCC to the Metamata installer and made it available for
 download from Metamata's web site.
@@ -431,19 +423,19 @@ This should help in writing grammars for processing C/C++ #include
 files, without going through hoops as in the old versions.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-1.0"></a>1.0
+### Modifications in JavaCC 1.0
 
 Fixed bugs related to usage of JavaCC with Java 2.
 
 Many other bug fixes.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-0.8-pre2"></a>0.8-pre2
+### Modifications in JavaCC 0.8-pre2
 
 Mainly bug fixes.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-0.8-pre1"></a>0.8-pre1
+### Modifications in JavaCC 0.8-pre1
 
 Changed all references to Stream classes in the JavaCC code itself and
 changed them to Reader/Writer.
@@ -458,7 +450,7 @@ should continue to use the InputStream constructors.
 Generate inner classes instead of top level classes where appropriate.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-0.7.1"></a>0.7.1
+### Modifications in JavaCC 0.7.1
 
 Fixed a bug in the handling of empty PARSER_BEGIN...PARSER_END
 regions.
@@ -469,7 +461,7 @@ Fixed a spurious definition that was being generated into the parser
 when USER_TOKEN_MANAGER was set to true.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-0.7"></a>0.7
+### Modifications in JavaCC 0.7
 
 Fixed the error reporting routines to delete duplicate entries from
 the "expected" list.
@@ -496,7 +488,7 @@ Updated the performance page to demonstrate how JavaCC performance
 has improved since Version 0.5.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre7"></a>0.7-pre7
+### Modifications in JavaCC 0.7-pre7
 
 Added an option CACHE_TOKENS with a default value of false.  You
 can generate slightly faster and (it so happens) more compact
@@ -532,7 +524,7 @@ Generating the 'static' keyword for the backup method of the
 UCode\*.java files when STATIC flag is set.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre6"></a>0.7-pre6
+### Modifications in JavaCC 0.7-pre6
 
 Extended the generated CharStream classes with a method to adjust the
 line and column numbers for the beginning of a token.  Look at the C++
@@ -583,7 +575,7 @@ Many changes have been made to JJTree.  See the JJTree release
 notes for more information.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre5"></a>0.7-pre5
+### Modifications in JavaCC 0.7-pre5
 
 Fixed a bug with TOKEN_MGR_DECLS introduced in 0.7pre4.
 
@@ -628,7 +620,7 @@ Fixed all UNICODE lexing bugs that we know about.
 Fixed an array index out of bounds bug in the token manager.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre4"></a>0.7-pre4
+### Modifications in JavaCC 0.7-pre4
 
 The only significant change for this version is that we incorporated
 the Java grammar into the JavaCC grammar.  The JavaCC front end is
@@ -636,7 +628,7 @@ therefore able to parse the entire grammar file intelligently rather
 than simple ignore the actions.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre3"></a>0.7-pre3
+### Modifications in JavaCC 0.7-pre3
 
 WE HAVE NOT ADDED ANY MAJOR FEATURES TO JAVACC FOR THIS PRERELEASE.
 WE'VE FOCUSED MAINLY ON BUG FIXES.  BUT HERE IS WHAT HAS CHANGED:
@@ -678,7 +670,7 @@ being set before a lexical action for a TOKEN type reg. exp.
 Added a toString method to the Token class to return the image.
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-0.7-pre2"></a>0.7-pre2
+### Modifications in JavaCC 0.7-pre2
 
 AS USUAL, KEEP IN MIND THAT THIS IS A PRERELEASE THAT WE HAVE NOT
 TESTED EXTENSIVELY.  THERE ARE A FEW KNOWN BUGS THAT ARE STILL PRESENT
@@ -726,38 +718,38 @@ classes.  Now all these are thrown as Error objects.
 Fixed a very old problem with giving input from System.in.
 
 ---
-## <a name="jjtree"></a>JJTree
+## JJTree
 
-### VERSION HISTORY
+### Version history
 
 THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEASE OF VERSION 0.2.2.
 
 #### 6.x
 
-* [6.0](#jjtree-6.0)
+* [6.0](#modifications-in-jjtree-6-0)
 
 #### 4.x
 
-* [4.2](#jjtree-4.2)
-* [4.3](#jjtree-4.2)
-* [4.0](#jjtree-4.0)
+* [4.2](#modifications-in-jjtree-4-2)
+* [4.3](#modifications-in-jjtree-4-2)
+* [4.0](#modifications-in-jjtree-4-0)
 
 #### 0.x
 
-* [0.3-pre6](#jjtree-0.3-pre6)
-* [0.3-pre5](#jjtree-0.3-pre5)
-* [0.3-pre4](#jjtree-0.3-pre4)
-* [0.3-pre3](#jjtree-0.3-pre3)
-* [0.3-pre2](#jjtree-0.3-pre2)
-* [0.3-pre1](#jjtree-0.3-pre1)
-* [0.2.6](#jjtree-0.2.6)
-* [0.2.5](#jjtree-0.2.5)
-* [0.2.4](#jjtree-0.2.4)
-* [0.2.3](#jjtree-0.2.3)
-* [0.2.2](#jjtree-0.2.2)
+* [0.3-pre6](#modifications-in-jjtree-0-3-pre6)
+* [0.3-pre5](#modifications-in-jjtree-0-3-pre5)
+* [0.3-pre4](#modifications-in-jjtree-0-3-pre4)
+* [0.3-pre3](#modifications-in-jjtree-0-3-pre3)
+* [0.3-pre2](#modifications-in-jjtree-0-3-pre2)
+* [0.3-pre1](#modifications-in-jjtree-0-3-pre1)
+* [0.2.6](#modifications-in-jjtree-0-2-6)
+* [0.2.5](#modifications-in-jjtree-0-2-5)
+* [0.2.4](#modifications-in-jjtree-0-2-4)
+* [0.2.3](#modifications-in-jjtree-0-2-3)
+* [0.2.2](#modifications-in-jjtree-0-2-2)
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-6.0"></a>6.0
+### Modifications in JJTree 6.0
 
 JJTree is extended to support C++ code generation starting with version 6.0.
 The generated code mostly uses the same design as the Java version.
@@ -775,17 +767,17 @@ Added the new option:
   -VISITOR_METHOD_NAME_INCLUDES_TYPE_NAME - include the name of the class being visited in the Visitor
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-4.2"></a>4.2
+### Modifications in JJTree 4.2
 
 Release 4.2 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.2).
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-4.1"></a>4.1
+### Modifications in JJTree 4.1
 
 Release 4.1 is a maintenance release, incorporating a number of bug fixes and enhancements. For a complete list, please see the [issue tracker](https://javacc.dev.java.net/issues/buglist.cgi?component=javacc&field0-0-0=target_milestone&type0-0-0=equals&value0-0-0=4.1).
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-4.0"></a>4.0
+### Modifications in JJTree 4.0
 
 New option NODE_EXTENDS to specify a classname that
 SimpleNode extends so that boiler plate code can be  put
@@ -793,12 +785,12 @@ in that class. See the examples/Interpreter for an example
 usage.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre6"></a>0.3-pre6
+### Modifications in JJTree 0.3-pre6
 
 Fixed bug where Writers were not being closed correctly.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre5"></a>0.3-pre5
+### Modifications in JJTree 0.3-pre5
 
 Fixed a bug where a node annotation #P() caused a null pointer error.
 
@@ -809,7 +801,7 @@ Fixed a bug where the name of the JJTree state file was being used in
 the declaration of the field.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre4"></a>0.3-pre4
+### Modifications in JJTree 0.3-pre4
 
 Made the constructors of nodes public.  Also made the node identifier
 constants and the associated strings public.
@@ -844,7 +836,7 @@ might be useful to someone else too.  Don't use it unless you're
 prepared to change your code again later.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre3"></a>0.3-pre3
+### Modifications in JJTree 0.3-pre3
 
 JJTree now uses the same grammar as JavaCC.  This means that Java code
 in parser actions is parsed.
@@ -893,7 +885,7 @@ It was causing problems with parsers running in security environments
 where access to arbitrary properties is disallowed.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre2"></a>0.3-pre2
+### Modifications in JJTree 0.3-pre2
 
 The state that JJTree inserts into the parser class is now guarded by
 the formal comments.
@@ -923,7 +915,7 @@ the parser object as an extra parameter.  This reference is null for
 static parsers.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-0.3-pre1"></a>0.3-pre1
+### Modifications in JJTree 0.3-pre1
 
 
 JJTree 0.3pre1 has been bootstrapped with JJTree 0.2.6.
@@ -992,18 +984,18 @@ the method in an action within a node scope are automatically replaced
 by references to the special identifier jjtThis.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-0.2.6"></a>0.2.6
+### Modifications in JJTree 0.2.6
 
 Made appropriate internal modifications for the JavaCC 0.7 parse error exceptions.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-0.2.5"></a>0.2.5
+### Modifications in JJTree 0.2.5
 
 Fixed a bug where the current node was not being updated in the right
 place for final user actions.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-0.2.4"></a>0.2.4
+### Modifications in JJTree 0.2.4
 
 Fixed a bug where bad code was generated for void nodes in MULTI mode.
 
@@ -1015,7 +1007,7 @@ bad code. For example,
 ```
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-0.2.3"></a>0.2.3
+### Modifications in JJTree 0.2.3
 
 Added toString() and toString(String) methods to SimpleNode and
 modified the dumping code to use them.  Now you can easily customize
@@ -1049,7 +1041,7 @@ prefix and the name of the parser.  This is to avoid naming conflicts
 where there is more than one JJTree parser in the same package.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-0.2.2"></a>0.2.2
+### Modifications in JJTree 0.2.2
 
 The main change between Beanstalk 0.2 and JJTree 0.2.2 is the removal
 of the factory classes.  Their function is now performed by a static
@@ -1066,53 +1058,53 @@ iterate over the children.
 Two new options have been added: OUTPUT_FILE and NODE_DEFAULT_VOID.
 
 ---
-## <a name="jjdoc"></a>JJDoc
+## JJDoc
 
-### VERSION HISTORY
+### Version history
 
 THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEASE OF VERSION 0.1.
 
 #### 0.1.x
 
-* [0.1.6](#jjdoc-0.1.6)
-* [0.1.5](#jjdoc-0.1.5)
-* [0.1.4](#jjdoc-0.1.4)
-* [0.1.3](#jjdoc-0.1.3)
-* [0.1.2](#jjdoc-0.1.2)
-* [0.1.1](#jjdoc-0.1.1)
-* [0.1.0](#jjdoc-0.1.0)
+* [0.1.6](#modifications-in-jjdoc-0-1-6)
+* [0.1.5](#modifications-in-jjdoc-0-1-5)
+* [0.1.4](#modifications-in-jjdoc-0-1-4)
+* [0.1.3](#modifications-in-jjdoc-0-1-3)
+* [0.1.2](#modifications-in-jjdoc-0-1-2)
+* [0.1.1](#modifications-in-jjdoc-0-1-1)
+* [0.1.0](#modifications-in-jjdoc-0-1-0)
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.6"></a>0.1.6
+### Modifications in JJDoc 0.1.6
 
 Refactored to make Generator a settable interface,
 enabling Maven or other generators.
 Existing Generator becomes TextGenerator.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.5"></a>0.1.5
+### Modifications in JJDoc 0.1.5
 
 Fixed bug where Writers were not being closed correctly.
 Fixed bug where help message would not appear on command line.
 Added the "CSS" option.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.4"></a>0.1.4
+### Modifications in JJDoc 0.1.4
 
 Now accepts JavaCC try/catch/finally blocks.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.3"></a>0.1.3
+### Modifications in JJDoc 0.1.3
 
 Made appropriate internal modifications for the JavaCC 0.7 parse error exceptions.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.2"></a>0.1.2
+### Modifications in JJDoc 0.1.2
 
 Fixed bug where ()+ expansions were being reported as ()\*.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.1"></a>0.1.1
+### Modifications in JJDoc 0.1.1
 
 Fixed several stupid bugs in the Macintosh main class.
 
@@ -1123,7 +1115,7 @@ Moved production comments to the correct place: they were coming out
 with the preceding production in one table HTML mode.
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjdoc-0.1.0"></a>0.1.0
+### Modifications in JJDoc 0.1.0
 
 JJDoc takes a JavaCC parser specification and produces documentation
 for the BNF grammar.  It can operate in three modes, determined by
@@ -1157,21 +1149,21 @@ either .html or .txt added as a suffix to the input file's base name.
 You can supply a different file name with this option.
 
 ---
-## <a name="javacc-cpp"></a>JavaCC (C++ version)
+## JavaCC (C++ version)
 
 Javacc was extended to support C++ code generation starting with version 6.0. The generated code mostly uses the same design as the Java version.
 
-### VERSION HISTORY
+### Version history
 
 THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEASE OF VERSION 6.0.
 
 #### 6.x
 
-* [6.0](#javacc-cpp-6.0)
-* [C++ specific issues](#javacc-cpp-issues)
+* [6.0](#modifications-in-javacc-cpp-6-0)
+* [C++ specific issues](#c-specific-issues)
 
 ---
-### MODIFICATIONS IN VERSION <a name="javacc-cpp-6.0"></a>6.0
+### Modifications in JavaCC CPP 6.0
 
 Implemented all JavaCC options for the C++ version as well.
 
@@ -1185,7 +1177,7 @@ Added new options relevant to C++:
 - `IGNORE_ACTIONS` - an option to ignore all the action so a clean parser can be generated even when `jjtree` is used. Useful for debugging/profiling/testing.
 
 ---
-## <a name="javacc-cpp-issues"></a>C++ SPECIFIC ISSUES
+## C++ SPECIFIC ISSUES
 
 Since C++ is somewhat different from Java in code organization in terms of header files etc. we made the following changes:
 - Parser class in `PARSER_BEGIN/PARSER_END` - this cannot be supported as the parser is generated into the header file. So in the C++ version you can only define the contents of the class, not the class itself.
@@ -1196,22 +1188,22 @@ Since C++ is somewhat different from Java in code organization in terms of heade
 - Wide character support - C++ version is fully wide character compatible and it has been tested on Windows, Linux and Mac environments.
 
 ---
-## <a name="jjtree-cpp"></a>JJTree (C++ version)
+## JJTree (C++ version)
 
 JJTree is extended to support C++ code generation starting with version 6.0. The generated code mostly uses the same design as the Java version.
 
 Note that there are still some kinks being worked on - like the NODE_FACTORY option etc.
 
-### VERSION HISTORY
+### Version history
 
 THIS FILE IS A COMPLETE LOG OF ALL CHANGES THAT HAVE TAKEN PLACE SINCE THE RELEASE OF VERSION 6.0.
 
 #### 6.x
 
-* [6.0](#jjtree-cpp-6.0)
+* [6.0](#modifications-in-jjtree-cpp-6-0)
 
 ---
-### MODIFICATIONS IN VERSION <a name="jjtree-cpp-6.0"></a>6.0
+### Modifications in JJTree cpp-6.0
 
 Implemented all JavaCC options for the C++ version.
 
