@@ -4,13 +4,14 @@
 
 ### <a name="stable"></a>All stable releases
 
-N.B. LOOKAHEAD functionality is broken from version 7.0.5. It will be fixed in version 7.0.10. In the interim, if you require LOOKAHEAD functionality, please use version 7.0.4.
-
-JavaCC 7.0.12 is our latest stable release.
+JavaCC 7.0.13 is our latest stable release.
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
+(N.B. LOOKAHEAD functionality was broken from version 7.0.5 and fixed in version 7.0.10.)
+
 #### 7.0.x
+* JavaCC 7.0.13 - 2023-11-09 ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.13.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.13.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.13/javacc-7.0.13.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.13/javacc-7.0.13-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.13))
 * JavaCC 7.0.12 - 2022-07-06 ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.12.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.12.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.12/javacc-7.0.12.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.12/javacc-7.0.12-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.12))
 * JavaCC 7.0.11 - 2020-11-22 ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.11.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.11.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.11/javacc-7.0.11.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.11/javacc-7.0.11-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.11))
 * JavaCC 7.0.10 - 2020-11-22 ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.10.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.10.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.10/javacc-7.0.10.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.10/javacc-7.0.10-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.10))
