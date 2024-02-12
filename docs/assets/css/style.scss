@@ -2,3 +2,7 @@
 ---
 
 @import "{{ site.theme }}";
+
+.main-content {
+  max-width: 100%;
+}

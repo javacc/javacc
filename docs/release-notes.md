@@ -27,6 +27,7 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 
 #### 7.0.x
 
+* [7.0.14](#modifications-in-javacc-7-0-14)
 * [7.0.13](#modifications-in-javacc-7-0-13)
 * [7.0.12](#modifications-in-javacc-7-0-12)
 * [7.0.11](#modifications-in-javacc-7-0-11)
@@ -83,12 +84,17 @@ It also includes the change history for JJTree, JJDoc and the C++ versions of Ja
 * [0.7-pre2](#modifications-in-javacc-0-7-pre2)
 
 ---
+### Modifications in JavaCC 7.0.14
+
+* Added use of Maven toolchains plugin to ensure building with the (appropriate) local JDK 8
+
+---
 ### Modifications in JavaCC 7.0.13
 
 * \#267     : Resolve merge conflicts from #245
 * \#245     : Fix issue #243 (Character code is returned instead of the symbol in the message)
-* \#232     : Revert "Try to fix {{{{{}}}}} issue in GitHub Pages"
-* \#231     : Try to fix {{{{{}}}}} issue in GitHub Pages
+* \#232     : Revert "Try to fix &#123;&#123;&#123;&#123;&#123;&#125;&#125;&#125;&#125;&#125; issue in GitHub Pages"
+* \#231     : Try to fix &#123;&#123;&#123;&#123;&#123;&#125;&#125;&#125;&#125;&#125; issue in GitHub Pages
 
 ---
 ### Modifications in JavaCC 7.0.12
