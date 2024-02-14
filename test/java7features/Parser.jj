@@ -62,6 +62,20 @@ public class Parser {
     parser.Input();
   }
 
+  private static class Foo implements AutoCloseable {
+    public void close() {
+      // nothing to close
+    }
+  }
+
+  private static class Bar implements AutoCloseable {
+    public void close() {
+      // nothing to close
+    }
+  }
+
+  private static class FirstException extends RuntimeException { }
+  private static class SecondException extends RuntimeException { }
 }
 
 PARSER_END(Parser)
@@ -104,7 +118,7 @@ void Input() :
      int     binary      = 0b1001_1001;
 
      //Type Inference for Generic Instance Creation
-     Map<String, String> m = new HashMap<>();
+     java.util.Map<String, String> m = new java.util.HashMap<>();
 
      //String in switch
      String s = "foo";

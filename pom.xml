@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd
                       ">
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.java.dev.javacc</groupId>
@@ -8,7 +8,7 @@
   <name>JavaCC</name>
   <version>7.0.14-SNAPSHOT</version>
 
-  <description>JavaCC is a parser/scanner generator for java. </description>
+  <description>JavaCC is a parser/scanner generator for java.</description>
   <url>https://github.com/javacc/javacc</url>
   <issueManagement>
     <system>JIRA</system>
@@ -86,7 +86,7 @@
   <contributors>
     <contributor>
       <name>Markus Brigl</name>
-      <email />
+      <email/>
     </contributor>
     <contributor>
       <name>Martin Swanson</name>
@@ -283,7 +283,7 @@
           <includes>
             <include>**/*Test.java</include>
           </includes>
-          <excludes> </excludes>
+          <excludes></excludes>
           <argLine>-noverify</argLine>
         </configuration>
       </plugin>
@@ -301,336 +301,401 @@
 
                 <!-- Place any ant task here. You can add anything you can add between <target> and </target>
                 in a build.xml. -->
-                <mkdir dir="test.tmp" />
-
-                <echo />
+                <mkdir dir="test.tmp"/>
+                <echo message="== examples/CORBA-IDL"/>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/CORBA-IDL" />
-                  <arg line="examples/CORBA-IDL/IDL.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/CORBA-IDL"/>
+                  <arg line="examples/CORBA-IDL/IDL.jj"/>
                 </java>
-                <javac fork="true" srcdir="test.tmp/CORBA-IDL" />
+                <javac fork="true" srcdir="test.tmp/CORBA-IDL"/>
                 <copy todir="test.tmp/CORBA-IDL/">
                   <fileset dir="examples/CORBA-IDL">
-                    <include name="*.idl" />
+                    <include name="*.idl"/>
                   </fileset>
                 </copy>
                 <java failonerror="true" fork="true" classname="IDLParser" classpath="test.tmp/CORBA-IDL/"
-                  outputproperty="test.corba.out">
-                  <arg line="test.tmp/CORBA-IDL/Hello.idl" />
+                      outputproperty="test.corba.out">
+                  <arg line="test.tmp/CORBA-IDL/Hello.idl"/>
                 </java>
                 <echo>${test.corba.out}</echo>
                 <fail message="CORBA failed">
                   <condition>
                     <not>
-                      <contains string="${test.corba.out}" substring="IDL file parsed successfully" />
+                      <contains string="${test.corba.out}" substring="IDL file parsed successfully"/>
                     </not>
                   </condition>
                 </fail>
-                <echo />
+                <echo message="== examples/GUIParsing"/>
                 <copy todir="test.tmp/GUIParsing/ParserVersion">
                   <fileset dir="examples/GUIParsing/ParserVersion">
-                    <include name="*.java" />
+                    <include name="*.java"/>
                   </fileset>
                 </copy>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/ParserVersion" />
-                  <arg line="examples/GUIParsing/ParserVersion/CalcInput.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/ParserVersion"/>
+                  <arg line="examples/GUIParsing/ParserVersion/CalcInput.jj"/>
                 </java>
-                <javac fork="true" srcdir="test.tmp/GUIParsing/ParserVersion" />
-                <!--
-                <echo />
-                <copy todir="test.tmp/GUIParsing/TokenMgrVersion">
-                  <fileset dir="examples/GUIParsing/TokenMgrVersion">
-                    <include name="*.java" />
-                  </fileset>
-                </copy>
-                <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion" />
-                  <arg line="examples/GUIParsing/TokenMgrVersion/CalcInput.jj" />
-                </java>
-                <javac fork="true" srcdir="test.tmp/GUIParsing/TokenMgrVersion" />
-                 -->
-                <echo />
+                <javac fork="true" srcdir="test.tmp/GUIParsing/ParserVersion"/>
+                <echo message="== examples/Interpreter"/>
                 <copy todir="test.tmp/Interpreter">
                   <fileset dir="examples/Interpreter">
-                    <include name="*.java" />
+                    <include name="*.java"/>
                   </fileset>
                 </copy>
                 <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter " />
-                  <arg line="examples/Interpreter/SPL.jjt" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter "/>
+                  <arg line="examples/Interpreter/SPL.jjt"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter " />
-                  <arg line="test.tmp/Interpreter/SPL.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter "/>
+                  <arg line="test.tmp/Interpreter/SPL.jj"/>
                 </java>
-                <javac fork="true" srcdir="test.tmp/Interpreter" />
+                <javac fork="true" srcdir="test.tmp/Interpreter"/>
                 <copy todir="test.tmp/Interpreter/">
                   <fileset dir="examples/Interpreter/">
-                    <include name="*.spl" />
+                    <include name="*.spl"/>
                   </fileset>
                 </copy>
-                <java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/"
-                  inputstring="3" outputproperty="spl.out1">
-                  <arg line="test.tmp/Interpreter/fact.spl" />
+                <java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="3"
+                      outputproperty="spl.out1">
+                  <arg line="test.tmp/Interpreter/fact.spl"/>
                 </java>
                 <echo>${spl.out1}</echo>
                 <fail message="SPL fact parse failed">
                   <condition>
                     <not>
-                      <contains string="${spl.out1}" substring="Value of fact : 6" />
+                      <contains string="${spl.out1}" substring="Value of fact : 6"/>
                     </not>
                   </condition>
                 </fail>
-                <java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/"
-                  inputstring="3" outputproperty="spl.out2">
-                  <arg line="test.tmp/Interpreter/odd.spl" />
+                <java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="3"
+                      outputproperty="spl.out2">
+                  <arg line="test.tmp/Interpreter/odd.spl"/>
                 </java>
                 <echo>${spl.out2}</echo>
                 <fail message="SPL odd parse failed">
                   <condition>
                     <not>
-                      <contains string="${spl.out2}" substring="Value of odd : true" />
+                      <contains string="${spl.out2}" substring="Value of odd : true"/>
                     </not>
                   </condition>
                 </fail>
-                <java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/"
-                  inputstring="9" outputproperty="spl.out3">
-                  <arg line="test.tmp/Interpreter/sqrt.spl" />
+                <java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/" inputstring="9"
+                      outputproperty="spl.out3">
+                  <arg line="test.tmp/Interpreter/sqrt.spl"/>
                 </java>
                 <echo>${spl.out3}</echo>
                 <fail message="SPL sqrt parse failed">
                   <condition>
                     <not>
-                      <contains string="${spl.out3}" substring="Value of sqrt : 3" />
+                      <contains string="${spl.out3}" substring="Value of sqrt : 3"/>
                     </not>
                   </condition>
                 </fail>
-                <echo />
+                <echo message="== examples/JJTreeExamples/java/eg1"/>
                 <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1" />
-                  <arg line="examples/JJTreeExamples/java/eg1.jjt" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1"/>
+                  <arg line="examples/JJTreeExamples/java/eg1.jjt"/>
                 </java>
                 <java fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1" />
-                  <arg line="test.tmp/JJTreeExamples.eg1/eg1.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1"/>
+                  <arg line="test.tmp/JJTreeExamples.eg1/eg1.jj"/>
                 </java>
-                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg1" />
+                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg1"/>
                 <java failonerror="true" fork="true" classname="Eg1" classpath="test.tmp/JJTreeExamples.eg1/"
-                  inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg1.out"> </java>
+                      inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg1.out">
+                </java>
                 <echo>${jjtree.eg1.out}</echo>
                 <fail message="JJTree eg1 parse failed">
                   <condition>
                     <not>
-                      <contains string="${jjtree.eg1.out}" substring="Thank you." />
+                      <contains string="${jjtree.eg1.out}" substring="Thank you."/>
                     </not>
                   </condition>
                 </fail>
-                <echo />
+
+                <echo message="== examples/JJTreeExamples/java/eg2"/>
                 <copy todir="test.tmp/JJTreeExamples.eg2">
                   <fileset dir="examples/JJTreeExamples/java">
-                    <include name="*.java" />
-                    <exclude name="Eg4DumpVisitor.java" />
-                    <exclude name="ASTMyOtherID.java" />
+                    <include name="*.java"/>
+                    <exclude name="Eg4DumpVisitor.java"/>
+                    <exclude name="ASTMyOtherID.java"/>
                   </fileset>
                 </copy>
                 <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2" />
-                  <arg line="examples/JJTreeExamples/java/eg2.jjt" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2"/>
+                  <arg line="examples/JJTreeExamples/java/eg2.jjt"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2" />
-                  <arg line="test.tmp/JJTreeExamples.eg2/eg2.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2"/>
+                  <arg line="test.tmp/JJTreeExamples.eg2/eg2.jj"/>
                 </java>
-                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg2" />
+                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg2"/>
                 <java failonerror="true" fork="true" classname="Eg2" classpath="test.tmp/JJTreeExamples.eg2/"
-                  inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg2.out"> </java>
+                      inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg2.out">
+                </java>
                 <echo>${jjtree.eg2.out}</echo>
                 <fail message="JJTree eg2 parse failed">
                   <condition>
                     <not>
-                      <contains string="${jjtree.eg2.out}" substring="Thank you." />
+                      <contains string="${jjtree.eg2.out}" substring="Thank you."/>
                     </not>
                   </condition>
                 </fail>
-                <echo />
+                <echo message="examples/JJTreeExamples"/>
                 <copy todir="test.tmp/JJTreeExamples.eg3">
                   <fileset dir="examples/JJTreeExamples/java">
-                    <include name="*.java" />
-                    <exclude name="Eg4DumpVisitor.java" />
-                    <exclude name="ASTMyOtherID.java" />
+                    <include name="*.java"/>
+                    <exclude name="Eg4DumpVisitor.java"/>
+                    <exclude name="ASTMyOtherID.java"/>
                   </fileset>
                 </copy>
                 <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3" />
-                  <arg line="examples/JJTreeExamples/java/eg3.jjt" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3"/>
+                  <arg line="examples/JJTreeExamples/java/eg3.jjt"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3" />
-                  <arg line="test.tmp/JJTreeExamples.eg3/eg3.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3"/>
+                  <arg line="test.tmp/JJTreeExamples.eg3/eg3.jj"/>
                 </java>
-                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg3" />
+                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg3"/>
                 <java failonerror="true" fork="true" classname="Eg3" classpath="test.tmp/JJTreeExamples.eg3/"
-                  inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg3.out"> </java>
+                      inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg3.out">
+                </java>
                 <echo>${jjtree.eg3.out}</echo>
                 <fail message="JJTree eg3 parse failed">
                   <condition>
                     <not>
-                      <contains string="${jjtree.eg3.out}" substring="Thank you." />
+                      <contains string="${jjtree.eg3.out}" substring="Thank you."/>
                     </not>
                   </condition>
                 </fail>
-                <echo />
+                <echo message="== examples/JJTreeExamples/java/eg4"/>
                 <copy todir="test.tmp/JJTreeExamples.eg4">
                   <fileset dir="examples/JJTreeExamples/java">
-                    <include name="*.java" />
+                    <include name="*.java"/>
                   </fileset>
                 </copy>
                 <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4" />
-                  <arg line="examples/JJTreeExamples/java/eg4.jjt" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4"/>
+                  <arg line="examples/JJTreeExamples/java/eg4.jjt"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4" />
-                  <arg line="test.tmp/JJTreeExamples.eg4/eg4.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4"/>
+                  <arg line="test.tmp/JJTreeExamples.eg4/eg4.jj"/>
                 </java>
-                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg4" />
+                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg4"/>
                 <java failonerror="true" fork="true" classname="Eg4" classpath="test.tmp/JJTreeExamples.eg4/"
-                  inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg4.out"> </java>
+                      inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg4.out">
+                </java>
                 <echo>${jjtree.eg4.out}</echo>
                 <fail message="JJTree eg4 parse failed">
                   <condition>
                     <not>
-                      <contains string="${jjtree.eg4.out}" substring="Thank you." />
+                      <contains string="${jjtree.eg4.out}" substring="Thank you."/>
                     </not>
                   </condition>
                 </fail>
-                <echo />
+                <echo message="JavaCCGrammar"/>
 
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JavaCCGrammar" />
-                  <arg line="examples/JavaCCGrammar/JavaCC.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/JavaCCGrammar"/>
+                  <arg line="examples/JavaCCGrammar/JavaCC.jj"/>
                 </java>
 
-                <javac fork="true" srcdir="test.tmp/JavaCCGrammar" />
-                <!-- TODO, test cases for JavaGrammars -->
-                <echo />
+                <javac fork="true" srcdir="test.tmp/JavaCCGrammar"/>
+
+                <echo message="== examples/JavaGrammars/1.5"/>
+
+                <ant antfile="build.xml" target="compile-and-test" dir="examples/JavaGrammars/1.5"/>
+                <ant antfile="build.xml" target="clean" dir="examples/JavaGrammars/1.5"/>
+
+                <echo message="== examples/Lookahead"/>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg1" />
-                  <arg line="examples/Lookahead/Example1.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg1"/>
+                  <arg line="examples/Lookahead/Example1.jj"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg2" />
-                  <arg line="examples/Lookahead/Example2.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg2"/>
+                  <arg line="examples/Lookahead/Example2.jj"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg3" />
-                  <arg line="examples/Lookahead/Example3.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg3"/>
+                  <arg line="examples/Lookahead/Example3.jj"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg4" />
-                  <arg line="examples/Lookahead/Example4.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg4"/>
+                  <arg line="examples/Lookahead/Example4.jj"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg5" />
-                  <arg line="examples/Lookahead/Example5.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg5"/>
+                  <arg line="examples/Lookahead/Example5.jj"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg6" />
-                  <arg line="examples/Lookahead/Example6.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg6"/>
+                  <arg line="examples/Lookahead/Example6.jj"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg7" />
-                  <arg line="examples/Lookahead/Example7.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg7"/>
+                  <arg line="examples/Lookahead/Example7.jj"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg8" />
-                  <arg line="examples/Lookahead/Example8.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg8"/>
+                  <arg line="examples/Lookahead/Example8.jj"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg9" />
-                  <arg line="examples/Lookahead/Example9.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg9"/>
+                  <arg line="examples/Lookahead/Example9.jj"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg10" />
-                  <arg line="examples/Lookahead/Example10.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Lookahead.eg10"/>
+                  <arg line="examples/Lookahead/Example10.jj"/>
                 </java>
-                <echo />
+                <echo message="== examples/MailProcessing"/>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing" />
-                  <arg line="examples/MailProcessing/Digest.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing"/>
+                  <arg line="examples/MailProcessing/Digest.jj"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing" />
-                  <arg line="examples/MailProcessing/Faq.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing"/>
+                  <arg line="examples/MailProcessing/Faq.jj"/>
                 </java>
-                <javac fork="true" srcdir="test.tmp/MailProcessing" />
-                <echo />
+                <javac fork="true" srcdir="test.tmp/MailProcessing"/>
+                <echo message="== examples/Obfuscator"/>
                 <copy todir="test.tmp/Obfuscator">
                   <fileset dir="examples/Obfuscator">
-                    <include name="*.java" />
+                    <include name="*.java"/>
                   </fileset>
                 </copy>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator" />
-                  <arg line="examples/Obfuscator/Java1.1.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator"/>
+                  <arg line="examples/Obfuscator/Java1.1.jj"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator" />
-                  <arg line="examples/Obfuscator/IdsFile.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator"/>
+                  <arg line="examples/Obfuscator/IdsFile.jj"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator" />
-                  <arg line="examples/Obfuscator/MapFile.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator"/>
+                  <arg line="examples/Obfuscator/MapFile.jj"/>
                 </java>
-                <javac fork="true" srcdir="test.tmp/Obfuscator" />
+                <javac fork="true" srcdir="test.tmp/Obfuscator"/>
 
-                <echo />
+                <echo message="== test/gwtTemplate"/>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/gwtTemplate" />
-                  <arg line="test/gwtTemplate/Parser.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/gwtTemplate"/>
+                  <arg line="test/gwtTemplate/Parser.jj"/>
                 </java>
-                <javac fork="true" srcdir="test.tmp/gwtTemplate" />
+                <javac fork="true" srcdir="test.tmp/gwtTemplate"/>
 
-                <echo />
+                <echo message="== test/gwtUnicodeTemplate"/>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/gwtUnicodeTemplate" />
-                  <arg line="test/gwtUnicodeTemplate/Parser.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/gwtUnicodeTemplate"/>
+                  <arg line="test/gwtUnicodeTemplate/Parser.jj"/>
                 </java>
-                <javac fork="true" srcdir="test.tmp/gwtUnicodeTemplate" />
+                <javac fork="true" srcdir="test.tmp/gwtUnicodeTemplate"/>
 
-                <!-- TODO, test cases for SimpleExamples -->
-                <echo />
+                <echo message="== examples/SimpleExamples"/>
+
+                <mkdir dir="test.tmp/SimpleExamples"/>
+
+                <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/SimpleExamples examples/SimpleExamples/Simple1.jj"/>
+                </java>
+
+                <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/SimpleExamples examples/SimpleExamples/Simple2.jj"/>
+                </java>
+
+                <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/SimpleExamples examples/SimpleExamples/Simple3.jj"/>
+                </java>
+
+                <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/SimpleExamples examples/SimpleExamples/NL_Xlator.jj"/>
+                </java>
+
+                <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/SimpleExamples examples/SimpleExamples/IdList.jj"/>
+                </java>
+
+                <echo message="== examples/Transformer"/>
                 <copy todir="test.tmp/Transformer">
                   <fileset dir="examples/Transformer">
-                    <include name="*.java" />
+                    <include name="*.java"/>
                   </fileset>
                 </copy>
                 <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer" />
-                  <arg line="examples/Transformer/ToyJava.jjt" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer"/>
+                  <arg line="examples/Transformer/ToyJava.jjt"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer" />
-                  <arg line="test.tmp/Transformer/ToyJava.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer"/>
+                  <arg line="test.tmp/Transformer/ToyJava.jj"/>
                 </java>
-                <javac fork="true" srcdir="test.tmp/Transformer" />
-                <echo />
+                <javac fork="true" srcdir="test.tmp/Transformer"/>
+                <echo message="== examples/VTrasformer"/>
                 <copy todir="test.tmp/VTransformer">
                   <fileset dir="examples/VTransformer">
-                    <include name="*.java" />
+                    <include name="*.java"/>
                   </fileset>
                 </copy>
                 <java failonerror="true" fork="true" classname="jjtree" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer" />
-                  <arg line="examples/VTransformer/Java1.1.jjt" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer"/>
+                  <arg line="examples/VTransformer/Java1.1.jjt"/>
                 </java>
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
-                  <arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer" />
-                  <arg line="test.tmp/VTransformer/Java1.1.jj" />
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer"/>
+                  <arg line="test.tmp/VTransformer/Java1.1.jj"/>
                 </java>
-                <javac fork="true" srcdir="test.tmp/VTransformer" />
+                <javac fork="true" srcdir="test.tmp/VTransformer"/>
 
+                <!-- Test cases for Java 7 syntax features -->
+                <echo message="== tests/java7features"/>
+
+                <mkdir dir="test.tmp/java7features"/>
+
+                <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+                  <arg line="-OUTPUT_DIRECTORY=test.tmp/java7features test/java7features/Parser.jj"/>
+                </java>
+
+                <javac srcdir="test.tmp/java7features" includeantruntime='false'/>
+
+                <echo message="== test/TestTokenManagerUsesParser"/>
+                <!-- 2014/05/09 - New tests to test that TOKEN_MANAGER_USES_PARSER has no effect if static is true -->
+                <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+                  <arg
+                    line="-OUTPUT_DIRECTORY=test.tmp/TestTokenManagerUsesParser test/TestTokenManagerUsesParser/TestTokenManagerUsesParser.jj"
+                  />
+                </java>
+
+                <javac srcdir="test.tmp/TestTokenManagerUsesParser" includeantruntime='false'/>
+
+                <echo message="== test/TestTokenManagerUsesParser2"/>
+                <!-- 2014/05/09 - New tests to test that TOKEN_MANAGER_USES_PARSER works as expected if static is false -->
+                <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
+                  <arg
+                    line="-OUTPUT_DIRECTORY=test.tmp/TestTokenManagerUsesParser2 test/TestTokenManagerUsesParser2/TestTokenManagerUsesParser2.jj"
+                  />
+                </java>
+
+                <javac srcdir="test.tmp/TestTokenManagerUsesParser2" includeantruntime='false'/>
+                <echo message="== test/lineNumbers"/>
+                <ant antfile="build.xml" dir="test/lineNumbers"/>
+                <echo message="== test/javaCodeLA"/>
+                <ant antfile="build.xml" dir="test/javacodeLA"/>
+                <echo message="== test/javaFiles"/>
+                <ant antfile="build.xml" dir="test/javaFiles"/>
+                <echo message="== test/javaFileGeneration"/>
+                <!-- ant antfile="build.xml" dir="test/javaFileGeneration" /-->
+                <echo message="== test/newToken"/>
+                <ant antfile="build.xml" dir="test/newToken"/>
+                <echo message="== test/imports"/>
+                <ant antfile="build.xml" dir="test/imports"/>
+                <echo message="== test/lom"/>
+                <ant antfile="build.xml" dir="test/lom"/>
+                <echo message="== test/lineNumbers"/>
+                <ant antfile="build.xml" dir="test/exceptions"/>
               </tasks>
             </configuration>
           </execution>
@@ -680,7 +745,6 @@
           <quiet>true</quiet>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
