@@ -107,6 +107,7 @@ public class Options {
 	public static final String USEROPTION__TOKEN_FACTORY = "TOKEN_FACTORY";
 	public static final String USEROPTION__TOKEN_EXTENDS = "TOKEN_EXTENDS";
 	public static final String USEROPTION__DEPTH_LIMIT = "DEPTH_LIMIT";
+	public static final String USEROPTION__STATIC_EXCEPTION = "STATIC_EXCEPTION";
 
 	public static final String USEROPTION__TOKEN_MANAGER_USES_PARSER = "TOKEN_MANAGER_USES_PARSER";
 
@@ -218,6 +219,8 @@ public class Options {
 
 		temp.add(new OptionInfo(USEROPTION__DEPTH_LIMIT, OptionType.INTEGER, Integer.valueOf(0)));
 		temp.add(new OptionInfo(USEROPTION__CPP_STACK_LIMIT, OptionType.STRING, ""));
+
+		temp.add(new OptionInfo(USEROPTION__STATIC_EXCEPTION, OptionType.BOOLEAN, Boolean.FALSE));
 
 		userOptions = Collections.unmodifiableSet(temp);
 	}
