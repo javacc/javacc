@@ -2,8 +2,7 @@
 Created from:
 * the original README file at https://github.com/javacc/javacc
 * the documentation https://github.com/javacc/javacc/www
-* an example README.md file from https://github.com/apache/flink
-* modified
+* an example README.md file from https://github.com/apache/flink modified
 -->
 
 # JavaCC
@@ -15,8 +14,6 @@ A parser generator is a tool that reads a grammar specification and converts it 
 In addition to the parser generator itself, JavaCC provides other standard capabilities related to parser generation such as tree building (via a tool called JJTree included with JavaCC), actions and debugging.
 
 All you need to run a JavaCC parser, once generated, is a Java Runtime Environment (JRE).
-
-This README is meant as a brief overview of the core features and how to set things up to get yourself started with JavaCC. For a fully detailed documentation, please see [https://javacc.github.io/javacc/](https://javacc.github.io/javacc/).
 
 ## Contents
 
@@ -77,7 +74,7 @@ The following JavaCC grammar example recognizes matching braces followed by zero
 
 Examples of legal strings in this grammar are:
 
-`{}`, `{{{{{}}}}}` // ... etc
+`{}`, `{% raw %}{{{{{}}}}}{% endraw %}` // ... etc
 
 Examples of illegal strings are:
 
@@ -118,11 +115,11 @@ void MatchedBraces() :
 
 ##### Some executions and outputs
 
-###### {{}} gives no error
+###### {% raw %}{{}}{% endraw %} gives no error
 
 ```java
 $ java Example
-{{}}<return>
+{% raw %}{{}}{% endraw %}<return>
 ```
 
 ###### {x gives a Lexical error
@@ -139,7 +136,7 @@ TokenMgrError: Lexical error at line 1, column 2.  Encountered: "x" (120), after
         at Example.main(Example.java:6)
 ```
 
-###### {{}} gives a ParseException
+###### {% raw %}{}}{% endraw %} gives a ParseException
 
 ```java
 $ java Example
@@ -165,26 +162,26 @@ You can use JavaCC either from the command line or through an IDE.
 
 Download the latest stable release (at least the source and the binaries) in a so called download directory:
 
-* JavaCC 7.0.13 - ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.13.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.13.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.13/javacc-7.0.13.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.13/javacc-7.0.13-javadoc.jar), [Release Notes](docs/release-notes.md#javacc-7.0.13))
+* JavaCC 7.0.14 - ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.14.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.14.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.14/javacc-7.0.14.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.14/javacc-7.0.14-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.14))
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
-For all previous releases, please see [stable releases](docs/downloads.md).
+For all previous releases, please see [stable releases](downloads.md).
 
 #### Install
 
 Once you have downloaded the files, navigate to the download directory and unzip the source file, this creating a so called JavaCC installation directory:
 ```
-$ unzip javacc-7.0.13.zip
+$ unzip javacc-7.0.14.zip
 or
-$ tar xvf javacc-7.0.13.tar.gz
+$ tar xvf javacc-7.0.14.tar.gz
 ```
 
-Then move the binary file `javacc-7.0.13.jar` under the download directory in a new `target/` directory under the installation directory, and rename it to `javacc.jar`.
+Then move the binary file `javacc-7.0.14.jar` under the download directory in a new `target/` directory under the installation directory, and rename it to `javacc.jar`.
 
 Then add the `scripts/` directory in the JavaCC installation directory to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
 
-On UNIX based systems, the scripts may not be executable immediately. This can be solved by using the command from the `javacc-7.0.13/` directory:
+On UNIX based systems, the scripts may not be executable immediately. This can be solved by using the command from the `javacc-7.0.14/` directory:
 ```
 chmod +x scripts/javacc
 ```
@@ -225,7 +222,7 @@ Add the following dependency to your `pom.xml` file.
 <dependency>
     <groupId>net.java.dev.javacc</groupId>
     <artifactId>javacc</artifactId>
-    <version>7.0.13</version>
+    <version>7.0.14</version>
 </dependency>
 ```
 
@@ -242,7 +239,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'net.java.dev.javacc', name: 'javacc', version: '7.0.13'
+    compile group: 'net.java.dev.javacc', name: 'javacc', version: '7.0.14'
 }
 ```
 
@@ -308,7 +305,7 @@ For questions relating to development please join our [Slack channel](https://ja
 
 The documentation of JavaCC is located on the website [https://javacc.github.io/javacc/](https://javacc.github.io/javacc/) and in the `docs/` directory of the source code on [GitHub](https://github.com/javacc/javacc).
 
-It includes [detailed documentation](docs/documentation/index.md) for JavaCC, JJTree, and JJDoc.
+It includes [detailed documentation](documentation/index.md) for JavaCC, JJTree, and JJDoc.
 
 ### Resources
 
@@ -319,7 +316,7 @@ It includes [detailed documentation](docs/documentation/index.md) for JavaCC, JJ
 
 ##### Tutorials
 
-* JavaCC [tutorials](docs/tutorials/index.md).
+* JavaCC [tutorials](tutorials/index.md).
 * [Introduction to JavaCC](https://www.engr.mun.ca/~theo/JavaCC-Tutorial/javacc-tutorial.pdf) by Theodore S. Norvell.
 * [Incorporating language processing into Java applications: a JavaCC tutorial](https://ieeexplore.ieee.org/document/1309649) by Viswanathan Kodaganallur.
 

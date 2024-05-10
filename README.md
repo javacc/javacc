@@ -80,11 +80,11 @@ The following JavaCC grammar example recognizes matching braces followed by zero
 
 Examples of legal strings in this grammar are:
 
-`{}`, `{{{{{}}}}}` // ... etc
+`{}`, `{% raw %}{{{{{}}}}}{% endraw %}` // ... etc
 
 Examples of illegal strings are:
 
-`{}{}`, `}{}}`, `{ }`, `{x}` // ... etc
+`&#123;&#125;&#123;&#125;`, `&#125;&#123;&#125;&#125;`, `&#123; &#125;`, `&#123;x&#125;` // ... etc
 
 ##### Its grammar
 
@@ -142,7 +142,7 @@ TokenMgrError: Lexical error at line 1, column 2.  Encountered: "x" (120), after
         at Example.main(Example.java:6)
 ```
 
-###### {{}} gives a ParseException
+###### {}} gives a ParseException
 
 ```java
 $ java Example

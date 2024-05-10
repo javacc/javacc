@@ -56,7 +56,7 @@ The `Example1` parser and others in this directory are designed to take input fr
 
 Examples of legal strings in this grammar are:
 
-`{}`, `{{{{{}}}}}` // ... etc
+`{}`, `{% raw %}{{{{{}}}}}{% endraw %}` // ... etc
 
 Examples of illegal strings are:
 
@@ -68,11 +68,11 @@ Try typing various different inputs to `Example1`. Remember `<control-d>` may be
 
 Here are some sample runs:
 
-1. The parser processes the string `{{}}` successfully.
+1. The parser processes the string `{% raw %}{{}}{% endraw %}` successfully.
 
 ```java
 $ java Example1
-{{}}<return>
+{% raw %}{{}}{% endraw %}<return>
 <control-d>
 ```
 
@@ -280,14 +280,12 @@ Hence whenever any of these 4 characters are encountered, they are just thrown a
 In addition to `SKIP`, JavaCC has three other lexical specification regions. These are:
 
 
-`. TOKEN:`         This is used to specify lexical tokens (see next example)
-`. SPECIAL_TOKEN:` This is used to specify lexical tokens that are to be
-                   ignored during parsing.  In this sense, `SPECIAL_TOKEN` is
-                   the same as `SKIP`.  However, these tokens can be recovered
-                   within parser actions to be handled appropriately.
-`. MORE:`          This specifies a partial token.  A complete token is
-                   made up of a sequence of MORE's followed by a `TOKEN`
-                   or `SPECIAL_TOKEN`.
+`. TOKEN:`         This is used to specify lexical tokens (see next example)  
+`. SPECIAL_TOKEN:` This is used to specify lexical tokens that are to be ignored during parsing.
+                   In this sense, `SPECIAL_TOKEN` is the same as `SKIP`.
+                   However, these tokens can be recovered within parser actions to be handled appropriately.  
+`. MORE:`          This specifies a partial token.
+                   A complete token is made up of a sequence of MORE's followed by a `TOKEN` or `SPECIAL_TOKEN`.
 
 Please take a look at some of the more complex grammars such as the Java grammars for examples of usage of these lexical specification regions.
 

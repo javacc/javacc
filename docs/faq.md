@@ -2,7 +2,7 @@
 
 ---
 
-### </a>Contents
+### Contents
 
 - [**General Information**](#general-information)
   * [What is JavaCC?](#what-is-javacc)
@@ -46,7 +46,7 @@
 - [**The Parser and Lookahead**](#the-parser-and-lookahead)
   * [Where should I draw the line between lexical analysis and parsing?](#where-should-i-draw-the-line-between-lexical-analysis-and-parsing)
   * [What is recursive descent parsing?](#what-is-recursive-descent-parsing)
-  * [What is left-recursion and why can't I use it?](#what-is-left-recursion-and-why-can-t-i-use-it)
+  * [What is left-recursion and why can't I use it?](#what-is-left-recursion-and-why-cant-i-use-it)
   * [How do I match an empty sequence of tokens?](#how-do-i-match-an-empty-sequence-of-tokens)
   * [What is "lookahead"?](#what-is-lookahead)
   * [I get a message saying "Warning: Choice Conflict ... " what should I do?](#i-get-a-message-saying-warning-choice-conflict-what-should-i-do)
@@ -56,16 +56,16 @@
   * [Are semantic actions executed during syntactic lookahead?](#are-semantic-actions-executed-during-syntactic-lookahead)
   * [Is semantic lookahead evaluated during syntactic lookahead?](#is-semantic-lookahead-evaluated-during-syntactic-lookahead)
   * [Can local variables (including parameters) be used in semantic lookahead?](#can-local-variables-including-parameters-be-used-in-semantic-lookahead)
-  * [How does JavaCC differ from standard LL(1) parsing?](#how-does-javacc-differ-from-standard-ll-1-parsing)
+  * [How does JavaCC differ from standard LL(1) parsing?](#how-does-javacc-differ-from-standard-ll1-parsing)
   * [How do I communicate from the parser to the token manager?](#how-do-i-communicate-from-the-parser-to-the-token-manager)
   * [How do I communicate from the token manager to the parser?](#how-do-i-communicate-from-the-parser-to-the-token-manager)
   * [What does it mean to put a regular expression within a BNF production?](#what-does-it-mean-to-put-a-regular-expression-within-a-bnf-production)
   * [When should regular expressions be put directly into a BNF production?](#when-should-regular-expressions-be-put-directly-into-a-bnf-production)
   * [How do I parse a sequence without allowing duplications?](#how-do-i-parse-a-sequence-without-allowing-duplications)
-  * [How do I deal with keywords that aren't reserved?](#how-do-i-deal-with-keywords-that-aren-t-reserved)
-  * [There's an error in the input, so why doesn't my parser throw a ParseException?](#there-s-an-error-in-the-input-so-why-doesn-t-my-parser-throw-a-parseexception)
+  * [How do I deal with keywords that aren't reserved?](#how-do-i-deal-with-keywords-that-arent-reserved)
+  * [There's an error in the input, so why doesn't my parser throw a ParseException?](#theres-an-error-in-the-input-so-why-doesnt-my-parser-throw-a-parseexception)
 - [**Semantic Actions**](#semantic-actions)
-  * [I've written a parser, why doesn't it do anything?](#i-ve-written-a-parser-why-doesn-t-it-do-anything)
+  * [I've written a parser, why doesn't it do anything?](#ive-written-a-parser-why-doesnt-it-do-anything)
   * [How do I capture and traverse a sequence of tokens?](#how-do-i-capture-and-traverse-a-sequence-of-tokens)
   * [Why does my parser use so much space?](#why-does-my-parser-use-so-much-space)
 - [**JJTree and JTB**](#jjtree-and-jtb)
@@ -75,12 +75,12 @@
 - [**Applications of JavaCC**](#applications-of-javacc)
   * [Where can I find a parser for X?](#where-can-i-find-a-parser-for-x)
   * [How do I parse arithmetic expressions?](#how-do-i-parse-arithmetic-expressions)
-  * [I'm writing a programming language interpreter, how do I deal with loops?](#i-m-writing-a-programming-language-interpreter-how-do-i-deal-with-loops)
+  * [I'm writing a programming language interpreter, how do I deal with loops?](#im-writing-a-programming-language-interpreter-how-do-i-deal-with-loops)
 - [**Comparing JavaCC**](#comparing-javacc-with-other-tools)
-  * [Since LL(1) ⊂ LALR(1), wouldn't a tool based on LALR parsing be better?](#since-ll-1-lalr-1-wouldn-t-a-tool-based-on-lalr-parsing-be-better)
+  * [Since LL(1) ⊂ LALR(1), wouldn't a tool based on LALR parsing be better?](#since-ll1--lalr1-wouldnt-a-tool-based-on-lalr-parsing-be-better)
   * [How does JavaCC compare with Lex and Flex?](#how-does-javacc-compare-with-lex-and-flex)
   * [How does JavaCC compare with other Yacc and Bison?](#how-does-javacc-compare-with-other-yacc-and-bison)
-- [**Footnotes**](footnotes)
+- [**Footnotes**](#footnotes)
 - [**Acknowledgments**](#acknowledgments)
 
 <br>
@@ -229,7 +229,7 @@ General questions on parser generation or parsing theory should be addressed to 
 
 The JavaCC project was originally developed at Sun Microsystems Inc. by [Sreeni Viswanadha](https://github.com/kaikalur) and [Sriram Sankar](https://twitter.com/sankarsearch).
 
-It is maintained by the [developer community](https://github.com/javacc/javacc/graphs/contributors) which includes the original authors and [Chris Ainsley](https://github.com/ainslec), [Tim Pizney](https://github.com/timp) and [Francis Andre](https://github.com/zosrothko).
+It is maintained by the [developer community](https://github.com/javacc/javacc/graphs/contributors) which includes the original authors and [Chris Ainsley](https://github.com/ainslec), [Tim Pizney](https://github.com/timp), [Francis Andre](https://github.com/zosrothko) and [Marc Mazas](https://github.com/MarcMazas).
 
 <br>
 
