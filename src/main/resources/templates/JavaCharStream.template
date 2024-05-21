@@ -144,6 +144,15 @@ class JavaCharStream
     tokenBegin = 0;
   }
 
+  static private final class EOSException extends java.io.IOException {
+    @Override
+    public Throwable fillInStackTrace() {
+      return this;
+    }
+  }
+
+  private static final java.io.IOException STATIC_FILLBUFF_EXCEPTION = new EOSException();
+
   ${PREFIX}protected void FillBuff() throws java.io.IOException
   {
     int i;
@@ -155,7 +164,7 @@ class JavaCharStream
                                           4096 - maxNextCharInd)) == -1)
       {
         inputStream.close();
-        throw new java.io.IOException();
+        throw STATIC_FILLBUFF_EXCEPTION;
       }
       else
          maxNextCharInd += i;
