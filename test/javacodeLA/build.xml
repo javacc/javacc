@@ -34,12 +34,12 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
     <!--           JAVACODE                -->
 
-    <java failonerror="true" fork="true" classname="javacc" classpath="../../target/javacc.jar">
+    <java failonerror="true" fork="true" classname="javacc" classpath="../../target/classes">
       <arg line="javacode.jj" />
     </java>
 
     <javac srcdir="out-dir" destdir="out-dir" source="1.7" debug="true" includeantruntime='false'
-           classpath="../../target/javacc.jar">
+           classpath="../../target/classes">
     </javac>
 
     <echo>Test 1</echo>
