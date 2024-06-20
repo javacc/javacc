@@ -43,7 +43,7 @@ static const JJChar JJQUOTE[] = { '\'', 0 };
 class ReaderStream {
 public:
   // Read block of data into a buffer and return the actual number read.
-  virtual size_t read(JAVACC_CHAR_TYPE *buffer, int offset, size_t len) { return 0; }
+  virtual size_t read(JAVACC_CHAR_TYPE */*buffer*/, int /*offset*/, size_t /*len*/) { return 0; }
   virtual bool   endOfInput() { return true; }
   virtual ~ReaderStream() {}
 };
