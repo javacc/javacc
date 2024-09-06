@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd
                       ">
   <modelVersion>4.0.0</modelVersion>
@@ -141,6 +142,7 @@
     <keystore.store.password>javacc</keystore.store.password>
     <keystore.key.password>javacc</keystore.key.password>
   </properties>
+
   <distributionManagement>
     <repository>
       <id>ossrh</id>
@@ -148,6 +150,7 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -157,6 +160,7 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -164,7 +168,54 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+    <!-- enables using maven toolchains plugin to not depend of current JAVA_HOME setting -->
+      <id>with-toolchains</id>
+      <activation>
+        <file>
+          <exists>${env.USERPROFILE}/.m2/toolchains.xml</exists>
+        </file>
+      </activation>
+      <properties> </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-toolchains-plugin</artifactId>
+              <version>1.1</version>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-toolchains-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>toolchain</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <toolchains>
+                <jdk>
+                  <!-- github action setup-java@v4 uses 8; generated toolchains.xml files use 1.8 -->
+                  <version>[1.8,8]</version>
+                </jdk>
+              </toolchains>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <build>
+
     <pluginManagement>
       <plugins>
         <plugin>
@@ -177,12 +228,12 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.2</version>
         </plugin>
-        <plugin>
+<!--        <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>cobertura-maven-plugin</artifactId>
           <version>2.7</version>
         </plugin>
-        <plugin>
+-->        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
           <version>3.1.0</version>
@@ -222,43 +273,14 @@
           <artifactId>maven-gpg-plugin</artifactId>
           <version>1.6</version>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-toolchains-plugin</artifactId>
-          <version>1.1</version>
-        </plugin>
       </plugins>
     </pluginManagement>
+
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-toolchains-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>toolchain</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <toolchains>
-            <jdk>
-              <version>1.8</version>
-            </jdk>
-          </toolchains>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>javacc-maven-plugin</artifactId>
         <executions>
-          <execution>
-            <id>jcc</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>javacc</goal>
-            </goals>
-          </execution>
           <execution>
             <id>jjt</id>
             <phase>generate-sources</phase>
@@ -270,6 +292,13 @@
                 <exclude>**/parser/**</exclude>
               </excludes>
             </configuration>
+          </execution>
+          <execution>
+            <id>jcc</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>javacc</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
@@ -296,9 +325,10 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
 
-                <!-- Place any ant task here. You can add anything you can add between <target> and </target>
+                <!-- Place any ant task here. You can add anything you can add between <target> and
+                </target>
                 in a build.xml. -->
                 <mkdir dir="test.tmp" />
 
@@ -313,7 +343,8 @@
                     <include name="*.idl" />
                   </fileset>
                 </copy>
-                <java failonerror="true" fork="true" classname="IDLParser" classpath="test.tmp/CORBA-IDL/"
+                <java failonerror="true" fork="true" classname="IDLParser"
+                  classpath="test.tmp/CORBA-IDL/"
                   outputproperty="test.corba.out">
                   <arg line="test.tmp/CORBA-IDL/Hello.idl" />
                 </java>
@@ -369,7 +400,8 @@
                     <include name="*.spl" />
                   </fileset>
                 </copy>
-                <java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/"
+                <java failonerror="true" fork="true" classname="SPL"
+                  classpath="test.tmp/Interpreter/"
                   inputstring="3" outputproperty="spl.out1">
                   <arg line="test.tmp/Interpreter/fact.spl" />
                 </java>
@@ -381,7 +413,8 @@
                     </not>
                   </condition>
                 </fail>
-                <java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/"
+                <java failonerror="true" fork="true" classname="SPL"
+                  classpath="test.tmp/Interpreter/"
                   inputstring="3" outputproperty="spl.out2">
                   <arg line="test.tmp/Interpreter/odd.spl" />
                 </java>
@@ -393,7 +426,8 @@
                     </not>
                   </condition>
                 </fail>
-                <java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/"
+                <java failonerror="true" fork="true" classname="SPL"
+                  classpath="test.tmp/Interpreter/"
                   inputstring="9" outputproperty="spl.out3">
                   <arg line="test.tmp/Interpreter/sqrt.spl" />
                 </java>
@@ -415,7 +449,8 @@
                   <arg line="test.tmp/JJTreeExamples.eg1/eg1.jj" />
                 </java>
                 <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg1" />
-                <java failonerror="true" fork="true" classname="Eg1" classpath="test.tmp/JJTreeExamples.eg1/"
+                <java failonerror="true" fork="true" classname="Eg1"
+                  classpath="test.tmp/JJTreeExamples.eg1/"
                   inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg1.out"> </java>
                 <echo>${jjtree.eg1.out}</echo>
                 <fail message="JJTree eg1 parse failed">
@@ -442,7 +477,8 @@
                   <arg line="test.tmp/JJTreeExamples.eg2/eg2.jj" />
                 </java>
                 <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg2" />
-                <java failonerror="true" fork="true" classname="Eg2" classpath="test.tmp/JJTreeExamples.eg2/"
+                <java failonerror="true" fork="true" classname="Eg2"
+                  classpath="test.tmp/JJTreeExamples.eg2/"
                   inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg2.out"> </java>
                 <echo>${jjtree.eg2.out}</echo>
                 <fail message="JJTree eg2 parse failed">
@@ -469,7 +505,8 @@
                   <arg line="test.tmp/JJTreeExamples.eg3/eg3.jj" />
                 </java>
                 <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg3" />
-                <java failonerror="true" fork="true" classname="Eg3" classpath="test.tmp/JJTreeExamples.eg3/"
+                <java failonerror="true" fork="true" classname="Eg3"
+                  classpath="test.tmp/JJTreeExamples.eg3/"
                   inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg3.out"> </java>
                 <echo>${jjtree.eg3.out}</echo>
                 <fail message="JJTree eg3 parse failed">
@@ -494,7 +531,8 @@
                   <arg line="test.tmp/JJTreeExamples.eg4/eg4.jj" />
                 </java>
                 <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg4" />
-                <java failonerror="true" fork="true" classname="Eg4" classpath="test.tmp/JJTreeExamples.eg4/"
+                <java failonerror="true" fork="true" classname="Eg4"
+                  classpath="test.tmp/JJTreeExamples.eg4/"
                   inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg4.out"> </java>
                 <echo>${jjtree.eg4.out}</echo>
                 <fail message="JJTree eg4 parse failed">
@@ -630,12 +668,12 @@
                 </java>
                 <javac fork="true" srcdir="test.tmp/VTransformer" />
 
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>
       </plugin>
-      <plugin>
+<!--      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
         <executions>
@@ -646,7 +684,7 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
+-->      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <executions>
@@ -726,7 +764,9 @@
         </configuration>
       </plugin>
     </plugins>
+
   </build>
+
   <reporting>
     <plugins>
       <plugin>
@@ -766,11 +806,11 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
       </plugin>
-      <plugin>
+<!--      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
       </plugin>
-      <plugin>
+-->      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
       </plugin>
