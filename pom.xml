@@ -244,7 +244,6 @@
           <toolchains>
             <jdk>
               <version>1.8</version>
-              <vendor>Oracle</vendor>
             </jdk>
           </toolchains>
         </configuration>
