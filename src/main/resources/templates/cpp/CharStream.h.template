@@ -30,7 +30,7 @@ namespace ${NAMESPACE_OPEN}
 class CharStream {
 public:
    void setTabSize(int i) { tabSize = i; }
-   int  getTabSize(int i) { return tabSize; }
+   int  getTabSize(int /*i*/) { return tabSize; }
 
 #if KEEP_LINE_COLUMN
 private:
