@@ -350,6 +350,16 @@ User                                                 | Use Case                 
 [Apache Zookeeper](https://zookeeper.apache.org/)    | Optimising serialisation/deserialisation of Hadoop I/O records | [rcc.jj](https://github.com/apache/zookeeper/blob/master/zookeeper-jute/src/main/java/org/apache/jute/compiler/generated/rcc.jj)
 [Java Parser](https://javaparser.org/)               | Parsing Java language files                                    | [java.jj](https://github.com/javaparser/javaparser/blob/master/javaparser-core/src/main/javacc/java.jj)
 
+JavaCC is used in many commercial applications and open source projects.
+
+### Profiled with the [java profiler](https://www.ej-technologies.com/jprofiler) ![JProfiler](https://www.ej-technologies.com/images/product_banners/jprofiler_small.png)
+
+## License
+
+JavaCC is an open source project released under the [BSD License 2.0](LICENSE). The JavaCC project was originally developed at Sun Microsystems Inc. by [Sreeni Viswanadha](https://github.com/kaikalur) and [Sriram Sankar](https://twitter.com/sankarsearch).
+
+<br>
+
 <!---
 ## Contributing
 
@@ -360,12 +370,6 @@ This article describes [how to contribute to Apache Flink](https://flink.apache.
 https://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow/
 
 -->
-
-## License
-
-JavaCC is an open source project released under the [BSD License 2.0](LICENSE). The JavaCC project was originally developed at Sun Microsystems Inc. by [Sreeni Viswanadha](https://github.com/kaikalur) and [Sriram Sankar](https://twitter.com/sankarsearch).
-
-<br>
 
 ---
 
