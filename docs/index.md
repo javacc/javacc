@@ -322,8 +322,8 @@ It includes [detailed documentation](documentation/index.md) for JavaCC, JJTree,
 
 ##### Articles
 
-* [Looking for lex and yacc for Java? You don't know Jack](https://www.javaworld.com/article/2077315/looking-for-lex-and-yacc-for-java--you-don-t-know-jack.html) by Chuck Mcmanis.
-* [Build your own languages with JavaCC](https://www.javaworld.com/article/2076269/build-your-own-languages-with-javacc.html) by Oliver Enseling.
+* [Looking for lex and yacc for Java? You don't know Jack](https://www.infoworld.com/article/2077315/looking-for-lex-and-yacc-for-java--you-don-t-know-jack.html) by Chuck Mcmanis.
+* [Build your own languages with JavaCC](https://www.infoworld.com/article/2076269/build-your-own-languages-with-javacc.html) by Oliver Enseling.
 * [Writing an Interpreter Using JavaCC](https://anandsekar.github.io/writing-an-interpretter-using-javacc/) by Anand Rajasekar.
 * [Building a lexical analyzer with JavaCC](http://kiwwito.com/build-a-lexical-analyzer-with-javacc/) by Keyvan Akbary.
 
