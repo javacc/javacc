@@ -1,0 +1,278 @@
+/* Copyright (c) 2006, Sun Microsystems, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ *    * Redistributions of source code must retain the above copyright notice,
+ *      this list of conditions and the following disclaimer.
+ *    * Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in the
+ *      documentation and/or other materials provided with the distribution.
+ *    * Neither the name of the Sun Microsystems, Inc. nor the names of its
+ *      contributors may be used to endorse or promote products derived from
+ *      this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+
+options {
+  LOOKAHEAD = 1;
+  CHOICE_AMBIGUITY_CHECK = 2;
+  OTHER_AMBIGUITY_CHECK = 1;
+  STATIC = false;
+  DEBUG_PARSER = false;
+  DEBUG_LOOKAHEAD = false;
+  DEBUG_TOKEN_MANAGER = false;
+  ERROR_REPORTING = true;
+  JAVA_UNICODE_ESCAPE = false;
+  UNICODE_INPUT = false;
+  IGNORE_CASE = false;
+  USER_TOKEN_MANAGER = false;
+  USER_CHAR_STREAM = false;
+  BUILD_PARSER = true;
+  BUILD_TOKEN_MANAGER = true;
+  SANITY_CHECK = true;
+  FORCE_LA_CHECK = false;
+}
+
+PARSER_BEGIN(Jdk1d7Syntaxes)
+
+//package jdk7;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Target;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class holding as many java syntaxes as possible for JDK 7 level, to be parsed by the corresponding JavaCC
+ * parser.
+ */
+public class Jdk1d7Syntaxes {
+  
+  @SuppressWarnings("unused")
+  public static void main(final String args[]) throws SecondException {
+    final Jdk1d7Syntaxes p = new Jdk1d7Syntaxes();
+  }
+  
+  protected Jdk1d7Syntaxes() {
+  }
+  
+  /* JavaCC reserved words as JavaIdentifers */
+  @SuppressWarnings("hiding") static String LOOKAHEAD = null;
+  final String IGNORE_CASE = null;
+  final String PARSER_BEGIN = null;
+  final String PARSER_END = null;
+  final String JAVACODE = null;
+  final String TOKEN = null;
+  final String SPECIAL_TOKEN = null;
+  final String MORE = null;
+  final String SKIP = null;
+  final String TOKEN_MGR_DECLS = null;
+  final String EOF = null;
+  
+  static {
+    LOOKAHEAD = "LOOKAHEAD";
+  }
+  
+  /* Classes */
+  
+  public class Foo implements AutoCloseable {
+    @Override
+    public void close() throws FirstException {
+    }
+  }
+  
+  public class Bar implements java.io.Closeable {
+    @Override
+    public void close() throws SecondException {
+    }
+  }
+  
+  /* Exceptions */
+  
+  @SuppressWarnings("serial")
+  public class FirstException extends Exception {
+  }
+  
+  public class SecondException extends java.io.IOException {
+    
+    private static final long serialVersionUID = 1L;
+  }
+  
+  /* Annotations */
+  public @interface FirstAnnotation {
+  }
+  
+  public @interface SecondAnnotation {
+    String value() default "2nd";
+  }
+  
+  public @interface ThirdAnnotation {
+    String[] value();
+  }
+  
+  @Inherited
+  @Target({
+      ElementType.TYPE, ElementType.FIELD
+  })
+  public @interface FourthAnnotation {
+    String value1() default "4th 1";
+    
+    String value2() default "4th 2";
+  }
+  
+  /* PrimitiveType() & Annotation() */
+  
+  /* Annotations */
+  public @interface Ann1 {
+  }
+  
+  public @interface Ann2 {
+    String value() default "2nd";
+  }
+  
+  public @interface Ann3 {
+    String[] value();
+  }
+  
+  @Inherited
+  @Target({
+      ElementType.TYPE, ElementType.FIELD, ElementType.TYPE_USE
+  })
+  public @interface Ann4 {
+    
+    Level level() default Level.BAD;
+    
+    @Ann1
+    public int depth() default 0;
+    
+    @Ann2("?")
+    enum Level {
+      BAD, GOOD
+    }
+  }
+  
+  @Ann1 final byte                   by = (byte) LOOKAHEAD.length();
+  @Ann2("cz") char                   cz = '\u0000';
+  @Ann2(value = "db") double         db = -0.;
+  @Ann3({
+      "fl1", "fl2"
+  }) float                           fl = -0.0f;
+  @Ann4(level = Ann4.Level.GOOD) int in = Integer.MAX_VALUE;
+  @Ann1 @Ann2("lo") long             lo = Long.MIN_VALUE;
+  short                              sh = by;
+  boolean                            bo = cz == '\u0000';
+  
+  String foo = "foo";
+  
+  @Ann4(depth = 0) boolean[] bo_ar = new @Ann4(depth = 1) boolean @Ann4(depth = 2) [2];
+  
+  private final java.util.List<Float> lst1 = new java.util.ArrayList<Float>();
+  private final List<Float>           lst2 = new ArrayList<>();
+  
+  /* Different switch syntaxes */
+  protected Foo switches() {
+    
+    /* SwitchStatement() and down */
+    
+    switch (foo) {
+      case "foo": {
+      }
+      //$FALL-THROUGH$
+      case "foobar":
+      case "bar":
+        System.out.println("never");
+        break;
+      default: {
+      }
+    }
+    switch (by) { // empty SwitchBlock
+    }
+    switch (sh) {
+      case 0: // empty SwitchBlockStatementGroup
+    }
+    
+    return null;
+  }
+  
+  /* Different for syntaxes */
+  protected int fors() {
+    
+    /* ForStatement() and down */
+    
+    for (final @SuppressWarnings("unused") float f : lst1) {
+    }
+    for (final @SuppressWarnings("unused") float f : lst2) {
+    }
+    
+    final Boolean arrb[] = new Boolean[1];
+    for (final Boolean be : arrb) {
+      final @SuppressWarnings("unused") boolean bv = be.booleanValue();
+    }
+    
+    final Class<ArrayList<? extends Integer>> clazz = null;
+    @SuppressWarnings("unchecked") final List<Double> arrlst[] = (List<Double>[]) Array.newInstance(clazz, 1);
+    for (@SuppressWarnings("unused") final double d : arrlst[0]) {
+    }
+    
+    @SuppressWarnings("unused") double sd = 0;
+    final double[][] arrarrd = new double[2][];
+    for (final double arrd[] : arrarrd) {
+      for (final double d : arrd) {
+        sd += d;
+      }
+    }
+    
+    // Type inference for generic instance creation
+    final java.util.Map<String, String> m = new java.util.HashMap<>();
+    final java.util.Map<?, ?> n = new java.util.HashMap<String, String>();
+    final java.util.Map<?, ?> o = new java.util.HashMap<>();
+    
+    return m.size() + n.size() + o.size();
+  }
+  
+  /* Underscores in numeric literals */
+  @SuppressWarnings("unused")
+  protected static Foo uinl() {
+    
+    /* TOKEN LITERALs */
+    
+    final int one_million = 1_000__000;
+    final int cafe_babe = 0xCAFE_BABE;
+    final int zero = 0____0;
+    final int binary = 0b1001_1001;
+    final double avogadro = 6_0.22e2_2;
+    final double hundred1 = 1_0_0d, hundred2 = 1_0_0., hundred3 = 100.;
+    final double pi = 3.141_592_65;
+    final double half = .5_0;
+    final double h = 0x4__3p4_4;
+    
+    return null;
+  }
+  
+}
+
+PARSER_END(Jdk1d7Syntaxes)
+
+void Input() throws SecondException :
+{}
+{
+
+  "A"
+  <EOF>
+}

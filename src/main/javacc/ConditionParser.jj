@@ -30,7 +30,8 @@
 
 options {
   JAVA_UNICODE_ESCAPE = true;
-  STATIC=false;
+  STATIC = false;
+  OUTPUT_DIRECTORY = "../../../target/generated-sources/utils/org/javacc/utils";
 }
 
 PARSER_BEGIN(ConditionParser)

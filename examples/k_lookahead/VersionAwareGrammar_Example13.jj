@@ -1,0 +1,439 @@
+/**
+ * Small grammar to show use of semantic lookaheads at choice and non choice points for managing grammar versions.
+ */
+options
+{
+  static = false;
+  FORCE_LA_CHECK = true; // (JavaCC - default false)
+  ERROR_REPORTING = true;
+  OUTPUT_DIRECTORY = "vag13";
+}
+
+PARSER_BEGIN(VersionAwareGrammar_Example13)
+package vag13;
+
+import java.io.StringReader;
+
+/**
+ * This example uses a simple syntax for the Java <code>try</code> statement in version 1, and a more elaborated
+ * one in version 2:
+ * <ul>
+ * <li><code>Try1()</code> and <code>Block1()</code> define version 1 only syntax</li>
+ * <li><code>Try2()</code> and <code>Block2()</code> define version 2 syntax (which is a superset of version 1
+ * syntax)</li>
+ * <li><code>Try1or2()</code> and <code>Block1or2()</code> define version 1 and version 2 syntaxes that the user
+ * can choose between (therefore the <code>or</code>) through an expression <code>isCV2orMore()</code> that is
+ * used in some <b>semantic lookaheads at a choice or non choice point</b>, which act like a <i>grammar condition</i></li>
+ * </ul>
+ * These syntaxes tag each <i>feature</i> (sub part of the syntax) with a version number {@link #feature_version}
+ * telling the version the grammar syntax it is part of.
+ * <p>
+ * In the input data, the user sets:
+ * <ol>
+ * <li>through the first token:</li>
+ * <ul>
+ * <li>the productions he wants the parser to use:</li>
+ * <ul>
+ * <li><code>1</code> -> Xyz1()</li>
+ * <li><code>2</code> -> Xyz2()</li>
+ * <li><code>1in2</code> -> Xyz2()</li>
+ * <li><code>1or2</code> -> Xyz1or2()</li>
+ * </ul>
+ * <li>and the version level {@link #checked_version} he expects the (next) statement to be checked against:</li>
+ * <ul>
+ * <li><code>1</code> -> 1</li>
+ * <li><code>2</code> -> 2</li>
+ * <li><code>1in2</code> -> 1</li>
+ * <li><code>1or2</code> -> 2</li>
+ * </ul>
+ * </ul>
+ * <li>and the statement (which can comply or not with the given syntax version).</li>
+ * </ol>
+ * </p>
+ * The parsing outcome can be:
+ * <ul>
+ * <li>no problem: a single <code>End &lt;production_name&gt;()</code> message</li>
+ * <li>one or more warnings: <code>&lt;production_name&gt;() warning encountered a feature of version 2 greater
+ * than the given checked version 1</code> message(s), followed by the previous end message:
+ * this happens when the user specified a <code>1in2</code> input with a statement with version 2 features</li>
+ * <li>a ParseException or a TokenMgrError: <code>&lt;production_name&gt;() swallowed &lt;ParseException or
+ * TokenMgrError&gt; while checking a grammar in version &lt;1 or 2&gt;</code> message: when the statement has
+ * invalid or unknown tokens or when it has version 2 features against a required version 1 syntax</li>
+ * </ul>
+ * <p>
+ * The <code>Xyz1or2()</code> productions use semantic lookaheads (at choice and non choice points) which make
+ * the parser behave exactly like in <code>Xyz1()</code> or <code>Xyz2()</code> productions (depending on the
+ * expression value) with respect their respective strict syntaxes: it produces a ParseException if the user
+ * gives a statement with version 2 features against a version 1 level syntax.<br>
+ * The <code>Xyz2()</code> productions use just parser actions that implement a tolerant checked level
+ * parsing: it produces a warning and not a ParseException if the user gives a statement with version 2
+ * features against a version 1 level syntax. 
+ * </p>
+ */
+public class VersionAwareGrammar_Example13
+{
+  /** test data, see Input() for first tokens meanings  */
+  static String input [] = new String [] //
+  { // v1
+    "1    . try { ; } .", //
+    "2    . try { ; } .", //
+    "1in2 . try { ; } .", //
+    "1or2 . try { ; } .", //
+    "1    . try { ; } catch ( mod type var ) .", //
+    "2    . try { ; } catch ( mod type var ) .", //
+    "1in2 . try { ; } catch ( mod type var ) .", //
+    "1or2 . try { ; } catch ( mod type var ) .", //
+    "1    . try { ; } finally { ; } .", //
+    "2    . try { ; } finally { ; } .", //
+    "1in2 . try { ; } finally { ; } .", //
+    "1or2 . try { ; } finally { ; } .", //
+    "1    . try { ; } catch ( mod type var ) finally { ; } .", //
+    "2    . try { ; } catch ( mod type var ) finally { ; } .", //
+    "1in2 . try { ; } catch ( mod type var ) finally { ; } .", //
+    "1or2 . try { ; } catch ( mod type var ) finally { ; } .", //
+    // v2 : v1 + ( res )
+    "1    . try ( res ) { ; } .", //
+    "2    . try ( res ) { ; } .", //
+    "1in2 . try ( res ) { ; } .", //
+    "1or2 . try ( res ) { ; } .", //
+    "1    . try ( res ) { ; } catch ( mod type var ) .", //
+    "2    . try ( res ) { ; } catch ( mod type var ) .", //
+    "1in2 . try ( res ) { ; } catch ( mod type var ) .", //
+    "1or2 . try ( res ) { ; } catch ( mod type var ) .", //
+    "1    . try ( res ) { ; } finally { ; } .", //
+    "2    . try ( res ) { ; } finally { ; } .", //
+    "1in2 . try ( res ) { ; } finally { ; } .", //
+    "1or2 . try ( res ) { ; } finally { ; } .", //
+    "1    . try ( res ) { ; } catch ( mod type var ) finally { ; } .", //
+    "2    . try ( res ) { ; } catch ( mod type var ) finally { ; } .", //
+    "1in2 . try ( res ) { ; } catch ( mod type var ) finally { ; } .", //
+    "1or2 . try ( res ) { ; } catch ( mod type var ) finally { ; } .", //
+    // v2 : v1 + | ann
+    "1    . try { ; } catch ( mod type | ann var ) .", //
+    "2    . try { ; } catch ( mod type | ann var ) .", //
+    "1in2 . try { ; } catch ( mod type | ann var ) .", //
+    "1or2 . try { ; } catch ( mod type | ann var ) .", //
+    "1    . try { ; } catch ( mod type | ann var ) finally { ; } .", //
+    "2    . try { ; } catch ( mod type | ann var ) finally { ; } .", //
+    "1in2 . try { ; } catch ( mod type | ann var ) finally { ; } .", //
+    "1or2 . try { ; } catch ( mod type | ann var ) finally { ; } .", //
+    // v2 : v1 + @a;
+    "1    . try { @a; } .", //
+    "2    . try { @a; } .", //
+    "1in2 . try { @a; } .", //
+    "1or2 . try { @a; } .", //
+    "1    . try { @a; } catch ( mod type var ) .", //
+    "2    . try { @a; } catch ( mod type var ) .", //
+    "1in2 . try { @a; } catch ( mod type var ) .", //
+    "1or2 . try { @a; } catch ( mod type var ) .", //
+    "1    . try { @a; } finally { @a; } .", //
+    "2    . try { @a; } finally { @a; } .", //
+    "1in2 . try { @a; } finally { @a; } .", //
+    "1or2 . try { @a; } finally { @a; } .", //
+    "1    . try { @a; } catch ( mod type var ) finally { @a; } .", //
+    "2    . try { @a; } catch ( mod type var ) finally { @a; } .", //
+    "1in2 . try { @a; } catch ( mod type var ) finally { @a; } .", //
+    "1or2 . try { @a; } catch ( mod type var ) finally { @a; } .", //
+    // v2 : v1 + @b;
+    "1    . try { @b; } .", //
+    "2    . try { @b; } .", //
+    "1in2 . try { @b; } .", //
+    "1or2 . try { @b; } .", //
+    "1    . try { @b; } catch ( mod type var ) .", //
+    "2    . try { @b; } catch ( mod type var ) .", //
+    "1in2 . try { @b; } catch ( mod type var ) .", //
+    "1or2 . try { @b; } catch ( mod type var ) .", //
+    "1    . try { @b; } finally { @b; } .", //
+    "2    . try { @b; } finally { @b; } .", //
+    "1in2 . try { @b; } finally { @b; } .", //
+    "1or2 . try { @b; } finally { @b; } .", //
+    "1    . try { @b; } catch ( mod type var ) finally { @b; } .", //
+    "2    . try { @b; } catch ( mod type var ) finally { @b; } .", //
+    "1in2 . try { @b; } catch ( mod type var ) finally { @b; } .", //
+    "1or2 . try { @b; } catch ( mod type var ) finally { @b; } .", //
+    // v2 : v1 + @c; (gives TokenMgrError) or @d; (gives ParseException)
+    "1    . try { @c; } .", //
+    "2    . try { @c; } .", //
+    "1in2 . try { @c; } .", //
+    "1or2 . try { @c; } .", //
+    "1    . try { @d; } catch ( mod type var ) .", //
+    "2    . try { @d; } catch ( mod type var ) .", //
+    "1in2 . try { @d; } catch ( mod type var ) .", //
+    "1or2 . try { @d; } catch ( mod type var ) .", //
+    "1    . try { @d; } finally { @c; } .", //
+    "2    . try { @d; } finally { @c; } .", //
+    "1in2 . try { @d; } finally { @c; } .", //
+    "1or2 . try { @d; } finally { @c; } .", //
+    "1    . try { @c; } catch ( mod type var ) finally { @d; } .", //
+    "2    . try { @c; } catch ( mod type var ) finally { @d; } .", //
+    "1in2 . try { @c; } catch ( mod type var ) finally { @d; } .", //
+    "1or2 . try { @c; } catch ( mod type var ) finally { @d; } .", //
+   };
+
+  /** standard main running on internal input */
+  public static void main(final String args []) throws ParseException
+  {
+    VersionAwareGrammar_Example13 parser = null;
+    for (int i = 0; i < input.length; i++)
+    {
+      System.out.println("input " + i+ " : " + input[i]); 
+      parser = new VersionAwareGrammar_Example13(new StringReader(input[i]));
+      try { parser.Input(); }
+      // catch PE & TMR for running all the test suite
+      catch (ParseException pe) { parser.report("ParseException"); }
+      catch (TokenMgrError tme) { parser.report("TokenMgrError"); }
+    }
+  }
+
+  /** report problem with version info */
+  void report(final String aStr)
+  {
+    System.out.println(prod_name + " swallowed " + aStr + " while checking a grammar in version " + checked_version);
+  }
+
+  /** the current production name, for reporting */
+  String prod_name = null;
+
+  /** the grammar version to check the input against, set through the input data first token for convenience */
+  int checked_version = 0;
+  /* methods used in semantic lookaheads */
+  boolean isCV1() { return checked_version == 1; }
+  boolean isCV2() { return checked_version == 2; }
+  boolean isCV1orMore() { return checked_version >= 1; }
+  boolean isCV2orMore() { return checked_version >= 2; }
+  
+  /** the current feature version, set during parsing, telling in which grammar syntax version the current feature is */
+  int feature_version = 0;
+  /** more than a setter; used in parser actions */
+  void setFeature_version(final int aVer)
+  {
+    feature_version = aVer;
+    if (feature_version > checked_version)
+      System.out.println(prod_name + " warning encountered a feature of version " + feature_version +
+                         " greater than the given checked version " + checked_version);
+  }
+
+}
+PARSER_END(VersionAwareGrammar_Example13)
+
+SKIP :
+{
+  " "
+| "\r"
+| "\t"
+| "\n"
+}
+
+TOKEN : 
+{
+  < DOT  : "." >
+| < LBRA : "{" >
+| < RBRA : "}" >
+| < LPAR : "(" >
+| < RPAR : ")" >
+| < OR   : "|" >
+| < SEMICOLON : ";" >
+
+| < ANN     : "ann" >
+| < CATCH   : "catch" >
+| < FINALLY : "finally" >
+| < MOD     : "mod" >
+| < RES     : "res" >
+| < TRY     : "try" >
+| < TYPE    : "type" >
+| < VAR     : "var" >
+| < ATASC   : "@a;" >
+| < ATBSC   : "@b;" >
+//| < ATCSC   : "@c;" > // not used in the grammar, used in the input data to produce a lexical error
+| < ATDSC   : "@d;" > // defined but not used in the grammar, used in the input data to produce a parse exception
+
+| < ONE      : "1" >
+| < TWO      : "2" >
+| < ONEORTWO : "1or2" >
+}
+
+/* switch to different syntaxes based on input data: <checked_version> . try <...> . */
+void Input() :
+{}
+{
+  // strict grammar version 1 syntax (Try1), checking input with only version 1 features
+  "1"    { checked_version = 1; } "." Try1() < EOF >
+|
+  // tolerant grammar version 2 syntax (Try2), checking input with both versions 1 & 2 features
+  "2"    { checked_version = 2; } "." Try2() < EOF >
+|
+  // tolerant grammar version 2 syntax (Try2), warning on input with version 2 features
+  // (intended to check that the grammar complies with version 1 syntax)
+  "1in2" { checked_version = 1; } "." Try2() < EOF >
+|
+  // strict grammar versions 1 or 2 syntaxes (Try1or2), checking input with both versions 1 & 2 features
+  "1or2" { checked_version = 2; } "." Try1or2() < EOF >
+}
+
+/* strictly accepts grammar syntax in version 1 */
+void Try1() :
+{}
+{
+  { prod_name = "Try1"; }
+  { setFeature_version(1); }
+  "try" 
+  Block1() 
+  (
+  "catch" "(" "mod" "type"
+  "var" ")"
+  )*
+  [
+    "finally" Block1()
+  ] 
+  "."
+  { System.out.println("End Try1");  }
+}
+
+/* tolerantly accepts grammar syntax in version 1 or 2,
+    a version 2 feature in a version 1 grammar will cause a warning, not a ParseException */
+void Try2() :
+{}
+{
+  { prod_name = "Try2"; }
+  { setFeature_version(1); }
+  "try"
+  [
+    { setFeature_version(2); }
+    "(" "res" ")"
+    { setFeature_version(1); }
+  ] 
+  Block2()
+  (
+    "catch" "(" ("mod")* "type" 
+      (
+        { setFeature_version(2); }
+        "|" "ann"
+        { setFeature_version(1); }
+      )*
+    "var" ")"
+  )*
+  [
+    "finally" Block2()
+  ] 
+  "."
+  { System.out.println("End Try2");  }
+}
+
+/* strictly accepts grammar syntax in version 1 (isCV2orMore() == false) or 2 (isCV2orMore() == true),
+    depending on an external flag (isCV2orMore()):
+    a version 2 feature in a version 1 grammar will cause a ParseException */
+void Try1or2() :
+{}
+{
+  { prod_name = "Try1or2"; }
+  { setFeature_version(1); }
+  "try"
+//  try
+//  {
+  [
+    // non choice, at bnf level 1, missing warning "sem la considered"
+    // not putting the expansion "(" would transform the [] optional sequence in a non optional sequence
+    // putting the expansion "(" scans for it and so keeps the sequence optional
+    // sem la false is handled in the empty else
+    // no ParseException thrown, no need to wrap it in a try catch and swallow the ParseException
+    LOOKAHEAD("(", { isCV2orMore() })
+    { setFeature_version(2); }
+    "(" "res" ")"
+    { setFeature_version(1); }
+  ] 
+//  }
+//  catch (ParseException pe) { /* raised when v2orMore() = false; swallow it */ }
+  Block1or2()
+  (
+    "catch" "(" ("mod")* "type" 
+    (
+      // non choice, at bnf level 2 (2 levels of parenthesis), missing warning "sem la considered"
+      // not putting the expansion "|" would transform the ()* optional sequence in a non optional sequence
+      // putting the expansion "|" scans for it and so keeps the ()* optional sequence
+      // sem la false is handled in the else breaking the while loop
+      // no ParseException thrown, no need to wrap it in a try catch and swallow the ParseException
+      LOOKAHEAD("|", { isCV2orMore() })
+      { setFeature_version(2); }
+      "|" "ann"
+      { setFeature_version(1); }
+    )*
+    "var" ")"
+  )*
+  [
+    "finally" Block1or2()
+  ] 
+  "."
+  { System.out.println("End Try1or2");  }
+}
+
+void Block1() :
+{}
+{
+  { prod_name = "Block1"; }
+  { setFeature_version(1); }
+  "{" ";" "}"
+}
+
+/* tolerantly accepts grammar syntax in version 1 (isCV2orMore() == false) or 2 (isCV2orMore() == true),
+    depending on an external flag (isCV2orMore()):
+    a version 2 feature in a version 1 grammar will cause a warning, not a ParseException */
+void Block2() :
+{}
+{
+  { prod_name = "Block2"; }
+  { setFeature_version(1); }
+  "{"
+  (
+    ";" //  choice 1
+  |
+    { setFeature_version(2); }
+    "@a;" // choice 2
+    { setFeature_version(1); }
+  |
+    { setFeature_version(2); }
+    "@b;" // choice 3
+    { setFeature_version(1); }
+  )
+  "}"
+}
+
+/* strictly accepts grammar syntax in version 1 (isCV2orMore() == false) or 2 (isCV2orMore() == true),
+    depending on an external flag (isCV2orMore()):
+    a version 2 feature in a version 1 grammar will cause a ParseException */
+void Block1or2() :
+{}
+{
+  { prod_name = "Block1or2"; }
+  { setFeature_version(1); }
+  "{"
+  (
+     ";" // non conflicting choice 1
+  |
+    // default la of 1 enough (no prefix for ";", "@a;" and "@b;"),
+    //  no warning needed for the lookahead at a choice location
+    // in the LOOKAHEAD, the amount 1 and the expansion "@a;" forms are equivalent
+    // not putting the 1 / "@a;" would transform this second choice in a non choice (i.e. mandatory)
+    // putting the 1 / "@a;" scans for a token and so keeps this second choice as a choice; if scan ok then
+    //  sem la true consumes the token; sem la false goes to next choice 3
+    // no ParseException thrown (not the last choice)
+//    LOOKAHEAD(1, { isCV2orMore() })
+    LOOKAHEAD("@a;", { isCV2orMore() })
+    { setFeature_version(2); }
+    "@a;" // non conflicting choice 2
+    { setFeature_version(1); }
+  |
+    // default la of 1 enough (no prefix for ";", "@a;" and "@b;"),
+    //  no warning needed for the lookahead at a choice location
+    // not putting amount 1 or expansion "@b;" transforms this third choice in a non choice (i.e. mandatory)
+    // (but here this is fine as it is the last choice of the expansion_choices)
+    // sem la true consumes the token; sem la false throws a ParseException 
+    // a ParseException is thrown (if no match an no more choices) and must no be catched,
+    //  so no need to wrap it in a try catch here
+    LOOKAHEAD({ isCV2orMore() })
+    { setFeature_version(2); }
+    "@b;" // non conflicting choice 3
+    { setFeature_version(1); }
+  )
+  "}"
+}
+

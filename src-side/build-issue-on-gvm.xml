@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2024-2025, Marc Mazas <mazas.marc@gmail.com>.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the names of of the copyright holders nor the names of its
+      contributors may be used to endorse or promote products derived from
+      this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<!-- 
+  Allows to build and execute the issue #10488 reported to GraalVM on the native image
+   built on the reflection api.
+  Ment to be run as a standalone ant script.
+  Jan 2025. Authors: Maͫzͣaͬsͨ
+-->
+<project name="build-issue-on-gvm" default="all">
+
+  <!-- ========== -->
+  <!-- PROPERTIES -->
+  <!-- ========== -->
+
+  <property name="GVM_JDK-21" value="C:\Program Files\Java\graalvm-jdk-21.0.5+9.1" />
+  <property name="GVM_JDK-23" value="C:\Program Files\Java\graalvm-jdk-23.0.1+11.1" />
+
+  <property name="target" value="../target-side" />
+  <property name="gvm-classes" value="${target}/classes-gvm" />
+  <property name="gvm" value="${target}/graalvm" />
+  <property name="ni-gvm" value="${gvm}/META-INF/native-image" />
+  <property name="temp-gvm" value="${gvm}/temp" />
+
+
+  <!-- ===== -->
+  <!-- CLEAN -->
+  <!-- ===== -->
+
+  <!-- Clean generated and class files -->
+  <target name="clean_gvm">
+    <delete dir="${gvm}" />
+    <mkdir dir="${gvm}" />
+    <delete dir="${gvm-classes}" />
+    <mkdir dir="${gvm-classes}" />
+  </target>
+
+
+  <!-- ==================== -->
+  <!-- Issue GraalVM #10488 -->
+  <!-- ==================== -->
+
+  <target name="all" description="compile class to native with GraalVM">
+    <antcall target="gvm-21" />
+    <antcall target="gvm-23" />
+  </target>
+
+  <target name="gvm-21">
+
+    <echo message="Run on V21" />
+    <antcall target="issue-compile-gvm-21" />
+    <antcall target="issue-test-jdk-gvm-21" />
+  </target>
+
+  <target name="gvm-23">
+
+    <echo message="Run on V23" />
+    <antcall target="issue-compile-gvm-23" />
+    <antcall target="issue-test-jdk-gvm-23" />
+
+  </target>
+
+  <!-- GraalVM 21 -->
+
+  <target name="issue-compile-gvm-21" description="compile the class with GraalVM v21 JDK">
+    <echo message="compiling class with GraalVM v21" />
+    <delete dir="${gvm-classes}" />
+    <mkdir dir="${gvm-classes}" />
+    <javac classpath="${classes}"
+           debug="true"
+           destdir="${gvm-classes}"
+           executable="${GVM_JDK-21}/bin/javac"
+           fork="true"
+           includeantruntime="false"
+           listfiles="true"
+    >
+      <compilerarg value="--version" />
+      <src path="main/java/gvm/issues/" />
+      <include name="Issue_Gvm_10488.java" />
+    </javac>
+
+    <echo message="creating a jar for the class compiled with GraalVM v21" />
+    <jar jarfile="${gvm}/issue-21.jar" compress="true">
+      <fileset dir="${gvm-classes}" />
+      <manifest>
+        <attribute name="Main-Class" value="gvm.issues.Issue_Gvm_10488" />
+      </manifest>
+    </jar>
+
+    <echo message="generating the native-image on the jar of the class compiled with GraalVM v21" />
+    <mkdir dir="${temp-gvm}" />
+    <mkdir dir="${ni-gvm}" />
+    <!-- let the tracing agent update the configuration json file through parsing of a single small directory -->
+    <java classname="gvm.issues.Issue_Gvm_10488"
+          classpath="${gvm}/issue-21.jar"
+          failonerror="true"
+          fork="true"
+          jvm="${GVM_JDK-21}/bin/java"
+    >
+      <jvmarg value="-showversion" />
+      <jvmarg value="--add-opens" />
+      <jvmarg value="jdk.management/com.sun.management.internal=ALL-UNNAMED" />
+      <jvmarg value="-agentlib:${GVM_JDK-21}/bin/native-image-agent=config-merge-dir=${ni-gvm}" />
+    </java>
+
+    <!-- to solve problem under Windows 10: (Windows Defender blocks process creation in C:\Temp\SVM-nnn) -->
+    <!--  java.io.IOException: CreateProcess error=5, Access denied at java.base/java.lang.ProcessImpl.create(Native Method) -->
+    <!-- Under Powershell launched as administrator: -->
+    <!--  Add-MpPreference -AttackSurfaceReductionOnlyExclusions "C:\Devs\GitRepo\javacc~javacc\target-side\graalvm" -->
+    <exec executable="${GVM_JDK-21}\bin\native-image.cmd" failonerror="true">
+      <arg value="-jar" />
+      <arg value="${gvm}/issue-21.jar" />
+      <arg value="-o" />
+      <arg value="${gvm}/issue-ni-21" />
+      <arg value="-cp" />
+      <arg value="${ni-gvm}" />
+      <arg value="-H:TempDirectory=${temp-gvm}" />
+      <!-- next line needed for GRAAL_JDK_21 />-->
+      <arg value="-H:ReflectionConfigurationFiles=${ni-gvm}/reflect-config.json" />
+      <!--      <arg value="-H:+UnlockExperimentalVMOptions" />-->
+      <!--      <arg value="-H:+PrintAnalysisCallTree" />-->
+      <!--      <arg value="-H:+PrintImageObjectTree" />-->
+      <!--      <arg value="-H:+PrintClassInitialization" />-->
+      <arg value="--initialize-at-build-time=" />
+      <arg value="--add-opens" />
+      <arg value="jdk.management/com.sun.management.internal=ALL-UNNAMED" />
+      <arg value="--verbose" />
+    </exec>
+
+  </target>
+
+  <target name="issue-test-jdk-gvm-21">
+
+    <echo message="executing the native image of the class generated with GraalVM v21" />
+    <exec executable="${basedir}/${gvm}/issue-ni-21.exe">
+      <!--      <arg value="-XX:+PrintGC" />-->
+      <!--      <arg value="-Xmx64m" />-->
+    </exec>
+
+  </target>
+
+  <!-- GraalVM 23 -->
+
+  <target name="issue-compile-gvm-23" description="compile the class with GraalVM v23 JDK">
+    <echo message="compiling class with GraalVM" />
+    <delete dir="${gvm-classes}" />
+    <mkdir dir="${gvm-classes}" />
+    <javac classpath="${classes}"
+           debug="true"
+           destdir="${gvm-classes}"
+           executable="${GVM_JDK-23}/bin/javac"
+           fork="true"
+           includeantruntime="false"
+           listfiles="true"
+    >
+      <compilerarg value="--version" />
+      <src path="main/java/gvm/issues/" />
+      <include name="Issue_Gvm_10488.java" />
+    </javac>
+
+    <echo message="creating a jar for the class compiled with GraalVM v23" />
+    <jar jarfile="${gvm}/issue-23.jar" compress="true">
+      <fileset dir="${gvm-classes}" />
+      <manifest>
+        <attribute name="Main-Class" value="gvm.issues.Issue_Gvm_10488" />
+      </manifest>
+    </jar>
+
+    <echo message="generating the native-image on the jar of the class compiled with GraalVM v23" />
+    <mkdir dir="${temp-gvm}" />
+    <mkdir dir="${ni-gvm}" />
+    <!-- let the tracing agent update the configuration json file through parsing of a single small directory -->
+    <java classname="gvm.issues.Issue_Gvm_10488"
+          classpath="${gvm}/issue-23.jar"
+          failonerror="true"
+          fork="true"
+          jvm="${GVM_JDK-23}/bin/java"
+    >
+      <jvmarg value="-showversion" />
+      <jvmarg value="--add-opens" />
+      <jvmarg value="jdk.management/com.sun.management.internal=ALL-UNNAMED" />
+      <jvmarg value="-agentlib:${GVM_JDK-23}/bin/native-image-agent=config-merge-dir=${ni-gvm}" />
+    </java>
+
+    <!-- to solve problem under Windows 10: (Windows Defender blocks process creation in C:\Temp\SVM-nnn) -->
+    <!--  java.io.IOException: CreateProcess error=5, Access denied at java.base/java.lang.ProcessImpl.create(Native Method) -->
+    <!-- Under Powershell launched as administrator: -->
+    <!--  Add-MpPreference -AttackSurfaceReductionOnlyExclusions "C:\Devs\GitRepo\javacc~javacc\target-side\graalvm" -->
+    <exec executable="${GVM_JDK-23}\bin\native-image.cmd" failonerror="true">
+      <arg value="-jar" />
+      <arg value="${gvm}/issue-23.jar" />
+      <arg value="-o" />
+      <arg value="${gvm}/issue-ni-23" />
+      <arg value="-cp" />
+      <arg value="${ni-gvm}" />
+      <arg value="-H:TempDirectory=${temp-gvm}" />
+      <!-- next line not needed for GRAAL_JDK_23 />-->
+      <!--      <arg value="-H:ReflectionConfigurationFiles=${ni-gvm}/reflect-config.json" />-->
+      <!--      <arg value="-H:+UnlockExperimentalVMOptions" />-->
+      <!--      <arg value="-H:+PrintAnalysisCallTree" />-->
+      <!--      <arg value="-H:+PrintImageObjectTree" />-->
+      <!--      <arg value="-H:+PrintClassInitialization" />-->
+      <arg value="--initialize-at-build-time=" />
+      <arg value="--add-opens" />
+      <arg value="jdk.management/com.sun.management.internal=ALL-UNNAMED" />
+      <arg value="--verbose" />
+      <!--      <arg value="- -emit" />-->
+      <!--      <arg value="build-report" />-->
+    </exec>
+
+  </target>
+
+  <target name="issue-test-jdk-gvm-23">
+
+    <echo message="executing the native image of the class generated with GraalVM v23" />
+    <exec executable="${basedir}/${gvm}/issue-ni-23.exe">
+      <!--      <arg value="-XX:+PrintGC" />-->
+      <!--      <arg value="-Xmx64m" />-->
+    </exec>
+
+  </target>
+
+</project>

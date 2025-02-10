@@ -1,0 +1,75 @@
+/**
+ * Small grammar to produce a lookahead debug trace.
+ */
+options
+{
+  static = false;
+  FORCE_LA_CHECK = true; // (JavaCC - default false)
+//  DEBUG_PARSER = true; // (JavaCC - default false)
+  DEBUG_LOOKAHEAD = true; // (JavaCC - default false)
+  OUTPUT_DIRECTORY = "rldt8";
+}
+
+PARSER_BEGIN(ReadingLookaheadDebugTrace_Example8)
+package rldt8;
+
+import java.io.StringReader;
+
+public class ReadingLookaheadDebugTrace_Example8 {
+
+  public static void main(final String args[]) throws ParseException {
+    ReadingLookaheadDebugTrace_Example8 parser = null;
+    for (int i = 0; i < input.length; i++)
+    {
+      System.out.println("input " + i+ " : " + input[i]); 
+      parser = new ReadingLookaheadDebugTrace_Example8(new StringReader(input[i]));
+      try { parser.basic_expr(); }
+      // catch PE & TMR for running all the test suite
+      catch (ParseException pe) { parser.report("ParseException: " + pe.getMessage()); }
+      catch (TokenMgrError tme) { parser.report("TokenMgrError: " + tme.getMessage()); }
+      finally { System.out.println(); }
+    }
+  }
+
+  void report(final String aStr) { System.out.println("swallowed " + aStr); }
+
+  static String input [] = new String [] { //
+    "new cd",       // -> choice 3
+    "( EXPR )",     // -> choice 2
+    "e.f",          // -> choice 4
+    "ab ( EXPR )",  // -> choices 1 / 1
+    "ba ( )",       // -> choices 1 / 2
+    "new .cd",      // -> ParseException
+  };
+
+}
+
+PARSER_END(ReadingLookaheadDebugTrace_Example8)
+
+SKIP : { " " }
+
+TOKEN : { < LP: "(" > | < RP: ")" > | < DOT: "." > | < NEW: "new" > | < EXPR: "EXPR" > }
+
+TOKEN [IGNORE_CASE] : { <ID: (["a"-"z"])+> }
+
+void basic_expr() : {}
+{
+  LOOKAHEAD(2) // choice 1
+  <ID> args()
+| // choice 2
+  "(" expr() ")"
+| // choice 3
+  "new" <ID>
+| // choice 4
+  <ID> "." <ID>
+}
+
+void expr() : {} { "EXPR" }
+
+void args() : {}
+{
+  LOOKAHEAD(2)
+  "(" expr() ")"
+|
+  "(" ")"
+}

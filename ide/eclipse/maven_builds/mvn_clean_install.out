@@ -1,0 +1,117 @@
+[INFO] Scanning for projects...
+[INFO] Inspecting build with total of 1 modules...
+[INFO] Installing Nexus Staging features:
+[INFO]   ... total of 1 executions of maven-deploy-plugin replaced with nexus-staging-maven-plugin
+[INFO] 
+[INFO] [1m---------------------< [0;36mnet.java.dev.javacc:javacc[0;1m >---------------------[m
+[INFO] [1mBuilding JavaCC 7.0.14-SNAPSHOT[m
+[INFO]   from pom.xml
+[INFO] [1m--------------------------------[ jar ]---------------------------------[m
+[INFO] 
+[INFO] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36mjavacc[0;1m ---[m
+[INFO] Deleting C:\Devs\GitRepo\javacc-javacc\target
+[INFO] 
+[INFO] [1m--- [0;32mcobertura:2.7:clean[m [1m(clean-cobertura)[m @ [36mjavacc[0;1m ---[m
+[INFO] 
+[INFO] [1m--- [0;32mantrun:3.1.0:run[m [1m(clean-gen)[m @ [36mjavacc[0;1m ---[m
+[INFO] Executing tasks
+[INFO]    [delete] Deleting directory C:\Devs\GitRepo\javacc-javacc\target
+[INFO]     [mkdir] Created dir: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\javacc
+[INFO]     [mkdir] Created dir: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree
+[INFO] Executed tasks
+[INFO] 
+[INFO] [1m--- [0;32mtoolchains:1.1:toolchain[m [1m(validate-tc)[m @ [36mjavacc[0;1m ---[m
+[INFO] Required toolchain: jdk [ vendor='Oracle' version='1.8' ]
+[INFO] Found matching toolchain for type jdk: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:javacc[m [1m(process-resources-jcc)[m @ [36mjavacc[0;1m ---[m
+Java Compiler Compiler Version 5.0 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Devs\GitRepo\javacc-javacc\src\main\javacc\ConditionParser.jj . . .
+Warning: Line 34, Column 3: Command line setting of "OUTPUT_DIRECTORY" modifies option value in file.
+File "TokenMgrError.java" does not exist.  Will create one.
+File "ParseException.java" does not exist.  Will create one.
+File "Token.java" does not exist.  Will create one.
+File "JavaCharStream.java" does not exist.  Will create one.
+Parser generated with 0 errors and 1 warnings.
+Java Compiler Compiler Version 5.0 (Parser Generator)
+(type "javacc" with no arguments for help)
+Reading from file C:\Devs\GitRepo\javacc-javacc\src\main\javacc\JavaCC.jj . . .
+Warning: Line 44, Column 3: Command line setting of "OUTPUT_DIRECTORY" modifies option value in file.
+File "TokenMgrError.java" does not exist.  Will create one.
+File "ParseException.java" does not exist.  Will create one.
+File "Token.java" does not exist.  Will create one.
+File "JavaCharStream.java" does not exist.  Will create one.
+Parser generated with 0 errors and 1 warnings.
+[INFO] Processed 2 grammars
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:jjtree-javacc[m [1m(process-resources-jjt)[m @ [36mjavacc[0;1m ---[m
+Java Compiler Compiler Version 5.0 (Tree Builder)
+(type "jjtree" with no arguments for help)
+Reading from file C:\Devs\GitRepo\javacc-javacc\src\main\jjtree\JJTree.jjt . . .
+Warning: Command line setting of "OUTPUT_DIRECTORY" modifies option value in file.
+File "Node.java" is being rebuilt.
+File "SimpleNode.java" is being rebuilt.
+File "ASTGrammar.java" is being rebuilt.
+File "ASTCompilationUnit.java" is being rebuilt.
+File "ASTProductions.java" is being rebuilt.
+File "ASTOptions.java" is being rebuilt.
+File "ASTOptionBinding.java" is being rebuilt.
+File "ASTJavacode.java" is being rebuilt.
+File "ASTJavacodeBody.java" is being rebuilt.
+File "ASTCppcode.java" is being rebuilt.
+File "ASTCppcodeBody.java" is being rebuilt.
+File "ASTBNF.java" is being rebuilt.
+File "ASTBNFDeclaration.java" is being rebuilt.
+File "ASTBNFNodeScope.java" is being rebuilt.
+File "ASTRE.java" is being rebuilt.
+File "ASTTokenDecls.java" is being rebuilt.
+File "ASTRESpec.java" is being rebuilt.
+File "ASTBNFChoice.java" is being rebuilt.
+File "ASTBNFSequence.java" is being rebuilt.
+File "ASTBNFLookahead.java" is being rebuilt.
+File "ASTExpansionNodeScope.java" is being rebuilt.
+File "ASTBNFAction.java" is being rebuilt.
+File "ASTBNFZeroOrOne.java" is being rebuilt.
+File "ASTBNFTryBlock.java" is being rebuilt.
+File "ASTBNFAssignment.java" is being rebuilt.
+File "ASTBNFNonTerminal.java" is being rebuilt.
+File "ASTBNFOneOrMore.java" is being rebuilt.
+File "ASTBNFZeroOrMore.java" is being rebuilt.
+File "ASTBNFParenthesized.java" is being rebuilt.
+File "ASTREStringLiteral.java" is being rebuilt.
+File "ASTRENamed.java" is being rebuilt.
+File "ASTREReference.java" is being rebuilt.
+File "ASTREEOF.java" is being rebuilt.
+File "ASTREChoice.java" is being rebuilt.
+File "ASTRESequence.java" is being rebuilt.
+File "ASTREOneOrMore.java" is being rebuilt.
+File "ASTREZeroOrMore.java" is being rebuilt.
+File "ASTREZeroOrOne.java" is being rebuilt.
+File "ASTRRepetitionRange.java" is being rebuilt.
+File "ASTREParenthesized.java" is being rebuilt.
+File "ASTRECharList.java" is being rebuilt.
+File "ASTCharDescriptor.java" is being rebuilt.
+File "ASTNodeDescriptor.java" is being rebuilt.
+File "ASTNodeDescriptorExpression.java" is being rebuilt.
+File "ASTPrimaryExpression.java" is being rebuilt.
+File "JJTreeParserTreeConstants.java" is being rebuilt.
+File "JJTreeParserVisitor.java" is being rebuilt.
+File "JJTJJTreeParserState.java" is being rebuilt.
+Annotated grammar generated successfully in ..\..\..\target\generated-sources\jjtree\org\javacc\jjtree\JJTree.jj
+Java Compiler Compiler Version 5.0 (Parser Generator)
+(type "javacc" with no arguments for help)
+File C:\Devs\GitRepo\javacc-javacc\target\javacc-1708685309637\node\JJTree.jj not found.
+[INFO] [1m------------------------------------------------------------------------[m
+[INFO] [1;31mBUILD FAILURE[m
+[INFO] [1m------------------------------------------------------------------------[m
+[INFO] Total time:  3.416 s
+[INFO] Finished at: 2024-02-23T11:48:29+01:00
+[INFO] [1m------------------------------------------------------------------------[m
+[ERROR] Failed to execute goal [32morg.codehaus.mojo:javacc-maven-plugin:2.6:jjtree-javacc[m [1m(process-resources-jjt)[m on project [36mjavacc[m: [1;31mJavaCC reported exit code 1: [-GRAMMAR_ENCODING=UTF-8, -OUTPUT_DIRECTORY=C:\Devs\GitRepo\javacc-javacc\target\javacc-1708685309637\parser, C:\Devs\GitRepo\javacc-javacc\target\javacc-1708685309637\node\JJTree.jj][m -> [1m[Help 1][m
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
+[ERROR] Re-run Maven using the [1m-X[m switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

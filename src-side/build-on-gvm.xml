@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2024-2025, Marc Mazas <mazas.marc@gmail.com>.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the names of of the copyright holders nor the names of its
+      contributors may be used to endorse or promote products derived from
+      this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<!-- 
+  Allows to build and execute some functional & performance tests on side grammars
+   as native images built with GraalVM.
+  Cannot be run as a standalone ant script (i.e. must be called form build-side-gram.xml).
+  June 2024 -> Jan 2025. Authors: Maͫzͣaͬsͨ
+-->
+<project name="build-on-gvm">
+
+  <!-- Fail if not called from build-side-gram.xml -->
+  <fail unless="${bsgf}" />
+
+  <!-- ========== -->
+  <!-- PROPERTIES -->
+  <!-- ========== -->
+
+  <property name="GVM_JDK-21" value="C:\Program Files\Java\graalvm-jdk-21.0.5+9.1" />
+  <property name="GVM_JDK-23" value="C:\Program Files\Java\graalvm-jdk-23.0.1+11.1" />
+  <property name="GVM_JDK" value="${GVM_JDK-23}" />
+
+  <property name="gvm-classes" value="target-side/classes-gvm" />
+  <property name="gvm" value="target-side/graalvm" />
+  <property name="ni-gvm" value="${gvm}/META-INF/native-image" />
+  <property name="temp-gvm" value="${gvm}/temp" />
+
+
+  <!-- ===== -->
+  <!-- CLEAN -->
+  <!-- ===== -->
+
+  <!-- Clean generated and class files -->
+  <target name="clean_gvm">
+    <delete dir="${gvm}" />
+    <mkdir dir="${gvm}" />
+    <delete dir="${gvm-classes}" />
+    <mkdir dir="${gvm-classes}" />
+  </target>
+
+
+  <!-- ================ -->
+  <!-- JLS Java8 parser -->
+  <!-- ================ -->
+
+  <!-- Build JLS Java8 parser with mate for GraalVM and test it on full jdk -->
+  <!-- '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''' -->
+
+  <target name="jls-java8-with-mate-compile-gvm"
+          description="Java8 parser with mate compile to native with GraalVM"
+  >
+    <echo message="compiling JLS Java8 parser with mate classes with GraalVM JDK" />
+    <delete dir="${gvm-classes}" />
+    <mkdir dir="${gvm-classes}" />
+    <javac fork="true"
+           executable="${GVM_JDK}/bin/javac"
+           destdir="${gvm-classes}"
+           classpath="${classes}"
+           source="${javac.source}"
+           target="${javac.target}"
+           debug="true"
+           includeantruntime="false"
+           listfiles="true"
+    >
+      <src path="${side-generated-jls}/org/javacc/jls/java8mate/" />
+      <src path="${side-java}" />
+    </javac>
+
+    <echo message="creating a jar for the JLS Java8 parser with mate classes compiled with GraalVM"
+    />
+    <jar jarfile="${gvm}/java8mate.jar" compress="true">
+      <fileset dir="${gvm-classes}" />
+      <manifest>
+        <attribute name="Main-Class" value="org.javacc.jls.ParsersMain" />
+      </manifest>
+    </jar>
+
+    <echo message="generating native-image on the jar of JLS Java8 parser with mate classes compiled with GraalVM"
+    />
+    <mkdir dir="${temp-gvm}" />
+    <mkdir dir="${ni-gvm}" />
+    <!-- let the tracing agent update the configuration json file through parsing of a single small directory -->
+    <java classname="org.javacc.jls.ParsersMain"
+          classpath="${gvm-classes}"
+          fork="true"
+          failonerror="true"
+    >
+      <jvmarg value="-showversion" />
+      <jvmarg value="--add-opens" />
+      <jvmarg value="jdk.management/com.sun.management.internal=ALL-UNNAMED" />
+      <jvmarg value="-agentlib:${GVM_JDK}/bin/native-image-agent=config-merge-dir=${ni-gvm}" />
+      <arg value="-V" />
+      <arg value="8" />
+      <arg value="-d" />
+      <arg value="${jdk8-src-unzipped}/javax/rmi/ssl" />
+      <arg value="-a" />
+    </java>
+
+    <!-- to solve problem under Windows 10: (Windows Defender blocks process creation in C:\Temp\SVM-nnn) -->
+    <!--  java.io.IOException: CreateProcess error=5, Access denied at java.base/java.lang.ProcessImpl.create(Native Method) -->
+    <!-- Under Powershell launched as administrator: -->
+    <!--  Add-MpPreference -AttackSurfaceReductionOnlyExclusions "C:\Devs\GitRepo\javacc~javacc\target-side\graalvm" -->
+    <exec executable="${GVM_JDK}\bin\native-image.cmd" failonerror="true">
+      <arg value="-jar" />
+      <arg value="${gvm}/java8mate.jar" />
+      <arg value="-o" />
+      <arg value="${gvm}/java8mate-ni" />
+      <arg value="-cp" />
+      <arg value="${ni-gvm}" />
+      <arg value="-H:TempDirectory=${temp-gvm}" />
+      <!-- next line needed for GRAAL_JDK_21 />-->
+      <!--      <arg value="-H:ReflectionConfigurationFiles=${ni-gvm}/reflect-config.json" />-->
+      <!--      <arg value="-H:+UnlockExperimentalVMOptions" />-->
+      <!--      <arg value="-H:+PrintClassInitialization" />-->
+      <arg value="--initialize-at-build-time=org.javacc.jls" />
+      <arg value="--add-opens" />
+      <arg value="jdk.management/com.sun.management.internal=ALL-UNNAMED" />
+      <arg value="--verbose" />
+    </exec>
+
+  </target>
+
+  <target name="jls-java8-with-mate-test-jdk-gvm">
+
+    <echo message="executing the native image of the JLS Java8 parser with mate on all classes under ${jdk8-src-unzipped}"
+    />
+    <exec executable="${basedir}/${gvm}/java8mate-ni.exe">
+      <!--      <arg value="-XX:+PrintGC" />-->
+      <!--      <arg value="-Xmx64m" />-->
+      <arg value="-V" />
+      <arg value="8" />
+      <arg value="-d" />
+      <arg value="${jdk8-src-unzipped}" />
+      <arg value="-r" />
+      <!-- uncomment next arg for sequential stream (slower for native) -->
+      <!--      <arg value="-s" />-->
+      <!-- uncomment next arg for one parser created for each file (instead of threadlocal ones) -->
+      <!--      <arg value="-n" />-->
+    </exec>
+
+  </target>
+
+</project>

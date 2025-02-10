@@ -1,0 +1,1904 @@
+[INFO] Scanning for projects...
+[INFO] Inspecting build with total of 1 modules...
+[INFO] Installing Nexus Staging features:
+[INFO]   ... total of 1 executions of maven-deploy-plugin replaced with nexus-staging-maven-plugin
+[INFO] 
+[INFO] [1m---------------------< [0;36mnet.java.dev.javacc:javacc[0;1m >---------------------[m
+[INFO] [1mBuilding JavaCC 7.0.14-SNAPSHOT[m
+[INFO]   from pom.xml
+[INFO] [1m--------------------------------[ jar ]---------------------------------[m
+[INFO] 
+[INFO] [1m--- [0;32msite:3.7.1:site[m [1m(default-site)[m @ [36mjavacc[0;1m ---[m
+[INFO] configuring report plugin org.codehaus.mojo:jdepend-maven-plugin:2.0
+[INFO] preparing jdepend-maven-plugin:generate report requires 'compile' forked phase execution
+[INFO] 
+[INFO] [1m>>> [0;32mjdepend:2.0:generate[0;1m > [0;1mcompile[m @ [36mjavacc[0;1m >>>[m
+[INFO] 
+[INFO] [1m--- [0;32mtoolchains:1.1:toolchain[m [1m(validate-tc)[m @ [36mjavacc[0;1m ---[m
+[INFO] Required toolchain: jdk [ vendor='Oracle' version='1.8' ]
+[INFO] Found matching toolchain for type jdk: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:javacc[m [1m(process-resources-jcc)[m @ [36mjavacc[0;1m ---[m
+[INFO] Skipping - all parsers are up to date
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:jjtree-javacc[m [1m(process-resources-jjt)[m @ [36mjavacc[0;1m ---[m
+[INFO] Skipping - all parsers are up to date
+[INFO] 
+[INFO] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36mjavacc[0;1m ---[m
+[INFO] Copying 50 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] [1m--- [0;32mcompiler:3.11.0:compile[m [1m(default-compile)[m @ [36mjavacc[0;1m ---[m
+[INFO] Toolchain in maven-compiler-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] [1m<<< [0;32mjdepend:2.0:generate[0;1m < [0;1mcompile[m @ [36mjavacc[0;1m <<<[m
+[INFO] 
+[INFO] 'compile' forked phase execution for jdepend-maven-plugin:generate report preparation done
+[INFO] 2 reports detected for jdepend-maven-plugin:2.0: generate-no-fork, generate
+[INFO] configuring report plugin org.apache.maven.plugins:maven-pmd-plugin:3.21.2
+[INFO] 2 reports detected for maven-pmd-plugin:3.21.2: cpd, pmd
+[INFO] configuring report plugin org.codehaus.mojo:taglist-maven-plugin:3.0.0
+[INFO] 1 report detected for taglist-maven-plugin:3.0.0: taglist
+[INFO] configuring report plugin org.apache.maven.plugins:maven-jxr-plugin:3.3.1
+[INFO] preparing maven-jxr-plugin:jxr report requires 'generate-sources' forked phase execution
+[INFO] 
+[INFO] [1m>>> [0;32mjxr:3.3.1:jxr[0;1m > [0;1mgenerate-sources[m @ [36mjavacc[0;1m >>>[m
+[INFO] 
+[INFO] [1m--- [0;32mtoolchains:1.1:toolchain[m [1m(validate-tc)[m @ [36mjavacc[0;1m ---[m
+[INFO] Required toolchain: jdk [ vendor='Oracle' version='1.8' ]
+[INFO] Found matching toolchain for type jdk: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:javacc[m [1m(process-resources-jcc)[m @ [36mjavacc[0;1m ---[m
+[INFO] Skipping - all parsers are up to date
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:jjtree-javacc[m [1m(process-resources-jjt)[m @ [36mjavacc[0;1m ---[m
+[INFO] Skipping - all parsers are up to date
+[INFO] 
+[INFO] [1m<<< [0;32mjxr:3.3.1:jxr[0;1m < [0;1mgenerate-sources[m @ [36mjavacc[0;1m <<<[m
+[INFO] 
+[INFO] 'generate-sources' forked phase execution for maven-jxr-plugin:jxr report preparation done
+[INFO] preparing maven-jxr-plugin:test-jxr report requires 'generate-test-sources' forked phase execution
+[INFO] 
+[INFO] [1m>>> [0;32mjxr:3.3.1:test-jxr[0;1m > [0;1mgenerate-test-sources[m @ [36mjavacc[0;1m >>>[m
+[INFO] 
+[INFO] [1m--- [0;32mtoolchains:1.1:toolchain[m [1m(validate-tc)[m @ [36mjavacc[0;1m ---[m
+[INFO] Required toolchain: jdk [ vendor='Oracle' version='1.8' ]
+[INFO] Found matching toolchain for type jdk: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:javacc[m [1m(process-resources-jcc)[m @ [36mjavacc[0;1m ---[m
+[INFO] Skipping - all parsers are up to date
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:jjtree-javacc[m [1m(process-resources-jjt)[m @ [36mjavacc[0;1m ---[m
+[INFO] Skipping - all parsers are up to date
+[INFO] 
+[INFO] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36mjavacc[0;1m ---[m
+[INFO] Copying 50 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] [1m--- [0;32mcompiler:3.11.0:compile[m [1m(default-compile)[m @ [36mjavacc[0;1m ---[m
+[INFO] Toolchain in maven-compiler-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] [1m<<< [0;32mjxr:3.3.1:test-jxr[0;1m < [0;1mgenerate-test-sources[m @ [36mjavacc[0;1m <<<[m
+[INFO] 
+[INFO] 'generate-test-sources' forked phase execution for maven-jxr-plugin:test-jxr report preparation done
+[INFO] 4 reports detected for maven-jxr-plugin:3.3.1: jxr, jxr-no-fork, test-jxr, test-jxr-no-fork
+[INFO] configuring report plugin org.codehaus.mojo:cobertura-maven-plugin:2.7
+[INFO] preparing cobertura-maven-plugin:cobertura report requires '[cobertura]test' forked phase execution
+[INFO] 
+[INFO] [1m>>> [0;32mcobertura:2.7:cobertura[0;1m > [0;1m[cobertura]test[m @ [36mjavacc[0;1m >>>[m
+[INFO] 
+[INFO] [1m--- [0;32mtoolchains:1.1:toolchain[m [1m(validate-tc)[m @ [36mjavacc[0;1m ---[m
+[INFO] Required toolchain: jdk [ vendor='Oracle' version='1.8' ]
+[INFO] Found matching toolchain for type jdk: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:javacc[m [1m(process-resources-jcc)[m @ [36mjavacc[0;1m ---[m
+[INFO] Skipping - all parsers are up to date
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:jjtree-javacc[m [1m(process-resources-jjt)[m @ [36mjavacc[0;1m ---[m
+[INFO] Skipping - all parsers are up to date
+[INFO] 
+[INFO] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36mjavacc[0;1m ---[m
+[INFO] Copying 50 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] [1m--- [0;32mcompiler:3.11.0:compile[m [1m(default-compile)[m @ [36mjavacc[0;1m ---[m
+[INFO] Toolchain in maven-compiler-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] [1m--- [0;32mcobertura:2.7:instrument[m @ [36mjavacc[0;1m ---[m
+[INFO] Cobertura 2.1.1 - GNU GPL License (NO WARRANTY) - See COPYRIGHT file
+[INFO] Cobertura: Loaded information on 189 classes.
+[INFO] Cobertura: Saved information on 189 classes.
+[INFO] Cobertura: Saved information on 189 classes.
+
+[INFO] Instrumentation was successful.
+[INFO] NOT adding cobertura ser file to attached artifacts list.
+[INFO] 
+[INFO] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36mjavacc[0;1m ---[m
+[INFO] skip non existing resourceDirectory C:\Devs\GitRepo\javacc-javacc\src\test\resources
+[INFO] 
+[INFO] [1m--- [0;32mcompiler:3.11.0:testCompile[m [1m(default-testCompile)[m @ [36mjavacc[0;1m ---[m
+[INFO] Toolchain in maven-compiler-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 6 source files with javac [forked debug target 1.7] to target\test-classes
+[WARNING] [options] bootstrap class path not set in conjunction with -source 1.7
+[INFO] 
+[INFO] [1m--- [0;32msurefire:2.22.2:test[m [1m(default-test)[m @ [36mjavacc[0;1m ---[m
+[INFO] Toolchain in maven-surefire-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.javacc.jjdoc.test.[1mJJDocMainTest[m
+[INFO] [1;32mTests run: [0;1;32m3[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.586 s - in org.javacc.jjdoc.test.[1mJJDocMainTest[m
+[INFO] Running org.javacc.jjtree.[1mJJTreeOptionsTest[m
+[INFO] [1;32mTests run: [0;1;32m5[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s - in org.javacc.jjtree.[1mJJTreeOptionsTest[m
+[INFO] Running org.javacc.parser.[1mExpansionTest[m
+[INFO] [1;32mTests run: [0;1;32m9[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in org.javacc.parser.[1mExpansionTest[m
+[INFO] Running org.javacc.parser.[1mOptionsTest[m
+[INFO] [1;32mTests run: [0;1;32m8[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 s - in org.javacc.parser.[1mOptionsTest[m
+[INFO] Running org.javacc.utils.[1mOutputFileGeneratorTest[m
+[INFO] [1;32mTests run: [0;1;32m2[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.011 s - in org.javacc.utils.[1mOutputFileGeneratorTest[m
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] [1;32mTests run: 27, Failures: 0, Errors: 0, Skipped: 0[m
+[INFO] 
+[INFO] 
+[INFO] [1m--- [0;32mantrun:3.1.0:run[m [1m(test-functional)[m @ [36mjavacc[0;1m ---[m
+[INFO] Executing tasks
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/CORBA-IDL/IDL.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 7 source files
+[WARNING]      [echo] IDL Parser Version 0.1:  Reading from file test.tmp/CORBA-IDL/Hello.idl . . .
+[WARNING]      [echo] IDL Parser Version 0.1:  IDL file parsed successfully.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/GUIParsing/ParserVersion/CalcInput.jj . . .
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "TokenManager.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 6 source files
+[WARNING]     [javac] Note: C:\Devs\GitRepo\javacc-javacc\test.tmp\GUIParsing\ParserVersion\CalcGUI.java uses or overrides a deprecated API.
+[WARNING]     [javac] Note: Recompile with -Xlint:deprecation for details.
+[WARNING]     [javac] Note: C:\Devs\GitRepo\javacc-javacc\test.tmp\GUIParsing\ParserVersion\ProducerConsumer.java uses unchecked or unsafe operations.
+[WARNING]     [javac] Note: Recompile with -Xlint:unchecked for details.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\Interpreter\SPL.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "SimpleNode.java" is being rebuilt.
+[INFO]      [java] File "SPLParserTreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JJTSPLParserState.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\Interpreter\SPL.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/Interpreter/SPL.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]     [javac] Note: Some input files use unchecked or unsafe operations.
+[WARNING]     [javac] Note: Recompile with -Xlint:unchecked for details.
+[WARNING]      [echo] Stupid Programming Language Interpreter Version 0.1:  Reading from file test.tmp/Interpreter/fact.spl . . .
+[WARNING]      [echo] Executing: int n
+[WARNING]      [echo] Executing: int fact
+[WARNING]      [echo] Executing: read n
+[WARNING]      [echo] Enter a value for 'n' (int) : Executing: fact = 1 ;
+[WARNING]      [echo] Executing: while ( n > 1 ) { fact = fact * n ; n = n - 1 ; }
+[WARNING]      [echo] Executing: write fact
+[WARNING]      [echo] Value of fact : 6
+[WARNING]      [echo] Stupid Programming Language Interpreter Version 0.1:  Reading from file test.tmp/Interpreter/odd.spl . . .
+[WARNING]      [echo] Executing: int num
+[WARNING]      [echo] Executing: boolean odd
+[WARNING]      [echo] Executing: num = 10 ;
+[WARNING]      [echo] Executing: read num
+[WARNING]      [echo] Enter a value for 'num' (int) : Executing: if ( num % 2 != 0 ) odd = true ; else odd = false ;
+[WARNING]      [echo] Executing: write odd
+[WARNING]      [echo] Value of odd : true
+[WARNING]      [echo] Stupid Programming Language Interpreter Version 0.1:  Reading from file test.tmp/Interpreter/sqrt.spl . . .
+[WARNING]      [echo] Executing: int val
+[WARNING]      [echo] Executing: read val
+[WARNING]      [echo] Enter a value for 'val' (int) : Executing: int sqrt
+[WARNING]      [echo] Executing: sqrt = 1 ;
+[WARNING]      [echo] Executing: while ( sqrt * sqrt <= val && ( ( sqrt + 1 ) * ( sqrt + 1 ) ) <= val ) sqrt = sqrt + 1 ;
+[WARNING]      [echo] Executing: write sqrt
+[WARNING]      [echo] Value of sqrt : 3
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg1.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "SimpleNode.java" is being rebuilt.
+[INFO]      [java] File "Eg1TreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JJTEg1State.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\JJTreeExamples.eg1\eg1.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/JJTreeExamples.eg1/eg1.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 11 source files
+[WARNING]      [echo] Reading from standard input...
+[WARNING]      [echo] Start
+[WARNING]      [echo]  Expression
+[WARNING]      [echo]   AdditiveExpression
+[WARNING]      [echo]    MultiplicativeExpression
+[WARNING]      [echo]     UnaryExpression
+[WARNING]      [echo]      Expression
+[WARNING]      [echo]       AdditiveExpression
+[WARNING]      [echo]        MultiplicativeExpression
+[WARNING]      [echo]         UnaryExpression
+[WARNING]      [echo]          Identifier
+[WARNING]      [echo]        MultiplicativeExpression
+[WARNING]      [echo]         UnaryExpression
+[WARNING]      [echo]          Identifier
+[WARNING]      [echo]     UnaryExpression
+[WARNING]      [echo]      Expression
+[WARNING]      [echo]       AdditiveExpression
+[WARNING]      [echo]        MultiplicativeExpression
+[WARNING]      [echo]         UnaryExpression
+[WARNING]      [echo]          Identifier
+[WARNING]      [echo]        MultiplicativeExpression
+[WARNING]      [echo]         UnaryExpression
+[WARNING]      [echo]          Integer
+[WARNING]      [echo] Thank you.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg2.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "SimpleNode.java" is being rebuilt.
+[INFO]      [java] File "ASTStart.java" is being rebuilt.
+[INFO]      [java] File "ASTAdd.java" is being rebuilt.
+[INFO]      [java] File "ASTMult.java" is being rebuilt.
+[INFO]      [java] File "ASTInteger.java" is being rebuilt.
+[INFO]      [java] File "Eg2TreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JJTEg2State.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\JJTreeExamples.eg2\eg2.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/JJTreeExamples.eg2/eg2.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 15 source files
+[WARNING]      [echo] Reading from standard input...
+[WARNING]      [echo] Start
+[WARNING]      [echo]  Mult
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: a
+[WARNING]      [echo]    Identifier: b
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: c
+[WARNING]      [echo]    Integer
+[WARNING]      [echo] Thank you.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg3.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "SimpleNode.java" is being rebuilt.
+[INFO]      [java] File "ASTStart.java" is being rebuilt.
+[INFO]      [java] File "ASTAdd.java" is being rebuilt.
+[INFO]      [java] File "ASTMult.java" is being rebuilt.
+[INFO]      [java] File "ASTInteger.java" is being rebuilt.
+[INFO]      [java] File "Eg3TreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JJTEg3State.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\JJTreeExamples.eg3\eg3.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/JJTreeExamples.eg3/eg3.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 15 source files
+[WARNING]      [echo] Reading from standard input...
+[WARNING]      [echo] Start
+[WARNING]      [echo]  Mult
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: a
+[WARNING]      [echo]    Identifier: b
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: c
+[WARNING]      [echo]    Integer
+[WARNING]      [echo] Thank you.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg4.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "SimpleNode.java" is being rebuilt.
+[INFO]      [java] File "ASTStart.java" is being rebuilt.
+[INFO]      [java] File "ASTAdd.java" is being rebuilt.
+[INFO]      [java] File "ASTMult.java" is being rebuilt.
+[INFO]      [java] File "ASTInteger.java" is being rebuilt.
+[INFO]      [java] File "Eg4TreeConstants.java" is being rebuilt.
+[INFO]      [java] File "Eg4Visitor.java" is being rebuilt.
+[INFO]      [java] File "Eg4DefaultVisitor.java" is being rebuilt.
+[INFO]      [java] File "JJTEg4State.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\JJTreeExamples.eg4\eg4.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/JJTreeExamples.eg4/eg4.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 17 source files
+[WARNING]      [echo] Reading from standard input...
+[WARNING]      [echo] Start
+[WARNING]      [echo]  Mult
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: a
+[WARNING]      [echo]    Identifier: b
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: c
+[WARNING]      [echo]    Integer
+[WARNING]      [echo] Thank you.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/JavaCCGrammar/JavaCC.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 7 source files
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example1.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.Warning: Choice conflict in [...] construct at line 60, column 7.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] 
+[INFO]      [java]          Expansion nested within construct and expansion following construct
+[INFO]      [java]          have common prefixes, one of which is: "c"
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java]          Consider using a lookahead of 2 or more for nested expansion.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)Warning:  "TBD" cannot be matched as a string literal token at line 69, column 3. It will be matched as  <ID>.
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] 
+[INFO]      [java] Reading from file examples/Lookahead/Example2.jj . . .
+[INFO]      [java] Warning:  "new" cannot be matched as a string literal token at line 63, column 3. It will be matched as  <ID>.
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated with 0 errors and 2 warnings.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 54, column 3 and line 60, column 3 respectively.
+[INFO]      [java] 
+[INFO]      [java] (type "javacc" with no arguments for help)         A common prefix is: <ID>
+[INFO]      [java] 
+[INFO]      [java]          Consider using a lookahead of 2 for earlier expansion.
+[INFO]      [java] Reading from file examples/Lookahead/Example3.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example4.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Warning: Choice conflict in (...)* construct at line 54, column 8.Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] 
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java]          Expansion nested within construct and expansion following construct
+[INFO]      [java]          have common prefixes, one of which is: ","
+[INFO]      [java] Reading from file examples/Lookahead/Example5.jj . . .
+[INFO]      [java]          Consider using a lookahead of 2 or more for nested expansion.
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example6.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example7.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example8.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example9.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Warning: Choice conflict in [...] construct at line 54, column 15.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example10.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java]          Expansion nested within construct and expansion following construct
+[INFO]      [java]          have common prefixes, one of which is: "else"
+[INFO]      [java]          Consider using a lookahead of 2 or more for nested expansion.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/MailProcessing/Digest.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/MailProcessing/Faq.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Obfuscator/Java1.1.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Obfuscator/IdsFile.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Obfuscator/MapFile.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 13 source files
+[WARNING]     [javac] Note: Some input files use unchecked or unsafe operations.
+[WARNING]     [javac] Note: Recompile with -Xlint:unchecked for details.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test/gwtTemplate/Parser.jj . . .
+[INFO]      [java] File "Provider.java" is being rebuilt.
+[INFO]      [java] File "StringProvider.java" is being rebuilt.
+[INFO]      [java] File "StreamProvider.java" is being rebuilt.
+[INFO]      [java] File "TokenMgrException.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test/gwtUnicodeTemplate/Parser.jj . . .
+[INFO]      [java] File "Provider.java" is being rebuilt.
+[INFO]      [java] File "StringProvider.java" is being rebuilt.
+[INFO]      [java] File "StreamProvider.java" is being rebuilt.
+[INFO]      [java] File "TokenMgrException.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\Transformer\ToyJava.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "ToyParserTreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JJTToyParserState.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\Transformer\ToyJava.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/Transformer/ToyJava.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\VTransformer\Java1.1.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "ASTCompilationUnit.java" is being rebuilt.
+[INFO]      [java] File "ASTPackageDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTImportDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTTypeDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTClassDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTUnmodifiedClassDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTClassBody.java" is being rebuilt.
+[INFO]      [java] File "ASTNestedClassDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTClassBodyDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTMethodDeclarationLookahead.java" is being rebuilt.
+[INFO]      [java] File "ASTInterfaceDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTNestedInterfaceDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTUnmodifiedInterfaceDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTInterfaceMemberDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTFieldDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTVariableDeclarator.java" is being rebuilt.
+[INFO]      [java] File "ASTVariableDeclaratorId.java" is being rebuilt.
+[INFO]      [java] File "ASTVariableInitializer.java" is being rebuilt.
+[INFO]      [java] File "ASTArrayInitializer.java" is being rebuilt.
+[INFO]      [java] File "ASTMethodDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTMethodDeclarator.java" is being rebuilt.
+[INFO]      [java] File "ASTFormalParameters.java" is being rebuilt.
+[INFO]      [java] File "ASTFormalParameter.java" is being rebuilt.
+[INFO]      [java] File "ASTConstructorDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTExplicitConstructorInvocation.java" is being rebuilt.
+[INFO]      [java] File "ASTInitializer.java" is being rebuilt.
+[INFO]      [java] File "ASTType.java" is being rebuilt.
+[INFO]      [java] File "ASTPrimitiveType.java" is being rebuilt.
+[INFO]      [java] File "ASTResultType.java" is being rebuilt.
+[INFO]      [java] File "ASTName.java" is being rebuilt.
+[INFO]      [java] File "ASTNameList.java" is being rebuilt.
+[INFO]      [java] File "ASTExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTAssignmentOperator.java" is being rebuilt.
+[INFO]      [java] File "ASTConditionalExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTConditionalOrExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTConditionalAndExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTInclusiveOrExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTExclusiveOrExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTAndExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTEqualityExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTInstanceOfExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTRelationalExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTShiftExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTAdditiveExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTMultiplicativeExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTUnaryExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTPreIncrementExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTPreDecrementExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTUnaryExpressionNotPlusMinus.java" is being rebuilt.
+[INFO]      [java] File "ASTCastLookahead.java" is being rebuilt.
+[INFO]      [java] File "ASTPostfixExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTCastExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTPrimaryExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTPrimaryPrefix.java" is being rebuilt.
+[INFO]      [java] File "ASTPrimarySuffix.java" is being rebuilt.
+[INFO]      [java] File "ASTLiteral.java" is being rebuilt.
+[INFO]      [java] File "ASTBooleanLiteral.java" is being rebuilt.
+[INFO]      [java] File "ASTNullLiteral.java" is being rebuilt.
+[INFO]      [java] File "ASTArguments.java" is being rebuilt.
+[INFO]      [java] File "ASTArgumentList.java" is being rebuilt.
+[INFO]      [java] File "ASTAllocationExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTArrayDimsAndInits.java" is being rebuilt.
+[INFO]      [java] File "ASTStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTLabeledStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTBlock.java" is being rebuilt.
+[INFO]      [java] File "ASTBlockStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTLocalVariableDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTEmptyStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTStatementExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTSwitchStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTSwitchLabel.java" is being rebuilt.
+[INFO]      [java] File "ASTIfStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTWhileStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTDoStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTForStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTForInit.java" is being rebuilt.
+[INFO]      [java] File "ASTStatementExpressionList.java" is being rebuilt.
+[INFO]      [java] File "ASTForUpdate.java" is being rebuilt.
+[INFO]      [java] File "ASTBreakStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTContinueStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTReturnStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTThrowStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTSynchronizedStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTTryStatement.java" is being rebuilt.
+[INFO]      [java] File "JavaParserTreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JavaParserVisitor.java" is being rebuilt.
+[INFO]      [java] File "JavaParserDefaultVisitor.java" is being rebuilt.
+[INFO]      [java] File "JJTJavaParserState.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\VTransformer\Java1.1.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/VTransformer/Java1.1.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 96 source files
+[WARNING]      [echo] 
+[INFO] Executed tasks
+[INFO] 
+[INFO] [1m<<< [0;32mcobertura:2.7:cobertura[0;1m < [0;1m[cobertura]test[m @ [36mjavacc[0;1m <<<[m
+[INFO] 
+[INFO] '[cobertura]test' forked phase execution for cobertura-maven-plugin:cobertura report preparation done
+[INFO] preparing cobertura-maven-plugin:cobertura-integration-test report requires '[cobertura]verify' forked phase execution
+[INFO] 
+[INFO] [1m>>> [0;32mcobertura:2.7:cobertura-integration-test[0;1m > [0;1m[cobertura]verify[m @ [36mjavacc[0;1m >>>[m
+[INFO] 
+[INFO] [1m--- [0;32mtoolchains:1.1:toolchain[m [1m(validate-tc)[m @ [36mjavacc[0;1m ---[m
+[INFO] Required toolchain: jdk [ vendor='Oracle' version='1.8' ]
+[INFO] Found matching toolchain for type jdk: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:javacc[m [1m(process-resources-jcc)[m @ [36mjavacc[0;1m ---[m
+[INFO] Skipping - all parsers are up to date
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:jjtree-javacc[m [1m(process-resources-jjt)[m @ [36mjavacc[0;1m ---[m
+[INFO] Skipping - all parsers are up to date
+[INFO] 
+[INFO] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36mjavacc[0;1m ---[m
+[INFO] Copying 50 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] [1m--- [0;32mcompiler:3.11.0:compile[m [1m(default-compile)[m @ [36mjavacc[0;1m ---[m
+[INFO] Toolchain in maven-compiler-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] [1m--- [0;32mcobertura:2.7:instrument[m @ [36mjavacc[0;1m ---[m
+[INFO] Cobertura 2.1.1 - GNU GPL License (NO WARRANTY) - See COPYRIGHT file
+[INFO] Cobertura: Loaded information on 189 classes.
+[INFO] Cobertura: Saved information on 189 classes.
+[INFO] Cobertura: Saved information on 189 classes.
+
+[INFO] Instrumentation was successful.
+[INFO] NOT adding cobertura ser file to attached artifacts list.
+[INFO] 
+[INFO] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36mjavacc[0;1m ---[m
+[INFO] skip non existing resourceDirectory C:\Devs\GitRepo\javacc-javacc\src\test\resources
+[INFO] 
+[INFO] [1m--- [0;32mcompiler:3.11.0:testCompile[m [1m(default-testCompile)[m @ [36mjavacc[0;1m ---[m
+[INFO] Toolchain in maven-compiler-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 6 source files with javac [forked debug target 1.7] to target\test-classes
+[WARNING] [options] bootstrap class path not set in conjunction with -source 1.7
+[INFO] 
+[INFO] [1m--- [0;32msurefire:2.22.2:test[m [1m(default-test)[m @ [36mjavacc[0;1m ---[m
+[INFO] Toolchain in maven-surefire-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] Skipping execution of surefire because it has already been run for this configuration
+[INFO] 
+[INFO] [1m--- [0;32mantrun:3.1.0:run[m [1m(test-functional)[m @ [36mjavacc[0;1m ---[m
+[INFO] Executing tasks
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/CORBA-IDL/IDL.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 7 source files
+[WARNING]      [echo] IDL Parser Version 0.1:  Reading from file test.tmp/CORBA-IDL/Hello.idl . . .
+[WARNING]      [echo] IDL Parser Version 0.1:  IDL file parsed successfully.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/GUIParsing/ParserVersion/CalcInput.jj . . .
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "TokenManager.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 6 source files
+[WARNING]     [javac] Note: C:\Devs\GitRepo\javacc-javacc\test.tmp\GUIParsing\ParserVersion\CalcGUI.java uses or overrides a deprecated API.
+[WARNING]     [javac] Note: Recompile with -Xlint:deprecation for details.
+[WARNING]     [javac] Note: C:\Devs\GitRepo\javacc-javacc\test.tmp\GUIParsing\ParserVersion\ProducerConsumer.java uses unchecked or unsafe operations.
+[WARNING]     [javac] Note: Recompile with -Xlint:unchecked for details.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\Interpreter\SPL.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "SimpleNode.java" is being rebuilt.
+[INFO]      [java] File "SPLParserTreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JJTSPLParserState.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\Interpreter\SPL.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/Interpreter/SPL.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]     [javac] Note: Some input files use unchecked or unsafe operations.
+[WARNING]     [javac] Note: Recompile with -Xlint:unchecked for details.
+[WARNING]      [echo] Stupid Programming Language Interpreter Version 0.1:  Reading from file test.tmp/Interpreter/fact.spl . . .
+[WARNING]      [echo] Executing: int n
+[WARNING]      [echo] Executing: int fact
+[WARNING]      [echo] Executing: read n
+[WARNING]      [echo] Enter a value for 'n' (int) : Executing: fact = 1 ;
+[WARNING]      [echo] Executing: while ( n > 1 ) { fact = fact * n ; n = n - 1 ; }
+[WARNING]      [echo] Executing: write fact
+[WARNING]      [echo] Value of fact : 6
+[WARNING]      [echo] Stupid Programming Language Interpreter Version 0.1:  Reading from file test.tmp/Interpreter/odd.spl . . .
+[WARNING]      [echo] Executing: int num
+[WARNING]      [echo] Executing: boolean odd
+[WARNING]      [echo] Executing: num = 10 ;
+[WARNING]      [echo] Executing: read num
+[WARNING]      [echo] Enter a value for 'num' (int) : Executing: if ( num % 2 != 0 ) odd = true ; else odd = false ;
+[WARNING]      [echo] Executing: write odd
+[WARNING]      [echo] Value of odd : true
+[WARNING]      [echo] Stupid Programming Language Interpreter Version 0.1:  Reading from file test.tmp/Interpreter/sqrt.spl . . .
+[WARNING]      [echo] Executing: int val
+[WARNING]      [echo] Executing: read val
+[WARNING]      [echo] Enter a value for 'val' (int) : Executing: int sqrt
+[WARNING]      [echo] Executing: sqrt = 1 ;
+[WARNING]      [echo] Executing: while ( sqrt * sqrt <= val && ( ( sqrt + 1 ) * ( sqrt + 1 ) ) <= val ) sqrt = sqrt + 1 ;
+[WARNING]      [echo] Executing: write sqrt
+[WARNING]      [echo] Value of sqrt : 3
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg1.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "SimpleNode.java" is being rebuilt.
+[INFO]      [java] File "Eg1TreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JJTEg1State.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\JJTreeExamples.eg1\eg1.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/JJTreeExamples.eg1/eg1.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 11 source files
+[WARNING]      [echo] Reading from standard input...
+[WARNING]      [echo] Start
+[WARNING]      [echo]  Expression
+[WARNING]      [echo]   AdditiveExpression
+[WARNING]      [echo]    MultiplicativeExpression
+[WARNING]      [echo]     UnaryExpression
+[WARNING]      [echo]      Expression
+[WARNING]      [echo]       AdditiveExpression
+[WARNING]      [echo]        MultiplicativeExpression
+[WARNING]      [echo]         UnaryExpression
+[WARNING]      [echo]          Identifier
+[WARNING]      [echo]        MultiplicativeExpression
+[WARNING]      [echo]         UnaryExpression
+[WARNING]      [echo]          Identifier
+[WARNING]      [echo]     UnaryExpression
+[WARNING]      [echo]      Expression
+[WARNING]      [echo]       AdditiveExpression
+[WARNING]      [echo]        MultiplicativeExpression
+[WARNING]      [echo]         UnaryExpression
+[WARNING]      [echo]          Identifier
+[WARNING]      [echo]        MultiplicativeExpression
+[WARNING]      [echo]         UnaryExpression
+[WARNING]      [echo]          Integer
+[WARNING]      [echo] Thank you.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg2.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "SimpleNode.java" is being rebuilt.
+[INFO]      [java] File "ASTStart.java" is being rebuilt.
+[INFO]      [java] File "ASTAdd.java" is being rebuilt.
+[INFO]      [java] File "ASTMult.java" is being rebuilt.
+[INFO]      [java] File "ASTInteger.java" is being rebuilt.
+[INFO]      [java] File "Eg2TreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JJTEg2State.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\JJTreeExamples.eg2\eg2.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/JJTreeExamples.eg2/eg2.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 15 source files
+[WARNING]      [echo] Reading from standard input...
+[WARNING]      [echo] Start
+[WARNING]      [echo]  Mult
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: a
+[WARNING]      [echo]    Identifier: b
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: c
+[WARNING]      [echo]    Integer
+[WARNING]      [echo] Thank you.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg3.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "SimpleNode.java" is being rebuilt.
+[INFO]      [java] File "ASTStart.java" is being rebuilt.
+[INFO]      [java] File "ASTAdd.java" is being rebuilt.
+[INFO]      [java] File "ASTMult.java" is being rebuilt.
+[INFO]      [java] File "ASTInteger.java" is being rebuilt.
+[INFO]      [java] File "Eg3TreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JJTEg3State.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\JJTreeExamples.eg3\eg3.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/JJTreeExamples.eg3/eg3.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 15 source files
+[WARNING]      [echo] Reading from standard input...
+[WARNING]      [echo] Start
+[WARNING]      [echo]  Mult
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: a
+[WARNING]      [echo]    Identifier: b
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: c
+[WARNING]      [echo]    Integer
+[WARNING]      [echo] Thank you.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg4.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "SimpleNode.java" is being rebuilt.
+[INFO]      [java] File "ASTStart.java" is being rebuilt.
+[INFO]      [java] File "ASTAdd.java" is being rebuilt.
+[INFO]      [java] File "ASTMult.java" is being rebuilt.
+[INFO]      [java] File "ASTInteger.java" is being rebuilt.
+[INFO]      [java] File "Eg4TreeConstants.java" is being rebuilt.
+[INFO]      [java] File "Eg4Visitor.java" is being rebuilt.
+[INFO]      [java] File "Eg4DefaultVisitor.java" is being rebuilt.
+[INFO]      [java] File "JJTEg4State.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\JJTreeExamples.eg4\eg4.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/JJTreeExamples.eg4/eg4.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 17 source files
+[WARNING]      [echo] Reading from standard input...
+[WARNING]      [echo] Start
+[WARNING]      [echo]  Mult
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: a
+[WARNING]      [echo]    Identifier: b
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: c
+[WARNING]      [echo]    Integer
+[WARNING]      [echo] Thank you.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/JavaCCGrammar/JavaCC.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 7 source files
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)Warning: Choice conflict in [...] construct at line 60, column 7.
+[INFO]      [java] 
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example1.jj . . .         Expansion nested within construct and expansion following construct
+[INFO]      [java] 
+[INFO]      [java]          have common prefixes, one of which is: "c"
+[INFO]      [java]          Consider using a lookahead of 2 or more for nested expansion.
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)Warning:  "TBD" cannot be matched as a string literal token at line 69, column 3. It will be matched as  <ID>.
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] 
+[INFO]      [java] Warning:  "new" cannot be matched as a string literal token at line 63, column 3. It will be matched as  <ID>.
+[INFO]      [java] Reading from file examples/Lookahead/Example2.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated with 0 errors and 2 warnings.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)         line 54, column 3 and line 60, column 3 respectively.
+[INFO]      [java] 
+[INFO]      [java] (type "javacc" with no arguments for help)         A common prefix is: <ID>
+[INFO]      [java] 
+[INFO]      [java]          Consider using a lookahead of 2 for earlier expansion.
+[INFO]      [java] Reading from file examples/Lookahead/Example3.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example4.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Warning: Choice conflict in (...)* construct at line 54, column 8.Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] 
+[INFO]      [java] Reading from file examples/Lookahead/Example5.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java]          Expansion nested within construct and expansion following construct
+[INFO]      [java]          have common prefixes, one of which is: ","
+[INFO]      [java]          Consider using a lookahead of 2 or more for nested expansion.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example6.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example7.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example8.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example9.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Warning: Choice conflict in [...] construct at line 54, column 15.Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] 
+[INFO]      [java]          Expansion nested within construct and expansion following construct
+[INFO]      [java]          have common prefixes, one of which is: "else"
+[INFO]      [java]          Consider using a lookahead of 2 or more for nested expansion.
+[INFO]      [java] Reading from file examples/Lookahead/Example10.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/MailProcessing/Digest.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/MailProcessing/Faq.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Obfuscator/Java1.1.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Obfuscator/IdsFile.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Obfuscator/MapFile.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 13 source files
+[WARNING]     [javac] Note: Some input files use unchecked or unsafe operations.
+[WARNING]     [javac] Note: Recompile with -Xlint:unchecked for details.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test/gwtTemplate/Parser.jj . . .
+[INFO]      [java] File "Provider.java" is being rebuilt.
+[INFO]      [java] File "StringProvider.java" is being rebuilt.
+[INFO]      [java] File "StreamProvider.java" is being rebuilt.
+[INFO]      [java] File "TokenMgrException.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test/gwtUnicodeTemplate/Parser.jj . . .
+[INFO]      [java] File "Provider.java" is being rebuilt.
+[INFO]      [java] File "StringProvider.java" is being rebuilt.
+[INFO]      [java] File "StreamProvider.java" is being rebuilt.
+[INFO]      [java] File "TokenMgrException.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\Transformer\ToyJava.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "ToyParserTreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JJTToyParserState.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\Transformer\ToyJava.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/Transformer/ToyJava.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\VTransformer\Java1.1.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "ASTCompilationUnit.java" is being rebuilt.
+[INFO]      [java] File "ASTPackageDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTImportDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTTypeDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTClassDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTUnmodifiedClassDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTClassBody.java" is being rebuilt.
+[INFO]      [java] File "ASTNestedClassDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTClassBodyDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTMethodDeclarationLookahead.java" is being rebuilt.
+[INFO]      [java] File "ASTInterfaceDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTNestedInterfaceDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTUnmodifiedInterfaceDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTInterfaceMemberDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTFieldDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTVariableDeclarator.java" is being rebuilt.
+[INFO]      [java] File "ASTVariableDeclaratorId.java" is being rebuilt.
+[INFO]      [java] File "ASTVariableInitializer.java" is being rebuilt.
+[INFO]      [java] File "ASTArrayInitializer.java" is being rebuilt.
+[INFO]      [java] File "ASTMethodDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTMethodDeclarator.java" is being rebuilt.
+[INFO]      [java] File "ASTFormalParameters.java" is being rebuilt.
+[INFO]      [java] File "ASTFormalParameter.java" is being rebuilt.
+[INFO]      [java] File "ASTConstructorDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTExplicitConstructorInvocation.java" is being rebuilt.
+[INFO]      [java] File "ASTInitializer.java" is being rebuilt.
+[INFO]      [java] File "ASTType.java" is being rebuilt.
+[INFO]      [java] File "ASTPrimitiveType.java" is being rebuilt.
+[INFO]      [java] File "ASTResultType.java" is being rebuilt.
+[INFO]      [java] File "ASTName.java" is being rebuilt.
+[INFO]      [java] File "ASTNameList.java" is being rebuilt.
+[INFO]      [java] File "ASTExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTAssignmentOperator.java" is being rebuilt.
+[INFO]      [java] File "ASTConditionalExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTConditionalOrExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTConditionalAndExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTInclusiveOrExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTExclusiveOrExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTAndExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTEqualityExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTInstanceOfExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTRelationalExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTShiftExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTAdditiveExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTMultiplicativeExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTUnaryExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTPreIncrementExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTPreDecrementExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTUnaryExpressionNotPlusMinus.java" is being rebuilt.
+[INFO]      [java] File "ASTCastLookahead.java" is being rebuilt.
+[INFO]      [java] File "ASTPostfixExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTCastExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTPrimaryExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTPrimaryPrefix.java" is being rebuilt.
+[INFO]      [java] File "ASTPrimarySuffix.java" is being rebuilt.
+[INFO]      [java] File "ASTLiteral.java" is being rebuilt.
+[INFO]      [java] File "ASTBooleanLiteral.java" is being rebuilt.
+[INFO]      [java] File "ASTNullLiteral.java" is being rebuilt.
+[INFO]      [java] File "ASTArguments.java" is being rebuilt.
+[INFO]      [java] File "ASTArgumentList.java" is being rebuilt.
+[INFO]      [java] File "ASTAllocationExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTArrayDimsAndInits.java" is being rebuilt.
+[INFO]      [java] File "ASTStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTLabeledStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTBlock.java" is being rebuilt.
+[INFO]      [java] File "ASTBlockStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTLocalVariableDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTEmptyStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTStatementExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTSwitchStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTSwitchLabel.java" is being rebuilt.
+[INFO]      [java] File "ASTIfStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTWhileStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTDoStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTForStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTForInit.java" is being rebuilt.
+[INFO]      [java] File "ASTStatementExpressionList.java" is being rebuilt.
+[INFO]      [java] File "ASTForUpdate.java" is being rebuilt.
+[INFO]      [java] File "ASTBreakStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTContinueStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTReturnStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTThrowStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTSynchronizedStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTTryStatement.java" is being rebuilt.
+[INFO]      [java] File "JavaParserTreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JavaParserVisitor.java" is being rebuilt.
+[INFO]      [java] File "JavaParserDefaultVisitor.java" is being rebuilt.
+[INFO]      [java] File "JJTJavaParserState.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\VTransformer\Java1.1.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/VTransformer/Java1.1.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 96 source files
+[WARNING]      [echo] 
+[INFO] Executed tasks
+[INFO] 
+[INFO] [1m--- [0;32mjar:3.3.0:jar[m [1m(default-jar)[m @ [36mjavacc[0;1m ---[m
+[INFO] Building jar: C:\Devs\GitRepo\javacc-javacc\target\javacc-7.0.14-SNAPSHOT.jar
+[INFO] 
+[INFO] [1m<<< [0;32mcobertura:2.7:cobertura-integration-test[0;1m < [0;1m[cobertura]verify[m @ [36mjavacc[0;1m <<<[m
+[INFO] 
+[INFO] '[cobertura]verify' forked phase execution for cobertura-maven-plugin:cobertura-integration-test report preparation done
+[INFO] 2 reports detected for cobertura-maven-plugin:2.7: cobertura, cobertura-integration-test
+[INFO] configuring report plugin org.apache.maven.plugins:maven-surefire-report-plugin:3.2.2
+[INFO] preparing maven-surefire-report-plugin:report report requires '[surefire]test' forked phase execution
+[INFO] 
+[INFO] [1m>>> [0;32msurefire-report:3.2.2:report[0;1m > [0;1m[surefire]test[m @ [36mjavacc[0;1m >>>[m
+[INFO] 
+[INFO] [1m--- [0;32mtoolchains:1.1:toolchain[m [1m(validate-tc)[m @ [36mjavacc[0;1m ---[m
+[INFO] Required toolchain: jdk [ vendor='Oracle' version='1.8' ]
+[INFO] Found matching toolchain for type jdk: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:javacc[m [1m(process-resources-jcc)[m @ [36mjavacc[0;1m ---[m
+[INFO] Skipping - all parsers are up to date
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:jjtree-javacc[m [1m(process-resources-jjt)[m @ [36mjavacc[0;1m ---[m
+[INFO] Skipping - all parsers are up to date
+[INFO] 
+[INFO] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36mjavacc[0;1m ---[m
+[INFO] Copying 50 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] [1m--- [0;32mcompiler:3.11.0:compile[m [1m(default-compile)[m @ [36mjavacc[0;1m ---[m
+[INFO] Toolchain in maven-compiler-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36mjavacc[0;1m ---[m
+[INFO] skip non existing resourceDirectory C:\Devs\GitRepo\javacc-javacc\src\test\resources
+[INFO] 
+[INFO] [1m--- [0;32mcompiler:3.11.0:testCompile[m [1m(default-testCompile)[m @ [36mjavacc[0;1m ---[m
+[INFO] Toolchain in maven-compiler-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] [1m--- [0;32msurefire:2.22.2:test[m [1m(default-test)[m @ [36mjavacc[0;1m ---[m
+[INFO] Toolchain in maven-surefire-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.javacc.jjdoc.test.[1mJJDocMainTest[m
+[INFO] [1;32mTests run: [0;1;32m3[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.33 s - in org.javacc.jjdoc.test.[1mJJDocMainTest[m
+[INFO] Running org.javacc.jjtree.[1mJJTreeOptionsTest[m
+[INFO] [1;32mTests run: [0;1;32m5[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s - in org.javacc.jjtree.[1mJJTreeOptionsTest[m
+[INFO] Running org.javacc.parser.[1mExpansionTest[m
+[INFO] [1;32mTests run: [0;1;32m9[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in org.javacc.parser.[1mExpansionTest[m
+[INFO] Running org.javacc.parser.[1mOptionsTest[m
+[INFO] [1;32mTests run: [0;1;32m8[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in org.javacc.parser.[1mOptionsTest[m
+[INFO] Running org.javacc.utils.[1mOutputFileGeneratorTest[m
+[INFO] [1;32mTests run: [0;1;32m2[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.013 s - in org.javacc.utils.[1mOutputFileGeneratorTest[m
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] [1;32mTests run: 27, Failures: 0, Errors: 0, Skipped: 0[m
+[INFO] 
+[INFO] 
+[INFO] [1m--- [0;32mantrun:3.1.0:run[m [1m(test-functional)[m @ [36mjavacc[0;1m ---[m
+[INFO] Executing tasks
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/CORBA-IDL/IDL.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 7 source files
+[WARNING]      [echo] IDL Parser Version 0.1:  Reading from file test.tmp/CORBA-IDL/Hello.idl . . .
+[WARNING]      [echo] IDL Parser Version 0.1:  IDL file parsed successfully.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/GUIParsing/ParserVersion/CalcInput.jj . . .
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "TokenManager.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 6 source files
+[WARNING]     [javac] Note: C:\Devs\GitRepo\javacc-javacc\test.tmp\GUIParsing\ParserVersion\CalcGUI.java uses or overrides a deprecated API.
+[WARNING]     [javac] Note: Recompile with -Xlint:deprecation for details.
+[WARNING]     [javac] Note: C:\Devs\GitRepo\javacc-javacc\test.tmp\GUIParsing\ParserVersion\ProducerConsumer.java uses unchecked or unsafe operations.
+[WARNING]     [javac] Note: Recompile with -Xlint:unchecked for details.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\Interpreter\SPL.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "SimpleNode.java" is being rebuilt.
+[INFO]      [java] File "SPLParserTreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JJTSPLParserState.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\Interpreter\SPL.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/Interpreter/SPL.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]     [javac] Note: Some input files use unchecked or unsafe operations.
+[WARNING]     [javac] Note: Recompile with -Xlint:unchecked for details.
+[WARNING]      [echo] Stupid Programming Language Interpreter Version 0.1:  Reading from file test.tmp/Interpreter/fact.spl . . .
+[WARNING]      [echo] Executing: int n
+[WARNING]      [echo] Executing: int fact
+[WARNING]      [echo] Executing: read n
+[WARNING]      [echo] Enter a value for 'n' (int) : Executing: fact = 1 ;
+[WARNING]      [echo] Executing: while ( n > 1 ) { fact = fact * n ; n = n - 1 ; }
+[WARNING]      [echo] Executing: write fact
+[WARNING]      [echo] Value of fact : 6
+[WARNING]      [echo] Stupid Programming Language Interpreter Version 0.1:  Reading from file test.tmp/Interpreter/odd.spl . . .
+[WARNING]      [echo] Executing: int num
+[WARNING]      [echo] Executing: boolean odd
+[WARNING]      [echo] Executing: num = 10 ;
+[WARNING]      [echo] Executing: read num
+[WARNING]      [echo] Enter a value for 'num' (int) : Executing: if ( num % 2 != 0 ) odd = true ; else odd = false ;
+[WARNING]      [echo] Executing: write odd
+[WARNING]      [echo] Value of odd : true
+[WARNING]      [echo] Stupid Programming Language Interpreter Version 0.1:  Reading from file test.tmp/Interpreter/sqrt.spl . . .
+[WARNING]      [echo] Executing: int val
+[WARNING]      [echo] Executing: read val
+[WARNING]      [echo] Enter a value for 'val' (int) : Executing: int sqrt
+[WARNING]      [echo] Executing: sqrt = 1 ;
+[WARNING]      [echo] Executing: while ( sqrt * sqrt <= val && ( ( sqrt + 1 ) * ( sqrt + 1 ) ) <= val ) sqrt = sqrt + 1 ;
+[WARNING]      [echo] Executing: write sqrt
+[WARNING]      [echo] Value of sqrt : 3
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg1.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "SimpleNode.java" is being rebuilt.
+[INFO]      [java] File "Eg1TreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JJTEg1State.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\JJTreeExamples.eg1\eg1.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/JJTreeExamples.eg1/eg1.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 11 source files
+[WARNING]      [echo] Reading from standard input...
+[WARNING]      [echo] Start
+[WARNING]      [echo]  Expression
+[WARNING]      [echo]   AdditiveExpression
+[WARNING]      [echo]    MultiplicativeExpression
+[WARNING]      [echo]     UnaryExpression
+[WARNING]      [echo]      Expression
+[WARNING]      [echo]       AdditiveExpression
+[WARNING]      [echo]        MultiplicativeExpression
+[WARNING]      [echo]         UnaryExpression
+[WARNING]      [echo]          Identifier
+[WARNING]      [echo]        MultiplicativeExpression
+[WARNING]      [echo]         UnaryExpression
+[WARNING]      [echo]          Identifier
+[WARNING]      [echo]     UnaryExpression
+[WARNING]      [echo]      Expression
+[WARNING]      [echo]       AdditiveExpression
+[WARNING]      [echo]        MultiplicativeExpression
+[WARNING]      [echo]         UnaryExpression
+[WARNING]      [echo]          Identifier
+[WARNING]      [echo]        MultiplicativeExpression
+[WARNING]      [echo]         UnaryExpression
+[WARNING]      [echo]          Integer
+[WARNING]      [echo] Thank you.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg2.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "SimpleNode.java" is being rebuilt.
+[INFO]      [java] File "ASTStart.java" is being rebuilt.
+[INFO]      [java] File "ASTAdd.java" is being rebuilt.
+[INFO]      [java] File "ASTMult.java" is being rebuilt.
+[INFO]      [java] File "ASTInteger.java" is being rebuilt.
+[INFO]      [java] File "Eg2TreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JJTEg2State.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\JJTreeExamples.eg2\eg2.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/JJTreeExamples.eg2/eg2.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 15 source files
+[WARNING]      [echo] Reading from standard input...
+[WARNING]      [echo] Start
+[WARNING]      [echo]  Mult
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: a
+[WARNING]      [echo]    Identifier: b
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: c
+[WARNING]      [echo]    Integer
+[WARNING]      [echo] Thank you.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg3.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "SimpleNode.java" is being rebuilt.
+[INFO]      [java] File "ASTStart.java" is being rebuilt.
+[INFO]      [java] File "ASTAdd.java" is being rebuilt.
+[INFO]      [java] File "ASTMult.java" is being rebuilt.
+[INFO]      [java] File "ASTInteger.java" is being rebuilt.
+[INFO]      [java] File "Eg3TreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JJTEg3State.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\JJTreeExamples.eg3\eg3.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/JJTreeExamples.eg3/eg3.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 15 source files
+[WARNING]      [echo] Reading from standard input...
+[WARNING]      [echo] Start
+[WARNING]      [echo]  Mult
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: a
+[WARNING]      [echo]    Identifier: b
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: c
+[WARNING]      [echo]    Integer
+[WARNING]      [echo] Thank you.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg4.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "SimpleNode.java" is being rebuilt.
+[INFO]      [java] File "ASTStart.java" is being rebuilt.
+[INFO]      [java] File "ASTAdd.java" is being rebuilt.
+[INFO]      [java] File "ASTMult.java" is being rebuilt.
+[INFO]      [java] File "ASTInteger.java" is being rebuilt.
+[INFO]      [java] File "Eg4TreeConstants.java" is being rebuilt.
+[INFO]      [java] File "Eg4Visitor.java" is being rebuilt.
+[INFO]      [java] File "Eg4DefaultVisitor.java" is being rebuilt.
+[INFO]      [java] File "JJTEg4State.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\JJTreeExamples.eg4\eg4.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/JJTreeExamples.eg4/eg4.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 17 source files
+[WARNING]      [echo] Reading from standard input...
+[WARNING]      [echo] Start
+[WARNING]      [echo]  Mult
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: a
+[WARNING]      [echo]    Identifier: b
+[WARNING]      [echo]   Add
+[WARNING]      [echo]    Identifier: c
+[WARNING]      [echo]    Integer
+[WARNING]      [echo] Thank you.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/JavaCCGrammar/JavaCC.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 7 source files
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example1.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Warning: Choice conflict in [...] construct at line 60, column 7.
+[INFO]      [java]          Expansion nested within construct and expansion following construct
+[INFO]      [java]          have common prefixes, one of which is: "c"
+[INFO]      [java]          Consider using a lookahead of 2 or more for nested expansion.
+[INFO]      [java] Warning:  "TBD" cannot be matched as a string literal token at line 69, column 3. It will be matched as  <ID>.Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] 
+[INFO]      [java] Reading from file examples/Lookahead/Example2.jj . . .
+[INFO]      [java] Warning:  "new" cannot be matched as a string literal token at line 63, column 3. It will be matched as  <ID>.
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated with 0 errors and 2 warnings.
+[INFO]      [java] Warning: Choice conflict involving two expansions atJava Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java]          line 54, column 3 and line 60, column 3 respectively.
+[INFO]      [java] 
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java]          A common prefix is: <ID>
+[INFO]      [java]          Consider using a lookahead of 2 for earlier expansion.
+[INFO]      [java] Reading from file examples/Lookahead/Example3.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example4.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)Warning: Choice conflict in (...)* construct at line 54, column 8.
+[INFO]      [java]          Expansion nested within construct and expansion following construct
+[INFO]      [java]          have common prefixes, one of which is: ","
+[INFO]      [java] 
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java]          Consider using a lookahead of 2 or more for nested expansion.
+[INFO]      [java] Reading from file examples/Lookahead/Example5.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example6.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example7.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example8.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example9.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)Warning: Choice conflict in [...] construct at line 54, column 15.
+[INFO]      [java] 
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java]          Expansion nested within construct and expansion following construct
+[INFO]      [java]          have common prefixes, one of which is: "else"
+[INFO]      [java] Reading from file examples/Lookahead/Example10.jj . . .
+[INFO]      [java]          Consider using a lookahead of 2 or more for nested expansion.
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/MailProcessing/Digest.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/MailProcessing/Faq.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Obfuscator/Java1.1.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Obfuscator/IdsFile.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Obfuscator/MapFile.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 13 source files
+[WARNING]     [javac] Note: Some input files use unchecked or unsafe operations.
+[WARNING]     [javac] Note: Recompile with -Xlint:unchecked for details.
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test/gwtTemplate/Parser.jj . . .
+[INFO]      [java] File "Provider.java" is being rebuilt.
+[INFO]      [java] File "StringProvider.java" is being rebuilt.
+[INFO]      [java] File "StreamProvider.java" is being rebuilt.
+[INFO]      [java] File "TokenMgrException.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test/gwtUnicodeTemplate/Parser.jj . . .
+[INFO]      [java] File "Provider.java" is being rebuilt.
+[INFO]      [java] File "StringProvider.java" is being rebuilt.
+[INFO]      [java] File "StreamProvider.java" is being rebuilt.
+[INFO]      [java] File "TokenMgrException.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\Transformer\ToyJava.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "ToyParserTreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JJTToyParserState.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\Transformer\ToyJava.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/Transformer/ToyJava.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]      [echo] 
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\VTransformer\Java1.1.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" is being rebuilt.
+[INFO]      [java] File "ASTCompilationUnit.java" is being rebuilt.
+[INFO]      [java] File "ASTPackageDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTImportDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTTypeDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTClassDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTUnmodifiedClassDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTClassBody.java" is being rebuilt.
+[INFO]      [java] File "ASTNestedClassDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTClassBodyDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTMethodDeclarationLookahead.java" is being rebuilt.
+[INFO]      [java] File "ASTInterfaceDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTNestedInterfaceDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTUnmodifiedInterfaceDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTInterfaceMemberDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTFieldDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTVariableDeclarator.java" is being rebuilt.
+[INFO]      [java] File "ASTVariableDeclaratorId.java" is being rebuilt.
+[INFO]      [java] File "ASTVariableInitializer.java" is being rebuilt.
+[INFO]      [java] File "ASTArrayInitializer.java" is being rebuilt.
+[INFO]      [java] File "ASTMethodDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTMethodDeclarator.java" is being rebuilt.
+[INFO]      [java] File "ASTFormalParameters.java" is being rebuilt.
+[INFO]      [java] File "ASTFormalParameter.java" is being rebuilt.
+[INFO]      [java] File "ASTConstructorDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTExplicitConstructorInvocation.java" is being rebuilt.
+[INFO]      [java] File "ASTInitializer.java" is being rebuilt.
+[INFO]      [java] File "ASTType.java" is being rebuilt.
+[INFO]      [java] File "ASTPrimitiveType.java" is being rebuilt.
+[INFO]      [java] File "ASTResultType.java" is being rebuilt.
+[INFO]      [java] File "ASTName.java" is being rebuilt.
+[INFO]      [java] File "ASTNameList.java" is being rebuilt.
+[INFO]      [java] File "ASTExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTAssignmentOperator.java" is being rebuilt.
+[INFO]      [java] File "ASTConditionalExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTConditionalOrExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTConditionalAndExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTInclusiveOrExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTExclusiveOrExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTAndExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTEqualityExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTInstanceOfExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTRelationalExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTShiftExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTAdditiveExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTMultiplicativeExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTUnaryExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTPreIncrementExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTPreDecrementExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTUnaryExpressionNotPlusMinus.java" is being rebuilt.
+[INFO]      [java] File "ASTCastLookahead.java" is being rebuilt.
+[INFO]      [java] File "ASTPostfixExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTCastExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTPrimaryExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTPrimaryPrefix.java" is being rebuilt.
+[INFO]      [java] File "ASTPrimarySuffix.java" is being rebuilt.
+[INFO]      [java] File "ASTLiteral.java" is being rebuilt.
+[INFO]      [java] File "ASTBooleanLiteral.java" is being rebuilt.
+[INFO]      [java] File "ASTNullLiteral.java" is being rebuilt.
+[INFO]      [java] File "ASTArguments.java" is being rebuilt.
+[INFO]      [java] File "ASTArgumentList.java" is being rebuilt.
+[INFO]      [java] File "ASTAllocationExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTArrayDimsAndInits.java" is being rebuilt.
+[INFO]      [java] File "ASTStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTLabeledStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTBlock.java" is being rebuilt.
+[INFO]      [java] File "ASTBlockStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTLocalVariableDeclaration.java" is being rebuilt.
+[INFO]      [java] File "ASTEmptyStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTStatementExpression.java" is being rebuilt.
+[INFO]      [java] File "ASTSwitchStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTSwitchLabel.java" is being rebuilt.
+[INFO]      [java] File "ASTIfStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTWhileStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTDoStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTForStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTForInit.java" is being rebuilt.
+[INFO]      [java] File "ASTStatementExpressionList.java" is being rebuilt.
+[INFO]      [java] File "ASTForUpdate.java" is being rebuilt.
+[INFO]      [java] File "ASTBreakStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTContinueStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTReturnStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTThrowStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTSynchronizedStatement.java" is being rebuilt.
+[INFO]      [java] File "ASTTryStatement.java" is being rebuilt.
+[INFO]      [java] File "JavaParserTreeConstants.java" is being rebuilt.
+[INFO]      [java] File "JavaParserVisitor.java" is being rebuilt.
+[INFO]      [java] File "JavaParserDefaultVisitor.java" is being rebuilt.
+[INFO]      [java] File "JJTJavaParserState.java" is being rebuilt.
+[INFO]      [java] Annotated grammar generated successfully in test.tmp\VTransformer\Java1.1.jj
+[INFO]      [java] Java Compiler Compiler Version 7.0.13 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file test.tmp/VTransformer/Java1.1.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 96 source files
+[WARNING]      [echo] 
+[INFO] Executed tasks
+[INFO] 
+[INFO] [1m<<< [0;32msurefire-report:3.2.2:report[0;1m < [0;1m[surefire]test[m @ [36mjavacc[0;1m <<<[m
+[INFO] 
+[INFO] '[surefire]test' forked phase execution for maven-surefire-report-plugin:report report preparation done
+[INFO] 3 reports detected for maven-surefire-report-plugin:3.2.2: failsafe-report-only, report, report-only
+[INFO] configuring report plugin org.apache.maven.plugins:maven-site-plugin:3.7.1
+[INFO] configuring report plugin org.apache.maven.plugins:maven-project-info-reports-plugin:3.0.0
+[INFO] 15 reports detected for maven-project-info-reports-plugin:3.0.0: ci-management, dependencies, dependency-info, dependency-management, distribution-management, index, issue-management, licenses, mailing-lists, modules, plugin-management, plugins, scm, summary, team
+[INFO] Toolchain in maven-pmd-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] PMD version: 6.55.0
+[INFO] Toolchain in maven-pmd-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] PMD version: 6.55.0
+[WARNING] Discontinue using Rule name category/java/bestpractices.xml/UnusedImports as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/codestyle.xml/DontImportJavaLang as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/codestyle.xml/DuplicateImports as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptyFinallyBlock as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptyIfStmt as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptyInitializer as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptyStatementBlock as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptyStatementNotInLoop as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptySwitchStatements as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptySynchronizedBlock as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptyTryBlock as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptyWhileStmt as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/ImportFromSamePackage as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/performance.xml/BooleanInstantiation as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/bestpractices.xml/UnusedImports as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/codestyle.xml/DontImportJavaLang as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/codestyle.xml/DuplicateImports as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptyFinallyBlock as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptyIfStmt as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptyInitializer as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptyStatementBlock as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptyStatementNotInLoop as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptySwitchStatements as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptySynchronizedBlock as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptyTryBlock as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/EmptyWhileStmt as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/errorprone.xml/ImportFromSamePackage as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[WARNING] Discontinue using Rule name category/java/performance.xml/BooleanInstantiation as it is scheduled for removal from PMD. PMD 7.0.0 will remove support for this Rule.
+[INFO] [1mRendering site with default locale English (en)[m
+[INFO] Relativizing decoration links with respect to localized project URL: https://github.com/javacc/javacc
+[INFO] Rendering content with [1morg.apache.maven.skins:maven-default-skin:jar:1.2 skin[m.
+[INFO] Skipped "JDepend" report (jdepend-maven-plugin:2.0:generate), file "jdepend-report.html" already exists.
+[INFO] Skipped "Source Xref" report (maven-jxr-plugin:3.3.1:jxr-no-fork), file "xref/index.html" already exists.
+[INFO] Skipped "Test Source Xref" report (maven-jxr-plugin:3.3.1:test-jxr-no-fork), file "xref-test/index.html" already exists.
+[INFO] Skipped "Cobertura Test Coverage" report (cobertura-maven-plugin:2.7:cobertura-integration-test), file "cobertura/index.html" already exists.
+[INFO] Skipped "Surefire" report (maven-surefire-report-plugin:3.2.2:report-only), file "surefire-report.html" already exists.
+[INFO] Generating "[1mJDepend[m" report      [1m --- [0;32mjdepend-maven-plugin:2.0:generate-no-fork[m
+[INFO] Generating "[1mCPD[m" report          [1m --- [0;32mmaven-pmd-plugin:3.21.2:cpd[m
+[INFO] Generating "[1mPMD[m" report          [1m --- [0;32mmaven-pmd-plugin:3.21.2:pmd[m
+[INFO] Generating "[1mTag List[m" report     [1m --- [0;32mtaglist-maven-plugin:3.0.0:taglist[m
+[WARNING] Using legacy tag format.  This is not recommended.
+[INFO] Generating "[1mSource Xref[m" report  [1m --- [0;32mmaven-jxr-plugin:3.3.1:jxr[m
+[INFO] Generating "[1mTest Source Xref[m" report[1m --- [0;32mmaven-jxr-plugin:3.3.1:test-jxr[m
+[INFO] Generating "[1mCobertura Test Coverage[m" report[1m --- [0;32mcobertura-maven-plugin:2.7:cobertura[m
+[INFO] Cobertura 2.1.1 - GNU GPL License (NO WARRANTY) - See COPYRIGHT file
+[INFO] Cobertura: Loaded information on 189 classes.
+[INFO] Data file does not contain instrumentation information for the file org/javacc/jjdoc/Generator.java.  Ensure this class was instrumented, and this data file contains the instrumentation information.
+[INFO] Data file does not contain instrumentation information for the file org/javacc/jjtree/JJTreeParserConstants.java.  Ensure this class was instrumented, and this data file contains the instrumentation information.
+[INFO] Data file does not contain instrumentation information for the file org/javacc/jjtree/JJTreeParserTreeConstants.java.  Ensure this class was instrumented, and this data file contains the instrumentation information.
+[INFO] Data file does not contain instrumentation information for the file org/javacc/jjtree/JJTreeParserVisitor.java.  Ensure this class was instrumented, and this data file contains the instrumentation information.
+[INFO] Data file does not contain instrumentation information for the file org/javacc/jjtree/Node.java.  Ensure this class was instrumented, and this data file contains the instrumentation information.
+[INFO] Data file does not contain instrumentation information for the file org/javacc/parser/JavaCCParserConstants.java.  Ensure this class was instrumented, and this data file contains the instrumentation information.
+[INFO] Data file does not contain instrumentation information for the file org/javacc/parser/JavaFiles.java.  Ensure this class was instrumented, and this data file contains the instrumentation information.
+[INFO] Data file does not contain instrumentation information for the file org/javacc/parser/ParserCodeGenerator.java.  Ensure this class was instrumented, and this data file contains the instrumentation information.
+[INFO] Data file does not contain instrumentation information for the file org/javacc/parser/TokenManagerCodeGenerator.java.  Ensure this class was instrumented, and this data file contains the instrumentation information.
+[INFO] Data file does not contain instrumentation information for the file org/javacc/parser/TreeWalkerOp.java.  Ensure this class was instrumented, and this data file contains the instrumentation information.
+[INFO] Data file does not contain instrumentation information for the file org/javacc/utils/ConditionParserConstants.java.  Ensure this class was instrumented, and this data file contains the instrumentation information.
+Report time: 1892ms
+
+[INFO] Cobertura Report generation was successful.
+[INFO] Generating "[1mSurefire[m" report     [1m --- [0;32mmaven-surefire-report-plugin:3.2.2:report[m
+[INFO] Generating "[1mDependencies[m" report [1m --- [0;32mmaven-project-info-reports-plugin:3.0.0:dependencies[m
+[INFO] Generating "[1mDependency Information[m" report[1m --- [0;32mmaven-project-info-reports-plugin:3.0.0:dependency-info[m
+[INFO] Generating "[1mDependency Management[m" report[1m --- [0;32mmaven-project-info-reports-plugin:3.0.0:dependency-management[m
+[INFO] Generating "[1mDistribution Management[m" report[1m --- [0;32mmaven-project-info-reports-plugin:3.0.0:distribution-management[m
+[INFO] Generating "[1mAbout[m" report        [1m --- [0;32mmaven-project-info-reports-plugin:3.0.0:index[m
+[INFO] Generating "[1mIssue Management[m" report[1m --- [0;32mmaven-project-info-reports-plugin:3.0.0:issue-management[m
+[INFO] Generating "[1mLicenses[m" report     [1m --- [0;32mmaven-project-info-reports-plugin:3.0.0:licenses[m
+[INFO] Generating "[1mMailing Lists[m" report[1m --- [0;32mmaven-project-info-reports-plugin:3.0.0:mailing-lists[m
+[INFO] Generating "[1mPlugin Management[m" report[1m --- [0;32mmaven-project-info-reports-plugin:3.0.0:plugin-management[m
+[INFO] Generating "[1mPlugins[m" report      [1m --- [0;32mmaven-project-info-reports-plugin:3.0.0:plugins[m
+[INFO] Generating "[1mSource Code Management[m" report[1m --- [0;32mmaven-project-info-reports-plugin:3.0.0:scm[m
+[INFO] Generating "[1mSummary[m" report      [1m --- [0;32mmaven-project-info-reports-plugin:3.0.0:summary[m
+[INFO] Generating "[1mTeam[m" report         [1m --- [0;32mmaven-project-info-reports-plugin:3.0.0:team[m
+[INFO] [1m------------------------------------------------------------------------[m
+[INFO] [1;32mBUILD SUCCESS[m
+[INFO] [1m------------------------------------------------------------------------[m
+[INFO] Total time:  02:02 min
+[INFO] Finished at: 2023-12-01T15:06:37+01:00
+[INFO] [1m------------------------------------------------------------------------[m

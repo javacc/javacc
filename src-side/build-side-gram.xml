@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2024-2025, Marc Mazas <mazas.marc@gmail.com>.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the names of of the copyright holders nor the names of its
+      contributors may be used to endorse or promote products derived from
+      this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<!-- 
+  Allows to build and test side grammars in src-side directory.
+  Run as a standalone ant script (i.e. should not be called from ../build.xml).
+  June 2024 -> 2025. Authors: Maͫzͣaͬsͨ
+-->
+<project name="build-side-gram" basedir="..">
+
+  <!-- Fail if called from build.xml; but import it (for properties) -->
+  <fail if="${bootstrap-jar}" />
+  <import file="../build.xml" />
+
+  <!-- ========== -->
+  <!-- PROPERTIES -->
+  <!-- ========== -->
+
+  <property name="side-src" value="src-side" />
+  <property name="side-jls" value="${side-src}/main/jls" />
+  <property name="side-java" value="${side-src}/main/java" />
+  <property name="side-test" value="${side-src}/test" />
+  <property name="side-target" value="target-side" />
+  <property name="side-generated-src" value="${side-target}/generated-sources" />
+  <property name="side-generated-jls" value="${side-generated-src}/jls" />
+  <property name="side-classes" value="${side-target}/classes" />
+  <property name="jdk8-src-zip" value="C:\Program Files\Java\jdk-1.8u431\src.zip" />
+  <property name="jdk8-src-unzipped" value="C:\Program Files\Java\jdk-1.8u431\src-unzipped" />
+
+  <!-- Flag & condition for sub builds -->
+  <property name="bsgf" value="true" />
+  <condition property="bogc" value="true">
+    <available file="${side-src}/build-on-gvm.xml" />
+  </condition>
+
+  <!-- ===== -->
+  <!-- CLEAN -->
+  <!-- ===== -->
+
+  <!-- Clean jls generated files  -->
+  <target name="clean_jls">
+    <delete dir="${side-generated-src}" />
+    <mkdir dir="${side-generated-jls}" />
+    <delete dir="${side-classes}" />
+    <mkdir dir="${side-classes}" />
+  </target>
+
+
+  <!-- ================ -->
+  <!-- JLS Java8 parser -->
+  <!-- ================ -->
+
+  <!-- Build JLS Java8 parser and test it on specific input -->
+  <!-- '''''''''''''''''''''''''''''''''''''''''''''''''''' -->
+
+  <target name="jls-java8-build" depends="jar" description="Java8 parser build and compile">
+
+    <echo message="generating JLS Java8 parser" />
+    <java classname="${javacc-class-name}"
+          classpath="${javacc-jar}"
+          dir="${side-jls}/org/javacc/jls/java8"
+          fork="true"
+    >
+      <arg value="Java8.jj" />
+    </java>
+    <!-- target/generated-sources-side/jls/org/javacc/jls/java8/Token.java should not be overwritten
+         by JavaCC, but it may have be cleaned before and therefore recreated, so do copy it -->
+    <copy todir="${side-generated-jls}/org/javacc/jls/java8" overwrite="true">
+      <fileset file="${side-jls}/org/javacc/jls/java8/Token.java" />
+    </copy>
+
+    <mkdir dir="${side-classes}" />
+
+    <echo message="compiling JLS Java8 parser classes" />
+    <javac destdir="${side-classes}"
+           classpath="${classes}"
+           source="${javac.source}"
+           target="${javac.target}"
+           debug="true"
+           includeantruntime="false"
+    >
+      <src path="${side-generated-jls}/org/javacc/jls/java8/" />
+    </javac>
+
+  </target>
+
+  <target name="jls-java8-test"
+          depends="jls-java8-build"
+          description="Java8 parser test on specific test files"
+  >
+
+    <echo message="testing JLS Java8 parser on Java8Syntaxes.java" />
+    <java classname="org.javacc.jls.java8.Java8"
+          classpath="${side-classes};${classes}"
+          fork="true"
+          failonerror="true"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+      <arg value="${side-test}/resources/jls/java8/Java8Syntaxes.java" />
+    </java>
+
+    <echo message="testing JLS Java8 parser on package-info.java" />
+    <java classname="org.javacc.jls.java8.Java8"
+          classpath="${side-classes};${classes}"
+          fork="true"
+          failonerror="true"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+      <arg value="${side-test}/resources/jls/java8/package-info.java" />
+    </java>
+
+  </target>
+
+  <target name="jls-java8-profile-test" description="profile Java8 parser on specific test file">
+
+    <echo message="profiling JLS Java8 parser on Java8Syntaxes.java" />
+    <java classname="org.javacc.jls.java8.Java8"
+          classpath="${side-classes};${classes}"
+          fork="true"
+          failonerror="true"
+    >
+      <jvmarg value="${jprofiler_args}" />
+      <arg value="${side-test}/resources/jls/java8/Java8Syntaxes.java" />
+    </java>
+
+  </target>
+
+  <!-- Build JLS Java8 parser with mate and test it on full jdk -->
+  <!-- '''''''''''''''''''''''''''''''''''''''''''''''''''''''' -->
+
+  <target name="jj-side-classes-check">
+    <condition property="jj-side-classes.uptodate">
+      <and>
+        <uptodate targetfile="${side-generated-jls}/org/javacc/jls/java8mate/Java8ExtMate.jj"
+                  srcfile="${side-jls}/org/javacc/jls/java8/Java8.jj"
+        />
+        <uptodate targetfile="${side-generated-jls}/org/javacc/jls/java8mate/Token.java"
+                  srcfile="${side-jls}/org/javacc/jls/java8/Token.java"
+        />
+        <uptodate>
+          <!-- ${basedir}/ needed for global mapper! -->
+          <srcfiles dir="${side-generated-jls}/org/javacc/jls/java8mate" includes="**/*.java" />
+          <mapper type="glob"
+                  from="*.java"
+                  to="${basedir}/${side-classes}/org/javacc/jls/java8mate/*.class"
+          />
+        </uptodate>
+        <uptodate>
+          <srcfiles dir="${side-java}" includes="**/*.java" />
+          <mapper type="glob" from="*.java" to="${basedir}/${side-classes}/*.class" />
+        </uptodate>
+      </and>
+    </condition>
+    <echo message="jj-side-classes.uptodate: ${jj-side-classes.uptodate}" />
+  </target>
+
+  <target name="jls-java8-with-mate-build"
+          depends="jar-classes-check,jj-side-classes-check"
+          description="Java8 parser with mate build and compile"
+          unless="${jj-side-classes.uptodate}"
+  >
+
+    <echo message="generating JLS Java8 parser with mate" />
+    <copy file="${side-jls}/org/javacc/jls/java8/Java8.jj"
+          tofile="${side-generated-jls}/org/javacc/jls/java8mate/Java8ExtMate.jj"
+          overwrite="true"
+    />
+    <!-- parser name -->
+    <replace file="${side-generated-jls}/org/javacc/jls/java8mate/Java8ExtMate.jj"
+             summary="yes"
+             token="Java8"
+             value="Java8ExtMate"
+    />
+    <!-- class declaration -->
+    <replace file="${side-generated-jls}/org/javacc/jls/java8mate/Java8ExtMate.jj"
+             summary="yes"
+             token="class Java8ExtMate"
+             value="class Java8ExtMate extends Java8Mate"
+    />
+    <!-- package -->
+    <replace file="${side-generated-jls}/org/javacc/jls/java8mate/Java8ExtMate.jj"
+             summary="yes"
+             token="java8"
+             value="java8mate"
+    />
+    <!-- import  -->
+    <replace file="${side-generated-jls}/org/javacc/jls/java8mate/Java8ExtMate.jj"
+             summary="yes"
+             token="import org.javacc.parser.JavaCCErrors;"
+    >
+      <replacevalue>import org.javacc.jls.java8.Java8Mate;
+import org.javacc.parser.JavaCCErrors;</replacevalue>
+    </replace>
+    <!-- should be already commented
+    <replace file="${side-generated-jls}/org/javacc/jls/java8mate/Java8ExtMate.jj"
+             summary="yes"
+             token="trace_call"
+             value="// trace_call"
+    />
+    <replace file="${side-generated-jls}/org/javacc/jls/java8mate/Java8ExtMate.jj"
+             summary="yes"
+             token="trace_return"
+             value="// trace_return"
+    />
+    -->
+
+    <java classname="${javacc-class-name}"
+          classpath="${javacc-jar}"
+          dir="${side-generated-jls}/org/javacc/jls/java8mate"
+          fork="true"
+    >
+      <arg value="-FORCE_LA_CHECK=false" />
+      <arg value="-DEBUG_PARSER=false" />
+      <arg value="-DEBUG_LOOKAHEAD=false" />
+      <arg value="Java8ExtMate.jj" />
+    </java>
+
+    <!-- target/generated-sources-side/jls/org/javacc/jls/java8mate/Token.java should not be overwritten
+         by JavaCC, but it may have be cleaned before and therefore recreated, so do copy it -->
+    <copy todir="${side-generated-jls}/org/javacc/jls/java8mate" overwrite="true">
+      <fileset file="${side-jls}/org/javacc/jls/java8/Token.java" />
+    </copy>
+    <replace file="${side-generated-jls}/org/javacc/jls/java8mate/Token.java"
+             summary="yes"
+             token="Java8"
+             value="Java8ExtMate"
+    />
+    <replace file="${side-generated-jls}/org/javacc/jls/java8mate/Token.java"
+             summary="yes"
+             token="java8"
+             value="java8mate"
+    />
+
+    <mkdir dir="${side-classes}" />
+
+    <echo message="compiling JLS Java8 parser with mate classes" />
+    <javac destdir="${side-classes}"
+           classpath="${classes}"
+           source="${javac.source}"
+           target="${javac.target}"
+           debug="true"
+           includeantruntime="false"
+    >
+      <src path="${side-generated-jls}/org/javacc/jls/java8mate/" />
+      <src path="${side-java}" />
+    </javac>
+
+  </target>
+
+  <target name="jls-java8-with-mate-test-jdk-unzipped"
+          depends="jls-java8-with-mate-build"
+          description="Java8 parser with mate test all unzipped jdk files"
+  >
+    <echo message="testing JLS Java8 parser on all classes under ${jdk8-src-unzipped}" />
+    <java classname="org.javacc.jls.ParsersMain"
+          classpath="${side-classes}"
+          failonerror="true"
+          fork="true"
+    >
+      <!-- specific jvm arg for above java task, moved one line under when commented -->
+      <!-- performance figures are worse than those of the (next) zip test under JVM 11,
+           but are similar under JVM 21! -->
+      <!--            jvm="C:\Program Files\Java\jdk-21.0.5\bin\java.exe"-->
+      <jvmarg value="-showversion" />
+      <jvmarg value="--add-opens" />
+      <jvmarg value="jdk.management/com.sun.management.internal=ALL-UNNAMED" />
+      <jvmarg value="${jacocoagentvmparam}" />
+      <!--      <jvmarg value="-showversion" />-->
+      <!--      <jvmarg value="-XX:CompileThreshold=1000" />-->
+      <!--      <jvmarg value="-XX:+PrintCompilation" />-->
+      <!--      <jvmarg value="-XX:+PrintFlagsFinal" />-->
+      <arg value="-V" />
+      <arg value="8" />
+      <arg value="-d" />
+      <arg value="${jdk8-src-unzipped}" />
+      <arg value="-r" />
+      <!--      <arg value="-f" />-->
+      <!--      <arg value="java/lang/Class.java" />-->
+      <!-- uncomment next arg for sequential stream -->
+      <!--      <arg value="-s" />-->
+      <!-- uncomment next arg for one parser created for each file (instead of threadlocal ones) -->
+      <!--      <arg value="-n" />-->
+    </java>
+    <!-- another way (but sequential), using the base parser (ie with no mate) on each file
+    <apply executable="C:\Program Files\Java\jdk-1.8u411\bin\java.exe"
+           failonerror="true"
+           relative="false"
+           vmlauncher="false"
+    >
+      <arg value="-cp" />
+      <arg value="${side-classes}" />
+      <arg value="org.javacc.jls.Java8" />
+      <srcfile />
+      <fileset dir="${jdk8-src-unzipped}"
+               includes="**/*.java"
+      />
+    </apply>
+    -->
+  </target>
+
+  <target name="jls-java8-with-mate-test-jdk-zip"
+          depends="jls-java8-with-mate-build"
+          description="Java8 parser with mate test all zipped jdk files"
+  >
+    <echo message="testing JLS Java8 parser on all classes under ${jdk8-src-zip}" />
+    <java classname="org.javacc.jls.ParsersMain"
+          classpath="${side-classes}"
+          failonerror="true"
+          fork="true"
+    >
+      <!-- specific jvm arg for above java task, moved one line under when commented -->
+      <!-- see note on performance figures in the unzipped test -->
+      <!--          jvm="C:\Program Files\Java\jdk-21.0.5\bin\java.exe"-->
+      <jvmarg value="-showversion" />
+      <jvmarg value="--add-opens" />
+      <jvmarg value="jdk.management/com.sun.management.internal=ALL-UNNAMED" />
+      <jvmarg value="${jacocoagentvmparam}" />
+      <!--      <jvmarg value="-showversion" />-->
+      <!--      <jvmarg value="-XX:CompileThreshold=1000" />-->
+      <!--      <jvmarg value="-XX:+PrintCompilation" />-->
+      <!--      <jvmarg value="-XX:+PrintFlagsFinal" />-->
+      <arg value="-V" />
+      <arg value="8" />
+      <arg value="-z" />
+      <arg value="${jdk8-src-zip}" />
+      <!-- uncomment next arg for sequential stream -->
+      <!--      <arg value="-s" />-->
+      <!-- uncomment next arg for one parser created for each file (instead of threadlocal ones) -->
+      <!--      <arg value="-n" />-->
+    </java>
+  </target>
+
+  <!-- Build JLS Java8 parser with mate for GraalVM and test it on full jdk -->
+  <!-- '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''' -->
+
+  <target name="jls-java8-with-mate-compile-graalvm"
+          description="Java8 parser with mate compile to native with GraalVM"
+          if="bogc"
+  >
+    <ant antfile="${side-src}/build-on-gvm.xml" target="jls-java8-with-mate-compile-gvm" />
+  </target>
+
+  <target name="jls-java8-test-jdk-graalvm"
+          description="Java8 parser with mate compiled to native with GraalVM test all jdk files"
+          if="bogc"
+  >
+    <ant antfile="${side-src}/build-on-gvm.xml" target="jls-java8-with-mate-test-jdk-gvm" />
+  </target>
+
+</project>

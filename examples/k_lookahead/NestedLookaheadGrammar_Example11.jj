@@ -1,0 +1,192 @@
+/**
+ * Small grammar to investigate nested lookaheads generation.
+ */
+options
+{
+  static = false;
+  FORCE_LA_CHECK = true; // (JavaCC - default false)
+  ERROR_REPORTING = true;
+  OUTPUT_DIRECTORY = "nlg11";
+}
+
+PARSER_BEGIN(NestedLookaheadGrammar_Example11)
+package nlg11;
+
+import java.io.StringReader;
+
+public class NestedLookaheadGrammar_Example11
+{
+  static String input [] = new String [] { "to-be-defined" };
+    
+  public static void main(String args []) throws ParseException
+  {
+    NestedLookaheadGrammar_Example11 parser = null;
+    for (int i = 0; i < input.length; i++)
+    {
+      parser = new NestedLookaheadGrammar_Example11(new StringReader(input[i]));
+      parser.A();
+    }
+  }
+
+  /* for semantic lookaheads conditions, which can be employed outside the productions' methods */
+  boolean a5 = true, a9 = true, a10 = true, a11 = true, a12 = true, a13 = true, a14 = true, a15 = true; 
+  boolean b5 = true, b9 = true, b10 = true, b11 = true, b12 = true, b13 = true, b14 = true, b15 = true;
+  
+}
+PARSER_END(NestedLookaheadGrammar_Example11)
+
+SKIP :
+{
+  " "
+| "\r"
+| "\t"
+| "\n"
+}
+
+TOKEN : /* OPERATORS, DELIMITERS, KEYWORDS */
+{
+  < V_1  : "v_1" >
+| < V_2  : "v_2" >
+| < V_3  : "v_3" >
+| < V_4  : "v_4" >
+| < V_5  : "v_5" >
+| < V_6  : "v_6" >
+| < V_7  : "v_7" >
+| < V_8  : "v_8" >
+| < V_9  : "v_9" >
+| < V_10 : "v_10" >
+| < V_11 : "v_11" >
+| < V_12 : "v_12" >
+| < V_13 : "v_13" >
+| < V_14 : "v_14" >
+| < V_15 : "v_15" >
+| < X_1  : "x_1" >
+| < X_2  : "x_2" >
+| < X_3  : "x_3" >
+| < X_4  : "x_4" >
+| < X_5  : "x_5" >
+| < X_6  : "x_6" >
+| < X_7  : "x_7" >
+| < X_8  : "x_8" >
+| < X_9  : "x_9" >
+| < X_10 : "x_10" >
+| < X_11 : "x_11" >
+| < X_12 : "x_12" >
+| < X_13 : "x_13" >
+| < X_14 : "x_14" >
+| < X_15 : "x_15" >
+| < T_ : "_t" >
+| < W_ : "_w" >
+| < Y_ : "_y" >
+| < Z_ : "_z" >
+}
+
+void A() : {}
+{
+  // A() has no lookahead and is truncated (no choices after)
+//  LOOKAHEAD(0)
+//  B() "v_1"
+//|
+  LOOKAHEAD(1)  // jj_2_1, jj_3_1, jj_3R_B_141_3_1
+  B() "v_2"
+|
+  LOOKAHEAD(2)  // jj_2_2, jj_3_2, jj_3R_B_141_3_1
+  B() "v_3"
+|
+  LOOKAHEAD(B())  // jj_2_3, jj_3_3, jj_3R_B_141_3_1
+  B() "v_4"
+|
+  LOOKAHEAD({ a5 }) // a5
+  B() "v_5"
+|
+  // A() has no lookahead and is truncated (no choices after)
+//  LOOKAHEAD(0, B())
+//  B() "v_6"
+//|
+  LOOKAHEAD(1, B())  // jj_2_4, jj_3_4, jj_3R_B_141_3_1
+  B() "v_7"
+|
+  LOOKAHEAD(2, B())  // jj_2_5, jj_3_5, jj_3R_B_141_3_1
+  B() "v_8"
+|
+  LOOKAHEAD(B(), { a9 })  // jj_2_6 && a9, jj_3_6, jj_3R_B_141_3_1
+  B() "v_9"
+|
+  LOOKAHEAD(0, { a10 })  // a10
+  B() "v_10"
+|
+  LOOKAHEAD(1, { a11 })  // jj_2_7 && a11, jj_3_7, jj_3R_B_141_3_1
+  B() "v_11"
+|
+  LOOKAHEAD(2, { a12 })  // jj_2_8 && a12, jj_3_8, jj_3R_B_141_3_1
+  B() "v_12"
+|
+  LOOKAHEAD(0, B(), { a13 }) // b13
+  B() "v_13"
+|
+  LOOKAHEAD(1, B(), { a14 })  // jj_2_9 && a14, jj_3_9, jj_3R_B_141_3_1
+  B() "v_14"
+|
+  LOOKAHEAD(2, B(), { a15 })  // jj_2_10 && a15, jj_3_10, jj_3R_B_141_3_1
+  B() "v_15"
+|
+  C() "_w"
+}
+  
+void B() : {}
+{
+  // B() has no lookahead and is truncated (no choices after) (but this does not affect A-lookahead)
+  LOOKAHEAD(0)
+  C() "x_1"  // jj_3R_B_138_3_2
+|
+  LOOKAHEAD(1)
+  C() "x_2"  // jj_3R_B_141_3_3
+|
+  LOOKAHEAD(2)
+  C() "x_3"  // jj_3R_B_144_3_4
+|
+  LOOKAHEAD(C())
+  C() "x_4"  // jj_3R_B_147_3_5
+|
+  LOOKAHEAD({ b5 })
+  C() "x_5"  // b5 && jj_3R_B_150_3_6
+|
+  // B() has no lookahead and is truncated (no choices after) (but this does not affect A-lookahead)
+  LOOKAHEAD(0, C())
+  C() "x_6"  // jj_3R_B_154_3_7
+|
+  LOOKAHEAD(1, C()  "x_7" )
+  C() "x_7"  // jj_3R_B_157_3_8
+|
+  LOOKAHEAD(2, C())
+  C() "x_8"  // jj_3R_B_160_3_9
+|
+  LOOKAHEAD(C(), { b9 })
+  C() "x_9"  // b9 && jj_3R_B_163_3_10
+|
+  LOOKAHEAD(0, { b10 })
+  C() "x_10"  // b10 && jj_3R_B_166_3_11
+|
+  LOOKAHEAD(1, { b11 })
+  C() "x_11"  // b11 && jj_3R_B_169_3_12
+|
+  LOOKAHEAD(2, { b12 })
+  C() "x_12"  // b12 && jj_3R_B_172_3_13
+|
+  LOOKAHEAD(0, C(), { b13 })
+  C() "x_13"  // b13 && jj_3R_B_175_3_14
+|
+  LOOKAHEAD(1, C(), { b14 })
+  C() "x_14"  // b14 && jj_3R_B_178_3_15
+|
+  LOOKAHEAD(2, C(), { b15 })
+  C() "x_15"  // b15 && jj_3R_B_181_3_16
+|
+  "_t" "_y"  // jj_3R_B_184_3_17
+}
+  
+void C() : {}
+{
+  "_t" "_z"  // jj_3R_C_189_3_2 in jj_3R_B_lll_ccc_n and some jj_3_n
+}
+

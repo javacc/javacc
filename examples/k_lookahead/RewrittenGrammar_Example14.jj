@@ -1,0 +1,254 @@
+/**
+ * Small grammar to show a rewriting technique.
+ */
+options
+{
+  static = false;
+  FORCE_LA_CHECK = true; // (JavaCC - default false)
+  DEBUG_LOOKAHEAD = true; // (JavaCC - default false)
+  OUTPUT_DIRECTORY = "rwg14";
+}
+
+PARSER_BEGIN(RewrittenGrammar_Example14)
+package rwg14;
+
+import java.io.StringReader;
+
+public class RewrittenGrammar_Example14 {
+
+  public static void main(final String args[]) throws ParseException {
+    RewrittenGrammar_Example14 parser = null;
+    for (int i = 0; i < input.length; i++)
+    {
+      System.out.println("pfx() on input " + i+ " : " + input[i]); 
+      parser = new RewrittenGrammar_Example14(new StringReader(input[i]));
+      try { parser.pfx(); }
+      catch (ParseException pe) { parser.report("ParseException: " + pe.getMessage()); }
+      catch (TokenMgrError tme) { parser.report("TokenMgrError: " + tme.getMessage()); }
+      finally { System.out.println(); }
+    }
+    for (int i = 0; i < input.length; i++)
+    {
+      System.out.println("pfx_rw4() on input " + i+ " : " + input[i]); 
+      parser = new RewrittenGrammar_Example14(new StringReader(input[i]));
+      try { parser.pfx_rw4(); }
+      catch (ParseException pe) { parser.report("ParseException: " + pe.getMessage()); }
+      catch (TokenMgrError tme) { parser.report("TokenMgrError: " + tme.getMessage()); }
+      finally { System.out.println(); }
+    }
+    for (int i = 0; i < input.length; i++)
+    {
+      System.out.println("pfx_synla() on input " + i+ " : " + input[i]); 
+      parser = new RewrittenGrammar_Example14(new StringReader(input[i]));
+      try { parser.pfx_synla(); }
+      catch (ParseException pe) { parser.report("ParseException: " + pe.getMessage()); }
+      catch (TokenMgrError tme) { parser.report("TokenMgrError: " + tme.getMessage()); }
+      finally { System.out.println(); }
+    }
+  }
+
+  String prod = null;
+  
+  void report(final String aStr) { System.out.println(prod + " swallowed " + aStr); }
+
+  static String input [] = new String [] { //
+    "x x a b d",   //
+    "x x a c d",   //
+    "x x a e",     //
+    "x x a b e",   //
+    "x b e",       //
+  };
+
+  boolean b = false, c = false, d = false, e = false, x = false;
+  
+}
+PARSER_END(RewrittenGrammar_Example14)
+
+SKIP : { " " }
+
+TOKEN : { < A: "a" > | < B: "b" > | < C: "c" > | < D: "d" > | < E: "e" > | < X: "x" > }
+
+/** to show how difficult it is for javacc to find the real common prefix */
+void pfx() :
+{}
+{
+  { prod = "pfx"; }
+  (
+    // javacc says common prefix is "x" "x" therefore a lookahead of 3 or more,
+    //  but it should be "x" "x" "a" "b"+ and a lookahead of 5+
+    LOOKAHEAD(3)
+    "x" // 1-
+    "x" "a"
+    ( "b" | "c" )+ // 2-
+    "d"
+  | 
+    "x" // 1-
+    ( "x" "a" | "b" )+ // 3-
+    "e"
+  )
+}
+
+/** pfx rewritten by factorizing / distributing */
+void pfx_rw0() :
+{}
+{
+  { prod = "pfx_rw0"; }
+  (
+    // 1- factorized "x" between choices 1 & 2
+    "x"
+    (
+      // javacc says common prefix is "x" "a" therefore a lookahead of 3 or more,
+      // so we'll try to factorize "x" "a"
+      LOOKAHEAD(3)
+      
+      // 2- distributed one choice of "b" and "c" from ( "b" | "c" )+
+      "x" "a"
+      (
+        "b" ( "b" | "c" )* "d"
+      | "c" ( "b" | "c" )* "d"
+      ) // 4-
+    |
+    // 3- distributed one choice of "x" "a" and "b" from ( "x" "a" | "b" )+
+      "x" "a" ( "x" "a" | "b" )* "e" // 4-
+    | "b"     ( "x" "a" | "b" )* "e"
+    )
+  )
+}
+
+/** pfx_rw0 rewritten by factorizing */
+void pfx_rw1() :
+{}
+{
+  { prod = "pfx_rw1"; }
+  (
+    "x"
+    (
+      // 4- factorized "x" "a" between choices 1 & 2
+      "x" "a"
+      (
+      // javacc says common prefix is "b" "b" therefore a lookahead of 3 or more,
+      // so we'll try to factorize "b"
+        "b" ( "b" | "c" )* "d"
+      | "c" ( "b" | "c" )* "d"
+      | ( "x" "a" | "b" )* "e" // 5-
+      )
+    | "b" ( "x" "a" | "b" )* "e"
+    )
+  )
+}
+
+/** pfx_rw1 rewritten by distributing */
+void pfx_rw2() :
+{}
+{
+  { prod = "pfx_rw2"; }
+  (
+    "x"
+    (
+      "x" "a"
+      (
+      // javacc says common prefix is "b" "b" therefore a lookahead of 3 or more,
+      // so we'll try to factorize "b"
+      LOOKAHEAD(3)
+
+        "b" ( "b" | "c" )* "d" // 6-
+      | "c" ( "b" | "c" )* "d"
+      |
+      // 5- distributed "b" and "x" "a" from ( "x" "a" | "b" )*
+        "b" ( "x" "a" | "b" )* "e" // 6-
+      | "x" "a" ( "x" "a" | "b" )* "e"
+      | "e"
+      )
+    | "b" ( "x" "a" | "b" )* "e"
+    )
+  )
+}
+
+/** pfx_rw2 rewritten by factorizing */
+void pfx_rw3() :
+{}
+{
+  { prod = "pfx_rw3"; }
+  (
+    "x"
+    (
+      "x" "a"
+      (
+        // 6- factorized "b" between choices 1 & 3
+        "b"
+        // javacc says again common prefix is "b" "b" therefore a lookahead of 3 or more,
+        // so we'll try to factorize "b", but we have to take another technique
+
+        // on next step 7- we'll combine the 2 next choices in ("b" | "c" | "x" "a")* ("d" | "e")
+        // by combining the 2 first ()* (which both include the offending "b") between them 
+        // and the 2 last "" in a choice, and adding actions to exclude invalid combinations 
+        ( ( "b" | "c" )* "d"
+        | ( "x" "a" | "b" )* "e"
+        )
+      | "c" ( "b" | "c" )* "d"
+      | "x" "a" ( "x" "a" | "b" )* "e"
+      | "e"
+      )
+    | "b" ( "x" "a" | "b" )* "e"
+    )
+  )
+}
+
+/** pfx_rw3 rewritten by combining / adding actions & semantic LOOKAHEADs */
+void pfx_rw4() :
+{}
+{
+  { prod = "pfx_rw4"; }
+  (
+    "x"
+    (
+      "x" "a"
+      (
+        "b"
+        // 7- start
+        { c = x = false; } // initialise flags
+        (
+          ( "b"
+          | "c" { c = true; } // set flag
+          | "x" "a" { x = true;} // set flag
+          )*
+          (
+            LOOKAHEAD( 1, { !x } ) // 1 is needed! - exclude unwanted combination with flag
+            { String sd = "LOOKAHEAD( 1, { !x } ) before \"d\""; } // just as a tag in the generated code
+            "d"
+          | LOOKAHEAD( 1, { !c } ) // 1 is needed! - exclude unwanted combination with flag
+            { String se = "LOOKAHEAD( 1, { !c } ) before \"e\""; } // just as a tag in the generated code
+            "e"
+          )
+        )
+        // 7- end
+      | "c" ( "b" | "c" )* "d"
+      | "x" "a" ( "x" "a" | "b" )+ "e"
+      | "e"
+      )
+    | "b" ( "x" "a" | "b" )* "e"
+    )
+  )
+}
+
+/** pfx with syntactic LOOKAHEAD */
+void pfx_synla() :
+{}
+{
+  { prod = "pfx_synla"; }
+  (
+    // full syntactic lookahead
+    LOOKAHEAD("x" "x" "a" ( "b" | "c" )+ "d")
+    { String sy = "LOOKAHEAD(\"x\" \"x\" \"a\" ( \"b\" | \"c\" )+ \"d\")"; } // just as a tag in the generated code
+    "x"
+    "x"
+    "a"
+    ( "b" | "c" )+
+    "d"
+  | 
+    "x"
+    ( "x" "a" | "b" )+
+    "e"
+  )
+}
+

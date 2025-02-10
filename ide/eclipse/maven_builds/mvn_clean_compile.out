@@ -1,0 +1,1017 @@
+[INFO] Scanning for projects...
+[INFO] Inspecting build with total of 1 modules...
+[INFO] Installing Nexus Staging features:
+[INFO]   ... total of 1 executions of maven-deploy-plugin replaced with nexus-staging-maven-plugin
+[INFO] 
+[INFO] [1m---------------------< [0;36mnet.java.dev.javacc:javacc[0;1m >---------------------[m
+[INFO] [1mBuilding JavaCC 7.0.14-SNAPSHOT[m
+[INFO]   from pom.xml
+[INFO] [1m--------------------------------[ jar ]---------------------------------[m
+[INFO] 
+[INFO] [1m--- [0;32mtoolchains:1.1:toolchain[m [1m(validate-tc)[m @ [36mjavacc[0;1m ---[m
+[INFO] Required toolchain: jdk [ vendor='Oracle' version='1.8' ]
+[INFO] Found matching toolchain for type jdk: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:javacc[m [1m(process-resources-jcc)[m @ [36mjavacc[0;1m ---[m
+[INFO] Skipping - all parsers are up to date
+[INFO] 
+[INFO] [1m--- [0;32mjavacc:2.6:jjtree-javacc[m [1m(process-resources-jjt)[m @ [36mjavacc[0;1m ---[m
+[INFO] Skipping - all parsers are up to date
+[INFO] 
+[INFO] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36mjavacc[0;1m ---[m
+[INFO] Copying 50 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] [1m--- [0;32mcompiler:3.11.0:compile[m [1m(default-compile)[m @ [36mjavacc[0;1m ---[m
+[INFO] Toolchain in maven-compiler-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36mjavacc[0;1m ---[m
+[INFO] skip non existing resourceDirectory C:\Devs\GitRepo\javacc-javacc\src\test\resources
+[INFO] 
+[INFO] [1m--- [0;32mcompiler:3.11.0:testCompile[m [1m(default-testCompile)[m @ [36mjavacc[0;1m ---[m
+[INFO] Toolchain in maven-compiler-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] [1m--- [0;32msurefire:2.22.2:test[m [1m(default-test)[m @ [36mjavacc[0;1m ---[m
+[INFO] Toolchain in maven-surefire-plugin: JDK[C:/Program Files/Java/jdk1.8.0_361]
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.javacc.jjdoc.[1mJJDocMainTest[m
+[INFO] [1;32mTests run: [0;1;32m3[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.366 s - in org.javacc.jjdoc.[1mJJDocMainTest[m
+[INFO] Running org.javacc.jjtree.[1mJJTreeOptionsTest[m
+[INFO] [1;32mTests run: [0;1;32m5[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.004 s - in org.javacc.jjtree.[1mJJTreeOptionsTest[m
+[INFO] Running org.javacc.parser.[1mExpansionTest[m
+[INFO] [1;32mTests run: [0;1;32m9[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s - in org.javacc.parser.[1mExpansionTest[m
+[INFO] Running org.javacc.parser.[1mOptionsTest[m
+[INFO] [1;32mTests run: [0;1;32m8[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s - in org.javacc.parser.[1mOptionsTest[m
+[INFO] Running org.javacc.utils.[1mOutputFileGeneratorTest[m
+[INFO] [1;32mTests run: [0;1;32m2[m, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 s - in org.javacc.utils.[1mOutputFileGeneratorTest[m
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] [1;32mTests run: 27, Failures: 0, Errors: 0, Skipped: 0[m
+[INFO] 
+[INFO] 
+[INFO] [1m--- [0;32mantrun:3.1.0:run[m [1m(test-examples)[m @ [36mjavacc[0;1m ---[m
+[INFO] Executing tasks
+[INFO]    [delete] Deleting directory C:\Devs\GitRepo\javacc-javacc\examples.tmp
+[INFO]    [delete] Deleting directory C:\Devs\GitRepo\javacc-javacc\test.tmp
+[INFO]    [delete] Deleting directory C:\Devs\GitRepo\javacc-javacc\target
+[INFO]     [mkdir] Created dir: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\javacc
+[INFO]     [mkdir] Created dir: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree
+[INFO]      [java] Java Compiler Compiler Version 4.1d1 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file JavaCC.jj . . .
+[INFO]      [java] Warning: Output directory "C:\Devs\GitRepo\javacc-javacc\target\generated-sources\javacc\org\javacc\parser" does not exist. Creating the directory.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "JavaCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\javacc\org\javacc\parser\Token.java
+[INFO]      [java] Java Compiler Compiler Version 4.1d1 (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file JJTree.jjt . . .
+[INFO]      [java] File "Node.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleNode.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTGrammar.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTCompilationUnit.java" does not exist.  Will create one.
+[INFO]      [java] Warning: Output directory "C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree" does not exist. Creating the directory.
+[INFO]      [java] File "ASTProductions.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTOptions.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTOptionBinding.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTJavacode.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTJavacodeBody.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTCppcode.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTCppcodeBody.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBNF.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBNFDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBNFNodeScope.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTRE.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTTokenDecls.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTRESpec.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBNFChoice.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBNFSequence.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBNFLookahead.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTExpansionNodeScope.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBNFAction.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBNFZeroOrOne.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBNFTryBlock.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBNFAssignment.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBNFNonTerminal.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBNFOneOrMore.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBNFZeroOrMore.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBNFParenthesized.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTREStringLiteral.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTRENamed.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTREReference.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTREEOF.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTREChoice.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTRESequence.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTREOneOrMore.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTREZeroOrMore.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTREZeroOrOne.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTRRepetitionRange.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTREParenthesized.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTRECharList.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTCharDescriptor.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTNodeDescriptor.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTNodeDescriptorExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTPrimaryExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "JJTreeParserTreeConstants.java" does not exist.  Will create one.
+[INFO]      [java] File "JJTreeParserVisitor.java" does not exist.  Will create one.
+[INFO]      [java] File "JJTJJTreeParserState.java" does not exist.  Will create one.
+[INFO]      [java] Annotated grammar generated successfully in C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\JJTree.jj
+[INFO]      [java] Java Compiler Compiler Version 4.1d1 (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file JJTree.jj . . .
+[INFO]      [java] Warning: Output directory "C:\Devs\GitRepo\javacc-javacc\target\generated-sources\javacc\org\javacc\jjtree" does not exist. Creating the directory.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "JavaCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\ASTBNF.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\ASTBNFAction.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\ASTBNFDeclaration.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\ASTBNFNodeScope.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\ASTCompilationUnit.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\ASTCppcode.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\ASTCppcodeBody.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\ASTExpansionNodeScope.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\ASTGrammar.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\ASTJavacode.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\ASTJavacodeBody.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\ASTNodeDescriptor.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\ASTNodeDescriptorExpression.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\ASTOptionBinding.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\ASTOptions.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\jjtree\org\javacc\jjtree\JJTreeParserVisitor.java
+[INFO]    [delete] Deleting: C:\Devs\GitRepo\javacc-javacc\target\generated-sources\javacc\org\javacc\jjtree\Token.java
+[INFO]      [java] Warning: Output directory "C:\Devs\GitRepo\javacc-javacc\target\generated-sources\javacc\org\javacc\utils" does not exist. Creating the directory.Java Compiler Compiler Version 4.1d1 (Parser Generator)
+[INFO]      [java] 
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file ConditionParser.jj . . .
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "JavaCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]     [mkdir] Created dir: C:\Devs\GitRepo\javacc-javacc\target\classes
+[INFO]      [copy] Copying 49 files to C:\Devs\GitRepo\javacc-javacc\target\classes\templates
+[INFO]     [javac] Compiling 167 source files to C:\Devs\GitRepo\javacc-javacc\target\classes
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+[INFO]       [jar] Building jar: C:\Devs\GitRepo\javacc-javacc\target\javacc.jar
+[INFO]      [copy] Copying 1 file to C:\Devs\GitRepo\javacc-javacc\target
+[WARNING]      [echo] executing functional tests under /examples
+[INFO]     [mkdir] Created dir: C:\Devs\GitRepo\javacc-javacc\examples.tmp
+[INFO]     [mkdir] Created dir: C:\Devs\GitRepo\javacc-javacc\test.tmp
+[INFO]      [echo] [35m>>> CORBA-IDL/IDL.jj[m
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Warning: Output directory "examples.tmp\CORBA-IDL" does not exist. Creating the directory.Reading from file examples/CORBA-IDL/IDL.jj . . .
+[INFO]      [java] 
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]     [javac] Compiling 7 source files
+[INFO]      [copy] Copying 1 file to C:\Devs\GitRepo\javacc-javacc\examples.tmp\CORBA-IDL
+[INFO]      [echo] [33mIDL Parser Version 0.1:  Reading from file examples.tmp/CORBA-IDL/Hello.idl . . .
+[INFO]      [echo] IDL Parser Version 0.1:  IDL file parsed successfully.[m
+[INFO]      [echo] [35m>>> GUIParsing/ParserVersion/CalcInput.jj[m
+[INFO]      [copy] Copying 4 files to C:\Devs\GitRepo\javacc-javacc\examples.tmp\GUIParsing\ParserVersion
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/GUIParsing/ParserVersion/CalcInput.jj . . .
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "TokenManager.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[WARNING]     [javac] Note: C:\Devs\GitRepo\javacc-javacc\examples.tmp\GUIParsing\ParserVersion\CalcGUI.java uses or overrides a deprecated API.
+[WARNING]     [javac] Note: Recompile with -Xlint:deprecation for details.
+[WARNING]     [javac] Note: C:\Devs\GitRepo\javacc-javacc\examples.tmp\GUIParsing\ParserVersion\ProducerConsumer.java uses unchecked or unsafe operations.
+[WARNING]     [javac] Note: Recompile with -Xlint:unchecked for details.
+[INFO]      [echo] [35m>>> Interpreter/SPL.jjt[m
+[INFO]      [copy] Copying 34 files to C:\Devs\GitRepo\javacc-javacc\examples.tmp\Interpreter
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\Interpreter\SPL.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "SimpleNode.java" does not exist.  Will create one.
+[INFO]      [java] File "SPLParserTreeConstants.java" does not exist.  Will create one.
+[INFO]      [java] File "JJTSPLParserState.java" does not exist.  Will create one.
+[INFO]      [java] Annotated grammar generated successfully in examples.tmp\Interpreter\SPL.jj
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples.tmp/Interpreter/SPL.jj . . .
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 44 source files
+[WARNING]     [javac] Note: Some input files use unchecked or unsafe operations.
+[WARNING]     [javac] Note: Recompile with -Xlint:unchecked for details.
+[INFO]      [copy] Copying 3 files to C:\Devs\GitRepo\javacc-javacc\examples.tmp\Interpreter
+[INFO]      [echo] [33mStupid Programming Language Interpreter Version 0.1:  Reading from file examples.tmp/Interpreter/fact.spl . . .
+[INFO]      [echo] Executing: int n
+[INFO]      [echo] Executing: int fact
+[INFO]      [echo] Executing: read n
+[INFO]      [echo] Enter a value for 'n' (int) : Executing: fact = 1 ;
+[INFO]      [echo] Executing: while ( n > 1 ) { fact = fact * n ; n = n - 1 ; }
+[INFO]      [echo] Executing: write fact
+[INFO]      [echo] Value of fact : 6[m
+[INFO]      [echo] [33mStupid Programming Language Interpreter Version 0.1:  Reading from file examples.tmp/Interpreter/odd.spl . . .
+[INFO]      [echo] Executing: int num
+[INFO]      [echo] Executing: boolean odd
+[INFO]      [echo] Executing: num = 10 ;
+[INFO]      [echo] Executing: read num
+[INFO]      [echo] Enter a value for 'num' (int) : Executing: if ( num % 2 != 0 ) odd = true ; else odd = false ;
+[INFO]      [echo] Executing: write odd
+[INFO]      [echo] Value of odd : true[m
+[INFO]      [echo] [33mStupid Programming Language Interpreter Version 0.1:  Reading from file examples.tmp/Interpreter/sqrt.spl . . .
+[INFO]      [echo] Executing: int val
+[INFO]      [echo] Executing: read val
+[INFO]      [echo] Enter a value for 'val' (int) : Executing: int sqrt
+[INFO]      [echo] Executing: sqrt = 1 ;
+[INFO]      [echo] Executing: while ( sqrt * sqrt <= val && ( ( sqrt + 1 ) * ( sqrt + 1 ) ) <= val ) sqrt = sqrt + 1 ;
+[INFO]      [echo] Executing: write sqrt
+[INFO]      [echo] Value of sqrt : 3[m
+[INFO]      [echo] [35m>>> JavaCCGrammar/JavaCC.jj[m
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/JavaCCGrammar/JavaCC.jj . . .
+[INFO]      [java] Warning: Output directory "examples.tmp\JavaCCGrammar" does not exist. Creating the directory.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "JavaCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]     [javac] Compiling 7 source files
+[INFO]      [echo] [35m>>> JavaGrammars/Java1.5.jj[m
+[INFO]      [copy] Copying 4 files to C:\Devs\GitRepo\javacc-javacc\examples.tmp\JavaGrammars\1.5
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/JavaGrammars/1.5/Java1.5.jj . . .
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "JavaCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 11 source files
+[INFO]      [echo] [35m   ... reading JavaGenerics.java[m
+[INFO]      [echo] [33mJava Parser Version 1.1:  Reading from standard input . . .
+[INFO]      [echo] Java Parser Version 1.1:  Java program parsed successfully.[m
+[INFO]      [echo] [35m   ... reading JavaParser.java[m
+[INFO]      [echo] [33mJava Parser Version 1.1:  Reading from standard input . . .
+[INFO]      [echo] Java Parser Version 1.1:  Java program parsed successfully.[m
+[INFO]      [echo] [35m>>> JJTreeExamples/java/eg1.jj[m
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg1.jjt . . .
+[INFO]      [java] Warning: Output directory "examples.tmp\JJTreeExamples.eg1" does not exist. Creating the directory.opt:java
+[INFO]      [java] File "Node.java" does not exist.  Will create one.
+[INFO]      [java] 
+[INFO]      [java] File "SimpleNode.java" does not exist.  Will create one.
+[INFO]      [java] File "Eg1TreeConstants.java" does not exist.  Will create one.
+[INFO]      [java] File "JJTEg1State.java" does not exist.  Will create one.
+[INFO]      [java] Annotated grammar generated successfully in examples.tmp\JJTreeExamples.eg1\eg1.jj
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples.tmp/JJTreeExamples.eg1/eg1.jj . . .
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 11 source files
+[INFO]      [echo] [33mReading from standard input...
+[INFO]      [echo] Start
+[INFO]      [echo]  Expression
+[INFO]      [echo]   AdditiveExpression
+[INFO]      [echo]    MultiplicativeExpression
+[INFO]      [echo]     UnaryExpression
+[INFO]      [echo]      Expression
+[INFO]      [echo]       AdditiveExpression
+[INFO]      [echo]        MultiplicativeExpression
+[INFO]      [echo]         UnaryExpression
+[INFO]      [echo]          Identifier
+[INFO]      [echo]        MultiplicativeExpression
+[INFO]      [echo]         UnaryExpression
+[INFO]      [echo]          Identifier
+[INFO]      [echo]     UnaryExpression
+[INFO]      [echo]      Expression
+[INFO]      [echo]       AdditiveExpression
+[INFO]      [echo]        MultiplicativeExpression
+[INFO]      [echo]         UnaryExpression
+[INFO]      [echo]          Identifier
+[INFO]      [echo]        MultiplicativeExpression
+[INFO]      [echo]         UnaryExpression
+[INFO]      [echo]          Integer
+[INFO]      [echo] Thank you.[m
+[INFO]      [echo] [35m>>> JJTreeExamples/java/eg2.jjt[m
+[INFO]      [copy] Copying 1 file to C:\Devs\GitRepo\javacc-javacc\examples.tmp\JJTreeExamples.eg2
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg2.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleNode.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTStart.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTAdd.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTMult.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTInteger.java" does not exist.  Will create one.
+[INFO]      [java] File "Eg2TreeConstants.java" does not exist.  Will create one.
+[INFO]      [java] File "JJTEg2State.java" does not exist.  Will create one.
+[INFO]      [java] Annotated grammar generated successfully in examples.tmp\JJTreeExamples.eg2\eg2.jj
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples.tmp/JJTreeExamples.eg2/eg2.jj . . .
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 16 source files
+[INFO]      [echo] [33mReading from standard input...
+[INFO]      [echo] Start
+[INFO]      [echo]  Mult
+[INFO]      [echo]   Add
+[INFO]      [echo]    Identifier: a
+[INFO]      [echo]    Identifier: b
+[INFO]      [echo]   Add
+[INFO]      [echo]    Identifier: c
+[INFO]      [echo]    Integer
+[INFO]      [echo] Thank you.[m
+[INFO]      [echo] [35m>>> JJTreeExamples/java/eg3.jjt[m
+[INFO]      [copy] Copying 1 file to C:\Devs\GitRepo\javacc-javacc\examples.tmp\JJTreeExamples.eg3
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg3.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleNode.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTStart.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTAdd.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTMult.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTInteger.java" does not exist.  Will create one.
+[INFO]      [java] File "Eg3TreeConstants.java" does not exist.  Will create one.
+[INFO]      [java] File "JJTEg3State.java" does not exist.  Will create one.
+[INFO]      [java] Annotated grammar generated successfully in examples.tmp\JJTreeExamples.eg3\eg3.jj
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples.tmp/JJTreeExamples.eg3/eg3.jj . . .
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 16 source files
+[INFO]      [echo] [33mReading from standard input...
+[INFO]      [echo] Start
+[INFO]      [echo]  Mult
+[INFO]      [echo]   Add
+[INFO]      [echo]    Identifier: a
+[INFO]      [echo]    Identifier: b
+[INFO]      [echo]   Add
+[INFO]      [echo]    Identifier: c
+[INFO]      [echo]    Integer
+[INFO]      [echo] Thank you.[m
+[INFO]      [echo] [35m>>> JJTreeExamples/java/eg4.jjt[m
+[INFO]      [copy] Copying 2 files to C:\Devs\GitRepo\javacc-javacc\examples.tmp\JJTreeExamples.eg4
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\JJTreeExamples\java\eg4.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleNode.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTStart.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTAdd.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTMult.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTInteger.java" does not exist.  Will create one.
+[INFO]      [java] File "Eg4TreeConstants.java" does not exist.  Will create one.
+[INFO]      [java] File "Eg4Visitor.java" does not exist.  Will create one.
+[INFO]      [java] File "Eg4DefaultVisitor.java" does not exist.  Will create one.
+[INFO]      [java] File "JJTEg4State.java" does not exist.  Will create one.
+[INFO]      [java] Annotated grammar generated successfully in examples.tmp\JJTreeExamples.eg4\eg4.jj
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples.tmp/JJTreeExamples.eg4/eg4.jj . . .
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 19 source files
+[INFO]      [echo] [33mReading from standard input...
+[INFO]      [echo] Start
+[INFO]      [echo]  Mult
+[INFO]      [echo]   Add
+[INFO]      [echo]    Identifier: a
+[INFO]      [echo]    Identifier: b
+[INFO]      [echo]   Add
+[INFO]      [echo]    Identifier: c
+[INFO]      [echo]    Integer
+[INFO]      [echo] Thank you.[m
+[INFO]      [echo] [35m>>> Lookahead/Example1..10.jj[m
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Warning: Output directory "examples.tmp\Lookahead.eg1" does not exist. Creating the directory.
+[INFO]      [java] Reading from file examples/Lookahead/Example1.jj . . .
+[INFO]      [java] Warning: Choice conflict in [...] construct at line 60, column 7.File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] 
+[INFO]      [java]          Expansion nested within construct and expansion following construct
+[INFO]      [java]          have common prefixes, one of which is: "c"
+[INFO]      [java]          Consider using a lookahead of 2 or more for nested expansion.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 2 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example2.jj . . .
+[INFO]      [java] Warning: Output directory "examples.tmp\Lookahead.eg2" does not exist. Creating the directory.
+[INFO]      [java] Warning:  "TBD" cannot be matched as a string literal token at line 69, column 3. It will be matched as  <ID>.
+[INFO]      [java] Warning:  "new" cannot be matched as a string literal token at line 63, column 3. It will be matched as  <ID>.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 3 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example3.jj . . .
+[INFO]      [java] Warning: Output directory "examples.tmp\Lookahead.eg3" does not exist. Creating the directory.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 54, column 3 and line 60, column 3 respectively.
+[INFO]      [java]          A common prefix is: <ID>
+[INFO]      [java]          Consider using a lookahead of 2 for earlier expansion.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 2 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example4.jj . . .Warning: Output directory "examples.tmp\Lookahead.eg4" does not exist. Creating the directory.
+[INFO]      [java] 
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example5.jj . . .
+[INFO]      [java] Warning: Output directory "examples.tmp\Lookahead.eg5" does not exist. Creating the directory.
+[INFO]      [java] Warning: Choice conflict in (...)* construct at line 54, column 8.
+[INFO]      [java]          Expansion nested within construct and expansion following construct
+[INFO]      [java]          have common prefixes, one of which is: ","
+[INFO]      [java]          Consider using a lookahead of 2 or more for nested expansion.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 2 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Warning: Output directory "examples.tmp\Lookahead.eg6" does not exist. Creating the directory.
+[INFO]      [java] Reading from file examples/Lookahead/Example6.jj . . .
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example7.jj . . .
+[INFO]      [java] Warning: Output directory "examples.tmp\Lookahead.eg7" does not exist. Creating the directory.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example8.jj . . .Warning: Output directory "examples.tmp\Lookahead.eg8" does not exist. Creating the directory.
+[INFO]      [java] 
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example9.jj . . .
+[INFO]      [java] Warning: Output directory "examples.tmp\Lookahead.eg9" does not exist. Creating the directory.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/Example10.jj . . .
+[INFO]      [java] Warning: Output directory "examples.tmp\Lookahead.eg10" does not exist. Creating the directory.
+[INFO]      [java] Warning: Choice conflict in [...] construct at line 54, column 15.
+[INFO]      [java]          Expansion nested within construct and expansion following construct
+[INFO]      [java]          have common prefixes, one of which is: "else"
+[INFO]      [java]          Consider using a lookahead of 2 or more for nested expansion.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 2 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/NestedLookaheadGrammar_Example11.jj . . .
+[INFO]      [java] Warning: Output directory "examples.tmp\Lookahead.nlg" does not exist. Creating the directory.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 89, column 3 and line 92, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 92, column 3 and line 95, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 95, column 3 and line 98, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 98, column 3 and line 105, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 105, column 3 and line 108, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 108, column 3 and line 111, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 111, column 3 and line 114, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 114, column 3 and line 117, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 117, column 3 and line 120, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 120, column 3 and line 123, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 123, column 3 and line 126, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 126, column 3 and line 129, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 129, column 3 and line 132, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 138, column 3 and line 141, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 141, column 3 and line 144, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 144, column 3 and line 147, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 147, column 3 and line 150, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 150, column 3 and line 154, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 154, column 3 and line 157, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 157, column 3 and line 160, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 160, column 3 and line 163, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 163, column 3 and line 166, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 166, column 3 and line 169, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 169, column 3 and line 172, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 172, column 3 and line 175, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 175, column 3 and line 178, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 178, column 3 and line 181, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t" "_z"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 181, column 3 and line 184, column 3 respectively.
+[INFO]      [java]          A common prefix is: "_t"
+[INFO]      [java]          Consider using a lookahead of 2 for earlier expansion.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 29 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/NonChoiceLookaheadGrammar_Example12.jj . . .
+[INFO]      [java] Warning: Line 218, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.
+[INFO]      [java] Warning: Line 226, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.
+[INFO]      [java] Warning: Line 234, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.
+[INFO]      [java] Warning: Line 263, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.
+[INFO]      [java] Warning: Line 271, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.
+[INFO]      [java] Warning: Line 279, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 288, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 311, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 320, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 328, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 337, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 360, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 369, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 377, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 386, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 407, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.
+[INFO]      [java] Warning: Line 411, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.
+[INFO]      [java] Warning: Line 415, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.
+[INFO]      [java] Warning: Line 427, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.
+[INFO]      [java] Warning: Line 431, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.
+[INFO]      [java] Warning: Line 435, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 443, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 447, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 455, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 459, Column 5: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 482, Column 3: Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.
+[INFO]      [java] Warning: Line 486, Column 3: Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.
+[INFO]      [java] Warning: Line 490, Column 3: Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.
+[INFO]      [java] Warning: Line 502, Column 3: Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.
+[INFO]      [java] Warning: Line 506, Column 3: Encountered LOOKAHEAD(...) at a non-choice location.  This will be ignored.
+[INFO]      [java] Warning: Line 510, Column 3: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 518, Column 3: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 522, Column 3: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 530, Column 3: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 534, Column 3: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Line 612, Column 3: Encountered LOOKAHEAD(...) at a non-choice location.  Only semantic lookahead will be considered here.
+[INFO]      [java] Warning: Output directory "examples.tmp\Lookahead.nclg" does not exist. Creating the directory.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 37 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/VersionAwareGrammar_Example13.jj . . .
+[INFO]      [java] Warning: Output directory "examples.tmp\Lookahead.vag" does not exist. Creating the directory.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/ReadingLookahedDebugTrace_Example8.jj . . .
+[INFO]      [java] Warning: Output directory "examples.tmp\Lookahead.rldt" does not exist. Creating the directory.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 56, column 3 and line 63, column 3 respectively.
+[INFO]      [java]          A common prefix is: <ID>
+[INFO]      [java]          Consider using a lookahead of 2 for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 70, column 3 and line 73, column 3 respectively.
+[INFO]      [java]          A common prefix is: "("
+[INFO]      [java]          Consider using a lookahead of 2 for earlier expansion.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 3 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Lookahead/RewrittenGrammar_Example14.jj . . .
+[INFO]      [java] Warning: Output directory "examples.tmp\Lookahead.rwg" does not exist. Creating the directory.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 78, column 5 and line 84, column 5 respectively.
+[INFO]      [java]          A common prefix is: "x" "x"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 101, column 7 and line 111, column 7 respectively.
+[INFO]      [java]          A common prefix is: "x" "a"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 130, column 9 and line 132, column 9 respectively.
+[INFO]      [java]          A common prefix is: "b" "b"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 151, column 7 and line 157, column 9 respectively.
+[INFO]      [java]          A common prefix is: "b" "b"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 184, column 11 and line 185, column 11 respectively.
+[INFO]      [java]          A common prefix is: "b" "b"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] Warning: Choice conflict involving two expansions at
+[INFO]      [java]          line 240, column 5 and line 248, column 5 respectively.
+[INFO]      [java]          A common prefix is: "x" "x"
+[INFO]      [java]          Consider using a lookahead of 3 or more for earlier expansion.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 7 warnings.
+[INFO]      [echo] [35m>>> MailProcessing/*.jj[m
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/MailProcessing/Digest.jj . . .
+[INFO]      [java] Warning: Output directory "examples.tmp\MailProcessing" does not exist. Creating the directory.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/MailProcessing/Faq.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 10 source files
+[INFO]      [echo] [35m>>> Obfuscator/*.jj[m
+[INFO]      [copy] Copying 3 files to C:\Devs\GitRepo\javacc-javacc\examples.tmp\Obfuscator
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Obfuscator/Java1.1.jj . . .
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "JavaCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Obfuscator/IdsFile.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/Obfuscator/MapFile.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "JavaCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 16 source files
+[WARNING]     [javac] Note: Some input files use unchecked or unsafe operations.
+[WARNING]     [javac] Note: Recompile with -Xlint:unchecked for details.
+[INFO]      [echo] [35m>>> SimpleExamples/*.jj[m
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/SimpleExamples/Simple1.jj . . .
+[INFO]      [java] Warning: Output directory "examples.tmp\SimpleExamples" does not exist. Creating the directory.
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "SimpleCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated with 0 errors and 1 warnings.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/SimpleExamples/Simple2.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/SimpleExamples/Simple3.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/SimpleExamples/NL_Xlator.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples/SimpleExamples/IdList.jj . . .
+[INFO]      [java] File "TokenMgrError.java" is being rebuilt.
+[INFO]      [java] File "ParseException.java" is being rebuilt.
+[INFO]      [java] File "Token.java" is being rebuilt.
+[INFO]      [java] File "SimpleCharStream.java" is being rebuilt.
+[INFO]      [java] Parser generated successfully.
+[INFO]      [echo] [35m>>> Transformer/ToyJava.jjt[m
+[INFO]      [copy] Copying 3 files to C:\Devs\GitRepo\javacc-javacc\examples.tmp\Transformer
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\Transformer\ToyJava.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" does not exist.  Will create one.
+[INFO]      [java] File "ToyParserTreeConstants.java" does not exist.  Will create one.
+[INFO]      [java] File "JJTToyParserState.java" does not exist.  Will create one.
+[INFO]      [java] Annotated grammar generated successfully in examples.tmp\Transformer\ToyJava.jj
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples.tmp/Transformer/ToyJava.jj . . .
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "JavaCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 13 source files
+[INFO]      [echo] [35m>>> VTransformer/Java1.1.jjt[m
+[INFO]      [copy] Copying 4 files to C:\Devs\GitRepo\javacc-javacc\examples.tmp\VTransformer
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file examples\VTransformer\Java1.1.jjt . . .
+[INFO]      [java] opt:java
+[INFO]      [java] File "Node.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTCompilationUnit.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTPackageDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTImportDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTTypeDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTClassDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTUnmodifiedClassDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTClassBody.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTNestedClassDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTClassBodyDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTMethodDeclarationLookahead.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTInterfaceDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTNestedInterfaceDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTUnmodifiedInterfaceDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTInterfaceMemberDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTFieldDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTVariableDeclarator.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTVariableDeclaratorId.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTVariableInitializer.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTArrayInitializer.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTMethodDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTMethodDeclarator.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTFormalParameters.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTFormalParameter.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTConstructorDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTExplicitConstructorInvocation.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTInitializer.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTType.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTPrimitiveType.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTResultType.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTName.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTNameList.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTAssignmentOperator.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTConditionalExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTConditionalOrExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTConditionalAndExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTInclusiveOrExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTExclusiveOrExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTAndExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTEqualityExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTInstanceOfExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTRelationalExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTShiftExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTAdditiveExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTMultiplicativeExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTUnaryExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTPreIncrementExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTPreDecrementExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTUnaryExpressionNotPlusMinus.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTCastLookahead.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTPostfixExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTCastExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTPrimaryExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTPrimaryPrefix.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTPrimarySuffix.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTLiteral.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBooleanLiteral.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTNullLiteral.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTArguments.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTArgumentList.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTAllocationExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTArrayDimsAndInits.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTStatement.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTLabeledStatement.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBlock.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBlockStatement.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTLocalVariableDeclaration.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTEmptyStatement.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTStatementExpression.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTSwitchStatement.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTSwitchLabel.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTIfStatement.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTWhileStatement.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTDoStatement.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTForStatement.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTForInit.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTStatementExpressionList.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTForUpdate.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTBreakStatement.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTContinueStatement.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTReturnStatement.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTThrowStatement.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTSynchronizedStatement.java" does not exist.  Will create one.
+[INFO]      [java] File "ASTTryStatement.java" does not exist.  Will create one.
+[INFO]      [java] File "JavaParserTreeConstants.java" does not exist.  Will create one.
+[INFO]      [java] File "JavaParserVisitor.java" does not exist.  Will create one.
+[INFO]      [java] File "JavaParserDefaultVisitor.java" does not exist.  Will create one.
+[INFO]      [java] File "JJTJavaParserState.java" does not exist.  Will create one.
+[INFO]      [java] Annotated grammar generated successfully in examples.tmp\VTransformer\Java1.1.jj
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Parser Generator)
+[INFO]      [java] (type "javacc" with no arguments for help)
+[INFO]      [java] Reading from file examples.tmp/VTransformer/Java1.1.jj . . .
+[INFO]      [java] File "TokenMgrError.java" does not exist.  Will create one.
+[INFO]      [java] File "ParseException.java" does not exist.  Will create one.
+[INFO]      [java] File "Token.java" does not exist.  Will create one.
+[INFO]      [java] File "JavaCharStream.java" does not exist.  Will create one.
+[INFO]      [java] Parser generated successfully.
+[INFO]     [javac] Compiling 100 source files
+[INFO]      [echo] [35m>>> java7features/Parser.jjt[m
+[INFO]      [java] Java Compiler Compiler Version ??.??.?? (Tree Builder)
+[INFO]      [java] (type "jjtree" with no arguments for help)
+[INFO]      [java] Reading from file test\java7features\Parser.jjt . . .
+[INFO]      [java] Error parsing input: org.javacc.jjtree.ParseException: Encountered " ">" "> "" at line 153, column 61.
+[INFO]      [java] Was expecting one of:
+[INFO]      [java]     "?" ...
+[INFO]      [java]     "@" ...
+[INFO]      [java]     "template" ...
+[INFO]      [java]     "::" ...
+[INFO]      [java]     <IDENTIFIER> ...
+[INFO]      [java]     "LOOKAHEAD" ...
+[INFO]      [java]     "IGNORE_CASE" ...
+[INFO]      [java]     "PARSER_BEGIN" ...
+[INFO]      [java]     "PARSER_END" ...
+[INFO]      [java]     "JAVACODE" ...
+[INFO]      [java]     "TOKEN" ...
+[INFO]      [java]     "SPECIAL_TOKEN" ...
+[INFO]      [java]     "MORE" ...
+[INFO]      [java]     "SKIP" ...
+[INFO]      [java]     "TOKEN_MGR_DECLS" ...
+[INFO]      [java]     "EOF" ...
+[INFO]      [java]     "boolean" ...
+[INFO]      [java]     "byte" ...
+[INFO]      [java]     "short" ...
+[INFO]      [java]     "int" ...
+[INFO]      [java]     "long" ...
+[INFO]      [java]     "char" ...
+[INFO]      [java]     "float" ...
+[INFO]      [java]     "double" ...
+[INFO]      [java]     
+[INFO] [1m------------------------------------------------------------------------[m
+[INFO] [1;31mBUILD FAILURE[m
+[INFO] [1m------------------------------------------------------------------------[m
+[INFO] Total time:  01:15 min
+[INFO] Finished at: 2024-04-17T06:21:12+02:00
+[INFO] [1m------------------------------------------------------------------------[m
+[ERROR] Failed to execute goal [32morg.apache.maven.plugins:maven-antrun-plugin:3.1.0:run[m [1m(test-examples)[m on project [36mjavacc[m: [1;31mAn Ant BuildException has occured: The following error occurred while executing this line:[m
+[ERROR] [1;31mC:\Devs\GitRepo\javacc-javacc\build.xml:354: The following error occurred while executing this line:[m
+[ERROR] [1;31mC:\Devs\GitRepo\javacc-javacc\build-examples.xml:670: Java returned: 1[m
+[ERROR] -> [1m[Help 1][m
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
+[ERROR] Re-run Maven using the [1m-X[m switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

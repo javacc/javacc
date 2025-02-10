@@ -1,0 +1,409 @@
+/**
+ * Small grammar to investigate lookaheads at non choice locations generation.
+ */
+options
+{
+  static = false;
+//  FORCE_LA_CHECK = true; // (JavaCC - default false)
+  ERROR_REPORTING = true;
+  OUTPUT_DIRECTORY = "la12";
+}
+
+PARSER_BEGIN(Example12)
+package la12;
+
+import java.io.StringReader;
+
+public class Example12
+{
+  static String input [] = new String [] {"to-be-defined" };
+    
+  public static void main(String args []) throws ParseException
+  {
+    Example12 parser = null;
+    for (int i = 0; i < input.length; i++)
+    {
+      parser = new Example12(new StringReader(input[i]));
+      parser.A();
+    }
+  }
+
+  /* for semantic lookaheads conditions, which can be employed outside the productions' methods */
+  boolean a5 = true, a9 = true, a10 = true, a11 = true, a12 = true, a13 = true, a14 = true, a15 = true, d = true;
+  
+}
+PARSER_END(Example12)
+
+SKIP :
+{
+  " "
+| "\r"
+| "\t"
+| "\n"
+}
+
+TOKEN : /* OPERATORS, DELIMITERS, KEYWORDS */
+{
+  < V_0  : "v_0" >
+| < V_1  : "v_1" >
+| < V_2  : "v_2" >
+| < V_3  : "v_3" >
+| < V_4  : "v_4" >
+| < V_5  : "v_5" >
+| < V_6  : "v_6" >
+| < V_7  : "v_7" >
+| < V_8  : "v_8" >
+| < V_9  : "v_9" >
+| < V_10 : "v_10" >
+| < V_11 : "v_11" >
+| < V_12 : "v_12" >
+| < V_13 : "v_13" >
+| < V_14 : "v_14" >
+| < V_15 : "v_15" >
+| < X_0  : "x_0" >
+| < X_1  : "x_1" >
+| < X_2  : "x_2" >
+| < X_3  : "x_3" >
+| < X_4  : "x_4" >
+| < X_5  : "x_5" >
+| < X_6  : "x_6" >
+| < X_7  : "x_7" >
+| < X_8  : "x_8" >
+| < X_9  : "x_9" >
+| < X_10 : "x_10" >
+| < X_11 : "x_11" >
+| < X_12 : "x_12" >
+| < X_13 : "x_13" >
+| < X_14 : "x_14" >
+| < X_15 : "x_15" >
+| < W_ : "_w" >
+| < X_ : "_x" >
+| < Y_ : "_y" >
+| < Z_ : "_z" >
+| < T_ : "_t" >
+| < END : "end" >
+}
+
+// non conflicting choices, and inside each choice a LOOKAHEAD at a non choice location
+void A() : {}
+{
+  "v_0"
+  "x_0" "end"
+|
+  "v_1"
+  // no warning but indeed IGNORED
+  LOOKAHEAD(0)  // nothing
+  "x_1" "end"
+|
+  "v_2"
+  // "at non choice location; ignored" but somewhat WRONG:
+  // anything else than EOF throws a ParseException, and EOF will continue parsing on next tokens
+  LOOKAHEAD(1)  // switch jj_ntk case EOF
+  "x_2" "end"
+|
+  "v_3"
+  // "at non choice location; ignored" but somewhat WRONG:
+  // anything else than EOF throws a ParseException, and EOF will continue parsing on next tokens
+  LOOKAHEAD(2)  // jj_2_1
+  "x_3" "end"
+|
+  "v_4"
+  // "at non choice location; ignored" but somewhat WRONG:
+  // anything else than EOF throws a ParseException, and EOF will continue parsing on next tokens
+  LOOKAHEAD("x_4")  // jj_2_2
+  "x_4" "end"
+|
+  "v_5"
+  // no warning but indeed CONSIDERED
+  // a5 false gives a ParseException, and a5 true continues parsing on next tokens 
+  LOOKAHEAD({ a5 })  // a5
+  "x_5" "end"
+|
+  "v_6"
+  // no warning but indeed IGNORED
+  LOOKAHEAD(0, "x_6")  // nothing
+  "x_6" "end"
+|
+  "v_7"
+  // "at non choice location; ignored" but somewhat WRONG:
+  // anything else than EOF throws a ParseException, and EOF will continue parsing on next tokens
+  LOOKAHEAD(1, "x_7")  // switch jj_ntk case EOF
+  "x_7" "end"
+|
+  "v_8"
+  // "at non choice location; ignored" but somewhat WRONG:
+  // anything else than EOF throws a ParseException, and EOF will continue parsing on next tokens
+  LOOKAHEAD(2, "x_8")  // jj_2_3
+  "x_8" "end"
+|
+  "v_9"
+  // "at non choice location; only semantic lookahead considered": almost RIGHT:
+  // anything else than EOF throws a ParseException, and EOF will continue on evaluating a9:
+  // a9 false gives a ParseException, and a9 true continues parsing on next tokens 
+  LOOKAHEAD("x_9", { a9 })  // jj_2_4 && a9
+  "x_9" "end"
+|
+  "v_10"
+  // no warning but indeed CONSIDERED
+  // a10 false gives a ParseException, and a10 true continues parsing on next tokens 
+  LOOKAHEAD(0, { a10 })  // a10
+  "x_10" "end"
+|
+  "v_11"
+  // "at non choice location; only semantic lookahead considered": almost RIGHT:
+  // anything else than EOF throws a ParseException, and EOF will continue on evaluating a11:
+  // a11 false gives a ParseException, and a11 true continues parsing on next tokens 
+  LOOKAHEAD(1, { a11 })  // jj_2_5 && a11
+  "x_11" "end"
+|
+  "v_12"
+  // "at non choice location; only semantic lookahead considered": almost RIGHT:
+  // anything else than EOF throws a ParseException, and EOF will continue on evaluating a12:
+  // a12 false gives a ParseException, and a12 true continues parsing on next tokens 
+  LOOKAHEAD(2, { a12 })  // jj_2_6 && a12
+  "x_12" "end"
+|
+  "v_13"
+  // no warning but indeed CONSIDERED
+  // a13 false gives a ParseException, and a13 true continues parsing on next tokens 
+  LOOKAHEAD(0, "x_13", { a13 })  // a13
+  "x_13" "end"
+|
+  "v_14"
+  // "at non choice location; only semantic lookahead considered": almost RIGHT:
+  // anything else than EOF throws a ParseException, and EOF will continue on evaluating a14:
+  // a14 false gives a ParseException, and a14 true continues parsing on next tokens 
+  LOOKAHEAD(1, "x_14", { a14 })  // jj_2_7 && a14
+  "x_14" "end"
+|
+  "v_15"
+  // "at non choice location; only semantic lookahead considered": almost RIGHT:
+  // anything else than EOF throws a ParseException, and EOF will continue on evaluating a15:
+  // a15 false gives a ParseException, and a15 true continues parsing on next tokens 
+  LOOKAHEAD(2, "x_15", { a15 })  // jj_2_8 && a15
+  "x_15" "end"
+}
+
+// same structure as A() but with terminals ("xnn" "end" replaced by non-terminal (A()):
+// the generated method structure is the same
+void B() : {}
+{
+  "v_0"
+  A()
+|
+  "v_1"
+  LOOKAHEAD(0)
+  A()
+|
+  "v_2"
+  LOOKAHEAD(1)
+  A()
+|
+  "v_3"
+  LOOKAHEAD(2)
+  A()
+|
+  "v_4"
+  LOOKAHEAD(A())
+  A()
+|
+  "v_5"
+  LOOKAHEAD({ a5 })
+  A()
+|
+  "v_6"
+  LOOKAHEAD(0, A())
+  A()
+|
+  "v_7"
+  LOOKAHEAD(1, A())
+  A()
+|
+  "v_8"
+  LOOKAHEAD(2, A())
+  A()
+|
+  "v_9"
+  LOOKAHEAD(A(), { a9 })
+  A()
+|
+  "v_10"
+  LOOKAHEAD(0, { a10 })
+  A()
+|
+  "v_11"
+  LOOKAHEAD(1, { a11 })
+  A()
+|
+  "v_12"
+  LOOKAHEAD(2, { a12 })
+  A()
+|
+  "v_13"
+  LOOKAHEAD(0, A(), { a13 })
+  A()
+|
+  "v_14"
+  LOOKAHEAD(1, A(), { a14 })
+  A()
+|
+  "v_15"
+  LOOKAHEAD(2, A(), { a15 })
+  A()
+}
+
+// same as B() with non-terminal A() replaced by empty non-terminal Epsilon():
+// the generated method structure is still the same
+void C() : {}
+{
+  "x_0"
+  Epsilon()
+|
+  "x_1"
+  LOOKAHEAD(0)
+  Epsilon()
+|
+  "x_2"
+  LOOKAHEAD(1)
+  Epsilon()
+|
+  "x_3"
+  LOOKAHEAD(2)
+  Epsilon()
+|
+  "x_4"
+  LOOKAHEAD(Epsilon())
+  Epsilon()
+|
+  "x_5"
+  LOOKAHEAD({ a5 })
+  Epsilon()
+|
+  "x_6"
+  LOOKAHEAD(0, Epsilon())
+  Epsilon()
+|
+  "x_7"
+  LOOKAHEAD(1, Epsilon())
+  Epsilon()
+|
+  "x_8"
+  LOOKAHEAD(2, Epsilon())
+  Epsilon()
+|
+  "x_9"
+  LOOKAHEAD(Epsilon(), { a9 })
+  Epsilon()
+|
+  "x_10"
+  LOOKAHEAD(0, { a5 })
+  Epsilon()
+|
+  "x_11"
+  LOOKAHEAD(1, { a5 })
+  Epsilon()
+|
+  "x_12"
+  LOOKAHEAD(2, { a5 })
+  Epsilon()
+|
+  "x_13"
+  LOOKAHEAD(0, Epsilon(), { a5 })
+  Epsilon()
+|
+  "x_14"
+  LOOKAHEAD(1, Epsilon(), { a5 })
+  Epsilon()
+|
+  "x_15"
+  LOOKAHEAD(2, Epsilon(), { a5 })
+  Epsilon()
+}
+
+// EMPTY generated method!!!
+void Epsilon() : {}
+{
+  {}
+}
+
+// same as B() with only empty production ({}) and expansions in LOOKAHEADs being "" or "d"
+// EMPTY generated method!!!
+void D() : {}
+{
+  // choice can expand to empty token sequence always taken in favor of choices appearing later
+//  {}
+//|
+  LOOKAHEAD(0)
+  {}
+|
+  LOOKAHEAD(1)
+  {}
+|
+  LOOKAHEAD(2)
+  {}
+|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD("")
+//  {}
+//|
+  LOOKAHEAD("d")
+  {}
+|
+  LOOKAHEAD({ d })
+  {}
+|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD(0, "")
+//  {}
+//|
+  LOOKAHEAD(0, "d")
+  {}
+|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD(1, "")
+//  {}
+//|
+  LOOKAHEAD(1, "d")
+  {}
+|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD(2, "")
+//  {}
+//|
+  LOOKAHEAD(2, "d")
+  {}
+|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD("", { a9 })
+//  {}
+//|
+  LOOKAHEAD("d", { d })
+  {}
+|
+  LOOKAHEAD(0, { d })
+  {}
+|
+  LOOKAHEAD(1, { d })
+  {}
+|
+  LOOKAHEAD(2, { d })
+  {}
+//|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD(0, "", { a5 })
+//  {}
+//|
+  // "at non choice location; only semantic lookahead considered": WRONG: nothing generated
+  LOOKAHEAD(1, "d", { d })
+  {}
+|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD(1, "", { a5 })
+//  {}
+//|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD(2, "", { a5 })
+//  {}
+  LOOKAHEAD(2, "d", { d })
+  {}
+}

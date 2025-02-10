@@ -1,0 +1,1195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 2006-2025, Sreeni Viswanadha <sreeni@viswanadha.net>.
+Copyright (c) 2024-2025, Marc Mazas <mazas.marc@gmail.com>.
+Copyright (c) 2006, Sun Microsystems, Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the names of of the copyright holders nor the names of its
+      contributors may be used to endorse or promote products derived from
+      this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<!-- 
+  Allows to build and execute some "functional" tests on grammars under this directory.
+  Cannot be run as a standalone ant script (i.e. should be called from ../build.xml),
+   except for the all_clean target.
+  Some examples are only compiled, others are also executed against a small input;
+        TODO enhance (add execs) (using code coverage tool?)
+        TODO add cpp grams
+  June 2024 -> 2025. Authors: Maͫzͣaͬsͨ
+-->
+<project name="build-examples" default="all_examples" basedir="..">
+
+  <!-- ========== -->
+  <!-- PROPERTIES -->
+  <!-- ========== -->
+
+  <!-- Directories -->
+  <property name="src-examples" value="examples" />
+  <property name="classes-examples" value="${target}/classes-${src-examples}" />
+
+  <!-- ===================== -->
+  <!-- Build & test all sets -->
+  <!-- ===================== -->
+
+  <target name="all_examples">
+
+    <!-- Fail if not called from build.xml (in which is defined the jar's property) -->
+    <fail unless="javacc.jar" />
+    <echo>javacc.jar=${javacc.jar}</echo>
+
+    <delete dir="${classes-examples}" />
+    <mkdir dir="${classes-examples}" />
+
+    <!--
+    <antcall target="a_simple_examples" />
+    <antcall target="b_mail_processing" />
+    <antcall target="c_jjtree_examples" />
+    <antcall target="d_corba_idl" />
+    <antcall target="e_java_grammars" />
+    <antcall target="f_javacc_grammar" />
+    <antcall target="g_transformer" />
+    -->
+    <antcall target="h_gui_parsing" />
+    <!--
+    <antcall target="i_obfuscator" />
+    <antcall target="j_interpreter" />
+    <antcall target="k_lookahead" />
+    <antcall target="l_vis_transformer" />
+    -->
+
+  </target>
+
+  <!-- ===================== -->
+  <!-- Build & test each set -->
+  <!-- ===================== -->
+
+  <!-- +++++++++++++++++ -->
+  <!-- a_simple_examples -->
+
+  <target name="a_simple_examples">
+
+    <echo level="info">${ctn}>>> a_simple_examples/*.jj${cr}</echo>
+
+    <antcall target="clean_a_simple_examples" />
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="a_simple_examples" />
+      <param name="gname" value="Simple1" />
+    </antcall>
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="a_simple_examples" />
+      <param name="gname" value="Simple2" />
+    </antcall>
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="a_simple_examples" />
+      <param name="gname" value="Simple3" />
+    </antcall>
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="a_simple_examples" />
+      <param name="gname" value="NL_Xlator" />
+    </antcall>
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="a_simple_examples" />
+      <param name="gname" value="IdList" />
+    </antcall>
+
+    <antcall target="javac_comp">
+      <param name="gdir" value="a_simple_examples" />
+    </antcall>
+
+    <echo level="info">${ctn}>>>Simple1 should parse 1${cr}</echo>
+    <java failonerror="true"
+          fork="true"
+          classname="a_simple_examples.Simple1"
+          classpath="${classes-examples}"
+          inputstring="{{}}"
+          outputproperty="simple1.out1"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${simple1.out1}${cr}</echo>
+    <fail message="Simple1 parse 1 failed">
+      <condition>
+        <contains string="${simple1.out1}" substring="Encountered" />
+      </condition>
+    </fail>
+
+    <echo level="info">${ctn}>>>Simple1 should not parse 2${cr}</echo>
+    <java failonerror="false"
+          fork="true"
+          classname="a_simple_examples.Simple1"
+          classpath="${classes-examples}"
+          inputstring="{x"
+          outputproperty="simple1.out2"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${simple1.out2}${cr}</echo>
+    <fail message="Simple1 parse 2 failed">
+      <condition>
+        <not>
+          <contains string="${simple1.out2}" substring="Encountered" />
+        </not>
+      </condition>
+    </fail>
+
+    <echo level="info">${ctn}>>>Simple1 should not parse 3${cr}</echo>
+    <java failonerror="false"
+          fork="true"
+          classname="a_simple_examples.Simple1"
+          classpath="${classes-examples}"
+          inputstring="{}}"
+          outputproperty="simple1.out3"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${simple1.out3}${cr}</echo>
+    <fail message="Simple1 parse 3 failed">
+      <condition>
+        <not>
+          <contains string="${simple1.out3}" substring="Encountered" />
+        </not>
+      </condition>
+    </fail>
+
+    <echo level="info">${ctn}>>>Simple2 should parse 1${cr}</echo>
+    <java failonerror="true"
+          fork="true"
+          classname="a_simple_examples.Simple2"
+          classpath="${classes-examples}"
+          inputstring="{ {}    }"
+          outputproperty="simple2.out1"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${simple2.out1}${cr}</echo>
+    <fail message="Simple2 parse 1 failed">
+      <condition>
+        <contains string="${simple2.out1}" substring="Encountered" />
+      </condition>
+    </fail>
+
+    <echo level="info">${ctn}>>>Simple3 should parse 1${cr}</echo>
+    <java failonerror="true"
+          fork="true"
+          classname="a_simple_examples.Simple3"
+          classpath="${classes-examples}"
+          inputstring=" { { }}"
+          outputproperty="simple3.out1"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${simple3.out1}${cr}</echo>
+    <fail message="Simple3 parse 1 failed">
+      <condition>
+        <contains string="${simple3.out1}" substring="Encountered" />
+      </condition>
+    </fail>
+
+    <echo level="info">${ctn}>>>NL_Xlator should parse 1${cr}</echo>
+    <java failonerror="true"
+          fork="true"
+          classname="a_simple_examples.NL_Xlator"
+          classpath="${classes-examples}"
+          inputstring="1+2*3;"
+          outputproperty="nlx.out1"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${nlx.out1}${cr}</echo>
+    <fail message="NL_Xlator parse 1 failed">
+      <condition>
+        <contains string="${nlx.out1}" substring="Encountered" />
+      </condition>
+    </fail>
+
+    <echo level="info">${ctn}>>>IdList should parse 1${cr}</echo>
+    <java failonerror="true"
+          fork="true"
+          classname="a_simple_examples.IdList"
+          classpath="${classes-examples}"
+          inputstring="abc xyz123 A B		C 
+aaa"
+          outputproperty="idlist.out1"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${idlist.out1}${cr}</echo>
+    <fail message="IdList parse 1 failed">
+      <condition>
+        <contains string="${idlist.out1}" substring="Encountered" />
+      </condition>
+    </fail>
+
+    <echo level="info">${ctn}>>>IdList should not parse 2${cr}</echo>
+    <java failonerror="false"
+          fork="true"
+          classname="a_simple_examples.IdList"
+          classpath="${classes-examples}"
+          inputstring="xyz 123"
+          outputproperty="idlist.out2"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${idlist.out2}${cr}</echo>
+    <fail message="IdList parse 2 failed">
+      <condition>
+        <not>
+          <contains string="${idlist.out2}" substring="Encountered" />
+        </not>
+      </condition>
+    </fail>
+
+  </target>
+
+
+  <!-- +++++++++++++++++ -->
+  <!-- b_mail_processing -->
+
+  <target name="b_mail_processing">
+
+    <echo level="info">${ctn}>>> b_mail_processing/*.jj${cr}</echo>
+
+    <antcall target="clean_b_mail_processing" />
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="b_mail_processing" />
+      <param name="gname" value="Digest" />
+    </antcall>
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="b_mail_processing" />
+      <param name="gname" value="Faq" />
+    </antcall>
+
+    <antcall target="javac_comp">
+      <param name="gdir" value="b_mail_processing" />
+    </antcall>
+
+    <echo level="info">${ctn}>>>Digest should parse sampleMailFile and print the output${cr}</echo>
+    <java failonerror="true"
+          fork="true"
+          classname="b_mail_processing.Digest"
+          classpath="${classes-examples}"
+          input="${src-examples}/b_mail_processing/sampleMailFile"
+          outputproperty="digest.out1"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${digest.out1}${cr}</echo>
+    <fail message="Digest parse 1 failed">
+      <condition>
+        <contains string="${digest.out1}" substring="Encountered" />
+      </condition>
+    </fail>
+
+    <echo level="info">${ctn}>>>Faq should parse sampleMailFile and print the output${cr}</echo>
+    <java failonerror="true"
+          fork="true"
+          classname="b_mail_processing.Faq"
+          classpath="${classes-examples}"
+          input="${src-examples}/b_mail_processing/sampleMailFile"
+          outputproperty="faq.out1"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${faq.out1}${cr}</echo>
+    <fail message="Faq parse 1 failed">
+      <condition>
+        <not>
+          <contains string="${faq.out1}" substring="1.2.3." />
+        </not>
+      </condition>
+    </fail>
+
+  </target>
+
+
+  <!-- +++++++++++++++++ -->
+  <!-- c_jjtree_examples -->
+
+  <target name="c_jjtree_examples">
+
+    <echo level="info">${ctn}>>> c_jjtree_examples/java/*.jjt${cr}</echo>
+
+    <antcall target="clean_c_jjtree_examples" />
+
+    <antcall target="jjt_gen">
+      <param name="gdir" value="c_jjtree_examples/java/eg1" />
+      <param name="gname" value="eg1" />
+    </antcall>
+
+    <antcall target="jjt_gen">
+      <param name="gdir" value="c_jjtree_examples/java/eg2" />
+      <param name="gname" value="eg2" />
+    </antcall>
+
+    <antcall target="jjt_gen">
+      <param name="gdir" value="c_jjtree_examples/java/eg3" />
+      <param name="gname" value="eg3" />
+    </antcall>
+
+    <antcall target="jjt_gen">
+      <param name="gdir" value="c_jjtree_examples/java/eg4" />
+      <param name="gname" value="eg4" />
+    </antcall>
+
+    <antcall target="javac_comp">
+      <param name="gdir" value="c_jjtree_examples/java" />
+    </antcall>
+
+    <!-- c_jjtree_examples/java/eg1.jjt-->
+    <java failonerror="true"
+          fork="true"
+          classname="c_jjtree_examples.java.eg1.Eg1"
+          classpath="${classes-examples}"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg1.out"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${jjtree.eg1.out}${cr}</echo>
+    <fail message="JJTree eg1 parse failed">
+      <condition>
+        <not>
+          <contains string="${jjtree.eg1.out}" substring="Thank you." />
+        </not>
+      </condition>
+    </fail>
+
+    <!-- c_jjtree_examples/java/eg2.jjt-->
+    <java failonerror="true"
+          fork="true"
+          classname="c_jjtree_examples.java.eg2.Eg2"
+          classpath="${classes-examples}"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg2.out"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${jjtree.eg2.out}${cr}</echo>
+    <fail message="JJTree eg2 parse failed">
+      <condition>
+        <not>
+          <contains string="${jjtree.eg2.out}" substring="Thank you." />
+        </not>
+      </condition>
+    </fail>
+
+    <!-- c_jjtree_examples/java/eg3.jjt-->
+    <java failonerror="true"
+          fork="true"
+          classname="c_jjtree_examples.java.eg3.Eg3"
+          classpath="${classes-examples}"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg3.out"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${jjtree.eg3.out}${cr}</echo>
+    <fail message="JJTree eg3 parse failed">
+      <condition>
+        <not>
+          <contains string="${jjtree.eg3.out}" substring="Thank you." />
+        </not>
+      </condition>
+    </fail>
+
+    <!-- c_jjtree_examples/java/eg4.jjt-->
+    <java failonerror="true"
+          fork="true"
+          classname="c_jjtree_examples.java.eg4.Eg4"
+          classpath="${classes-examples}"
+          inputstring="(a + b) * (c + 1);"
+          outputproperty="jjtree.eg4.out"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${jjtree.eg4.out}${cr}</echo>
+    <fail message="JJTree eg4 parse failed">
+      <condition>
+        <not>
+          <contains string="${jjtree.eg4.out}" substring="Thank you." />
+        </not>
+      </condition>
+    </fail>
+
+  </target>
+
+  <!-- +++++++++++ -->
+  <!-- d_corba_idl -->
+
+  <target name="d_corba_idl">
+
+    <echo level="info">${ctn}>>> d_corba_idl/IDL.jj${cr}</echo>
+
+    <antcall target="clean_d_corba_idl" />
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="d_corba_idl" />
+      <param name="gname" value="IDL" />
+    </antcall>
+
+    <antcall target="javac_comp">
+      <param name="gdir" value="d_corba_idl" />
+    </antcall>
+
+    <java failonerror="true"
+          fork="true"
+          classname="d_corba_idl.IDLParser"
+          classpath="${classes-examples}"
+          outputproperty="test.corba.out"
+    >
+      <arg line="${src-examples}/d_corba_idl/Hello.idl" />
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+
+    <echo level="info">${cto}${test.corba.out}${cr}</echo>
+
+    <fail message="d_corba_idl test failed">
+      <condition>
+        <not>
+          <contains string="${test.corba.out}" substring="IDL file parsed successfully" />
+        </not>
+      </condition>
+    </fail>
+
+  </target>
+
+
+  <!-- +++++++++++++++ -->
+  <!-- e_java_grammars -->
+
+  <target name="e_java_grammars">
+
+    <echo level="info">${ctn}>>> e_java_grammars/j1d5/Java1.5.jj${cr}</echo>
+
+    <antcall target="clean_e_java_grammars" />
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="e_java_grammars/j1d5" />
+      <param name="gname" value="Java1.5" />
+    </antcall>
+
+    <antcall target="javac_comp">
+      <param name="gdir" value="e_java_grammars" />
+    </antcall>
+
+    <echo level="info">${ctn}   ... reading JavaGenerics.java${cr}</echo>
+    <java failonerror="true"
+          fork="true"
+          classname="e_java_grammars.j1d5.JavaParser"
+          classpath="${classes-examples}"
+          input="${src-examples}/e_java_grammars/j1d5/JavaGenerics.java"
+          outputproperty="jp.jg.out"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${jp.jg.out}${cr}</echo>
+    <fail message="JavaParser failed to parse JavaGenerics.java">
+      <condition>
+        <not>
+          <contains string="${jp.jg.out}" substring="Java program parsed successfully." />
+        </not>
+      </condition>
+    </fail>
+
+    <echo level="info">${ctn}   ... reading JavaParser.java${cr}</echo>
+    <java failonerror="true"
+          fork="true"
+          classname="e_java_grammars.j1d5.JavaParser"
+          classpath="${classes-examples}"
+          input="${src-examples}/e_java_grammars/j1d5/JavaParser.java"
+          outputproperty="jp.jp.out"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${jp.jp.out}${cr}</echo>
+    <fail message="JavaParser failed to parse JavaParser.java">
+      <condition>
+        <not>
+          <contains string="${jp.jp.out}" substring="Java program parsed successfully." />
+        </not>
+      </condition>
+    </fail>
+
+    <echo level="info">${ctn}   ... reading files from @input${cr}</echo>
+    <echo file="${src-examples}/e_java_grammars/j1d5/@input"
+          append="no"
+          message="${basedir}/${src-examples}/e_java_grammars/j1d5/JavaGenerics.java${line.separator}${basedir}/${src-examples}/e_java_grammars/j1d5/Main.java${line.separator}${basedir}/${src-examples}/e_java_grammars/j1d5/MyToken.java"
+    >
+    </echo>
+    <java failonerror="false"
+          fork="true"
+          classname="e_java_grammars.j1d5.Main"
+          classpath="${classes-examples}"
+          outputproperty="jp.in.out"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+      <arg value="${src-examples}/e_java_grammars/j1d5/@input" />
+    </java>
+    <echo level="info">${cto}${jp.in.out}${cr}</echo>
+    <fail message="JavaParser failed to parse files from @input">
+      <condition>
+        <not>
+          <contains string="${jp.in.out}" substring="files in" />
+        </not>
+      </condition>
+    </fail>
+
+  </target>
+
+
+  <!-- ++++++++++++++++ -->
+  <!-- f_javacc_grammar -->
+
+  <target name="f_javacc_grammar">
+
+    <echo level="info">${ctn}>>> f_javacc_grammar/JavaCC.jj${cr}</echo>
+
+    <antcall target="clean_f_javacc_grammar" />
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="f_javacc_grammar" />
+      <param name="gname" value="JavaCC" />
+    </antcall>
+
+    <antcall target="javac_comp">
+      <param name="gdir" value="f_javacc_grammar" />
+    </antcall>
+
+  </target>
+
+
+  <!-- +++++++++++++ -->
+  <!-- g_transformer -->
+
+  <target name="g_transformer">
+
+    <echo level="info">${ctn}>>> g_transformer/ToyJava.jjt${cr}</echo>
+
+    <antcall target="clean_g_transformer" />
+
+    <antcall target="jjt_gen">
+      <param name="gdir" value="g_transformer" />
+      <param name="gname" value="ToyJava" />
+    </antcall>
+
+    <antcall target="javac_comp">
+      <param name="gdir" value="g_transformer" />
+    </antcall>
+
+    <echo level="info">${ctn}   ... parsing divide.toy writing to divide.out${cr}</echo>
+    <java failonerror="false"
+          fork="true"
+          classname="g_transformer.ToyParser"
+          classpath="${classes-examples}"
+          outputproperty="tj.out"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+      <arg value="${src-examples}/g_transformer/divide.toy" />
+      <arg value="${src-examples}/g_transformer/divide.out" />
+    </java>
+    <echo level="info">${cto}${tj.out}${cr}</echo>
+    <fail message="JavaParser failed to parse divide.toy">
+      <condition>
+        <not>
+          <contains string="${tj.out}" substring="Transformation completed successfully" />
+        </not>
+      </condition>
+    </fail>
+    <fail message="JavaParser's output divide.java different from expected divide.exp">
+      <condition>
+        <not>
+          <filesmatch file1="${src-examples}/g_transformer/divide.out"
+                      file2="${src-examples}/g_transformer/divide.exp"
+          />
+        </not>
+      </condition>
+    </fail>
+
+  </target>
+
+
+  <!-- +++++++++++++ -->
+  <!-- h_gui_parsing -->
+
+  <target name="h_gui_parsing">
+
+    <echo level="info">${ctn}>>> h_gui_parsing/parser_version/CalcInput.jj${cr}</echo>
+
+    <antcall target="clean_h_gui_parsing_pv" />
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="h_gui_parsing/parser_version" />
+      <param name="gname" value="CalcInput" />
+    </antcall>
+
+    <antcall target="javac_comp">
+      <param name="gdir" value="h_gui_parsing/parser_version" />
+    </antcall>
+
+    <!-- one can manually run the calculator; under this directory:
+         java -cp ../../../target/classes-examples h_gui_parsing.parser_version.Main -->
+
+    <echo level="info">${ctn}>>> h_gui_parsing/token_mgr_version/CalcInput.jj${cr}</echo>
+
+    <antcall target="clean_h_gui_parsing_tmv" />
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="h_gui_parsing/token_mgr_version" />
+      <param name="gname" value="CalcInput" />
+    </antcall>
+
+    <!-- need to produce the standard TokenManager, as it is extended by MyLexer ... -->
+    <java failonerror="true" fork="true" classname="${javacc-class-name}" classpath="${javacc.jar}">
+      <arg line="-BUILD_PARSER=true" />
+      <arg line="-OUTPUT_DIRECTORY=${src-examples}/h_gui_parsing/token_mgr_version" />
+      <arg line="${src-examples}/h_gui_parsing/token_mgr_version/CalcInput.jj" />
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+
+    <!-- ... but the parser is not needed -->
+    <delete file="${src-examples}/h_gui_parsing/token_mgr_version/CalcInputParser.java" />
+
+    <antcall target="javac_comp">
+      <param name="gdir" value="h_gui_parsing/token_mgr_version" />
+    </antcall>
+
+    <!-- one can manually run the calculator; under this directory:
+         java -cp ../../../target/classes-examples h_gui_parsing.token_mgr_version.Main -->
+
+  </target>
+
+
+  <!-- ++++++++++++ -->
+  <!-- i_obfuscator -->
+
+  <target name="i_obfuscator">
+
+    <echo level="info">${ctn}>>> i_obfuscator/*.jj${cr}</echo>
+
+    <antcall target="clean_i_obfuscator" />
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="i_obfuscator" />
+      <param name="gname" value="IdsFile" />
+    </antcall>
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="i_obfuscator" />
+      <param name="gname" value="Java1.1" />
+    </antcall>
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="i_obfuscator" />
+      <param name="gname" value="MapFile" />
+    </antcall>
+
+    <delete failonerror="false">
+      <fileset dir="${src-examples}/i_obfuscator/output" />
+    </delete>
+
+    <antcall target="javac_comp">
+      <param name="gdir" value="i_obfuscator" />
+    </antcall>
+
+    <echo level="info">${ctn}   ... obfuscating input directory${cr}</echo>
+    <java failonerror="true"
+          fork="true"
+          classname="i_obfuscator.Main"
+          classpath="${classes-examples}"
+          outputproperty="ob.out"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+      <arg value="${src-examples}/i_obfuscator/input" />
+      <arg value="${src-examples}/i_obfuscator/output" />
+      <arg value="${src-examples}/i_obfuscator/maps" />
+      <arg value="${src-examples}/i_obfuscator/nochangeids" />
+      <arg value="${src-examples}/i_obfuscator/useids" />
+    </java>
+    <echo level="info">${cto}${ob.out}${cr}</echo>
+    <fail message="Obfuscator failed on input">
+      <condition>
+        <not>
+          <contains string="${ob.out}" substring="Dumping mappings" />
+        </not>
+      </condition>
+    </fail>
+
+  </target>
+
+
+  <!-- +++++++++++++ -->
+  <!-- j_interpreter -->
+
+  <target name="j_interpreter">
+
+    <echo level="info">${ctn}>>> j_interpreter/SPL.jjt${cr}</echo>
+
+    <antcall target="clean_j_interpreter" />
+
+    <antcall target="jjt_gen">
+      <param name="gdir" value="j_interpreter" />
+      <param name="gname" value="SPL" />
+    </antcall>
+
+    <antcall target="javac_comp">
+      <param name="gdir" value="j_interpreter" />
+    </antcall>
+
+    <echo level="info">${ctn}   ... interpreting fact.spl${cr}</echo>
+    <java failonerror="true"
+          fork="true"
+          classname="j_interpreter.SPL"
+          classpath="${classes-examples}"
+          inputstring="3"
+          outputproperty="spl.out1"
+    >
+      <arg line="${src-examples}/j_interpreter/fact.spl" />
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${spl.out1}${cr}</echo>
+    <fail message="SPL failed to parse fact.spl input">
+      <condition>
+        <not>
+          <contains string="${spl.out1}" substring="Value of fact : 6" />
+        </not>
+      </condition>
+    </fail>
+
+    <echo level="info">${ctn}   ... interpreting odd.spl${cr}</echo>
+    <java failonerror="true"
+          fork="true"
+          classname="j_interpreter.SPL"
+          classpath="${classes-examples}"
+          inputstring="3"
+          outputproperty="spl.out2"
+    >
+      <arg line="${src-examples}/j_interpreter/odd.spl" />
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${spl.out2}${cr}</echo>
+    <fail message="SPL failed to parse odd.spl input">
+      <condition>
+        <not>
+          <contains string="${spl.out2}" substring="Value of odd : true" />
+        </not>
+      </condition>
+    </fail>
+
+    <echo level="info">${ctn}   ... interpreting sqrt.spl${cr}</echo>
+    <java failonerror="true"
+          fork="true"
+          classname="j_interpreter.SPL"
+          classpath="${classes-examples}"
+          inputstring="9"
+          outputproperty="spl.out3"
+    >
+      <arg line="${src-examples}/j_interpreter/sqrt.spl" />
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${spl.out3}${cr}</echo>
+    <fail message="SPL failed to parse sqrt.spl input">
+      <condition>
+        <not>
+          <contains string="${spl.out3}" substring="Value of sqrt : 3" />
+        </not>
+      </condition>
+    </fail>
+
+  </target>
+
+
+  <!-- +++++++++++ -->
+  <!-- k_lookahead -->
+
+  <target name="k_lookahead">
+
+    <echo level="info">${ctn}>>> k_lookahead/Example1..10++.jj${cr}</echo>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="la1" />
+      <param name="gname" value="Example1" />
+    </antcall>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="la11" />
+      <param name="gname" value="Example11" />
+    </antcall>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="la12" />
+      <param name="gname" value="Example12" />
+    </antcall>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="la2" />
+      <param name="gname" value="Example2" />
+    </antcall>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="la3" />
+      <param name="gname" value="Example3" />
+    </antcall>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="la4" />
+      <param name="gname" value="Example4" />
+    </antcall>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="la5" />
+      <param name="gname" value="Example5" />
+    </antcall>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="la6" />
+      <param name="gname" value="Example6" />
+    </antcall>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="la7" />
+      <param name="gname" value="Example7" />
+    </antcall>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="la8" />
+      <param name="gname" value="Example8" />
+    </antcall>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="la9" />
+      <param name="gname" value="Example9" />
+    </antcall>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="nlg11" />
+      <param name="gname" value="NestedLookaheadGrammar_Example11" />
+    </antcall>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="nclg12" />
+      <param name="gname" value="NonChoiceLookaheadGrammar_Example12" />
+    </antcall>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="rldt8" />
+      <param name="gname" value="ReadingLookahedDebugTrace_Example8" />
+    </antcall>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="rwg14" />
+      <param name="gname" value="RewrittenGrammar_Example14" />
+    </antcall>
+
+    <antcall target="jj_gen_p">
+      <param name="gdir" value="k_lookahead" />
+      <param name="gpkg" value="vag13" />
+      <param name="gname" value="VersionAwareGrammar_Example13" />
+    </antcall>
+
+    <antcall target="javac_comp">
+      <param name="gdir" value="b_mail_processing" />
+    </antcall>
+
+  </target>
+
+
+  <!-- +++++++++++++++++ -->
+  <!-- l_vis_transformer -->
+
+  <target name="l_vis_transformer">
+
+    <echo level="info">${ctn}>>> l_vis_transformer/Java1.1.jjt${cr}</echo>
+
+    <antcall target="clean_l_vis_transformer" />
+
+    <java failonerror="true" fork="true" classname="${jjtree-class-name}" classpath="${javacc.jar}">
+      <arg line="-JJTREE_OUTPUT_DIRECTORY=${src-examples}/l_vis_transformer" />
+      <arg line="${src-examples}/l_vis_transformer/Java1.1.jjt" />
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+
+    <java failonerror="true" fork="true" classname="${javacc-class-name}" classpath="${javacc.jar}">
+      <arg line="-OUTPUT_DIRECTORY=${src-examples}/l_vis_transformer" />
+      <arg line="${src-examples}/l_vis_transformer/Java1.1.jj" />
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+
+    <javac source="${javac.source}"
+           target="${javac.target}"
+           includeantruntime="false"
+           fork="true"
+           destdir="${classes-examples}"
+    >
+      <src path="${src-examples}/l_vis_transformer" />
+      <compilerarg value="${javac.xlint.arg}" />
+    </javac>
+
+    <echo level="info">${ctn}   ... transforming Main.java${cr}</echo>
+    <java failonerror="true"
+          fork="true"
+          classname="l_vis_transformer.Main"
+          classpath="${classes-examples}"
+          errorproperty="vt.err"
+          input="${src-examples}/l_vis_transformer/Main.java"
+          output="${src-examples}/l_vis_transformer/Main.new"
+    >
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+    <echo level="info">${cto}${vt.err}${cr}</echo>
+    <fail message="Obfuscator failed on input">
+      <condition>
+        <not>
+          <contains string="${vt.err}" substring="Thank you." />
+        </not>
+      </condition>
+    </fail>
+
+  </target>
+
+  <!-- ===== -->
+  <!-- Clean -->
+  <!-- ===== -->
+
+  <target name="all_clean">
+
+    <antcall target="clean_a_simple_examples" />
+    <antcall target="clean_b_mail_processing" />
+    <antcall target="clean_c_jjtree_examples" />
+    <antcall target="clean_d_corba_idl" />
+    <antcall target="clean_e_java_grammars" />
+    <antcall target="clean_f_javacc_grammar" />
+    <antcall target="clean_g_transformer" />
+    <antcall target="clean_h_gui_parsing" />
+    <antcall target="clean_i_obfuscator" />
+    <antcall target="clean_j_interpreter" />
+    <antcall target="clean_k_lookahead" />
+    <antcall target="clean_l_vis_transformer" />
+
+  </target>
+
+  <target name="clean_a_simple_examples">
+    <delete>
+      <fileset dir="${src-examples}/a_simple_examples" includes="*.java" />
+    </delete>
+  </target>
+
+  <target name="clean_b_mail_processing">
+    <delete>
+      <fileset dir="${src-examples}/b_mail_processing" includes="*.java, digestFile" />
+    </delete>
+  </target>
+
+  <target name="clean_c_jjtree_examples">
+    <delete>
+      <fileset dir="${src-examples}/c_jjtree_examples/java"
+               includes="**/*.java,**/*.jj"
+               excludes="**/ASTMyID.java, **/ASTMyOtherID.java, **/Eg4DumpVisitor.java"
+      />
+    </delete>
+  </target>
+
+  <target name="clean_d_corba_idl">
+    <delete>
+      <fileset dir="${src-examples}/d_corba_idl" includes="*.java" />
+    </delete>
+  </target>
+
+  <target name="clean_e_java_grammars">
+    <delete>
+      <fileset dir="${src-examples}/e_java_grammars/j1d5"
+               includes="*.java"
+               excludes="JavaGenerics.java, Main.java, MyToken.java, Test.java"
+      />
+    </delete>
+  </target>
+
+  <target name="clean_f_javacc_grammar">
+    <delete>
+      <fileset dir="${src-examples}/f_javacc_grammar" includes="*.java" />
+    </delete>
+  </target>
+
+  <target name="clean_g_transformer">
+    <delete>
+      <fileset dir="${src-examples}/g_transformer"
+               includes="*.java,divide.exp,divide.out"
+               excludes="ASTCompilationUnit.java, ASTSpecialBlock.java, SimpleNode.java"
+      />
+    </delete>
+  </target>
+
+  <target name="clean_h_gui_parsing">
+    <antcall target="clean_h_gui_parsing_pv" />
+    <antcall target="clean_h_gui_parsing_tmv" />
+  </target>
+
+  <target name="clean_h_gui_parsing_pv">
+    <delete>
+      <fileset dir="${src-examples}/h_gui_parsing/parser_version"
+               includes="*.java"
+               excludes="CalcGUI.java, Main.java, ProducerConsumer.java, TokenCollector.java"
+      />
+    </delete>
+  </target>
+
+  <target name="clean_h_gui_parsing_tmv">
+    <delete>
+      <fileset dir="${src-examples}/h_gui_parsing/token_mgr_version"
+               includes="*.java"
+               excludes="CalcGUI.java, CharCollector.java, Main.java, MyLexer.java"
+      />
+    </delete>
+  </target>
+
+  <target name="clean_i_obfuscator">
+    <delete failonerror="false" includeEmptyDirs="true">
+      <fileset dir="${src-examples}/i_obfuscator"
+               includes="*.java"
+               excludes="Globals.java, Main.java, Obfuscator.java"
+      />
+      <fileset dir="${src-examples}/i_obfuscator/output" />
+    </delete>
+  </target>
+
+  <target name="clean_j_interpreter">
+    <delete>
+      <fileset dir="${src-examples}/j_interpreter"
+               includes="*.java,*.jj"
+               excludes="ASTAddNode.java, ASTAndNode.java, ASTAssignment.java, ASTBitwiseAndNode.java,
+                  ASTBitwiseComplNode.java, ASTBitwiseOrNode.java, ASTBitwiseXorNode.java, ASTBlock.java, 
+                  ASTCompilationUnit.java, ASTDivNode.java, ASTEQNode.java, ASTFalseNode.javaASTGENode.java,
+                  ASTGTNode.java, ASTId.java, ASTIfStatement.java, ASTIntConstNode.java, ASTLENode.java,
+                  ASTLTNode.java, ASTModNode.java, ASTMulNode.java, ASTNENode.java, ASTNotNode.java,
+                  ASTOrNode.java, ASTReadStatement.java, ASTStatementExpression.java, ASTSubtractNode.java,
+                  ASTTrueNode.java, ASTVarDeclaration.java, ASTWhileStatement.java, ASTWriteStatement.java,
+                  MyNode.java, Node.java, SPL.java"
+      />
+    </delete>
+  </target>
+
+  <target name="clean_k_lookahead">
+    <delete failonerror="false" includeEmptyDirs="true">
+      <fileset dir="${src-examples}/k_lookahead" includes="la*/**, n*/**, r*/**, v*/**" />
+    </delete>
+  </target>
+
+  <target name="clean_l_vis_transformer">
+    <delete>
+      <fileset dir="${src-examples}/l_vis_transformer"
+               includes="*.java, *.jj, Main.new"
+               excludes="AddAcceptVisitor.java, Main.java, SimpleNode.java, UnparseVisitor.java"
+      />
+    </delete>
+  </target>
+
+
+  <!-- ========= -->
+  <!-- Sub tasks -->
+  <!-- ========= -->
+
+  <!-- jjt file generation -->
+  <!-- gdir : the grammar directory -->
+  <!-- gname : the grammar name (without extension) -->
+  <target name="jjt_gen">
+
+    <java failonerror="true" fork="true" classname="${jjtree-class-name}" classpath="${javacc.jar}">
+      <arg line="-JJTREE_OUTPUT_DIRECTORY=${src-examples}/${gdir}" />
+      <arg line="${src-examples}/${gdir}/${gname}.jjt" />
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+
+    <antcall target="jj_gen">
+      <param name="gdir" value="${gdir}" />
+      <param name="gname" value="${gname}" />
+    </antcall>
+
+  </target>
+
+  <!-- jj file generation -->
+  <!-- gdir : the grammar directory -->
+  <!-- gname : the grammar name (without extension) -->
+  <target name="jj_gen">
+
+    <java failonerror="true" fork="true" classname="${javacc-class-name}" classpath="${javacc.jar}">
+      <arg line="-OUTPUT_DIRECTORY=${src-examples}/${gdir}" />
+      <arg line="${src-examples}/${gdir}/${gname}.jj" />
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+
+  </target>
+
+  <!-- jj file generation -->
+  <!-- gdir : the grammar directory -->
+  <!-- gname : the grammar name (without extension) -->
+  <!-- gpkg : the grammar package -->
+  <target name="jj_gen_p">
+
+    <java failonerror="true" fork="true" classname="${javacc-class-name}" classpath="${javacc.jar}">
+      <arg line="-OUTPUT_DIRECTORY=${src-examples}/${gdir}/${gpkg}" />
+      <arg line="${src-examples}/${gdir}/${gname}.jj" />
+      <jvmarg value="${jacocoagentvmparam}" />
+    </java>
+
+  </target>
+
+  <!-- javac compilation -->
+  <!-- gdir : the grammar directory -->
+  <target name="javac_comp">
+
+    <javac source="${javac.source}"
+           target="${javac.target}"
+           includeantruntime="false"
+           fork="true"
+           destdir="${classes-examples}"
+    >
+      <src path="${src-examples}/${gdir}" />
+      <compilerarg value="${javac.xlint.arg}" />
+    </javac>
+
+  </target>
+
+</project>

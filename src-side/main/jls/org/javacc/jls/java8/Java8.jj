@@ -1,0 +1,3336 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
+// Author : sreeni@google.com (Sreeni Viswanadha)
+
+/* Copyright (c) 2006, Sun Microsystems, Inc.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met :
+ *
+ *     * Redistributions of source code must retain the above copyright notice,
+ *       this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Sun Microsystems, Inc. nor the names of its
+ *       contributors may be used to endorse or promote products derived from
+ *       this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+/**
+ * The Java8 parser's grammar file.
+ * <p>
+ * 2011 -2025.
+ *
+ * @author Sreeni, Maͫzͣaͬsͨ
+ */
+options {
+  JAVA_UNICODE_ESCAPE = true;
+  STATIC = false;
+//  FORCE_LA_CHECK = true; // (JavaCC - default false)
+//  DEBUG_PARSER = true; // (JavaCC - default false)
+//  DEBUG_LOOKAHEAD = true; // (JavaCC - default false)
+  OUTPUT_DIRECTORY = "../../../../../../../target-side/generated-sources/jls/org/javacc/jls/java8"; // (JavaCC - default empty=current directory)
+}
+
+PARSER_BEGIN(Java8)
+
+package org.javacc.jls.java8;
+
+import org.javacc.parser.JavaCCErrors;
+
+/**
+ * A Java 1.8 parser.<br >
+ * Designed to be used as a standalone java parser and to be reused in the JavaCC / JJTree parsers
+ * or other tools.
+ * <p>
+ * May 2024.
+ *
+ * @author Maͫzͣaͬsͨ
+ */
+public class Java8 {
+
+/**
+ * Standard main for direct tests.
+ *
+ * @param args - the command line arguments
+ */
+  public static void main(String args[]) {
+    Java8 parser;
+    if (args.length == 0) {
+      System.err.println("Java8 Parser:  Reading from standard input . . .");
+      parser = new Java8(System.in);
+    } else if (args.length == 1) {
+      System.err.println("Java8 Parser:  Reading from file " + args[0] + " . . .");
+      try {
+        parser = new Java8(new java.io.FileInputStream(args[0]));
+      } catch (java.io.FileNotFoundException e) {
+        System.err.println("Java8 Parser:  File " + args[0] + " not found.");
+        return;
+      }
+    } else {
+      System.err.println("Java8 Parser:  Usage is one of:");
+      System.err.println("         java Java8 < inputfile");
+      System.err.println("OR");
+      System.err.println("         java Java8 inputfile");
+      return;
+    }
+    try {
+      parser.disable_tracing(); // temp
+      parser.CompilationUnit();
+      final int nbPE = JavaCCErrors.get_semantic_error_count();
+      System.err.println("Java8 Parser:  Parsed " +
+                         (nbPE == 0 ? "successfully." : "with " + nbPE + " recovered semantic errors"));
+    } catch (ParseException e) {
+      System.err.println("Java8 Parser:  Encountered errors during parsing: ");
+      System.err.println(e);
+    }
+  }
+
+  /* ******************************* *
+   * Java code for the parser itself *
+   * ******************************* */
+
+  /**
+   * Class to hold modifiers.
+   */
+  public static final class ModifierSet {
+
+    /* Individual masks */
+
+    public static final int PUBLIC       = 0x0001;
+    public static final int PROTECTED    = 0x0002;
+    public static final int PRIVATE      = 0x0004;
+    public static final int ABSTRACT     = 0x0008;
+    public static final int DEFAULT      = 0x0010;
+    public static final int STATIC       = 0x0020;
+    public static final int FINAL        = 0x0040;
+    public static final int SYNCHRONIZED = 0x0080;
+    public static final int NATIVE       = 0x0100;
+    public static final int TRANSIENT    = 0x0200;
+    public static final int VOLATILE     = 0x0400;
+    public static final int STRICTFP     = 0x0800;
+    public static final int ANNOTATION   = 0x1000;
+
+    /* Aggregated masks, as complements to ORed individual masks, to be ANDed with real modifiers:
+     * results of not 0 mean at least one invalid modifier */
+
+    public static final int AnnotationTypeElementModifier = ~PUBLIC & ~ABSTRACT & ~ANNOTATION;
+
+    public static final int ClassModifier = ~PUBLIC & ~PROTECTED & ~PRIVATE & ~ABSTRACT & //
+                                            ~STATIC & ~FINAL & ~STRICTFP & ~ANNOTATION;
+
+    public static final int ConstantModifier = ~PUBLIC & ~STATIC & ~FINAL & ~ANNOTATION;
+
+    public static final int ConstructorModifier = ~PUBLIC & ~PROTECTED & ~PRIVATE & ~ANNOTATION;
+
+    public static final int FieldModifier = ~PUBLIC & ~PROTECTED & ~PRIVATE & //
+                                            ~STATIC & ~FINAL & ~TRANSIENT & ~VOLATILE & ~ANNOTATION;
+
+    public static final int InterfaceModifier = ~PUBLIC & ~PROTECTED & ~PRIVATE & ~ABSTRACT & //
+                                                ~STATIC & ~STRICTFP & ~ANNOTATION;
+
+    public static final int InterfaceMethodModifier = ~PUBLIC & ~ABSTRACT & ~DEFAULT & //
+                                                      ~STATIC & ~STRICTFP & ~ANNOTATION;
+
+    public static final int LocalClassDeclarationModifier = ~ABSTRACT & ~FINAL & ~ANNOTATION;
+
+    public static final int MethodModifier = ~PUBLIC & ~PROTECTED & ~PRIVATE & ~ABSTRACT & ~STATIC & //
+                                             ~FINAL & ~SYNCHRONIZED  & ~NATIVE  & ~STRICTFP & ~ANNOTATION;
+
+  }
+
+  static String fmtBits(final int val) {
+    StringBuilder sb = new StringBuilder();
+//    sb.append(String.format("%13s", Integer.toBinaryString(val)).replace(" ", "0")).append(' ');
+    if ((val & ModifierSet.PUBLIC)       != 0) sb.append('"').append("public").append('"').append(' ');
+    if ((val & ModifierSet.PROTECTED)    != 0) sb.append('"').append("protected").append('"').append(' ');
+    if ((val & ModifierSet.PRIVATE)      != 0) sb.append('"').append("private").append('"').append(' ');
+    if ((val & ModifierSet.ABSTRACT)     != 0) sb.append('"').append("abstract").append('"').append(' ');
+    if ((val & ModifierSet.DEFAULT)      != 0) sb.append('"').append("default").append('"').append(' ');
+    if ((val & ModifierSet.STATIC)       != 0) sb.append('"').append("static").append('"').append(' ');
+    if ((val & ModifierSet.FINAL)        != 0) sb.append('"').append("final").append('"').append(' ');
+    if ((val & ModifierSet.SYNCHRONIZED) != 0) sb.append('"').append("synchronized").append('"').append(' ');
+    if ((val & ModifierSet.NATIVE)       != 0) sb.append('"').append("public").append('"').append(' ');
+    if ((val & ModifierSet.TRANSIENT)    != 0) sb.append('"').append("transient").append('"').append(' ');
+    if ((val & ModifierSet.VOLATILE)     != 0) sb.append('"').append("volatile").append('"').append(' ');
+    if ((val & ModifierSet.STRICTFP)     != 0) sb.append('"').append("strictfp").append('"').append(' ');
+    if ((val & ModifierSet.ANNOTATION)   != 0) sb.append('"').append("ANNOTATION").append('"').append(' ');
+    // trailing space left
+    return sb.toString();
+  }
+
+  static void modError(final int mod, final int set, final String str, final Token tk) throws ParseException {
+    final int  ill = mod & set;
+    if (ill != 0)
+      semError(tk, "Illegal modifier(s) " + fmtBits(ill) + "for a " + str + ".");
+  }
+
+  static void semError(final Token tk, final String str) throws ParseException {
+    JavaCCErrors.semantic_error("Line " + tk.beginLine + ", Column " + tk.beginColumn + ": " + str);
+  }
+
+// Commented as only used in the (commented) variant of FormalParameterList (FormParamList)
+// /**
+//   * Lookahead for finding if we'll have a last formal parameter.<br >
+//   * Takes in account nested parenthesis and commas in annotations and nested angle brackets and commas
+//   * in type parameters.
+//   *
+//   * @param skipComma - true if the first token (which should be a comma - NOT checked) must be skipped,
+//   *                    false otherwise
+//   * @return true if it finds first a ")" or a "...", false otherwise (i.e. if it finds a ",")
+//   */
+//  private boolean laIsLastFormPar(final boolean skipComma) {
+////    trace_call("laIsLastFormPar(" + skipComma + ") STARTED");
+//    boolean foundLastFormPar = false;
+//    int nbLP = 1; // previous left parenthesis counted
+//    int nbBR = 0;
+//    int i = skipComma ? 2 : 1; // token 0 is comma or a left parenthesis, see where it is called (FormParList())
+//    while (!foundLastFormPar) {
+//      Token tk = getToken(i);
+////      System.err.println("lilfp: tk(" + i + ").image = \"" + tk.image + "\", line = " + tk.beginLine +
+////                         ", col = " + tk.beginColumn + ", nbLP = " + nbLP + ", nbBR = " + nbBR);
+//      if (tk.kind == LPAREN) {
+//        nbLP++;
+//      } else if (tk.kind == COMMA && nbLP == 1 && nbBR == 0) {
+//          break;
+//      } else if (tk.kind == THREEDOTS) {
+//        foundLastFormPar = true;
+//        break;
+//      } else if (tk.kind == RPAREN) {
+//        nbLP--;
+//        if (nbLP == 0) {
+//          foundLastFormPar = true;
+//          break;
+//        }
+//      } else if (tk.kind == LT) {
+//        nbBR++;
+//      } else if (tk.kind == GT) {
+//        nbBR--;
+//      }
+//      i++;
+//    }
+////    System.err.println("lilfp: tk(" + i + "): return = " + foundLastFormPar);
+////    trace_return("laIsLastFormPar(" + skipComma + (foundLastFormPar ? ") SUCCESSFUL" : ") FAILED"));
+//    return foundLastFormPar;
+//  }
+
+  /**
+   * Lookahead for finding if we'll have a dimension expression.<br >
+   *
+   * @return false if it finds a "]" just after a "[", true otherwise
+   */
+  private boolean laIsDimExprs() {
+//    trace_call("laIsDimExprs() STARTED");
+    int i = 1;
+    boolean foundLB = false;
+    while (true) {
+      Token tk = getToken(i);
+//      System.err.println("lide: tk(" + i + ") = " + tk.image + ", line = " + tk.beginLine +
+//                         ", col = " + tk.beginColumn );
+      if (tk.kind == LBRACKET) {
+        foundLB = true;
+      } else if (foundLB) {
+        if (tk.kind == RBRACKET ) {
+//          trace_return("laIsDimExprs() FAILED");
+          return false;
+        } else {
+//          trace_return("laIsDimExprs() SUCCESSFUL");
+          return true;
+        }
+      }
+      i++;
+    }
+  }
+
+  /**
+   * Lookahead for finding if we'll have a primary suffix.<br >
+   *
+   * @return true if it finds a "[", a "(" or a "." not followed by an optional TypeArguments and "super"
+   *         (those following a Primary in ExplicitConstructorInvocation), false otherwise
+   */
+  private boolean laIsPrimarySuffix() {
+//    trace_call("laIsPrimarySuffix() STARTED");
+    Token tk = getToken(1);
+    if (tk.kind == LBRACKET || tk.kind == LPAREN) {
+//      trace_return("laIsPrimarySuffix() SUCCESSFUL");
+      return true;
+    }
+    if (tk.kind != DOT) {
+//      trace_return("laIsPrimarySuffix() FAILED");
+      return false;
+    }
+    int i = 2;
+    int levelLT = 0;
+    while (true) {
+      tk = getToken(i);
+//      System.err.println("lips: tk(" + i + ") = " + tk.image + ", line = " + tk.beginLine +
+//                         ", col = " + tk.beginColumn );
+      if (tk.kind == LT) {
+        levelLT++;
+      } else if (tk.kind == GT) {
+        levelLT--;
+      } else if (levelLT == 0) {
+        if (tk.kind == SUPER) {
+//          trace_return("laIsPrimarySuffix() FAILED");
+          return false;
+        } else {
+//          trace_return("laIsPrimarySuffix() SUCCESSFUL");
+          return true;
+        }
+      }
+      i++;
+    }
+  }
+
+}
+
+PARSER_END(Java8)
+
+//TOKEN_MGR_DECLS :
+//{
+//  int beginLine[] = new int[10];
+//  int beginCol[] = new int[10];
+//  int depth = 0;
+//  int size = 10;
+//
+//  void saveBeginLineCol(int l, int c)
+//  {
+//    if (depth == size) {
+//      size += 5;
+//      int tmpbeginLine[] = new int[size];
+//      int tmpbeginCol[] = new int[size];
+//      System.arraycopy(beginLine, 0, beginLine = tmpbeginLine, 0, depth);
+//      System.arraycopy(beginCol, 0, beginCol = tmpbeginCol, 0, depth);
+//    }
+//    beginLine[depth] = l;
+//    beginCol[depth] = c;
+//    depth++;
+//   }
+//
+//   void restoreBeginLineCol() {
+//     depth--;
+//     input_stream.adjustBeginLineColumn(beginLine[depth], beginCol[depth]);
+//   }
+//}
+
+
+///**********************************************
+// * THE JAVACC TOKEN SPECIFICATION STARTS HERE *
+// **********************************************/
+
+/* JAVACC RESERVED WORDS : These are the only tokens in JavaCC but not in Java. */
+
+//TOKEN :
+//{
+////  < _OPTIONS : "options" > // not  a reserved word (Issue 126)
+//  < _EOF : "EOF" >
+//| < _MORE : "MORE" >
+//| < _SKIP : "SKIP" >
+//| < _TOKEN : "TOKEN" >
+//| < _CPPCODE : "CPPCODE" > // C++
+//| < _JAVACODE : "JAVACODE" >
+//| < _LOOKAHEAD : "LOOKAHEAD" >
+//| < _PARSER_END : "PARSER_END" >
+//| < _IGNORE_CASE : "IGNORE_CASE" >
+//| < _PARSER_BEGIN : "PARSER_BEGIN" >
+//| < _SPECIAL_TOKEN : "SPECIAL_TOKEN" >
+//| < _TOKEN_MGR_DECLS : "TOKEN_MGR_DECLS" >
+//}
+
+/*
+ * The remainder of the tokens are exactly (except for the removal of tokens
+ * containing ">>" and "<<") as in the Java grammar and must be diff equivalent
+ * (again with the exceptions above) to it.
+ */
+
+/* WHITE SPACE */
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+| "\f"
+//| "/*@egen*/" : AFTER_EGEN
+}
+
+//<AFTER_EGEN> SKIP :
+//{
+//  <~[]> { restoreBeginLineCol(); input_stream.backup(1); } : DEFAULT
+//}
+
+/* COMMENTS */
+
+MORE :
+{
+  "//" : IN_SINGLE_LINE_COMMENT
+|
+  <"/**" ~["/"]> { input_stream.backup(1); } : IN_FORMAL_COMMENT
+|
+  "/*" : IN_MULTI_LINE_COMMENT
+//|
+//  "/*@bgen(jjtree"
+//     {
+//        saveBeginLineCol(input_stream.getBeginLine(),
+//                         input_stream.getBeginColumn());
+//     } : IN_MULTI_LINE_COMMENT
+}
+
+<IN_SINGLE_LINE_COMMENT>
+SPECIAL_TOKEN :
+{
+  <SINGLE_LINE_COMMENT : "\n" | "\r" | "\r\n" > : DEFAULT
+}
+
+<IN_FORMAL_COMMENT>
+SPECIAL_TOKEN :
+{
+  <FORMAL_COMMENT : "*/" > : DEFAULT
+}
+
+<IN_MULTI_LINE_COMMENT>
+SPECIAL_TOKEN :
+{
+  <MULTI_LINE_COMMENT : "*/" > : DEFAULT
+}
+
+<IN_SINGLE_LINE_COMMENT,IN_FORMAL_COMMENT,IN_MULTI_LINE_COMMENT>
+MORE :
+{
+  < ~[] >
+}
+
+/* JAVA ReservedKeyword and ContextualKeyword */
+
+TOKEN :
+{
+//  < US : "_" > // Java 10+
+//|
+  < DO : "do" >
+| < IF : "if" >
+//| < TO : "to" > // restricted / contextual, Java 10+
+| < FOR : "for" >
+| < INT : "int" >
+| < NEW : "new" >
+| < TRY : "try" >
+//| < VAR : "var" > // ? / restricted / contextual, Java 10+
+| < BYTE : "byte" >
+| < CASE : "case" >
+| < CHAR : "char" >
+| < ELSE : "else" >
+| < ENUM : "enum" >
+| < GOTO : "goto" > // not used
+| < LONG : "long" >
+| < NULL : "null" >
+//| < OPEN : "open" > // restricted / contextual, Java 10+
+| < THIS : "this" >
+| < TRUE : "true" >
+//| < USES : "uses" > // restricted / contextual, Java 10+
+| < VOID : "void" >
+//| < WHEN : "when" > // restricted / contextual, Java 21+
+//| < WITH : "with" > // restricted / contextual, Java 11+
+| < BREAK : "break" >
+| < CATCH : "catch" >
+| < CLASS : "class" >
+| < CONST : "const" > // not used
+| < FALSE : "false" >
+| < FINAL : "final" >
+| < FLOAT : "float" >
+//| < OPENS : "opens" > // restricted / contextual, Java 10+
+| < SHORT : "short" >
+| < SUPER : "super" >
+| < THROW : "throw" >
+| < WHILE : "while" >
+//| < YIELD : "yield" > // ~ / restricted / contextual, Java 14+
+| < ASSERT : "assert" >
+| < DOUBLE : "double" >
+| < IMPORT : "import" >
+//| < MODULE : "module" > // contextual, Java 17+
+| < NATIVE : "native" >
+| < PUBLIC : "public" >
+//| < RECORD : "record" > // ~ / restricted / contextual, Java 16+
+| < RETURN : "return" >
+//| < SEALED : "sealed" > // contextual, Java 17+
+| < STATIC : "static" >
+| < SWITCH : "switch" >
+| < THROWS : "throws" >
+| < BOOLEAN : "boolean" >
+| < _DEFAULT : "default" >
+//| < EXPORTS : "exports" > // restricted / contextual, Java 10+
+| < EXTENDS : "extends" >
+| < FINALLY : "finally" >
+| < PACKAGE : "package">
+//| < PERMITS : "permits" > // restricted / contextual, Java 11+
+| < PRIVATE : "private" >
+| < ABSTRACT : "abstract" >
+| < STRICTFP : "strictfp" > // obsolete Java17+
+| < CONTINUE : "continue" >
+//| < PROVIDES : "provides" > // contextual, Java 17+
+//| < REQUIRES : "requires" > // contextual, Java 17+
+| < VOLATILE : "volatile" >
+| < INTERFACE : "interface" >
+| < PROTECTED : "protected" >
+| < TRANSIENT : "transient" >
+| < IMPLEMENTS : "implements" >
+//| < NON_SEALED : "non-sealed" > // contextual, Java 17+; the hyphen makes it not an identifier
+| < INSTANCEOF : "instanceof" >
+//| < TRANSITIVE : "transitive" > // contextual, Java 17+
+| < SYNCHRONIZED : "synchronized" >
+}
+
+/* JAVA LITERALS */
+
+TOKEN :
+{
+  < INTEGER_LITERAL :
+      <DECIMAL_LITERAL> (["l","L"])?
+    | <HEX_LITERAL> (["l","L"])?
+    | <OCTAL_LITERAL> (["l","L"])?
+    | <BINARY_LITERAL> (["l","L"])?
+  >
+|
+  < #DECIMAL_LITERAL : ["1"-"9"] (("_")* ["0"-"9"])* >
+|
+  < #HEX_LITERAL : "0" ["x","X"] ["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])* >
+|
+  < #OCTAL_LITERAL : "0" (("_")* ["0"-"7"])* >
+|
+  < #BINARY_LITERAL : "0" ["b","B"] ["0", "1"] (("_")* ["0","1"])* >
+|
+  < FLOATING_POINT_LITERAL :
+      <DECIMAL_FLOATING_POINT_LITERAL>
+    | <HEXADECIMAL_FLOATING_POINT_LITERAL>
+  >
+|
+  < #DECIMAL_FLOATING_POINT_LITERAL :
+      ["0"-"9"] (("_")* ["0"-"9"])* "." (["0"-"9"](("_")*["0"-"9"])*)? (<DECIMAL_EXPONENT>)? (["f","F","d","D"])?
+    | "." ["0"-"9"](("_")*["0"-"9"])* (<DECIMAL_EXPONENT>)? (["f","F","d","D"])?
+    | ["0"-"9"](("_")*["0"-"9"])* <DECIMAL_EXPONENT> (["f","F","d","D"])?
+    | ["0"-"9"](("_")*["0"-"9"])* (<DECIMAL_EXPONENT>)? ["f","F","d","D"]
+  >
+|
+  < #DECIMAL_EXPONENT : ["e","E"] (["+","-"])? ["0"-"9"] (("_")*["0"-"9"])* >
+|
+  < #HEXADECIMAL_FLOATING_POINT_LITERAL :
+      "0" ["x", "X"] ["0"-"9","a"-"f","A"-"F"] (("_")* ["0"-"9","a"-"f","A"-"F"])* (".")? <HEXADECIMAL_EXPONENT> (["f","F","d","D"])?
+    | "0" ["x", "X"] (["0"-"9","a"-"f","A"-"F"](("_")* ["0"-"9","a"-"f","A"-"F"])* )? "."
+          ["0"-"9","a"-"f","A"-"F"] (("_")*["0"-"9","a"-"f","A"-"F"])* <HEXADECIMAL_EXPONENT> (["f","F","d","D"])?
+  >
+|
+  < #HEXADECIMAL_EXPONENT : ["p","P"] (["+","-"])? ["0"-"9"](("_")*["0"-"9"])* >
+|
+  < CHARACTER_LITERAL :
+      "'"
+      ( (~["'","\\","\n","\r"])
+      | (  "\\"
+           ( ["n","t","b","r","f","\\","'","\""]
+           | ["0"-"7"] ( ["0"-"7"] )?
+           | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+           )
+        )
+      )
+      "'"
+  >
+|
+  < STRING_LITERAL :
+      "\""
+      ( (~["\"","\\","\n","\r"])
+      | ( "\\"
+          ( ["n","t","b","r","f","\\","'","\""]
+          | ["0"-"7"] ( ["0"-"7"] )?
+          | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+          )
+        )
+      )*
+      "\""
+  >
+}
+
+/* SEPARATORS */
+
+TOKEN :
+{
+  < AT : "@" >
+| < COMMA : "," >
+| < DOT : "." >
+| < HASH : "#" >
+| < LBRACE : "{" >
+| < RBRACE : "}" >
+| < LPAREN : "(" >
+| < RPAREN : ")" >
+| < LBRACKET : "[" >
+| < RBRACKET : "]" >
+| < SEMICOLON : ";" >
+| < DOUBLECOLON : "::" >
+| < THREEDOTS : "..." >
+}
+
+/* OPERATORS */
+
+TOKEN :
+{
+  < ASSIGN  : "=" >
+| < BANG    : "!" >
+| < BIT_AND : "&" >
+| < BIT_OR  : "|" >
+| < COLON   : ":" >
+| < HOOK    : "?" >
+//| < GT : ">" > // labeled later
+| < LT      : "<" >
+| < MINUS   : "-" >
+| < PLUS    : "+" >
+| < REM     : "%" >
+| < STAR    : "*" >
+| < SLASH   : "/" >
+| < TILDE   : "~" >
+| < XOR     : "^" >
+
+| < EQ      : "==" >
+| < LE      : "<=" >
+| < GE      : ">=" >
+| < NE      : "!=" >
+| < LOG_OR  : "||" >
+| < LOG_AND : "&&" >
+| < INCR    : "++" >
+| < DECR    : "--" >
+| < LAMBDA  : "->" >
+//| < LSHIFT         : "<<" > // labeled later
+//| < RSIGNEDSHIFT   : ">>" > // labeled later
+//| < RUNSIGNEDSHIFT : ">>>" > // labeled later
+| < PLUSASSIGN  : "+=" >
+| < MINUSASSIGN : "-=" >
+| < STARASSIGN  : "*=" >
+| < SLASHASSIGN : "/=" >
+| < ANDASSIGN   : "&=" >
+| < ORASSIGN    : "|=" >
+| < XORASSIGN   : "^=" >
+| < REMASSIGN   : "%=" >
+| < LSHIFTASSIGN : "<<=" >
+| < RSIGNEDSHIFTASSIGN : ">>=" >
+| < RUNSIGNEDSHIFTASSIGN : ">>>=" >
+}
+
+/* >'s need special attention due to generics syntax. */
+// TODO remove GTToken
+TOKEN :
+{
+  < RUNSIGNEDSHIFT : ">>>" >
+  {
+     matchedToken.kind = GT;
+     ((Token.GTToken)matchedToken).realKind = RUNSIGNEDSHIFT;
+     input_stream.backup(2);
+     matchedToken.image = ">";
+  }
+| < RSIGNEDSHIFT : ">>" >
+  {
+     matchedToken.kind = GT;
+     ((Token.GTToken)matchedToken).realKind = RSIGNEDSHIFT;
+     input_stream.backup(1);
+     matchedToken.image = ">";
+  }
+| < GT : ">" >
+}
+
+
+/* ************************************************************* *
+ * THE JAVA GRAMMAR SPECIFICATION STARTS HERE                    *
+ * https://docs.oracle.com/javase/specs/jls/se8/html/jls-19.html *
+ * ************************************************************* */
+
+/* Covers JLS Identifier */
+Token JavaIdentifier() :
+{}
+{
+  ( < IDENTIFIER >
+//  | "exports"
+//  | "module"
+////  | "non-sealed"
+//  | "open"
+//  | "opens"
+//  | "permits"
+//  | "provides"
+//  | "record"
+//  | "requires"
+//  | "sealed"
+//  | "to"
+//  | "transitive"
+//  | "uses"
+//  | "var"
+//  | "when"
+//  | "with"
+//  | "yield"
+//  | "EOF"
+//  | "IGNORE_CASE"
+//  | "JAVACODE"
+//  | "LOOKAHEAD"
+//  | "MORE"
+//  | "PARSER_BEGIN"
+//  | "PARSER_END"
+//  | "SKIP"
+//  | "SPECIAL_TOKEN"
+//  | "TOKEN"
+//  | "TOKEN_MGR_DECLS"
+  )
+  {
+    final Token tk = getToken(0);
+//    tk.kind = IDENTIFIER;
+    return tk;
+  }
+}
+
+/* JLS IdentifierChars: is in < IDENTIFIER > */
+
+/* JLS JavaLetter: is in < LETTER > */
+
+/* JLS JavaLetterOrDigit: is in < PART_LETTER > */
+
+/* JLS Literal and under: are in corresponding Tokens definitions */
+
+///* Covers JLS TypeIdentifier (JDK 10+) */
+//Token TypeIdentifier() :
+//{ Token tk; }
+//{
+//    (
+//      < IDENTIFIER >
+//    | "exports"
+//    | "module"
+////    | "non-sealed"
+//    | "open"
+//    | "opens"
+//    | "provides"
+//    | "requires"
+//    | "to"
+//    | "transitive"
+//    | "uses"
+//    | "when"
+//    | "with"
+//    | "EOF"
+//    | "IGNORE_CASE"
+//    | "JAVACODE"
+//    | "LOOKAHEAD"
+//    | "MORE"
+//    | "PARSER_BEGIN"
+//    | "PARSER_END"
+//    | "SKIP"
+//    | "SPECIAL_TOKEN"
+//    | "TOKEN"
+//    | "TOKEN_MGR_DECLS"
+//    )
+//    {
+//      tk = getToken(0);
+////      tk.kind = IDENTIFIER;
+//      return tk;
+//    }
+//  |
+//    (
+//      "permits"
+//    | "record"
+//    | "sealed"
+//    | "var"
+//    | "yield"
+//    )
+//    {
+//      tk = getToken(0);
+////      tk.kind = IDENTIFIER;
+//      semError(tk, "Contextual keyword " + tk.image + " not allowed here as a TypeIdentifier.");
+//      return tk;
+//    }
+//}
+
+/*
+ * Productions from §4 (Types, Values, and Variables). Cover some of §8 (Classes) for un-annotated types.
+ */
+
+/* Covers JLS Type & UnannType */
+void Type() :
+{}
+{
+    LOOKAHEAD( ReferenceType() ) // "@" <IDENTIFIER>
+    ReferenceType()
+  |
+    PrimitiveType()
+}
+
+/* Covers JLS PrimitiveType, NumericType, IntegralType, FloatingPointType & UnannPrimitiveType */
+void PrimitiveType() :
+{}
+{
+  // No annotation before a primitive type in JDK 7, only in JDK 8+
+  ( Annotation() )*
+  (
+  // in decreasing frequency order
+    "boolean"
+    // IntegralType
+  | "int"
+  | "char"
+  | "long"
+  | "byte"
+  | "short"
+    // FloatingPointType
+  | "float"
+  | "double"
+  )
+}
+
+/* JLS NumericType, IntegralType, FloatingPointType: are in PrimitiveType */
+
+/* Covers JLS ReferenceType & UnannReferenceType */
+void ReferenceType() :
+{}
+{
+    LOOKAHEAD( ArrayType() ) // "@" <IDENTIFIER>
+    ArrayType()
+  |
+    ClassOrInterfaceType()
+}
+
+/* Covers JLS ClassOrInterfaceType, ClassType, InterfaceType & UnannClassOrInterfaceType */
+void ClassOrInterfaceType() :
+{}
+{
+  TypeVariable()
+  [
+    LOOKAHEAD(1) // "<"
+    TypeArguments()
+  ]
+  (
+    "."
+    TypeVariable()
+   [
+      LOOKAHEAD(1) // "<"
+      TypeArguments()
+    ]
+  )*
+}
+
+/* JLS ClassType & InterfaceType: are in ClassOrInterfaceType */
+
+/* Covers JLS TypeVariable & UnannTypeVariable */
+void TypeVariable() :
+{}
+{
+  ( Annotation() )* JavaIdentifier()
+}
+
+/* Covers JLS ArrayType & UnannArrayType */
+void ArrayType() :
+{}
+{
+  (
+    LOOKAHEAD( PrimitiveType() ) // "@" <IDENTIFIER>
+    PrimitiveType()
+  |
+    ClassOrInterfaceType()
+  )
+  Dims()
+}
+
+/* Covers JLS Dims */
+void Dims() :
+{}
+{
+  (
+    LOOKAHEAD(1) // "["
+    ( Annotation() )*
+    "[" "]"
+  )+
+}
+
+/* Covers JLS TypeParameter */
+void TypeParameter() :
+{}
+{
+  TypeVariable()
+  [ TypeBound() ]
+}
+
+/* Covers JLS TypeBound */
+void TypeBound() :
+{}
+{
+  "extends"
+  ClassOrInterfaceType()
+  ( AdditionalBound() )*
+}
+
+/* Covers JLS AdditionalBound */
+void AdditionalBound() :
+{}
+{
+  "&" ClassOrInterfaceType()
+}
+
+/* Covers JLS TypeArguments */
+void TypeArguments() :
+{}
+{
+  "<"
+  TypeArgument()
+  (
+    "," TypeArgument()
+  )*
+  ">"
+}
+
+/* Covers JLS TypeArgumentsOrDiamond */
+void TypeArgumentsOrDiamond() :
+{}
+{
+  "<"
+  [
+    TypeArgument()
+    (
+      "," TypeArgument()
+    )*
+  ]
+  ">"
+}
+
+/* Covers JLS TypeArgument & Wildcard */
+void TypeArgument() :
+{}
+{
+    LOOKAHEAD(3) // "@" <IDENTIFIER>
+    ( Annotation() )*
+    "?"
+    [ WildcardBounds() ]
+  |
+    ReferenceType()
+}
+
+/* JLS Wildcard: is in TypeArgument */
+
+/* Covers JLS WildcardBounds */
+void WildcardBounds() :
+{}
+{
+  ( "extends" | "super") ReferenceType()
+}
+
+/*
+ * Productions from §6 (Names).
+ */
+
+/* Name covers JLS TypeName, PackageOrTypeName, ExpressionName, MethodName, PackageName, AmbiguousName */
+void Name() :
+{}
+{
+  JavaIdentifier()
+  (
+    LOOKAHEAD(2) // "."
+    "."
+    JavaIdentifier()
+  )*
+}
+
+/* JLS TypeName, PackageOrTypeName, ExpressionName, MethodName, PackageName, AmbiguousName: are in Name */
+
+/*
+ * Productions from §7 (Packages).
+ */
+
+/* Covers JLS CompilationUnit */
+void CompilationUnit() :
+{}
+{
+  [
+    LOOKAHEAD(2) // "@"
+    PackageDeclaration()
+  ]
+  ( ImportDeclaration() )*
+  ( TypeDeclaration() )*
+}
+
+/* Covers JLS PackageDeclaration & PackageModifier */
+void PackageDeclaration() :
+{}
+{
+  ( Annotation() )* // Eclipse says "Package annotations must be in file package-info.java"
+  "package" Name() ";"
+}
+
+/* JLS PackageModifier: is in PackageDeclaration */
+
+/* Covers JLS SingleTypeImportDeclaration, TypeImportOnDemandDeclaration,
+ *  SingleStaticImportDeclaration, StaticImportOnDemandDeclaration */
+void ImportDeclaration() :
+{}
+{
+  "import" [ "static" ] Name() [ "." "*" ] ";"
+}
+
+/* JLS SingleTypeImportDeclaration, TypeImportOnDemandDeclaration,
+ *  SingleStaticImportDeclaration, StaticImportOnDemandDeclaration: are in ImportDeclaration */
+
+/* Covers JLS TypeDeclaration
+ * JLS EnumDeclaration & AnnotationTypeDeclaration moved here from ClassOrInterfaceDeclaration */
+void TypeDeclaration() :
+{}
+{
+    ";"
+  |
+    { final Token first = getToken(1); final int mod; }
+    mod = Modifier()
+    (
+      { boolean isInterface = false; }
+      isInterface = ClassOrInterfaceDeclaration()
+      {
+        if (isInterface)
+          modError(mod, ModifierSet.InterfaceModifier, "InterfaceModifier", first);
+        else
+          modError(mod, ModifierSet.ClassModifier, "ClassModifier", first);
+      }
+    |
+      EnumDeclaration()
+      { modError(mod, ModifierSet.ClassModifier, "ClassModifier", first); }
+    |
+      AnnotationTypeDeclaration()
+      { modError(mod, ModifierSet.InterfaceModifier, "InterfaceModifier", first); }
+    )
+}
+
+
+/*
+ * Productions from §8 (Classes). Cover some of §9 (Interfaces) when not differentiated.
+ */
+
+/* Covers JLS ClassDeclaration, NormalClassDeclaration, InterfaceDeclaration & NormalInterfaceDeclaration
+ * JLS EnumDeclaration & AnnotationTypeDeclaration moved up to TypeDeclaration and AnnotationTypeMemberDeclaration */
+boolean ClassOrInterfaceDeclaration() :
+{ boolean isInterface = false; }
+{
+  (
+    "class"
+  |
+    "interface"
+    { isInterface = true; }
+  )
+  JavaIdentifier()
+  [ TypeParameters() ]
+  [ ExtendsList(isInterface) ]
+  [ ImplementsList(isInterface) ]
+  ClassOrInterfaceBody(isInterface)
+  { return isInterface; }
+}
+
+/* JLS ClassDeclaration & NormalClassDeclaration: are in ClassOrInterfaceDeclaration */
+
+
+/*
+ * This production matches all modifiers in a single rule to reduce the chances of syntax errors
+ *  for simple modifier mistakes. It also enables us to give better error messages. */
+/* Covers JLS ClassModifier, FieldModifier, MethodModifier, ConstructorModifier, InterfaceModifier,
+ *  ConstantModifier, InterfaceMethodModifier, AnnotationTypeElementModifier, VariableModifier.
+ * TypeParameterModifier, PackageModifier, EnumConstantModifier are inlined with Annotation.
+ * VariableModifier is distinct as it appears in places where it does not conflict with the others.
+ */
+int Modifier() :
+{ int modifiers = 0; }
+{
+ (
+  LOOKAHEAD(2) // "@"
+  // in decreasing frequency order
+  ( "public"       { modifiers |= ModifierSet.PUBLIC; }
+  | "static"       { modifiers |= ModifierSet.STATIC; }
+  | "final"        { modifiers |= ModifierSet.FINAL; }
+  | "private"      { modifiers |= ModifierSet.PRIVATE; }
+  | "protected"    { modifiers |= ModifierSet.PROTECTED; }
+  | "abstract"     { modifiers |= ModifierSet.ABSTRACT; }
+  | Annotation()   { modifiers |= ModifierSet.ANNOTATION; }
+  | "default"      { modifiers |= ModifierSet.DEFAULT; }
+  | "synchronized" { modifiers |= ModifierSet.SYNCHRONIZED; }
+  | "native"       { modifiers |= ModifierSet.NATIVE; }
+  | "transient"    { modifiers |= ModifierSet.TRANSIENT; }
+  | "volatile"     { modifiers |= ModifierSet.VOLATILE; }
+  | "strictfp"     { modifiers |= ModifierSet.STRICTFP; }
+  )
+ )*
+ { return modifiers; }
+}
+
+/* This production is the same as the previous one targeted for modifiers for a ClassDeclaration() within
+ * a BlockStatement() that must not take in account "default" which can be a switch label */
+int ModifierNoDefault() :
+{ int modifiers = 0; }
+{
+ (
+  // in decreasing frequency order
+  ( "public"       { modifiers |= ModifierSet.PUBLIC; }
+  | "static"       { modifiers |= ModifierSet.STATIC; }
+  | "final"        { modifiers |= ModifierSet.FINAL; }
+  | "private"      { modifiers |= ModifierSet.PRIVATE; }
+  | "protected"    { modifiers |= ModifierSet.PROTECTED; }
+  | "abstract"     { modifiers |= ModifierSet.ABSTRACT; }
+  | Annotation()   { modifiers |= ModifierSet.ANNOTATION; }
+//  | "default"      { modifiers |= ModifierSet.DEFAULT; }
+  | "synchronized" { modifiers |= ModifierSet.SYNCHRONIZED; }
+  | "native"       { modifiers |= ModifierSet.NATIVE; }
+  | "transient"    { modifiers |= ModifierSet.TRANSIENT; }
+  | "volatile"     { modifiers |= ModifierSet.VOLATILE; }
+  | "strictfp"     { modifiers |= ModifierSet.STRICTFP; }
+  )
+ )*
+ { return modifiers; }
+}
+
+/* JLS ClassModifier: is in Modifier */
+
+/* Covers JLS TypeParameters & TypeParameterList */
+void TypeParameters() :
+{}
+{
+  "<" TypeParameter() ( "," TypeParameter() )* ">"
+}
+
+/* JLS TypeParameterList: is in TypeParameters */
+
+/* Covers JLS SuperClass & ExtendsInterfaces */
+void ExtendsList(boolean isInterface) :
+{ boolean extendsMoreThanOne = false; Token tk = null; }
+{
+  "extends"
+  ClassOrInterfaceType()
+  (
+    ","
+    { tk = getToken(1); }
+    ClassOrInterfaceType()
+    { extendsMoreThanOne = true; }
+  )*
+  {
+    if (extendsMoreThanOne && !isInterface)
+      semError(tk, "A class cannot extend more than one other class.");
+  }
+}
+
+/* JLS SuperClass: is in ExtendsList */
+
+/* Covers JLS Superinterfaces */
+void ImplementsList(boolean isInterface) :
+{}
+{
+  { final Token tk = getToken(1); }
+  "implements"
+  ClassOrInterfaceType()
+  (
+    ","
+    ClassOrInterfaceType()
+  )*
+  {
+    if (isInterface)
+      semError(tk, "An interface cannot implement other interfaces.");
+  }
+}
+
+/* JLS Superinterfaces: is in ImplementsList */
+
+/* Covers JLS ClassBody & InterfaceBody */
+void ClassOrInterfaceBody(boolean isInInterface) :
+{}
+{
+  "{"
+  ( ClassOrInterfaceBodyDeclaration(isInInterface) )*
+  "}"
+}
+
+/* JLS ClassBody: is in ClassOrInterfaceBody */
+
+/* Covers JLS ClassBodyDeclaration, ClassMemberDeclaration & InterfaceMemberDeclaration
+ * JLS EnumDeclaration & AnnotationTypeDeclaration moved here from ClassOrInterfaceDeclaration */
+void ClassOrInterfaceBodyDeclaration(boolean isInInterface) :
+{}
+{
+    LOOKAHEAD(2) // "static"
+    { final Token tk = getToken(1); }
+    InstanceInitializer()
+    {
+      if (isInInterface)
+        semError(tk, "An interface cannot have initializers.");
+    }
+  |
+    { final Token first = getToken(1); final int mod; }
+    mod = Modifier()
+    (
+      LOOKAHEAD(2) // "@"
+      AnnotationTypeDeclaration()
+      { modError(mod, ModifierSet.InterfaceModifier, "InterfaceModifier", first); }
+    |
+      // don't lookahead too far
+      LOOKAHEAD( Type() VariableDeclaratorId() ( "=" | "," | ";") ) // "@" <IDENTIFIER>
+      FieldOrConstantDeclaration()
+      {
+        if (isInInterface)
+          modError(mod, ModifierSet.ConstantModifier, "ConstantModifier", first);
+        else
+          modError(mod, ModifierSet.FieldModifier, "FieldModifier", first);
+      }
+    |
+      // don't lookahead too far
+      LOOKAHEAD( [ TypeParameters() ] JavaIdentifier() "(" ) // "<" "@"
+      ConstructorDeclaration()
+      { modError(mod, ModifierSet.ConstructorModifier, "ConstructorModifier", first); }
+    |
+      // this would be needed if MethodDeclaration was before the two previous choices
+      // LOOKAHEAD( [ TypeParameters() ( Annotation() )* ] ResultType() MethodDeclarator() ) // "@" <IDENTIFIER>
+      MethodDeclaration()
+      {
+        if (isInInterface)
+          modError(mod, ModifierSet.InterfaceMethodModifier, "InterfaceMethodModifier", first);
+        else
+          modError(mod, ModifierSet.MethodModifier, "MethodModifier", first);
+      }
+    |
+      { boolean isIntf = false; }
+      isIntf = ClassOrInterfaceDeclaration()
+      {
+        if (isIntf)
+          modError(mod, ModifierSet.InterfaceModifier, "InterfaceModifier", first);
+          // not checked: only one of abstract, default or static
+        else
+          modError(mod, ModifierSet.ClassModifier, "ClassModifier", first);
+      }
+    |
+      EnumDeclaration()
+      { modError(mod, ModifierSet.ClassModifier, "ClassModifier", first); }
+    )
+  |
+    ";"
+}
+
+/* JLS ClassBodyDeclaration: is in ClassOrInterfaceBodyDeclaration */
+
+/* Covers JLS FieldDeclaration, ConstantDeclaration & VariableDeclaratorList */
+void FieldOrConstantDeclaration() :
+{}
+{
+  Type()
+  VariableDeclarator()
+  ( "," VariableDeclarator() )*
+  ";"
+}
+
+/* JLS FieldModifier: is Modifier */
+
+/* JLS VariableDeclaratorList: is FieldOrConstantDeclaration */
+
+/* Covers JLS VariableDeclarator */
+void VariableDeclarator() :
+{}
+{
+  VariableDeclaratorId()
+  [ "=" VariableInitializer() ]
+}
+
+/* Covers JLS VariableDeclaratorId */
+void VariableDeclaratorId() :
+{}
+{
+  JavaIdentifier()
+  [ Dims() ]
+}
+
+/* Covers JLS VariableInitializer */
+void VariableInitializer() :
+{}
+{
+    ArrayInitializer()
+  |
+    Expression()
+}
+
+/* JLS UnannType: is in Type */
+/* JLS UnannPrimitiveType: is in PrimitiveType */
+/* JLS UnannReferenceType: is in ReferenceType */
+/* JLS UnannClassOrInterfaceType, UnannClassType & UnannInterfaceType: are in ClassOrInterfaceType */
+/* JLS UnannTypeVariable: is in TypeVariable */
+/* JLS UnannArrayType: is in ArrayType */
+
+/* Covers JLS MethodDeclaration, MethodHeader, Throws, ExceptionTypeList, ExceptionType, MethodBody
+   & InterfaceMethodDeclaration */
+void MethodDeclaration() :
+{}
+{
+  [
+    TypeParameters()
+    (
+      LOOKAHEAD(2) // "@"
+      Annotation()
+    )*
+  ]
+  ResultType()
+  MethodDeclarator()
+  [ Throws() ]
+  (
+    Block()
+  |
+    ";"
+  )
+}
+
+/* JLS MethodModifier: is in Modifier */
+
+/* JLS MethodHeader: is in MethodDeclaration */
+
+/* Covers JLS Result */
+void ResultType() :
+{}
+{
+  (
+    "void"
+  |
+    Type()
+  )
+}
+
+/* Covers JLS MethodDeclarator */
+void MethodDeclarator() :
+{}
+{
+  JavaIdentifier()
+  "("
+  FormalParameterList()
+  ")"
+//  FormParList()
+  [ Dims() ]
+}
+
+/* Covers JLS FormalParameterList & FormalParameters */
+void FormalParameterList() :
+{
+  Token fptk = null, lfptk = null, rptk = null;
+  int place;
+  int placeRecPar = -1;
+  int placeLastFormPar = -1;
+  int nbFP = 0;
+}
+{
+  [
+    { fptk = getToken(1); }
+    place = FormalParameter()
+    {
+      nbFP++;
+      if (place == 1) placeRecPar = nbFP;
+      else if (place == 3) placeLastFormPar = nbFP;
+    }
+    (
+      ","
+      { fptk = getToken(1); }
+      place = FormalParameter()
+      {
+        nbFP++;
+        if (place == 1)
+        {
+          rptk = fptk;
+          placeRecPar = nbFP;
+        }
+        else if (place == 3)
+        {
+          if (placeLastFormPar != -1)
+            semError(lfptk, "Formal parameter #" + placeLastFormPar +
+                            " is a variable arity parameter (\"...\") but is not at the last place.");
+          lfptk = fptk;
+          placeLastFormPar = nbFP;
+        }
+      }
+    )*
+  ]
+  {
+    if (placeRecPar > 1)
+      semError(rptk, "Formal parameter #" + placeLastFormPar +
+                     " is a receiver parameter (\"this\") but is not at the first place.");
+    if (placeLastFormPar != -1 && placeLastFormPar < nbFP)
+      semError(lfptk, "Formal parameter #" + placeLastFormPar +
+                      " is a variable arity parameter (\"...\") but is not at the last place.");
+  }
+}
+
+/* JLS FormalParameters: is part in FormalParameterList and part in FormalParameter */
+
+/* Covers JSL FormalParameter, LastFormalParameter
+ * These 2 are merged here with control on the LastFormalParameter moved up in the caller:
+ *  trying to strictly follow the JLS grammar makes difficult to match the last parameter as a
+ *  LastFormalParameter and not a FormalParameter, because the last ',' in the list will, if the
+ *  grammar is written straightforwardly, be matched in FormatParameters and not above in FormalParameterList */
+int FormalParameter() :
+{ int place = 2; }
+{
+  (
+    LOOKAHEAD( ReceiverParameter() ) // "@" <IDENTIFIER>
+    ReceiverParameter()
+    { place = 1; }
+  |
+    (
+    VariableModifier()
+    Type()
+    [
+//      // for C++
+//      { Token t; }
+//      ( t = "&" | t = "*" )
+//      { if (!isAllowed(t)) throw new ParseException(t.image + " is invalid in this context"); }
+//    |
+      // for LastFormalParameter
+      "..."
+      { place = 3; }
+    ]
+    VariableDeclaratorId()
+    )
+  )
+  { return place; }
+}
+
+/* Covers JLS ReceiverParameter */
+void ReceiverParameter() :
+{}
+{
+  (
+    LOOKAHEAD(2) // "@"
+    Annotation()
+  ) *
+  Type()
+  [ JavaIdentifier() "." ]
+  "this"
+}
+
+/* FormParList(), FormParS(), FormPar(), LastFormPar() & RecPar() are the counterparts of the JLS
+ * FormalParameterList, FormalParameters, FormalParameter, LastFormalParameter, ReceiverParameter,
+ * and are another way to implement the grammar, with more lookaheads and less actions */
+// kept (as comments) for later performance comparison with the previous way.
+//void FormParList() :
+//{}
+//{
+//  "("
+//  [
+//    LOOKAHEAD( { laIsLastFormPar(false) } ) // "@" <IDENTIFIER>
+//    LastFormPar()
+//  |
+////    LOOKAHEAD( RecPar() ")" ) // "@" <IDENTIFIER>
+////    RecPar()
+////  |
+////    FormParS() "," LastFormPar()
+//    FormParS() [ "," LastFormPar() ]
+//  ]
+//  ")"
+//}
+//
+//void FormParS() :
+//{}
+//{
+//  (
+//    LOOKAHEAD( RecPar() ) // "@" <IDENTIFIER>
+//    RecPar()
+//  |
+//    FormPar()
+//  )
+//  (
+//    // the parameter must not be the last one,
+//    // as the last parameter must be matched in the 3rd choice of FormParList(
+//    LOOKAHEAD( { !laIsLastFormPar(true) } ) // ","
+//    ","
+//    FormPar()
+//  )*
+//}
+//
+//void FormPar() :
+//{}
+//{
+//  VariableModifier()
+//  Type()
+//  VariableDeclaratorId()
+//}
+//
+///* finding a ")" or a "..." before a "," will tell if it is a last formal parameter or not */
+//void LastFormPar() :
+//{}
+//{
+//  VariableModifier()
+//  Type()
+//  [
+//    ( Annotation() )*
+//    "..."
+//  ]
+//  VariableDeclaratorId()
+//}
+//
+///* "this" will tell it is a receiver parameter */
+//void RecPar() :
+//{}
+//{
+//  (
+//    LOOKAHEAD(2) // "@"
+//    Annotation()
+//  ) *
+//  Type()
+//  [ JavaIdentifier() "." ]
+//  "this"
+//}
+
+/* Covers JLS Throws, ExceptionTypeList & ExceptionType */
+void Throws() :
+{}
+{
+  "throws" ClassOrInterfaceType() ( "," ClassOrInterfaceType() )*
+}
+
+/* Covers JLS VariableModifier */
+int VariableModifier() :
+{ int modifiers = 0; }
+{
+ (
+  LOOKAHEAD(2) // "@"
+  (
+    "final"         { modifiers |= ModifierSet.FINAL; }
+  |
+    Annotation()
+  )
+ )*
+ { return modifiers; }
+}
+
+/* JLS LastFormalParameter & ReceiverParameter: are in FormalParameter */
+/* JLS MethodBody: is in MethodDeclaration */
+
+/* Covers JLS InstanceInitializer & StaticInitializer */
+void InstanceInitializer() :
+{}
+{
+  [ "static" ] Block()
+}
+
+/* JLS StaticInitializer: is in InstanceInitializer */
+
+/* Covers JLS ConstructorDeclaration, ConstructorDeclarator, SimpleTypeName & ConstructorBody */
+void ConstructorDeclaration() :
+{}
+{
+  [ TypeParameters() ]
+  JavaIdentifier()
+  "("
+  FormalParameterList()
+  ")"
+//  FormParList()
+  [ Throws() ]
+  "{"
+  [
+    LOOKAHEAD( ExplicitConstructorInvocation() ) // "this"
+    ExplicitConstructorInvocation()
+  ]
+  ( BlockStatement() )*
+  "}"
+}
+
+/* JLS ConstructorModifier: is in Modifier */
+/* JLS ConstructorDeclarator, SimpleTypeName & ConstructorBody: are in ConstructorDeclaration */
+
+/* Covers JLS ExplicitConstructorInvocation */
+void ExplicitConstructorInvocation() :
+{}
+{
+  (
+    LOOKAHEAD( [ TypeArguments() ] ( "this" | "super" ) ) // "this"
+    [ TypeArguments() ]
+    (      "this"
+    |
+      "super"
+    )
+  |
+//    (
+//      // ExpressionName, included in Name() in Primary() / PrimaryPrefix()
+//      JavaIdentifier()
+//      (
+//        LOOKAHEAD(2) // "."
+//        "." JavaIdentifier()
+//      )*
+//    |
+    // Primary() / PrimarySuffix() includes "." TypeArguments() JavaIdentifier()
+    Primary()
+//    )
+    "."
+    [ TypeArguments() ]
+    "super"
+  )
+  ParenthesizedArgumentList() ";"
+}
+
+/* Covers JLS EnumDeclaration, EnumBody, EnumConstantList & EnumBodyDeclarations */
+void EnumDeclaration() :
+{}
+{
+  "enum" JavaIdentifier() [ ImplementsList(false) ]
+  "{"
+  [
+    EnumConstant()
+    (
+      LOOKAHEAD(2) // ","
+      ","
+      EnumConstant()
+    )*
+  ]
+  [ "," ]
+  [ ";" ( ClassOrInterfaceBodyDeclaration(false) )* ]
+  "}"
+}
+
+/* JLS EnumBody & EnumConstantList: are in EnumDeclaration */
+
+/* Covers JLS EnumConstant & EnumConstantModifier */
+void EnumConstant() :
+{}
+{
+  TypeVariable()
+  [ ParenthesizedArgumentList() ]
+  [ ClassOrInterfaceBody(false) ]
+}
+
+/* JLS EnumConstantModifier: is in EnumConstant */
+
+/* JLS EnumBodyDeclarations: is in EnumDeclaration */
+
+
+/*
+ * Productions from §9 (Interfaces).
+ */
+
+/* JLS InterfaceDeclaration, NormalInterfaceDeclaration: are in ClassOrInterfaceDeclaration */
+/* JLS InterfaceModifier: is in Modifier */
+/* JLS ExtendsInterfaces: is in ExtendsList */
+/* JLS InterfaceBody: is in ClassOrInterfaceBody */
+/* JLS InterfaceMemberDeclaration: is in ClassOrInterfaceBody */
+/* JLS ConstantDeclaration: is in FieldOrConstantDeclaration */
+/* JLS ConstantModifier: is in Modifier */
+/* JLS InterfaceMethodDeclaration: is in MethodDeclaration */
+/* JLS InterfaceMethodModifier: is in Modifier */
+
+/* Covers JLS AnnotationTypeDeclaration */
+void AnnotationTypeDeclaration() :
+{}
+{
+  "@"
+  "interface"
+  JavaIdentifier()
+  AnnotationTypeBody()
+}
+
+/* Covers JLS AnnotationTypeBody */
+void AnnotationTypeBody() :
+{}
+{
+  "{"
+  ( AnnotationTypeMemberDeclaration() )*
+  "}"
+}
+
+/* Covers JLS AnnotationTypeMemberDeclaration, AnnotationTypeElementDeclaration & AnnotationTypeElementModifier
+ * JLS EnumDeclaration & AnnotationTypeDeclaration moved here from ClassOrInterfaceDeclaration */
+void AnnotationTypeMemberDeclaration() :
+{}
+{
+    { final Token first = getToken(1); final int mod; }
+    mod = Modifier()
+    (
+      // AnnotationTypeElementDeclaration
+      LOOKAHEAD(3) // @" <IDENTIFIER>
+      Type()
+      JavaIdentifier()
+      "("
+      ")"
+      [
+        Dims()
+        { semError(getToken(0), "Extended dimensions are illegal in an annotation attribute declaration."); }
+      ]
+      [ DefaultValue() ]
+      ";"
+      { modError(mod, ModifierSet.AnnotationTypeElementModifier, "AnnotationTypeElementModifier", first); }
+    |
+      { boolean isInterface = false; }
+      isInterface = ClassOrInterfaceDeclaration()
+      {
+        if (isInterface)
+          modError(mod, ModifierSet.InterfaceModifier, "InterfaceModifier", first);
+        else
+          modError(mod, ModifierSet.ClassModifier, "ClassModifier", first);
+      }
+    |
+      EnumDeclaration()
+      { modError(mod, ModifierSet.ClassModifier, "ClassModifier", first); }
+    |
+      LOOKAHEAD(2) // @"
+      AnnotationTypeDeclaration()
+      { modError(mod, ModifierSet.InterfaceModifier, "InterfaceModifier", first); }
+    |
+      FieldOrConstantDeclaration()
+      {
+        // here in AnnotationTypeMemberDeclaration it can be only a ConstantDeclaration
+        modError(mod, ModifierSet.ConstantModifier, "ConstantModifier", first);
+      }
+    )
+  |
+    ";"
+}
+
+/* JLS AnnotationTypeElementModifier: is in Modifier */
+
+/* Covers JLS DefaultValue */
+void DefaultValue() :
+{}
+{
+  "default" ElementValue()
+}
+
+/* Covers JLS Annotation, NormalAnnotation & ElementValuePairList & ElementValuePair, MarkerAnnotation & SingleElementAnnotation */
+void Annotation() :
+{}
+{
+  "@" Name()
+  [
+    "("
+    (
+       // NormalAnnotation
+      LOOKAHEAD(2) // <IDENTIFIER>
+      JavaIdentifier()
+      "="
+      ElementValue()
+      (
+        ","
+        JavaIdentifier()
+        "="
+        ElementValue()
+      )*
+    |
+      ElementValue() // SingleElementAnnotation
+    )?
+    ")"
+  ] // MarkerAnnotation if none
+}
+
+/* Covers JLS ElementValue */
+void ElementValue() :
+{}
+{
+    LOOKAHEAD(3) // "@" <IDENTIFIER>
+    Annotation()
+  |
+    ElementValueArrayInitializer()
+  |
+    ConditionalExpression()
+}
+
+/* Covers JLS ElementValueArrayInitializer & ElementValueList */
+void  ElementValueArrayInitializer() :
+{}
+{
+  "{"
+  [
+    ElementValue()
+    (
+      LOOKAHEAD(2) // ","
+      ","
+      ElementValue()
+    )*
+    [ "," ]
+  ]
+  "}"
+}
+
+/* Covers JLS ArrayInitializer & VariableInitializerList */
+void ArrayInitializer() :
+{}
+{
+  "{"
+  [
+    VariableInitializer()
+    (
+      LOOKAHEAD(2) // ","
+      ","
+      VariableInitializer()
+    )*
+  ]
+  [ "," ]
+  "}"
+}
+
+/* JLS VariableInitializerList: is in ArrayInitializer */
+
+
+/*
+ * Productions from §14 (Blocks and Statements).
+ */
+
+/* Covers JLS Block & BlockStatements */
+void Block() :
+{}
+{
+  "{"
+  ( BlockStatement() )*
+  "}"
+}
+
+/* JLS BlockStatements: is in Block */
+
+/* Covers JLS BlockStatement & LocalVariableDeclarationStatement */
+void BlockStatement() :
+{}
+{
+  (
+    /* JLS LocalVariableDeclarationStatement */
+    // don't lookahead too far
+    LOOKAHEAD( VariableModifier() Type() VariableDeclaratorId() ( "=" | "," | ";") ) // "@" <IDENTIFIER>
+    LocalVariableDeclaration()
+    ";"
+  |
+    /* JLS ClassDeclaration */
+    // a "default" in a "switch" must not be matched here
+    LOOKAHEAD( ModifierNoDefault() ( "class" | "interface" ) ) // "@" <IDENTIFIER>
+    { final Token first = getToken(1); final int mod; }
+    mod = ModifierNoDefault()
+    {
+      modError(mod, ModifierSet.LocalClassDeclarationModifier, "LocalClassDeclarationModifier", first);
+      boolean isInterface = false;
+      Token tk = getToken(1);
+    }
+    isInterface = ClassOrInterfaceDeclaration()
+    { if (isInterface) semError(tk, "An interface cannot be defined in a method."); }
+  |
+    /* JLS Statement */
+    // javacc emits a warning on a choice conflict between the previous choice and this one, but this happens
+    //  because it goes down to TypeVariable() (StatementExpression / Primary / PrimaryPrefix / ResultType /
+    //  Type / ReferenceType / ClassOrInterfaceType / TypeVariable) which has annotations,
+    //  but here it should be just an UnannTypeVariable with no modifier
+    Statement()
+  )
+}
+
+/* JLS LocalVariableDeclarationStatement: is in BlockStatement */
+
+/* Covers JLS LocalVariableDeclaration & VariableDeclaratorList */
+void LocalVariableDeclaration() :
+{}
+{
+  VariableModifier() Type() VariableDeclarator() ( "," VariableDeclarator() )*
+}
+
+/* Covers JLS Statement, StatementWithoutTrailingSubstatement, StatementNoShortIf & ExpressionStatement */
+void Statement() :
+{}
+{
+    LOOKAHEAD( { getToken(2).kind == COLON } ) // <IDENTIFIER>
+    LabeledStatement()
+  // should be in decreasing frequency order (for jj_3R_Statement...())
+  | IfStatement()
+  | Block()
+  | ReturnStatement()
+  | ForStatement()
+  | BreakStatement()
+  | SwitchStatement()
+  | TryStatement()
+  | WhileStatement()
+  | ThrowStatement()
+  | DoStatement()
+  | ContinueStatement()
+  | EmptyStatement()
+  | SynchronizedStatement()
+  | AssertStatement()
+
+  | StatementExpression() ";"
+}
+
+/* JLS StatementNoShortIf: is in Statement (in fact, avoided: the last 4 JLS of its JLS specification
+ *  (LabeledStatementNoShortIf, IfThenElseStatementNoShortIf, WhileStatementNoShortIf, ForStatementNoShortIf)
+ *  are for not allowing 2 consecutive else, but this feature is naturally handled by JavaCC */
+
+/* JLS StatementWithoutTrailingSubstatement: is in Statement */
+
+/* Covers JLS AssertStatement */
+void AssertStatement() :
+{}
+{
+  "assert" Expression() [ ":" Expression() ] ";"
+}
+
+/* Covers JLS BreakStatement */
+void BreakStatement() :
+{}
+{
+  "break" [ JavaIdentifier() ] ";"
+}
+
+/* Covers JLS ContinueStatement */
+void ContinueStatement() :
+{}
+{
+  "continue" [ JavaIdentifier() ] ";"
+}
+
+/* Covers JLS DoStatement  */
+void DoStatement() :
+{}
+{
+  "do" Statement() "while" "(" Expression() ")" ";"
+}
+
+/* Covers JLS EmptyStatement */
+void EmptyStatement() :
+{}
+{
+  ";"
+}
+
+/* JLS ExpressionStatement: is in Statement */
+
+/* Covers JLS ForStatement, ForStatementNoShortIf, BasicForStatement, BasicForStatementNoShortIf,
+ * EnhancedForStatement & EnhancedForStatementNoShortIf */
+void ForStatement() :
+{}
+{
+  "for" "("
+  (
+    LOOKAHEAD( VariableModifier() Type() VariableDeclaratorId() ":" ) // "@" <IDENTIFIER>
+    VariableModifier() Type() VariableDeclaratorId() ":" Expression()
+  |
+    [ ForInit() ] ";" [ Expression() ] ";" [ ForUpdate() ]
+  )
+  ")"
+  Statement()
+}
+
+/* JLS ForStatementNoShortIf, BasicForStatement, BasicForStatementNoShortIf, EnhancedForStatement
+ *  & EnhancedForStatementNoShortIf: are in ForStatement */
+
+/* Covers JLS ForInit */
+void ForInit() :
+{}
+{
+    // don't lookahead too far
+    LOOKAHEAD( VariableModifier() Type() VariableDeclaratorId() ( "=" | "," | ";") ) // "@" <IDENTIFIER>
+    LocalVariableDeclaration()
+  |
+    StatementExpressionList()
+}
+
+/* Covers JLS ForUpdate */
+void ForUpdate() :
+{}
+{
+  StatementExpressionList()
+}
+
+/* Covers JLS StatementExpressionList */
+void StatementExpressionList() :
+{}
+{
+  StatementExpression() ( "," StatementExpression() )*
+}
+
+/* Covers JLS IfThenStatement, IfThenElseStatement & IfThenElseStatementNoShortIf */
+void IfStatement() :
+{}
+/*
+ * The disambiguating algorithm of JavaCC automatically binds dangling else's to the innermost if statement.
+ * The LOOKAHEAD specification is to tell JavaCC that we know what we are doing.
+ */
+{
+  "if" "(" Expression() ")" Statement() [ LOOKAHEAD(1) "else" Statement() ]
+}
+
+/* JLS IfThenStatement, IfThenElseStatement & IfThenElseStatementNoShortIf: are in IfStatement */
+
+/* Covers JLS LabeledStatement & LabeledStatementNoShortIf */
+void LabeledStatement() :
+{}
+{
+  JavaIdentifier() ":" Statement()
+}
+
+/* Covers JLS ReturnStatement */
+void ReturnStatement() :
+{
+//  Token tk;
+}
+{
+//  tk =
+  "return"
+//  {
+//    // Add if statement to prevent subsequent code generated from being dead code.
+//    // NB : eclipse now detects 'if (true)' as dead code, so use the more complicated
+//    // 'if ("" != null)'
+//    if (inAction && (Options.isLegacyExceptionHandling()) ) {
+//      tk.image = "{if (\"\" != null) return";
+//      jumpPatched = true;
+//    }
+//  }
+  [ Expression() ]
+//  tk =
+  ";"
+//  {
+//    // Add closing brace for above if statement.
+//    if (inAction && (Options.isLegacyExceptionHandling())) {
+//      tk.image = ";}";
+//    }
+//  }
+}
+
+/* Covers JLS SwitchStatement, SwitchBlock, SwitchBlockStatementGroup & SwitchLabels */
+void SwitchStatement() :
+{}
+{
+  "switch" "(" Expression() ")"
+  "{" ( SwitchLabel() ( BlockStatement() )* )* "}"
+}
+
+/* JLS StatementWithoutTrailingSubstatement: is in Statement */
+
+/* Covers JLS SwitchLabel, ConstantExpression & EnumConstantName */
+void SwitchLabel() :
+{}
+{
+    /* JLS ConstantExpression / EnumConstantName */
+    "case" Expression() ":"
+  |
+    "default" ":"
+}
+
+/* JLS EnumConstantName: is Identifier matched in Expression */
+
+/* JLS SwitchBlock, SwitchBlockStatementGroup & SwitchLabels: are in SwitchStatement */
+
+/* Covers JLS SynchronizedStatement */
+void SynchronizedStatement() :
+{}
+{
+  "synchronized" "(" Expression() ")" Block()
+}
+
+/* Covers JLS ThrowStatement */
+void ThrowStatement() :
+{
+//  Token tk;
+}
+{
+//  tk =
+  "throw"
+//  {
+//    // Add if statement to prevent subsequent code generated.
+//    // from being dead code.
+//    if (inAction) {
+//      tk.image = "{if (true) throw";
+//      jumpPatched = true;
+//    }
+//  }
+  Expression()
+//  t =
+  ";"
+//  {
+//    // Add closing brace for above if statement.
+//    if (inAction) {
+//      tk.image = ";}";
+//    }
+//  }
+}
+
+/* Covers JLS TryStatement, TryWithResourcesStatement, Catches, CatchClause, Finally & ResourceSpecification */
+void TryStatement() :
+{}
+{
+  {
+    boolean empty = true;
+    final Token tk = getToken(1);
+  }
+  "try"
+  [ /* JLS ResourceSpecification */
+    "("
+    ResourceDeclaration()
+    (
+      LOOKAHEAD(2) // ";"
+      ";"
+      ResourceDeclaration()
+    )*
+    ( ";" )?
+    ")"
+    { empty = false; }
+  ]
+  Block()
+  ( "catch" "(" CatchFormalParameter() ")" Block() { empty = false; } )*
+  [ "finally" Block() { empty = false; } ]
+
+  {
+    if (empty)
+      semError(tk, "At least one catch or finally block expected.");
+  }
+}
+
+/* Covers JLS Resource */
+void ResourceDeclaration() :
+{}
+{
+  VariableModifier()
+  Type()
+  VariableDeclaratorId()
+  "="
+  Expression()
+}
+
+/* Covers JLS CatchFormalParameter */
+void CatchFormalParameter() :
+{}
+{
+  (
+    LOOKAHEAD(2) // "@"
+    Annotation()
+  )*
+  [ "final" ]
+  Type()
+  ( "|" Type() )*
+  VariableDeclaratorId()
+}
+
+/* Covers JLS WhileStatement & WhileStatementNoShortIf */
+void WhileStatement() :
+{}
+{
+  "while" "(" Expression() ")" Statement()
+}
+
+/* JLS WhileStatementNoShortIf: is WhileStatement */
+
+/* Covers JLS StatementExpression, Assignment, PostIncrementExpression, PostDecrementExpression,
+ *  MethodInvocation & ClassInstanceCreationExpression */
+void StatementExpression() :
+{}
+/*
+ * The last expansion of this production accepts more than the legal Java expansions for StatementExpression.
+ * This expansion does not use PostfixExpression for performance reasons.
+ */
+{
+  (    PreIncrementExpression()
+  |
+    PreDecrementExpression()
+  |
+    Primary()
+    [
+      "++"
+    |
+      "--"
+    |
+      AssignmentOperator() Expression()
+    ]
+  )
+}
+
+
+/*
+ * Productions from §15 (Expressions).
+ */
+
+/* Covers JLS Primary, PrimaryNoNewArray, ArrayCreationExpression */
+void Primary() :
+{}
+{
+  PrimaryPrefix()
+  (
+    LOOKAHEAD( { laIsPrimarySuffix() } ) // "."
+    PrimarySuffix()
+  )*
+}
+
+/* Covers part of JLS Primary, PrimaryNoNewArray, ArrayCreationExpression, ClassInstanceCreationExpression,
+ *  FieldAccess, ArrayAccess, MethodInvocation & MethodReference */
+void PrimaryPrefix() :
+{}
+{
+    /* JLS this */
+    "this"
+  |
+    /* JLS part of FieldAccess, MethodInvocation & MethodReference */
+    LOOKAHEAD( [ Name() "." ] "super" ( "." | "::" ) ) // <IDENTIFIER> "."
+    [
+      /* JLS part of FieldAccess */
+      Name()
+      "."
+    ]
+    "super"
+    (
+      /* JLS part of FieldAccess, MethodInvocation */
+      "."
+    |
+      /* JLS part of MethodReference */
+      "::"
+      [ TypeArguments() ]
+    )
+    JavaIdentifier()
+  |
+    /* JLS ( Expression ) */
+    "(" Expression() ")"
+  |
+    /* JLS part of ClassInstanceCreationExpression & ArrayCreationExpression */
+    AllocationExpression()
+  |
+    /* JLS ClassLiteral */
+    LOOKAHEAD( ClassLiteral() ) // <IDENTIFIER> "."
+    ClassLiteral()
+  |
+    /* JLS Literal */
+    Literal()
+  |
+    /* JLS part of MethodReference */
+    LOOKAHEAD( ReferenceType() "::" ) // <IDENTIFIER> "."
+    ReferenceType()
+    "::"
+    [ TypeArguments() ]
+    (
+      JavaIdentifier()
+    |
+      "new"
+    )
+  |
+    /* JLS part of MethodInvocation & ArrayAccess */
+    Name()
+}
+
+/* Covers part of JLS Primary, PrimaryNoNewArray, ArrayCreationExpression, UnqualifiedClassInstanceCreationExpression */
+void PrimarySuffix() :
+{}
+{
+    "."
+    (
+      "this"
+    |
+      /* JLS UnqualifiedClassInstanceCreationExpression after ExpressionName or Primary */
+      AllocationExpression()
+    |
+      /* JLS part of FieldAccess after Primary . (?) */
+      JavaIdentifier()
+    |
+      TypeArguments()
+      JavaIdentifier()
+    )
+  |
+    /* JLS part of ArrayAccess */
+    "[" Expression() "]"
+  |
+    /* JLS part of MethodInvocation */
+    ParenthesizedArgumentList()
+}
+
+/* Covers JLS ClassLiteral */
+void ClassLiteral() :
+{}
+{
+  (
+    (
+      Name()
+    // in decreasing frequency order
+    | "boolean"
+    | "int"
+    | "char"
+    | "long"
+    | "byte"
+    | "short"
+    | "float"
+    | "double"
+    )
+    ( "[" "]" )*
+  |
+    "void"
+  )
+  "."
+  "class"
+}
+
+/* Covers JLS Literal */
+void Literal() :
+{}
+{
+    <INTEGER_LITERAL>
+  | <FLOATING_POINT_LITERAL>
+  | <CHARACTER_LITERAL>
+  | <STRING_LITERAL>
+  | BooleanLiteral()
+  | NullLiteral()
+}
+
+///* Covers JLS IntegerLiteral */
+//int IntegerLiteral() :
+//{}
+//{
+//  <INTEGER_LITERAL>
+//  {
+//    try {
+//      return Integer.parseInt(token.image);
+//    } catch (NumberFormatException e) {
+//      throw new Error();
+//    }
+//  }
+//}
+
+/* Covers JLS BooleanLiteral */
+boolean BooleanLiteral() :
+{}
+{
+    "true"  { return true; }
+  |
+    "false" { return false; }
+  }
+
+//String StringLiteral() :
+//{ Token tk; }
+//{
+//  tk = <STRING_LITERAL>
+//  {
+////    return remove_escapes_and_quotes(tk, tk.image);
+//    return tk.image;
+//  }
+//}
+
+/* Covers JLS NullLiteral */
+void NullLiteral() :
+{}
+{
+  "null"
+}
+
+/* Covers JLS ArgumentList (with its surrounding parentheses) */
+void ParenthesizedArgumentList() :
+{}
+{
+  "("
+  [ Expression() ( "," Expression() )* ]
+  ")"
+}
+
+/* We use productions to match >>>, >> and > so that we can keep the
+ * type declaration syntax with generics clean. TODO remove GTToken
+ */
+
+void RUNSIGNEDSHIFT() :
+{}
+{
+  LOOKAHEAD( { getToken(1).kind == GT &&
+               ((Token.GTToken) getToken(1)).realKind == RUNSIGNEDSHIFT} ) // no warning
+  ">" ">" ">"
+}
+
+void RSIGNEDSHIFT() :
+{}
+{
+  LOOKAHEAD( { getToken(1).kind == GT &&
+               ((Token.GTToken) getToken(1)).realKind == RSIGNEDSHIFT} ) // no warning
+  ">" ">"
+}
+
+/* Covers JLS Expression & AssignmentExpression */
+void Expression() :
+{}
+{
+    /* JLS LambdaExpression */
+    // don't lookahead too far
+    LOOKAHEAD( LambdaParameters() "->" ) // "(" <IDENTIFIER>
+    LambdaExpression()
+  |
+    /* JLS AssignmentExpression */
+/*
+ * This part has been written this way instead of Assignment() | ConditionalExpression()
+ *  for performance reasons.
+ * However, it is a weakening of the grammar for it allows the LHS of assignments
+ *  to be any conditional expression whereas it can only be a primary expression.
+ * Consider adding a semantic predicate to work around this.
+ */
+    ConditionalExpression()
+    [
+      LOOKAHEAD(2) // "="
+      AssignmentOperator()
+      Expression()
+    ]
+}
+
+/* Covers JLS LambdaExpression */
+void LambdaExpression() :
+{}
+{
+  LambdaParameters() "->" LambdaBody()
+}
+
+/* Covers JLS LambdaParameters & InferredFormalParameterList */
+void LambdaParameters() :
+{}
+{
+    JavaIdentifier()
+  |
+    "("
+    (
+      /* JLS InferredFormalParameterList */
+      // don't lookahead too far      LOOKAHEAD( JavaIdentifier() ( "," | ")" ) ) // <IDENTIFIER>
+      JavaIdentifier()
+      ( "," JavaIdentifier() )*
+      ")"
+    |
+      FormalParameterList() // can be empty
+      ")"
+    )
+    // need to distribute the ")" in the choice above for a (javacc generation) obscure reason...
+    // (that looks to be linked with the fact that the ")" is in the syntactic lookahead)
+    //    ")"
+}
+
+/* Covers JLS LambdaBody */
+void LambdaBody() :
+{}
+{
+    Expression()
+  |
+    Block()
+}
+
+/* JLS AssignmentExpression, Assignment & LeftHandSide are in Expression */
+
+/* Covers JLS AssignmentOperator */
+void AssignmentOperator() :
+{}
+{
+  // in decreasing frequency order
+  "=" | "+=" | "-=" | "&=" | "^=" | "|=" | "*=" | "/=" | "%=" | "<<=" | ">>=" | ">>>="
+}
+
+/* Covers JLS ConditionalExpression */
+void ConditionalExpression() :
+{}
+{
+  ConditionalOrExpression()
+  [
+    LOOKAHEAD(1) // "?"
+    "?"
+    Expression()
+    ":"
+    (
+      // don't lookahead too far
+      LOOKAHEAD( LambdaParameters() "->" ) // "(" <IDENTIFIER>      LambdaExpression()
+    |
+      ConditionalExpression()
+    )
+  ]
+}
+
+/* Covers JLS ConditionalOrExpression */
+void ConditionalOrExpression() :
+{}
+{
+  ConditionalAndExpression()
+  (
+    LOOKAHEAD(1) // "||"
+    "||" ConditionalAndExpression()
+  )*
+}
+
+/* Covers JLS ConditionalAndExpression */
+void ConditionalAndExpression() :
+{}
+{
+  InclusiveOrExpression()
+  (
+    LOOKAHEAD(1) // "&&"
+    "&&" InclusiveOrExpression()
+  )*
+}
+
+/* Covers JLS InclusiveOrExpression */
+void InclusiveOrExpression() :
+{}
+{
+  ExclusiveOrExpression()
+  (
+    LOOKAHEAD(1) // "|"
+    "|" ExclusiveOrExpression()
+  )*
+}
+
+/* Covers JLS ExclusiveOrExpression */
+void ExclusiveOrExpression() :
+{}
+{
+  AndExpression()
+  (
+    LOOKAHEAD(1) // "^"
+    "^" AndExpression()
+  )*
+}
+
+/* Covers JLS AndExpression */
+void AndExpression() :
+{}
+{
+  EqualityExpression()
+  (
+    LOOKAHEAD(1) // "&"
+    "&" EqualityExpression()
+  )*
+}
+
+/* Covers JLS EqualityExpression */
+void EqualityExpression() :
+{}
+{
+  InstanceOfExpression()
+  (
+    LOOKAHEAD(1) // "=="
+    ( "==" | "!=" )
+    InstanceOfExpression()
+  )*
+}
+
+/* Covers JLS last of RelationalExpression, used when transforming the self recursive RelationalExpression */
+void InstanceOfExpression() :
+{}
+{
+  RelationalExpression()
+  [
+    LOOKAHEAD(1) // "instanceof"
+    "instanceof" Type()
+  ]
+}
+
+/* Covers JLS RelationalExpression */
+void RelationalExpression() :
+{}
+{
+  ShiftExpression()
+  (
+    LOOKAHEAD(1) // "<"
+    ( "<" | ">" | "<=" | ">=" )
+    ShiftExpression()
+  )*
+}
+
+/* Covers JLS ShiftExpression */
+void ShiftExpression() :
+{}
+{
+  AdditiveExpression()
+  (
+    // LA warning : "<< ", but no LA seems to work, may be because the semantic LA in the 2 productions
+    LOOKAHEAD(1) // "<<"
+    (
+      < LSHIFT : "<<" >
+    |
+      RSIGNEDSHIFT()
+    |
+      RUNSIGNEDSHIFT()
+    )
+    AdditiveExpression()
+  )*
+}
+
+/* Covers JLS AdditiveExpression */
+void AdditiveExpression() :
+{}
+{
+  MultiplicativeExpression()
+  (
+    LOOKAHEAD(1) // "+"
+    ( "+" | "-" )
+    MultiplicativeExpression()
+  )*
+}
+
+/* Covers JLS MultiplicativeExpression */
+void MultiplicativeExpression() :
+{}
+{
+  UnaryExpression()
+  (
+    LOOKAHEAD(1) // "*"
+    ( "*" | "/" | "%" )
+    UnaryExpression()
+  )*
+}
+
+/* Covers JLS UnaryExpression */
+void UnaryExpression() :
+{}
+{
+    ( "+" | "-" ) UnaryExpression()
+  |
+    PreIncrementExpression()
+  |
+    PreDecrementExpression()
+  |
+    UnaryExpressionNotPlusMinus()
+}
+
+/* Covers JLS PreIncrementExpression */
+void PreIncrementExpression() :
+{}
+{
+  "++" Primary()
+}
+
+/* Covers JLS PreDecrementExpression */
+void PreDecrementExpression() :
+{}
+{
+  "--" Primary()
+}
+
+/* Covers JLS UnaryExpressionNotPlusMinus */
+void UnaryExpressionNotPlusMinus() :
+{}
+{
+    ( "~" | "!" ) UnaryExpression()
+  |
+    // shorter lookahead wanted!
+    LOOKAHEAD( CastExpression() ) // "(" "@"
+    CastExpression()
+  |
+    PostfixExpression()
+}
+
+/* Covers JLS PostfixExpression, PostIncrementExpression & PostDecrementExpression */
+void PostfixExpression() :
+{}
+{
+  // well, the usual recursive calls transformation would lead to ( )* instead of [ ],
+  //  but we should not accept more than one occurrence, like ++ ++, as the result of the postfix
+  //  increment or decrement expression is a value, not a variable
+  // ExpressionName is included in Name which is included in Primary / PrimaryPrefix
+  Primary() [ "++" | "--" ]
+}
+
+/* Covers JLS CastExpression */
+void CastExpression() :
+{}
+{
+  "("
+  (
+    // don't lookahead too far
+    LOOKAHEAD( PrimitiveType() ")" ) // "@" <IDENTIFIER>
+    PrimitiveType()
+    ")"
+    UnaryExpression()
+  |
+    ReferenceType()
+    (
+      "&"
+      ClassOrInterfaceType()    )*
+    ")"
+    (
+      // don't lookahead too far
+      LOOKAHEAD( LambdaParameters() "->" ) // "(" "@")      LambdaExpression()
+    |
+      UnaryExpressionNotPlusMinus()
+    )
+  )
+}
+
+/* Covers JLS ArrayCreationExpression, ArrayCreationExpressionWithoutInitializer,
+ * ArrayCreationExpressionWithInitializer & UnqualifiedClassInstanceCreationExpression */
+void AllocationExpression() :
+{}
+{
+  "new"
+  (
+    /* JLS UnqualifiedClassInstanceCreationExpression & ClassOrInterfaceTypeToInstantiate */
+    // don't lookahead too far
+    LOOKAHEAD( TypeVariable() ( "." TypeVariable() )* [ TypeArgumentsOrDiamond() ] "(" ) // "@" <IDENTIFIER>
+    TypeVariable()
+    ( "." TypeVariable() )*
+    [ TypeArgumentsOrDiamond() ]
+    ParenthesizedArgumentList()
+    [ ClassOrInterfaceBody(false) ]
+  |
+    /* JLS ArrayCreationExpression */
+    (
+      LOOKAHEAD( PrimitiveType() ) // "@" <IDENTIFIER>
+      PrimitiveType()
+    |
+      ClassOrInterfaceType()
+    )
+     /* JLS DimExprs [Dims] | Dims ArrayInitializer */
+    ArrayDimsAndInits()
+  )
+}
+
+/* Covers JLS DimExprs, DimExpr */
+void ArrayDimsAndInits() :
+{}
+{
+    // DimExprs [Dims]
+    LOOKAHEAD( { laIsDimExprs() } ) // "@" <IDENTIFIER>    (
+      LOOKAHEAD(2) // "@"
+      ( Annotation() )*
+      "["
+      Expression()
+      "]"
+    )+
+    [
+      LOOKAHEAD(1) // "["
+      Dims()
+    ]
+  |
+    // Dims ArrayInitializer
+    Dims()
+    ArrayInitializer()
+}
+
+/* IDENTIFIERS */
+
+TOKEN :
+{
+  < IDENTIFIER : <LETTER> (<PART_LETTER>)* >
+|
+  < #LETTER :
+      [  // all chars for which Character.isIdentifierStart is true.
+         "$",
+         "A"-"Z",
+         "_",
+         "a"-"z",
+         "\u00a2"-"\u00a5",
+         "\u00aa",
+         "\u00b5",
+         "\u00ba",
+         "\u00c0"-"\u00d6",
+         "\u00d8"-"\u00f6",
+         "\u00f8"-"\u021f",
+         "\u0222"-"\u0233",
+         "\u0250"-"\u02ad",
+         "\u02b0"-"\u02b8",
+         "\u02bb"-"\u02c1",
+         "\u02d0"-"\u02d1",
+         "\u02e0"-"\u02e4",
+         "\u02ee",
+         "\u037a",
+         "\u0386",
+         "\u0388"-"\u038a",
+         "\u038c",
+         "\u038e"-"\u03a1",
+         "\u03a3"-"\u03ce",
+         "\u03d0"-"\u03d7",
+         "\u03da"-"\u03f3",
+         "\u0400"-"\u0481",
+         "\u048c"-"\u04c4",
+         "\u04c7"-"\u04c8",
+         "\u04cb"-"\u04cc",
+         "\u04d0"-"\u04f5",
+         "\u04f8"-"\u04f9",
+         "\u0531"-"\u0556",
+         "\u0559",
+         "\u0561"-"\u0587",
+         "\u05d0"-"\u05ea",
+         "\u05f0"-"\u05f2",
+         "\u0621"-"\u063a",
+         "\u0640"-"\u064a",
+         "\u0671"-"\u06d3",
+         "\u06d5",
+         "\u06e5"-"\u06e6",
+         "\u06fa"-"\u06fc",
+         "\u0710",
+         "\u0712"-"\u072c",
+         "\u0780"-"\u07a5",
+         "\u0905"-"\u0939",
+         "\u093d",
+         "\u0950",
+         "\u0958"-"\u0961",
+         "\u0985"-"\u098c",
+         "\u098f"-"\u0990",
+         "\u0993"-"\u09a8",
+         "\u09aa"-"\u09b0",
+         "\u09b2",
+         "\u09b6"-"\u09b9",
+         "\u09dc"-"\u09dd",
+         "\u09df"-"\u09e1",
+         "\u09f0"-"\u09f3",
+         "\u0a05"-"\u0a0a",
+         "\u0a0f"-"\u0a10",
+         "\u0a13"-"\u0a28",
+         "\u0a2a"-"\u0a30",
+         "\u0a32"-"\u0a33",
+         "\u0a35"-"\u0a36",
+         "\u0a38"-"\u0a39",
+         "\u0a59"-"\u0a5c",
+         "\u0a5e",
+         "\u0a72"-"\u0a74",
+         "\u0a85"-"\u0a8b",
+         "\u0a8d",
+         "\u0a8f"-"\u0a91",
+         "\u0a93"-"\u0aa8",
+         "\u0aaa"-"\u0ab0",
+         "\u0ab2"-"\u0ab3",
+         "\u0ab5"-"\u0ab9",
+         "\u0abd",
+         "\u0ad0",
+         "\u0ae0",
+         "\u0b05"-"\u0b0c",
+         "\u0b0f"-"\u0b10",
+         "\u0b13"-"\u0b28",
+         "\u0b2a"-"\u0b30",
+         "\u0b32"-"\u0b33",
+         "\u0b36"-"\u0b39",
+         "\u0b3d",
+         "\u0b5c"-"\u0b5d",
+         "\u0b5f"-"\u0b61",
+         "\u0b85"-"\u0b8a",
+         "\u0b8e"-"\u0b90",
+         "\u0b92"-"\u0b95",
+         "\u0b99"-"\u0b9a",
+         "\u0b9c",
+         "\u0b9e"-"\u0b9f",
+         "\u0ba3"-"\u0ba4",
+         "\u0ba8"-"\u0baa",
+         "\u0bae"-"\u0bb5",
+         "\u0bb7"-"\u0bb9",
+         "\u0c05"-"\u0c0c",
+         "\u0c0e"-"\u0c10",
+         "\u0c12"-"\u0c28",
+         "\u0c2a"-"\u0c33",
+         "\u0c35"-"\u0c39",
+         "\u0c60"-"\u0c61",
+         "\u0c85"-"\u0c8c",
+         "\u0c8e"-"\u0c90",
+         "\u0c92"-"\u0ca8",
+         "\u0caa"-"\u0cb3",
+         "\u0cb5"-"\u0cb9",
+         "\u0cde",
+         "\u0ce0"-"\u0ce1",
+         "\u0d05"-"\u0d0c",
+         "\u0d0e"-"\u0d10",
+         "\u0d12"-"\u0d28",
+         "\u0d2a"-"\u0d39",
+         "\u0d60"-"\u0d61",
+         "\u0d85"-"\u0d96",
+         "\u0d9a"-"\u0db1",
+         "\u0db3"-"\u0dbb",
+         "\u0dbd",
+         "\u0dc0"-"\u0dc6",
+         "\u0e01"-"\u0e30",
+         "\u0e32"-"\u0e33",
+         "\u0e3f"-"\u0e46",
+         "\u0e81"-"\u0e82",
+         "\u0e84",
+         "\u0e87"-"\u0e88",
+         "\u0e8a",
+         "\u0e8d",
+         "\u0e94"-"\u0e97",
+         "\u0e99"-"\u0e9f",
+         "\u0ea1"-"\u0ea3",
+         "\u0ea5",
+         "\u0ea7",
+         "\u0eaa"-"\u0eab",
+         "\u0ead"-"\u0eb0",
+         "\u0eb2"-"\u0eb3",
+         "\u0ebd",
+         "\u0ec0"-"\u0ec4",
+         "\u0ec6",
+         "\u0edc"-"\u0edd",
+         "\u0f00",
+         "\u0f40"-"\u0f47",
+         "\u0f49"-"\u0f6a",
+         "\u0f88"-"\u0f8b",
+         "\u1000"-"\u1021",
+         "\u1023"-"\u1027",
+         "\u1029"-"\u102a",
+         "\u1050"-"\u1055",
+         "\u10a0"-"\u10c5",
+         "\u10d0"-"\u10f6",
+         "\u1100"-"\u1159",
+         "\u115f"-"\u11a2",
+         "\u11a8"-"\u11f9",
+         "\u1200"-"\u1206",
+         "\u1208"-"\u1246",
+         "\u1248",
+         "\u124a"-"\u124d",
+         "\u1250"-"\u1256",
+         "\u1258",
+         "\u125a"-"\u125d",
+         "\u1260"-"\u1286",
+         "\u1288",
+         "\u128a"-"\u128d",
+         "\u1290"-"\u12ae",
+         "\u12b0",
+         "\u12b2"-"\u12b5",
+         "\u12b8"-"\u12be",
+         "\u12c0",
+         "\u12c2"-"\u12c5",
+         "\u12c8"-"\u12ce",
+         "\u12d0"-"\u12d6",
+         "\u12d8"-"\u12ee",
+         "\u12f0"-"\u130e",
+         "\u1310",
+         "\u1312"-"\u1315",
+         "\u1318"-"\u131e",
+         "\u1320"-"\u1346",
+         "\u1348"-"\u135a",
+         "\u13a0"-"\u13f4",
+         "\u1401"-"\u166c",
+         "\u166f"-"\u1676",
+         "\u1681"-"\u169a",
+         "\u16a0"-"\u16ea",
+         "\u1780"-"\u17b3",
+         "\u17db",
+         "\u1820"-"\u1877",
+         "\u1880"-"\u18a8",
+         "\u1e00"-"\u1e9b",
+         "\u1ea0"-"\u1ef9",
+         "\u1f00"-"\u1f15",
+         "\u1f18"-"\u1f1d",
+         "\u1f20"-"\u1f45",
+         "\u1f48"-"\u1f4d",
+         "\u1f50"-"\u1f57",
+         "\u1f59",
+         "\u1f5b",
+         "\u1f5d",
+         "\u1f5f"-"\u1f7d",
+         "\u1f80"-"\u1fb4",
+         "\u1fb6"-"\u1fbc",
+         "\u1fbe",
+         "\u1fc2"-"\u1fc4",
+         "\u1fc6"-"\u1fcc",
+         "\u1fd0"-"\u1fd3",
+         "\u1fd6"-"\u1fdb",
+         "\u1fe0"-"\u1fec",
+         "\u1ff2"-"\u1ff4",
+         "\u1ff6"-"\u1ffc",
+         "\u203f"-"\u2040",
+         "\u207f",
+         "\u20a0"-"\u20af",
+         "\u2102",
+         "\u2107",
+         "\u210a"-"\u2113",
+         "\u2115",
+         "\u2119"-"\u211d",
+         "\u2124",
+         "\u2126",
+         "\u2128",
+         "\u212a"-"\u212d",
+         "\u212f"-"\u2131",
+         "\u2133"-"\u2139",
+         "\u2160"-"\u2183",
+         "\u3005"-"\u3007",
+         "\u3021"-"\u3029",
+         "\u3031"-"\u3035",
+         "\u3038"-"\u303a",
+         "\u3041"-"\u3094",
+         "\u309d"-"\u309e",
+         "\u30a1"-"\u30fe",
+         "\u3105"-"\u312c",
+         "\u3131"-"\u318e",
+         "\u31a0"-"\u31b7",
+         "\u3400"-"\u4db5",
+         "\u4e00"-"\u9fa5",
+         "\ua000"-"\ua48c",
+         "\uac00"-"\ud7a3",
+         "\uf900"-"\ufa2d",
+         "\ufb00"-"\ufb06",
+         "\ufb13"-"\ufb17",
+         "\ufb1d",
+         "\ufb1f"-"\ufb28",
+         "\ufb2a"-"\ufb36",
+         "\ufb38"-"\ufb3c",
+         "\ufb3e",
+         "\ufb40"-"\ufb41",
+         "\ufb43"-"\ufb44",
+         "\ufb46"-"\ufbb1",
+         "\ufbd3"-"\ufd3d",
+         "\ufd50"-"\ufd8f",
+         "\ufd92"-"\ufdc7",
+         "\ufdf0"-"\ufdfb",
+         "\ufe33"-"\ufe34",
+         "\ufe4d"-"\ufe4f",
+         "\ufe69",
+         "\ufe70"-"\ufe72",
+         "\ufe74",
+         "\ufe76"-"\ufefc",
+         "\uff04",
+         "\uff21"-"\uff3a",
+         "\uff3f",
+         "\uff41"-"\uff5a",
+         "\uff65"-"\uffbe",
+         "\uffc2"-"\uffc7",
+         "\uffca"-"\uffcf",
+         "\uffd2"-"\uffd7",
+         "\uffda"-"\uffdc",
+         "\uffe0"-"\uffe1",
+         "\uffe5"-"\uffe6"
+      ]
+  >
+|
+  < #PART_LETTER :
+      [  // all chars for which Character.isIdentifierPart is true.
+         "\u0000"-"\u0008",
+         "\u000e"-"\u001b",
+         "$",
+         "0"-"9",
+         "A"-"Z",
+         "_",
+         "a"-"z",
+         "\u007f"-"\u009f",
+         "\u00a2"-"\u00a5",
+         "\u00aa",
+         "\u00b5",
+         "\u00ba",
+         "\u00c0"-"\u00d6",
+         "\u00d8"-"\u00f6",
+         "\u00f8"-"\u021f",
+         "\u0222"-"\u0233",
+         "\u0250"-"\u02ad",
+         "\u02b0"-"\u02b8",
+         "\u02bb"-"\u02c1",
+         "\u02d0"-"\u02d1",
+         "\u02e0"-"\u02e4",
+         "\u02ee",
+         "\u0300"-"\u034e",
+         "\u0360"-"\u0362",
+         "\u037a",
+         "\u0386",
+         "\u0388"-"\u038a",
+         "\u038c",
+         "\u038e"-"\u03a1",
+         "\u03a3"-"\u03ce",
+         "\u03d0"-"\u03d7",
+         "\u03da"-"\u03f3",
+         "\u0400"-"\u0481",
+         "\u0483"-"\u0486",
+         "\u048c"-"\u04c4",
+         "\u04c7"-"\u04c8",
+         "\u04cb"-"\u04cc",
+         "\u04d0"-"\u04f5",
+         "\u04f8"-"\u04f9",
+         "\u0531"-"\u0556",
+         "\u0559",
+         "\u0561"-"\u0587",
+         "\u0591"-"\u05a1",
+         "\u05a3"-"\u05b9",
+         "\u05bb"-"\u05bd",
+         "\u05bf",
+         "\u05c1"-"\u05c2",
+         "\u05c4",
+         "\u05d0"-"\u05ea",
+         "\u05f0"-"\u05f2",
+         "\u0621"-"\u063a",
+         "\u0640"-"\u0655",
+         "\u0660"-"\u0669",
+         "\u0670"-"\u06d3",
+         "\u06d5"-"\u06dc",
+         "\u06df"-"\u06e8",
+         "\u06ea"-"\u06ed",
+         "\u06f0"-"\u06fc",
+         "\u070f"-"\u072c",
+         "\u0730"-"\u074a",
+         "\u0780"-"\u07b0",
+         "\u0901"-"\u0903",
+         "\u0905"-"\u0939",
+         "\u093c"-"\u094d",
+         "\u0950"-"\u0954",
+         "\u0958"-"\u0963",
+         "\u0966"-"\u096f",
+         "\u0981"-"\u0983",
+         "\u0985"-"\u098c",
+         "\u098f"-"\u0990",
+         "\u0993"-"\u09a8",
+         "\u09aa"-"\u09b0",
+         "\u09b2",
+         "\u09b6"-"\u09b9",
+         "\u09bc",
+         "\u09be"-"\u09c4",
+         "\u09c7"-"\u09c8",
+         "\u09cb"-"\u09cd",
+         "\u09d7",
+         "\u09dc"-"\u09dd",
+         "\u09df"-"\u09e3",
+         "\u09e6"-"\u09f3",
+         "\u0a02",
+         "\u0a05"-"\u0a0a",
+         "\u0a0f"-"\u0a10",
+         "\u0a13"-"\u0a28",
+         "\u0a2a"-"\u0a30",
+         "\u0a32"-"\u0a33",
+         "\u0a35"-"\u0a36",
+         "\u0a38"-"\u0a39",
+         "\u0a3c",
+         "\u0a3e"-"\u0a42",
+         "\u0a47"-"\u0a48",
+         "\u0a4b"-"\u0a4d",
+         "\u0a59"-"\u0a5c",
+         "\u0a5e",
+         "\u0a66"-"\u0a74",
+         "\u0a81"-"\u0a83",
+         "\u0a85"-"\u0a8b",
+         "\u0a8d",
+         "\u0a8f"-"\u0a91",
+         "\u0a93"-"\u0aa8",
+         "\u0aaa"-"\u0ab0",
+         "\u0ab2"-"\u0ab3",
+         "\u0ab5"-"\u0ab9",
+         "\u0abc"-"\u0ac5",
+         "\u0ac7"-"\u0ac9",
+         "\u0acb"-"\u0acd",
+         "\u0ad0",
+         "\u0ae0",
+         "\u0ae6"-"\u0aef",
+         "\u0b01"-"\u0b03",
+         "\u0b05"-"\u0b0c",
+         "\u0b0f"-"\u0b10",
+         "\u0b13"-"\u0b28",
+         "\u0b2a"-"\u0b30",
+         "\u0b32"-"\u0b33",
+         "\u0b36"-"\u0b39",
+         "\u0b3c"-"\u0b43",
+         "\u0b47"-"\u0b48",
+         "\u0b4b"-"\u0b4d",
+         "\u0b56"-"\u0b57",
+         "\u0b5c"-"\u0b5d",
+         "\u0b5f"-"\u0b61",
+         "\u0b66"-"\u0b6f",
+         "\u0b82"-"\u0b83",
+         "\u0b85"-"\u0b8a",
+         "\u0b8e"-"\u0b90",
+         "\u0b92"-"\u0b95",
+         "\u0b99"-"\u0b9a",
+         "\u0b9c",
+         "\u0b9e"-"\u0b9f",
+         "\u0ba3"-"\u0ba4",
+         "\u0ba8"-"\u0baa",
+         "\u0bae"-"\u0bb5",
+         "\u0bb7"-"\u0bb9",
+         "\u0bbe"-"\u0bc2",
+         "\u0bc6"-"\u0bc8",
+         "\u0bca"-"\u0bcd",
+         "\u0bd7",
+         "\u0be7"-"\u0bef",
+         "\u0c01"-"\u0c03",
+         "\u0c05"-"\u0c0c",
+         "\u0c0e"-"\u0c10",
+         "\u0c12"-"\u0c28",
+         "\u0c2a"-"\u0c33",
+         "\u0c35"-"\u0c39",
+         "\u0c3e"-"\u0c44",
+         "\u0c46"-"\u0c48",
+         "\u0c4a"-"\u0c4d",
+         "\u0c55"-"\u0c56",
+         "\u0c60"-"\u0c61",
+         "\u0c66"-"\u0c6f",
+         "\u0c82"-"\u0c83",
+         "\u0c85"-"\u0c8c",
+         "\u0c8e"-"\u0c90",
+         "\u0c92"-"\u0ca8",
+         "\u0caa"-"\u0cb3",
+         "\u0cb5"-"\u0cb9",
+         "\u0cbe"-"\u0cc4",
+         "\u0cc6"-"\u0cc8",
+         "\u0cca"-"\u0ccd",
+         "\u0cd5"-"\u0cd6",
+         "\u0cde",
+         "\u0ce0"-"\u0ce1",
+         "\u0ce6"-"\u0cef",
+         "\u0d02"-"\u0d03",
+         "\u0d05"-"\u0d0c",
+         "\u0d0e"-"\u0d10",
+         "\u0d12"-"\u0d28",
+         "\u0d2a"-"\u0d39",
+         "\u0d3e"-"\u0d43",
+         "\u0d46"-"\u0d48",
+         "\u0d4a"-"\u0d4d",
+         "\u0d57",
+         "\u0d60"-"\u0d61",
+         "\u0d66"-"\u0d6f",
+         "\u0d82"-"\u0d83",
+         "\u0d85"-"\u0d96",
+         "\u0d9a"-"\u0db1",
+         "\u0db3"-"\u0dbb",
+         "\u0dbd",
+         "\u0dc0"-"\u0dc6",
+         "\u0dca",
+         "\u0dcf"-"\u0dd4",
+         "\u0dd6",
+         "\u0dd8"-"\u0ddf",
+         "\u0df2"-"\u0df3",
+         "\u0e01"-"\u0e3a",
+         "\u0e3f"-"\u0e4e",
+         "\u0e50"-"\u0e59",
+         "\u0e81"-"\u0e82",
+         "\u0e84",
+         "\u0e87"-"\u0e88",
+         "\u0e8a",
+         "\u0e8d",
+         "\u0e94"-"\u0e97",
+         "\u0e99"-"\u0e9f",
+         "\u0ea1"-"\u0ea3",
+         "\u0ea5",
+         "\u0ea7",
+         "\u0eaa"-"\u0eab",
+         "\u0ead"-"\u0eb9",
+         "\u0ebb"-"\u0ebd",
+         "\u0ec0"-"\u0ec4",
+         "\u0ec6",
+         "\u0ec8"-"\u0ecd",
+         "\u0ed0"-"\u0ed9",
+         "\u0edc"-"\u0edd",
+         "\u0f00",
+         "\u0f18"-"\u0f19",
+         "\u0f20"-"\u0f29",
+         "\u0f35",
+         "\u0f37",
+         "\u0f39",
+         "\u0f3e"-"\u0f47",
+         "\u0f49"-"\u0f6a",
+         "\u0f71"-"\u0f84",
+         "\u0f86"-"\u0f8b",
+         "\u0f90"-"\u0f97",
+         "\u0f99"-"\u0fbc",
+         "\u0fc6",
+         "\u1000"-"\u1021",
+         "\u1023"-"\u1027",
+         "\u1029"-"\u102a",
+         "\u102c"-"\u1032",
+         "\u1036"-"\u1039",
+         "\u1040"-"\u1049",
+         "\u1050"-"\u1059",
+         "\u10a0"-"\u10c5",
+         "\u10d0"-"\u10f6",
+         "\u1100"-"\u1159",
+         "\u115f"-"\u11a2",
+         "\u11a8"-"\u11f9",
+         "\u1200"-"\u1206",
+         "\u1208"-"\u1246",
+         "\u1248",
+         "\u124a"-"\u124d",
+         "\u1250"-"\u1256",
+         "\u1258",
+         "\u125a"-"\u125d",
+         "\u1260"-"\u1286",
+         "\u1288",
+         "\u128a"-"\u128d",
+         "\u1290"-"\u12ae",
+         "\u12b0",
+         "\u12b2"-"\u12b5",
+         "\u12b8"-"\u12be",
+         "\u12c0",
+         "\u12c2"-"\u12c5",
+         "\u12c8"-"\u12ce",
+         "\u12d0"-"\u12d6",
+         "\u12d8"-"\u12ee",
+         "\u12f0"-"\u130e",
+         "\u1310",
+         "\u1312"-"\u1315",
+         "\u1318"-"\u131e",
+         "\u1320"-"\u1346",
+         "\u1348"-"\u135a",
+         "\u1369"-"\u1371",
+         "\u13a0"-"\u13f4",
+         "\u1401"-"\u166c",
+         "\u166f"-"\u1676",
+         "\u1681"-"\u169a",
+         "\u16a0"-"\u16ea",
+         "\u1780"-"\u17d3",
+         "\u17db",
+         "\u17e0"-"\u17e9",
+         "\u180b"-"\u180e",
+         "\u1810"-"\u1819",
+         "\u1820"-"\u1877",
+         "\u1880"-"\u18a9",
+         "\u1e00"-"\u1e9b",
+         "\u1ea0"-"\u1ef9",
+         "\u1f00"-"\u1f15",
+         "\u1f18"-"\u1f1d",
+         "\u1f20"-"\u1f45",
+         "\u1f48"-"\u1f4d",
+         "\u1f50"-"\u1f57",
+         "\u1f59",
+         "\u1f5b",
+         "\u1f5d",
+         "\u1f5f"-"\u1f7d",
+         "\u1f80"-"\u1fb4",
+         "\u1fb6"-"\u1fbc",
+         "\u1fbe",
+         "\u1fc2"-"\u1fc4",
+         "\u1fc6"-"\u1fcc",
+         "\u1fd0"-"\u1fd3",
+         "\u1fd6"-"\u1fdb",
+         "\u1fe0"-"\u1fec",
+         "\u1ff2"-"\u1ff4",
+         "\u1ff6"-"\u1ffc",
+         "\u200c"-"\u200f",
+         "\u202a"-"\u202e",
+         "\u203f"-"\u2040",
+         "\u206a"-"\u206f",
+         "\u207f",
+         "\u20a0"-"\u20af",
+         "\u20d0"-"\u20dc",
+         "\u20e1",
+         "\u2102",
+         "\u2107",
+         "\u210a"-"\u2113",
+         "\u2115",
+         "\u2119"-"\u211d",
+         "\u2124",
+         "\u2126",
+         "\u2128",
+         "\u212a"-"\u212d",
+         "\u212f"-"\u2131",
+         "\u2133"-"\u2139",
+         "\u2160"-"\u2183",
+         "\u3005"-"\u3007",
+         "\u3021"-"\u302f",
+         "\u3031"-"\u3035",
+         "\u3038"-"\u303a",
+         "\u3041"-"\u3094",
+         "\u3099"-"\u309a",
+         "\u309d"-"\u309e",
+         "\u30a1"-"\u30fe",
+         "\u3105"-"\u312c",
+         "\u3131"-"\u318e",
+         "\u31a0"-"\u31b7",
+         "\u3400"-"\u4db5",
+         "\u4e00"-"\u9fa5",
+         "\ua000"-"\ua48c",
+         "\uac00"-"\ud7a3",
+         "\uf900"-"\ufa2d",
+         "\ufb00"-"\ufb06",
+         "\ufb13"-"\ufb17",
+         "\ufb1d"-"\ufb28",
+         "\ufb2a"-"\ufb36",
+         "\ufb38"-"\ufb3c",
+         "\ufb3e",
+         "\ufb40"-"\ufb41",
+         "\ufb43"-"\ufb44",
+         "\ufb46"-"\ufbb1",
+         "\ufbd3"-"\ufd3d",
+         "\ufd50"-"\ufd8f",
+         "\ufd92"-"\ufdc7",
+         "\ufdf0"-"\ufdfb",
+         "\ufe20"-"\ufe23",
+         "\ufe33"-"\ufe34",
+         "\ufe4d"-"\ufe4f",
+         "\ufe69",
+         "\ufe70"-"\ufe72",
+         "\ufe74",
+         "\ufe76"-"\ufefc",
+         "\ufeff",
+         "\uff04",
+         "\uff10"-"\uff19",
+         "\uff21"-"\uff3a",
+         "\uff3f",
+         "\uff41"-"\uff5a",
+         "\uff65"-"\uffbe",
+         "\uffc2"-"\uffc7",
+         "\uffca"-"\uffcf",
+         "\uffd2"-"\uffd7",
+         "\uffda"-"\uffdc",
+         "\uffe0"-"\uffe1",
+         "\uffe5"-"\uffe6",
+         "\ufff9"-"\ufffb"
+      ]
+  >
+}
+
+TOKEN : // just to be safe, in actions, we might get random stuff for non-java?
+{
+ <ACT_TOK : ~[]>
+}

@@ -1,0 +1,1391 @@
+/**
+ * Small grammar to investigate lookaheads at non choice points.
+ */
+options
+{
+  static = false;
+//  FORCE_LA_CHECK = true; // (JavaCC - default false)
+  ERROR_REPORTING = true;
+  OUTPUT_DIRECTORY = "nclg12";
+}
+
+PARSER_BEGIN(NonChoiceLookaheadGrammar_Example12)
+package nclg12;
+
+import java.io.StringReader;
+
+public class NonChoiceLookaheadGrammar_Example12
+{
+  static String inputA [] = new String [] //
+  { //
+    "v0  x0  end", // ok
+    "v1  x1  end", // ok
+    "v2  x2  end", // pe, reads "x2" expects eof
+    "v2",          // pe, reads eof expects "x2"
+    "v3  x3  end", // pe, just throws pe
+    "v3",          // pe, reads eof expects "x3"
+    "v4  x4  end", // pe, just throws pe
+    "v4",          // pe, reads eof expects "x4"
+    "v5  x5  end", // ok (sem la true)
+    "x5  v5  end", // pe, just throws pe (sem la false)
+    "v6  x6  end", // ok
+    "v7  x7  end", // pe, reads "x7" expects eof
+    "v7",          // pe, reads eof expects "x7"
+    "v8  x8  end", // pe, just throws pe
+    "v8",          // pe, reads eof expects "x8"
+    "v9  x9  end", // pe, just throws pe
+    "v9",          // pe, reads eof expects "x9"
+    "x9  v9  end", // pe, just throws pe
+    "x9",          // pe, just throws pe
+    "v10 x10 end", // ok
+    "x10 v10 end", // pe, just throws pe
+    "v11 x11 end", // pe, just throws pe
+    "v11",         // pe, reads eof expects "x11"
+    "x11 v11 end", // pe, just throws pe
+    "x11",         // pe, just throws pe
+    "v12 x12 end", // pe, just throws pe
+    "v12",         // pe, reads eof expects "x12"
+    "x12 v12 end", // pe, just throws pe
+    "x12",         // pe, just throws pe
+    "v13 x13 end", // ok
+    "v13",         // pe, reads eof expects "x13"
+    "x13 v13 end", // pe, just throws pe
+    "x13",         // pe, just throws pe
+    "v14 x14 end", // pe, just throws pe
+    "v14",         // pe, reads eof expects "x14"
+    "x14 v14 end", // pe, just throws pe
+    "v15 x15 end", // pe, just throws pe
+    "v15",         // pe, reads eof expects "x15"
+    "x15 v15 end", // pe, just throws pe
+  };
+
+  static String inputE [] = new String [] //
+  { //
+    "v0  x0  end", // ok
+//    "v1  x1  end", // compiler error
+    "v2  x2  end", // ok
+    "v2",          // pe, reads eof expects "x2" or "end"
+    "v3  x3  end", // ok
+    "v3",          // pe, reads eof expects "end"
+    "v4  x4  end", // ok
+    "v4",          // pe, reads eof expects "end"
+    "v5  x5  end", // pe, reads "end" expects "x5"
+    "x5  v5  end", // pe, reads "v5" expects "end"
+//    "v6  x6  end", // compiler error
+    "v7  x7  end", // ok
+    "v7",          // pe, reads eof expects "x7"
+    "v8  x8  end", // ok
+    "v8",          // pe, reads eof expects "end"
+    "v9  x9  end", // ok
+    "v9",          // pe, reads eof expects "end"
+    "x9  v9  end", // ok
+    "x9",          // pe, reads eof expects "end"
+    "v10 x10 end", // pe, reads "end" expects "x10"
+    "x10 v10 end", // pe, reads "v10" expects "end"
+    "v11 x11 end", // ok
+    "v11",         // pe, reads eof expects "end"
+    "x11 v11 end", // pe, reads "v11" expects "end"
+    "x11",         // pe, reads eof expects "end"
+    "v12 x12 end", // ok
+    "v12",         // pe, reads eof expects "end"
+    "x12 v12 end", // pe, reads "v12" expects "end"
+    "x12",         // pe, reads eof expects "end"
+    "v13 x13 end", // pe, reads "end" expects "x13"
+    "v13",         // pe, reads eof expects "x13"
+    "x13 v13 end", // pe, reads "v13" expects "end"
+    "x13",         // pe, reads eof expects "end"
+    "v14 x14 end", // ok
+    "v14",         // pe, reads eof expects "end"
+    "x14 v14 end", // pe, reads "v14" expects "end"
+    "v15 x15 end", // ok
+    "v15",         // pe, reads eof expects "end"
+    "x15 v15 end", // pe, reads "v15" expects "end"
+  };
+
+  /** standard main running on internal input */
+  public static void main(String args []) throws ParseException
+  {
+    NonChoiceLookaheadGrammar_Example12 parser = null;
+    // A()
+    System.out.println("****************************"); 
+    System.out.println("*** Running input on A() ***"); 
+    System.out.println("****************************"); 
+    for (int i = 0; i < inputA.length; i++)
+    {
+      System.out.println("input " + i+ " : " + inputA[i]); 
+      parser = new NonChoiceLookaheadGrammar_Example12(new StringReader(inputA[i]));
+      try { parser.A(); }
+      // catch PE & TMR for running all the test suite
+      catch (ParseException pe) { parser.report("ParseException: " + pe.getMessage()); }
+      catch (TokenMgrError tme) { parser.report("TokenMgrError: " + tme.getMessage()); }
+    }
+    // E()
+    System.out.println("****************************"); 
+    System.out.println("*** Running input on E() ***"); 
+    System.out.println("****************************"); 
+    for (int i = 0; i < inputE.length; i++)
+    {
+      System.out.println("input " + i+ " : " + inputE[i]); 
+      parser = new NonChoiceLookaheadGrammar_Example12(new StringReader(inputE[i]));
+      try { parser.E(); }
+      // catch PE & TMR for running all the test suite
+      catch (ParseException pe) { parser.report("ParseException: " + pe.getMessage()); }
+      catch (TokenMgrError tme) { parser.report("TokenMgrError: " + tme.getMessage()); }
+    }
+  }
+
+  /** report problem with version info */
+  void report(final String aStr)
+  {
+    System.out.println(prod_name + " swallowed " + aStr);
+  }
+
+  /** the current production name, for reporting */
+  String prod_name = null;
+
+  /* for semantic lookaheads conditions, which can be employed outside the productions' methods */
+  boolean a5 = true, a9 = true, a10 = true, a11 = true, a12 = true, a13 = true, a14 = true, a15 = true;
+  boolean d = true;
+  
+}
+PARSER_END(NonChoiceLookaheadGrammar_Example12)
+
+SKIP :
+{
+  " "
+| "\r"
+| "\t"
+| "\n"
+}
+
+TOKEN :
+{
+  < V0  : "v0" >
+| < V1  : "v1" >
+| < V2  : "v2" >
+| < V3  : "v3" >
+| < V4  : "v4" >
+| < V5  : "v5" >
+| < V6  : "v6" >
+| < V7  : "v7" >
+| < V8  : "v8" >
+| < V9  : "v9" >
+| < V10 : "v10" >
+| < V11 : "v11" >
+| < V12 : "v12" >
+| < V13 : "v13" >
+| < V14 : "v14" >
+| < V15 : "v15" >
+| < X0  : "x0" >
+| < X1  : "x1" >
+| < X2  : "x2" >
+| < X3  : "x3" >
+| < X4  : "x4" >
+| < X5  : "x5" >
+| < X6  : "x6" >
+| < X7  : "x7" >
+| < X8  : "x8" >
+| < X9  : "x9" >
+| < X10 : "x10" >
+| < X11 : "x11" >
+| < X12 : "x12" >
+| < X13 : "x13" >
+| < X14 : "x14" >
+| < X15 : "x15" >
+| < END : "end" >
+| < D   : "d" >
+}
+
+/* non conflicting choices, and inside each choice a LOOKAHEAD at a non choice location,
+    and not in [], ()?, ()*, ()+                                                         */
+void A() : {}
+{
+  { prod_name = "A"; }
+  (
+    "v0" 
+    "x0" "end"
+  | 
+    "v1" 
+    // no warning but indeed IGNORED
+    // so OF NO REAL USE although it does not harm
+    LOOKAHEAD(0) // nothing
+    "x1" "end"
+  | 
+    "v2" 
+    // "at non choice location; ignored" but somewhat WRONG:
+    // anything else than EOF throws a ParseException, and EOF will continue parsing on next tokens
+    // reads "x2" but expects <EOF> if "x2" is in the input, and if not reads <EOF> but expects "x2"
+    // so NOT A MEANINGFUL behavior
+    LOOKAHEAD(1) // switch jj_ntk case EOF
+    "x2" "end"
+  | 
+    "v3" 
+    // "at non choice location; ignored" but somewhat WRONG:
+    // anything else than EOF throws a ParseException, and EOF will continue parsing on next tokens
+    // reads "" but expects nothing if "x3" is in the input, and if not reads <EOF> but expects "x3"
+    // so NOT A MEANINGFUL behavior
+    LOOKAHEAD(2) // jj_2_1
+    "x3" "end"
+  | 
+    "v4" 
+    // "at non choice location; ignored" but somewhat WRONG:
+    // anything else than EOF throws a ParseException, and EOF will continue parsing on next tokens
+    // reads "" but expects nothing if "x4" is in the input, and if not reads <EOF> but expects "x4"
+    // so NOT A MEANINGFUL behavior
+    LOOKAHEAD("x4") // jj_2_2
+    "x4" "end"
+  | 
+    "v5" 
+    // no warning but indeed CONSIDERED
+    // a5 false gives a ParseException (amount 0), and a5 true continues parsing on next tokens 
+    // so SOME CORNER CASES MEANINGFUL behavior
+    LOOKAHEAD({ a5 }) // a5
+    "x5" "end"
+  | 
+    "x5" 
+    // no warning but indeed CONSIDERED
+    // (opposite of previous)
+    // !a5 false gives a ParseException (amount 0), and !a5 true continues parsing on next tokens 
+    // so NOT A VERY MEANINGFUL behavior
+    LOOKAHEAD({ !a5 }) // !a5
+    "v5" "end"
+  | 
+    "v6" 
+    // no warning but indeed IGNORED
+    // so OF NO REAL USE although it does not harm
+    LOOKAHEAD(0, "x6") // nothing
+    "x6" "end"
+  | 
+    "v7" 
+    // "at non choice location; ignored" but somewhat WRONG:
+    // anything else than EOF throws a ParseException, and EOF will continue parsing on next tokens
+    // reads "x7" but expects <EOF> if "x7" is in the input, and if not reads <EOF> but expects "x7"
+    // so NOT A MEANINGFUL behavior
+    LOOKAHEAD(1, "x7") // switch jj_ntk case EOF
+    "x7" "end"
+  | 
+    "v8" 
+    // "at non choice location; ignored" but somewhat WRONG:
+    // anything else than EOF throws a ParseException, and EOF will continue parsing on next tokens
+    // reads "" but expects nothing if "x8" is in the input, and if not reads <EOF> but expects "x8"
+    // so NOT A MEANINGFUL behavior
+    LOOKAHEAD(2, "x8") // jj_2_3
+    "x8" "end"
+  | 
+    "v9" 
+    // "at non choice location; only semantic lookahead considered": almost RIGHT:
+    // anything else than EOF throws a ParseException, and EOF will continue on evaluating a9:
+    // a9 false gives a ParseException, and a9 true continues parsing on next tokens 
+    // so NOT A MEANINGFUL behavior
+    LOOKAHEAD("x9", { a9 }) // jj_2_4 && a9
+    "x9" "end"
+  | 
+    "x9" 
+    // "at non choice location; only semantic lookahead considered": almost RIGHT:
+    // (opposite of previous)
+    // anything else than EOF throws a ParseException, and EOF will continue on evaluating a9:
+    // !a9 false gives a ParseException, and !a9 true continues parsing on next tokens 
+    // so NOT A MEANINGFUL behavior
+    LOOKAHEAD("v9", { !a9 }) // jj_2_5 && !a9
+    "v9" "end"
+  | 
+    "v10" 
+    // no warning but indeed CONSIDERED
+    // a10 false gives a ParseException, and a10 true continues parsing on next tokens 
+    // so SOME CORNER CASES MEANINGFUL behavior
+    LOOKAHEAD(0, { a10 }) // a10
+    "x10" "end"
+  | 
+    "x10" 
+    // no warning but indeed CONSIDERED
+    // (opposite of previous)
+    // !a10 false gives a ParseException (amount 0), and !a10 true continues parsing on next tokens 
+    // so SOME CORNER CASES MEANINGFUL behavior
+    LOOKAHEAD(0, { !a10 }) // a10
+    "v10" "end"
+  | 
+    "v11" 
+    // "at non choice location; only semantic lookahead considered": almost RIGHT:
+    // anything else than EOF throws a ParseException, and EOF will continue on evaluating a11:
+    // a11 false gives a ParseException, and a11 true continues parsing on next tokens 
+    // so OF NO USEFUL MEANING
+    LOOKAHEAD(1, { a11 }) // jj_2_6 && a11
+    "x11" "end"
+  | 
+    "x11" 
+    // "at non choice location; only semantic lookahead considered": almost RIGHT:
+    // (opposite of previous)
+    // anything else than EOF throws a ParseException, and EOF will continue on evaluating a11:
+    // !a11 false gives a ParseException, and !a11 true continues parsing on next tokens 
+    // so OF NO USEFUL MEANING
+    LOOKAHEAD(1, { !a11 }) // jj_2_7 && a11
+    "v11" "end"
+  | 
+    "v12" 
+    // "at non choice location; only semantic lookahead considered": almost RIGHT:
+    // anything else than EOF throws a ParseException, and EOF will continue on evaluating a12:
+    // a12 false gives a ParseException, and a12 true continues parsing on next tokens 
+    // so OF NO USEFUL MEANING
+    LOOKAHEAD(2, { a12 }) // jj_2_8 && a12
+    "x12" "end"
+  | 
+    "x12" 
+    // "at non choice location; only semantic lookahead considered": almost RIGHT:
+    // (opposite of previous)
+    // anything else than EOF throws a ParseException, and EOF will continue on evaluating a12:
+    // !a12 false gives a ParseException, and !a12 true continues parsing on next tokens 
+    // so OF NO USEFUL MEANING
+    LOOKAHEAD(2, { !a12 }) // jj_2_8 && a12
+    "v12" "end"
+  | 
+    "v13" 
+    // no warning but indeed CONSIDERED
+    // a13 false gives a ParseException, and a13 true continues parsing on next tokens
+    // so SOME CORNER CASES MEANINGFUL behavior
+    LOOKAHEAD(0, "x13", { a13 }) // a13
+    "x13" "end"
+  | 
+    "x13" 
+    // no warning but indeed CONSIDERED
+    // (opposite of previous)
+    // !a13 false gives a ParseException, and !a13 true continues parsing on next tokens 
+    // so SOME CORNER CASES MEANINGFUL behavior
+    LOOKAHEAD(0, "v13", { !a13 }) // a13
+    "v13" "end"
+  | 
+    "v14" 
+    // "at non choice location; only semantic lookahead considered": almost RIGHT:
+    // anything else than EOF throws a ParseException, and EOF will continue on evaluating a14:
+    // a14 false gives a ParseException, and a14 true continues parsing on next tokens 
+    // so OF NO USEFUL MEANING
+    LOOKAHEAD(1, "x14", { a14 }) // jj_2_9 && a14
+    "x14" "end"
+  | 
+    "x14" 
+    // "at non choice location; only semantic lookahead considered": almost RIGHT:
+    // (opposite of previous)
+    // anything else than EOF throws a ParseException, and EOF will continue on evaluating a14:
+    // !a14 false gives a ParseException, and !a14 true continues parsing on next tokens 
+    // so OF NO USEFUL MEANING
+    LOOKAHEAD(1, "v14", { !a14 }) // jj_2_10 && a14
+    "v14" "end"
+  | 
+    "v15" 
+    // "at non choice location; only semantic lookahead considered": almost RIGHT:
+    // anything else than EOF throws a ParseException, and EOF will continue on evaluating a15:
+    // a15 false gives a ParseException, and a15 true continues parsing on next tokens 
+    // so OF NO USEFUL MEANING
+    LOOKAHEAD(2, "x15", { a15 }) // jj_2_11 && a15
+    "x15" "end"
+  | 
+    "x15" 
+    // "at non choice location; only semantic lookahead considered": almost RIGHT:
+    // (opposite of previous)
+    // anything else than EOF throws a ParseException, and EOF will continue on evaluating a15:
+    // !a15 false gives a ParseException, and !a15 true continues parsing on next tokens 
+    // so OF NO USEFUL MEANING
+    LOOKAHEAD(2, "v15", { !a15 }) // jj_2_12 && a15
+    "v15" "end"
+  )
+  { System.out.println("End A"); }
+}
+
+// same as A() but with terminals "x_nn" "end" replaced by non-terminal X0_END(), and opposite cases dropped:
+//  the generated method structure is the same
+void B() :
+{}
+{
+  { prod_name = "B"; }
+  (
+    "v0" 
+    X0_END()
+  | 
+    "v1" 
+    LOOKAHEAD(0)
+    X0_END()
+  | 
+    "v2" 
+    LOOKAHEAD(1)
+    X0_END()
+  | 
+    "v3" 
+    LOOKAHEAD(2)
+    X0_END()
+  | 
+    "v4" 
+    LOOKAHEAD(X0_END())
+    X0_END()
+  | 
+    "v5" 
+    LOOKAHEAD({ a5 })
+    X0_END()
+  | 
+    "v6" 
+    LOOKAHEAD(0, X0_END())
+    X0_END()
+  | 
+    "v7" 
+    LOOKAHEAD(1, X0_END())
+    X0_END()
+  | 
+    "v8" 
+    LOOKAHEAD(2, X0_END())
+    X0_END()
+  | 
+    "v9" 
+    LOOKAHEAD(X0_END(), { a9 })
+    X0_END()
+  | 
+    "v10" 
+    LOOKAHEAD(0, { a10 })
+    X0_END()
+  | 
+    "v11" 
+    LOOKAHEAD(1, { a11 })
+    X0_END()
+  | 
+    "v12" 
+    LOOKAHEAD(2, { a12 })
+    X0_END()
+  | 
+    "v13" 
+    LOOKAHEAD(0, X0_END(), { a13 })
+    X0_END()
+  | 
+    "v14" 
+    LOOKAHEAD(1, X0_END(), { a14 })
+    X0_END()
+  | 
+    "v15" 
+    LOOKAHEAD(2, X0_END(), { a15 })
+    X0_END()
+  )
+  { System.out.println("End B"); }
+}
+
+void X0_END() : {}
+{
+  "x0" "end"
+}
+
+// same as B() with non-terminal X0_END() replaced by empty non-terminal Epsilon():
+// the generated method structure is still the same
+void C() : {}
+{
+  "x0"
+  Epsilon()
+|
+  "x1"
+  LOOKAHEAD(0)
+  Epsilon()
+|
+  "x2"
+  LOOKAHEAD(1)
+  Epsilon()
+|
+  "x3"
+  LOOKAHEAD(2)
+  Epsilon()
+|
+  "x4"
+  LOOKAHEAD(Epsilon())
+  Epsilon()
+|
+  "x5"
+  LOOKAHEAD({ a5 })
+  Epsilon()
+|
+  "x6"
+  LOOKAHEAD(0, Epsilon())
+  Epsilon()
+|
+  "x7"
+  LOOKAHEAD(1, Epsilon())
+  Epsilon()
+|
+  "x8"
+  LOOKAHEAD(2, Epsilon())
+  Epsilon()
+|
+  "x9"
+  LOOKAHEAD(Epsilon(), { a9 })
+  Epsilon()
+|
+  "x10"
+  LOOKAHEAD(0, { a5 })
+  Epsilon()
+|
+  "x11"
+  LOOKAHEAD(1, { a5 })
+  Epsilon()
+|
+  "x12"
+  LOOKAHEAD(2, { a5 })
+  Epsilon()
+|
+  "x13"
+  LOOKAHEAD(0, Epsilon(), { a5 })
+  Epsilon()
+|
+  "x14"
+  LOOKAHEAD(1, Epsilon(), { a5 })
+  Epsilon()
+|
+  "x15"
+  LOOKAHEAD(2, Epsilon(), { a5 })
+  Epsilon()
+}
+
+// EMPTY generated method!!!
+void Epsilon() : {}
+{
+  {}
+}
+
+// same as A() with only empty production ({}), expansions in LOOKAHEADs being "" or "d" and expressions d
+// EMPTY generated method!!!
+void D() : {}
+{
+  // choice can expand to empty token sequence always taken in favor of choices appearing later
+//  {}
+//|
+  LOOKAHEAD(0)
+  {}
+|
+  LOOKAHEAD(1)
+  {}
+|
+  LOOKAHEAD(2)
+  {}
+|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD("")
+//  {}
+//|
+  LOOKAHEAD("d")
+  {}
+|
+  LOOKAHEAD({ d })
+  {}
+|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD(0, "")
+//  {}
+//|
+  LOOKAHEAD(0, "d")
+  {}
+|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD(1, "")
+//  {}
+//|
+  LOOKAHEAD(1, "d")
+  {}
+|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD(2, "")
+//  {}
+//|
+  LOOKAHEAD(2, "d")
+  {}
+|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD("", { a9 })
+//  {}
+//|
+  LOOKAHEAD("d", { d })
+  {}
+|
+  LOOKAHEAD(0, { d })
+  {}
+|
+  LOOKAHEAD(1, { d })
+  {}
+|
+  LOOKAHEAD(2, { d })
+  {}
+//|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD(0, "", { a5 })
+//  {}
+//|
+  // "at non choice location; only semantic lookahead considered": WRONG: nothing generated
+  LOOKAHEAD(1, "d", { d })
+  {}
+|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD(1, "", { a5 })
+//  {}
+//|
+// Regular expression can be matched by empty string. can result in an endless loop of empty string matches
+//  LOOKAHEAD(2, "", { a5 })
+//  {}
+  LOOKAHEAD(2, "d", { d })
+  {}
+}
+
+// same as A() but "x_nn" being in optional construct ()*
+void E() : {}
+{
+  { prod_name = "E"; }
+  (
+    "v0" 
+    ("x0")* // label_1 while, switch X0 default
+    "end"
+//  | 
+//    "v1" 
+//    (
+//      // no warning but indeed CONSIDERED
+//      // endless loop on consume X1, unreachable code, compiler error
+//      // so of NO USE
+//      LOOKAHEAD(0) // label_2 while, no switch endless loop X1
+//      "x1"
+//    )*
+//    "end"
+  | 
+    "v2" 
+    (
+      // no warning but indeed IGNORED
+      // so OF NO MEANINGFUL USE although it does not harm
+      LOOKAHEAD(1) // label_2 while, switch X2 default scans 1 token
+      "x2"
+    )*
+    "end"
+  | 
+    "v3" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF NO MEANINGFUL USE although it does not harm
+      LOOKAHEAD(2) // label_3, while jj_2_31 scans 1 token
+      "x3"
+    )*
+    "end"
+  | 
+    "x3" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF NO MEANINGFUL USE although it does not harm
+      LOOKAHEAD(2) // label_4, while jj_2_32 scans 2 tokens
+      "v3" "x0"
+    )*
+    "end"
+  | 
+    "v4" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF NO MEANINGFUL USE although it does not harm
+      LOOKAHEAD("x4") // label_5, while jj_2_33 scans 1 token
+      "x4"
+    )*
+    "end"
+  | 
+    "v5" 
+    (
+      // no warning but indeed CONSIDERED
+      // makes "x5" mandatory for each evaluation of a5 to true
+      // so of some MEANINGFUL USE (dynamic control of the number of occurrences of ()*)
+      LOOKAHEAD({ a5 }) // label_6, while a5 consumes 1 token
+      "x5"
+    )*
+    "end"
+  | 
+    "x5" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // so of some MEANINGFUL USE (dynamic control of the number of occurrences of ()*)
+      LOOKAHEAD({ !a5 }) // label_7, while !a5 consumes 1 token
+      "v5"
+    )*
+    "end"
+//  | 
+//    "v6" 
+//    (
+//      // no warning but indeed CONSIDERED
+//      // endless loop on consume X6, unreachable code, compiler error
+//      // so of NO USE
+//      LOOKAHEAD(0, "x6") // label_8 while, no switch endless loop X6
+//      "x6"
+//    )*
+//    "end"
+  | 
+    "v7" 
+    (
+      // no warning but indeed IGNORED
+      // so OF NO REAL USE although it does not harm
+      LOOKAHEAD(1, "x7") // label_8 while, switch X7 default scans 1 token
+      "x7"
+    )*
+    "end"
+  | 
+    "v8" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF NO REAL USE although it does not harm
+      LOOKAHEAD(2, "x8") // label_9, while jj_2_34 scans 1 token
+      "x8"
+    )*
+    "end"
+  | 
+    "x8" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF NO REAL USE although it does not harm
+      LOOKAHEAD(2, "v8") // label_10, while jj_2_35 scans 1 token (not 2 tokens)
+      "v8" "x0"
+    )*
+    "end"
+  | 
+    "v9" 
+    (
+      // no warning but indeed CONSIDERED
+      // scans for "x9" then evaluates a9
+      // so OF REAL USE (additional semantic validation - like dynamic control on the occurrences of ()*)
+      LOOKAHEAD("x9", { a9 }) // label_11, while jj_2_36 && a9 scans 1 token
+      "x9"
+    )*
+    "end"
+  | 
+    "x9" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // scans for "v9" then evaluates !a9
+      // so OF REAL USE (additional semantic validation - like dynamic control on the occurrences of ()*)
+      LOOKAHEAD("v9", { !a9 }) // label_12, while jj_2_37 && !a9 scans 1 token
+      "v9"
+    )*
+    "end"
+  | 
+    "v10" 
+    (
+      // no warning but indeed CONSIDERED
+      // makes "x10" mandatory for each evaluation of a10 to true
+      // so of some MEANINGFUL USE (dynamic control of the number of occurrences of ()*)
+      LOOKAHEAD(0, { a10 }) // label_13, while a10 consumes 1 token
+      "x10"
+    )*
+    "end"
+  | 
+    "x10" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // makes "v10" mandatory for each evaluation of !a10 to true
+      // so of some MEANINGFUL USE (dynamic control of the number of occurrences of ()*)
+      LOOKAHEAD(0, { !a10 }) // label_14, while !a10 consumes 1 token
+      "v10"
+    )*
+    "end"
+  | 
+    "v11" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF REAL USE (additional semantic validation - like dynamic control on the occurrences of ()*)
+      LOOKAHEAD(1, { a11 }) // label_15, while jj_2_38 && a11 scans 1 token
+      "x11"
+    )*
+    "end"
+  | 
+    "x11" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // so OF REAL USE (additional semantic validation - like dynamic control on the occurrences of ()*)
+      LOOKAHEAD(1, { !a11 }) // label_16, while jj_2_39 && a11 scans 1 token
+      "v11"
+    )*
+    "end"
+  | 
+    "v12" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF REAL USE (additional semantic validation - like dynamic control on the occurrences of ()*)
+      LOOKAHEAD(2, { a12 }) // label_17, while jj_2_40 && a12 scans 1 token
+      "x12"
+    )*
+    "end"
+  | 
+    "x12" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // so OF REAL USE (additional semantic validation - like dynamic control on the occurrences of ()*)
+      LOOKAHEAD(2, { !a12 }) // label_18, while jj_2_41 && a12 scans 2 tokens
+      "v12" "x0"
+    )*
+    "end"
+  | 
+    "v13" 
+    (
+      // no warning but indeed CONSIDERED
+      // makes "x13" mandatory for each evaluation of a13 to true
+      // so of some MEANINGFUL USE (dynamic control of the number of occurrences of ()*)
+      LOOKAHEAD(0, "x13", { a13 }) // label_19, while a13 consumes 1 token
+      "x13"
+    )*
+    "end"
+  | 
+    "x13" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // makes "v13" mandatory for each evaluation of !a13 to true
+      // so of some MEANINGFUL USE (dynamic control of the number of occurrences of ()*)
+      LOOKAHEAD(0, "v13", { !a13 }) // label_20, while !a13 consumes 1 token
+      "v13"
+    )*
+    "end"
+  | 
+    "v14" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF REAL USE (additional semantic validation - like dynamic control of the # of occurrences of ()*)
+      LOOKAHEAD(1, "x14", { a14 }) // label_21, while jj_2_42 && a14 scans 1 token
+      "x14"
+    )*
+    "end"
+  | 
+    "x14" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // so OF REAL USE (additional semantic validation - like dynamic control of the # of occurrences of ()*)
+      LOOKAHEAD(1, "v14", { !a14 }) // label_22, while jj_2_43 && !a14 scans 1 token
+      "v14"
+    )*
+    "end"
+  | 
+    "v15" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF REAL USE (additional semantic validation - like dynamic control of the # of occurrences of ()*)
+      LOOKAHEAD(2, "x15", { a15 }) // label_23, while jj_2_44 && !a15 scans 1 token
+      "x15"
+    )*
+    "end"
+  | 
+    "x15" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // so OF REAL USE (additional semantic validation - like dynamic control of the # of occurrences of ()*)
+      LOOKAHEAD(2, "v15" "x0", { !a15 }) // label_24, while jj_2_45 && !a15 scans 2 tokens
+      "v15" "x0"
+    )*
+    "end"
+  )
+  { System.out.println("End E"); }
+}
+
+// same as E() but with optional construct ()+ instead of ()*
+//  the generated method structure is the same,
+//   with the Xnn token being consumed at the beginning of the while loop instead of at the end
+void F() : {}
+{
+  { prod_name = "F"; }
+  (
+    "v0" 
+    ("x0")+ // label_25 while, switch X0 default
+    "end"
+//  | 
+//    "v1" 
+//    (
+//      // no warning but indeed CONSIDERED
+//      // endless loop on consume X1, unreachable code, compiler error
+//      // so of NO USE
+//      LOOKAHEAD(0) // label_26 while, no switch endless loop X1
+//      "x1"
+//    )+
+//    "end"
+  | 
+    "v2" 
+    (
+      // no warning but indeed IGNORED
+      // so OF NO MEANINGFUL USE although it does not harm
+      LOOKAHEAD(1) // label_26 while, switch X2 default scans 1 token
+      "x2"
+    )+
+    "end"
+  | 
+    "v3" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF NO MEANINGFUL USE although it does not harm
+      LOOKAHEAD(2) // label_27, while jj_2_46 scans 1 token
+      "x3"
+    )+
+    "end"
+  | 
+    "x3" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF NO MEANINGFUL USE although it does not harm
+      LOOKAHEAD(2) // label_28, while jj_2_47 scans 2 tokens
+      "v3" "x0"
+    )+
+    "end"
+  | 
+    "v4" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF NO MEANINGFUL USE although it does not harm
+      LOOKAHEAD("x4") // label_29, while jj_2_48 scans 1 token
+      "x4"
+    )+
+    "end"
+  | 
+    "v5" 
+    (
+      // no warning but indeed CONSIDERED
+      // makes "x5" mandatory for each evaluation of a5 to true
+      // so of some MEANINGFUL USE (dynamic control of the number of occurrences of ()+)
+      LOOKAHEAD({ a5 }) // label_30, while a5 consumes 1 token
+      "x5"
+    )+
+    "end"
+  | 
+    "x5" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // so of some MEANINGFUL USE (dynamic control of the number of occurrences of ()+)
+      LOOKAHEAD({ !a5 }) // label_31, while !a5 consumes 1 token
+      "v5"
+    )+
+    "end"
+//  | 
+//    "v6" 
+//    (
+//      // no warning but indeed CONSIDERED
+//      // endless loop on consume X6, unreachable code, compiler error
+//      // so of NO USE
+//      LOOKAHEAD(0, "x6") // label_32 while, no switch endless loop X6
+//      "x6"
+//    )+
+//    "end"
+  | 
+    "v7" 
+    (
+      // no warning but indeed IGNORED
+      // so OF NO REAL USE although it does not harm
+      LOOKAHEAD(1, "x7") // label_32 while, switch X7 default scans 1 token
+      "x7"
+    )+
+    "end"
+  | 
+    "v8" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF NO REAL USE although it does not harm
+      LOOKAHEAD(2, "x8") // label_33, while jj_2_49 scans 1 token
+      "x8"
+    )+
+    "end"
+  | 
+    "x8" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF NO REAL USE although it does not harm
+      LOOKAHEAD(2, "v8") // label_34, while jj_2_50 scans 1 token (not 2 tokens)
+      "v8" "x0"
+    )+
+    "end"
+  | 
+    "v9" 
+    (
+      // no warning but indeed CONSIDERED
+      // scans for "x9" then evaluates a9
+      // so OF REAL USE (additional semantic validation - like dynamic control on the occurrences of ()+)
+      LOOKAHEAD("x9", { a9 }) // label_35, while jj_2_51 && a9 scans 1 token
+      "x9"
+    )+
+    "end"
+  | 
+    "x9" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // scans for "v9" then evaluates !a9
+      // so OF REAL USE (additional semantic validation - like dynamic control on the occurrences of ()+)
+      LOOKAHEAD("v9", { !a9 }) // label_36, while jj_2_52 && !a9 scans 1 token
+      "v9"
+    )+
+    "end"
+  | 
+    "v10" 
+    (
+      // no warning but indeed CONSIDERED
+      // makes "x10" mandatory for each evaluation of a10 to true
+      // so of some MEANINGFUL USE (dynamic control of the number of occurrences of ()+)
+      LOOKAHEAD(0, { a10 }) // label_37, while a10 consumes 1 token
+      "x10"
+    )+
+    "end"
+  | 
+    "x10" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // makes "v10" mandatory for each evaluation of !a10 to true
+      // so of some MEANINGFUL USE (dynamic control of the number of occurrences of ()+)
+      LOOKAHEAD(0, { !a10 }) // label_38, while !a10 consumes 1 token
+      "v10"
+    )+
+    "end"
+  | 
+    "v11" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF REAL USE (additional semantic validation - like dynamic control on the occurrences of ()+)
+      LOOKAHEAD(1, { a11 }) // label_39, while jj_2_53 && a11 scans 1 token
+      "x11"
+    )+
+    "end"
+  | 
+    "x11" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // so OF REAL USE (additional semantic validation - like dynamic control on the occurrences of ()+)
+      LOOKAHEAD(1, { !a11 }) // label_40, while jj_2_54 && !a11 scans 1 token
+      "v11"
+    )+
+    "end"
+  | 
+    "v12" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF REAL USE (additional semantic validation - like dynamic control on the occurrences of ()+)
+      LOOKAHEAD(2, { a12 }) // label_41, while jj_2_55 && a12 scans 1 token
+      "x12"
+    )+
+    "end"
+  | 
+    "x12" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // so OF REAL USE (additional semantic validation - like dynamic control on the occurrences of ()+)
+      LOOKAHEAD(2, { !a12 }) // label_42, while jj_2_56 && !a12 scans 2 tokens
+      "v12" "x0"
+    )+
+    "end"
+  | 
+    "v13" 
+    (
+      // no warning but indeed CONSIDERED
+      // makes "x13" mandatory for each evaluation of a13 to true
+      // so of some MEANINGFUL USE (dynamic control of the number of occurrences of ()+)
+      LOOKAHEAD(0, "x13", { a13 }) // label_43, while a13 consumes 1 token
+      "x13"
+    )+
+    "end"
+  | 
+    "x13" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // makes "v13" mandatory for each evaluation of !a13 to true
+      // so of some MEANINGFUL USE (dynamic control of the number of occurrences of ()+)
+      LOOKAHEAD(0, "v13", { !a13 }) // label_44, while !a13 consumes 1 token
+      "v13"
+    )+
+    "end"
+  | 
+    "v14" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF REAL USE (additional semantic validation - like dynamic control of the # of occurrences of ()+)
+      LOOKAHEAD(1, "x14", { a14 }) // label_45, while jj_2_57 && a14 scans 1 token
+      "x14"
+    )+
+    "end"
+  | 
+    "x14" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // so OF REAL USE (additional semantic validation - like dynamic control of the # of occurrences of ()+)
+      LOOKAHEAD(1, "v14", { !a14 }) // label_46, while jj_2_58 && !a14 scans 1 token
+      "v14"
+    )+
+    "end"
+  | 
+    "v15" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF REAL USE (additional semantic validation - like dynamic control of the # of occurrences of ()+)
+      LOOKAHEAD(2, "x15", { a15 }) // label_47, while jj_2_59 && a15 scans 1 token
+      "x15"
+    )+
+    "end"
+  | 
+    "x15" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // so OF REAL USE (additional semantic validation - like dynamic control of the # of occurrences of ()+)
+      LOOKAHEAD(2, "v15" "x0", { !a15 }) // label_48, while jj_2_60 && !a15 scans 2 tokens
+      "v15" "x0"
+    )+
+    "end"
+  )
+  { System.out.println("End F"); }
+}
+
+// same as E() but with optional construct ()? instead of ()*
+//  
+void G() : {}
+{
+  { prod_name = "G"; }
+  (
+    "v0" 
+    ("x0")? // switch X0 default scans 1 token
+    "end"
+  | 
+    "v1" 
+    (
+      // no warning but indeed CONSIDERED
+      // makes "x1" mandatory (i.e. it removes its optional aspect)
+      // so OF NO SENSIBLE USE
+      LOOKAHEAD(0) // no switch
+      "x1"
+    )?
+    "end"
+  | 
+    "v2" 
+    (
+      // no warning but indeed IGNORED
+      // so OF NO MEANINGFUL USE although it does not harm
+      LOOKAHEAD(1) // switch X2 default scans 1 token
+      "x2"
+    )?
+    "end"
+  | 
+    "v3" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF NO MEANINGFUL USE although it does not harm
+      LOOKAHEAD(2) // jj_2_61 scans 1 token
+      "x3"
+    )?
+    "end"
+  | 
+    "x3" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF NO MEANINGFUL USE although it does not harm
+      LOOKAHEAD(2) // jj_2_62 scans 2 tokens
+      "v3" "x0"
+    )?
+    "end"
+  | 
+    "v4" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF NO MEANINGFUL USE although it does not harm
+      LOOKAHEAD("x4") // jj_2_63 scans 1 token
+      "x4"
+    )?
+    "end"
+  | 
+    "v5" 
+    (
+      // no warning but indeed CONSIDERED
+      // makes "x5" mandatory for single evaluation of a5 to true
+      // so of some MEANINGFUL USE (dynamic control of one occurrence of ()?)
+      LOOKAHEAD({ a5 }) // a5 consumes 1 token
+      "x5"
+    )?
+    "end"
+  | 
+    "x5" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // so of some MEANINGFUL USE (dynamic control of one occurrence of ()?)
+      LOOKAHEAD({ !a5 }) // !a5 consumes 1 token
+      "v5"
+    )?
+    "end"
+  | 
+    "v6" 
+    (
+      // no warning but indeed CONSIDERED
+      // makes "x6" mandatory (i.e. it removes its optional aspect)
+      // so OF NO SENSIBLE USE
+      LOOKAHEAD(0, "x6") // no switch
+      "x6"
+    )?
+    "end"
+  | 
+    "v7" 
+    (
+      // no warning but indeed IGNORED
+      // so OF NO REAL USE although it does not harm
+      LOOKAHEAD(1, "x7") // switch X7 default scans 1 token
+      "x7"
+    )?
+    "end"
+  | 
+    "v8" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF NO REAL USE although it does not harm
+      LOOKAHEAD(2, "x8") // jj_2_64 scans 1 token
+      "x8"
+    )?
+    "end"
+  | 
+    "x8" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF NO REAL USE although it does not harm
+      LOOKAHEAD(2, "v8") // jj_2_65 scans 1 token (not 2 tokens)
+      "v8" "x0"
+    )?
+    "end"
+  | 
+    "v9" 
+    (
+      // no warning but indeed CONSIDERED
+      // scans for "x9" then evaluates a9
+      // so OF REAL USE (additional semantic validation - like dynamic control on one occurrence of ()?)
+      LOOKAHEAD("x9", { a9 }) // jj_2_66 && a9 scans 1 token
+      "x9"
+    )?
+    "end"
+  | 
+    "x9" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // scans for "v9" then evaluates !a9
+      // so OF REAL USE (additional semantic validation - like dynamic control on one occurrence of ()?)
+      LOOKAHEAD("v9", { !a9 }) // jj_2_67 && !a9 scans 1 token
+      "v9"
+    )?
+    "end"
+  | 
+    "v10" 
+    (
+      // no warning but indeed CONSIDERED
+      // makes "x10" mandatory for one evaluation of a10 to true
+      // so of some MEANINGFUL USE (dynamic control of one occurrence of ()?)
+      LOOKAHEAD(0, { a10 }) // a10 consumes 1 token
+      "x10"
+    )?
+    "end"
+  | 
+    "x10" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // makes "v10" mandatory for one evaluation of !a10 to true
+      // so of some MEANINGFUL USE (dynamic control of one occurrence of ()?)
+      LOOKAHEAD(0, { !a10 }) // !a10 consumes 1 token
+      "v10"
+    )?
+    "end"
+  | 
+    "v11" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF REAL USE (additional semantic validation - like dynamic control of one occurrence of ()?)
+      LOOKAHEAD(1, { a11 }) // jj_2_68 && a11 scans 1 token
+      "x11"
+    )?
+    "end"
+  | 
+    "x11" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // so OF REAL USE (additional semantic validation - like dynamic control of one occurrence of ()?)
+      LOOKAHEAD(1, { !a11 }) // jj_2_69 && !a11 scans 1 token
+      "v11"
+    )?
+    "end"
+  | 
+    "v12" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF REAL USE (additional semantic validation - like dynamic control of one occurrence of ()?)
+      LOOKAHEAD(2, { a12 }) // jj_2_70 && a12 scans 1 token
+      "x12"
+    )?
+    "end"
+  | 
+    "x12" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // so OF REAL USE (additional semantic validation - like dynamic control of one occurrence of ()?)
+      LOOKAHEAD(2, { !a12 }) // jj_2_71 && !a12 scans 2 tokens
+      "v12" "x0"
+    )?
+    "end"
+  | 
+    "v13" 
+    (
+      // no warning but indeed CONSIDERED
+      // makes "x13" mandatory for one evaluation of a13 to true
+      // so of some MEANINGFUL USE (dynamic control of one occurrence of ()?)
+      LOOKAHEAD(0, "x13", { a13 }) // a13 consumes 1 token
+      "x13"
+    )?
+    "end"
+  | 
+    "x13" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // makes "v13" mandatory for one evaluation of !a13 to true
+      // so of some MEANINGFUL USE (dynamic control of one occurrence of ()?)
+      LOOKAHEAD(0, "v13", { !a13 }) // !a13 consumes 1 token
+      "v13"
+    )?
+    "end"
+  | 
+    "v14" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF REAL USE (additional semantic validation - like dynamic control of one occurrence of ()?)
+      LOOKAHEAD(1, "x14", { a14 }) // jj_2_73 && a14 scans 1 token
+      "x14"
+    )?
+    "end"
+  | 
+    "x14" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // so OF REAL USE (additional semantic validation - like dynamic control of one occurrence of ()?)
+      LOOKAHEAD(1, "v14", { !a14 }) // jj_2_74 && !a14 scans 1 token
+      "v14"
+    )?
+    "end"
+  | 
+    "v15" 
+    (
+      // no warning but indeed CONSIDERED
+      // so OF REAL USE (additional semantic validation - like dynamic control of the # of occurrences of ()?)
+      LOOKAHEAD(2, "x15", { a15 }) // jj_2_75 && a15 scans 1 token
+      "x15"
+    )?
+    "end"
+  | 
+    "x15" 
+    (
+      // no warning but indeed CONSIDERED
+      // (opposite of previous)
+      // so OF REAL USE (additional semantic validation - like dynamic control of the # of occurrences of ()?)
+      LOOKAHEAD(2, "v15" "x0", { !a15 }) // jj_2_76 && !a15 scans 2 tokens
+      "v15" "x0"
+    )?
+    "end"
+  )
+  { System.out.println("End G"); }
+}
+
