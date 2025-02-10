@@ -162,7 +162,7 @@ You can use JavaCC either from the command line or through an IDE.
 
 Download the latest stable release (at least the source and the binaries) in a so called download directory:
 
-* JavaCC 7.0.13 - ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.13.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.13.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.13/javacc-7.0.13.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.13/javacc-7.0.13-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.13))
+* JavaCC 7.0.14 - ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.14.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.14.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.14/javacc-7.0.14.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.14/javacc-7.0.14-javadoc.jar), [Release Notes](release-notes.md#javacc-7.0.14))
 
 All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
@@ -172,16 +172,16 @@ For all previous releases, please see [stable releases](downloads.md).
 
 Once you have downloaded the files, navigate to the download directory and unzip the source file, this creating a so called JavaCC installation directory:
 ```
-$ unzip javacc-7.0.13.zip
+$ unzip javacc-7.0.14.zip
 or
-$ tar xvf javacc-7.0.13.tar.gz
+$ tar xvf javacc-7.0.14.tar.gz
 ```
 
-Then move the binary file `javacc-7.0.13.jar` under the download directory in a new `target/` directory under the installation directory, and rename it to `javacc.jar`.
+Then move the binary file `javacc-7.0.14.jar` under the download directory in a new `target/` directory under the installation directory, and rename it to `javacc.jar`.
 
 Then add the `scripts/` directory in the JavaCC installation directory to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
 
-On UNIX based systems, the scripts may not be executable immediately. This can be solved by using the command from the `javacc-7.0.13/` directory:
+On UNIX based systems, the scripts may not be executable immediately. This can be solved by using the command from the `javacc-7.0.14/` directory:
 ```
 chmod +x scripts/javacc
 ```
@@ -222,7 +222,7 @@ Add the following dependency to your `pom.xml` file.
 <dependency>
     <groupId>net.java.dev.javacc</groupId>
     <artifactId>javacc</artifactId>
-    <version>7.0.13</version>
+    <version>7.0.14</version>
 </dependency>
 ```
 
@@ -239,7 +239,7 @@ repositories {
 }
 
 dependencies {
-    compile group: 'net.java.dev.javacc', name: 'javacc', version: '7.0.13'
+    compile group: 'net.java.dev.javacc', name: 'javacc', version: '7.0.14'
 }
 ```
 
@@ -350,16 +350,6 @@ User                                                 | Use Case                 
 [Apache Zookeeper](https://zookeeper.apache.org/)    | Optimising serialisation/deserialisation of Hadoop I/O records | [rcc.jj](https://github.com/apache/zookeeper/blob/master/zookeeper-jute/src/main/java/org/apache/jute/compiler/generated/rcc.jj)
 [Java Parser](https://javaparser.org/)               | Parsing Java language files                                    | [java.jj](https://github.com/javaparser/javaparser/blob/master/javaparser-core/src/main/javacc/java.jj)
 
-JavaCC is used in many commercial applications and open source projects.
-
-### Profiled with the [java profiler](https://www.ej-technologies.com/jprofiler) ![JProfiler](https://www.ej-technologies.com/images/product_banners/jprofiler_small.png)
-
-## License
-
-JavaCC is an open source project released under the [BSD License 2.0](LICENSE). The JavaCC project was originally developed at Sun Microsystems Inc. by [Sreeni Viswanadha](https://github.com/kaikalur) and [Sriram Sankar](https://twitter.com/sankarsearch).
-
-<br>
-
 <!---
 ## Contributing
 
@@ -370,6 +360,12 @@ This article describes [how to contribute to Apache Flink](https://flink.apache.
 https://blog.scottlowe.org/2015/01/27/using-fork-branch-git-workflow/
 
 -->
+
+## License
+
+JavaCC is an open source project released under the [BSD License 2.0](LICENSE). The JavaCC project was originally developed at Sun Microsystems Inc. by [Sreeni Viswanadha](https://github.com/kaikalur) and [Sriram Sankar](https://twitter.com/sankarsearch).
+
+<br>
 
 ---
 
