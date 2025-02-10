@@ -1,75 +1,100 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<!--
+Copyright (c) 2006-2024, Sreeni Viswanadha <sreeni@viswanadha.net>.
+Copyright (c) 2024, Marc Mazas <mazas.marc@gmail.com>.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the names of of the copyright holders nor the names of its
+      contributors may be used to endorse or promote products derived from
+      this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd
                       ">
   <modelVersion>4.0.0</modelVersion>
+  <!-- in the order of https://maven.apache.org/ref/4-LATEST/maven-model/maven.html -->
+
   <groupId>net.java.dev.javacc</groupId>
   <artifactId>javacc</artifactId>
-  <name>JavaCC</name>
   <version>7.0.14-SNAPSHOT</version>
+  <packaging>jar</packaging>
 
-  <description>JavaCC is a parser/scanner generator for java. </description>
+  <name>JavaCC</name>
+  <description>JavaCC is a parser/scanner generator for java, C++ and C#.</description>
   <url>https://github.com/javacc/javacc</url>
-  <issueManagement>
-    <system>JIRA</system>
-    <url>https://github.com/javacc/javacc/issues</url>
-  </issueManagement>
   <inceptionYear>1996</inceptionYear>
+
   <organization>
     <name>javacc.org</name>
     <url>https://javacc.github.io/javacc/</url>
   </organization>
-  <scm>
-    <url>https://github.com/javacc/javacc</url>
-    <connection>scm:git:https://github.com/javacc/javacc.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/javacc/javacc.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
-  <mailingLists>
-    <mailingList>
-      <name>Google user group</name>
-      <archive>https://groups.google.com/forum/#!forum/javacc-users</archive>
-    </mailingList>
-  </mailingLists>
+
+  <licenses>
+    <license>
+      <name>Berkeley Software Distribution (BSD) License</name>
+      <url>http://www.opensource.org/licenses/bsd-license.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <developers>
     <developer>
       <name>Sreenivasa Viswanadha</name>
       <id>sreeni</id>
       <email>support@javacc.org</email>
+      <!-- <email>sreeni@viswanadha.net</email> -->
       <roles>
         <role>Owner</role>
       </roles>
-      <timezone>0</timezone>
+      <timezone>-5</timezone>
       <organization>javacc.org</organization>
       <organizationUrl>https://javacc.org</organizationUrl>
     </developer>
-
     <developer>
       <name>Chris Ainsley</name>
       <id>ainsleyc</id>
-      <email>ainsleyc At dev.java.net</email>
+      <email>ainsleyc AT dev.java.net</email>
       <roles>
         <role>Developer</role>
       </roles>
-      <timezone>0</timezone>
+      <timezone>-5</timezone>
       <organization>java.net</organization>
       <organizationUrl>http://www.java.net/</organizationUrl>
     </developer>
-
     <developer>
       <name>Tim Pizey</name>
       <id>timp</id>
       <email>timp AT paneris.org</email>
       <roles>
-        <role>Maven maven</role>
+        <role>Maven</role>
         <role>Developer</role>
       </roles>
-      <timezone>0</timezone>
+      <timezone>-5</timezone>
       <url>http://paneris.org/~timp</url>
       <organization>Context Computing</organization>
       <organizationUrl>http://www.context-computing.co.uk/</organizationUrl>
     </developer>
-
     <developer>
       <name>Francis ANDRE</name>
       <id>zosrothko</id>
@@ -77,12 +102,22 @@
       <roles>
         <role>Developer</role>
       </roles>
-      <timezone>0</timezone>
+      <timezone>1</timezone>
       <url>http://www.kampbell.net</url>
       <organization>Kampbell</organization>
       <organizationUrl>https://github.com/Kampbell/</organizationUrl>
     </developer>
+    <developer>
+      <name>Marc Mazas</name>
+      <id>MarcMazas</id>
+      <email>mazas.marc AT gmail.com</email>
+      <roles>
+        <role>Maintainer</role>
+      </roles>
+      <timezone>1</timezone>
+    </developer>
   </developers>
+
   <contributors>
     <contributor>
       <name>Markus Brigl</name>
@@ -115,32 +150,27 @@
     <contributor>
       <name>Eitan Adler</name>
     </contributor>
-    <contributor>
-      <name>Anton Rybochkin</name>
-    </contributor>
-    <contributor>
-      <name>Marc Mazas</name>
-    </contributor>
   </contributors>
-  <licenses>
-    <license>
-      <name>Berkeley Software Distribution (BSD) License</name>
-      <url>http://www.opensource.org/licenses/bsd-license.html</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
 
-  <properties>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+  <mailingLists>
+    <mailingList>
+      <name>Google user group</name>
+      <archive>https://groups.google.com/forum/#!forum/javacc-users</archive>
+    </mailingList>
+  </mailingLists>
 
-    <keystore.path>keystore</keystore.path>
-    <keystore.type>PKCS12</keystore.type>
-    <keystore.alias>release</keystore.alias>
-    <keystore.password>javacc</keystore.password>
-    <keystore.store.password>javacc</keystore.store.password>
-    <keystore.key.password>javacc</keystore.key.password>
-  </properties>
+  <scm>
+    <url>https://github.com/javacc/javacc</url>
+    <connection>scm:git:https://github.com/javacc/javacc.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/javacc/javacc.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/javacc/javacc/issues</url>
+  </issueManagement>
+
   <distributionManagement>
     <repository>
       <id>ossrh</id>
@@ -148,118 +178,241 @@
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
   </distributionManagement>
+
+  <properties>
+
+    <exec-maven-plugin.version>3.3.0</exec-maven-plugin.version>
+    <junit.version>3.8.1</junit.version>
+    <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
+    <maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
+    <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+    <!--    <maven-deploy-plugin.version>3.1.3</maven-deploy-plugin.version>-->
+    <!--    <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>-->
+    <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+    <maven-install-plugin.version>3.1.3</maven-install-plugin.version>
+    <maven-invoker-plugin.version>3.9.0</maven-invoker-plugin.version>
+    <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+    <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+    <maven-jarsigner-plugin.version>3.1.0</maven-jarsigner-plugin.version>
+    <maven-project-info-reports-plugin.version>3.8.0</maven-project-info-reports-plugin.version>
+    <!--    <maven-release-plugin.version>3.1.1</maven-release-plugin.version>-->
+    <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+    <!--    <maven-site-plugin.version>3.21.0</maven-site-plugin.version>-->
+    <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+    <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
+    <maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
+    <mojohaus.javacc-maven-plugin.version>2.6</mojohaus.javacc-maven-plugin.version>
+    <!--    <mojohaus.javacc-maven-plugin.version>3.0.1</mojohaus.javacc-maven-plugin.version>-->
+    <mojohaus.jdepend-maven-plugin.version>2.1</mojohaus.jdepend-maven-plugin.version>
+    <!--    <mojohaus.taglist-maven-plugin.version>3.2.1</mojohaus.taglist-maven-plugin.version>-->
+    <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
+    <plexus-compiler-csharp.version>2.15.0</plexus-compiler-csharp.version>
+
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <keystore.path>keystore</keystore.path>
+    <keystore.type>PKCS12</keystore.type>
+    <keystore.alias>release</keystore.alias>
+    <keystore.password>javacc</keystore.password>
+    <keystore.store.password>javacc</keystore.store.password>
+    <keystore.key.password>javacc</keystore.key.password>
+
+  </properties>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
-        <version>3.8.1</version>
+        <version>${junit.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <scope>compile</scope>
+      <scope>test</scope>
     </dependency>
   </dependencies>
+
   <build>
+
     <pluginManagement>
       <plugins>
+        <!-- in lifecycle order, then in phase order, then in execution order -->
+        <!-- setting all (latest) versions for all explicit & implicit plugins to ensure build
+             consistency across contributors' installations -->
+
+        <!-- lifecycle: clean -->
+        <!-- **************** -->
+
+        <!-- phase: clean -->
+        <!-- plugin: maven-clean-plugin is not used to clean /target & other files, we use
+             the maven-antrun-plugin on target clean in build.xml script to centralize this cleaning
+          -->
         <plugin>
+          <!-- removes files generated at build-time; usually implicit; goals: clean -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>${maven-clean-plugin.version}</version>
+        </plugin>
+
+        <!-- lifecycle: build -->
+        <!-- **************** -->
+
+        <!-- phase: validate -->
+        <!-- (toolchains is in a profile) -->
+
+        <!-- phase: process-resources -->
+        <plugin>
+          <!-- processes JavaCC/JJTree grammar files; goals: javacc, jjtree-javacc, jjtree -->
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>javacc-maven-plugin</artifactId>
-          <version>2.6</version>
+          <version>${mojohaus.javacc-maven-plugin.version}</version>
         </plugin>
         <plugin>
+          <!--  handles the copying of project (source & test) resources to the output directory;
+                usually implicit; goals: resources, tesResources,copy-resources -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${maven-resources-plugin.version}</version>
+        </plugin>
+
+        <!-- phase: compile -->
+        <plugin>
+          <!--  compiles the java source (source and test) files; usually implicit;
+                goal: compile, testCompile -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven-compiler-plugin.version}</version>
+        </plugin>
+
+        <!-- phase: process-test-resources -->
+        <!-- plugin: maven-resources-plugin also handles process-test-resources -->
+
+        <!-- phase: test-compile -->
+        <!-- plugin: maven-compiler-plugin also handles test-compile -->
+
+        <!-- phase: test -->
+        <plugin>
+          <!-- executes the unit tests of an application and generates reports; goals: test -->
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.2</version>
+          <version>${maven-surefire-plugin.version}</version>
         </plugin>
         <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>cobertura-maven-plugin</artifactId>
-          <version>2.7</version>
-        </plugin>
-        <plugin>
+          <!-- runs a set of Maven projects; goals: install, integration-test, verify, run -->
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>3.1.0</version>
+          <artifactId>maven-invoker-plugin</artifactId>
+          <version>${maven-invoker-plugin.version}</version>
         </plugin>
         <plugin>
+          <!-- runs Ant scripts; goal: run -->
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.1.1</version>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>${maven-antrun-plugin.version}</version>
         </plugin>
+
+        <!-- phase: package -->
         <plugin>
+          <!-- builds a jar file from the compiled project classes and resources; usually implicit;
+               goals: jar, test-jar -->
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.8.2</version>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>${maven-jar-plugin.version}</version>
         </plugin>
+
+        <!-- phase: install -->
         <plugin>
+          <!-- copies the project artifacts to the user's local repository; usually implicit;
+               goals: install, install-file, help -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>${maven-install-plugin.version}</version>
+        </plugin>
+
+        <!-- phase: deploy -->
+        <!--        <plugin>-->
+        <!-- uploads the project artifacts to the internal remote repository;
+               goal: deploy, deploy-file; replaced by nexus-staging-maven-plugin -->
+        <!--          <groupId>org.apache.maven.plugins</groupId>-->
+        <!--          <artifactId>maven-deploy-plugin</artifactId>-->
+        <!--          <version>${maven-deploy-plugin.version}</version>-->
+        <!--        </plugin>-->
+        <!--        <plugin>-->
+        <!-- releases a project; usually implicit; goals: (many, not listed)
+               replaced by nexus-staging-maven-plugin? -->
+        <!--          <groupId>org.apache.maven.plugins</groupId>-->
+        <!--          <artifactId>maven-release-plugin</artifactId>-->
+        <!--          <version>${maven-release-plugin.version}</version>-->
+        <!--        </plugin>-->
+        <plugin>
+          <!-- provides support to access staging functionality in a remote Nexus Professional
+               server; replaces maven-deploy-plugin; goals: see
+               https://github.com/sonatype/nexus-maven-plugins/blob/main/staging/maven-plugin/README.md -->
           <groupId>org.sonatype.plugins</groupId>
           <artifactId>nexus-staging-maven-plugin</artifactId>
-          <version>1.6.7</version>
+          <version>${nexus-staging-maven-plugin.version}</version>
         </plugin>
         <plugin>
+          <!-- creates a jar archive of the source files;
+               goals: aggregate, jar, test-jar, jar-no-fork, test-jar-no-fork -->
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>3.7.1</version>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
         </plugin>
         <plugin>
+          <!-- generates javadocs for the project using the Javadoc tool;
+               goals: (many, not listed) -->
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>3.0.0</version>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${maven-javadoc-plugin.version}</version>
         </plugin>
         <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jarsigner-plugin</artifactId>
-          <version>3.0.0</version>
-        </plugin>
-        <plugin>
+          <!-- signs all of the project's attached artifacts with GnuPG;
+               goals: sign, sign-and-deploy-file -->
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
-          <version>1.6</version>
+          <version>${maven-gpg-plugin.version}</version>
         </plugin>
         <plugin>
+          <!-- signs all of the project's attached artifacts with GnuPG;
+               goals: sign, verify -->
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-toolchains-plugin</artifactId>
-          <version>1.1</version>
+          <artifactId>maven-jarsigner-plugin</artifactId>
+          <version>${maven-jarsigner-plugin.version}</version>
+        </plugin>
+
+        <!-- lifecycle: site -->
+        <!-- *************** -->
+
+        <!-- phase: site -->
+        <plugin>
+          <!-- generates a web site; goals: (many, not listed) -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>${maven-site-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <!-- generates standard reports; goals: (many, not listed) -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-project-info-reports-plugin</artifactId>
+          <version>${maven-project-info-reports-plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
+
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-toolchains-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>toolchain</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <toolchains>
-            <jdk>
-              <version>1.8</version>
-              <vendor>Oracle</vendor>
-            </jdk>
-          </toolchains>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>javacc-maven-plugin</artifactId>
         <executions>
-          <execution>
-            <id>jcc</id>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>javacc</goal>
-            </goals>
-          </execution>
           <execution>
             <id>jjt</id>
             <phase>generate-sources</phase>
@@ -272,6 +425,13 @@
               </excludes>
             </configuration>
           </execution>
+          <execution>
+            <id>jcc</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>javacc</goal>
+            </goals>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -279,7 +439,6 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <redirectTestOutputToFile>true</redirectTestOutputToFile>
-          <forkMode>once</forkMode>
           <includes>
             <include>**/*Test.java</include>
           </includes>
@@ -288,6 +447,7 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
@@ -297,10 +457,11 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <target>
 
-                <!-- Place any ant task here. You can add anything you can add between <target> and </target>
-                in a build.xml. -->
+                <!-- Place any ant task here. You can add anything you can add
+                     between <target> and </target> in a build.xml. -->
+                <delete dir="test.tmp" />
                 <mkdir dir="test.tmp" />
 
                 <echo />
@@ -308,13 +469,14 @@
                   <arg line="-OUTPUT_DIRECTORY=test.tmp/CORBA-IDL" />
                   <arg line="examples/CORBA-IDL/IDL.jj" />
                 </java>
-                <javac fork="true" srcdir="test.tmp/CORBA-IDL" />
+                <javac fork="true" srcdir="test.tmp/CORBA-IDL" includeantruntime="false" />
                 <copy todir="test.tmp/CORBA-IDL/">
                   <fileset dir="examples/CORBA-IDL">
                     <include name="*.idl" />
                   </fileset>
                 </copy>
-                <java failonerror="true" fork="true" classname="IDLParser" classpath="test.tmp/CORBA-IDL/"
+                <java failonerror="true" fork="true" classname="IDLParser"
+                  classpath="test.tmp/CORBA-IDL/"
                   outputproperty="test.corba.out">
                   <arg line="test.tmp/CORBA-IDL/Hello.idl" />
                 </java>
@@ -336,7 +498,8 @@
                   <arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/ParserVersion" />
                   <arg line="examples/GUIParsing/ParserVersion/CalcInput.jj" />
                 </java>
-                <javac fork="true" srcdir="test.tmp/GUIParsing/ParserVersion" />
+                <javac fork="true" srcdir="test.tmp/GUIParsing/ParserVersion"
+                  includeantruntime="false" />
                 <!--
                 <echo />
                 <copy todir="test.tmp/GUIParsing/TokenMgrVersion">
@@ -348,8 +511,9 @@
                   <arg line="-OUTPUT_DIRECTORY=test.tmp/GUIParsing/TokenMgrVersion" />
                   <arg line="examples/GUIParsing/TokenMgrVersion/CalcInput.jj" />
                 </java>
-                <javac fork="true" srcdir="test.tmp/GUIParsing/TokenMgrVersion" />
+                <javac fork="true" srcdir="test.tmp/GUIParsing/TokenMgrVersion" includeantruntime="false" />
                  -->
+
                 <echo />
                 <copy todir="test.tmp/Interpreter">
                   <fileset dir="examples/Interpreter">
@@ -364,13 +528,14 @@
                   <arg line="-OUTPUT_DIRECTORY=test.tmp/Interpreter " />
                   <arg line="test.tmp/Interpreter/SPL.jj" />
                 </java>
-                <javac fork="true" srcdir="test.tmp/Interpreter" />
+                <javac fork="true" srcdir="test.tmp/Interpreter" includeantruntime="false" />
                 <copy todir="test.tmp/Interpreter/">
                   <fileset dir="examples/Interpreter/">
                     <include name="*.spl" />
                   </fileset>
                 </copy>
-                <java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/"
+                <java failonerror="true" fork="true" classname="SPL"
+                  classpath="test.tmp/Interpreter/"
                   inputstring="3" outputproperty="spl.out1">
                   <arg line="test.tmp/Interpreter/fact.spl" />
                 </java>
@@ -382,7 +547,8 @@
                     </not>
                   </condition>
                 </fail>
-                <java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/"
+                <java failonerror="true" fork="true" classname="SPL"
+                  classpath="test.tmp/Interpreter/"
                   inputstring="3" outputproperty="spl.out2">
                   <arg line="test.tmp/Interpreter/odd.spl" />
                 </java>
@@ -394,7 +560,8 @@
                     </not>
                   </condition>
                 </fail>
-                <java failonerror="true" fork="true" classname="SPL" classpath="test.tmp/Interpreter/"
+                <java failonerror="true" fork="true" classname="SPL"
+                  classpath="test.tmp/Interpreter/"
                   inputstring="9" outputproperty="spl.out3">
                   <arg line="test.tmp/Interpreter/sqrt.spl" />
                 </java>
@@ -415,8 +582,9 @@
                   <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg1" />
                   <arg line="test.tmp/JJTreeExamples.eg1/eg1.jj" />
                 </java>
-                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg1" />
-                <java failonerror="true" fork="true" classname="Eg1" classpath="test.tmp/JJTreeExamples.eg1/"
+                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg1" includeantruntime="false" />
+                <java failonerror="true" fork="true" classname="Eg1"
+                  classpath="test.tmp/JJTreeExamples.eg1/"
                   inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg1.out"> </java>
                 <echo>${jjtree.eg1.out}</echo>
                 <fail message="JJTree eg1 parse failed">
@@ -442,8 +610,9 @@
                   <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg2" />
                   <arg line="test.tmp/JJTreeExamples.eg2/eg2.jj" />
                 </java>
-                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg2" />
-                <java failonerror="true" fork="true" classname="Eg2" classpath="test.tmp/JJTreeExamples.eg2/"
+                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg2" includeantruntime="false" />
+                <java failonerror="true" fork="true" classname="Eg2"
+                  classpath="test.tmp/JJTreeExamples.eg2/"
                   inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg2.out"> </java>
                 <echo>${jjtree.eg2.out}</echo>
                 <fail message="JJTree eg2 parse failed">
@@ -469,8 +638,9 @@
                   <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg3" />
                   <arg line="test.tmp/JJTreeExamples.eg3/eg3.jj" />
                 </java>
-                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg3" />
-                <java failonerror="true" fork="true" classname="Eg3" classpath="test.tmp/JJTreeExamples.eg3/"
+                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg3" includeantruntime="false" />
+                <java failonerror="true" fork="true" classname="Eg3"
+                  classpath="test.tmp/JJTreeExamples.eg3/"
                   inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg3.out"> </java>
                 <echo>${jjtree.eg3.out}</echo>
                 <fail message="JJTree eg3 parse failed">
@@ -494,8 +664,9 @@
                   <arg line="-OUTPUT_DIRECTORY=test.tmp/JJTreeExamples.eg4" />
                   <arg line="test.tmp/JJTreeExamples.eg4/eg4.jj" />
                 </java>
-                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg4" />
-                <java failonerror="true" fork="true" classname="Eg4" classpath="test.tmp/JJTreeExamples.eg4/"
+                <javac fork="true" srcdir="test.tmp/JJTreeExamples.eg4" includeantruntime="false" />
+                <java failonerror="true" fork="true" classname="Eg4"
+                  classpath="test.tmp/JJTreeExamples.eg4/"
                   inputstring="(a + b) * (c + 1);" outputproperty="jjtree.eg4.out"> </java>
                 <echo>${jjtree.eg4.out}</echo>
                 <fail message="JJTree eg4 parse failed">
@@ -512,7 +683,7 @@
                   <arg line="examples/JavaCCGrammar/JavaCC.jj" />
                 </java>
 
-                <javac fork="true" srcdir="test.tmp/JavaCCGrammar" />
+                <javac fork="true" srcdir="test.tmp/JavaCCGrammar" includeantruntime="false" />
                 <!-- TODO, test cases for JavaGrammars -->
                 <echo />
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
@@ -564,7 +735,7 @@
                   <arg line="-OUTPUT_DIRECTORY=test.tmp/MailProcessing" />
                   <arg line="examples/MailProcessing/Faq.jj" />
                 </java>
-                <javac fork="true" srcdir="test.tmp/MailProcessing" />
+                <javac fork="true" srcdir="test.tmp/MailProcessing" includeantruntime="false" />
                 <echo />
                 <copy todir="test.tmp/Obfuscator">
                   <fileset dir="examples/Obfuscator">
@@ -583,21 +754,21 @@
                   <arg line="-OUTPUT_DIRECTORY=test.tmp/Obfuscator" />
                   <arg line="examples/Obfuscator/MapFile.jj" />
                 </java>
-                <javac fork="true" srcdir="test.tmp/Obfuscator" />
+                <javac fork="true" srcdir="test.tmp/Obfuscator" includeantruntime="false" />
 
                 <echo />
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
                   <arg line="-OUTPUT_DIRECTORY=test.tmp/gwtTemplate" />
                   <arg line="test/gwtTemplate/Parser.jj" />
                 </java>
-                <javac fork="true" srcdir="test.tmp/gwtTemplate" />
+                <javac fork="true" srcdir="test.tmp/gwtTemplate" includeantruntime="false" />
 
                 <echo />
                 <java failonerror="true" fork="true" classname="javacc" classpath="target/classes">
                   <arg line="-OUTPUT_DIRECTORY=test.tmp/gwtUnicodeTemplate" />
                   <arg line="test/gwtUnicodeTemplate/Parser.jj" />
                 </java>
-                <javac fork="true" srcdir="test.tmp/gwtUnicodeTemplate" />
+                <javac fork="true" srcdir="test.tmp/gwtUnicodeTemplate" includeantruntime="false" />
 
                 <!-- TODO, test cases for SimpleExamples -->
                 <echo />
@@ -614,7 +785,8 @@
                   <arg line="-OUTPUT_DIRECTORY=test.tmp/Transformer" />
                   <arg line="test.tmp/Transformer/ToyJava.jj" />
                 </java>
-                <javac fork="true" srcdir="test.tmp/Transformer" />
+                <javac fork="true" srcdir="test.tmp/Transformer" includeantruntime="false" />
+
                 <echo />
                 <copy todir="test.tmp/VTransformer">
                   <fileset dir="examples/VTransformer">
@@ -629,14 +801,20 @@
                   <arg line="-OUTPUT_DIRECTORY=test.tmp/VTransformer" />
                   <arg line="test.tmp/VTransformer/Java1.1.jj" />
                 </java>
+                <!-- don't know why setting here includeantruntime="false" like for the other tests
+                     makes the javac task (jdk 11) fail with: error: invalid flag: ...\test.tmp\VTransformer
+                     running with -X shows use as last arg @<tempfile> filled with the 100 files
+                     and 4 args '-classpath' '' '-sourcepath' '...\test.tmp\VTransformer'
+                      -->
+                <!-- javac fork="true" srcdir="test.tmp/VTransformer" includeantruntime="false" / -->
                 <javac fork="true" srcdir="test.tmp/VTransformer" />
 
-              </tasks>
+              </target>
             </configuration>
           </execution>
         </executions>
       </plugin>
-      <plugin>
+      <!--      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
         <executions>
@@ -647,6 +825,7 @@
           </execution>
         </executions>
       </plugin>
+-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
@@ -727,62 +906,129 @@
         </configuration>
       </plugin>
     </plugins>
+
   </build>
+
+  <profiles>
+    <profile>
+      <!-- enables using maven toolchains plugin to not depend of current JAVA_HOME setting -->
+      <id>with-toolchains</id>
+      <activation>
+        <file>
+          <exists>${env.USERPROFILE}/.m2/toolchains.xml</exists>
+        </file>
+      </activation>
+      <properties> </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <!-- lifecycle: build -->
+            <!-- phase: validate -->
+            <plugin>
+              <!-- allows to share consistent configuration (here jdk) across plugins;
+               reads <userhome>/.m2/toolchains.xml -->
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-toolchains-plugin</artifactId>
+              <version>${maven-toolchains-plugin.version}</version>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-toolchains-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>toolchain</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <toolchains>
+                <jdk>
+                  <!-- github action setup-java@v4 uses 8; generated toolchains.xml files use 1.8 -->
+                  <version>[1.8,8]</version>
+                </jdk>
+              </toolchains>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
   <reporting>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.12.0</version>
-        <configuration>
-          <rulesets>
-            <ruleset>/rulesets/java/maven-pmd-plugin-default.xml</ruleset>
-          </rulesets>
-          <minmemory>128m</minmemory>
-          <maxmemory>256m</maxmemory>
-          <format>xml</format>
-          <linkXref>true</linkXref>
-          <sourceEncoding>utf-8</sourceEncoding>
-          <minimumTokens>100</minimumTokens>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>jdepend-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>taglist-maven-plugin</artifactId>
-        <configuration>
-          <tags>
-            <tag>@todo</tag>
-            <tag>FIXME</tag>
-            <tag>@deprecated</tag>
-            <tag>HACK</tag>
-            <tag>NOTE</tag>
-          </tags>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-report-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <configuration>
-          <siteDirectory>www</siteDirectory>
-          <locales>en</locales>
-        </configuration>
-      </plugin>
+      <!-- in lifecycle order, then in phase order, then in execution order -->
+      <!-- setting all (latest) versions for all explicit & implicit plugins to ensure build
+      consistency
+             across contributors' installations -->
+
+      <!-- lifecycle: site -->
+      <!-- *************** -->
+
+      <!-- phase: site -->
+      <!--      <plugin>-->
+      <!-- produces a formatted metrics report; goals: generate, generate-no-fork  -->
+      <!--        <groupId>org.codehaus.mojo</groupId>-->
+      <!--        <artifactId>jdepend-maven-plugin</artifactId>-->
+      <!--        <version>${mojohaus.jdepend-maven-plugin.version}</version>-->
+      <!--      </plugin>-->
+      <!--      <plugin>-->
+      <!-- produces a report on both code rule violations and detected copy and paste
+        fragments, as well as being able to fail the build based on these metrics, 
+        goals: (many, not listed) -->
+      <!--        <groupId>org.apache.maven.plugins</groupId>-->
+      <!--        <artifactId>maven-pmd-plugin</artifactId>-->
+      <!--        <version>${maven-pmd-plugin.version}</version>-->
+      <!--        <configuration>-->
+      <!--          <rulesets>-->
+      <!--            <ruleset>/rulesets/java/maven-pmd-plugin-default.xml</ruleset>-->
+      <!--          </rulesets>-->
+      <!--          <minmemory>128m</minmemory>-->
+      <!--          <maxmemory>256m</maxmemory>-->
+      <!--          <format>xml</format>-->
+      <!--          <linkXref>true</linkXref>-->
+      <!--          <sourceEncoding>utf-8</sourceEncoding>-->
+      <!--          <minimumTokens>100</minimumTokens>-->
+      <!--        </configuration>-->
+      <!--      </plugin>-->
+      <!--      <plugin>-->
+      <!-- generates a report on various tags found in the code; goals: taglist -->
+      <!--        <groupId>org.codehaus.mojo</groupId>-->
+      <!--        <artifactId>taglist-maven-plugin</artifactId>-->
+      <!--        <version>${mojohaus.taglist-maven-plugin.version}</version>-->
+      <!--        <configuration>-->
+      <!--          <tags>-->
+      <!--            <tag>@todo</tag>-->
+      <!--            <tag>FIXME</tag>-->
+      <!--            <tag>@deprecated</tag>-->
+      <!--            <tag>HACK</tag>-->
+      <!--            <tag>NOTE</tag>-->
+      <!--          </tags>-->
+      <!--        </configuration>-->
+      <!--      </plugin>-->
+      <!--      <plugin>-->
+      <!--        <groupId>org.apache.maven.plugins</groupId>-->
+      <!--        <artifactId>maven-jxr-plugin</artifactId>-->
+      <!--      </plugin>-->
+      <!--            <plugin>-->
+      <!--        <groupId>org.codehaus.mojo</groupId>-->
+      <!--        <artifactId>cobertura-maven-plugin</artifactId>-->
+      <!--      </plugin>-->
+      <!--      <plugin>-->
+      <!--        <groupId>org.apache.maven.plugins</groupId>-->
+      <!--        <artifactId>maven-surefire-report-plugin</artifactId>-->
+      <!--      </plugin>-->
+      <!--      <plugin>-->
+      <!--        <groupId>org.apache.maven.plugins</groupId>-->
+      <!--        <artifactId>maven-site-plugin</artifactId>-->
+      <!--        <configuration>-->
+      <!--          <siteDirectory>www</siteDirectory>-->
+      <!--          <locales>en</locales>-->
+      <!--        </configuration>-->
+      <!--      </plugin>-->
     </plugins>
   </reporting>
 </project>
