@@ -4,12 +4,10 @@
 *.asc
 *.iml
 .checkstyle
-.classpath
 .gradle
 .gradle/
 .groovy
 .idea
-.project
 .settings
 .settings/
 .svn/
