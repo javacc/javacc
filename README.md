@@ -1,11 +1,3 @@
-<!---
-Created from:
-* the original README file at https://github.com/javacc/javacc
-* the documentation https://github.com/javacc/javacc/www
-* an example README.md file from https://github.com/apache/flink
-* modified
--->
-
 # JavaCC
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/net.java.dev.javacc/javacc/badge.svg)](https://maven-badges.herokuapp.com/maven-central/net.java.dev.javacc/javacc)
@@ -158,6 +150,30 @@ Was expecting one of:
         at Example.main(Example.java:6)
 ```
 
+## Versions
+
+The RECOMMENDED version is version **8**: it separates the parser (the core) from the generators (for the different languages); development and maintenance effort will be mainly on this version.  
+This version lies on different Git repositories / java & maven projects / jars:
+- the umbrella [javacc-8](https://github.com/javacc/javacc-8)
+- the [core](https://github.com/javacc/javacc-8-core)
+- the generators:
+    - [java](https://github.com/javacc/javacc-8-java)
+    - [C++](https://github.com/javacc/javacc-8-cpp)
+    - [C#](https://github.com/javacc/javacc-8-csharp)
+
+The previous versions (4, 5, 6, 7) are widely spread; effort to migrate to version 8 should be minimum.  
+Their last version lies on a single Git repository / java & maven project / jar:
+- [javacc](https://github.com/javacc/javacc)
+
+Differences between v8 versus v7: very small at the grammar level, more important at the generated sources level:
+- the javacc/jjtree grammar part is the same
+- most of javacc/jjtree options should be the same, but some may be removed and others appear in v8
+- the java grammar part should be nearly the same (may be some java 7 & java 8 features will appear in v8 and not in v7); in the future java 11..17..21.. features would appear only in v8)
+- the C++ / C# grammar parts may be somewhat different
+- some generated files are not much different, others are
+
+If you read this README.md, you should be under the v7 code.
+
 ## Getting Started
 
 You can use JavaCC either from the command line or through an IDE.
@@ -166,31 +182,50 @@ You can use JavaCC either from the command line or through an IDE.
 
 #### Download
 
-Download the latest stable release (at least the source and the binaries) in a so called download directory:
+Download the latest stable release (at least the binaries and the sources) in a so called download directory:
 
-* JavaCC 7.0.13 - ([Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.13.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.13.tar.gz), [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.13/javacc-7.0.13.jar), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.13/javacc-7.0.13-javadoc.jar), [Release Notes](docs/release-notes.md#javacc-7.0.13))
+##### Version 8
 
-All JavaCC releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
+Download the core and the generator(s) you are going to use:
+
+* JavaCC Core 8.0.1 - [Binaries](https://repo1.maven.org/maven2/org/javacc/core/8.0.1/core-8.0.1.jar), [Source (zip)](https://github.com/javacc/javacc-8-core/archive/core-8.0.1.zip), [Source (tar.gz)](https://github.com/javacc/javacc-8-core/archive/core-8.0.1.tar.gz), [Javadocs](https://repo1.maven.org/maven2/org/javacc/core/8.0.1/core-8.0.1-javadoc.jar)
+
+* JavaCC C++ 8.0.1 - [Binaries](https://repo1.maven.org/maven2/org/javacc/generator/cpp/8.0.1/cpp-8.0.1.jar), [Source (zip)](https://github.com/javacc/javacc-8-cpp/archive/cpp-8.0.1.zip), [Source (tar.gz)](https://github.com/javacc/javacc-8-cpp/archive/cpp-8.0.1.tar.gz), [Javadocs](https://repo1.maven.org/maven2/org/javacc/generator/cpp/8.0.1/cpp-8.0.1-javadoc.jar)
+
+* JavaCC C# 8.0.1 - [Binaries](https://repo1.maven.org/maven2/org/javacc/generator/csharp/8.0.1/csharp-8.0.1.jar), [Source (zip)](https://github.com/javacc/javacc-8-csharp/archive/csharp-8.0.1.zip), [Source (tar.gz)](https://github.com/javacc/javacc-8-csharp/archive/csharp-8.0.1.tar.gz), [Javadocs](https://repo1.maven.org/maven2/org/javacc/generator/csharp/8.0.1/csharp-8.0.1-javadoc.jar)
+
+* JavaCC Java 8.0.1 - [Binaries](https://repo1.maven.org/maven2/org/javacc/generator/java/8.0.1/java-8.0.1.jar), [Source (zip)](https://github.com/javacc/javacc-8-java/archive/java-8.0.1.zip), [Source (tar.gz)](https://github.com/javacc/javacc-8-java/archive/java-8.0.1.tar.gz), [Javadocs](https://repo1.maven.org/maven2/org/javacc/generator/java/8.0.1/java-8.0.1-javadoc.jar)
+
+All JavaCC v8 *releases* are available via [GitHub](https://github.com/javacc/javacc-8/releases) and [Maven](https://mvnrepository.com/artifact/org/javacc) including checksums and cryptographic signatures.
+
+##### Version 7
+
+* JavaCC 7.0.13 - [Binaries](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.13/javacc-7.0.13.jar), [Source (zip)](https://github.com/javacc/javacc/archive/javacc-7.0.13.zip), [Source (tar.gz)](https://github.com/javacc/javacc/archive/javacc-7.0.13.tar.gz), [Javadocs](https://repo1.maven.org/maven2/net/java/dev/javacc/javacc/7.0.13/javacc-7.0.13-javadoc.jar), [Release Notes](docs/release-notes.md)
+
+All JavaCC v7 releases are available via [GitHub](https://github.com/javacc/javacc/releases) and [Maven](https://mvnrepository.com/artifact/net.java.dev.javacc/javacc) including checksums and cryptographic signatures.
 
 For all previous releases, please see [stable releases](docs/downloads.md).
 
 #### Install
 
-Once you have downloaded the files, navigate to the download directory and unzip the source file, this creating a so called JavaCC installation directory:
-```
-$ unzip javacc-7.0.13.zip
-or
-$ tar xvf javacc-7.0.13.tar.gz
-```
+##### Version 8
 
-Then move the binary file `javacc-7.0.13.jar` under the download directory in a new `target/` directory under the installation directory, and rename it to `javacc.jar`.
+*To be written*. Help welcomed!
 
-Then add the `scripts/` directory in the JavaCC installation directory to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
+##### Version 7
+
+Once you have downloaded the files, navigate to the download directory and unzip the sources file(s), this creating a so called JavaCC installation directory:
+
+`$ unzip javacc-7.0.13.zip`  
+or  
+`$ tar xvf javacc-7.0.13.tar.gz`
+
+Then create a new `target` directory under the installation directory, and copy or move the binary file `javacc-7.0.13.jar` under this `target` directory, and copy or rename it to `javacc.jar`.
+
+Then add the `scripts/` directory under the JavaCC installation directory to your `PATH`. The JavaCC, JJTree, and JJDoc invocation scripts/executables reside in this directory.
 
 On UNIX based systems, the scripts may not be executable immediately. This can be solved by using the command from the `javacc-7.0.13/` directory:
-```
-chmod +x scripts/javacc
-```
+`chmod +x scripts/javacc`
 
 #### Write your grammar and generate your parser
 
@@ -201,8 +236,8 @@ Then use the appropriate script for generating your parser from your grammar.
 ### Use JavaCC within an IDE
 
 Minimal requirements for an IDE are:
-* Support for Java
-* Support for Maven with Java
+* Support for Java, C++ or C#
+* Support for Maven or Gradle
 
 #### IntelliJ IDEA
 
@@ -222,7 +257,50 @@ Check out our [Setting up IntelliJ](https://ci.apache.org/projects/flink/flink-d
 
 #### Maven
 
-Add the following dependency to your `pom.xml` file.
+Add the following plugin to your `pom.xml` file, under the build plugins, or under one or more profiles.
+
+##### Version 8
+
+(You must use the javacc-maven-plugin from the JavaCC organization.)  
+Adapt the versions, the execution(s) (goals `javacc` and/or `jjtree-javacc`) and the `codeGenerator` setting for the generator (`java`, `cpp`, `csharp`). Also add the configuration settings you want to override.
+
+```
+          <plugin>
+              <groupId>org.javacc.plugin</groupId>
+              <artifactId>javacc-maven-plugin</artifactId>
+              <version>3.0.3</version>
+              <executions>
+                  <execution>
+                      <id>javacc</id>
+                      <phase>generate-sources</phase>
+                      <goals>
+                          <goal>jjtree-javacc</goal>
+                      </goals>
+                      <configuration>
+                          <codeGenerator>java</codeGenerator>
+                      </configuration>
+                  </execution>
+              </executions>
+              <dependencies>
+                  <dependency>
+                      <groupId>org.javacc.generator</groupId>
+                        <artifactId>java</artifactId>
+                        <version>8.0.1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.javacc</groupId>
+                        <artifactId>core</artifactId>
+                        <version>8.0.1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+```
+
+##### Version 7
+
+(You can use the [javacc-maven-plugin](https://www.mojohaus.org/javacc-maven-plugin/) from MojoHaus or te [javacc-maven-plugin](https://github.com/javacc/javacc-maven-plugin) from the JavaCC organization.)  
+
+Same as above, with a single different dependency, and without the `codeGenerator` setting.
 
 ```
 <dependency>
@@ -233,6 +311,12 @@ Add the following dependency to your `pom.xml` file.
 ```
 
 #### Gradle
+
+##### Version 8
+
+*To be tested / written*. Help welcomed!
+
+##### Version 7
 
 Add the following to your `build.gradle` file.
 
@@ -250,6 +334,8 @@ dependencies {
 ```
 
 ### Rebuilding JavaCC 
+
+*To be verified / completed*. Help welcomed!
 
 #### From the source installation directory
 
@@ -299,17 +385,20 @@ It is maintained by the [developer community](https://github.com/javacc/javacc/g
 
 ### Support
 
+Open an issue if you found a bug in JavaCC.
+
+If you use version 7, open it [here](https://github.com/javacc/javacc/issues);  
+if you use version 8 and you do not know to which part it is related (the core or a generator), open it [here](https://github.com/javacc/javacc-8/issues); if you are sure of the project it is related to, open it in the issues section of the project.
+
 Don’t hesitate to ask!
 
 Contact the developers and community on the [Google user group](https://groups.google.com/forum/#!forum/javacc-users) or email us at [JavaCC Support](mailto:support@javacc.org) if you need any help.
-
-[Open an issue](https://github.com/javacc/javacc/issues) if you found a bug in JavaCC.
 
 For questions relating to development please join our [Slack channel](https://javacc.slack.com/).
 
 ### Documentation
 
-The documentation of JavaCC is located on the website [https://javacc.github.io/javacc/](https://javacc.github.io/javacc/) and in the `docs/` directory of the source code on [GitHub](https://github.com/javacc/javacc).
+The documentation of JavaCC is located on the website [https://javacc.github.io/javacc/](https://javacc.github.io/javacc/) and in the `docs/` directory of the source code on [GitHub javacc](https://github.com/javacc/javacc) or [GitHub javacc-8](https://github.com/javacc/javacc-8).
 
 It includes [detailed documentation](docs/documentation/index.md) for JavaCC, JJTree, and JJDoc.
 
