@@ -32,6 +32,7 @@
       <archive>https://groups.google.com/forum/#!forum/javacc-users</archive>
     </mailingList>
   </mailingLists>
+  
   <developers>
     <developer>
       <name>Sreenivasa Viswanadha</name>
@@ -83,7 +84,17 @@
       <organization>Kampbell</organization>
       <organizationUrl>https://github.com/Kampbell/</organizationUrl>
     </developer>
+
+    <developer>
+      <name>Marc Mazas</name>
+      <email>marc.mazas AT gmail.com</email>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <timezone>0</timezone>
+    </developer>
   </developers>
+  
   <contributors>
     <contributor>
       <name>Markus Brigl</name>
@@ -115,9 +126,6 @@
     </contributor>
     <contributor>
       <name>Eitan Adler</name>
-    </contributor>
-    <contributor>
-      <name>Anton Rybochkin</name>
     </contributor>
     <contributor>
       <name>Marc Mazas</name>
