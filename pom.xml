@@ -12,7 +12,7 @@ modification, are permitted provided that the following conditions are met:
     * Redistributions in binary form must reproduce the above copyright
       notice, this list of conditions and the following disclaimer in the
       documentation and/or other materials provided with the distribution.
-    * Neither the names of of the copyright holders nor the names of its
+    * Neither the names of the copyright holders nor the names of its
       contributors may be used to endorse or promote products derived from
       this software without specific prior written permission.
 
@@ -181,8 +181,9 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
   <properties>
 
-    <exec-maven-plugin.version>3.3.0</exec-maven-plugin.version>
+    <!--    <javacc-maven-plugin.version>3.0.1</javacc-maven-plugin.version>-->
     <junit.version>3.8.1</junit.version>
+
     <maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
     <maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
     <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
@@ -194,25 +195,23 @@ THE POSSIBILITY OF SUCH DAMAGE.
     <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
     <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
     <maven-jarsigner-plugin.version>3.1.0</maven-jarsigner-plugin.version>
-    <maven-project-info-reports-plugin.version>3.8.0</maven-project-info-reports-plugin.version>
     <!--    <maven-release-plugin.version>3.1.1</maven-release-plugin.version>-->
     <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-    <!--    <maven-site-plugin.version>3.21.0</maven-site-plugin.version>-->
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
     <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
     <maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
+
+    <mojohaus.exec-maven-plugin.version>3.5.0</mojohaus.exec-maven-plugin.version>
     <mojohaus.javacc-maven-plugin.version>2.6</mojohaus.javacc-maven-plugin.version>
-    <!--    <mojohaus.javacc-maven-plugin.version>3.0.1</mojohaus.javacc-maven-plugin.version>-->
-    <mojohaus.jdepend-maven-plugin.version>2.1</mojohaus.jdepend-maven-plugin.version>
-    <!--    <mojohaus.taglist-maven-plugin.version>3.2.1</mojohaus.taglist-maven-plugin.version>-->
+
     <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
     <plexus-compiler-csharp.version>2.15.0</plexus-compiler-csharp.version>
 
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
 
     <keystore.path>keystore</keystore.path>
     <keystore.type>PKCS12</keystore.type>
@@ -393,18 +392,7 @@ THE POSSIBILITY OF SUCH DAMAGE.
         <!-- *************** -->
 
         <!-- phase: site -->
-        <plugin>
-          <!-- generates a web site; goals: (many, not listed) -->
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>${maven-site-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <!-- generates standard reports; goals: (many, not listed) -->
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-project-info-reports-plugin</artifactId>
-          <version>${maven-project-info-reports-plugin.version}</version>
-        </plugin>
+
       </plugins>
     </pluginManagement>
 
@@ -814,18 +802,6 @@ THE POSSIBILITY OF SUCH DAMAGE.
           </execution>
         </executions>
       </plugin>
-      <!--      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>clean</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
--->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
@@ -909,55 +885,6 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
   </build>
 
-  <profiles>
-    <profile>
-      <!-- enables using maven toolchains plugin to not depend of current JAVA_HOME setting -->
-      <id>with-toolchains</id>
-      <activation>
-        <file>
-          <exists>${env.USERPROFILE}/.m2/toolchains.xml</exists>
-        </file>
-      </activation>
-      <properties> </properties>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <!-- lifecycle: build -->
-            <!-- phase: validate -->
-            <plugin>
-              <!-- allows to share consistent configuration (here jdk) across plugins;
-               reads <userhome>/.m2/toolchains.xml -->
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-toolchains-plugin</artifactId>
-              <version>${maven-toolchains-plugin.version}</version>
-            </plugin>
-          </plugins>
-        </pluginManagement>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-toolchains-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>toolchain</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <toolchains>
-                <jdk>
-                  <!-- github action setup-java@v4 uses 8; generated toolchains.xml files use 1.8 -->
-                  <version>[1.8,8]</version>
-                </jdk>
-              </toolchains>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-
   <reporting>
     <plugins>
       <!-- in lifecycle order, then in phase order, then in execution order -->
@@ -1031,4 +958,65 @@ THE POSSIBILITY OF SUCH DAMAGE.
       <!--      </plugin>-->
     </plugins>
   </reporting>
+
+  <profiles>
+    <profile>
+      <!-- enables using maven toolchains plugin to not depend of current JAVA_HOME setting -->
+      <id>with-toolchains</id>
+      <activation>
+        <file>
+          <exists>${env.USERPROFILE}/.m2/toolchains.xml</exists>
+        </file>
+      </activation>
+      <properties> </properties>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <!-- lifecycle: build -->
+            <!-- phase: validate -->
+            <plugin>
+              <!-- allows to share consistent configuration (here jdk) across plugins;
+               reads <userhome>/.m2/toolchains.xml -->
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-toolchains-plugin</artifactId>
+              <version>${maven-toolchains-plugin.version}</version>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-toolchains-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>validate-tc</id>
+                <!-- checks that toolchains requirements are met by currently configured toolchains -->
+                <goals>
+                  <goal>toolchain</goal>
+                  <!--              <goal>select-jdk-toolchain</goal>-->
+                </goals>
+              </execution>
+              <execution>
+                <!--can be used to generate the toolchains.xml to stdout with: 
+                mvn org.apache.maven.plugins:maven-toolchains-plugin:generate-jdk-toolchains-xml  -->
+                <id>generate-tc</id>
+                <goals>
+                  <goal>generate-jdk-toolchains-xml</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <toolchains>
+                <jdk>
+                  <!-- github action setup-java@v4 uses 8; generated toolchains.xml files use 1.8 -->
+                  <version>[1.8,8]</version>
+                </jdk>
+              </toolchains>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
 </project>
