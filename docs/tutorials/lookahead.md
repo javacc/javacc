@@ -382,7 +382,7 @@ if (next 2 tokens are <ID> and "(" ) {
 
 #### <a name="example9"></a>Example 9
 
-Similarly, [Example 5](#example5) can be modified as shown below:
+Similarly, [Example 4](#example4) can be modified as shown below:
 
 ```java
 void identifier_list() :
