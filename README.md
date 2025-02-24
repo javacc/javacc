@@ -406,7 +406,7 @@ It includes [detailed documentation](docs/documentation/index.md) for JavaCC, JJ
 
 ##### Books
 
-* Dos Reis, Anthony J., Compiler Construction Using Java, JavaCC, and Yacc., Wiley-Blackwell 2012. ISBN 0-4709495-9-7 ([book](https://www.amazon.co.uk/Compiler-Construction-Using-Java-JavaCC/dp/0470949597), [pdf](https://doc.lagout.org/programmation/Java/Compiler%20Construction%20using%20Java%2C%20JavaCC%2C%20and%20YACC%20%5BReis%202011-12-20%5D.pdf)).
+* Dos Reis, Anthony J., Compiler Construction Using Java, JavaCC, and Yacc., Wiley-Blackwell 2012. ISBN 0-4709495-9-7 ([book](https://www.amazon.co.uk/Compiler-Construction-Using-Java-JavaCC/dp/0470949597), [pdf](https://spada.uns.ac.id/pluginfile.php/265072/mod_resource/content/1/Compiler%20Construction%20using%20Java%2C%20JavaCC%2C%20and%20YACC%20%5BReis%202011-12-20%5D.pdf)).
 * Copeland, Tom, Generating Parsers with JavaCC., Centennial Books, 2007. ISBN 0-9762214-3-8 ([book](https://www.amazon.com/Generating-Parsers-JavaCC-Easy-Use/dp/0976221438)).
 
 ##### Tutorials
