@@ -2,6 +2,9 @@
  * An implementation of interface CharStream, where the stream is assumed to
  * contain only ASCII characters (without unicode processing).
  */
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
 {
@@ -12,9 +15,10 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   ${PREFIX}int tokenBegin;
 /** Position in buffer. */
   ${PREFIX}public int bufpos = -1;
+  private final static int CHUNK_SIZE = 2048;
 #if KEEP_LINE_COLUMN
-  ${PREFIX}protected int bufline[];
-  ${PREFIX}protected int bufcolumn[];
+  ${PREFIX}protected final List<int[]> bufline = new ArrayList<int[]>();
+  ${PREFIX}protected final List<int[]> bufcolumn = new ArrayList<int[]>();
 
   ${PREFIX}protected int column = 0;
   ${PREFIX}protected int line = 1;
@@ -25,7 +29,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
 
   ${PREFIX}protected java.io.Reader inputStream;
 
-  ${PREFIX}protected char[] buffer;
+  ${PREFIX}protected final List<char[]> buffer = new ArrayList<char[]>();
   ${PREFIX}protected int maxNextCharInd = 0;
   ${PREFIX}protected int inBuf = 0;
   ${PREFIX}protected int tabSize = 1;
@@ -38,49 +42,69 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   ${PREFIX}public void setTabSize(int i) { tabSize = i; }
   ${PREFIX}public int getTabSize() { return tabSize; }
 
+  private static void writeToBuffer(List<?> buf, Object newBuf, int length){
+      int srcPos = 0;
+      int stopChunk = length / CHUNK_SIZE;
+      int remainder = length % CHUNK_SIZE;
+      for (int i = 0; i < stopChunk; i++){
+          System.arraycopy(newBuf, srcPos, buf.get(i), 0, CHUNK_SIZE);
+          srcPos += CHUNK_SIZE;
+      }
+      if (remainder > 0){
+          System.arraycopy(newBuf, srcPos, buf.get(stopChunk), 0, remainder);
+      }
+  }
+
+  ${PREFIX}private int readFromStream(java.io.Reader reader, int offset, int len) throws IOException {
+      int totalReadChars = 0;
+      int chunk = offset / CHUNK_SIZE;
+      int chunkOffset = offset % CHUNK_SIZE;
+      while (true){
+          int charsToRead = Math.min(len, CHUNK_SIZE - chunkOffset);
+          int readChars = reader.read(buffer.get(chunk), chunkOffset, charsToRead);
+          totalReadChars += readChars;
+          len -= readChars;
+          if (readChars < charsToRead || len <= 0){
+              return totalReadChars;
+          }
+          chunk++;
+          chunkOffset=0;
+      }
+  }
 
 
   ${PREFIX}protected void ExpandBuff(boolean wrapAround)
   {
-    char[] newbuffer = new char[bufsize + 2048];
+    buffer.add(new char[CHUNK_SIZE]);
 #if KEEP_LINE_COLUMN
-    int newbufline[] = new int[bufsize + 2048];
-    int newbufcolumn[] = new int[bufsize + 2048];
+    bufline.add(new int[CHUNK_SIZE]);
+    bufcolumn.add(new int[CHUNK_SIZE]);
 #fi
 
     try
     {
       if (wrapAround)
       {
-        System.arraycopy(buffer, tokenBegin, newbuffer, 0, bufsize - tokenBegin);
-        System.arraycopy(buffer, 0, newbuffer, bufsize - tokenBegin, bufpos);
-        buffer = newbuffer;
+        char[] newbuffer = new char[bufsize - tokenBegin + bufpos];
+        getArray(buffer, tokenBegin, bufsize - tokenBegin, newbuffer, 0);
+        getArray(buffer, 0, bufpos, newbuffer, bufsize-tokenBegin);
+        writeToBuffer(buffer, newbuffer, newbuffer.length);
 #if KEEP_LINE_COLUMN
 
-        System.arraycopy(bufline, tokenBegin, newbufline, 0, bufsize - tokenBegin);
-        System.arraycopy(bufline, 0, newbufline, bufsize - tokenBegin, bufpos);
-        bufline = newbufline;
+        int[] newintbuffer = new int[bufsize - tokenBegin + bufpos];
+        getArray(bufline, tokenBegin, bufsize - tokenBegin, newintbuffer, 0);
+        getArray(bufline, 0, bufpos, newintbuffer, bufsize-tokenBegin);
+        writeToBuffer(bufline, newintbuffer, newintbuffer.length);
 
-        System.arraycopy(bufcolumn, tokenBegin, newbufcolumn, 0, bufsize - tokenBegin);
-        System.arraycopy(bufcolumn, 0, newbufcolumn, bufsize - tokenBegin, bufpos);
-        bufcolumn = newbufcolumn;
+        getArray(bufcolumn, tokenBegin, bufsize - tokenBegin, newintbuffer, 0);
+        getArray(bufcolumn, 0, bufpos, newintbuffer, bufsize-tokenBegin);
+        writeToBuffer(bufcolumn, newintbuffer, newintbuffer.length);
 #fi
 
         maxNextCharInd = (bufpos += (bufsize - tokenBegin));
       }
       else
       {
-        System.arraycopy(buffer, tokenBegin, newbuffer, 0, bufsize - tokenBegin);
-        buffer = newbuffer;
-#if KEEP_LINE_COLUMN
-
-        System.arraycopy(bufline, tokenBegin, newbufline, 0, bufsize - tokenBegin);
-        bufline = newbufline;
-
-        System.arraycopy(bufcolumn, tokenBegin, newbufcolumn, 0, bufsize - tokenBegin);
-        bufcolumn = newbufcolumn;
-#fi
-
         maxNextCharInd = (bufpos -= tokenBegin);
       }
     }
@@ -130,7 +154,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
 
     int i;
     try {
-      if ((i = inputStream.read(buffer, maxNextCharInd, available - maxNextCharInd)) == -1)
+      if ((i = readFromStream(inputStream,  maxNextCharInd, available - maxNextCharInd)) == -1)
       {
         inputStream.close();
         throw STATIC_FILLBUFF_EXCEPTION;
@@ -195,8 +219,8 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
         break;
     }
 
-    bufline[bufpos] = line;
-    bufcolumn[bufpos] = column;
+    bufline.get(bufpos/CHUNK_SIZE)[bufpos % CHUNK_SIZE] = line;
+    bufcolumn.get(bufpos/CHUNK_SIZE)[bufpos % CHUNK_SIZE] = column;
   }
 #fi
 
@@ -210,13 +234,13 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
       if (++bufpos == bufsize)
         bufpos = 0;
 
-      return buffer[bufpos];
+      return buffer.get(bufpos/CHUNK_SIZE)[bufpos % CHUNK_SIZE];
     }
 
     if (++bufpos >= maxNextCharInd)
       FillBuff();
 
-    char c = buffer[bufpos];
+    char c = buffer.get(bufpos/CHUNK_SIZE)[bufpos % CHUNK_SIZE];
 
 #if KEEP_LINE_COLUMN
     UpdateLineColumn(c);
@@ -233,7 +257,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
 #fi
   ${PREFIX}public int getColumn() {
 #if KEEP_LINE_COLUMN
-    return bufcolumn[bufpos];
+    return bufcolumn.get(bufpos/CHUNK_SIZE)[bufpos % CHUNK_SIZE];
 #else
     return -1;
 #fi
@@ -248,7 +272,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
 #fi
   ${PREFIX}public int getLine() {
 #if KEEP_LINE_COLUMN
-    return bufline[bufpos];
+    return bufline.get(bufpos/CHUNK_SIZE)[bufpos % CHUNK_SIZE];
 #else
     return -1;
 #fi
@@ -257,7 +281,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   /** Get token end column number. */
   ${PREFIX}public int getEndColumn() {
 #if KEEP_LINE_COLUMN
-    return bufcolumn[bufpos];
+    return bufcolumn.get(bufpos/CHUNK_SIZE)[bufpos % CHUNK_SIZE];
 #else
     return -1;
 #fi
@@ -266,7 +290,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   /** Get token end line number. */
   ${PREFIX}public int getEndLine() {
 #if KEEP_LINE_COLUMN
-     return bufline[bufpos];
+     return bufline.get(bufpos/CHUNK_SIZE)[bufpos % CHUNK_SIZE];
 #else
     return -1;
 #fi
@@ -275,7 +299,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   /** Get token beginning column number. */
   ${PREFIX}public int getBeginColumn() {
 #if KEEP_LINE_COLUMN
-    return bufcolumn[tokenBegin];
+    return bufcolumn.get(tokenBegin/CHUNK_SIZE)[tokenBegin % CHUNK_SIZE];
 #else
     return -1;
 #fi
@@ -284,7 +308,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   /** Get token beginning line number. */
   ${PREFIX}public int getBeginLine() {
 #if KEEP_LINE_COLUMN
-    return bufline[tokenBegin];
+    return bufline.get(tokenBegin/CHUNK_SIZE)[tokenBegin % CHUNK_SIZE];
 #else
     return -1;
 #fi
@@ -314,12 +338,15 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
     column = startcolumn - 1;
 #fi
 
-    available = bufsize = buffersize;
-    buffer = new char[buffersize];
+    int chunksNeeded = (buffersize + CHUNK_SIZE - 1) / CHUNK_SIZE;
+    available = bufsize = chunksNeeded * CHUNK_SIZE;
+    for (int i = 0; i < chunksNeeded; i++){
+      buffer.add(new char[CHUNK_SIZE]);
 #if KEEP_LINE_COLUMN
-    bufline = new int[buffersize];
-    bufcolumn = new int[buffersize];
+      bufcolumn.add(new int[CHUNK_SIZE]);
+      bufline.add(new int[CHUNK_SIZE]);
 #fi
+    }
   }
 
   /** Constructor. */
@@ -344,16 +371,16 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
     line = startline;
     column = startcolumn - 1;
 #fi
-
-    if (buffer == null || buffersize != buffer.length)
-    {
-      available = bufsize = buffersize;
-      buffer = new char[buffersize];
+    int chunksNeeded = (buffersize + CHUNK_SIZE - 1) / CHUNK_SIZE;
+    available = bufsize = chunksNeeded * CHUNK_SIZE;
+    for (int i = buffer.size(); i < chunksNeeded; i++){
+      buffer.add(new char[CHUNK_SIZE]);
 #if KEEP_LINE_COLUMN
-      bufline = new int[buffersize];
-      bufcolumn = new int[buffersize];
+      bufcolumn.add(new int[CHUNK_SIZE]);
+      bufline.add(new int[CHUNK_SIZE]);
 #fi
     }
+    
 #if KEEP_LINE_COLUMN
     prevCharIsLF = prevCharIsCR = false;
 #fi
@@ -450,14 +477,40 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   {
     ReInit(dstream, startline, startcolumn, 4096);
   }
+  /** Copy chunked buffer to array*/
+  private static void getArray(List<?> buf,
+                        int offset,
+                        int count,
+                        Object dest,
+                        int destOffset){
+      int startChunk = offset / CHUNK_SIZE;
+      int startColumn = offset % CHUNK_SIZE;
+      int stopChunk = (offset + count) / CHUNK_SIZE;
+      int stopColumn = (offset + count) % CHUNK_SIZE;
+      for (int i = startChunk; i < stopChunk; i++){
+          int span = CHUNK_SIZE - startColumn;
+          System.arraycopy(buf.get(i), startColumn, dest, destOffset, span);
+          startColumn = 0;
+          destOffset += span;
+      }
+      if (stopColumn > 0) {
+          System.arraycopy(buf.get(stopChunk), startColumn,
+                  dest, destOffset, stopColumn-startColumn);
+      }
+  }
   /** Get token literal value. */
   ${PREFIX}public String GetImage()
   {
-    if (bufpos >= tokenBegin)
-      return new String(buffer, tokenBegin, bufpos - tokenBegin + 1);
-    else
-      return new String(buffer, tokenBegin, bufsize - tokenBegin) +
-                            new String(buffer, 0, bufpos + 1);
+    if (bufpos >= tokenBegin) {
+        char[] buf = new char[bufpos - tokenBegin + 1];
+        getArray(buffer, tokenBegin, bufpos - tokenBegin + 1, buf, 0);
+        return new String(buf);
+    } else {
+        char[] buf = new char[bufsize - tokenBegin + bufpos + 1];
+        getArray(buffer, tokenBegin, bufsize - tokenBegin, buf, 0);
+        getArray(buffer, 0, bufpos + 1, buf, bufsize - tokenBegin);
+        return new String(buf);
+    }
   }
 
   /** Get the suffix. */
@@ -465,13 +518,11 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   {
     char[] ret = new char[len];
 
-    if ((bufpos + 1) >= len)
-      System.arraycopy(buffer, bufpos - len + 1, ret, 0, len);
-    else
-    {
-      System.arraycopy(buffer, bufsize - (len - bufpos - 1), ret, 0,
-                                                        len - bufpos - 1);
-      System.arraycopy(buffer, 0, ret, len - bufpos - 1, bufpos + 1);
+    if ((bufpos + 1) >= len) {
+        getArray(buffer, bufpos - len + 1, len, ret, 0);
+    } else {
+        getArray(buffer, bufsize - (len - bufpos - 1), len - bufpos - 1, ret, 0);
+        getArray(buffer, 0, bufpos + 1, ret, len - bufpos - 1);
     }
 
     return ret;
@@ -480,10 +531,10 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   /** Reset buffer when finished. */
   ${PREFIX}public void Done()
   {
-    buffer = null;
+    buffer.clear();
 #if KEEP_LINE_COLUMN
-    bufline = null;
-    bufcolumn = null;
+    bufline.clear();
+    bufcolumn.clear();
 #fi
   }
 #if KEEP_LINE_COLUMN
@@ -508,31 +559,36 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
     int i = 0, j = 0, k = 0;
     int nextColDiff = 0, columnDiff = 0;
 
-    while (i < len && bufline[j = start % bufsize] == bufline[k = ++start % bufsize])
+    int jchunk = 0, joffset = 0;
+    while (i < len && bufline.get(jchunk = (j = start % bufsize) / CHUNK_SIZE)
+              [joffset = j % CHUNK_SIZE]
+            == bufline.get((k = ++start % bufsize)/CHUNK_SIZE)[k % CHUNK_SIZE])
     {
-      bufline[j] = newLine;
-      nextColDiff = columnDiff + bufcolumn[k] - bufcolumn[j];
-      bufcolumn[j] = newCol + columnDiff;
+      bufline.get(jchunk)[joffset] = newLine;
+      nextColDiff = columnDiff + bufcolumn.get(k / CHUNK_SIZE)[k % CHUNK_SIZE]
+              - bufcolumn.get(jchunk)[joffset];
+      bufcolumn.get(jchunk)[joffset] = newCol + columnDiff;
       columnDiff = nextColDiff;
       i++;
     }
 
     if (i < len)
     {
-      bufline[j] = newLine++;
-      bufcolumn[j] = newCol + columnDiff;
+      bufline.get(jchunk)[joffset] = newLine++;
+      bufcolumn.get(jchunk)[joffset] = newCol + columnDiff;
 
       while (i++ < len)
       {
-        if (bufline[j = start % bufsize] != bufline[++start % bufsize])
-          bufline[j] = newLine++;
+        if (bufline.get(jchunk = (j = start % bufsize)/CHUNK_SIZE)[joffset = j % CHUNK_SIZE]
+                != bufline.get((k = ++start % bufsize)/CHUNK_SIZE)[k % CHUNK_SIZE])
+          bufline.get(jchunk)[joffset] = newLine++;
         else
-          bufline[j] = newLine;
+          bufline.get(jchunk)[joffset] = newLine;
       }
     }
 
-    line = bufline[j];
-    column = bufcolumn[j];
+    line = bufline.get(jchunk)[joffset];
+    column = bufcolumn.get(jchunk)[joffset];
   }
   ${PREFIX}boolean getTrackLineColumn() { return trackLineColumn; }
   ${PREFIX}void setTrackLineColumn(boolean tlc) { trackLineColumn = tlc; }
