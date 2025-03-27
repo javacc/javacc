@@ -220,7 +220,7 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
   }
 
 #if DEBUG_TOKEN_MANAGER
-  System.err.println("Starting NFA with start state: " + startState);
+  System.err.println("Starting NFA with start state: " + "<" + lexStateNames[startState] + ">");
 #fi
   do {
 #if DEBUG_TOKEN_MANAGER
@@ -237,7 +237,7 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
       final int state = stateSet[--cnt];
 #if DEBUG_TOKEN_MANAGER
       System.err.println(
-         "Looking to move from state: " + state + "; for: " +
+         "Looking to move from state: <" + lexStateNames[state] + ">, for: " +
          (jjmatchKinds[state] != Integer.MAX_VALUE
               ? tokenImage[jjmatchKinds[state]] : " <UNKNOWN>"));
 #fi
