@@ -118,14 +118,14 @@ void MatchedBraces() :
 ###### {% raw %}{{}}{% endraw %} gives no error
 
 ```java
-$ java Example
+$ Java Example
 {% raw %}{{}}{% endraw %}<return>
 ```
 
 ###### {x gives a Lexical error
 
 ```java
-$ java Example
+$ Java Example
 {x<return>
 Lexical error at line 1, column 2.  Encountered: "x"
 TokenMgrError: Lexical error at line 1, column 2.  Encountered: "x" (120), after : ""
@@ -139,7 +139,7 @@ TokenMgrError: Lexical error at line 1, column 2.  Encountered: "x" (120), after
 ###### {% raw %}{}}{% endraw %} gives a ParseException
 
 ```java
-$ java Example
+$ Java Example
 {}}<return>
 ParseException: Encountered "}" at line 1, column 3.
 Was expecting one of:

@@ -422,7 +422,7 @@ very strict in that it has to look exactly like:
 ```
 
 which means that EOF is still EOF in every state except that now
-you can specify what state changes  if any or what java code
+you can specify what state changes  if any or what Java code
 if any to execute on seeing EOF.
 
 This should help in writing grammars for processing C/C++ #include
@@ -700,7 +700,7 @@ for complete information on error recovery.
 A new Java grammar improved for performance in the presence of very
 complex expressions is now included.  This is NewJava1.1.jj.
 
-More optimizations for the size of the token manager's java and class
+More optimizations for the size of the token manager's Java and class
 files.  The generated .java files are about 10-15% smaller that
 0.7pre1 (and 40-45%) smaller compared to 0.6. The class files (with
 -O) are about 20% smaller compared to 0.6.

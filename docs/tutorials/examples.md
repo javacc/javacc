@@ -71,7 +71,7 @@ Here are some sample runs:
 1. The parser processes the string `{% raw %}{{}}{% endraw %}` successfully.
 
 ```java
-$ java Example1
+$ Java Example1
 {% raw %}{{}}{% endraw %}<return>
 <control-d>
 ```
@@ -79,7 +79,7 @@ $ java Example1
 2. The parser tries to process the string `{x` but throws a `TokenMgrError`.
 
 ```
-$ java Example1
+$ Java Example1
 {x<return>
 Lexical error at line 1, column 2.  Encountered: "x"
 TokenMgrError: Lexical error at line 1, column 2.  Encountered: "x" (120), after : ""
@@ -93,7 +93,7 @@ TokenMgrError: Lexical error at line 1, column 2.  Encountered: "x" (120), after
 3. The parser tries to process the string `{}}` but throws a `ParseException`.
 
 ```
-$ java Example1
+$ Java Example1
 {}}<return>
 ParseException: Encountered "}" at line 1, column 3.
 Was expecting one of:
@@ -781,7 +781,7 @@ Compile and run the Java program as usual. The expression is read from the stand
 
 ```java
 $ javac Example1.java
-$ java Example1
+$ Java Example1
 > Reading from standard input...
 (a + b) * (c + 1);
 Start
@@ -960,7 +960,7 @@ $ javacc Example2.jj
 
 ```java
 $ javac Example2.java
-$ java Example2
+$ Java Example2
 > Reading from standard input...
 (a + b) * (c + 1);
 Start
