@@ -42,10 +42,11 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
 
   ${PREFIX}protected void ExpandBuff(boolean wrapAround)
   {
-    char[] newbuffer = new char[bufsize + 2048];
+    int newBufsize = bufsize >> 1;
+    char[] newbuffer = new char[newBufsize];
 #if KEEP_LINE_COLUMN
-    int newbufline[] = new int[bufsize + 2048];
-    int newbufcolumn[] = new int[bufsize + 2048];
+    int newbufline[] = new int[newBufsize];
+    int newbufcolumn[] = new int[newBufsize];
 #fi
 
     try
@@ -90,7 +91,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
     }
 
 
-    bufsize += 2048;
+    bufsize = newBufsize;
     available = bufsize;
     tokenBegin = 0;
   }
