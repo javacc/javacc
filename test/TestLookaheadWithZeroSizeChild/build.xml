@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+
+<project name="test-lookahead-with-zero-size-child" default="test" basedir=".">
+
+  <target name="test" depends="" description="run functional test cases">
+
+    <delete dir="out-dir" />
+
+    <java failonerror="true" fork="true" classname="javacc" classpath="../../target/javacc.jar">
+      <arg line="Parser.jj" />
+    </java>
+
+    <javac srcdir="out-dir" destdir="out-dir" source="1.5" debug="true" includeantruntime='false'
+         classpath="../../target/javacc.jar">
+    </javac>
+
+    <java classname="Parser" classpath="out-dir" outputproperty="test.out" failonerror="true">  </java>
+    <echo>${test.out}</echo>
+
+    <fail message="failing">
+      <condition>
+        <not>
+          <contains string="${test.out}" substring="Parser ran sucessfully" />
+        </not>
+      </condition>
+    </fail>
+
+    </target>
+
+  <target name="clean">
+    <delete dir="out-dir" />
+  </target>
+
+</project>
