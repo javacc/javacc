@@ -2,6 +2,8 @@ public class ${parserName}TokenManager ${superClass} implements ${parserName}Con
 
 protected ${STATIC?static :}boolean moveToNextChar() {
   try {
+    if (!input_stream.hasNextChar())
+      return false;
     curChar = input_stream.readChar();
 #if IGNORE_CASE
     curChar = (int)Character.toLowerCase((char)curChar);
@@ -369,12 +371,19 @@ public ${STATIC?static :} Token getNextToken() {
   EOFLoop:
   for (;;) {
     // First see if we have any input at all.
+    boolean hasNextToken = false;
     try {
-      curChar = input_stream.BeginToken();
+      hasNextToken = input_stream.hasNextToken();
+      if (hasNextToken) {
+        curChar = input_stream.BeginToken();
 #if IGNORE_CASE
-      curChar = Character.toLowerCase(curChar);
+        curChar = Character.toLowerCase(curChar);
 #fi
+      }
     } catch(Exception e) {
+      hasNextToken = false;
+    }
+    if (!hasNextToken) {
 #if DEBUG_TOKEN_MANAGER
     if (lexStateNames.length > 1) {
       System.err.print("<" + lexStateNames[curLexState] + "> ");
@@ -483,8 +492,10 @@ public ${STATIC?static :} Token getNextToken() {
         lastReadPosition = 0;
         jjmatchedKind = 0x7fffffff;
         try {
-          curChar = input_stream.readChar();
-          continue;
+          if (input_stream.hasNextChar()) {
+            curChar = input_stream.readChar();
+            continue;
+          }
         }
         catch (java.io.IOException e1) { }
       }
@@ -499,10 +510,15 @@ protected ${STATIC?static :} void reportError(int lastReadPosition) {
   String error_after = null;
   boolean EOFSeen = false;
   try {
-    input_stream.readChar();
-    input_stream.backup(1);
+    EOFSeen = !input_stream.hasNextChar();
+    if (!EOFSeen) {
+      input_stream.readChar();
+      input_stream.backup(1);
+    }
   } catch (java.io.IOException e1) {
     EOFSeen = true;
+  }
+  if (EOFSeen) {
     error_after = lastReadPosition <= 1 ? "" : input_stream.GetImage();
     if (curChar == '\n' || curChar == '\r') {
        error_line++;

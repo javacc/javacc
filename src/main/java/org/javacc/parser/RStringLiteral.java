@@ -587,7 +587,13 @@ public class RStringLiteral extends RegularExpression {
 
      // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
      if (Options.isOutputLanguageJava()) {
-       codeGenerator.genCodeLine("   try { curChar = input_stream.readChar(); }");
+       codeGenerator.genCodeLine("   try {");
+       codeGenerator.genCodeLine("     if (input_stream.hasNextChar()) {");
+       codeGenerator.genCodeLine("       curChar = input_stream.readChar();");
+       codeGenerator.genCodeLine("     } else {");
+       codeGenerator.genCodeLine("       return pos + 1;");
+       codeGenerator.genCodeLine("     }");
+       codeGenerator.genCodeLine("   }");
        codeGenerator.genCodeLine("   catch(java.io.IOException e) { return pos + 1; }");
      } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)){
        codeGenerator.genCodeLine("   if (input_stream->endOfInput()) { return pos + 1; }");
@@ -865,8 +871,16 @@ public class RStringLiteral extends RegularExpression {
 
            // TODO :: CBA --  Require Unification of output language specific processing into a single Enum class
            if (Options.isOutputLanguageJava()) {
-             codeGenerator.genCodeLine("   try { curChar = input_stream.readChar(); }");
-             codeGenerator.genCodeLine("   catch(java.io.IOException e) {");
+             codeGenerator.genCodeLine("   boolean eof = false;");
+             codeGenerator.genCodeLine("   try {");
+             codeGenerator.genCodeLine("     if (input_stream.hasNextChar()) {");
+             codeGenerator.genCodeLine("       curChar = input_stream.readChar();");
+             codeGenerator.genCodeLine("     } else {");
+             codeGenerator.genCodeLine("       eof = true;");
+             codeGenerator.genCodeLine("     }");
+             codeGenerator.genCodeLine("   }");
+             codeGenerator.genCodeLine("   catch(java.io.IOException e) { eof = true; }");
+             codeGenerator.genCodeLine("   if (eof) {");
            } else if (Options.getOutputLanguage().equals(Options.OUTPUT_LANGUAGE__CPP)) {
              codeGenerator.genCodeLine("   if (input_stream->endOfInput()) {");
            } else {

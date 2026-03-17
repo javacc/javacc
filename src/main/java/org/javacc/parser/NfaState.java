@@ -2905,7 +2905,13 @@ public class NfaState
          codeGenerator.genCodeLine("   int seenUpto;");
          if (codeGenerator.isJavaLanguage()) {
            codeGenerator.genCodeLine("   input_stream.backup(seenUpto = curPos + 1);");
-           codeGenerator.genCodeLine("   try { curChar = input_stream.readChar(); }");
+           codeGenerator.genCodeLine("   try {");
+           codeGenerator.genCodeLine("     if (input_stream.hasNextChar()) {");
+           codeGenerator.genCodeLine("       curChar = input_stream.readChar();");
+           codeGenerator.genCodeLine("     } else {");
+           codeGenerator.genCodeLine("       throw new Error(\"Internal Error\");");
+           codeGenerator.genCodeLine("     }");
+           codeGenerator.genCodeLine("   }");
            codeGenerator.genCodeLine("   catch(java.io.IOException e) { throw new Error(\"Internal Error\"); }");
          } else {
            codeGenerator.genCodeLine("   input_stream->backup(seenUpto = curPos + 1);");
@@ -3014,7 +3020,17 @@ public class NfaState
       }
 
       if (codeGenerator.isJavaLanguage()) {
-        codeGenerator.genCodeLine("      try { curChar = input_stream.readChar(); }");
+        codeGenerator.genCodeLine("      try {");
+        codeGenerator.genCodeLine("        if (input_stream.hasNextChar()) {");
+        codeGenerator.genCodeLine("          curChar = input_stream.readChar();");
+        codeGenerator.genCodeLine("        } else {");
+        if (Main.lg.mixed[Main.lg.lexStateIndex]) {
+          codeGenerator.genCodeLine("          break;");
+        } else {
+          codeGenerator.genCodeLine("          return curPos;");
+        }
+        codeGenerator.genCodeLine("        }");
+        codeGenerator.genCodeLine("      }");
       } else {
         if (Main.lg.mixed[Main.lg.lexStateIndex]) {
           codeGenerator.genCodeLine("      if (input_stream->endOfInput()) { break; }");
@@ -3065,7 +3081,13 @@ public class NfaState
          codeGenerator.genCodeLine("   if (curPos < toRet)");
          if (codeGenerator.isJavaLanguage()) {
            codeGenerator.genCodeLine("      for (i = toRet - Math.min(curPos, seenUpto); i-- > 0; )");
-         codeGenerator.genCodeLine("         try { curChar = input_stream.readChar(); }");
+         codeGenerator.genCodeLine("         try {");
+         codeGenerator.genCodeLine("           if (input_stream.hasNextChar()) {");
+         codeGenerator.genCodeLine("             curChar = input_stream.readChar();");
+         codeGenerator.genCodeLine("           } else {");
+         codeGenerator.genCodeLine("             throw new Error(\"Internal Error : Please send a bug report.\");");
+         codeGenerator.genCodeLine("           }");
+         codeGenerator.genCodeLine("         }");
          codeGenerator.genCodeLine("         catch(java.io.IOException e) { " +
                  "throw new Error(\"Internal Error : Please send a bug report.\"); }");
          } else {

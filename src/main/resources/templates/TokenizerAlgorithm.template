@@ -75,6 +75,8 @@ private ${STATIC?static :}final int jjRunDfa() {
     // Move to the next character.
     try {
       // We cannot update curChar unless we can actually advance the stream.
+      if (!input_stream.hasNextChar())
+        return jjStopStringLiteralDfa_0(curPos, jjcurActive);
       curChar = input_stream.readChar();
     } catch(java.io.IOException e) {
       // No more input so curPos and curChar are used to start the NFA.
@@ -133,6 +135,8 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
     stateSet = newStateSet;
     newStateSet = tmp;
     try {
+      if (!input_stream.hasNextChar())
+        return curPos;
       curChar = input_stream.readChar();
     } catch(java.io.IOException e) {
       return curPos;

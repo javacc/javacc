@@ -121,7 +121,12 @@ private ${STATIC?static :}final int jjRunStringLiteralMatch() {
         if (curChar != stringLiterals[index + curPos]) break;
         if (++curPos == len) break;
         try {
-          curChar = input_stream.readChar();
+          if (input_stream.hasNextChar()) {
+            curChar = input_stream.readChar();
+          } else {
+            --curPos;
+            break;
+          }
         } catch(java.io.IOException e) {
           --curPos;
           break;
@@ -138,7 +143,11 @@ private ${STATIC?static :}final int jjRunStringLiteralMatch() {
             "; with image: " + tokenImage[jjmatchedKind]);
 #fi
         try {
-          curChar = input_stream.readChar();
+          if (input_stream.hasNextChar()) {
+            curChar = input_stream.readChar();
+          } else {
+            return curPos;
+          }
         } catch(java.io.IOException e) {
           return curPos;
         }
@@ -149,8 +158,12 @@ private ${STATIC?static :}final int jjRunStringLiteralMatch() {
         input_stream.backup(curPos + 1);
         curPos = 0;
         try {
-          curChar = input_stream.readChar();
-          } catch(java.io.IOException e) {
+          if (input_stream.hasNextChar()) {
+            curChar = input_stream.readChar();
+          } else {
+            assert(false);
+          }
+        } catch(java.io.IOException e) {
           assert(false);
         }
       }
@@ -291,6 +304,8 @@ private ${STATIC?static :}final int jjMoveNfa(int startState, int curPos) {
     }
     // Read the next character and try to continue running the NFA.
     try {
+      if (!input_stream.hasNextChar())
+        return curPos;
       curChar = input_stream.readChar();
     } catch(java.io.IOException e) {
       // EOF reached!
@@ -390,9 +405,15 @@ public ${STATIC?static :} Token getNextToken() {
   EOFLoop:
   for (;;) {
     // First see if we have any input at all.
+    boolean hasNextToken = false;
     try {
-      curChar = input_stream.BeginToken();
+      hasNextToken = input_stream.hasNextToken();
+      if (hasNextToken)
+        curChar = input_stream.BeginToken();
     } catch(Exception e) {
+      hasNextToken = false;
+    }
+    if (!hasNextToken) {
 #if DEBUG_TOKEN_MANAGER
     if (lexStateNames.length > 1) {
       System.err.print("<" + lexStateNames[curLexState] + "> ");
@@ -500,8 +521,10 @@ public ${STATIC?static :} Token getNextToken() {
         lastReadPosition = 0;
         jjmatchedKind = 0x7fffffff;
         try {
-          curChar = input_stream.readChar();
-          continue;
+          if (input_stream.hasNextChar()) {
+            curChar = input_stream.readChar();
+            continue;
+          }
         }
         catch (java.io.IOException e1) { }
       }
@@ -516,10 +539,15 @@ protected ${STATIC?static :} void reportError(int lastReadPosition) {
   String error_after = null;
   boolean EOFSeen = false;
   try {
-    input_stream.readChar();
-    input_stream.backup(1);
+    EOFSeen = !input_stream.hasNextChar();
+    if (!EOFSeen) {
+      input_stream.readChar();
+      input_stream.backup(1);
+    }
   } catch (java.io.IOException e1) {
     EOFSeen = true;
+  }
+  if (EOFSeen) {
     error_after = lastReadPosition <= 1 ? "" : input_stream.GetImage();
     if (curChar == '\n' || curChar == '\r') {
        error_line++;

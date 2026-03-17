@@ -95,17 +95,14 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
     tokenBegin = 0;
   }
 
-  static private final class EOSException extends java.io.IOException {
-    @Override
-    public Throwable fillInStackTrace() {
-      return this;
-    }
-  }
-
-  private static final java.io.IOException STATIC_FILLBUFF_EXCEPTION = new EOSException();
-
-  ${PREFIX}protected void FillBuff() throws java.io.IOException
+  ${PREFIX}protected boolean FillBuff() throws java.io.IOException
   {
+    if (inputStream == null)
+    {
+      if (tokenBegin == -1)
+        tokenBegin = bufpos;
+      return false;
+    }
     if (maxNextCharInd == available)
     {
       if (available == bufsize)
@@ -129,29 +126,38 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
     }
 
     int i;
+    boolean res = false;
     try {
       if ((i = inputStream.read(buffer, maxNextCharInd, available - maxNextCharInd)) == -1)
       {
         inputStream.close();
-        throw STATIC_FILLBUFF_EXCEPTION;
+        inputStream = null;
       }
       else
+      {
         maxNextCharInd += i;
-      return;
+        res = true;
+      }
+      return res;
+    } finally {
+      if (res == false) {
+        --bufpos;
+        backup(0);
+        if (tokenBegin == -1)
+          tokenBegin = bufpos;
+      }
     }
-    catch(java.io.IOException e) {
-      --bufpos;
-      backup(0);
-      if (tokenBegin == -1)
-        tokenBegin = bufpos;
-      throw e;
-    }
+  }
+
+  ${PREFIX}public boolean hasNextToken() throws java.io.IOException
+  {
+    tokenBegin = -1;
+    return hasNextChar();
   }
 
 /** Start. */
   ${PREFIX}public char BeginToken() throws java.io.IOException
   {
-    tokenBegin = -1;
     char c = readChar();
     tokenBegin = bufpos;
 
@@ -200,8 +206,19 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
   }
 #fi
 
+  ${PREFIX}public boolean hasNextChar() throws java.io.IOException
+  {
+    if (inBuf > 0)
+      return true;
+
+    if (++bufpos >= maxNextCharInd)
+      return FillBuff();
+
+    return maxNextCharInd - bufpos > 0;
+  }
+
 /** Read a character. */
-  ${PREFIX}public char readChar() throws java.io.IOException
+  ${PREFIX}public char readChar()
   {
     if (inBuf > 0)
     {
@@ -212,9 +229,6 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
 
       return buffer[bufpos];
     }
-
-    if (++bufpos >= maxNextCharInd)
-      FillBuff();
 
     char c = buffer[bufpos];
 

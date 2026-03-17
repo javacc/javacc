@@ -19,6 +19,11 @@ public
 interface CharStream {
 
   /**
+   * Returns true only when readChar() returns a character.
+   */
+  boolean hasNextChar() throws java.io.IOException;
+
+  /**
    * Returns the next character from the selected input.  The method
    * of selecting the input is the responsibility of the class
    * implementing this interface.  Can throw any java.io.IOException.
@@ -76,6 +81,11 @@ interface CharStream {
    * token and it is the implementation's responsibility to do this right.
    */
   void backup(int amount);
+
+  /**
+   * Returns true only when BeginToken() returns a character.
+   */
+  boolean hasNextToken() throws java.io.IOException;
 
   /**
    * Returns the next character that marks the beginning of the next token.

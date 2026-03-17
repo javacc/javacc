@@ -1022,13 +1022,17 @@ public class ParseEngine {
     }
 
     if (isJavaDialect) {
-      codeGenerator.genCodeLine("    try { return (!jj_3" + e.internal_name + "()" + ret_suffix + "); }");
-      codeGenerator.genCodeLine("    catch(LookaheadSuccess ls) { return true; }");
+      codeGenerator.genCodeLine("    jj_done = false;");
+      codeGenerator.genCodeLine("    boolean jj_retval = (!jj_3" + e.internal_name + "() || jj_done)" + ret_suffix + ";");
+      if (Options.getErrorReporting()) {
+        codeGenerator.genCodeLine("    jj_save(" + (Integer.parseInt(e.internal_name.substring(1))-1) + ", xla);");
+      }
+      codeGenerator.genCodeLine("    return jj_retval;");
     } else {
       codeGenerator.genCodeLine("    jj_done = false;");
       codeGenerator.genCodeLine("    return (!jj_3" + e.internal_name + "() || jj_done)" + ret_suffix + ";");
     }
-    if (Options.getErrorReporting()) {
+    if (!isJavaDialect && Options.getErrorReporting()) {
       codeGenerator.genCodeLine((isJavaDialect ? "    finally " : " ") + "{ jj_save(" + (Integer.parseInt(e.internal_name.substring(1))-1) + ", xla); }");
     }
     codeGenerator.genCodeLine("  }");
@@ -1181,7 +1185,9 @@ public class ParseEngine {
       }
 
       codeGenerator.genCodeLine(" {");
-      if (!isJavaDialect) {
+      if (isJavaDialect) {
+        codeGenerator.genCodeLine("    if (jj_done) return false;");
+      } else {
         codeGenerator.genCodeLine("    if (jj_done) return true;");
         if (Options.getDepthLimit() > 0) {
           codeGenerator.genCodeLine("#define __ERROR_RET__ true");
@@ -1212,6 +1218,9 @@ public class ParseEngine {
       } else {
         codeGenerator.genCodeLine("    if (jj_scan_token(" + e_nrw.label + ")) " + genReturn(true));
       }
+      if (isJavaDialect) {
+        codeGenerator.genCodeLine("    if (jj_done) " + genReturn(false));
+      }
       //codeGenerator.genCodeLine("    if (jj_la == 0 && jj_scanpos == jj_lastpos) " + genReturn(false));
     } else if (e instanceof NonTerminal) {
       // All expansions of non-terminals have the "name" fields set.  So
@@ -1226,6 +1235,9 @@ public class ParseEngine {
         Expansion ntexp = ntprod.getExpansion();
         //codeGenerator.genCodeLine("    if (jj_3" + ntexp.internal_name + "()) " + genReturn(true));
         codeGenerator.genCodeLine("    if (" + genjj_3Call(ntexp)+ ") " + genReturn(true));
+        if (isJavaDialect) {
+          codeGenerator.genCodeLine("    if (jj_done) " + genReturn(false));
+        }
         //codeGenerator.genCodeLine("    if (jj_la == 0 && jj_scanpos == jj_lastpos) " + genReturn(false));
       }
     } else if (e instanceof Choice) {
@@ -1273,6 +1285,9 @@ public class ParseEngine {
         //codeGenerator.genCodeLine("    } else if (jj_la == 0 && jj_scanpos == jj_lastpos) " + genReturn(false));
         codeGenerator.genCodeLine("    }");
       }
+      if (isJavaDialect) {
+        codeGenerator.genCodeLine("    if (jj_done) " + genReturn(false));
+      }
     } else if (e instanceof Sequence) {
       Sequence e_nrw = (Sequence)e;
       // We skip the first element in the following iteration since it is the
@@ -1300,11 +1315,17 @@ public class ParseEngine {
       Expansion nested_e = e_nrw.expansion;
       //codeGenerator.genCodeLine("    if (jj_3" + nested_e.internal_name + "()) " + genReturn(true));
       codeGenerator.genCodeLine("    if (" + genjj_3Call(nested_e) + ") " + genReturn(true));
+      if (isJavaDialect) {
+        codeGenerator.genCodeLine("    if (jj_done) " + genReturn(false));
+      }
       //codeGenerator.genCodeLine("    if (jj_la == 0 && jj_scanpos == jj_lastpos) " + genReturn(false));
       codeGenerator.genCodeLine("    while (true) {");
       codeGenerator.genCodeLine("      xsp = jj_scanpos;");
       //codeGenerator.genCodeLine("      if (jj_3" + nested_e.internal_name + "()) { jj_scanpos = xsp; break; }");
       codeGenerator.genCodeLine("      if (" + genjj_3Call(nested_e) + ") { jj_scanpos = xsp; break; }");
+      if (isJavaDialect) {
+        codeGenerator.genCodeLine("      if (jj_done) " + genReturn(false));
+      }
       //codeGenerator.genCodeLine("      if (jj_la == 0 && jj_scanpos == jj_lastpos) " + genReturn(false));
       codeGenerator.genCodeLine("    }");
     } else if (e instanceof ZeroOrMore) {
@@ -1318,6 +1339,9 @@ public class ParseEngine {
       codeGenerator.genCodeLine("      xsp = jj_scanpos;");
       //codeGenerator.genCodeLine("      if (jj_3" + nested_e.internal_name + "()) { jj_scanpos = xsp; break; }");
       codeGenerator.genCodeLine("      if (" + genjj_3Call(nested_e) + ") { jj_scanpos = xsp; break; }");
+      if (isJavaDialect) {
+        codeGenerator.genCodeLine("      if (jj_done) " + genReturn(false));
+      }
       //codeGenerator.genCodeLine("      if (jj_la == 0 && jj_scanpos == jj_lastpos) " + genReturn(false));
       codeGenerator.genCodeLine("    }");
     } else if (e instanceof ZeroOrOne) {
@@ -1330,6 +1354,9 @@ public class ParseEngine {
       codeGenerator.genCodeLine("    xsp = jj_scanpos;");
       //codeGenerator.genCodeLine("    if (jj_3" + nested_e.internal_name + "()) jj_scanpos = xsp;");
       codeGenerator.genCodeLine("    if (" + genjj_3Call(nested_e) + ") jj_scanpos = xsp;");
+      if (isJavaDialect) {
+        codeGenerator.genCodeLine("    if (jj_done) " + genReturn(false));
+      }
       //codeGenerator.genCodeLine("    else if (jj_la == 0 && jj_scanpos == jj_lastpos) " + genReturn(false));
     }
     if (!recursive_call) {

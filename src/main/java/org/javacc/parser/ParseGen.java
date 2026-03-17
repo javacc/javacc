@@ -140,6 +140,8 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 			if (jj2index != 0) {
 				genCodeLine("  " + staticOpt() + "private Token jj_scanpos, jj_lastpos;");
 				genCodeLine("  " + staticOpt() + "private int jj_la;");
+				genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType()
+						+ " jj_done;");
 				if (lookaheadNeeded) {
 					genCodeLine("  /** Whether we are looking ahead. */");
 					genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType()
@@ -624,14 +626,6 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 			genCodeLine("  }");
 			genCodeLine("");
 			if (jj2index != 0) {
-				genCodeLine("  @SuppressWarnings(\"serial\")");
-				genCodeLine("  static private final class LookaheadSuccess extends "+(Options.isLegacyExceptionHandling() ? "java.lang.Error" : "java.lang.RuntimeException")+" {");
-				genCodeLine("    @Override");
-				genCodeLine("    public Throwable fillInStackTrace() {");
-				genCodeLine("      return this;");
-				genCodeLine("    }");
-				genCodeLine("  }");
-				genCodeLine("  static private final LookaheadSuccess jj_ls = new LookaheadSuccess();");
 				genCodeLine("  " + staticOpt() + "private " + Options.getBooleanType()
 						+ " jj_scan_token(int kind) {");
 				genCodeLine("	 if (jj_scanpos == jj_lastpos) {");
@@ -658,7 +652,10 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 					genCodeLine("	 trace_scan(jj_scanpos, kind);");
 				}
 				genCodeLine("	 if (jj_scanpos.kind != kind) return true;");
-				genCodeLine("	 if (jj_la == 0 && jj_scanpos == jj_lastpos) throw jj_ls;");
+				genCodeLine("	 if (jj_la == 0 && jj_scanpos == jj_lastpos) {");
+				genCodeLine("	   jj_done = true;");
+				genCodeLine("	   return false;");
+				genCodeLine("	 }");
 				genCodeLine("	 return false;");
 				genCodeLine("  }");
 				genCodeLine("");
@@ -919,12 +916,12 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 				genCodeLine("  " + staticOpt() + "private void jj_rescan_token() {");
 				genCodeLine("	 jj_rescan = true;");
 				genCodeLine("	 for (int i = 0; i < " + jj2index + "; i++) {");
-				genCodeLine("	   try {");
 				genCodeLine("		 JJCalls p = jj_2_rtns[i];");
 				genCodeLine("");
 				genCodeLine("		 do {");
 				genCodeLine("		   if (p.gen > jj_gen) {");
 				genCodeLine("			 jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;");
+				genCodeLine("			 jj_done = false;");
 				genCodeLine("			 switch (i) {");
 				for (int i = 0; i < jj2index; i++) {
 					genCodeLine("			   case " + i + ": jj_3_" + (i + 1) + "(); break;");
@@ -934,7 +931,6 @@ public class ParseGen extends CodeGenerator implements JavaCCParserConstants {
 				genCodeLine("		   p = p.next;");
 				genCodeLine("		 } while (p != null);");
 				genCodeLine("");
-				genCodeLine("		 } catch(LookaheadSuccess ls) { }");
 				genCodeLine("	 }");
 				genCodeLine("	 jj_rescan = false;");
 				genCodeLine("  }");

@@ -146,55 +146,108 @@ class JavaCharStream
     tokenBegin = 0;
   }
 
-  static private final class EOSException extends java.io.IOException {
-    @Override
-    public Throwable fillInStackTrace() {
-      return this;
-    }
-  }
-
-  private static final java.io.IOException STATIC_FILLBUFF_EXCEPTION = new EOSException();
-
-  ${PREFIX}protected void FillBuff() throws java.io.IOException
+  ${PREFIX}protected boolean FillBuff() throws java.io.IOException
   {
+    if (inputStream == null)
+    {
+      if (tokenBegin == -1)
+        tokenBegin = bufpos;
+      return false;
+    }
     int i;
     if (maxNextCharInd == 4096)
       maxNextCharInd = nextCharInd = 0;
 
+    boolean res = false;
     try {
       if ((i = inputStream.read(nextCharBuf, maxNextCharInd,
                                           4096 - maxNextCharInd)) == -1)
       {
         inputStream.close();
-        throw STATIC_FILLBUFF_EXCEPTION;
+        inputStream = null;
       }
       else
+      {
          maxNextCharInd += i;
-      return;
-    }
-    catch(java.io.IOException e) {
-      if (bufpos != 0)
-      {
-        --bufpos;
-        backup(0);
+         res = true;
       }
+      return res;
+    } finally {
+      if (res == false) {
+        if (bufpos != 0)
+        {
+          --bufpos;
+          backup(0);
+        }
 #if KEEP_LINE_COLUMN
-      else
-      {
-        bufline[bufpos] = line;
-        bufcolumn[bufpos] = column;
-      }
+        else
+        {
+          bufline[bufpos] = line;
+          bufcolumn[bufpos] = column;
+        }
 #fi
-      throw e;
+      }
     }
+  }
+
+  ${PREFIX}public boolean hasNextChar() throws java.io.IOException
+  {
+    if (nextCharInd + 1 < maxNextCharInd)
+      return true;
+
+    int oldBufPos = bufpos;
+    int oldTokenBegin = tokenBegin;
+    boolean res = FillBuff();
+
+    if (!res)
+    {
+      bufpos = oldBufPos;
+      tokenBegin = oldTokenBegin;
+    }
+
+    return res;
   }
 
   ${PREFIX}protected char ReadByte() throws java.io.IOException
   {
-    if (++nextCharInd >= maxNextCharInd)
-      FillBuff();
+    if (++nextCharInd >= maxNextCharInd && !FillBuff())
+      throw new java.io.IOException();
 
     return nextCharBuf[nextCharInd];
+  }
+
+  ${PREFIX}public boolean hasNextToken() throws java.io.IOException
+  {
+    if (inBuf > 0)
+      return true;
+
+    int oldBufPos = bufpos;
+    int oldTokenBegin = tokenBegin;
+    tokenBegin = 0;
+    bufpos = -1;
+    if (nextCharInd + 1 < maxNextCharInd)
+      return true;
+
+    boolean res = FillBuff();
+    if (!res)
+    {
+      if (oldBufPos >= 0)
+      {
+        bufpos = oldBufPos;
+        tokenBegin = oldTokenBegin;
+      }
+      else
+      {
+        bufpos = 0;
+        tokenBegin = 0;
+#if KEEP_LINE_COLUMN
+        bufline[bufpos] = line;
+        bufcolumn[bufpos] = column;
+#fi
+      }
+    }
+
+    return res;
   }
 
 /** @return starting character for token. */
@@ -210,9 +263,6 @@ class JavaCharStream
       tokenBegin = bufpos;
       return buffer[bufpos];
     }
-
-    tokenBegin = 0;
-    bufpos = -1;
 
     return readChar();
   }
