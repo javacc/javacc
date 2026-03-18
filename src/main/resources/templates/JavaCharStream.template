@@ -93,7 +93,7 @@ class JavaCharStream
 
   ${PREFIX}protected void ExpandBuff(boolean wrapAround)
   {
-    int newBufsize = bufsize >> 1;
+    int newBufsize = Math.max(bufsize << 1, 2048);
     char[] newbuffer = new char[newBufsize];
 #if KEEP_LINE_COLUMN
     int newbufline[] = new int[newBufsize];
