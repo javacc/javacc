@@ -42,7 +42,7 @@ ${SUPPORT_CLASS_VISIBILITY_PUBLIC?public :}class SimpleCharStream
 
   ${PREFIX}protected void ExpandBuff(boolean wrapAround)
   {
-    int newBufsize = Math.max(bufsize >> 1, 2048);
+    int newBufsize = Math.max(bufsize << 1, 2048);
     char[] newbuffer = new char[newBufsize];
 #if KEEP_LINE_COLUMN
     int newbufline[] = new int[newBufsize];
